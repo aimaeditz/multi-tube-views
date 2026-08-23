@@ -61,8 +61,13 @@ class ToolApp {
     const savedCols = window.StorageManager.get(window.STORAGE_KEYS.LAYOUT_COLS, 'auto');
     if (this.selectCols) this.selectCols.value = savedCols;
 
-    const savedRatio = window.StorageManager.get(window.STORAGE_KEYS.ASPECT_RATIO, '16-9');
-    if (this.selectRatio) this.selectRatio.value = savedRatio;
+    const savedRatio = window.StorageManager.get(window.STORAGE_KEYS.ASPECT_RATIO, null);
+    if (savedRatio && this.selectRatio) {
+      const hasOption = Array.from(this.selectRatio.options).some(o => o.value === savedRatio);
+      if (hasOption) {
+        this.selectRatio.value = savedRatio;
+      }
+    }
 
     const savedAudio = window.StorageManager.get(window.STORAGE_KEYS.AUDIO_PREF, 'muted');
     if (this.selectAudio) this.selectAudio.value = savedAudio;
@@ -313,10 +318,19 @@ class ToolApp {
       return;
     }
 
-    // Respect max player limit
-    const maxVal = this.selectMaxPlayers ? this.selectMaxPlayers.value : '12';
-    const limit = maxVal === 'all' ? selectedLinks.length : parseInt(maxVal, 10) || 12;
-    const activeList = selectedLinks.slice(0, limit);
+    // Strictly enforce max player limit (1, 2, 4, 6, 8, 16, 32)
+    const maxVal = this.selectMaxPlayers ? this.selectMaxPlayers.value : '4';
+    const targetCount = maxVal === 'all' ? selectedLinks.length : (parseInt(maxVal, 10) || 4);
+    
+    let activeList = [];
+    if (selectedLinks.length >= targetCount) {
+      activeList = selectedLinks.slice(0, targetCount);
+    } else {
+      // If fewer links are provided, cycle selected links so exactly targetCount players are rendered
+      for (let i = 0; i < targetCount; i++) {
+        activeList.push(selectedLinks[i % selectedLinks.length]);
+      }
+    }
 
     // Show Loading State
     if (this.playerLoadingState) this.playerLoadingState.style.display = 'flex';
@@ -350,6 +364,32 @@ class ToolApp {
       const card = document.createElement('div');
       card.className = 'player-card';
 
+      // Adaptive class for Auto aspect ratio
+      let adaptiveClass = '';
+      if (this.platformId === 'spotify') {
+        const validator = window.Validators ? window.Validators.spotify : null;
+        const extracted = validator ? validator.extract(item.url) : { type: 'track' };
+        if (extracted.type === 'album' || extracted.type === 'playlist' || extracted.type === 'show') {
+          adaptiveClass = 'ratio-audio-spotify-large';
+        } else {
+          adaptiveClass = 'ratio-audio-spotify';
+        }
+      } else if (this.platformId === 'soundcloud') {
+        adaptiveClass = 'ratio-audio-soundcloud';
+      } else if (this.platformId === 'tiktok' || this.platformId === 'snapchat') {
+        adaptiveClass = 'ratio-vertical';
+      } else if (this.platformId === 'youtube') {
+        const validator = window.Validators ? window.Validators.youtube : null;
+        const extracted = validator ? validator.extract(item.url) : {};
+        if (extracted.type === 'shorts') {
+          adaptiveClass = 'ratio-vertical';
+        } else {
+          adaptiveClass = 'ratio-video';
+        }
+      } else {
+        adaptiveClass = 'ratio-video';
+      }
+
       if (embed.success && embed.embedType === 'iframe') {
         card.innerHTML = `
           <div class="player-card-bar">
@@ -364,7 +404,7 @@ class ToolApp {
               </a>
             </div>
           </div>
-          <div class="player-frame-wrapper" data-ratio="${currentRatio}">
+          <div class="player-frame-wrapper ${adaptiveClass}" data-ratio="${currentRatio}">
             <iframe 
               src="${this.escapeHtml(embed.src)}" 
               title="${this.escapeHtml(embed.title || 'Media Player')}"
@@ -388,7 +428,7 @@ class ToolApp {
               <span class="embed-badge embed-badge-restricted">Official View Required</span>
             </div>
           </div>
-          <div class="player-frame-wrapper fallback-player-card" data-ratio="${currentRatio}">
+          <div class="player-frame-wrapper fallback-player-card ${adaptiveClass}" data-ratio="${currentRatio}">
             <div class="fallback-icon">🛡️</div>
             <h4 class="fallback-title">Official Platform View</h4>
             <p class="fallback-desc">${this.escapeHtml(reasonText)}</p>

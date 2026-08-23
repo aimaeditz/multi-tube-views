@@ -659,6 +659,45 @@
   margin: 0 auto;
 }
 
+.player-frame-wrapper[data-ratio="auto"] {
+  aspect-ratio: auto;
+  min-height: 200px;
+}
+
+.player-frame-wrapper[data-ratio="auto"].ratio-video {
+  aspect-ratio: 16 / 9;
+}
+
+.player-frame-wrapper[data-ratio="auto"].ratio-vertical {
+  aspect-ratio: 9 / 16;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.player-frame-wrapper[data-ratio="auto"].ratio-audio-spotify {
+  aspect-ratio: auto;
+  height: 152px;
+  min-height: 152px;
+}
+
+.player-frame-wrapper[data-ratio="auto"].ratio-audio-spotify-large {
+  aspect-ratio: auto;
+  height: 352px;
+  min-height: 352px;
+}
+
+.player-frame-wrapper[data-ratio="auto"].ratio-audio-soundcloud {
+  aspect-ratio: auto;
+  height: 166px;
+  min-height: 166px;
+}
+
+.player-frame-wrapper[data-ratio="auto"].fallback-player-card {
+  aspect-ratio: auto;
+  height: auto;
+  min-height: 220px;
+}
+
 .player-iframe {
   width: 100%;
   height: 100%;

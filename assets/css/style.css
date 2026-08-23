@@ -134,7 +134,6 @@ body {
 
 body.drawer-open {
   overflow: hidden;
-  touch-action: none;
 }
 
 /* Typography Hierarchy */
@@ -201,7 +200,7 @@ input, select, textarea, button {
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   height: var(--header-height);
   background-color: rgba(253, 253, 253, 0.85);
   backdrop-filter: blur(16px);
