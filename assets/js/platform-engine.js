@@ -277,12 +277,25 @@ const PlatformEngine = {
 
     switch (platformId) {
       case 'youtube': {
-        const id = extracted.id;
+        const isMuted = options.muted ?? true;
         const muteParam = isMuted ? '&mute=1' : '';
+
+        if (extracted.type === 'playlist' && extracted.playlistId) {
+          return {
+            success: true,
+            embedType: 'iframe',
+            src: `https://www.youtube-nocookie.com/embed/videoseries?list=${encodeURIComponent(extracted.playlistId)}${muteParam}`,
+            title: `YouTube Playlist (${extracted.playlistId})`,
+            allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+          };
+        }
+
+        const id = extracted.id;
+        let playlistExtra = extracted.playlistId ? `&list=${encodeURIComponent(extracted.playlistId)}` : '';
         return {
           success: true,
           embedType: 'iframe',
-          src: `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&enablejsapi=1${muteParam}`,
+          src: `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?rel=0${muteParam}${playlistExtra}`,
           title: `YouTube Player (${id})`,
           allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
         };
@@ -294,7 +307,7 @@ const PlatformEngine = {
         return {
           success: true,
           embedType: 'iframe',
-          src: `https://player.vimeo.com/video/${id}?dnt=1&muted=${muteParam}`,
+          src: `https://player.vimeo.com/video/${encodeURIComponent(id)}?dnt=1&muted=${muteParam}`,
           title: `Vimeo Player (${id})`,
           allow: 'autoplay; fullscreen; picture-in-picture'
         };
@@ -306,26 +319,27 @@ const PlatformEngine = {
         return {
           success: true,
           embedType: 'iframe',
-          src: `https://www.dailymotion.com/embed/video/${id}?mute=${muteParam}&ui-logo=0`,
+          src: `https://www.dailymotion.com/embed/video/${encodeURIComponent(id)}?mute=${muteParam}&ui-logo=0`,
           title: `Dailymotion Player (${id})`,
           allow: 'autoplay; fullscreen; picture-in-picture'
         };
       }
 
       case 'twitch': {
+        const host = (window.location && window.location.hostname) ? window.location.hostname : 'localhost';
         let src = '';
         if (extracted.type === 'clip') {
-          src = `https://clips.twitch.tv/embed?clip=${extracted.id}&parent=${encodeURIComponent(hostname)}&autoplay=false`;
+          src = `https://clips.twitch.tv/embed?clip=${encodeURIComponent(extracted.id)}&parent=${encodeURIComponent(host)}&autoplay=false`;
         } else if (extracted.type === 'video') {
-          src = `https://player.twitch.tv/?video=${extracted.id}&parent=${encodeURIComponent(hostname)}&autoplay=false&muted=${isMuted}`;
+          src = `https://player.twitch.tv/?video=${encodeURIComponent(extracted.id)}&parent=${encodeURIComponent(host)}&autoplay=false&muted=${isMuted}`;
         } else {
-          src = `https://player.twitch.tv/?channel=${extracted.id}&parent=${encodeURIComponent(hostname)}&autoplay=false&muted=${isMuted}`;
+          src = `https://player.twitch.tv/?channel=${encodeURIComponent(extracted.id)}&parent=${encodeURIComponent(host)}&autoplay=false&muted=${isMuted}`;
         }
         return {
           success: true,
           embedType: 'iframe',
           src: src,
-          title: `Twitch Player (${extracted.id})`,
+          title: `Twitch Stream (${extracted.id})`,
           allow: 'autoplay; fullscreen'
         };
       }
@@ -334,7 +348,7 @@ const PlatformEngine = {
         return {
           success: true,
           embedType: 'iframe',
-          src: `https://player.kick.com/${extracted.id}?autoplay=false&muted=${isMuted}`,
+          src: `https://player.kick.com/${encodeURIComponent(extracted.id)}?autoplay=false&muted=${isMuted}`,
           title: `Kick Stream (${extracted.id})`,
           allow: 'autoplay; fullscreen'
         };
@@ -345,7 +359,7 @@ const PlatformEngine = {
         return {
           success: true,
           embedType: 'iframe',
-          src: `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`,
+          src: `https://open.spotify.com/embed/${encodeURIComponent(type)}/${encodeURIComponent(id)}?utm_source=generator&theme=0`,
           title: `Spotify Media (${id})`,
           allow: 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'
         };
@@ -367,13 +381,22 @@ const PlatformEngine = {
         return {
           success: true,
           embedType: 'iframe',
-          src: `https://player.bilibili.com/player.html?bvid=${bvid}&page=1&autoplay=0`,
+          src: `https://player.bilibili.com/player.html?bvid=${encodeURIComponent(bvid)}&page=1&autoplay=0`,
           title: `Bilibili Player (${bvid})`,
           allow: 'fullscreen'
         };
       }
 
       case 'facebook': {
+        if (extracted.isShareUrl || !extracted.embedSupported) {
+          return {
+            success: true,
+            embedType: 'fallback',
+            platformName: 'Facebook',
+            rawUrl: urlStr,
+            reason: extracted.reason || 'Facebook share URLs cannot be directly embedded by the official Facebook player plugin. Open the link on Facebook or provide a direct video permalink.'
+          };
+        }
         const encoded = encodeURIComponent(urlStr);
         return {
           success: true,
@@ -384,12 +407,31 @@ const PlatformEngine = {
         };
       }
 
+      case 'rumble': {
+        if (extracted.embedSupported && extracted.id) {
+          return {
+            success: true,
+            embedType: 'iframe',
+            src: `https://rumble.com/embed/${encodeURIComponent(extracted.id)}/`,
+            title: `Rumble Player (${extracted.id})`,
+            allow: 'autoplay; fullscreen'
+          };
+        }
+        return {
+          success: true,
+          embedType: 'fallback',
+          platformName: 'Rumble',
+          rawUrl: urlStr,
+          reason: 'Direct playback requires a recognized Rumble embed permalink. You can access the video directly via the verified official link.'
+        };
+      }
+
       case 'telegram': {
         if (extracted.channel && extracted.post) {
           return {
             success: true,
             embedType: 'iframe',
-            src: `https://t.me/${extracted.channel}/${extracted.post}?embed=1`,
+            src: `https://t.me/${encodeURIComponent(extracted.channel)}/${encodeURIComponent(extracted.post)}?embed=1`,
             title: `Telegram Post (${extracted.channel}/${extracted.post})`,
             allow: 'autoplay'
           };
@@ -397,12 +439,12 @@ const PlatformEngine = {
         return {
           success: false,
           fallbackRequired: true,
-          message: 'Telegram requires channel and post ID format (e.g. t.me/channel/123)',
+          error: 'Telegram requires channel and post ID format (e.g. t.me/channel/123)',
           rawUrl: urlStr
         };
       }
 
-      // Restricted / Policy Fallback Platforms
+      // Platforms with Restricted Third-Party Embed Policies
       case 'instagram':
       case 'tiktok':
       case 'x':
@@ -412,14 +454,13 @@ const PlatformEngine = {
       case 'snapchat':
       case 'threads':
       case 'odysee':
-      case 'rumble':
       default: {
         return {
           success: true,
           embedType: 'fallback',
           platformName: config.name,
           rawUrl: urlStr,
-          reason: `${config.name} strictly manages third-party iframe playback or requires authenticated direct viewing. Access the content safely via the verified official platform link.`
+          reason: `${config.name} policies manage third-party embedding and require direct official view. Access the content safely via the verified official platform link.`
         };
       }
     }

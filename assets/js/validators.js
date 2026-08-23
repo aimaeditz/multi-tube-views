@@ -53,7 +53,13 @@ const Validators = {
       try {
         const url = new URL(urlStr);
         let id = null;
+        let playlistId = null;
         let type = 'video';
+
+        // Check for playlist parameter in query
+        if (url.searchParams.has('list')) {
+          playlistId = url.searchParams.get('list');
+        }
 
         if (url.hostname.includes('youtu.be')) {
           id = url.pathname.slice(1).split(/[?#]/)[0];
@@ -67,14 +73,22 @@ const Validators = {
           type = 'live';
         } else if (url.pathname.includes('/embed/')) {
           id = url.pathname.split('/embed/')[1].split(/[?#]/)[0];
+        } else if (url.pathname.includes('/playlist') && playlistId) {
+          return { playlistId, type: 'playlist', valid: true };
         }
 
+        // Validate 11-character YouTube video ID
         if (id && /^[a-zA-Z0-9_-]{11}$/.test(id)) {
-          return { id, type, valid: true };
+          return { id, playlistId, type, valid: true };
         }
-        return { valid: false, error: 'Could not extract valid 11-character YouTube video ID' };
+
+        if (playlistId && /^[a-zA-Z0-9_-]{10,}$/.test(playlistId)) {
+          return { playlistId, type: 'playlist', valid: true };
+        }
+
+        return { valid: false, error: 'Could not extract a valid YouTube video ID (11 characters) or playlist ID' };
       } catch (e) {
-        return { valid: false, error: 'Invalid URL format' };
+        return { valid: false, error: 'Invalid YouTube URL format' };
       }
     }
   },
@@ -92,7 +106,7 @@ const Validators = {
         }
         return { valid: false, error: 'Could not extract Vimeo numeric video ID' };
       } catch (e) {
-        return { valid: false, error: 'Invalid URL format' };
+        return { valid: false, error: 'Invalid Vimeo URL format' };
       }
     }
   },
@@ -114,7 +128,7 @@ const Validators = {
         if (id) return { id, type: 'video', valid: true };
         return { valid: false, error: 'Could not extract Dailymotion video ID' };
       } catch (e) {
-        return { valid: false, error: 'Invalid URL format' };
+        return { valid: false, error: 'Invalid Dailymotion URL format' };
       }
     }
   },
@@ -142,12 +156,12 @@ const Validators = {
         }
         // Live Channel: /channelname
         const parts = url.pathname.split('/').filter(Boolean);
-        if (parts.length === 1 && !['directory', 'p', 'downloads', 'jobs'].includes(parts[0].toLowerCase())) {
+        if (parts.length >= 1 && !['directory', 'p', 'downloads', 'jobs'].includes(parts[0].toLowerCase())) {
           return { id: parts[0], type: 'channel', valid: true };
         }
         return { valid: false, error: 'Could not recognize Twitch channel, video, or clip' };
       } catch (e) {
-        return { valid: false, error: 'Invalid URL format' };
+        return { valid: false, error: 'Invalid Twitch URL format' };
       }
     }
   },
@@ -165,17 +179,45 @@ const Validators = {
         }
         return { valid: false, error: 'Could not recognize Kick channel name' };
       } catch (e) {
-        return { valid: false, error: 'Invalid URL format' };
+        return { valid: false, error: 'Invalid Kick URL format' };
       }
     }
   },
 
   facebook: {
     match(urlStr) {
-      return /(?:facebook\.com|fb\.watch)/i.test(urlStr);
+      return /(?:facebook\.com|fb\.watch|fb\.me)/i.test(urlStr);
     },
     extract(urlStr) {
-      return { id: urlStr, type: 'post', valid: true };
+      try {
+        const url = new URL(urlStr);
+        const path = url.pathname.toLowerCase();
+        
+        // Distinguish Facebook Share URLs (/share/v/, /share/p/, /share/r/, fb.me)
+        const isShare = path.includes('/share/') || url.hostname.includes('fb.me');
+        if (isShare) {
+          return {
+            id: urlStr,
+            type: 'share',
+            isShareUrl: true,
+            valid: true,
+            embedSupported: false,
+            reason: 'Facebook share URLs (facebook.com/share/...) cannot be directly embedded by the official Facebook player plugin. Open the link on Facebook or provide a direct video permalink.'
+          };
+        }
+
+        // Direct public video URL
+        const isVideo = path.includes('/videos/') || path.includes('/watch') || url.hostname.includes('fb.watch') || path.includes('/reel/');
+        return {
+          id: urlStr,
+          type: isVideo ? 'video' : 'post',
+          isShareUrl: false,
+          valid: true,
+          embedSupported: true
+        };
+      } catch (e) {
+        return { valid: false, error: 'Invalid Facebook URL format' };
+      }
     }
   },
 
@@ -188,9 +230,9 @@ const Validators = {
         const url = new URL(urlStr);
         const match = url.pathname.match(/\/(?:p|reel|tv)\/([a-zA-Z0-9_-]+)/);
         if (match && match[1]) {
-          return { id: match[1], type: 'reel', valid: true };
+          return { id: match[1], type: 'reel', valid: true, embedSupported: false };
         }
-        return { id: urlStr, type: 'profile', valid: true };
+        return { id: urlStr, type: 'profile', valid: true, embedSupported: false };
       } catch (e) {
         return { valid: false, error: 'Invalid Instagram URL' };
       }
@@ -206,9 +248,9 @@ const Validators = {
         const url = new URL(urlStr);
         const match = url.pathname.match(/\/video\/(\d+)/);
         if (match && match[1]) {
-          return { id: match[1], type: 'video', valid: true };
+          return { id: match[1], type: 'video', valid: true, embedSupported: false };
         }
-        return { id: urlStr, type: 'post', valid: true };
+        return { id: urlStr, type: 'post', valid: true, embedSupported: false };
       } catch (e) {
         return { valid: false, error: 'Invalid TikTok URL' };
       }
@@ -224,11 +266,11 @@ const Validators = {
         const url = new URL(urlStr);
         const match = url.pathname.match(/\/video\/(BV[a-zA-Z0-9]+)/i);
         if (match && match[1]) {
-          return { id: match[1], type: 'video', valid: true };
+          return { id: match[1], type: 'video', valid: true, embedSupported: true };
         }
         return { valid: false, error: 'Could not extract Bilibili BV ID' };
       } catch (e) {
-        return { valid: false, error: 'Invalid URL format' };
+        return { valid: false, error: 'Invalid Bilibili URL format' };
       }
     }
   },
@@ -240,12 +282,15 @@ const Validators = {
     extract(urlStr) {
       try {
         const url = new URL(urlStr);
-        // Format: /v123abc-video-title.html
+        if (url.pathname.includes('/embed/')) {
+          const embedId = url.pathname.split('/embed/')[1].split('/')[0];
+          if (embedId) return { id: embedId, type: 'embed', valid: true, embedSupported: true };
+        }
         const match = url.pathname.match(/\/([a-zA-Z0-9]+)-[a-zA-Z0-9_-]+\.html/);
         if (match && match[1]) {
-          return { id: match[1], type: 'video', valid: true };
+          return { id: match[1], type: 'video', valid: true, embedSupported: true };
         }
-        return { id: urlStr, type: 'video', valid: true };
+        return { id: urlStr, type: 'video', valid: true, embedSupported: false };
       } catch (e) {
         return { valid: false, error: 'Invalid Rumble URL' };
       }
@@ -257,7 +302,7 @@ const Validators = {
       return /odysee\.com/i.test(urlStr);
     },
     extract(urlStr) {
-      return { id: urlStr, type: 'video', valid: true };
+      return { id: urlStr, type: 'video', valid: true, embedSupported: false };
     }
   },
 
@@ -268,12 +313,11 @@ const Validators = {
     extract(urlStr) {
       try {
         const url = new URL(urlStr);
-        // Match: /track/ID, /album/ID, /playlist/ID, /episode/ID, /show/ID
         const match = url.pathname.match(/\/(track|album|playlist|episode|show)\/([a-zA-Z0-9]+)/);
         if (match) {
-          return { type: match[1], id: match[2], valid: true };
+          return { type: match[1], id: match[2], valid: true, embedSupported: true };
         }
-        return { valid: false, error: 'Could not recognize Spotify track/album/playlist/episode link' };
+        return { valid: false, error: 'Could not recognize Spotify track, album, playlist, or episode link' };
       } catch (e) {
         return { valid: false, error: 'Invalid Spotify link' };
       }
@@ -285,7 +329,15 @@ const Validators = {
       return /soundcloud\.com/i.test(urlStr);
     },
     extract(urlStr) {
-      return { id: urlStr, type: 'audio', valid: true };
+      try {
+        const url = new URL(urlStr);
+        if (url.pathname.length > 1) {
+          return { id: urlStr, type: 'audio', valid: true, embedSupported: true };
+        }
+        return { valid: false, error: 'Please enter a specific SoundCloud track or playlist URL' };
+      } catch (e) {
+        return { valid: false, error: 'Invalid SoundCloud URL' };
+      }
     }
   },
 
@@ -294,7 +346,7 @@ const Validators = {
       return /(?:twitter\.com|x\.com)/i.test(urlStr);
     },
     extract(urlStr) {
-      return { id: urlStr, type: 'post', valid: true };
+      return { id: urlStr, type: 'post', valid: true, embedSupported: false };
     }
   },
 
@@ -303,7 +355,7 @@ const Validators = {
       return /linkedin\.com/i.test(urlStr);
     },
     extract(urlStr) {
-      return { id: urlStr, type: 'post', valid: true };
+      return { id: urlStr, type: 'post', valid: true, embedSupported: false };
     }
   },
 
@@ -312,7 +364,7 @@ const Validators = {
       return /reddit\.com/i.test(urlStr);
     },
     extract(urlStr) {
-      return { id: urlStr, type: 'post', valid: true };
+      return { id: urlStr, type: 'post', valid: true, embedSupported: false };
     }
   },
 
@@ -324,8 +376,8 @@ const Validators = {
       try {
         const url = new URL(urlStr);
         const match = url.pathname.match(/\/pin\/(\d+)/);
-        if (match) return { id: match[1], type: 'pin', valid: true };
-        return { id: urlStr, type: 'pin', valid: true };
+        if (match) return { id: match[1], type: 'pin', valid: true, embedSupported: false };
+        return { id: urlStr, type: 'pin', valid: true, embedSupported: false };
       } catch (e) {
         return { valid: false, error: 'Invalid Pinterest URL' };
       }
@@ -337,7 +389,7 @@ const Validators = {
       return /snapchat\.com/i.test(urlStr);
     },
     extract(urlStr) {
-      return { id: urlStr, type: 'story', valid: true };
+      return { id: urlStr, type: 'story', valid: true, embedSupported: false };
     }
   },
 
@@ -346,7 +398,7 @@ const Validators = {
       return /threads\.net/i.test(urlStr);
     },
     extract(urlStr) {
-      return { id: urlStr, type: 'post', valid: true };
+      return { id: urlStr, type: 'post', valid: true, embedSupported: false };
     }
   },
 
@@ -359,9 +411,9 @@ const Validators = {
         const url = new URL(urlStr);
         const parts = url.pathname.split('/').filter(Boolean);
         if (parts.length >= 2) {
-          return { channel: parts[0], post: parts[1], id: `${parts[0]}/${parts[1]}`, type: 'message', valid: true };
+          return { channel: parts[0], post: parts[1], id: `${parts[0]}/${parts[1]}`, type: 'message', valid: true, embedSupported: true };
         }
-        return { id: urlStr, type: 'channel', valid: true };
+        return { id: urlStr, type: 'channel', valid: true, embedSupported: false };
       } catch (e) {
         return { valid: false, error: 'Invalid Telegram link' };
       }

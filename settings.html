@@ -218,7 +218,7 @@
       const btnReset = document.getElementById('btn-reset-settings');
 
       if (window.StorageManager) {
-        if (themeSelect) themeSelect.value = window.StorageManager.get(window.STORAGE_KEYS.THEME, 'system');
+        if (themeSelect) themeSelect.value = window.StorageManager.get(window.STORAGE_KEYS.THEME, 'light');
         if (densitySelect) densitySelect.value = window.StorageManager.get(window.STORAGE_KEYS.DENSITY, 'comfortable');
         if (motionSelect) motionSelect.value = window.StorageManager.get(window.STORAGE_KEYS.MOTION, 'default');
         if (colsSelect) colsSelect.value = window.StorageManager.get(window.STORAGE_KEYS.LAYOUT_COLS, 'auto');
@@ -262,7 +262,7 @@
 
       btnReset?.addEventListener('click', () => {
         window.StorageManager?.clearPreferences();
-        window.ThemeEngine?.set('system');
+        window.ThemeEngine?.set('light');
         document.body.removeAttribute('data-density');
         document.body.removeAttribute('data-motion');
         location.reload();

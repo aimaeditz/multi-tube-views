@@ -253,7 +253,7 @@ class ToolApp {
 
     this.linkRowsContainer.innerHTML = this.links.map((link, idx) => {
       let statusClass = 'valid';
-      let statusLabel = 'Valid Link';
+      let statusLabel = 'Embed Ready';
 
       if (link.status === 'invalid') {
         statusClass = 'invalid';
@@ -371,7 +371,7 @@ class ToolApp {
               class="player-iframe"
               allow="${embed.allow || 'autoplay; fullscreen'}" 
               loading="lazy"
-              referrerpolicy="no-referrer">
+              referrerpolicy="strict-origin-when-cross-origin">
             </iframe>
           </div>
         `;
