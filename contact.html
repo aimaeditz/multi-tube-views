@@ -57,43 +57,99 @@
   </div>
 
   <main class="site-main">
-    <div class="container" style="max-width: 800px; padding-top: 2rem;">
+    <div class="container" style="max-width: 620px; padding-top: 2rem;">
       <div class="breadcrumb-nav">
         <a href="index.html">Home</a>
         <span class="breadcrumb-separator">/</span>
         <span>Contact</span>
       </div>
 
-      <h1>Contact & Community</h1>
-      <p style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 2rem;">
-        Have feedback, adapter requests, or questions regarding Multi Tube Views?
-      </p>
-
-      <div class="info-callout" style="margin-bottom: 2.5rem;">
-        <div class="info-callout-icon">📌</div>
-        <div class="info-callout-content">
-          <p><strong>Static Open-Source Deployment:</strong> Multi Tube Views is a static client-side project hosted directly on GitHub Pages. To connect with the project or propose new platform adapters, use the channels below.</p>
-        </div>
+      <div class="contact-page-header">
+        <h1 class="contact-title">Contact &amp; Community</h1>
+        <p class="contact-subtitle">
+          Have feedback, platform suggestions, adapter requests, or general inquiries? Send a message directly using the form below.
+        </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 3rem;">
-        <div class="card">
-          <h3 style="margin-bottom: 0.5rem;">GitHub Repository & Issues</h3>
-          <p style="font-size: 0.92rem; margin-bottom: 1.25rem;">For bug reports, new embed adapter requests, and code contributions:</p>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
-            <span>Visit Project Repository</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          </a>
-        </div>
+      <div class="contact-form-container">
+        <div class="contact-card">
+          <!-- The Contact Form -->
+          <form id="contact-form" class="contact-form" novalidate>
+            <!-- Honeypot field for bot protection -->
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
-        <div class="card">
-          <h3 style="margin-bottom: 0.5rem;">Platform Integration Requests</h3>
-          <p style="font-size: 0.92rem; margin-bottom: 1rem;">If you represent a media platform that supports official public browser embedding and would like your service included in our directory, submit an adapter PR or issue on GitHub.</p>
-        </div>
+            <div class="form-group">
+              <label for="contact-name" class="form-label">
+                <span>Full Name <span class="form-label-req">*</span></span>
+              </label>
+              <input 
+                type="text" 
+                id="contact-name" 
+                name="name" 
+                class="form-control" 
+                placeholder="Your full name" 
+                autocomplete="name" 
+                required
+              >
+              <div id="contact-name-error" class="form-error-msg" role="alert"></div>
+            </div>
 
-        <div class="card">
-          <h3 style="margin-bottom: 0.5rem;">Production Contact Customization</h3>
-          <p style="font-size: 0.92rem;">When deploying your fork of Multi Tube Views to your own domain or GitHub Pages, update this page with your team's direct email, contact form, or Discord community link.</p>
+            <div class="form-group">
+              <label for="contact-email" class="form-label">
+                <span>Email Address <span class="form-label-req">*</span></span>
+              </label>
+              <input 
+                type="email" 
+                id="contact-email" 
+                name="email" 
+                class="form-control" 
+                placeholder="name@example.com" 
+                autocomplete="email" 
+                required
+              >
+              <div id="contact-email-error" class="form-error-msg" role="alert"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="contact-subject" class="form-label">
+                <span>Subject <span class="form-label-req">*</span></span>
+              </label>
+              <input 
+                type="text" 
+                id="contact-subject" 
+                name="subject" 
+                class="form-control" 
+                placeholder="Subject of your message" 
+                required
+              >
+              <div id="contact-subject-error" class="form-error-msg" role="alert"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="contact-message" class="form-label">
+                <span>Message <span class="form-label-req">*</span></span>
+                <span class="form-label-hint">Min. 10 characters</span>
+              </label>
+              <textarea 
+                id="contact-message" 
+                name="message" 
+                class="form-control" 
+                rows="5" 
+                placeholder="Write your message here..." 
+                required
+              ></textarea>
+              <div id="contact-message-error" class="form-error-msg" role="alert"></div>
+            </div>
+
+            <button type="submit" id="contact-submit-btn" class="contact-submit-btn">
+              <span class="spinner" aria-hidden="true"></span>
+              <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              <span class="btn-text">Send Message</span>
+            </button>
+
+            <!-- Small, clean inline feedback message below the form -->
+            <div id="contact-inline-status" class="contact-inline-status" role="alert" style="display: none;"></div>
+          </form>
         </div>
       </div>
     </div>
@@ -161,5 +217,6 @@
   </footer>
 
   <script src="assets/js/navigation.js"></script>
+  <script src="assets/js/contact.js"></script>
 </body>
 </html>

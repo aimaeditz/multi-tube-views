@@ -17,6 +17,54 @@ const PLATFORM_CONFIG = {
     placeholderUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     officialDomain: 'youtube.com'
   },
+  facebook: {
+    id: 'facebook',
+    name: 'Facebook Video',
+    category: 'Social Media',
+    description: 'Public Facebook watch videos, public reels, and open media posts.',
+    icon: 'f',
+    color: '#1877F2',
+    embedSupported: true,
+    supportedTypes: ['Public Watch Videos', 'Open Reels'],
+    placeholderUrl: 'https://www.facebook.com/facebook/videos/10153231379946729/',
+    officialDomain: 'facebook.com'
+  },
+  instagram: {
+    id: 'instagram',
+    name: 'Instagram',
+    category: 'Social Media',
+    description: 'Public reels, video posts, and profile content with official preview fallback.',
+    icon: '📷',
+    color: '#E4405F',
+    embedSupported: true,
+    supportedTypes: ['Public Reels', 'Public Posts', 'IGTV'],
+    placeholderUrl: 'https://www.instagram.com/p/CG7y9TynzM1/',
+    officialDomain: 'instagram.com'
+  },
+  tiktok: {
+    id: 'tiktok',
+    name: 'TikTok',
+    category: 'Short-Form Video',
+    description: 'Public short videos and viral creator clips with official view gateway.',
+    icon: '🎵',
+    color: '#000000',
+    embedSupported: true,
+    supportedTypes: ['Public Short Videos', 'Creator Clips'],
+    placeholderUrl: 'https://www.tiktok.com/@tiktok/video/7106594312292453678',
+    officialDomain: 'tiktok.com'
+  },
+  threads: {
+    id: 'threads',
+    name: 'Threads',
+    category: 'Social Media',
+    description: 'Public video clips and conversation updates from Threads.',
+    icon: '🧵',
+    color: '#000000',
+    embedSupported: false,
+    supportedTypes: ['Public Video Threads', 'Discourse'],
+    placeholderUrl: 'https://www.threads.net/@example/post/12345',
+    officialDomain: 'threads.net'
+  },
   vimeo: {
     id: 'vimeo',
     name: 'Vimeo',
@@ -65,42 +113,6 @@ const PLATFORM_CONFIG = {
     placeholderUrl: 'https://kick.com/xqc',
     officialDomain: 'kick.com'
   },
-  facebook: {
-    id: 'facebook',
-    name: 'Facebook Video',
-    category: 'Social Media',
-    description: 'Public Facebook watch videos, public reels, and open media posts.',
-    icon: 'f',
-    color: '#1877F2',
-    embedSupported: true,
-    supportedTypes: ['Public Watch Videos', 'Open Reels'],
-    placeholderUrl: 'https://www.facebook.com/facebook/videos/10153231379946729/',
-    officialDomain: 'facebook.com'
-  },
-  instagram: {
-    id: 'instagram',
-    name: 'Instagram',
-    category: 'Social Media',
-    description: 'Public reels, video posts, and profile content with official preview fallback.',
-    icon: '📷',
-    color: '#E4405F',
-    embedSupported: true,
-    supportedTypes: ['Public Reels', 'Public Posts', 'IGTV'],
-    placeholderUrl: 'https://www.instagram.com/p/CG7y9TynzM1/',
-    officialDomain: 'instagram.com'
-  },
-  tiktok: {
-    id: 'tiktok',
-    name: 'TikTok',
-    category: 'Short-Form Video',
-    description: 'Public short videos and viral creator clips with official view gateway.',
-    icon: '🎵',
-    color: '#000000',
-    embedSupported: true,
-    supportedTypes: ['Public Short Videos', 'Creator Clips'],
-    placeholderUrl: 'https://www.tiktok.com/@tiktok/video/7106594312292453678',
-    officialDomain: 'tiktok.com'
-  },
   spotify: {
     id: 'spotify',
     name: 'Spotify',
@@ -137,29 +149,17 @@ const PLATFORM_CONFIG = {
     placeholderUrl: 'https://www.bilibili.com/video/BV1xx411c7mD',
     officialDomain: 'bilibili.com'
   },
-  rumble: {
-    id: 'rumble',
-    name: 'Rumble',
-    category: 'Video Sharing',
-    description: 'Public independent video broadcasts, podcasts, and creator channels.',
-    icon: '🟢',
-    color: '#85c742',
+  telegram: {
+    id: 'telegram',
+    name: 'Telegram',
+    category: 'Messaging & Channels',
+    description: 'Public channel media broadcasts and announcements.',
+    icon: '✈',
+    color: '#229ED9',
     embedSupported: true,
-    supportedTypes: ['Public Videos', 'Podcasts', 'Broadcasts'],
-    placeholderUrl: 'https://rumble.com/v11111-example-video.html',
-    officialDomain: 'rumble.com'
-  },
-  odysee: {
-    id: 'odysee',
-    name: 'Odysee',
-    category: 'Decentralized Video',
-    description: 'Public open-source media, technology discussions, and creator publications.',
-    icon: '🚀',
-    color: '#EF1955',
-    embedSupported: false,
-    supportedTypes: ['Public Publications', 'Open Media'],
-    placeholderUrl: 'https://odysee.com/@lbry:3/what-is-lbry:4',
-    officialDomain: 'odysee.com'
+    supportedTypes: ['Public Channel Broadcasts', 'Open Media'],
+    placeholderUrl: 'https://t.me/telegram/123',
+    officialDomain: 't.me'
   },
   x: {
     id: 'x',
@@ -209,6 +209,30 @@ const PLATFORM_CONFIG = {
     placeholderUrl: 'https://www.pinterest.com/pin/123456789/',
     officialDomain: 'pinterest.com'
   },
+  rumble: {
+    id: 'rumble',
+    name: 'Rumble',
+    category: 'Video Sharing',
+    description: 'Public independent video broadcasts, podcasts, and creator channels.',
+    icon: '🟢',
+    color: '#85c742',
+    embedSupported: true,
+    supportedTypes: ['Public Videos', 'Podcasts', 'Broadcasts'],
+    placeholderUrl: 'https://rumble.com/v11111-example-video.html',
+    officialDomain: 'rumble.com'
+  },
+  odysee: {
+    id: 'odysee',
+    name: 'Odysee',
+    category: 'Decentralized Video',
+    description: 'Public open-source media, technology discussions, and creator publications.',
+    icon: '🚀',
+    color: '#EF1955',
+    embedSupported: false,
+    supportedTypes: ['Public Publications', 'Open Media'],
+    placeholderUrl: 'https://odysee.com/@lbry:3/what-is-lbry:4',
+    officialDomain: 'odysee.com'
+  },
   snapchat: {
     id: 'snapchat',
     name: 'Snapchat',
@@ -220,30 +244,6 @@ const PLATFORM_CONFIG = {
     supportedTypes: ['Public Spotlight Clips', 'Open Stories'],
     placeholderUrl: 'https://www.snapchat.com/spotlight/example',
     officialDomain: 'snapchat.com'
-  },
-  threads: {
-    id: 'threads',
-    name: 'Threads',
-    category: 'Social Media',
-    description: 'Public video clips and conversation updates from Threads.',
-    icon: '🧵',
-    color: '#000000',
-    embedSupported: false,
-    supportedTypes: ['Public Video Threads', 'Discourse'],
-    placeholderUrl: 'https://www.threads.net/@example/post/12345',
-    officialDomain: 'threads.net'
-  },
-  telegram: {
-    id: 'telegram',
-    name: 'Telegram',
-    category: 'Messaging & Channels',
-    description: 'Public channel media broadcasts and announcements.',
-    icon: '✈',
-    color: '#229ED9',
-    embedSupported: true,
-    supportedTypes: ['Public Channel Broadcasts', 'Open Media'],
-    placeholderUrl: 'https://t.me/telegram/123',
-    officialDomain: 't.me'
   }
 };
 
