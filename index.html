@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi Tube Views — Multi-Platform Media Workspace</title>
+  <meta name="description" content="A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for YouTube, Vimeo, Twitch, Spotify, and 16+ platforms.">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  
+  <!-- Core Design System CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <!-- Instant Theme Script to avoid flash -->
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Multi Tube Views Home">
+        <div class="brand-icon">MTV</div>
+        <div class="brand-text">
+          <span>Multi Tube Views</span>
+          <span class="brand-badge">PRO</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="#directory" class="nav-link">Platforms</a>
+        <a href="articles.html" class="nav-link">Articles</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="settings.html" class="nav-link">Settings</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <button type="button" class="btn btn-icon-only theme-toggle-btn" aria-label="Toggle Light/Dark Theme" title="Toggle Theme">
+          <!-- Icon injected by theme.js -->
+        </button>
+        <button type="button" class="btn-mobile-menu" aria-label="Open Navigation Menu" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <a href="index.html" class="mobile-nav-link active">Home</a>
+    <a href="#directory" class="mobile-nav-link">Platform Directory</a>
+    <a href="articles.html" class="mobile-nav-link">Articles & Guides</a>
+    <a href="about.html" class="mobile-nav-link">About Multi Tube Views</a>
+    <a href="contact.html" class="mobile-nav-link">Contact & Community</a>
+    <a href="settings.html" class="mobile-nav-link">Display & Preferences</a>
+    <a href="privacy.html" class="mobile-nav-link">Privacy Policy</a>
+    <a href="disclaimer.html" class="mobile-nav-link">Disclaimer</a>
+    <a href="terms.html" class="mobile-nav-link">Terms of Service</a>
+  </div>
+
+  <main class="site-main">
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-pill">
+          <span>⚡ Multi-Platform Media Workspace</span>
+        </div>
+        <h1 class="hero-title">
+          View, organize, and preview public media streams across all major platforms.
+        </h1>
+        <p class="hero-description">
+          A fast, privacy-first, client-side media workspace. Paste multiple public links, configure custom responsive grids, and view legitimate embeds without metric manipulation or bloat.
+        </p>
+        <div class="hero-actions">
+          <a href="#directory" class="btn btn-primary btn-lg">Explore 20 Platform Tools</a>
+          <a href="platforms/youtube.html" class="btn btn-secondary btn-lg">Launch YouTube Workspace</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Platform Directory Section -->
+    <section class="container" id="directory">
+      <div class="directory-header">
+        <div>
+          <h2>Platform Directory</h2>
+          <p>Select a dedicated platform adapter to configure URLs and multiple media players.</p>
+        </div>
+        <div class="search-input-wrap">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="directory-search-input" class="search-input" placeholder="Filter platforms (e.g. YouTube, Twitch)..." aria-label="Filter platforms">
+        </div>
+      </div>
+
+      <!-- 20 Platform Cards Grid -->
+      <div class="platform-grid" id="platform-cards-container">
+
+        <!-- 1. YouTube -->
+        <a href="platforms/youtube.html" class="platform-card" data-category="Video & Streaming">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #FF0000;">▶</div>
+            <div>
+              <h3 class="platform-card-title">YouTube</h3>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public videos, YouTube Shorts, live broadcasts, and media clips.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 2. Vimeo -->
+        <a href="platforms/vimeo.html" class="platform-card" data-category="Creative Video">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #1AB7EA;">v</div>
+            <div>
+              <h3 class="platform-card-title">Vimeo</h3>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">High-definition showcase videos, portfolio films, and animation reels.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 3. Dailymotion -->
+        <a href="platforms/dailymotion.html" class="platform-card" data-category="Video Sharing">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #0066DC;">d</div>
+            <div>
+              <h3 class="platform-card-title">Dailymotion</h3>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public news broadcasts, community clips, and music video streams.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 4. Twitch -->
+        <a href="platforms/twitch.html" class="platform-card" data-category="Live Broadcasts">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #9146FF;">👾</div>
+            <div>
+              <h3 class="platform-card-title">Twitch</h3>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Live streaming broadcasts, VOD archives, and gaming stream clips.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 5. Kick -->
+        <a href="platforms/kick.html" class="platform-card" data-category="Live Broadcasts">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #53FC18;">⚡</div>
+            <div>
+              <h3 class="platform-card-title">Kick</h3>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Live creator broadcasts and public streaming channel feeds.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 6. Spotify -->
+        <a href="platforms/spotify.html" class="platform-card" data-category="Audio & Podcasts">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #1DB954;">🎧</div>
+            <div>
+              <h3 class="platform-card-title">Spotify</h3>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public audio tracks, albums, playlists, podcast episodes, and shows.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 7. SoundCloud -->
+        <a href="platforms/soundcloud.html" class="platform-card" data-category="Audio & Music">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #FF5500;">☁</div>
+            <div>
+              <h3 class="platform-card-title">SoundCloud</h3>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public indie music tracks, podcast recordings, DJ sets, and audio.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 8. Bilibili -->
+        <a href="platforms/bilibili.html" class="platform-card" data-category="Animation & Media">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #00A1D6;">📺</div>
+            <div>
+              <h3 class="platform-card-title">Bilibili</h3>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public animation, creator video compilations, and educational streams.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 9. Facebook -->
+        <a href="platforms/facebook.html" class="platform-card" data-category="Social Media">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #1877F2;">f</div>
+            <div>
+              <h3 class="platform-card-title">Facebook Video</h3>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public Facebook Watch videos, public reels, and open media posts.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 10. Telegram -->
+        <a href="platforms/telegram.html" class="platform-card" data-category="Messaging & Channels">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #229ED9;">✈</div>
+            <div>
+              <h3 class="platform-card-title">Telegram</h3>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public channel announcements, media broadcasts, and community updates.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 11. Instagram -->
+        <a href="platforms/instagram.html" class="platform-card" data-category="Social Media">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #E4405F;">📷</div>
+            <div>
+              <h3 class="platform-card-title">Instagram</h3>
+              <span class="embed-badge embed-badge-restricted">Official View Link</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public reels and post links with direct official verified viewing cards.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 12. TikTok -->
+        <a href="platforms/tiktok.html" class="platform-card" data-category="Short-Form Video">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #000000;">🎵</div>
+            <div>
+              <h3 class="platform-card-title">TikTok</h3>
+              <span class="embed-badge embed-badge-restricted">Official View Link</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public creator short clips with clean link validation and verified gateway.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 13. X (Twitter) -->
+        <a href="platforms/x.html" class="platform-card" data-category="Social Media">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #000000;">𝕏</div>
+            <div>
+              <h3 class="platform-card-title">X (Twitter)</h3>
+              <span class="embed-badge embed-badge-restricted">Official View Link</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public discourse, breaking video broadcasts, and media thread links.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 14. LinkedIn -->
+        <a href="platforms/linkedin.html" class="platform-card" data-category="Professional Media">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #0A66C2;">in</div>
+            <div>
+              <h3 class="platform-card-title">LinkedIn</h3>
+              <span class="embed-badge embed-badge-restricted">Official View Link</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Professional keynote videos, company showcases, and industry updates.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 15. Reddit -->
+        <a href="platforms/reddit.html" class="platform-card" data-category="Community Discussions">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #FF4500;">🤖</div>
+            <div>
+              <h3 class="platform-card-title">Reddit</h3>
+              <span class="embed-badge embed-badge-restricted">Official View Link</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public subreddit video threads, community debates, and clip links.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 16. Pinterest -->
+        <a href="platforms/pinterest.html" class="platform-card" data-category="Visual Discovery">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #BD081C;">📌</div>
+            <div>
+              <h3 class="platform-card-title">Pinterest</h3>
+              <span class="embed-badge embed-badge-restricted">Official View Link</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public video pins, DIY craft clips, and visual moodboard inspiration.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 17. Rumble -->
+        <a href="platforms/rumble.html" class="platform-card" data-category="Video Sharing">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #85c742;">🟢</div>
+            <div>
+              <h3 class="platform-card-title">Rumble</h3>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public video broadcasts, independent creator channels, and podcast links.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 18. Odysee -->
+        <a href="platforms/odysee.html" class="platform-card" data-category="Decentralized Video">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #EF1955;">🚀</div>
+            <div>
+              <h3 class="platform-card-title">Odysee</h3>
+              <span class="embed-badge embed-badge-restricted">Official View Link</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Open-source content publications and decentralized media posts.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 19. Snapchat -->
+        <a href="platforms/snapchat.html" class="platform-card" data-category="Social Media">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #FFFC00;">👻</div>
+            <div>
+              <h3 class="platform-card-title">Snapchat</h3>
+              <span class="embed-badge embed-badge-restricted">Official View Link</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public Spotlight video links and creator story gateways.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+        <!-- 20. Threads -->
+        <a href="platforms/threads.html" class="platform-card" data-category="Social Media">
+          <div class="platform-card-header">
+            <div class="platform-avatar" style="color: #000000;">🧵</div>
+            <div>
+              <h3 class="platform-card-title">Threads</h3>
+              <span class="embed-badge embed-badge-restricted">Official View Link</span>
+            </div>
+          </div>
+          <p class="platform-card-desc">Public conversation clips, discussions, and updates from Meta Threads.</p>
+          <div class="platform-card-footer">
+            <span class="btn btn-subtle btn-sm">Open Workspace →</span>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- No Results Message for Search -->
+      <div id="directory-no-results" style="display: none; text-align: center; padding: 3rem 0;">
+        <p>No platforms match your filter query. Try searching for "YouTube", "Twitch", or "Video".</p>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="container" style="margin-bottom: 4rem;">
+      <div class="card">
+        <h2 style="margin-bottom: 1.5rem; text-align: center;">How Multi Tube Views Works</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-top: 1rem;">
+          <div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--accent-primary);">1. Choose Your Tool</h3>
+            <p style="font-size: 0.92rem;">Select any of the 20 dedicated platform tools from the directory above. Each tool includes platform-tailored regex validation and embed generators.</p>
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--accent-primary);">2. Paste Single or Batch URLs</h3>
+            <p style="font-size: 0.92rem;">Enter links one by one or paste a list of comma/newline-separated URLs. MTV sanitizes, validates, and builds a manageable link queue.</p>
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--accent-primary);">3. Configure & View</h3>
+            <p style="font-size: 0.92rem;">Select 1 to 4 responsive columns, customize aspect ratios (16:9, 4:3, 1:1), set audio preferences, and view clean embeds with official fallback gateways.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="container" style="margin-bottom: 4rem;">
+      <h2 style="margin-bottom: 1rem;">Frequently Asked Questions</h2>
+      <p style="margin-bottom: 2rem;">Clear explanations about public embedding, browser restrictions, and platform policies.</p>
+      
+      <div class="faq-list">
+        <div class="faq-item">
+          <button type="button" class="faq-question" aria-expanded="false">
+            <span>Does Multi Tube Views generate artificial views, watch time, or bot traffic?</span>
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            <p><strong>Strictly No.</strong> Multi Tube Views is a legitimate frontend viewing and organizational workspace for public media. It does not automate views, simulate user activity, use proxies, inject background hidden iframes, loop videos to inflate metrics, or bypass platform security. Every player is a normal embedded iframe or official gateway link rendered in standard browser context.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-question" aria-expanded="false">
+            <span>Why do some platforms show an "Official View Link" instead of an embedded player?</span>
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Certain platforms (like Instagram, TikTok, X/Twitter, Snapchat, and LinkedIn) enforce strict Content Security Policies (CSP) or do not provide open browser iframe embedding for general media. Rather than showing broken or fake players, MTV honestly validates the link and generates a direct, secure official gateway button to view the post natively.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-question" aria-expanded="false">
+            <span>Why can't multiple players play unmuted audio simultaneously?</span>
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Modern browsers (Chrome, Safari, Firefox, Edge) enforce strict Autoplay Policies to protect users from unexpected loud noise. When embedding multiple players, video streams default to muted state where supported. Users can interactively unmute any specific player using its native controls.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-question" aria-expanded="false">
+            <span>Is Multi Tube Views open-source and deployable to GitHub Pages?</span>
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes. The entire application is built with pure, static HTML5, modular CSS, and vanilla JavaScript using clean relative asset paths. It runs seamlessly on GitHub Pages, Cloudflare Pages, Vercel, or any static web hosting provider without requiring a backend server or database.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disclaimer Callout -->
+    <section class="container">
+      <div class="info-callout">
+        <div class="info-callout-icon">ℹ️</div>
+        <div class="info-callout-content">
+          <p><strong>Independent Educational & Productivity Project:</strong> Multi Tube Views is an independent public media workspace. It is not affiliated, endorsed, or partnered with YouTube, Vimeo, Twitch, Spotify, or any listed third-party trademark holder. All trademarks and media copyrights belong to their respective owners.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <span class="brand-icon" style="width: 26px; height: 26px; font-size: 0.75rem;">MTV</span>
+            <span>Multi Tube Views</span>
+          </h3>
+          <p>A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for 20+ services.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Directory</h4>
+          <ul class="footer-links">
+            <li><a href="platforms/youtube.html">YouTube Workspace</a></li>
+            <li><a href="platforms/twitch.html">Twitch Workspace</a></li>
+            <li><a href="platforms/vimeo.html">Vimeo Workspace</a></li>
+            <li><a href="platforms/spotify.html">Spotify Workspace</a></li>
+            <li><a href="index.html#directory">All 20 Platforms</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="articles.html">Articles & Guides</a></li>
+            <li><a href="about.html">About MTV</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="settings.html">Display Settings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Info</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="disclaimer.html">Disclaimer</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="credits.html">Credits & Attributions</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-info">
+          <div>© <span class="dynamic-year">2026</span> Multi Tube Views (MTV). All rights reserved.</div>
+          <div class="creator-credit">
+            Created by <span class="creator-name">AiMAEditz</span> <span class="creator-sep">•</span> <a href="credits.html#creator" class="creator-link">About Creator</a>
+          </div>
+        </div>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Privacy</a>
+          <a href="disclaimer.html">Disclaimer</a>
+          <a href="terms.html">Terms</a>
+          <a href="credits.html">Credits</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/validators.js"></script>
+  <script src="assets/js/platform-engine.js"></script>
+  <script src="assets/js/navigation.js"></script>
+</body>
+</html>

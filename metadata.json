@@ -1,0 +1,6 @@
+{
+  "name": "Multi Tube Views",
+  "description": "Multi-Platform Public Media Viewing & Embedding Workspace with dedicated tool adapters, responsive player grid, and GitHub Pages compatibility.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

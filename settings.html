@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings & Preferences — Multi Tube Views</title>
+  <meta name="description" content="Configure display density, theme preferences, default player grid layout, and reduced motion settings for Multi Tube Views.">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/theme.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Multi Tube Views Home">
+        <div class="brand-icon">MTV</div>
+        <div class="brand-text">
+          <span>Multi Tube Views</span>
+          <span class="brand-badge">PRO</span>
+        </div>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.html#directory" class="nav-link">Platforms</a>
+        <a href="articles.html" class="nav-link">Articles</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="settings.html" class="nav-link active">Settings</a>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-icon-only theme-toggle-btn" aria-label="Toggle Theme"></button>
+        <button type="button" class="btn-mobile-menu" aria-label="Open Navigation Menu" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-drawer">
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="index.html#directory" class="mobile-nav-link">Platform Directory</a>
+    <a href="articles.html" class="mobile-nav-link">Articles & Guides</a>
+    <a href="about.html" class="mobile-nav-link">About Multi Tube Views</a>
+    <a href="contact.html" class="mobile-nav-link">Contact & Community</a>
+    <a href="settings.html" class="mobile-nav-link active">Display & Preferences</a>
+    <a href="privacy.html" class="mobile-nav-link">Privacy Policy</a>
+    <a href="disclaimer.html" class="mobile-nav-link">Disclaimer</a>
+    <a href="terms.html" class="mobile-nav-link">Terms of Service</a>
+  </div>
+
+  <main class="site-main">
+    <div class="container" style="max-width: 800px; padding-top: 2rem;">
+      <div class="breadcrumb-nav">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Settings</span>
+      </div>
+
+      <h1>Settings & Workspace Preferences</h1>
+      <p style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 2.5rem;">
+        Customize your visual theme, player defaults, and performance preferences. All options are stored locally in your browser.
+      </p>
+
+      <div class="card" style="margin-bottom: 2rem;">
+        <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Appearance & Theme</h2>
+        
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div>
+            <label for="theme-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Color Theme</label>
+            <select id="theme-select" class="setting-select" style="width: 100%; max-width: 320px;">
+              <option value="system">System Default (Automatic)</option>
+              <option value="light">Light Mode (Clean iOS White)</option>
+              <option value="dark">Dark Mode (Near-Black Obsidian)</option>
+            </select>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.35rem;">Theme switches instantly without page reload.</p>
+          </div>
+
+          <div>
+            <label for="density-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Display Density</label>
+            <select id="density-select" class="setting-select" style="width: 100%; max-width: 320px;">
+              <option value="comfortable">Comfortable (Spacious Padding)</option>
+              <option value="compact">Compact (High Information Density)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="motion-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Interface Motion</label>
+            <select id="motion-select" class="setting-select" style="width: 100%; max-width: 320px;">
+              <option value="default">Standard Fluid Animations</option>
+              <option value="reduced">Reduced Motion (Minimize Transitions)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 2rem;">
+        <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Player Defaults</h2>
+        
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div>
+            <label for="default-cols-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Default Grid Columns</label>
+            <select id="default-cols-select" class="setting-select" style="width: 100%; max-width: 320px;">
+              <option value="auto">Auto-Fit (Responsive)</option>
+              <option value="1">1 Column (Single Stream)</option>
+              <option value="2">2 Columns (Side-by-Side)</option>
+              <option value="3">3 Columns (Trio)</option>
+              <option value="4">4 Columns (Quad Grid)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="default-ratio-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Default Aspect Ratio</label>
+            <select id="default-ratio-select" class="setting-select" style="width: 100%; max-width: 320px;">
+              <option value="16-9">16:9 Standard Widescreen</option>
+              <option value="4-3">4:3 Classic Format</option>
+              <option value="1-1">1:1 Square Format</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="default-audio-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Initial Audio State</label>
+            <select id="default-audio-select" class="setting-select" style="width: 100%; max-width: 320px;">
+              <option value="muted">Muted by Default (Browser-Safe)</option>
+              <option value="normal">Normal Audio (Subject to Browser Policy)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem;">
+        <div>
+          <h3 style="font-size: 1.1rem; margin-bottom: 0.25rem;">Reset All Preferences</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted);">Restores all settings to their default out-of-the-box configuration.</p>
+        </div>
+        <button type="button" id="btn-reset-settings" class="btn btn-danger">Reset to Defaults</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <span class="brand-icon" style="width: 26px; height: 26px; font-size: 0.75rem;">MTV</span>
+            <span>Multi Tube Views</span>
+          </h3>
+          <p>A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for 20+ services.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Directory</h4>
+          <ul class="footer-links">
+            <li><a href="platforms/youtube.html">YouTube Workspace</a></li>
+            <li><a href="platforms/twitch.html">Twitch Workspace</a></li>
+            <li><a href="platforms/vimeo.html">Vimeo Workspace</a></li>
+            <li><a href="platforms/spotify.html">Spotify Workspace</a></li>
+            <li><a href="index.html#directory">All 20 Platforms</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="articles.html">Articles & Guides</a></li>
+            <li><a href="about.html">About MTV</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="settings.html">Display Settings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Info</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="disclaimer.html">Disclaimer</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="credits.html">Credits & Attributions</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-info">
+          <div>© <span class="dynamic-year">2026</span> Multi Tube Views (MTV). All rights reserved.</div>
+          <div class="creator-credit">
+            Created by <span class="creator-name">AiMAEditz</span> <span class="creator-sep">•</span> <a href="credits.html#creator" class="creator-link">About Creator</a>
+          </div>
+        </div>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Privacy</a>
+          <a href="disclaimer.html">Disclaimer</a>
+          <a href="terms.html">Terms</a>
+          <a href="credits.html">Credits</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/navigation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const themeSelect = document.getElementById('theme-select');
+      const densitySelect = document.getElementById('density-select');
+      const motionSelect = document.getElementById('motion-select');
+      const colsSelect = document.getElementById('default-cols-select');
+      const ratioSelect = document.getElementById('default-ratio-select');
+      const audioSelect = document.getElementById('default-audio-select');
+      const btnReset = document.getElementById('btn-reset-settings');
+
+      if (window.StorageManager) {
+        if (themeSelect) themeSelect.value = window.StorageManager.get(window.STORAGE_KEYS.THEME, 'system');
+        if (densitySelect) densitySelect.value = window.StorageManager.get(window.STORAGE_KEYS.DENSITY, 'comfortable');
+        if (motionSelect) motionSelect.value = window.StorageManager.get(window.STORAGE_KEYS.MOTION, 'default');
+        if (colsSelect) colsSelect.value = window.StorageManager.get(window.STORAGE_KEYS.LAYOUT_COLS, 'auto');
+        if (ratioSelect) ratioSelect.value = window.StorageManager.get(window.STORAGE_KEYS.ASPECT_RATIO, '16-9');
+        if (audioSelect) audioSelect.value = window.StorageManager.get(window.STORAGE_KEYS.AUDIO_PREF, 'muted');
+      }
+
+      themeSelect?.addEventListener('change', (e) => {
+        window.ThemeEngine?.set(e.target.value);
+      });
+
+      densitySelect?.addEventListener('change', (e) => {
+        window.StorageManager?.set(window.STORAGE_KEYS.DENSITY, e.target.value);
+        if (e.target.value === 'compact') {
+          document.body.setAttribute('data-density', 'compact');
+        } else {
+          document.body.removeAttribute('data-density');
+        }
+      });
+
+      motionSelect?.addEventListener('change', (e) => {
+        window.StorageManager?.set(window.STORAGE_KEYS.MOTION, e.target.value);
+        if (e.target.value === 'reduced') {
+          document.body.setAttribute('data-motion', 'reduced');
+        } else {
+          document.body.removeAttribute('data-motion');
+        }
+      });
+
+      colsSelect?.addEventListener('change', (e) => {
+        window.StorageManager?.set(window.STORAGE_KEYS.LAYOUT_COLS, e.target.value);
+      });
+
+      ratioSelect?.addEventListener('change', (e) => {
+        window.StorageManager?.set(window.STORAGE_KEYS.ASPECT_RATIO, e.target.value);
+      });
+
+      audioSelect?.addEventListener('change', (e) => {
+        window.StorageManager?.set(window.STORAGE_KEYS.AUDIO_PREF, e.target.value);
+      });
+
+      btnReset?.addEventListener('click', () => {
+        window.StorageManager?.clearPreferences();
+        window.ThemeEngine?.set('system');
+        document.body.removeAttribute('data-density');
+        document.body.removeAttribute('data-motion');
+        location.reload();
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Articles & Technical Guides — Multi Tube Views</title>
+  <meta name="description" content="Technical guides on public media embedding, browser autoplay policies, responsive multi-player layouts, and GitHub Pages deployment.">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/theme.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Multi Tube Views Home">
+        <div class="brand-icon">MTV</div>
+        <div class="brand-text">
+          <span>Multi Tube Views</span>
+          <span class="brand-badge">PRO</span>
+        </div>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.html#directory" class="nav-link">Platforms</a>
+        <a href="articles.html" class="nav-link active">Articles</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="settings.html" class="nav-link">Settings</a>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-icon-only theme-toggle-btn" aria-label="Toggle Theme"></button>
+        <button type="button" class="btn-mobile-menu" aria-label="Open Navigation Menu" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-drawer">
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="index.html#directory" class="mobile-nav-link">Platform Directory</a>
+    <a href="articles.html" class="mobile-nav-link active">Articles & Guides</a>
+    <a href="about.html" class="mobile-nav-link">About Multi Tube Views</a>
+    <a href="contact.html" class="mobile-nav-link">Contact & Community</a>
+    <a href="settings.html" class="mobile-nav-link">Display & Preferences</a>
+    <a href="privacy.html" class="mobile-nav-link">Privacy Policy</a>
+    <a href="disclaimer.html" class="mobile-nav-link">Disclaimer</a>
+    <a href="terms.html" class="mobile-nav-link">Terms of Service</a>
+  </div>
+
+  <main class="site-main">
+    <div class="container" style="padding-top: 2rem;">
+      <div class="breadcrumb-nav">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Articles</span>
+      </div>
+
+      <h1>Articles & Technical Guides</h1>
+      <p style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 2.5rem;">
+        In-depth architecture articles covering web media embedding standards, iframe security models, browser audio restrictions, and GitHub Pages deployments.
+      </p>
+
+      <div class="article-grid">
+        
+        <!-- Article 1 -->
+        <article class="article-card" id="article-embeds">
+          <span class="article-tag">Standards</span>
+          <h3>How Public Video Embeds Work</h3>
+          <p>
+            An architectural breakdown of standard iframe embedding APIs, postMessage communication bridges, and why origin permissions (such as Twitch parent domains) are required for compliant browser playback.
+          </p>
+          <div>
+            <a href="#guide-embeds" class="btn btn-secondary btn-sm">Read Article ↓</a>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="article-card" id="article-autoplay">
+          <span class="article-tag">Browser Security</span>
+          <h3>Browser Autoplay Policies Explained</h3>
+          <p>
+            Understanding the Media Engagement Index (MEI), user interaction gating, and why modern browsers prevent unmuted concurrent playback across multiple media frames.
+          </p>
+          <div>
+            <a href="#guide-autoplay" class="btn btn-secondary btn-sm">Read Article ↓</a>
+          </div>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="article-card" id="article-restrictions">
+          <span class="article-tag">Content Security</span>
+          <h3>Why Some Platforms Restrict Embedding</h3>
+          <p>
+            Why platforms like Instagram, TikTok, and X enforce X-Frame-Options and Frame-Ancestors CSP directives, and how official gateway fallbacks preserve privacy and security.
+          </p>
+          <div>
+            <a href="#guide-restrictions" class="btn btn-secondary btn-sm">Read Article ↓</a>
+          </div>
+        </article>
+
+        <!-- Article 4 -->
+        <article class="article-card" id="article-layouts">
+          <span class="article-tag">UI Engineering</span>
+          <h3>Responsive Multi-Player Layouts</h3>
+          <p>
+            Designing high-performance CSS Grid and aspect-ratio containers that dynamically calculate aspect constraints without causing layout shifts or repaint thrashing.
+          </p>
+          <div>
+            <a href="#guide-layouts" class="btn btn-secondary btn-sm">Read Article ↓</a>
+          </div>
+        </article>
+
+        <!-- Article 5 -->
+        <article class="article-card" id="article-deployment">
+          <span class="article-tag">DevOps</span>
+          <h3>Static GitHub Pages Deployment Guide</h3>
+          <p>
+            How to structure zero-dependency static projects, manage .nojekyll rules, configure relative asset resolution, and maintain custom domain CNAME records.
+          </p>
+          <div>
+            <a href="#guide-deployment" class="btn btn-secondary btn-sm">Read Article ↓</a>
+          </div>
+        </article>
+
+        <!-- Article 6 -->
+        <article class="article-card" id="article-accessibility">
+          <span class="article-tag">Accessibility</span>
+          <h3>Accessibility in Media Workspaces</h3>
+          <p>
+            Implementing WCAG AA contrast compliance, keyboard focus rings, semantic landmark roles, screen-reader status live-regions, and prefers-reduced-motion triggers.
+          </p>
+          <div>
+            <a href="#guide-accessibility" class="btn btn-secondary btn-sm">Read Article ↓</a>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Detailed Reading Sections -->
+      <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 4rem 0;">
+
+      <div class="reading-content" id="guide-embeds">
+        <h2>1. How Public Video Embeds Work</h2>
+        <p>
+          Web-based video embedding relies on standardized HTML <code>&lt;iframe&gt;</code> elements configured with specific feature policies and secure origins. When embedding a video from a platform like YouTube, Vimeo, or Dailymotion, the host page communicates with the remote player through the browser's cross-origin messaging architecture.
+        </p>
+        <p>
+          For example, YouTube's privacy-enhanced embed endpoint (<code>youtube-nocookie.com</code>) disables tracking cookies until the user actively clicks the play button. Similarly, Twitch requires a specific <code>parent=&lt;domain&gt;</code> query parameter to prevent unauthorized framing on untrusted domains. Multi Tube Views dynamically calculates your current hostname and injects the valid parent parameter automatically.
+        </p>
+      </div>
+
+      <div class="reading-content" id="guide-autoplay">
+        <h2>2. Browser Autoplay Policies Explained</h2>
+        <p>
+          In modern web engines (Blink, WebKit, Gecko), media with audio cannot play automatically unless the user has established a positive Media Engagement Index (MEI) score with that domain or has directly interacted with the document (such as clicking or tapping).
+        </p>
+        <p>
+          When rendering a multi-stream layout with 4 to 12 simultaneous players, attempting to force unmuted playback on every frame would trigger browser-level security blocks. Multi Tube Views adheres to this standard by initializing players in muted mode where supported, allowing users to select and unmute their desired primary stream cleanly.
+        </p>
+      </div>
+
+      <div class="reading-content" id="guide-restrictions">
+        <h2>3. Why Some Platforms Restrict Embedding</h2>
+        <p>
+          Several major social networks—notably Instagram, TikTok, Snapchat, Threads, and LinkedIn—strictly restrict or disable general cross-origin iframe framing using HTTP response headers such as <code>X-Frame-Options: SAMEORIGIN</code> and CSP <code>frame-ancestors 'self'</code>.
+        </p>
+        <p>
+          These policies are intended to safeguard authenticated user sessions against clickjacking attacks. Rather than rendering broken white screens or faking an embed, Multi Tube Views validates the URL structure and displays a verified "Official Platform View" card with a secure, direct link to the content.
+        </p>
+      </div>
+
+      <div class="reading-content" id="guide-layouts">
+        <h2>4. Responsive Multi-Player Layouts</h2>
+        <p>
+          Building a grid that can scale from 1 to 12 video streams across mobile smartphones, iPads, and 4K ultra-wide monitors requires modern CSS Grid layouts paired with the native <code>aspect-ratio</code> CSS property (e.g. <code>16 / 9</code> or <code>4 / 3</code>).
+        </p>
+        <p>
+          By avoiding legacy JavaScript resize listeners and fixed pixel height calculations, the player container responds instantaneously to viewport changes and device orientation rotations with zero layout stutter.
+        </p>
+      </div>
+
+      <div class="reading-content" id="guide-deployment">
+        <h2>5. Static GitHub Pages Deployment Guide</h2>
+        <p>
+          GitHub Pages serves static web assets directly from a Git branch. To ensure a seamless deployment:
+        </p>
+        <ol>
+          <li>Place <code>index.html</code> directly at the repository root.</li>
+          <li>Include an empty <code>.nojekyll</code> file in the repository root to prevent GitHub's Jekyll compiler from ignoring folders starting with underscores or special naming.</li>
+          <li>Ensure all HTML pages use relative paths (e.g. <code>assets/css/...</code> from the root and <code>../assets/css/...</code> from subfolders like <code>platforms/</code>).</li>
+        </ol>
+      </div>
+
+      <div class="reading-content" id="guide-accessibility">
+        <h2>6. Accessibility in Media Workspaces</h2>
+        <p>
+          Accessibility is integral to quality software craftsmanship. Multi Tube Views implements:
+        </p>
+        <ul>
+          <li><strong>Keyboard Focus Traps & Skip Links:</strong> Full keyboard navigation across all inputs, tabs, and interactive controls.</li>
+          <li><strong>WCAG AA Contrast:</strong> High-contrast color scales in both light and dark mode ensuring text legibility.</li>
+          <li><strong>Reduced Motion Engine:</strong> Respects the user's OS-level <code>prefers-reduced-motion</code> setting to eliminate rapid transitions.</li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <span class="brand-icon" style="width: 26px; height: 26px; font-size: 0.75rem;">MTV</span>
+            <span>Multi Tube Views</span>
+          </h3>
+          <p>A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for 20+ services.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Directory</h4>
+          <ul class="footer-links">
+            <li><a href="platforms/youtube.html">YouTube Workspace</a></li>
+            <li><a href="platforms/twitch.html">Twitch Workspace</a></li>
+            <li><a href="platforms/vimeo.html">Vimeo Workspace</a></li>
+            <li><a href="platforms/spotify.html">Spotify Workspace</a></li>
+            <li><a href="index.html#directory">All 20 Platforms</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="articles.html">Articles & Guides</a></li>
+            <li><a href="about.html">About MTV</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="settings.html">Display Settings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Info</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="disclaimer.html">Disclaimer</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="credits.html">Credits & Attributions</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-info">
+          <div>© <span class="dynamic-year">2026</span> Multi Tube Views (MTV). All rights reserved.</div>
+          <div class="creator-credit">
+            Created by <span class="creator-name">AiMAEditz</span> <span class="creator-sep">•</span> <a href="credits.html#creator" class="creator-link">About Creator</a>
+          </div>
+        </div>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Privacy</a>
+          <a href="disclaimer.html">Disclaimer</a>
+          <a href="terms.html">Terms</a>
+          <a href="credits.html">Credits</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/navigation.js"></script>
+</body>
+</html>

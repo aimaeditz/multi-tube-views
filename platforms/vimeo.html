@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vimeo Multi-Stream Workspace — Multi Tube Views</title>
+  <meta name="description" content="View multiple public Vimeo portfolio films, documentaries, and showcase videos side-by-side.">
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
+  
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/theme.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="brand" aria-label="Multi Tube Views Home">
+        <div class="brand-icon">MTV</div>
+        <div class="brand-text">
+          <span>Multi Tube Views</span>
+          <span class="brand-badge">PRO</span>
+        </div>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../index.html#directory" class="nav-link active">Platforms</a>
+        <a href="../articles.html" class="nav-link">Articles</a>
+        <a href="../about.html" class="nav-link">About</a>
+        <a href="../contact.html" class="nav-link">Contact</a>
+        <a href="../settings.html" class="nav-link">Settings</a>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-icon-only theme-toggle-btn" aria-label="Toggle Theme"></button>
+        <button type="button" class="btn-mobile-menu" aria-label="Open Navigation Menu" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-drawer">
+    <a href="../index.html" class="mobile-nav-link">Home</a>
+    <a href="../index.html#directory" class="mobile-nav-link active">Platform Directory</a>
+    <a href="../articles.html" class="mobile-nav-link">Articles & Guides</a>
+    <a href="../about.html" class="mobile-nav-link">About Multi Tube Views</a>
+    <a href="../contact.html" class="mobile-nav-link">Contact & Community</a>
+    <a href="../settings.html" class="mobile-nav-link">Display & Preferences</a>
+    <a href="../privacy.html" class="mobile-nav-link">Privacy Policy</a>
+    <a href="../disclaimer.html" class="mobile-nav-link">Disclaimer</a>
+    <a href="../terms.html" class="mobile-nav-link">Terms of Service</a>
+  </div>
+
+  <main class="site-main">
+    <div class="container">
+      
+      <div class="breadcrumb-nav">
+        <a href="../index.html">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="../index.html#directory">Platforms</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Vimeo Workspace</span>
+      </div>
+
+      <div class="tool-header">
+        <div class="tool-identity">
+          <div class="tool-avatar" style="color: #1AB7EA;">v</div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem;">
+              <h1 style="font-size: 1.75rem;">Vimeo Showcase Workspace</h1>
+              <span class="embed-badge embed-badge-supported">Official Embed</span>
+            </div>
+            <p>Paste public Vimeo video links to generate high-definition multi-film showcase grids.</p>
+          </div>
+        </div>
+        <div>
+          <a href="../index.html#directory" class="btn btn-secondary btn-sm">← Back to All Platforms</a>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="url-input-container">
+          <div class="url-input-tabs">
+            <button type="button" class="tab-btn active" data-tab="single">Single URL</button>
+            <button type="button" class="tab-btn" data-tab="batch">Batch Paste (Multi-Line / Comma)</button>
+          </div>
+
+          <div id="single-input-tab" class="single-input-row">
+            <input type="text" id="single-url-input" class="url-input-field" placeholder="Paste Vimeo link (e.g. https://vimeo.com/76979871)..." aria-label="Vimeo video URL">
+            <button type="button" id="btn-add-single" class="btn btn-primary">Add Link</button>
+            <button type="button" id="btn-load-sample" class="btn btn-subtle" title="Load sample link">Sample</button>
+          </div>
+
+          <div id="batch-input-tab" style="display: none;">
+            <textarea id="batch-url-input" class="batch-textarea" placeholder="Paste multiple Vimeo links (one per line, or comma-separated)..." aria-label="Batch Vimeo URLs"></textarea>
+            <div style="display: flex; justify-content: flex-end; margin-top: 0.75rem;">
+              <button type="button" id="btn-add-batch" class="btn btn-primary">Add All Links</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="queue-section">
+          <div class="queue-header">
+            <div class="queue-title">
+              <span>Link Workspace</span>
+              <span id="queue-count-badge" class="queue-counter">0 links</span>
+            </div>
+            <div class="queue-actions">
+              <button type="button" id="btn-select-all" class="btn btn-subtle btn-sm">Select / Deselect All</button>
+              <button type="button" id="btn-clear-all" class="btn btn-subtle btn-sm">Clear All</button>
+              <button type="button" id="btn-generate-players" class="btn btn-primary btn-sm">Generate Players</button>
+            </div>
+          </div>
+
+          <div id="link-rows-list" class="link-rows-list"></div>
+          
+          <div id="queue-empty-state" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2.5rem 1rem; text-align: center; border: 1px dashed var(--border-subtle); border-radius: var(--radius-md);">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-muted);">📋</div>
+            <p style="font-size: 0.92rem; color: var(--text-muted);">Your link workspace is empty. Paste a Vimeo URL above and click "Add Link".</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-toolbar">
+        <div class="setting-item">
+          <label for="setting-max-players" class="setting-label">Max Players</label>
+          <select id="setting-max-players" class="setting-select">
+            <option value="2">2 Players</option>
+            <option value="4">4 Players</option>
+            <option value="6">6 Players</option>
+            <option value="8">8 Players</option>
+            <option value="10">10 Players</option>
+            <option value="12" selected>12 Players</option>
+            <option value="all">All Selected</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label for="setting-cols" class="setting-label">Grid Layout</label>
+          <select id="setting-cols" class="setting-select">
+            <option value="auto" selected>Auto Responsive</option>
+            <option value="1">1 Column</option>
+            <option value="2">2 Columns</option>
+            <option value="3">3 Columns</option>
+            <option value="4">4 Columns</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label for="setting-ratio" class="setting-label">Aspect Ratio</label>
+          <select id="setting-ratio" class="setting-select">
+            <option value="16-9" selected>16:9 (Standard Widescreen)</option>
+            <option value="4-3">4:3 (Classic Film)</option>
+            <option value="1-1">1:1 (Square Video)</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label for="setting-audio" class="setting-label">Initial Audio</label>
+          <select id="setting-audio" class="setting-select">
+            <option value="muted" selected>Muted (Autoplay-Safe)</option>
+            <option value="normal">Normal (Browser Subject)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="status-summary-bar">
+        <div class="summary-stats">
+          <div class="stat-pill">
+            <span class="stat-dot total"></span>
+            <span>Total: <strong id="stat-total-count">0</strong></span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-dot valid"></span>
+            <span>Embed Ready: <strong id="stat-valid-count">0</strong></span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-dot restricted"></span>
+            <span>Official View: <strong id="stat-restricted-count">0</strong></span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-dot invalid"></span>
+            <span>Invalid Format: <strong id="stat-invalid-count">0</strong></span>
+          </div>
+        </div>
+        <div style="font-size: 0.82rem; color: var(--text-muted);">
+          Vimeo Do-Not-Track (DNT) privacy mode enabled
+        </div>
+      </div>
+
+      <div class="player-grid-section" id="player-stage">
+        <div id="player-loading-state" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 1rem; text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 0.75rem;">⏳</div>
+          <h3>Preparing Vimeo players…</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Configuring Vimeo player embeds with DNT parameters.</p>
+        </div>
+
+        <div id="stage-empty-state" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5rem 1rem; text-align: center; background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl);">
+          <div style="font-size: 2.5rem; margin-bottom: 0.75rem; color: var(--text-muted);">v</div>
+          <h3 style="margin-bottom: 0.5rem;">Player Stage Ready</h3>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); max-width: 440px;">
+            Add Vimeo video URLs above and click <strong>"Generate Players"</strong> to render your multi-stream viewing grid.
+          </p>
+        </div>
+
+        <div class="player-grid" id="player-grid" data-cols="auto"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <span class="brand-icon" style="width: 26px; height: 26px; font-size: 0.75rem;">MTV</span>
+            <span>Multi Tube Views</span>
+          </h3>
+          <p>A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for 20+ services.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Directory</h4>
+          <ul class="footer-links">
+            <li><a href="youtube.html">YouTube Workspace</a></li>
+            <li><a href="twitch.html">Twitch Workspace</a></li>
+            <li><a href="vimeo.html">Vimeo Workspace</a></li>
+            <li><a href="spotify.html">Spotify Workspace</a></li>
+            <li><a href="../index.html#directory">All 20 Platforms</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../articles.html">Articles & Guides</a></li>
+            <li><a href="../about.html">About MTV</a></li>
+            <li><a href="../contact.html">Contact Us</a></li>
+            <li><a href="../settings.html">Display Settings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Info</h4>
+          <ul class="footer-links">
+            <li><a href="../privacy.html">Privacy Policy</a></li>
+            <li><a href="../disclaimer.html">Disclaimer</a></li>
+            <li><a href="../terms.html">Terms of Service</a></li>
+            <li><a href="../credits.html">Credits & Attributions</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-info">
+          <div>© <span class="dynamic-year">2026</span> Multi Tube Views (MTV). All rights reserved.</div>
+          <div class="creator-credit">
+            Created by <span class="creator-name">AiMAEditz</span> <span class="creator-sep">•</span> <a href="../credits.html#creator" class="creator-link">About Creator</a>
+          </div>
+        </div>
+        <div class="footer-bottom-links">
+          <a href="../privacy.html">Privacy</a>
+          <a href="../disclaimer.html">Disclaimer</a>
+          <a href="../terms.html">Terms</a>
+          <a href="../credits.html">Credits</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/validators.js"></script>
+  <script src="../assets/js/platform-engine.js"></script>
+  <script src="../assets/js/navigation.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      window.currentApp = new ToolApp('vimeo');
+    });
+  </script>
+</body>
+</html>

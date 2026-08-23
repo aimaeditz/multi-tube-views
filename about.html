@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Multi Tube Views</title>
+  <meta name="description" content="Learn about Multi Tube Views, its static architecture, dedicated platform tool system, and public media viewing philosophy.">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Multi Tube Views Home">
+        <div class="brand-icon">MTV</div>
+        <div class="brand-text">
+          <span>Multi Tube Views</span>
+          <span class="brand-badge">PRO</span>
+        </div>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.html#directory" class="nav-link">Platforms</a>
+        <a href="articles.html" class="nav-link">Articles</a>
+        <a href="about.html" class="nav-link active">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="settings.html" class="nav-link">Settings</a>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-icon-only theme-toggle-btn" aria-label="Toggle Theme"></button>
+        <button type="button" class="btn-mobile-menu" aria-label="Open Navigation Menu" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer">
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="index.html#directory" class="mobile-nav-link">Platform Directory</a>
+    <a href="articles.html" class="mobile-nav-link">Articles & Guides</a>
+    <a href="about.html" class="mobile-nav-link active">About Multi Tube Views</a>
+    <a href="contact.html" class="mobile-nav-link">Contact & Community</a>
+    <a href="settings.html" class="mobile-nav-link">Display & Preferences</a>
+    <a href="privacy.html" class="mobile-nav-link">Privacy Policy</a>
+    <a href="disclaimer.html" class="mobile-nav-link">Disclaimer</a>
+    <a href="terms.html" class="mobile-nav-link">Terms of Service</a>
+  </div>
+
+  <main class="site-main">
+    <div class="container reading-content">
+      <div class="breadcrumb-nav">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>About</span>
+      </div>
+
+      <h1>About Multi Tube Views</h1>
+      <p style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 2rem;">
+        An independent, privacy-conscious public media viewing workspace engineered for creators, researchers, media analysts, and enthusiasts.
+      </p>
+
+      <h2>What is Multi Tube Views?</h2>
+      <p>
+        Multi Tube Views (MTV) is a specialized frontend productivity tool designed to help users aggregate, organize, and view public media streams from multiple services side-by-side. Whether you are monitoring multiple esports tournaments on Twitch, previewing music playlists across SoundCloud and Spotify, or reviewing educational lectures on YouTube, MTV provides a fast, centralized workspace.
+      </p>
+
+      <h2>Why Dedicated Platform Pages?</h2>
+      <p>
+        Unlike single-page tools that attempt to squeeze heterogeneous platform logic into a monolithic script, Multi Tube Views is structured with a modular platform directory. Each of the 20 supported platforms has its own dedicated page with tailored validation algorithms, parameter parsers, and custom embed handlers.
+      </p>
+      <ul>
+        <li><strong>Precise URL Parsing:</strong> Custom regex engines handle platform-specific URLs (e.g. YouTube shorts, live streams, Vimeo IDs, Twitch clips with parent domain headers, Spotify URIs).</li>
+        <li><strong>Direct Bookmarkability:</strong> Every platform tool has a persistent, shareable URL that can be bookmarked and refreshed without losing state context.</li>
+        <li><strong>Clean Separation of Concerns:</strong> Adding new platforms or updating existing adapters requires modifying only the central platform engine without breaking other services.</li>
+      </ul>
+
+      <h2>Privacy-First Static Architecture</h2>
+      <p>
+        Multi Tube Views operates 100% on the client side. There are no server-side databases, no telemetry scripts, no third-party tracking cookies, and no account requirements. All user preferences (theme, grid columns, aspect ratio) are stored safely in the user's own browser via LocalStorage.
+      </p>
+
+      <h2>Strict Commitment: No Artificial Engagement</h2>
+      <p>
+        Multi Tube Views is built with strict adherence to ethical web standards and platform service terms:
+      </p>
+      <ul>
+        <li><strong>No View Botting:</strong> MTV does not simulate fake viewers, rotate proxies, or generate artificial watch time.</li>
+        <li><strong>No Hidden Iframes:</strong> All players rendered on the canvas are visible, interactive, and controllable by the user.</li>
+        <li><strong>No Loop Manipulation:</strong> Video playback behaves strictly according to standard browser autoplay policies.</li>
+        <li><strong>Honest Error Handling:</strong> For platforms that do not permit open iframe embedding (such as Instagram, TikTok, or X), MTV provides a verified, direct official-view gateway rather than faking an embed.</li>
+      </ul>
+
+      <h2>Browser & Platform Limitations</h2>
+      <p>
+        Web browsers enforce strict Autoplay Security Policies that restrict unmuted audio playback across multiple background frames. Additionally, individual content creators or platforms may disable embedding on specific videos or copyright-protected broadcasts. MTV respects all such restrictions natively.
+      </p>
+
+      <!-- Creator Information Section -->
+      <section class="creator-profile-card" id="creator" aria-labelledby="creator-title">
+        <div class="creator-profile-header">
+          <div class="creator-profile-badge">★</div>
+          <h2 id="creator-title" class="creator-profile-title">About the Creator</h2>
+        </div>
+        <p class="creator-profile-desc">
+          AiMAEditz is the creator of Multi Tube Views, focused on building clean, modern and useful web tools with a simple user experience.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <span class="brand-icon" style="width: 26px; height: 26px; font-size: 0.75rem;">MTV</span>
+            <span>Multi Tube Views</span>
+          </h3>
+          <p>A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for 20+ services.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Directory</h4>
+          <ul class="footer-links">
+            <li><a href="platforms/youtube.html">YouTube Workspace</a></li>
+            <li><a href="platforms/twitch.html">Twitch Workspace</a></li>
+            <li><a href="platforms/vimeo.html">Vimeo Workspace</a></li>
+            <li><a href="platforms/spotify.html">Spotify Workspace</a></li>
+            <li><a href="index.html#directory">All 20 Platforms</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="articles.html">Articles & Guides</a></li>
+            <li><a href="about.html">About MTV</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="settings.html">Display Settings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Info</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="disclaimer.html">Disclaimer</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="credits.html">Credits & Attributions</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-info">
+          <div>© <span class="dynamic-year">2026</span> Multi Tube Views (MTV). All rights reserved.</div>
+          <div class="creator-credit">
+            Created by <span class="creator-name">AiMAEditz</span> <span class="creator-sep">•</span> <a href="credits.html#creator" class="creator-link">About Creator</a>
+          </div>
+        </div>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Privacy</a>
+          <a href="disclaimer.html">Disclaimer</a>
+          <a href="terms.html">Terms</a>
+          <a href="credits.html">Credits</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/navigation.js"></script>
+</body>
+</html>
