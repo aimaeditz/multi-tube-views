@@ -760,36 +760,68 @@
 }
 
 /* Aspect Ratio Modifiers */
-.player-frame-wrapper[data-ratio="16-9"] {
+.player-frame-wrapper[data-ratio="16-9"],
+.player-frame-wrapper.ratio-16-9,
+.player-frame-wrapper.ratio-video {
   aspect-ratio: 16 / 9;
+  width: 100%;
 }
 
-.player-frame-wrapper[data-ratio="4-3"] {
+.player-frame-wrapper[data-ratio="4-3"],
+.player-frame-wrapper.ratio-4-3 {
   aspect-ratio: 4 / 3;
+  width: 100%;
 }
 
-.player-frame-wrapper[data-ratio="1-1"] {
+.player-frame-wrapper[data-ratio="1-1"],
+.player-frame-wrapper.ratio-1-1,
+.player-frame-wrapper.ratio-square {
   aspect-ratio: 1 / 1;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
 }
 
-.player-frame-wrapper[data-ratio="9-16"] {
+.player-frame-wrapper[data-ratio="9-16"],
+.player-frame-wrapper.ratio-9-16,
+.player-frame-wrapper.ratio-vertical {
   aspect-ratio: 9 / 16;
   max-width: 360px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .player-frame-wrapper[data-ratio="auto"] {
   aspect-ratio: auto;
   min-height: 200px;
+  width: 100%;
 }
 
 .player-frame-wrapper[data-ratio="auto"].ratio-video {
   aspect-ratio: 16 / 9;
+  width: 100%;
 }
 
 .player-frame-wrapper[data-ratio="auto"].ratio-vertical {
   aspect-ratio: 9 / 16;
   max-width: 360px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.player-frame-wrapper[data-ratio="auto"].ratio-square {
+  aspect-ratio: 1 / 1;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.player-frame-wrapper[data-ratio="auto"].ratio-social-post {
+  aspect-ratio: auto;
+  min-height: 380px;
+  height: 480px;
+  max-width: 500px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -797,24 +829,28 @@
   aspect-ratio: auto;
   height: 152px;
   min-height: 152px;
+  width: 100%;
 }
 
 .player-frame-wrapper[data-ratio="auto"].ratio-audio-spotify-large {
   aspect-ratio: auto;
   height: 352px;
   min-height: 352px;
+  width: 100%;
 }
 
 .player-frame-wrapper[data-ratio="auto"].ratio-audio-soundcloud {
   aspect-ratio: auto;
   height: 166px;
   min-height: 166px;
+  width: 100%;
 }
 
 .player-frame-wrapper[data-ratio="auto"].fallback-player-card {
   aspect-ratio: auto;
   height: auto;
   min-height: 220px;
+  width: 100%;
 }
 
 .player-iframe {

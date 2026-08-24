@@ -340,32 +340,7 @@ class ToolApp {
     const embed = player.embedData || (window.PlatformEngine ? window.PlatformEngine.generateEmbed(platformKey, player.url, { muted: player.isMuted, loop: player.isLoop }) : { success: false });
 
     // Determine adaptive media aspect ratio
-    let adaptiveClass = 'ratio-video';
-    if (player.ratio && player.ratio !== 'auto') {
-      adaptiveClass = `ratio-${player.ratio}`;
-    } else {
-      if (platformKey === 'spotify') {
-        const validator = window.Validators ? window.Validators.spotify : null;
-        const extracted = validator ? validator.extract(player.url) : { type: 'track' };
-        if (extracted.type === 'album' || extracted.type === 'playlist' || extracted.type === 'show') {
-          adaptiveClass = 'ratio-audio-spotify-large';
-        } else {
-          adaptiveClass = 'ratio-audio-spotify';
-        }
-      } else if (platformKey === 'soundcloud') {
-        adaptiveClass = 'ratio-audio-soundcloud';
-      } else if (platformKey === 'tiktok' || platformKey === 'snapchat') {
-        adaptiveClass = 'ratio-vertical';
-      } else if (platformKey === 'youtube') {
-        const validator = window.Validators ? window.Validators.youtube : null;
-        const extracted = validator ? validator.extract(player.url) : {};
-        if (extracted.type === 'short') {
-          adaptiveClass = 'ratio-vertical';
-        } else {
-          adaptiveClass = 'ratio-video';
-        }
-      }
-    }
+    const adaptiveClass = this.getAdaptiveRatioClass(player);
 
     let stageContent = '';
 
@@ -443,6 +418,92 @@ class ToolApp {
     `;
   }
 
+  getAdaptiveRatioClass(player) {
+    if (player.ratio && player.ratio !== 'auto') {
+      return `ratio-${player.ratio}`;
+    }
+
+    const platformKey = player.detectedPlatform || this.platformId;
+    const url = (player.url || '').trim();
+    const lowerUrl = url.toLowerCase();
+
+    // 1. Audio Services (fixed height compact embeds)
+    if (platformKey === 'spotify') {
+      const validator = window.Validators ? window.Validators.spotify : null;
+      const extracted = (validator && typeof validator.extract === 'function') ? validator.extract(url) : { type: 'track' };
+      if (extracted?.type === 'album' || extracted?.type === 'playlist' || extracted?.type === 'show') {
+        return 'ratio-audio-spotify-large';
+      }
+      return 'ratio-audio-spotify';
+    }
+
+    if (platformKey === 'soundcloud') {
+      return 'ratio-audio-soundcloud';
+    }
+
+    // 2. Vertical Short-Form Video, Stories & Spotlight
+    if (platformKey === 'tiktok' || platformKey === 'snapchat') {
+      return 'ratio-vertical';
+    }
+
+    if (platformKey === 'youtube') {
+      const validator = window.Validators ? window.Validators.youtube : null;
+      const extracted = (validator && typeof validator.extract === 'function') ? validator.extract(url) : {};
+      if (extracted?.type === 'short' || lowerUrl.includes('/shorts/')) {
+        return 'ratio-vertical';
+      }
+      return 'ratio-video';
+    }
+
+    if (platformKey === 'instagram') {
+      const validator = window.Validators ? window.Validators.instagram : null;
+      const extracted = (validator && typeof validator.extract === 'function') ? validator.extract(url) : {};
+      if (extracted?.type === 'reel' || extracted?.type === 'tv' || lowerUrl.includes('/reel/') || lowerUrl.includes('/reels/') || lowerUrl.includes('/tv/')) {
+        return 'ratio-vertical';
+      }
+      if (extracted?.type === 'post' || lowerUrl.includes('/p/')) {
+        return 'ratio-square';
+      }
+      return 'ratio-square';
+    }
+
+    if (platformKey === 'facebook') {
+      const validator = window.Validators ? window.Validators.facebook : null;
+      const extracted = (validator && typeof validator.extract === 'function') ? validator.extract(url) : {};
+      if (extracted?.type === 'reel' || lowerUrl.includes('/reel/') || lowerUrl.includes('/reels/')) {
+        return 'ratio-vertical';
+      }
+      if (extracted?.type === 'post' || lowerUrl.includes('/photos/') || lowerUrl.includes('/photo')) {
+        return 'ratio-square';
+      }
+      return 'ratio-video';
+    }
+
+    if (platformKey === 'pinterest') {
+      return 'ratio-vertical';
+    }
+
+    if (platformKey === 'threads') {
+      return 'ratio-social-post';
+    }
+
+    if (platformKey === 'x' || platformKey === 'linkedin' || platformKey === 'reddit' || platformKey === 'telegram') {
+      return 'ratio-social-post';
+    }
+
+    // Semantic URL pattern fallbacks
+    if (lowerUrl.includes('/shorts/') || lowerUrl.includes('/reel/') || lowerUrl.includes('/reels/') || lowerUrl.includes('/spotlight/')) {
+      return 'ratio-vertical';
+    }
+
+    if (lowerUrl.includes('/photo/') || lowerUrl.includes('/photos/') || lowerUrl.includes('/p/')) {
+      return 'ratio-square';
+    }
+
+    // Default safe fallback for standard landscape video
+    return 'ratio-video';
+  }
+
   attachSlotEvents(card, player, index) {
     // Handle Iframe Loading State smoothly
     const iframe = card.querySelector('iframe');
@@ -477,7 +538,9 @@ class ToolApp {
       player.ratio = e.target.value;
       const wrapper = card.querySelector('.player-frame-wrapper');
       if (wrapper) {
-        wrapper.className = `player-frame-wrapper ${player.embedData?.embedType === 'fallback' ? 'fallback-player-card' : ''} ratio-${player.ratio}`;
+        const isFallback = player.embedData?.embedType === 'fallback' ? 'fallback-player-card' : '';
+        const ratioClass = this.getAdaptiveRatioClass(player);
+        wrapper.className = `player-frame-wrapper ${isFallback} ${ratioClass}`.trim();
         wrapper.setAttribute('data-ratio', player.ratio);
       }
     });
