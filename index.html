@@ -3,9 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multi Tube Views — Multi-Platform Media Workspace</title>
+  <title>Multi Tube Views — Multi-Platform Public Media Workspace</title>
   <meta name="description" content="A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for YouTube, Vimeo, Twitch, Spotify, and 16+ platforms.">
+  <meta name="keywords" content="multi tube views, multi video player, multi stream viewer, side by side video, stream grid, public media player">
+  <meta name="author" content="AiMAEditz">
+  <meta name="theme-color" content="#FDFDFD">
+  <link rel="canonical" href="https://multitubeviews.com/index.html">
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://multitubeviews.com/index.html">
+  <meta property="og:title" content="Multi Tube Views — Multi-Platform Public Media Workspace">
+  <meta property="og:description" content="View and organize public media streams side-by-side in a responsive player grid.">
+  <meta property="og:site_name" content="Multi Tube Views">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Multi Tube Views — Multi-Platform Public Media Workspace">
+  <meta name="twitter:description" content="View and organize public media streams side-by-side in a responsive player grid.">
+
+  <!-- Schema.org JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://multitubeviews.com/#website",
+        "url": "https://multitubeviews.com/",
+        "name": "Multi Tube Views",
+        "description": "Multi-Platform Public Media Viewing & Embedding Workspace with dedicated tool adapters.",
+        "publisher": {
+          "@type": "Person",
+          "name": "AiMAEditz"
+        }
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://multitubeviews.com/#webapp",
+        "name": "Multi Tube Views",
+        "url": "https://multitubeviews.com/",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "All",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://multitubeviews.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does Multi Tube Views generate artificial views, watch time, or bot traffic?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Strictly No. Multi Tube Views is a legitimate frontend viewing and organizational workspace for public media. It does not automate views, simulate user activity, use proxies, inject background hidden iframes, loop videos to inflate metrics, or bypass platform security."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do some platforms show an Official View Link instead of an embedded player?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Certain platforms (like Instagram, TikTok, X/Twitter, Snapchat, and LinkedIn) enforce strict Content Security Policies or do not provide open browser iframe embedding for general media. MTV honestly validates the link and generates a direct, secure official gateway button to view the post natively."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why can't multiple players play unmuted audio simultaneously?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Modern browsers enforce strict Autoplay Policies to protect users from unexpected loud noise. When embedding multiple players, video streams default to muted state where supported. Users can interactively unmute any specific player using its native controls."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Multi Tube Views open-source and deployable to GitHub Pages?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The entire application is built with pure, static HTML5, modular CSS, and vanilla JavaScript using clean relative asset paths. It runs seamlessly on GitHub Pages or any static web hosting provider."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
   
   <!-- Core Design System CSS -->
   <link rel="stylesheet" href="assets/css/style.css">

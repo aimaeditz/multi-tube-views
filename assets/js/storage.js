@@ -9,7 +9,8 @@ const STORAGE_KEYS = {
   LAYOUT_COLS: 'mtv_layout_cols',
   LOOP_PREF: 'mtv_loop_pref',
   AUDIO_PREF: 'mtv_audio_pref',
-  MAX_PLAYERS: 'mtv_max_players'
+  MAX_PLAYERS: 'mtv_max_players',
+  RATIO_PREF: 'mtv_ratio_pref'
 };
 
 const StorageManager = {

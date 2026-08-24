@@ -43,6 +43,80 @@ class ToolApp {
     this.loadSavedPreferences();
     this.bindEvents();
     this.renderInitialState();
+    this.handleUrlParams();
+  }
+
+  handleUrlParams() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      let shouldGenerate = false;
+
+      // Handle custom player count parameter
+      if (params.has('count')) {
+        const count = parseInt(params.get('count'), 10);
+        if (!isNaN(count) && count >= 1 && count <= 32) {
+          this.playerCount = count;
+          if (this.selectMaxPlayers) this.selectMaxPlayers.value = String(count);
+        }
+      }
+
+      // Handle grid columns parameter
+      if (params.has('cols')) {
+        const cols = params.get('cols');
+        if (['auto', '1', '2', '3', '4'].includes(cols)) {
+          this.gridLayout = cols;
+          if (this.selectCols) this.selectCols.value = cols;
+        }
+      }
+
+      // Handle aspect ratio parameter
+      if (params.has('ratio')) {
+        const ratio = params.get('ratio');
+        if (['auto', '16-9', '9-16', '4-3', '1-1'].includes(ratio)) {
+          this.globalRatio = ratio;
+          if (this.selectRatio) this.selectRatio.value = ratio;
+        }
+      }
+
+      // Handle audio state parameter
+      if (params.has('audio')) {
+        const audio = params.get('audio');
+        if (['muted', 'normal'].includes(audio)) {
+          this.globalAudio = audio;
+          if (this.selectAudio) this.selectAudio.value = audio;
+        }
+      }
+
+      // Handle media loop parameter
+      if (params.has('loop')) {
+        const loop = params.get('loop');
+        if (['on', 'off'].includes(loop)) {
+          this.globalLoop = loop;
+          if (this.selectLoop) this.selectLoop.value = loop;
+        }
+      }
+
+      // Handle sample loading flag
+      if (params.get('sample') === 'true' || params.get('sample') === '1') {
+        if (this.platformConfig?.placeholderUrl && this.urlInput) {
+          this.urlInput.value = this.platformConfig.placeholderUrl;
+          shouldGenerate = true;
+        }
+      }
+
+      // Handle custom link / URL list parameter
+      const rawUrlParam = params.get('url') || params.get('links') || params.get('link');
+      if (rawUrlParam && this.urlInput) {
+        this.urlInput.value = decodeURIComponent(rawUrlParam);
+        shouldGenerate = true;
+      }
+
+      if (shouldGenerate) {
+        this.generatePlayers(false);
+      }
+    } catch (e) {
+      console.warn('URL parameters parsing error:', e);
+    }
   }
 
   loadSavedPreferences() {

@@ -28,6 +28,7 @@ const Validators = {
         if (!seen.has(trimmed)) {
           seen.add(trimmed);
           cleaned.push(trimmed);
+          if (cleaned.length >= 50) break;
         }
       }
     }
