@@ -117,11 +117,27 @@
           </div>
 
           <div>
-            <label for="default-ratio-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Default Aspect Ratio</label>
-            <select id="default-ratio-select" class="setting-select" style="width: 100%; max-width: 320px;">
-              <option value="16-9">16:9 Standard Widescreen</option>
-              <option value="4-3">4:3 Classic Format</option>
-              <option value="1-1">1:1 Square Format</option>
+            <label for="default-max-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Default Player Count</label>
+            <select id="default-max-select" class="setting-select" style="width: 100%; max-width: 320px;">
+              <option value="1">1 Player</option>
+              <option value="2">2 Players</option>
+              <option value="4">4 Players</option>
+              <option value="6">6 Players</option>
+              <option value="8">8 Players</option>
+              <option value="12">12 Players</option>
+              <option value="16">16 Players</option>
+              <option value="20">20 Players</option>
+              <option value="24">24 Players</option>
+              <option value="32">32 Players</option>
+              <option value="all">All Selected</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="default-loop-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Default Media Loop</label>
+            <select id="default-loop-select" class="setting-select" style="width: 100%; max-width: 320px;">
+              <option value="off">Loop Off (Standard Playback)</option>
+              <option value="on">Loop On (Repeat Continuously)</option>
             </select>
           </div>
 
@@ -213,7 +229,8 @@
       const densitySelect = document.getElementById('density-select');
       const motionSelect = document.getElementById('motion-select');
       const colsSelect = document.getElementById('default-cols-select');
-      const ratioSelect = document.getElementById('default-ratio-select');
+      const maxSelect = document.getElementById('default-max-select');
+      const loopSelect = document.getElementById('default-loop-select');
       const audioSelect = document.getElementById('default-audio-select');
       const btnReset = document.getElementById('btn-reset-settings');
 
@@ -222,7 +239,8 @@
         if (densitySelect) densitySelect.value = window.StorageManager.get(window.STORAGE_KEYS.DENSITY, 'comfortable');
         if (motionSelect) motionSelect.value = window.StorageManager.get(window.STORAGE_KEYS.MOTION, 'default');
         if (colsSelect) colsSelect.value = window.StorageManager.get(window.STORAGE_KEYS.LAYOUT_COLS, 'auto');
-        if (ratioSelect) ratioSelect.value = window.StorageManager.get(window.STORAGE_KEYS.ASPECT_RATIO, '16-9');
+        if (maxSelect) maxSelect.value = window.StorageManager.get(window.STORAGE_KEYS.MAX_PLAYERS, '4');
+        if (loopSelect) loopSelect.value = window.StorageManager.get(window.STORAGE_KEYS.LOOP_PREF, 'off');
         if (audioSelect) audioSelect.value = window.StorageManager.get(window.STORAGE_KEYS.AUDIO_PREF, 'muted');
       }
 
@@ -252,8 +270,12 @@
         window.StorageManager?.set(window.STORAGE_KEYS.LAYOUT_COLS, e.target.value);
       });
 
-      ratioSelect?.addEventListener('change', (e) => {
-        window.StorageManager?.set(window.STORAGE_KEYS.ASPECT_RATIO, e.target.value);
+      maxSelect?.addEventListener('change', (e) => {
+        window.StorageManager?.set(window.STORAGE_KEYS.MAX_PLAYERS, e.target.value);
+      });
+
+      loopSelect?.addEventListener('change', (e) => {
+        window.StorageManager?.set(window.STORAGE_KEYS.LOOP_PREF, e.target.value);
       });
 
       audioSelect?.addEventListener('change', (e) => {

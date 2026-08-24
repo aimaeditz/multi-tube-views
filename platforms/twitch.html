@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Twitch Multi-Stream Workspace — Multi Tube Views</title>
-  <meta name="description" content="Watch multiple Twitch live broadcasts, esports tournaments, VODs, and clips side-by-side.">
+  <title>Twitch Multi-Stream Player — Multi Tube Views</title>
+  <meta name="description" content="Watch live Twitch broadcasts, VOD archives, and gaming stream clips simultaneously in a responsive player grid.">
   <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
   
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -16,6 +16,7 @@
 </head>
 <body>
 
+  <!-- Sticky Header -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="../index.html" class="brand" aria-label="Multi Tube Views Home">
@@ -44,6 +45,7 @@
     </div>
   </header>
 
+  <!-- Mobile Drawer Menu -->
   <div class="mobile-drawer">
     <a href="../index.html" class="mobile-nav-link">Home</a>
     <a href="../index.html#directory" class="mobile-nav-link active">Platform Directory</a>
@@ -59,23 +61,30 @@
   <main class="site-main">
     <div class="container">
       
+      <!-- Breadcrumbs -->
       <div class="breadcrumb-nav">
         <a href="../index.html">Home</a>
         <span class="breadcrumb-separator">/</span>
         <a href="../index.html#directory">Platforms</a>
         <span class="breadcrumb-separator">/</span>
-        <span>Twitch Workspace</span>
+        <span>Twitch Player</span>
       </div>
 
+      <!-- Tool Header -->
       <div class="tool-header">
         <div class="tool-identity">
           <div class="tool-avatar" style="color: #9146FF;">👾</div>
           <div>
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem;">
-              <h1 style="font-size: 1.75rem;">Twitch Multi-Stream Workspace</h1>
+            <div class="tool-title-row">
+              <h1 class="tool-title">Twitch Multi-Stream Player</h1>
               <span class="embed-badge embed-badge-supported">Official Embed</span>
             </div>
-            <p>Paste Twitch channels, VODs, or clip URLs to monitor multiple live streams simultaneously.</p>
+            <p class="tool-desc">Watch live broadcasts, VOD archives, and gaming stream clips simultaneously.</p>
+            <div class="platform-support-chips">
+              <span class="support-tag supported">✓ Live Channels</span>
+              <span class="support-tag supported">✓ VOD Archives</span>
+              <span class="support-tag supported">✓ Stream Clips</span>
+            </div>
           </div>
         </div>
         <div>
@@ -83,137 +92,117 @@
         </div>
       </div>
 
+      <!-- Main Dedicated Tool Panel -->
       <div class="tool-panel">
-        <div class="url-input-container">
-          <div class="url-input-tabs">
-            <button type="button" class="tab-btn active" data-tab="single">Single URL / Channel</button>
-            <button type="button" class="tab-btn" data-tab="batch">Batch Paste</button>
+        <div class="input-section">
+          <div class="input-group-label">
+            <span>Paste Twitch URL(s)</span>
+            <span class="input-hint">Single link or multiple links</span>
           </div>
-
-          <div id="single-input-tab" class="single-input-row">
-            <input type="text" id="single-url-input" class="url-input-field" placeholder="Paste Twitch link or channel (e.g. https://www.twitch.tv/monstercat)..." aria-label="Twitch stream URL">
-            <button type="button" id="btn-add-single" class="btn btn-primary">Add Link</button>
-            <button type="button" id="btn-load-sample" class="btn btn-subtle" title="Load sample link">Sample</button>
-          </div>
-
-          <div id="batch-input-tab" style="display: none;">
-            <textarea id="batch-url-input" class="batch-textarea" placeholder="Paste multiple Twitch links (one per line, or comma-separated)..." aria-label="Batch Twitch URLs"></textarea>
-            <div style="display: flex; justify-content: flex-end; margin-top: 0.75rem;">
-              <button type="button" id="btn-add-batch" class="btn btn-primary">Add All Links</button>
-            </div>
+          <div class="single-input-row">
+            <input type="text" id="single-url-input" class="url-input-field" placeholder="Paste Twitch channel or clip link (e.g. https://www.twitch.tv/esl_csgo)..." aria-label="Twitch stream URL">
+            <button type="button" id="btn-paste-url" class="btn btn-subtle btn-sm" title="Paste URL from clipboard">📋 Paste</button>
+            <button type="button" id="btn-load-sample" class="btn btn-subtle btn-sm" title="Load sample public channel link">Sample</button>
+            <button type="button" id="btn-clear-url" class="btn btn-subtle btn-sm" title="Clear input">Clear</button>
           </div>
         </div>
 
-        <div class="queue-section">
-          <div class="queue-header">
-            <div class="queue-title">
-              <span>Link Workspace</span>
-              <span id="queue-count-badge" class="queue-counter">0 links</span>
-            </div>
-            <div class="queue-actions">
-              <button type="button" id="btn-select-all" class="btn btn-subtle btn-sm">Select / Deselect All</button>
-              <button type="button" id="btn-clear-all" class="btn btn-subtle btn-sm">Clear All</button>
-              <button type="button" id="btn-generate-players" class="btn btn-primary btn-sm">Generate Players</button>
-            </div>
+        <!-- Settings Toolbar -->
+        <div class="settings-toolbar">
+          <div class="setting-item">
+            <label for="setting-max-players" class="setting-label">Players Count</label>
+            <select id="setting-max-players" class="setting-select">
+              <option value="1">1 Player</option>
+              <option value="2">2 Players</option>
+              <option value="3">3 Players</option>
+              <option value="4" selected>4 Players</option>
+              <option value="5">5 Players</option>
+              <option value="6">6 Players</option>
+              <option value="8">8 Players</option>
+              <option value="10">10 Players</option>
+              <option value="12">12 Players</option>
+              <option value="16">16 Players</option>
+              <option value="20">20 Players</option>
+              <option value="24">24 Players</option>
+              <option value="32">32 Players</option>
+            </select>
           </div>
 
-          <div id="link-rows-list" class="link-rows-list"></div>
-          
-          <div id="queue-empty-state" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2.5rem 1rem; text-align: center; border: 1px dashed var(--border-subtle); border-radius: var(--radius-md);">
-            <div style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-muted);">📋</div>
-            <p style="font-size: 0.92rem; color: var(--text-muted);">Your link workspace is empty. Paste a Twitch channel URL above and click "Add Link".</p>
+          <div class="setting-item">
+            <label for="setting-cols" class="setting-label">Grid Layout</label>
+            <select id="setting-cols" class="setting-select">
+              <option value="auto" selected>Auto Responsive</option>
+              <option value="1">1 Column</option>
+              <option value="2">2 Columns</option>
+              <option value="3">3 Columns</option>
+              <option value="4">4 Columns</option>
+            </select>
+          </div>
+
+          <div class="setting-item">
+            <label for="setting-ratio" class="setting-label">Aspect Ratio</label>
+            <select id="setting-ratio" class="setting-select">
+              <option value="auto" selected>Auto (Adaptive)</option>
+              <option value="16-9">16:9 (Widescreen)</option>
+              <option value="4-3">4:3 (Standard)</option>
+              <option value="9-16">9:16 (Vertical)</option>
+              <option value="1-1">1:1 (Square)</option>
+            </select>
+          </div>
+
+          <div class="setting-item">
+            <label for="setting-loop" class="setting-label">Loop Media</label>
+            <select id="setting-loop" class="setting-select">
+              <option value="off" selected>Loop Off</option>
+              <option value="on">Loop On</option>
+            </select>
+          </div>
+
+          <div class="setting-item">
+            <label for="setting-audio" class="setting-label">Initial Audio</label>
+            <select id="setting-audio" class="setting-select">
+              <option value="muted" selected>Muted (Browser-Safe)</option>
+              <option value="normal">Normal Audio</option>
+            </select>
           </div>
         </div>
-      </div>
 
-      <div class="settings-toolbar">
-        <div class="setting-item">
-          <label for="setting-max-players" class="setting-label">Max Players</label>
-          <select id="setting-max-players" class="setting-select">
-            <option value="1">1 Player</option>
-            <option value="2">2 Players</option>
-            <option value="4" selected>4 Players</option>
-            <option value="6">6 Players</option>
-            <option value="8">8 Players</option>
-            <option value="16">16 Players</option>
-            <option value="32">32 Players</option>
-          </select>
-        </div>
-
-        <div class="setting-item">
-          <label for="setting-cols" class="setting-label">Grid Layout</label>
-          <select id="setting-cols" class="setting-select">
-            <option value="auto" selected>Auto Responsive</option>
-            <option value="1">1 Column</option>
-            <option value="2">2 Columns</option>
-            <option value="3">3 Columns</option>
-            <option value="4">4 Columns</option>
-          </select>
-        </div>
-
-        <div class="setting-item">
-          <label for="setting-ratio" class="setting-label">Aspect Ratio</label>
-          <select id="setting-ratio" class="setting-select">
-            <option value="auto">Auto</option>
-            <option value="16-9" selected>16:9 (Standard Widescreen)</option>
-            <option value="4-3">4:3 (Classic Broadcast)</option>
-          </select>
-        </div>
-
-        <div class="setting-item">
-          <label for="setting-audio" class="setting-label">Initial Audio</label>
-          <select id="setting-audio" class="setting-select">
-            <option value="muted" selected>Muted (Autoplay-Safe)</option>
-            <option value="normal">Normal (Browser Subject)</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="status-summary-bar">
-        <div class="summary-stats">
-          <div class="stat-pill">
-            <span class="stat-dot total"></span>
-            <span>Total: <strong id="stat-total-count">0</strong></span>
+        <!-- Action Row -->
+        <div class="tool-actions-row">
+          <button type="button" id="btn-generate-players" class="btn btn-primary btn-md">
+            <span>Generate Players</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          </button>
+          <div class="tool-secondary-actions">
+            <button type="button" id="btn-reload-all" class="btn btn-subtle btn-sm" title="Reload all active players">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              <span>Reload All</span>
+            </button>
+            <button type="button" id="btn-clear-all" class="btn btn-subtle btn-sm" title="Clear all players">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              <span>Clear</span>
+            </button>
           </div>
-          <div class="stat-pill">
-            <span class="stat-dot valid"></span>
-            <span>Embed Ready: <strong id="stat-valid-count">0</strong></span>
-          </div>
-          <div class="stat-pill">
-            <span class="stat-dot restricted"></span>
-            <span>Official View: <strong id="stat-restricted-count">0</strong></span>
-          </div>
-          <div class="stat-pill">
-            <span class="stat-dot invalid"></span>
-            <span>Invalid Format: <strong id="stat-invalid-count">0</strong></span>
-          </div>
-        </div>
-        <div style="font-size: 0.82rem; color: var(--text-muted);">
-          Twitch Parent Domain handshake configured dynamically
         </div>
       </div>
 
+      <!-- Player Canvas Stage -->
       <div class="player-grid-section" id="player-stage">
-        <div id="player-loading-state" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 1rem; text-align: center;">
-          <div style="font-size: 2rem; margin-bottom: 0.75rem;">⏳</div>
-          <h3>Preparing Twitch live players…</h3>
-          <p style="font-size: 0.9rem; color: var(--text-muted);">Configuring stream endpoints and origin parameters.</p>
+        <!-- Empty State -->
+        <div id="stage-empty-state" class="stage-empty-card">
+          <div class="stage-empty-icon" style="color: #9146FF;">👾</div>
+          <h3>Player Workspace Ready</h3>
+          <p>Paste a public Twitch channel or clip link above, choose your preferred settings, then click <strong>"Generate Players"</strong> to render your live stream grid.</p>
         </div>
 
-        <div id="stage-empty-state" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5rem 1rem; text-align: center; background-color: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl);">
-          <div style="font-size: 2.5rem; margin-bottom: 0.75rem; color: var(--text-muted);">👾</div>
-          <h3 style="margin-bottom: 0.5rem;">Player Stage Ready</h3>
-          <p style="font-size: 0.92rem; color: var(--text-secondary); max-width: 440px;">
-            Add Twitch channel URLs above and click <strong>"Generate Players"</strong> to render your multi-stream viewing grid.
-          </p>
-        </div>
-
+        <!-- Generated Grid of Actual Media Players -->
         <div class="player-grid" id="player-grid" data-cols="auto"></div>
       </div>
 
     </div>
   </main>
 
+  <!-- Global Footer -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
@@ -275,6 +264,7 @@
     </div>
   </footer>
 
+  <!-- Scripts -->
   <script src="../assets/js/validators.js"></script>
   <script src="../assets/js/platform-engine.js"></script>
   <script src="../assets/js/navigation.js"></script>

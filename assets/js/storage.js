@@ -7,8 +7,9 @@ const STORAGE_KEYS = {
   DENSITY: 'mtv_density',
   MOTION: 'mtv_motion',
   LAYOUT_COLS: 'mtv_layout_cols',
-  ASPECT_RATIO: 'mtv_aspect_ratio',
-  AUDIO_PREF: 'mtv_audio_pref'
+  LOOP_PREF: 'mtv_loop_pref',
+  AUDIO_PREF: 'mtv_audio_pref',
+  MAX_PLAYERS: 'mtv_max_players'
 };
 
 const StorageManager = {
