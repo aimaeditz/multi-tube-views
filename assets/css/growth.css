@@ -1,0 +1,818 @@
+/**
+ * Multi Tube Views (MTV) — Creator Growth & Video Optimization Styles
+ * Clean minimalism, Apple-inspired high-contrast cards, and responsive metric meters.
+ */
+
+/* ==========================================================================
+   Creator Growth Header & Tabbed Nav
+   ========================================================================== */
+.growth-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-surface);
+  color: var(--accent-blue);
+  border: 1px solid var(--border-strong);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.growth-tab-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  scrollbar-width: none;
+}
+
+.growth-tab-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.growth-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 0.55rem 1rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-speed) ease;
+}
+
+.growth-tab-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.growth-tab-btn.active {
+  background-color: var(--accent-primary);
+  color: var(--text-inverse);
+  border-color: var(--accent-primary);
+}
+
+/* ==========================================================================
+   Analyzer Input Card
+   ========================================================================== */
+.analyzer-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+  transition: border-color var(--transition-speed) ease;
+}
+
+.analyzer-input-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .analyzer-input-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+.analyzer-quick-samples {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.btn-growth-sample {
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+
+.btn-growth-sample:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+/* ==========================================================================
+   Growth Score Dashboard & Overall Grade
+   ========================================================================== */
+.growth-results-panel {
+  margin-top: 2rem;
+}
+
+.growth-score-header-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.score-meter-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.score-circle-display {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--bg-subtle);
+  border: 4px solid var(--accent-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.score-circle-num {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.score-circle-total {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.score-info-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.growth-tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  width: fit-content;
+}
+
+.growth-tier-badge.tier-excellent {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
+}
+
+.growth-tier-badge.tier-good {
+  background-color: var(--accent-subtle);
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-border);
+}
+
+.growth-tier-badge.tier-moderate {
+  background-color: var(--warning-bg);
+  color: var(--warning-text);
+  border: 1px solid var(--warning-border);
+}
+
+.growth-tier-badge.tier-poor {
+  background-color: var(--danger-bg);
+  color: var(--danger-text);
+  border: 1px solid var(--danger-border);
+}
+
+/* ==========================================================================
+   Metrics Breakdown Grid
+   ========================================================================== */
+.metrics-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.metric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metric-title {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.metric-score-value {
+  font-size: 0.86rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+.metric-progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: var(--bg-subtle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.metric-progress-fill {
+  height: 100%;
+  background-color: var(--accent-primary);
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease;
+}
+
+.metric-tips-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.metric-tip-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+
+.metric-tip-item.pass .tip-icon {
+  color: var(--success-text);
+  font-weight: 700;
+}
+
+.metric-tip-item.warn .tip-icon {
+  color: var(--warning-text);
+}
+
+/* ==========================================================================
+   Optimization Tools Suite (Titles, Description, Keywords, etc.)
+   ========================================================================== */
+.opt-tool-container {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+}
+
+.opt-tool-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.title-variations-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.title-variation-card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: border-color var(--transition-speed) ease;
+}
+
+.title-variation-card:hover {
+  border-color: var(--border-strong);
+}
+
+.title-var-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.title-var-angle {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.title-var-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--radius-full);
+  background-color: var(--accent-subtle);
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-border);
+}
+
+.title-var-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+.title-var-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Description Editor & Chapters */
+.desc-textarea-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.desc-textarea {
+  width: 100%;
+  min-height: 240px;
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  line-height: 1.6;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  resize: vertical;
+}
+
+.desc-textarea:focus {
+  border-color: var(--border-focus);
+  outline: none;
+}
+
+/* Keywords & Hashtag Pills */
+.keyword-tags-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.25rem;
+}
+
+.keyword-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-subtle);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+
+.keyword-pill:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--accent-primary);
+}
+
+.hashtag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  background-color: var(--accent-subtle);
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-border);
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+
+.hashtag-pill:hover {
+  filter: brightness(0.95);
+}
+
+/* ==========================================================================
+   Thumbnail CTR Preview Simulator
+   ========================================================================== */
+.thumbnail-sim-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.thumb-mock-card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.thumb-mock-label {
+  padding: 0.5rem 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  background-color: var(--bg-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.thumb-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.thumb-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumb-duration-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+
+.thumb-meta-wrap {
+  padding: 0.85rem;
+  display: flex;
+  gap: 0.65rem;
+}
+
+.thumb-channel-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--accent-primary);
+  color: var(--text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.thumb-meta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.mock-video-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mock-video-channel {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Social Promotion Copy Kit & Share Buttons
+   ========================================================================== */
+.social-promo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.social-promo-card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.social-promo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.social-promo-body {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  min-height: 90px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.direct-share-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.btn-share-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  color: var(--text-primary);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-strong);
+  transition: all var(--transition-speed) ease;
+}
+
+.btn-share-social:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Growth Session Analytics Widget
+   ========================================================================== */
+.growth-analytics-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  margin-top: 2.5rem;
+}
+
+.analytics-stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 1.5rem 0;
+}
+
+.analytics-stat-box {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.stat-box-num {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.stat-box-label {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.growth-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-primary);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.history-time {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.history-empty {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding: 1rem 0;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Mobile Responsive Rules for Growth Suite (<= 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .growth-hero-badge {
+    font-size: 0.52rem !important;
+    padding: 0.08rem 0.35rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .analyzer-card,
+  .growth-score-header-card,
+  .opt-tool-container,
+  .growth-analytics-card {
+    padding: 0.45rem 0.5rem !important;
+    border-radius: 6px !important;
+    margin-bottom: 0.45rem !important;
+  }
+
+  .score-meter-wrap {
+    gap: 0.5rem !important;
+    width: 100% !important;
+  }
+
+  .score-circle-display {
+    width: 48px !important;
+    height: 48px !important;
+    border-width: 2px !important;
+  }
+
+  .score-circle-num {
+    font-size: 1.1rem !important;
+  }
+
+  .score-circle-total {
+    font-size: 0.5rem !important;
+  }
+
+  .growth-tier-badge {
+    font-size: 0.56rem !important;
+    padding: 0.05rem 0.3rem !important;
+  }
+
+  .metrics-breakdown-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.35rem !important;
+    margin-bottom: 0.45rem !important;
+  }
+
+  .metric-card {
+    padding: 0.35rem 0.45rem !important;
+    gap: 0.3rem !important;
+    border-radius: 4px !important;
+  }
+
+  .metric-title {
+    font-size: 0.72rem !important;
+  }
+
+  .metric-tips-list {
+    font-size: 0.65rem !important;
+    gap: 0.2rem !important;
+  }
+
+  .title-variation-card {
+    padding: 0.35rem 0.45rem !important;
+    gap: 0.25rem !important;
+  }
+
+  .title-var-text {
+    font-size: 0.78rem !important;
+  }
+
+  .title-var-stats {
+    font-size: 0.62rem !important;
+  }
+
+  .desc-textarea {
+    min-height: 120px !important;
+    font-size: 0.72rem !important;
+    padding: 0.35rem !important;
+  }
+
+  .thumbnail-sim-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.4rem !important;
+  }
+
+  .social-promo-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.35rem !important;
+  }
+
+  .social-promo-card {
+    padding: 0.35rem 0.45rem !important;
+  }
+
+  .social-promo-body {
+    min-height: 60px !important;
+    font-size: 0.68rem !important;
+    padding: 0.35rem !important;
+  }
+
+  .analytics-stats-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.35rem !important;
+  }
+
+  .stat-box-num {
+    font-size: 1.1rem !important;
+  }
+
+  .stat-box-label {
+    font-size: 0.58rem !important;
+  }
+}

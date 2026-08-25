@@ -1,6 +1,6 @@
 {
   "name": "Multi Tube Views",
-  "description": "Multi-Platform Public Media Viewing & Embedding Workspace with dedicated tool adapters, responsive player grid, and GitHub Pages compatibility.",
+  "description": "Creator Growth & Video Optimization Platform with Video Growth Analyzer, Title Optimizer, SEO Description Generator, Thumbnail CTR Simulator, and multi-platform media player workspaces.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

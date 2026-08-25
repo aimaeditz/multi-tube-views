@@ -3,6 +3,8 @@
  * Apple-inspired clean minimalism, high contrast, refined neutrals, and precision spacing.
  */
 
+@import "./growth.css";
+
 :root {
   /* Typography */
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;

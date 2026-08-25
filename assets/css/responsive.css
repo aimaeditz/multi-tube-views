@@ -125,22 +125,22 @@
   }
 
   .platform-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.85rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
   }
 }
 
 /* ==========================================================================
    Breakpoints: Mobile Devices & Phablets (<= 768px)
-   ULTRA-COMPACT, CLEAN, DENSE & STREAMLINED MOBILE SYSTEM
+   CLEAN, COMFORTABLE & BALANCED RESPONSIVE MOBILE SYSTEM
    ========================================================================== */
 @media (max-width: 768px) {
   :root {
-    --header-height: 38px;
-    --radius-sm: 4px;
-    --radius-md: 6px;
-    --radius-lg: 8px;
-    --radius-xl: 10px;
+    --header-height: 46px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 14px;
   }
 
   /* Global Container & Mobile Canvas */
@@ -152,15 +152,15 @@
   }
 
   .container {
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
+    padding-left: 0.65rem !important;
+    padding-right: 0.65rem !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
   }
 
   .site-main {
-    padding-bottom: 0.85rem !important;
+    padding-bottom: 1.5rem !important;
     overflow-x: hidden !important;
   }
 
@@ -169,61 +169,61 @@
   [style*="padding-top: 3rem"],
   [style*="padding-top: 4rem"],
   [style*="padding-top: 3.5rem"] {
-    padding-top: 0.25rem !important;
+    padding-top: 0.65rem !important;
   }
 
   [style*="margin-bottom: 2rem"],
   [style*="margin-bottom: 2.5rem"],
   [style*="margin-bottom: 3rem"],
   [style*="margin-bottom: 3.5rem"] {
-    margin-bottom: 0.4rem !important;
+    margin-bottom: 1rem !important;
   }
 
   [style*="gap: 1.5rem"],
   [style*="gap: 2rem"] {
-    gap: 0.35rem !important;
+    gap: 0.65rem !important;
   }
 
   [style*="font-size: 1.15rem"],
   [style*="font-size: 1.1rem"],
   [style*="font-size: 1.25rem"] {
-    font-size: 0.72rem !important;
-    line-height: 1.35 !important;
+    font-size: 0.85rem !important;
+    line-height: 1.45 !important;
   }
 
-  /* 1. Header & Navigation (Ultra Compact) */
+  /* 1. Header & Navigation */
   .site-header {
-    height: 38px !important;
+    height: 46px !important;
   }
 
   .header-inner {
     padding: 0 !important;
-    height: 38px !important;
+    height: 46px !important;
   }
 
   .brand {
-    gap: 0.25rem !important;
-    font-size: 0.76rem !important;
+    gap: 0.35rem !important;
+    font-size: 0.88rem !important;
   }
 
   .brand-icon {
-    width: 20px !important;
-    height: 20px !important;
-    min-width: 20px !important;
-    min-height: 20px !important;
-    font-size: 0.55rem !important;
-    border-radius: 4px !important;
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    font-size: 0.68rem !important;
+    border-radius: 5px !important;
   }
 
   .brand-text span:first-child {
-    font-size: 0.76rem !important;
+    font-size: 0.88rem !important;
     white-space: nowrap !important;
   }
 
   .brand-badge {
-    font-size: 0.46rem !important;
-    padding: 0.02rem 0.18rem !important;
-    border-radius: 2px !important;
+    font-size: 0.52rem !important;
+    padding: 0.05rem 0.25rem !important;
+    border-radius: 3px !important;
   }
 
   .nav-desktop {
@@ -232,114 +232,114 @@
 
   .btn-mobile-menu {
     display: flex !important;
-    width: 26px !important;
-    height: 26px !important;
-    min-width: 26px !important;
-    min-height: 26px !important;
-    border-radius: 4px !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    border-radius: 6px !important;
     padding: 0 !important;
   }
 
   .btn-mobile-menu svg {
-    width: 14px !important;
-    height: 14px !important;
+    width: 17px !important;
+    height: 17px !important;
   }
 
   .btn-icon-only {
-    width: 26px !important;
-    height: 26px !important;
-    min-width: 26px !important;
-    min-height: 26px !important;
-    border-radius: 4px !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    border-radius: 6px !important;
     padding: 0 !important;
   }
 
   .btn-icon-only svg {
-    width: 14px !important;
-    height: 14px !important;
+    width: 16px !important;
+    height: 16px !important;
   }
 
   .header-actions {
-    gap: 0.2rem !important;
+    gap: 0.35rem !important;
   }
 
   /* 2. Base Typography on Mobile */
   h1, .tool-title, .hero-title, .contact-title {
-    font-size: 0.95rem !important;
-    line-height: 1.15 !important;
-    letter-spacing: -0.01em !important;
+    font-size: 1.35rem !important;
+    line-height: 1.22 !important;
+    letter-spacing: -0.015em !important;
     word-break: break-word !important;
     overflow-wrap: anywhere !important;
-    margin-bottom: 0.15rem !important;
+    margin-bottom: 0.35rem !important;
   }
 
   h2 {
-    font-size: 0.86rem !important;
-    line-height: 1.2 !important;
+    font-size: 1.12rem !important;
+    line-height: 1.28 !important;
     letter-spacing: -0.01em !important;
     word-break: break-word !important;
-    margin: 0.45rem 0 0.15rem 0 !important;
+    margin: 0.65rem 0 0.3rem 0 !important;
   }
 
   h3 {
-    font-size: 0.76rem !important;
-    line-height: 1.22 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.3 !important;
     word-break: break-word !important;
-    margin: 0.35rem 0 0.12rem 0 !important;
+    margin: 0.5rem 0 0.22rem 0 !important;
   }
 
   h4 {
-    font-size: 0.65rem !important;
+    font-size: 0.8rem !important;
     letter-spacing: 0.04em !important;
-    margin-bottom: 0.12rem !important;
+    margin-bottom: 0.2rem !important;
   }
 
   p {
-    font-size: 0.72rem !important;
-    line-height: 1.32 !important;
-    margin-bottom: 0.3rem !important;
+    font-size: 0.82rem !important;
+    line-height: 1.45 !important;
+    margin-bottom: 0.45rem !important;
     word-break: break-word !important;
     overflow-wrap: anywhere !important;
   }
 
-  /* 3. Compact Breadcrumbs */
+  /* 3. Breadcrumbs */
   .breadcrumb-nav {
-    margin: 0.15rem 0 0.25rem 0 !important;
-    font-size: 0.62rem !important;
+    margin: 0.35rem 0 0.5rem 0 !important;
+    font-size: 0.74rem !important;
     flex-wrap: wrap !important;
-    gap: 0.15rem !important;
-    line-height: 1.2 !important;
+    gap: 0.25rem !important;
+    line-height: 1.3 !important;
   }
 
   .breadcrumb-separator {
-    font-size: 0.6rem !important;
+    font-size: 0.7rem !important;
   }
 
-  /* 4. Compact Platform Workspace Header */
+  /* 4. Platform Workspace Header */
   .tool-header {
     display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: 0.25rem !important;
-    padding: 0.2rem 0 0.3rem 0 !important;
-    margin-bottom: 0.35rem !important;
+    gap: 0.45rem !important;
+    padding: 0.45rem 0 0.65rem 0 !important;
+    margin-bottom: 0.65rem !important;
     border-bottom: 1px solid var(--border-subtle) !important;
   }
 
   .tool-identity {
     display: flex !important;
     align-items: flex-start !important;
-    gap: 0.35rem !important;
+    gap: 0.55rem !important;
     width: 100% !important;
   }
 
   .tool-avatar {
-    width: 22px !important;
-    height: 22px !important;
-    min-width: 22px !important;
-    min-height: 22px !important;
-    font-size: 0.75rem !important;
-    border-radius: 4px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    font-size: 1.15rem !important;
+    border-radius: 6px !important;
     flex-shrink: 0 !important;
     margin-top: 1px !important;
   }
@@ -353,168 +353,168 @@
     display: flex !important;
     align-items: center !important;
     flex-wrap: wrap !important;
-    gap: 0.15rem 0.3rem !important;
-    margin-bottom: 0.05rem !important;
+    gap: 0.25rem 0.45rem !important;
+    margin-bottom: 0.15rem !important;
   }
 
   .tool-title {
-    font-size: 0.88rem !important;
-    line-height: 1.15 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.2 !important;
     font-weight: 700 !important;
     margin: 0 !important;
   }
 
   .embed-badge {
-    font-size: 0.5rem !important;
-    padding: 0.02rem 0.25rem !important;
-    border-radius: 3px !important;
+    font-size: 0.62rem !important;
+    padding: 0.1rem 0.38rem !important;
+    border-radius: 4px !important;
     line-height: 1.2 !important;
   }
 
   .tool-desc {
-    font-size: 0.65rem !important;
-    line-height: 1.26 !important;
+    font-size: 0.78rem !important;
+    line-height: 1.4 !important;
     color: var(--text-secondary) !important;
-    margin: 0.05rem 0 0.12rem 0 !important;
+    margin: 0.1rem 0 0.25rem 0 !important;
   }
 
   .platform-support-chips {
     display: flex !important;
     align-items: center !important;
     flex-wrap: wrap !important;
-    gap: 0.12rem !important;
-    margin-top: 0.08rem !important;
+    gap: 0.2rem !important;
+    margin-top: 0.15rem !important;
   }
 
   .support-tag {
-    font-size: 0.52rem !important;
-    padding: 0.02rem 0.2rem !important;
-    border-radius: 2px !important;
-    line-height: 1.2 !important;
+    font-size: 0.62rem !important;
+    padding: 0.1rem 0.32rem !important;
+    border-radius: 3px !important;
+    line-height: 1.25 !important;
   }
 
   .tool-header .btn {
     width: 100% !important;
-    height: 22px !important;
-    min-height: 22px !important;
+    height: 30px !important;
+    min-height: 30px !important;
     justify-content: center !important;
-    font-size: 0.62rem !important;
-    padding: 0.08rem 0.35rem !important;
-    border-radius: 4px !important;
-    margin-top: 0.05rem !important;
+    font-size: 0.74rem !important;
+    padding: 0.15rem 0.55rem !important;
+    border-radius: 5px !important;
+    margin-top: 0.15rem !important;
   }
 
-  /* 5. Compact Platform Support Info Box */
+  /* 5. Platform Support Info Box */
   .platform-support-infobox {
-    padding: 0.35rem 0.45rem !important;
-    margin-bottom: 0.4rem !important;
-    border-radius: 6px !important;
-    gap: 0.25rem !important;
+    padding: 0.65rem 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+    border-radius: 8px !important;
+    gap: 0.45rem !important;
   }
 
   .platform-support-infobox-header {
-    gap: 0.25rem !important;
+    gap: 0.45rem !important;
   }
 
   .platform-support-infobox-title {
-    font-size: 0.58rem !important;
+    font-size: 0.7rem !important;
   }
 
   .platform-support-grid {
     grid-template-columns: 1fr !important;
-    gap: 0.25rem !important;
+    gap: 0.4rem !important;
   }
 
   .platform-support-item {
-    font-size: 0.65rem !important;
-    gap: 0.25rem !important;
+    font-size: 0.76rem !important;
+    gap: 0.4rem !important;
   }
 
-  /* 6. Compact Workspace Tool Panel */
+  /* 6. Workspace Tool Panel */
   .tool-panel {
-    padding: 0.35rem 0.4rem !important;
-    border-radius: 6px !important;
-    margin-bottom: 0.4rem !important;
+    padding: 0.75rem 0.75rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.75rem !important;
     border: 1px solid var(--border-strong) !important;
     box-shadow: none !important;
   }
 
   .input-section {
-    margin-bottom: 0.3rem !important;
+    margin-bottom: 0.6rem !important;
   }
 
   .input-group-label {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    font-size: 0.65rem !important;
+    font-size: 0.78rem !important;
     font-weight: 600 !important;
-    margin-bottom: 0.15rem !important;
+    margin-bottom: 0.25rem !important;
   }
 
   .input-hint {
-    font-size: 0.55rem !important;
+    font-size: 0.68rem !important;
     color: var(--text-muted) !important;
   }
 
-  /* Single Input Row: Full width input + 3 compact action buttons in ONE row */
+  /* Single Input Row */
   .single-input-row {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 0.2rem !important;
+    gap: 0.35rem !important;
     width: 100% !important;
   }
 
   .single-input-row .url-input-field {
     grid-column: 1 / -1 !important;
     width: 100% !important;
-    height: 28px !important;
-    min-height: 28px !important;
-    font-size: 0.72rem !important;
-    padding: 0.15rem 0.4rem !important;
-    border-radius: 4px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    font-size: 0.8rem !important;
+    padding: 0.25rem 0.55rem !important;
+    border-radius: 5px !important;
     border: 1px solid var(--border-strong) !important;
     box-sizing: border-box !important;
   }
 
   .single-input-row .btn {
     width: 100% !important;
-    height: 24px !important;
-    min-height: 24px !important;
-    font-size: 0.62rem !important;
-    padding: 0.08rem 0.15rem !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    font-size: 0.72rem !important;
+    padding: 0.15rem 0.25rem !important;
     justify-content: center !important;
     white-space: nowrap !important;
     text-align: center !important;
-    border-radius: 4px !important;
-    gap: 0.15rem !important;
+    border-radius: 5px !important;
+    gap: 0.2rem !important;
   }
 
   .batch-textarea {
-    font-size: 0.72rem !important;
-    min-height: 55px !important;
-    padding: 0.25rem 0.4rem !important;
+    font-size: 0.8rem !important;
+    min-height: 75px !important;
+    padding: 0.4rem 0.55rem !important;
     width: 100% !important;
-    border-radius: 4px !important;
+    border-radius: 5px !important;
     box-sizing: border-box !important;
   }
 
   #batch-input-tab .btn {
     width: 100% !important;
-    height: 26px !important;
-    min-height: 26px !important;
+    height: 32px !important;
+    min-height: 32px !important;
     justify-content: center !important;
-    font-size: 0.68rem !important;
+    font-size: 0.78rem !important;
   }
 
-  /* 7. Settings Toolbar on Mobile: Compact 2-Column Responsive Grid */
+  /* 7. Settings Toolbar on Mobile: Responsive Grid */
   .settings-toolbar {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.25rem 0.35rem !important;
-    padding: 0.3rem 0.35rem !important;
-    border-radius: 6px !important;
-    margin-bottom: 0.35rem !important;
+    gap: 0.45rem 0.55rem !important;
+    padding: 0.55rem 0.65rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.65rem !important;
     border: 1px solid var(--border-subtle) !important;
     background-color: var(--bg-subtle) !important;
   }
@@ -526,17 +526,17 @@
   .setting-item {
     display: flex !important;
     flex-direction: column !important;
-    gap: 0.05rem !important;
+    gap: 0.15rem !important;
     min-width: 0 !important;
   }
 
   .setting-label {
-    font-size: 0.52rem !important;
+    font-size: 0.62rem !important;
     font-weight: 700 !important;
     letter-spacing: 0.03em !important;
     text-transform: uppercase !important;
     line-height: 1 !important;
-    margin-bottom: 0.04rem !important;
+    margin-bottom: 0.1rem !important;
     color: var(--text-muted) !important;
     white-space: nowrap !important;
     overflow: hidden !important;
@@ -544,104 +544,104 @@
   }
 
   .setting-select {
-    height: 26px !important;
-    min-height: 26px !important;
-    font-size: 0.68rem !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    font-size: 0.78rem !important;
     font-weight: 500 !important;
-    padding: 0.1rem 0.25rem !important;
-    border-radius: 4px !important;
+    padding: 0.15rem 0.4rem !important;
+    border-radius: 5px !important;
     border: 1px solid var(--border-strong) !important;
     width: 100% !important;
     box-sizing: border-box !important;
     background-color: var(--bg-surface) !important;
     color: var(--text-primary) !important;
-    line-height: 1.1 !important;
+    line-height: 1.2 !important;
   }
 
-  /* 8. Action Buttons Row: Compact Generate Button + Reload All / Clear on ONE Row */
+  /* 8. Action Buttons Row */
   .tool-actions-row {
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
-    gap: 0.25rem !important;
+    gap: 0.45rem !important;
   }
 
   #btn-generate-players {
     width: 100% !important;
-    height: 28px !important;
-    min-height: 28px !important;
-    font-size: 0.72rem !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    font-size: 0.84rem !important;
     font-weight: 700 !important;
     justify-content: center !important;
-    padding: 0.15rem 0.5rem !important;
+    padding: 0.25rem 0.75rem !important;
     border-radius: var(--radius-full) !important;
-    gap: 0.3rem !important;
+    gap: 0.4rem !important;
   }
 
   #btn-generate-players svg {
-    width: 12px !important;
-    height: 12px !important;
+    width: 14px !important;
+    height: 14px !important;
   }
 
   .tool-secondary-actions {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     width: 100% !important;
-    gap: 0.25rem !important;
+    gap: 0.45rem !important;
   }
 
   .tool-secondary-actions .btn {
     width: 100% !important;
-    height: 24px !important;
-    min-height: 24px !important;
-    font-size: 0.62rem !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    font-size: 0.72rem !important;
     justify-content: center !important;
-    padding: 0.1rem 0.25rem !important;
-    border-radius: 4px !important;
-    gap: 0.2rem !important;
+    padding: 0.15rem 0.45rem !important;
+    border-radius: 5px !important;
+    gap: 0.3rem !important;
     white-space: nowrap !important;
   }
 
   .tool-secondary-actions .btn svg {
-    width: 11px !important;
-    height: 11px !important;
+    width: 13px !important;
+    height: 13px !important;
   }
 
   /* 9. Player Canvas Stage & Grid */
   .player-grid-section {
-    margin-top: 0.35rem !important;
+    margin-top: 0.75rem !important;
   }
 
   .stage-empty-card {
-    padding: 0.65rem 0.45rem !important;
-    border-radius: 6px !important;
+    padding: 1.25rem 0.85rem !important;
+    border-radius: 8px !important;
     border: 1px dashed var(--border-strong) !important;
   }
 
   .stage-empty-icon {
-    font-size: 1rem !important;
-    margin-bottom: 0.15rem !important;
+    font-size: 1.4rem !important;
+    margin-bottom: 0.3rem !important;
   }
 
   .stage-empty-card h3 {
-    font-size: 0.76rem !important;
-    margin-bottom: 0.08rem !important;
+    font-size: 0.92rem !important;
+    margin-bottom: 0.2rem !important;
   }
 
   .stage-empty-card p {
-    font-size: 0.65rem !important;
-    line-height: 1.26 !important;
+    font-size: 0.76rem !important;
+    line-height: 1.4 !important;
     max-width: 100% !important;
   }
 
   .player-grid {
     grid-template-columns: 1fr !important;
-    gap: 0.4rem !important;
+    gap: 0.75rem !important;
     width: 100% !important;
   }
 
   .player-card {
-    border-radius: 6px !important;
+    border-radius: 8px !important;
     overflow: hidden !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -649,79 +649,79 @@
   }
 
   .player-card-bar {
-    padding: 0.15rem 0.3rem !important;
-    font-size: 0.58rem !important;
-    gap: 0.15rem !important;
-    min-height: 24px !important;
+    padding: 0.35rem 0.55rem !important;
+    font-size: 0.72rem !important;
+    gap: 0.35rem !important;
+    min-height: 30px !important;
   }
 
   .player-bar-left {
-    gap: 0.15rem !important;
-    font-size: 0.58rem !important;
+    gap: 0.35rem !important;
+    font-size: 0.72rem !important;
   }
 
   .player-badge-num {
-    width: 13px !important;
-    height: 13px !important;
-    font-size: 0.5rem !important;
-    border-radius: 3px !important;
+    width: 16px !important;
+    height: 16px !important;
+    font-size: 0.58rem !important;
+    border-radius: 4px !important;
   }
 
   .player-slot-title {
-    font-size: 0.58rem !important;
+    font-size: 0.72rem !important;
   }
 
   .player-platform-badge {
-    font-size: 0.5rem !important;
-    padding: 0.02rem 0.16rem !important;
-    border-radius: 2px !important;
+    font-size: 0.6rem !important;
+    padding: 0.08rem 0.3rem !important;
+    border-radius: 3px !important;
   }
 
   .slot-status-tag {
-    font-size: 0.48rem !important;
-    padding: 0.02rem 0.15rem !important;
-    border-radius: 2px !important;
+    font-size: 0.58rem !important;
+    padding: 0.08rem 0.28rem !important;
+    border-radius: 3px !important;
   }
 
   .player-bar-actions {
-    gap: 0.12rem !important;
+    gap: 0.25rem !important;
   }
 
   .btn-slot-action {
-    width: 20px !important;
-    height: 20px !important;
-    min-width: 20px !important;
-    min-height: 20px !important;
-    font-size: 0.52rem !important;
-    border-radius: 3px !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    font-size: 0.65rem !important;
+    border-radius: 4px !important;
   }
 
   .slot-ratio-select {
-    height: 20px !important;
-    font-size: 0.52rem !important;
-    padding: 0 0.12rem !important;
-    border-radius: 3px !important;
+    height: 24px !important;
+    font-size: 0.62rem !important;
+    padding: 0 0.25rem !important;
+    border-radius: 4px !important;
   }
 
   .player-card-footer-edit {
-    padding: 0.12rem 0.3rem !important;
-    font-size: 0.58rem !important;
-    gap: 0.2rem !important;
+    padding: 0.25rem 0.55rem !important;
+    font-size: 0.7rem !important;
+    gap: 0.35rem !important;
   }
 
   .slot-url-display {
-    font-size: 0.58rem !important;
+    font-size: 0.7rem !important;
   }
 
   .btn-slot-edit-trigger {
-    font-size: 0.55rem !important;
+    font-size: 0.68rem !important;
   }
 
   .slot-inline-edit-input {
-    font-size: 0.68rem !important;
-    min-height: 24px !important;
-    padding: 0.1rem 0.25rem !important;
-    border-radius: 3px !important;
+    font-size: 0.76rem !important;
+    min-height: 28px !important;
+    padding: 0.15rem 0.4rem !important;
+    border-radius: 4px !important;
   }
 
   /* Responsive Player Frame Containment */
@@ -782,146 +782,147 @@
   }
 
   .player-loading-overlay {
-    gap: 0.35rem !important;
+    gap: 0.45rem !important;
   }
 
   .player-spinner {
-    width: 20px !important;
-    height: 20px !important;
+    width: 24px !important;
+    height: 24px !important;
   }
 
   .player-loading-text {
-    font-size: 0.65rem !important;
-  }
-
-  .fallback-player-card {
-    padding: 0.6rem 0.45rem !important;
-    gap: 0.25rem !important;
-    min-height: 120px !important;
-  }
-
-  .fallback-icon {
-    font-size: 1rem !important;
-  }
-
-  .fallback-title {
     font-size: 0.72rem !important;
   }
 
+  .fallback-player-card {
+    padding: 1rem 0.75rem !important;
+    gap: 0.45rem !important;
+    min-height: 140px !important;
+  }
+
+  .fallback-icon {
+    font-size: 1.4rem !important;
+  }
+
+  .fallback-title {
+    font-size: 0.85rem !important;
+  }
+
   .fallback-desc {
-    font-size: 0.65rem !important;
-    line-height: 1.25 !important;
+    font-size: 0.74rem !important;
+    line-height: 1.35 !important;
     max-width: 100% !important;
   }
 
   .fallback-player-card .btn {
     width: 100% !important;
-    height: 24px !important;
-    min-height: 24px !important;
+    height: 30px !important;
+    min-height: 30px !important;
     justify-content: center !important;
-    font-size: 0.62rem !important;
+    font-size: 0.72rem !important;
   }
 
   /* 10. Info Callouts & Status Bars */
   .info-callout {
-    padding: 0.35rem 0.45rem !important;
-    gap: 0.25rem !important;
-    margin: 0.35rem 0 !important;
-    border-radius: 6px !important;
+    padding: 0.65rem 0.75rem !important;
+    gap: 0.45rem !important;
+    margin: 0.65rem 0 !important;
+    border-radius: 8px !important;
   }
 
   .info-callout-icon {
-    font-size: 0.75rem !important;
+    font-size: 0.95rem !important;
   }
 
   .info-callout-content p {
-    font-size: 0.65rem !important;
-    line-height: 1.26 !important;
+    font-size: 0.78rem !important;
+    line-height: 1.4 !important;
   }
 
   .status-summary-bar {
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: 0.2rem !important;
-    padding: 0.25rem 0.35rem !important;
-    margin-bottom: 0.35rem !important;
-    border-radius: 6px !important;
+    gap: 0.35rem !important;
+    padding: 0.45rem 0.65rem !important;
+    margin-bottom: 0.65rem !important;
+    border-radius: 8px !important;
   }
 
   .summary-stats {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.15rem 0.25rem !important;
-    font-size: 0.58rem !important;
+    gap: 0.3rem 0.45rem !important;
+    font-size: 0.7rem !important;
     width: 100% !important;
   }
 
   .stat-pill {
-    font-size: 0.54rem !important;
+    font-size: 0.66rem !important;
     white-space: nowrap !important;
   }
 
-  /* 11. Homepage Hero Section (Compact) */
+  /* 11. Homepage Hero Section */
   .hero-section {
-    padding: 0.5rem 0 0.35rem 0 !important;
+    padding: 1.25rem 0 0.85rem 0 !important;
   }
 
   .hero-pill {
-    font-size: 0.52rem !important;
-    padding: 0.08rem 0.35rem !important;
-    margin-bottom: 0.2rem !important;
-    letter-spacing: 0.04em !important;
+    font-size: 0.64rem !important;
+    padding: 0.2rem 0.6rem !important;
+    margin-bottom: 0.45rem !important;
+    letter-spacing: 0.05em !important;
   }
 
   .hero-title {
-    font-size: 1.05rem !important;
-    line-height: 1.18 !important;
-    margin-bottom: 0.15rem !important;
+    font-size: 1.45rem !important;
+    line-height: 1.22 !important;
+    margin-bottom: 0.45rem !important;
   }
 
   .hero-description {
-    font-size: 0.72rem !important;
-    line-height: 1.3 !important;
-    margin-bottom: 0.45rem !important;
+    font-size: 0.84rem !important;
+    line-height: 1.45 !important;
+    margin-bottom: 0.85rem !important;
     padding: 0 !important;
   }
 
   .hero-actions {
     flex-direction: column !important;
     width: 100% !important;
-    gap: 0.25rem !important;
+    gap: 0.45rem !important;
   }
 
   .hero-actions .btn {
     width: 100% !important;
-    height: 28px !important;
-    min-height: 28px !important;
+    height: 36px !important;
+    min-height: 36px !important;
     justify-content: center !important;
-    font-size: 0.72rem !important;
-    padding: 0.15rem 0.5rem !important;
+    font-size: 0.82rem !important;
+    padding: 0.25rem 0.85rem !important;
     border-radius: var(--radius-full) !important;
   }
 
-  /* 12. Homepage Directory Grid (Compact) */
+  /* 12. Homepage Platform Directory Grid — PRIMARY 2-COLUMN RESPONSIVE LAYOUT */
   #directory {
-    padding-top: 0.15rem !important;
-    margin-bottom: 0.75rem !important;
+    padding-top: 0.5rem !important;
+    margin-bottom: 1.5rem !important;
   }
 
   .directory-header {
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: 0.25rem !important;
-    margin-bottom: 0.35rem !important;
+    gap: 0.45rem !important;
+    margin-bottom: 0.75rem !important;
   }
 
   .directory-header h2 {
-    font-size: 0.95rem !important;
-    margin-bottom: 0.05rem !important;
+    font-size: 1.2rem !important;
+    margin-bottom: 0.15rem !important;
   }
 
   .directory-header p {
-    font-size: 0.66rem !important;
+    font-size: 0.82rem !important;
+    line-height: 1.4 !important;
   }
 
   .search-input-wrap {
@@ -930,131 +931,220 @@
   }
 
   .search-input {
-    font-size: 0.72rem !important;
-    padding: 0.15rem 0.5rem 0.15rem 1.6rem !important;
-    height: 28px !important;
-    min-height: 28px !important;
+    font-size: 0.84rem !important;
+    padding: 0.35rem 0.65rem 0.35rem 2rem !important;
+    height: 36px !important;
+    min-height: 36px !important;
     border-radius: var(--radius-full) !important;
   }
 
   .search-icon {
-    left: 0.5rem !important;
-    width: 11px !important;
-    height: 11px !important;
+    left: 0.75rem !important;
+    width: 14px !important;
+    height: 14px !important;
   }
 
+  /* Primary 2-Column Mobile Grid */
   .platform-grid {
-    grid-template-columns: 1fr !important;
-    gap: 0.35rem !important;
-    margin-bottom: 0.75rem !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.65rem !important;
+    margin-bottom: 1.5rem !important;
+    width: 100% !important;
   }
 
+  /* Noticeably larger, cleaner, more readable and tap-friendly cards */
   .platform-card {
-    padding: 0.45rem 0.5rem !important;
-    border-radius: 6px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    padding: 0.75rem 0.65rem !important;
+    border-radius: var(--radius-md) !important;
+    background-color: var(--bg-surface) !important;
+    border: 1px solid var(--border-subtle) !important;
+    box-sizing: border-box !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    position: relative !important;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease !important;
+  }
+
+  .platform-card:hover,
+  .platform-card:active {
+    transform: translateY(-2px) !important;
+    border-color: var(--border-strong) !important;
   }
 
   .platform-card-header {
-    gap: 0.35rem !important;
-    margin-bottom: 0.15rem !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+    margin-bottom: 0.45rem !important;
   }
 
   .platform-avatar {
-    width: 22px !important;
-    height: 22px !important;
-    min-width: 22px !important;
-    min-height: 22px !important;
-    font-size: 0.72rem !important;
-    border-radius: 4px !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    border-radius: 6px !important;
+    background-color: var(--bg-subtle) !important;
+    border: 1px solid var(--border-subtle) !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .platform-card-header > div {
+    min-width: 0 !important;
+    flex: 1 !important;
   }
 
   .platform-card-title {
-    font-size: 0.76rem !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    color: var(--text-primary) !important;
+    letter-spacing: -0.01em !important;
+    margin: 0 !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .embed-badge {
+    font-size: 0.58rem !important;
+    font-weight: 600 !important;
+    padding: 0.08rem 0.32rem !important;
+    border-radius: 3px !important;
+    line-height: 1.2 !important;
+    margin-top: 0.15rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
   }
 
   .platform-card-desc {
-    font-size: 0.66rem !important;
-    line-height: 1.25 !important;
-    margin-bottom: 0.2rem !important;
+    font-size: 0.74rem !important;
+    line-height: 1.38 !important;
+    color: var(--text-secondary) !important;
+    margin-bottom: 0.5rem !important;
+    flex-grow: 1 !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
   }
 
   .platform-support-section {
-    margin-top: 0.15rem !important;
-    margin-bottom: 0.25rem !important;
+    margin-top: auto !important;
+    margin-bottom: 0.45rem !important;
   }
 
   .support-tags-list {
-    gap: 0.15rem !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.2rem !important;
+  }
+
+  .support-tag {
+    font-size: 0.58rem !important;
+    font-weight: 600 !important;
+    padding: 0.08rem 0.28rem !important;
+    border-radius: 3px !important;
+    line-height: 1.25 !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
   }
 
   .platform-card-footer {
-    padding-top: 0.2rem !important;
+    padding-top: 0.45rem !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    margin-top: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
   }
 
+  .platform-card-footer .btn,
   .platform-open-label {
-    font-size: 0.56rem !important;
-    letter-spacing: 0.04em !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    min-height: 30px !important;
+    height: 30px !important;
+    padding: 0 0.45rem !important;
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    border-radius: 4px !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    letter-spacing: 0.02em !important;
+    box-sizing: border-box !important;
   }
 
   /* 13. Articles, Settings, About, Contact & Static Pages */
   .article-grid {
     grid-template-columns: 1fr !important;
-    gap: 0.35rem !important;
-    margin: 0.35rem 0 !important;
+    gap: 0.65rem !important;
+    margin: 0.65rem 0 !important;
   }
 
   .article-card {
-    padding: 0.45rem 0.5rem !important;
-    border-radius: 6px !important;
+    padding: 0.75rem 0.75rem !important;
+    border-radius: 8px !important;
   }
 
   .article-tag {
-    font-size: 0.52rem !important;
-    margin-bottom: 0.15rem !important;
+    font-size: 0.62rem !important;
+    margin-bottom: 0.25rem !important;
   }
 
   .article-card h3 {
-    font-size: 0.76rem !important;
-    margin-bottom: 0.12rem !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 0.25rem !important;
   }
 
   .article-card p {
-    font-size: 0.66rem !important;
-    line-height: 1.26 !important;
-    margin-bottom: 0.3rem !important;
+    font-size: 0.78rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.5rem !important;
   }
 
   .article-card .btn {
-    height: 24px !important;
-    min-height: 24px !important;
-    font-size: 0.62rem !important;
-    padding: 0.1rem 0.4rem !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    font-size: 0.72rem !important;
+    padding: 0.15rem 0.55rem !important;
   }
 
   .reading-content {
-    padding: 0.2rem 0 0.75rem 0 !important;
+    padding: 0.45rem 0 1.25rem 0 !important;
     max-width: 100% !important;
   }
 
   .reading-content h1,
   .container > h1 {
-    font-size: 0.95rem !important;
-    line-height: 1.15 !important;
-    margin-bottom: 0.25rem !important;
+    font-size: 1.35rem !important;
+    line-height: 1.22 !important;
+    margin-bottom: 0.45rem !important;
   }
 
   .reading-content h2,
   .card h2 {
-    font-size: 0.86rem !important;
-    line-height: 1.2 !important;
-    margin: 0.55rem 0 0.2rem 0 !important;
+    font-size: 1.12rem !important;
+    line-height: 1.28 !important;
+    margin: 0.85rem 0 0.35rem 0 !important;
   }
 
   .reading-content h3,
   .card h3 {
-    font-size: 0.74rem !important;
-    line-height: 1.22 !important;
-    margin: 0.4rem 0 0.15rem 0 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.3 !important;
+    margin: 0.65rem 0 0.25rem 0 !important;
   }
 
   .reading-content p,
@@ -1062,97 +1152,97 @@
   .reading-content ol,
   .reading-content > p:first-of-type,
   .container > p:first-of-type {
-    font-size: 0.72rem !important;
-    line-height: 1.35 !important;
-    margin-bottom: 0.35rem !important;
+    font-size: 0.82rem !important;
+    line-height: 1.48 !important;
+    margin-bottom: 0.55rem !important;
   }
 
   .reading-content ul,
   .reading-content ol {
-    margin: 0.15rem 0 0.35rem 0.65rem !important;
+    margin: 0.35rem 0 0.55rem 0.85rem !important;
   }
 
   .reading-content li {
-    margin-bottom: 0.1rem !important;
+    margin-bottom: 0.2rem !important;
   }
 
   /* Contact Page */
   .contact-page-header {
-    margin-bottom: 0.35rem !important;
+    margin-bottom: 0.65rem !important;
   }
 
   .contact-title {
-    margin-bottom: 0.12rem !important;
+    margin-bottom: 0.2rem !important;
   }
 
   .contact-subtitle {
-    font-size: 0.68rem !important;
-    line-height: 1.28 !important;
+    font-size: 0.82rem !important;
+    line-height: 1.4 !important;
     margin-bottom: 0 !important;
   }
 
   .contact-card {
-    padding: 0.45rem 0.5rem !important;
-    border-radius: 6px !important;
+    padding: 0.75rem 0.75rem !important;
+    border-radius: 8px !important;
   }
 
   .contact-form {
-    gap: 0.35rem !important;
+    gap: 0.55rem !important;
   }
 
   .form-group {
-    gap: 0.08rem !important;
+    gap: 0.15rem !important;
   }
 
   .form-label {
-    font-size: 0.65rem !important;
+    font-size: 0.78rem !important;
   }
 
   .form-label-hint {
-    font-size: 0.55rem !important;
+    font-size: 0.66rem !important;
   }
 
   .form-control {
-    font-size: 0.72rem !important;
-    padding: 0.15rem 0.4rem !important;
-    height: 28px !important;
-    min-height: 28px !important;
-    border-radius: 4px !important;
+    font-size: 0.82rem !important;
+    padding: 0.25rem 0.55rem !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    border-radius: 5px !important;
   }
 
   textarea.form-control {
-    min-height: 55px !important;
-    height: 55px !important;
+    min-height: 75px !important;
+    height: 75px !important;
   }
 
   .contact-submit-btn {
-    font-size: 0.72rem !important;
-    height: 28px !important;
-    min-height: 28px !important;
-    padding: 0.15rem 0.6rem !important;
+    font-size: 0.84rem !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0.25rem 0.85rem !important;
     border-radius: var(--radius-full) !important;
   }
 
   .contact-inline-alert {
-    padding: 0.25rem 0.4rem !important;
-    font-size: 0.65rem !important;
+    padding: 0.45rem 0.65rem !important;
+    font-size: 0.78rem !important;
   }
 
   /* Settings Page */
   .settings-container,
   .container[style*="max-width: 800px"] {
-    padding-top: 0.25rem !important;
+    padding-top: 0.45rem !important;
   }
 
   .card {
-    padding: 0.45rem 0.5rem !important;
-    border-radius: 6px !important;
-    margin-bottom: 0.35rem !important;
+    padding: 0.75rem 0.75rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.65rem !important;
   }
 
   .card h2 {
-    font-size: 0.86rem !important;
-    margin-bottom: 0.35rem !important;
+    font-size: 1.05rem !important;
+    margin-bottom: 0.55rem !important;
   }
 
   .setting-select-full,
@@ -1160,142 +1250,153 @@
   .settings-container .setting-select {
     width: 100% !important;
     max-width: 100% !important;
-    font-size: 0.68rem !important;
-    height: 26px !important;
-    min-height: 26px !important;
+    font-size: 0.8rem !important;
+    height: 32px !important;
+    min-height: 32px !important;
   }
 
   .settings-actions {
     flex-direction: column !important;
     width: 100% !important;
-    gap: 0.25rem !important;
+    gap: 0.45rem !important;
   }
 
   .settings-actions .btn {
     width: 100% !important;
-    height: 28px !important;
-    min-height: 28px !important;
+    height: 34px !important;
+    min-height: 34px !important;
   }
 
   /* Creator Profile Card (About & Credits) */
   .creator-profile-card {
-    margin-top: 0.6rem !important;
-    padding: 0.45rem 0.5rem !important;
-    border-radius: 6px !important;
-    gap: 0.2rem !important;
+    margin-top: 0.85rem !important;
+    padding: 0.75rem 0.75rem !important;
+    border-radius: 8px !important;
+    gap: 0.35rem !important;
   }
 
   .creator-profile-badge {
-    width: 20px !important;
-    height: 20px !important;
-    font-size: 0.62rem !important;
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 0.75rem !important;
   }
 
   .creator-profile-title {
-    font-size: 0.78rem !important;
+    font-size: 0.92rem !important;
   }
 
   .creator-profile-desc {
-    font-size: 0.66rem !important;
-    line-height: 1.28 !important;
+    font-size: 0.78rem !important;
+    line-height: 1.4 !important;
   }
 
   /* 14. Global Footer on Mobile */
   .site-footer {
-    padding: 0.75rem 0 0.5rem 0 !important;
+    padding: 1.25rem 0 0.85rem 0 !important;
   }
 
   .footer-grid {
     grid-template-columns: 1fr !important;
-    gap: 0.55rem !important;
-    margin-bottom: 0.55rem !important;
+    gap: 0.85rem !important;
+    margin-bottom: 0.85rem !important;
   }
 
   .footer-brand h3 {
-    font-size: 0.76rem !important;
-    margin-bottom: 0.12rem !important;
+    font-size: 0.92rem !important;
+    margin-bottom: 0.2rem !important;
   }
 
   .footer-brand p {
-    font-size: 0.65rem !important;
-    line-height: 1.25 !important;
+    font-size: 0.78rem !important;
+    line-height: 1.4 !important;
   }
 
   .footer-col h4 {
-    margin-bottom: 0.15rem !important;
-    font-size: 0.58rem !important;
+    margin-bottom: 0.25rem !important;
+    font-size: 0.72rem !important;
   }
 
   .footer-links {
-    gap: 0.15rem !important;
+    gap: 0.25rem !important;
   }
 
   .footer-links a {
-    font-size: 0.65rem !important;
-    padding: 0.02rem 0 !important;
+    font-size: 0.78rem !important;
+    padding: 0.05rem 0 !important;
   }
 
   .footer-bottom {
     flex-direction: column !important;
-    gap: 0.25rem !important;
+    gap: 0.45rem !important;
     text-align: center !important;
-    padding-top: 0.4rem !important;
+    padding-top: 0.65rem !important;
   }
 
   .footer-bottom-info {
     align-items: center !important;
-    gap: 0.08rem !important;
-    font-size: 0.6rem !important;
+    gap: 0.15rem !important;
+    font-size: 0.72rem !important;
   }
 
   .creator-credit {
     justify-content: center !important;
-    font-size: 0.58rem !important;
+    font-size: 0.72rem !important;
     flex-wrap: wrap !important;
   }
 
   .footer-bottom-links {
     flex-wrap: wrap !important;
     justify-content: center !important;
-    gap: 0.25rem 0.5rem !important;
+    gap: 0.35rem 0.75rem !important;
   }
 
   .footer-bottom-links a {
-    font-size: 0.6rem !important;
+    font-size: 0.72rem !important;
   }
 
   /* FAQ Accordion */
   .faq-list {
-    gap: 0.25rem !important;
-    margin: 0.4rem 0 !important;
+    gap: 0.45rem !important;
+    margin: 0.65rem 0 !important;
   }
 
   .faq-question {
-    padding: 0.35rem 0.45rem !important;
-    font-size: 0.7rem !important;
-    gap: 0.25rem !important;
+    padding: 0.55rem 0.65rem !important;
+    font-size: 0.84rem !important;
+    gap: 0.45rem !important;
   }
 
   .faq-answer {
-    padding: 0 0.45rem 0.35rem 0.45rem !important;
-    font-size: 0.65rem !important;
-    line-height: 1.28 !important;
+    padding: 0 0.65rem 0.55rem 0.65rem !important;
+    font-size: 0.78rem !important;
+    line-height: 1.42 !important;
   }
 
   /* Toast Notification */
   .toast-container {
-    bottom: 0.35rem !important;
-    left: 0.35rem !important;
-    right: 0.35rem !important;
-    max-width: calc(100% - 0.7rem) !important;
+    bottom: 0.65rem !important;
+    left: 0.65rem !important;
+    right: 0.65rem !important;
+    max-width: calc(100% - 1.3rem) !important;
   }
 
   .toast {
     max-width: 100% !important;
     width: 100% !important;
-    padding: 0.25rem 0.45rem !important;
-    font-size: 0.65rem !important;
-    border-radius: 4px !important;
+    padding: 0.45rem 0.65rem !important;
+    font-size: 0.78rem !important;
+    border-radius: 6px !important;
+  }
+}
+
+/* ==========================================================================
+   Breakpoints: Wider Mobile & Phablets (580px to 768px)
+   Allows 3 columns when comfortable
+   ========================================================================== */
+@media (min-width: 580px) and (max-width: 768px) {
+  .platform-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.75rem !important;
   }
 }
 
@@ -1304,16 +1405,16 @@
    ========================================================================== */
 @media (max-width: 360px) {
   :root {
-    --header-height: 36px;
+    --header-height: 42px;
   }
 
   .container {
-    padding-left: 0.35rem !important;
-    padding-right: 0.35rem !important;
+    padding-left: 0.45rem !important;
+    padding-right: 0.45rem !important;
   }
 
   .brand-text span:first-child {
-    font-size: 0.7rem !important;
+    font-size: 0.8rem !important;
   }
 
   .brand-badge {
@@ -1321,37 +1422,80 @@
   }
 
   .brand-icon {
-    width: 18px !important;
-    height: 18px !important;
-    font-size: 0.5rem !important;
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 0.6rem !important;
   }
 
   .btn-mobile-menu,
   .btn-icon-only {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    min-height: 24px !important;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
   }
 
   .btn-mobile-menu svg,
   .btn-icon-only svg {
-    width: 13px !important;
-    height: 13px !important;
+    width: 15px !important;
+    height: 15px !important;
   }
 
   h1, .hero-title, .tool-title {
+    font-size: 1.15rem !important;
+  }
+
+  .platform-grid {
+    gap: 0.45rem !important;
+  }
+
+  .platform-card {
+    padding: 0.6rem 0.45rem !important;
+  }
+
+  .platform-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    font-size: 0.95rem !important;
+  }
+
+  .platform-card-title {
     font-size: 0.82rem !important;
   }
 
+  .embed-badge {
+    font-size: 0.54rem !important;
+    padding: 0.06rem 0.25rem !important;
+  }
+
+  .platform-card-desc {
+    font-size: 0.7rem !important;
+    line-height: 1.32 !important;
+  }
+
+  .support-tag {
+    font-size: 0.54rem !important;
+    padding: 0.06rem 0.24rem !important;
+  }
+
+  .platform-card-footer .btn,
+  .platform-open-label {
+    font-size: 0.66rem !important;
+    min-height: 28px !important;
+    height: 28px !important;
+    padding: 0 0.25rem !important;
+  }
+
   .single-input-row .btn {
-    font-size: 0.58rem !important;
-    padding: 0.05rem 0.1rem !important;
+    font-size: 0.66rem !important;
+    padding: 0.1rem 0.15rem !important;
   }
 
   .settings-toolbar {
     grid-template-columns: 1fr !important;
-    gap: 0.2rem !important;
+    gap: 0.35rem !important;
   }
 
   .summary-stats {
@@ -1365,7 +1509,7 @@
   .footer-bottom-links {
     flex-direction: column !important;
     align-items: center !important;
-    gap: 0.15rem !important;
+    gap: 0.25rem !important;
   }
 }
 
