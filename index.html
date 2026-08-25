@@ -172,156 +172,16 @@
     <section class="hero-section">
       <div class="container">
         <div class="hero-pill">
-          <span>⚡ Creator Growth & Multi-Platform Media Workspace</span>
+          <span>⚡ Multi-Platform Public Media Workspace</span>
         </div>
         <h1 class="hero-title">
-          Grow your audience through better video packaging, SEO, and multi-stream previews.
+          View and organize public media streams side-by-side in a responsive grid.
         </h1>
         <p class="hero-description">
-          Audit video discoverability, optimize titles for high CTR, generate search descriptions with chapters, and organize public streams across 20+ services without fake metrics or bot manipulation.
+          Organize and view public video streams across 20+ services including YouTube, Vimeo, Twitch, Spotify, and more without fake metrics or bot manipulation.
         </p>
         <div class="hero-actions">
-          <a href="#growth-suite" class="btn btn-primary btn-lg">⚡ Analyze Video Growth & SEO ↓</a>
-          <a href="#directory" class="btn btn-secondary btn-lg">Explore 20 Platform Players</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Homepage Creator Growth Analyzer Section -->
-    <section class="container" id="growth-suite" style="padding-top: 1rem; margin-bottom: 3.5rem;">
-      <div class="analyzer-card">
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.5rem;">
-          <div class="growth-hero-badge" style="margin-bottom: 0;">
-            <span>🚀 Instant Video Growth Audit</span>
-          </div>
-        </div>
-        
-        <h2 style="font-size: 1.4rem; margin-bottom: 0.35rem;">Video Growth Analyzer & SEO Optimizer</h2>
-        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
-          Paste a public YouTube, TikTok, Vimeo, or platform URL, or type your working video title to audit title packaging, discoverability structure, and search intent.
-        </p>
-
-        <form id="growth-analyzer-form">
-          <div class="analyzer-input-grid">
-            <div class="form-group">
-              <label class="form-label" for="analyzer-url-input">
-                <span>Public Video URL</span>
-                <span class="form-label-hint">YouTube, Vimeo, Twitch, TikTok, etc.</span>
-              </label>
-              <input type="url" id="analyzer-url-input" class="form-control" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="analyzer-category-select">Content Category</label>
-              <select id="analyzer-category-select" class="form-control">
-                <option value="Education & Tech">Education & Tech</option>
-                <option value="Entertainment & Comedy">Entertainment & Comedy</option>
-                <option value="Gaming & Esports">Gaming & Esports</option>
-                <option value="How-To & Style">How-To & Tutorials</option>
-                <option value="Business & Finance">Business & Finance</option>
-                <option value="Music & Audio">Music & Creative</option>
-                <option value="News & Commentary">News & Commentary</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-bottom: 1.25rem;">
-            <label class="form-label" for="analyzer-title-input">
-              <span>Working Video Title / Topic Hook</span>
-              <span class="form-label-hint">Evaluates character limits and search intent</span>
-            </label>
-            <input type="text" id="analyzer-title-input" class="form-control" placeholder="e.g. 5 Costly Video Mistakes You Must Avoid in 2026">
-          </div>
-
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
-            <button type="submit" class="btn btn-primary" id="btn-run-analyzer">
-              <span>⚡ Audit Video Growth Score</span>
-            </button>
-            <div class="analyzer-quick-samples" style="margin-top: 0;">
-              <span style="font-weight: 600;">Try Sample:</span>
-              <button type="button" class="btn-growth-sample" data-url="https://www.youtube.com/watch?v=jNQXAC9IVRw" data-title="How to Master YouTube Video SEO in 2026: Complete Beginner Guide">📈 YouTube SEO</button>
-              <button type="button" class="btn-growth-sample" data-url="https://www.youtube.com/watch?v=M7lc1UVf-VE" data-title="7 Video Editing Mistakes That Ruin Retention">✂️ Retention Guide</button>
-            </div>
-          </div>
-        </form>
-
-        <!-- Dynamic Results on Homepage -->
-        <div id="growth-results-container" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle);">
-          <div class="growth-score-header-card" style="margin-bottom: 1.25rem; padding: 1.25rem;">
-            <div class="score-meter-wrap">
-              <div class="score-circle-display" style="width: 72px; height: 72px;">
-                <span class="score-circle-num" id="growth-score-num" style="font-size: 1.5rem;">85</span>
-                <span class="score-circle-total" style="font-size: 0.65rem;">/ 100</span>
-              </div>
-              <div class="score-info-wrap">
-                <span class="growth-tier-badge tier-good" id="growth-tier-badge">Strong Discoverability</span>
-                <h3 style="font-size: 1.1rem; margin: 0.2rem 0;" id="results-video-title">Video Growth Analysis</h3>
-                <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0;" id="growth-tier-desc">Evaluated on character limits, structural clarity, and search intent alignment.</p>
-              </div>
-            </div>
-            <div>
-              <span class="embed-badge embed-badge-supported" id="results-platform-badge">YouTube</span>
-            </div>
-          </div>
-
-          <!-- Quick Metrics Preview -->
-          <div class="metrics-breakdown-grid" style="margin-bottom: 1.25rem;">
-            <div class="metric-card" id="metric-title">
-              <div class="metric-header">
-                <span class="metric-title">🎯 Title Structure & Length</span>
-                <span class="metric-score-value">--/35</span>
-              </div>
-              <div class="metric-progress-bar"><div class="metric-progress-fill" style="width: 0%;"></div></div>
-              <ul class="metric-tips-list"></ul>
-            </div>
-            <div class="metric-card" id="metric-desc">
-              <div class="metric-header">
-                <span class="metric-title">📝 Description & Chapters</span>
-                <span class="metric-score-value">--/35</span>
-              </div>
-              <div class="metric-progress-bar"><div class="metric-progress-fill" style="width: 0%;"></div></div>
-              <ul class="metric-tips-list"></ul>
-            </div>
-            <div class="metric-card" id="metric-keywords">
-              <div class="metric-header">
-                <span class="metric-title">🔍 Search Intent & Keywords</span>
-                <span class="metric-score-value">--/30</span>
-              </div>
-              <div class="metric-progress-bar"><div class="metric-progress-fill" style="width: 0%;"></div></div>
-              <ul class="metric-tips-list"></ul>
-            </div>
-          </div>
-
-          <!-- Title Variations Section -->
-          <div style="margin-top: 1.25rem;">
-            <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem;">Generated High-CTR Title Formulas:</h4>
-            <div class="title-variations-grid" id="title-variations-list"></div>
-          </div>
-
-          <!-- Keywords & Focused Hashtags Section -->
-          <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle);">
-            <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Target Search Keywords:</h4>
-            <div class="keyword-tags-cloud" id="generated-keywords-container" style="margin-bottom: 1rem;"></div>
-            
-            <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Relevant Hashtags (3–6 Focused Tags):</h4>
-            <div class="keyword-tags-cloud" id="generated-hashtags-container" style="margin-bottom: 0.5rem;"></div>
-          </div>
-
-          <!-- SEO Description Template Section -->
-          <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle);">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
-              <h4 style="font-size: 0.95rem; margin: 0;">Optimized Description & Chapter Template:</h4>
-              <button type="button" class="btn btn-secondary btn-sm" id="btn-copy-desc" data-copy-target="generated-desc-textarea">Copy Description</button>
-            </div>
-            <div class="desc-textarea-wrapper">
-              <textarea id="generated-desc-textarea" class="desc-textarea" rows="8" readonly placeholder="Generated description with chapter timestamps and relevant hashtags will appear here..."></textarea>
-            </div>
-          </div>
-
-          <!-- Data Transparency Notice -->
-          <div style="margin-top: 1.5rem; padding: 0.85rem 1rem; background-color: var(--bg-subtle); border-radius: var(--radius-md); border: 1px solid var(--border-subtle); font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">
-            <strong>Data Transparency & Scope:</strong> Analyses are calculated directly from the submitted URL and title text using standard platform formatting, mobile display boundaries, and search-intent alignment. Live analytics (such as exact views, subscriber conversions, retention rates, or real-time CTR) require private creator authentication and are unavailable from public URLs alone. No views or rankings are fabricated or guaranteed.
-          </div>
+          <a href="#directory" class="btn btn-primary btn-lg">Explore 20 Platform Players ↓</a>
         </div>
       </div>
     </section>

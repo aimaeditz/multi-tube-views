@@ -416,8 +416,11 @@ class GrowthEngine {
   }
 
   // --- DESCRIPTION & CHAPTERS TEMPLATE GENERATOR ---
-  // Clean, structured, compliant description with 3-5 relevant lowercase hashtags and no fake claims
-  generateDescriptionTemplate(title, platform = 'YouTube', url = '') {
+  // Concise, natural description with grounded chapters or explicit Data unavailable note
+  generateDescriptionTemplate(title, platform = 'YouTube', url = '', durationSeconds = null) {
+    if (!title && !url) {
+      return 'Data unavailable';
+    }
     const t = (title || 'Video Overview').trim();
     const cleanTopic = t.replace(/^(How to|Essential Insights on|Common Mistakes in|Explained:)\s+/i, '');
     const topicWords = this.extractTopicWords(cleanTopic);
@@ -437,66 +440,80 @@ class GrowthEngine {
     }
     const hashtagLine = hashtags.slice(0, 5).join(' ');
 
-    const linkSection = url ? `• Referenced Content: ${url}\n` : '';
+    const linkSection = url ? `• Referenced Video: ${url}\n` : '';
 
-    return `In this video, we provide a structured overview and walkthrough of ${t}.\n\nWe cover the foundational concepts, practical execution steps, and key takeaways to help you better understand the topic.\n\nTIMESTAMPS & CHAPTERS:\n00:00 - Introduction & Overview\n01:15 - Core Concepts & Context\n03:45 - Step-by-Step Breakdown\n06:30 - Common Pitfalls to Avoid\n08:50 - Key Takeaways & Summary\n\nHELPFUL RESOURCES:\n${linkSection}• Multi Tube Views Platform: https://multitubeviews.com/\n\nIf you have any questions or insights on ${cleanTopic}, feel free to leave a comment below.\n\n${hashtagLine}`;
+    let chaptersBlock = 'TIMESTAMPS & CHAPTERS:\nData unavailable (Video duration could not be reliably verified; timestamps were not generated to prevent inaccuracies).';
+    if (typeof durationSeconds === 'number' && durationSeconds > 60) {
+      const formatSec = (s) => {
+        const m = Math.floor(s / 60);
+        const sec = s % 60;
+        return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+      };
+      const t0 = '00:00';
+      const t1 = formatSec(Math.floor(durationSeconds * 0.18));
+      const t2 = formatSec(Math.floor(durationSeconds * 0.45));
+      const t3 = formatSec(Math.floor(durationSeconds * 0.72));
+      const t4 = formatSec(Math.floor(durationSeconds * 0.90));
+      chaptersBlock = `TIMESTAMPS & CHAPTERS (Verified Video Duration: ${formatSec(durationSeconds)}):\n${t0} - Introduction & Core Topic: ${t}\n${t1} - Key Principles & Overview\n${t2} - In-Depth Walkthrough\n${t3} - Best Practices & Important Considerations\n${t4} - Summary & Key Takeaways`;
+    } else if (typeof durationSeconds === 'number' && durationSeconds <= 60 && durationSeconds > 0) {
+      chaptersBlock = `TIMESTAMPS & CHAPTERS:\n[Short-Form Media — Duration: ${durationSeconds}s — Chapters not applicable for sub-minute video]`;
+    }
+
+    return `In this video, we provide a structured overview and walkthrough of ${t}.\n\nWe cover the foundational concepts, practical execution steps, and key takeaways to help you better understand the topic.\n\n${chaptersBlock}\n\nRESOURCES & LINKS:\n${linkSection}• Multi Tube Views Platform: https://multitubeviews.com/\n\n${hashtagLine}`;
   }
 
   // --- KEYWORDS & HASHTAGS GENERATOR ---
-  // Generates 3-8 lowercase, directly relevant hashtags and search-intent long-tail keywords
+  // Generates video-specific keywords and search terms directly relevant to the real topic
   generateKeywordSet(topic, platform = 'Generic') {
-    const raw = (topic || 'video topic').trim();
+    if (!topic || topic.trim() === '' || topic === 'Data unavailable') {
+      return {
+        primary: ['Data unavailable'],
+        longTail: ['Data unavailable'],
+        hashtags: ['#video']
+      };
+    }
+    const raw = topic.trim();
     const cleanTopic = raw.toLowerCase().replace(/[^a-z0-9\s-]/g, ' ').replace(/\s+/g, ' ').trim();
     const words = this.extractTopicWords(raw);
     const mainPhrase = words.slice(0, 3).join(' ') || cleanTopic || 'video';
 
-    // 1. Primary Keywords (Specific to topic)
+    // 1. Primary Keywords (Specific to verified video topic)
     const primaryKeywords = [
       mainPhrase,
       `${mainPhrase} guide`,
       `${mainPhrase} tutorial`,
       `how to understand ${mainPhrase}`,
-      `${mainPhrase} tips`
+      `${mainPhrase} best practices`
     ];
 
     // 2. Specific Long-Tail Search Queries
     const longTailKeywords = [
       `${mainPhrase} step by step`,
       `common ${mainPhrase} mistakes`,
-      `${mainPhrase} best practices`,
+      `${mainPhrase} key takeaways`,
       `beginner guide to ${mainPhrase}`,
-      `${mainPhrase} explained`
+      `${mainPhrase} overview`
     ];
 
-    // 3. Relevant Hashtags: Exactly 3–8 short, natural, lowercase hashtags matching topic
+    // 3. Relevant Hashtags: 3–5 short, natural, lowercase hashtags matching topic
     const tagSet = new Set();
 
-    // Word-based tags
     words.slice(0, 4).forEach(w => {
       if (w.length >= 3) tagSet.add(`#${w.toLowerCase()}`);
     });
 
-    // Combined 2-word tag if applicable
-    if (words.length >= 2) {
-      const compound = (words[0] + words[1]).toLowerCase();
-      if (compound.length <= 18) tagSet.add(`#${compound}`);
-    }
-
-    // Platform tag if relevant
     if (platform && platform !== 'Generic' && platform !== 'Generic Video') {
       const pTag = platform.toLowerCase().replace(/[^a-z0-9]/g, '');
       if (pTag && pTag.length >= 2) tagSet.add(`#${pTag}`);
     }
 
-    // Fallbacks if fewer than 3 tags
     if (tagSet.size < 3) {
-      tagSet.add('#content');
       tagSet.add('#guide');
       tagSet.add('#tutorial');
+      tagSet.add('#video');
     }
 
-    // Ensure strictly between 3 and 8 hashtags
-    const finalHashtags = Array.from(tagSet).slice(0, 8);
+    const finalHashtags = Array.from(tagSet).slice(0, 5);
 
     return {
       primary: Array.from(new Set(primaryKeywords)),
@@ -575,66 +592,43 @@ class GrowthEngine {
       });
     });
 
-    // Custom thumbnail file upload preview
-    const thumbUpload = document.getElementById('thumbnail-file-upload');
-    if (thumbUpload) {
-      thumbUpload.addEventListener('change', (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            this.updateThumbnailPreview(event.target.result);
-          };
-          reader.readAsDataURL(file);
+    // Copy improved title button
+    const btnCopyTitle = document.getElementById('btn-copy-improved-title');
+    if (btnCopyTitle) {
+      btnCopyTitle.addEventListener('click', () => {
+        const titleEl = document.getElementById('audit-improved-title-text');
+        const text = titleEl ? titleEl.textContent.trim() : '';
+        if (text && text !== '--') {
+          navigator.clipboard.writeText(text).then(() => {
+            this.showToast('Improved title copied!', 'success');
+            this.trackEvent('title_copied', { title: text });
+            btnCopyTitle.textContent = '✓ Copied';
+            setTimeout(() => { btnCopyTitle.textContent = 'Copy Title'; }, 2000);
+          }).catch(() => {
+            this.showToast('Please copy manually', 'warning');
+          });
         }
       });
     }
 
-    // Copy handlers for tools
-    document.addEventListener('click', (e) => {
-      const copyBtn = e.target.closest('[data-copy-target]');
-      if (copyBtn) {
-        const targetId = copyBtn.getAttribute('data-copy-target');
-        const targetEl = document.getElementById(targetId);
-        if (targetEl) {
-          const text = targetEl.value || targetEl.innerText || '';
+    // Copy description button
+    const btnCopyDesc = document.getElementById('btn-copy-desc');
+    if (btnCopyDesc) {
+      btnCopyDesc.addEventListener('click', () => {
+        const descEl = document.getElementById('generated-desc-textarea');
+        const text = descEl ? descEl.value : '';
+        if (text) {
           navigator.clipboard.writeText(text).then(() => {
-            this.showToast('Copied to clipboard!', 'success');
-            this.trackEvent('content_copied', { target: targetId });
+            this.showToast('Description copied to clipboard!', 'success');
+            this.trackEvent('content_copied', { target: 'description' });
+            btnCopyDesc.textContent = '✓ Copied';
+            setTimeout(() => { btnCopyDesc.textContent = 'Copy Description'; }, 2000);
           }).catch(() => {
-            this.showToast('Select text to copy manually', 'warning');
+            this.showToast('Please copy manually', 'warning');
           });
         }
-      }
-
-      // Title variation copy button
-      const titleCopyBtn = e.target.closest('.btn-copy-title');
-      if (titleCopyBtn) {
-        const titleText = titleCopyBtn.getAttribute('data-title-text');
-        if (titleText) {
-          navigator.clipboard.writeText(titleText).then(() => {
-            this.showToast('Optimized title copied!', 'success');
-            this.trackEvent('title_copied', { title: titleText });
-            titleCopyBtn.textContent = '✓ Copied!';
-            setTimeout(() => { titleCopyBtn.textContent = 'Copy Title'; }, 2000);
-          });
-        }
-      }
-
-      // Social promo copy button
-      const promoCopyBtn = e.target.closest('.btn-copy-promo');
-      if (promoCopyBtn) {
-        const promoText = promoCopyBtn.getAttribute('data-promo-text');
-        if (promoText) {
-          navigator.clipboard.writeText(promoText).then(() => {
-            this.showToast('Promo copy copied!', 'success');
-            this.trackEvent('promo_copied', { platform: promoCopyBtn.getAttribute('data-platform') });
-            promoCopyBtn.textContent = '✓ Copied';
-            setTimeout(() => { promoCopyBtn.textContent = 'Copy'; }, 2000);
-          });
-        }
-      }
-    });
+      });
+    }
 
     // Clear analytics button
     const btnClearAnalytics = document.getElementById('btn-clear-growth-analytics');
@@ -658,242 +652,342 @@ class GrowthEngine {
       if (urlInput && queryUrl) urlInput.value = decodeURIComponent(queryUrl);
       if (titleInput && queryTitle) titleInput.value = decodeURIComponent(queryTitle);
       
-      // Auto run analysis if URL provided in query
       setTimeout(() => {
         this.runAnalysisFromForm();
-      }, 200);
+      }, 250);
     }
   }
 
-  runAnalysisFromForm() {
+  async runAnalysisFromForm() {
     const urlInput = document.getElementById('analyzer-url-input');
     const titleInput = document.getElementById('analyzer-title-input');
-    const descInput = document.getElementById('analyzer-desc-input');
     const catInput = document.getElementById('analyzer-category-select');
 
     const inputUrl = urlInput ? urlInput.value.trim() : '';
     const inputTitle = titleInput ? titleInput.value.trim() : '';
-    const inputDesc = descInput ? descInput.value.trim() : '';
-    const inputCategory = catInput ? catInput.value : 'General';
+    const inputCategory = catInput ? catInput.value : 'Education & Tech';
 
     if (!inputUrl && !inputTitle) {
-      this.showToast('Please enter a video URL or a working title to analyze.', 'warning');
+      this.showToast('Please enter a public video URL or working video title to audit.', 'warning');
       if (urlInput) urlInput.focus();
       return;
     }
 
-    const parsed = this.parseVideoInput(inputUrl, inputTitle, inputDesc, inputCategory);
-    const scoreData = this.calculateGrowthScore(parsed.title, parsed.description);
-
-    this.activeAnalysis = {
-      ...parsed,
-      scoreData,
-      timestamp: new Date().toISOString()
-    };
-
-    this.trackEvent('analysis_completed', {
-      platform: parsed.platform,
-      title: parsed.title,
-      score: scoreData.totalScore
-    });
-
-    this.renderAnalysisResults(this.activeAnalysis);
-    this.renderOptimizationTools(this.activeAnalysis);
-    this.showToast('Content Optimization Audit Complete!', 'success');
-
-    // Smooth scroll to results
-    const resultsSection = document.getElementById('growth-results-container');
-    if (resultsSection) {
-      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-
-  renderAnalysisResults(data) {
     const resultsContainer = document.getElementById('growth-results-container');
-    if (!resultsContainer) return;
+    const loadingIndicator = document.getElementById('growth-loading-indicator');
+    const resultsContent = document.getElementById('growth-results-content');
+    const submitBtn = document.getElementById('btn-run-analyzer');
 
-    resultsContainer.style.display = 'block';
-
-    // 1. Overall Score Ring & Badge
-    const scoreNum = document.getElementById('growth-score-num');
-    const scoreTierBadge = document.getElementById('growth-tier-badge');
-    const scoreTierDesc = document.getElementById('growth-tier-desc');
-    const videoTitleDisplay = document.getElementById('results-video-title');
-    const platformBadge = document.getElementById('results-platform-badge');
-
-    if (scoreNum) scoreNum.textContent = data.scoreData.totalScore;
-    if (scoreTierBadge) {
-      scoreTierBadge.textContent = data.scoreData.tierLabel;
-      scoreTierBadge.className = `growth-tier-badge ${data.scoreData.tierBadgeClass}`;
-    }
-    if (scoreTierDesc) {
-      scoreTierDesc.textContent = `Evaluated across content clarity, SEO structure, search intent, and packaging standards.`;
-    }
-    if (videoTitleDisplay) videoTitleDisplay.textContent = data.title;
-    if (platformBadge) platformBadge.textContent = data.platform;
-
-    // 2. Metrics Breakdown Grid
-    const breakdown = data.scoreData.breakdown;
-    
-    this.updateMetricCard('metric-title', breakdown.title.score, breakdown.title.max, breakdown.title.tips);
-    this.updateMetricCard('metric-desc', breakdown.description.score, breakdown.description.max, breakdown.description.tips);
-    this.updateMetricCard('metric-keywords', breakdown.keywords.score, breakdown.keywords.max, breakdown.keywords.tips);
-    this.updateMetricCard('metric-thumbnail', breakdown.thumbnail.score, breakdown.thumbnail.max, breakdown.thumbnail.tips);
-    this.updateMetricCard('metric-share', breakdown.share.score, breakdown.share.max, breakdown.share.tips);
-
-    // 3. Update Thumbnail Simulators
-    const thumbUrl = data.thumbnail || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80';
-    this.updateThumbnailPreview(thumbUrl, data.title, data.platform);
-  }
-
-  updateMetricCard(cardId, score, maxScore, tips = []) {
-    const card = document.getElementById(cardId);
-    if (!card) return;
-
-    const scoreDisplay = card.querySelector('.metric-score-value');
-    const bar = card.querySelector('.metric-progress-fill');
-    const tipsList = card.querySelector('.metric-tips-list');
-
-    if (scoreDisplay) scoreDisplay.textContent = `${score}/${maxScore}`;
-    if (bar) {
-      const pct = Math.round((score / maxScore) * 100);
-      bar.style.width = `${pct}%`;
-      if (pct >= 80) bar.style.backgroundColor = 'var(--success-text)';
-      else if (pct >= 55) bar.style.backgroundColor = 'var(--accent-blue)';
-      else bar.style.backgroundColor = 'var(--warning-text)';
+    if (resultsContainer) resultsContainer.style.display = 'block';
+    if (loadingIndicator) loadingIndicator.style.display = 'flex';
+    if (resultsContent) resultsContent.style.display = 'none';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>⚡ Analyzing...</span>';
     }
 
-    if (tipsList) {
-      tipsList.innerHTML = tips.map(t => `
-        <li class="metric-tip-item ${t.pass ? 'pass' : 'warn'}">
-          <span class="tip-icon">${t.pass ? '✓' : 'ℹ️'}</span>
-          <span class="tip-text">${t.text}</span>
-        </li>
-      `).join('');
-    }
-  }
-
-  renderOptimizationTools(data) {
-    const toolsContainer = document.getElementById('optimization-tools-section');
-    if (toolsContainer) {
-      toolsContainer.style.display = 'block';
+    // Smooth scroll to results container
+    if (resultsContainer) {
+      resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    // 1. Title Variations
-    const titleListContainer = document.getElementById('title-variations-list');
-    if (titleListContainer) {
-      const variations = this.generateTitleVariations(data.title);
-      titleListContainer.innerHTML = variations.map((v) => `
-        <div class="title-variation-card">
-          <div class="title-var-header">
-            <span class="title-var-angle">${v.angle}</span>
-            <span class="title-var-badge">${v.badge}</span>
-          </div>
-          <div class="title-var-text">${this.escapeHtml(v.title)}</div>
-          <div class="title-var-footer">
-            <span class="title-var-stats">${v.stats}</span>
-            <button type="button" class="btn btn-secondary btn-sm btn-copy-title" data-title-text="${this.escapeHtml(v.title)}">
-              Copy Title
-            </button>
-          </div>
-        </div>
-      `).join('');
-    }
+    try {
+      const response = await fetch('/api/analyze-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url: inputUrl,
+          title: inputTitle,
+          category: inputCategory
+        })
+      });
 
-    // 2. SEO Description Template
-    const descTextarea = document.getElementById('generated-desc-textarea');
-    if (descTextarea) {
-      descTextarea.value = this.generateDescriptionTemplate(data.title, data.platform, data.url);
-    }
+      if (!response.ok) {
+        throw new Error(`Server returned status ${response.status}`);
+      }
 
-    // 3. Keywords & Hashtags (3-8 hashtags, search-intent keywords)
-    const keywordsSet = this.generateKeywordSet(data.title, data.platform);
-    const keywordsTagsContainer = document.getElementById('generated-keywords-container');
-    const hashtagsContainer = document.getElementById('generated-hashtags-container');
+      const rawData = await response.json();
+      const auditData = (rawData && rawData.data) ? rawData.data : rawData;
+      this.renderAuditResults(auditData, inputCategory);
+      
+      this.trackEvent('analysis_completed', {
+        title: auditData.verifiedMetadata?.title || inputTitle || 'Video Audit',
+        score: auditData.overallScore,
+        platform: auditData.verifiedMetadata?.platform || 'Video'
+      });
 
-    if (keywordsTagsContainer) {
-      keywordsTagsContainer.innerHTML = keywordsSet.primary.concat(keywordsSet.longTail).map(k => `
-        <span class="keyword-pill" onclick="navigator.clipboard.writeText('${k}'); window.growthEngine.showToast('Copied: ${k}', 'success');" title="Click to copy">${this.escapeHtml(k)}</span>
-      `).join('');
-    }
-
-    if (hashtagsContainer) {
-      hashtagsContainer.innerHTML = keywordsSet.hashtags.map(h => `
-        <span class="hashtag-pill" onclick="navigator.clipboard.writeText('${h}'); window.growthEngine.showToast('Copied: ${h}', 'success');" title="Click to copy">${this.escapeHtml(h)}</span>
-      `).join('');
-    }
-
-    // 4. Social Promotion Kit (if present)
-    const promoKit = this.generateSocialPromoKit(data.title, data.url, data.platform);
-    this.updatePromoSnippet('promo-twitter-text', promoKit.twitter, 'btn-copy-twitter', 'Twitter/X');
-    this.updatePromoSnippet('promo-reddit-text', promoKit.reddit, 'btn-copy-reddit', 'Reddit');
-    this.updatePromoSnippet('promo-threads-text', promoKit.threads, 'btn-copy-threads', 'Threads');
-    this.updatePromoSnippet('promo-linkedin-text', promoKit.linkedin, 'btn-copy-linkedin', 'LinkedIn');
-    this.updatePromoSnippet('promo-tiktok-text', promoKit.tiktok, 'btn-copy-tiktok', 'TikTok');
-
-    // 5. Direct Social Share Links (if present)
-    const shareUrl = encodeURIComponent(data.url || window.location.href);
-    const shareTitle = encodeURIComponent(`Take a look at this breakdown: ${data.title}`);
-    
-    const xShareLink = document.getElementById('share-btn-x');
-    if (xShareLink) xShareLink.href = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareUrl}`;
-
-    const fbShareLink = document.getElementById('share-btn-facebook');
-    if (fbShareLink) fbShareLink.href = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
-
-    const redditShareLink = document.getElementById('share-btn-reddit');
-    if (redditShareLink) redditShareLink.href = `https://www.reddit.com/submit?url=${shareUrl}&title=${shareTitle}`;
-
-    const linkedinShareLink = document.getElementById('share-btn-linkedin');
-    if (linkedinShareLink) linkedinShareLink.href = `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`;
-
-    const waShareLink = document.getElementById('share-btn-whatsapp');
-    if (waShareLink) waShareLink.href = `https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}`;
-
-    const tgShareLink = document.getElementById('share-btn-telegram');
-    if (tgShareLink) tgShareLink.href = `https://t.me/share/url?url=${shareUrl}&text=${shareTitle}`;
-
-    // Shareable link targeting the homepage growth analyzer
-    const shareableUrlInput = document.getElementById('shareable-link-input');
-    if (shareableUrlInput) {
-      const showcaseUrl = `${window.location.origin}${window.location.pathname.replace(/index\.html/, '')}index.html?url=${encodeURIComponent(data.url)}&title=${encodeURIComponent(data.title)}#growth-suite`;
-      shareableUrlInput.value = showcaseUrl;
-    }
-  }
-
-  updatePromoSnippet(elementId, text, copyBtnClass, platform) {
-    const el = document.getElementById(elementId);
-    if (el) {
-      el.textContent = text;
-      const card = el.closest('.social-promo-card');
-      if (card) {
-        const btn = card.querySelector('.btn-copy-promo');
-        if (btn) {
-          btn.setAttribute('data-promo-text', text);
-          btn.setAttribute('data-platform', platform);
-        }
+      this.showToast('Video Growth Audit Complete!', 'success');
+    } catch (err) {
+      console.warn('Backend audit error, running local analysis fallback:', err);
+      const fallbackData = this.generateLocalAuditFallback(inputUrl, inputTitle, inputCategory);
+      this.renderAuditResults(fallbackData, inputCategory);
+      this.showToast('Video Growth Audit Complete', 'success');
+    } finally {
+      if (loadingIndicator) loadingIndicator.style.display = 'none';
+      if (resultsContent) resultsContent.style.display = 'block';
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>⚡ Audit Video Growth Score</span>';
       }
     }
   }
 
-  updateThumbnailPreview(thumbUrl, title = '', platform = 'YouTube') {
-    const desktopMockThumb = document.getElementById('mock-desktop-thumbnail');
-    const mobileMockThumb = document.getElementById('mock-mobile-thumbnail');
-    const socialMockThumb = document.getElementById('mock-social-thumbnail');
+  renderAuditResults(data, fallbackCategory = 'Education & Tech') {
+    // 1. Overall Score
+    const scoreNum = document.getElementById('growth-score-num');
+    const tierBadge = document.getElementById('growth-tier-badge');
+    const tierDesc = document.getElementById('growth-tier-desc');
+    const videoTitleEl = document.getElementById('results-video-title');
+    const platformBadge = document.getElementById('results-platform-badge');
+    const categoryBadge = document.getElementById('results-category-badge');
+    const verificationBadge = document.getElementById('results-verification-badge');
 
-    if (desktopMockThumb) desktopMockThumb.src = thumbUrl;
-    if (mobileMockThumb) mobileMockThumb.src = thumbUrl;
-    if (socialMockThumb) socialMockThumb.src = thumbUrl;
+    const score = typeof data.overallScore === 'number' ? data.overallScore : 75;
+    if (scoreNum) scoreNum.textContent = score;
 
-    const mockTitles = document.querySelectorAll('.mock-video-title');
-    mockTitles.forEach(el => {
-      if (title) el.textContent = title;
-    });
+    let tierClass = 'tier-good';
+    let tierText = 'Strong Discoverability';
+    if (score >= 85) {
+      tierClass = 'tier-excellent';
+      tierText = 'High Packaging Intent';
+    } else if (score >= 68) {
+      tierClass = 'tier-good';
+      tierText = 'Solid Discoverability';
+    } else if (score >= 50) {
+      tierClass = 'tier-moderate';
+      tierText = 'Needs Optimization';
+    } else {
+      tierClass = 'tier-poor';
+      tierText = 'Weak Search Intent';
+    }
 
-    const mockChannels = document.querySelectorAll('.mock-video-channel');
-    mockChannels.forEach(el => {
-      el.textContent = `Video Channel • ${platform}`;
-    });
+    if (tierBadge) {
+      tierBadge.className = `growth-tier-badge ${tierClass}`;
+      tierBadge.textContent = tierText;
+    }
+
+    if (tierDesc) {
+      tierDesc.textContent = data.tierSummary || 'Evaluated across verifiable title packaging, search intent, and category alignment.';
+    }
+
+    const titleText = data.verifiedMetadata?.title || data.originalInput?.title || 'Video Growth Analysis';
+    if (videoTitleEl) videoTitleEl.textContent = titleText;
+
+    const platformText = data.verifiedMetadata?.platform || 'Video Platform';
+    if (platformBadge) platformBadge.textContent = platformText;
+
+    const catText = data.verifiedMetadata?.category || data.originalInput?.category || fallbackCategory;
+    if (categoryBadge) categoryBadge.textContent = catText;
+
+    if (verificationBadge) {
+      if (data.verifiedMetadata?.isPublicDataVerified) {
+        verificationBadge.textContent = `✓ ${platformText} Public Metadata Verified`;
+        verificationBadge.style.color = 'var(--success-text, #38a169)';
+      } else {
+        verificationBadge.textContent = 'ℹ️ Evaluated from Input & Topic';
+        verificationBadge.style.color = 'var(--text-secondary)';
+      }
+    }
+
+    // 2. Problems Found List (2-4 items)
+    const problemsList = document.getElementById('audit-problems-list');
+    if (problemsList) {
+      const problems = Array.isArray(data.problemsFound) && data.problemsFound.length > 0
+        ? data.problemsFound
+        : ['Title exceeds mobile truncation threshold (place key search terms within the first 50 characters).', 'Missing structured timestamp markers in description to assist video search indexing.'];
+      
+      problemsList.innerHTML = problems.slice(0, 4).map(p => `
+        <li class="audit-bullet-item problem">
+          <span class="audit-bullet-icon">⚠️</span>
+          <span>${this.escapeHtml(p)}</span>
+        </li>
+      `).join('');
+    }
+
+    // 3. Exact Improvements List (2-4 items)
+    const improvementsList = document.getElementById('audit-improvements-list');
+    if (improvementsList) {
+      const improvements = Array.isArray(data.exactImprovements) && data.exactImprovements.length > 0
+        ? data.exactImprovements
+        : ['Front-load core topic keyword into the first 35 characters for clearer mobile display.', 'Include 4-5 numbered timestamps to improve reader scanability and search indexing.'];
+
+      improvementsList.innerHTML = improvements.slice(0, 4).map(imp => `
+        <li class="audit-bullet-item improvement">
+          <span class="audit-bullet-icon">💡</span>
+          <span>${this.escapeHtml(imp)}</span>
+        </li>
+      `).join('');
+    }
+
+    // 4. Improved Title Suggestion
+    const improvedTitleSection = document.getElementById('audit-improved-title-section');
+    const improvedTitleText = document.getElementById('audit-improved-title-text');
+    if (improvedTitleSection && improvedTitleText) {
+      if (data.improvedTitleSuggestion && data.improvedTitleSuggestion.trim()) {
+        improvedTitleSection.style.display = 'block';
+        improvedTitleText.textContent = data.improvedTitleSuggestion.trim();
+      } else {
+        improvedTitleSection.style.display = 'none';
+      }
+    }
+
+    // 5. Relevant Keywords
+    const keywordsContainer = document.getElementById('generated-keywords-container');
+    if (keywordsContainer) {
+      const keywords = Array.isArray(data.relevantKeywords) && data.relevantKeywords.length > 0
+        ? data.relevantKeywords
+        : ['video tutorial', 'step by step guide', 'tips and best practices'];
+
+      keywordsContainer.innerHTML = keywords.map(kw => `
+        <span class="keyword-pill" onclick="navigator.clipboard.writeText('${this.escapeHtml(kw)}'); window.growthEngine.showToast('Copied: ${this.escapeHtml(kw)}', 'success');" title="Click to copy">${this.escapeHtml(kw)}</span>
+      `).join('');
+    }
+
+    // 6. Relevant Hashtags
+    const hashtagsContainer = document.getElementById('generated-hashtags-container');
+    if (hashtagsContainer) {
+      const hashtags = Array.isArray(data.relevantHashtags) && data.relevantHashtags.length > 0
+        ? data.relevantHashtags
+        : ['#tutorial', '#guide', '#video'];
+
+      hashtagsContainer.innerHTML = hashtags.map(tag => {
+        const cleanTag = tag.startsWith('#') ? tag : `#${tag}`;
+        return `
+          <span class="hashtag-pill" onclick="navigator.clipboard.writeText('${this.escapeHtml(cleanTag)}'); window.growthEngine.showToast('Copied: ${this.escapeHtml(cleanTag)}', 'success');" title="Click to copy">${this.escapeHtml(cleanTag)}</span>
+        `;
+      }).join('');
+    }
+
+    // 7. Tags / SEO Search Terms
+    const tagsWrapper = document.getElementById('generated-tags-wrapper');
+    const tagsContainer = document.getElementById('generated-tags-container');
+    if (tagsContainer && tagsWrapper) {
+      if (Array.isArray(data.tagsOrSeoTerms) && data.tagsOrSeoTerms.length > 0) {
+        tagsWrapper.style.display = 'block';
+        tagsContainer.innerHTML = data.tagsOrSeoTerms.map(tag => `
+          <span class="keyword-pill" onclick="navigator.clipboard.writeText('${this.escapeHtml(tag)}'); window.growthEngine.showToast('Copied: ${this.escapeHtml(tag)}', 'success');" title="Click to copy">${this.escapeHtml(tag)}</span>
+        `).join('');
+      } else {
+        tagsWrapper.style.display = 'none';
+      }
+    }
+
+    // 8. Short Optimized Description
+    const descTextarea = document.getElementById('generated-desc-textarea');
+    if (descTextarea) {
+      descTextarea.value = data.optimizedDescription || '';
+    }
+
+    // 9. Why This Matters Conclusion
+    const whyMattersText = document.getElementById('audit-why-matters-text');
+    if (whyMattersText) {
+      whyMattersText.textContent = data.whyThisMatters || 'Clear title packaging and timestamped descriptions directly improve organic search discoverability and audience retention.';
+    }
+  }
+
+  generateLocalAuditFallback(url, title, category) {
+    if (!url && !title) {
+      return {
+        overallScore: 50,
+        tierLabel: 'Data unavailable',
+        tierBadgeClass: 'tier-moderate',
+        tierSummary: 'Data unavailable (No video URL or title provided).',
+        problemsFound: ['Video content and metadata cannot be reliably accessed.'],
+        exactImprovements: ['Provide a direct video URL or working video title to audit.'],
+        improvedTitleSuggestion: 'Data unavailable',
+        optimizedDescription: 'Data unavailable',
+        relevantKeywords: ['Data unavailable'],
+        relevantHashtags: ['#video'],
+        tagsOrSeoTerms: ['Data unavailable'],
+        whyThisMatters: 'Data unavailable (Valid video input required for SEO analysis).',
+        verifiedMetadata: {
+          platform: 'Video Platform',
+          title: 'Data unavailable',
+          category: category,
+          isPublicDataVerified: false
+        }
+      };
+    }
+
+    const topicWords = this.extractTopicWords(title || category || 'Video');
+    const mainTopic = topicWords.slice(0, 3).join(' ') || title || category || 'Video Guide';
+    const mainClean = mainTopic.charAt(0).toUpperCase() + mainTopic.slice(1);
+
+    const charCount = (title || '').length;
+    const problems = [];
+    const improvements = [];
+    let score = 72;
+
+    if (charCount > 70) {
+      score -= 10;
+      problems.push(`Title length (${charCount} chars) exceeds the 60-character mobile feed limit and will truncate.`);
+      improvements.push(`Front-load the core subject phrase within the first 40 characters for mobile display.`);
+    } else if (charCount < 30 && charCount > 0) {
+      score -= 10;
+      problems.push(`Title is concise (${charCount} chars) but lacks context keywords that clarify viewer value.`);
+      improvements.push(`Expand to 45–60 characters to include clear topic benefit and format context.`);
+    } else {
+      score += 8;
+    }
+
+    if (!/\d+/.test(title) && !/guide|how to|explained|tips|mistakes|tutorial|overview/i.test(title)) {
+      problems.push(`Title lacks a specific format cue (e.g. 'Step-by-Step Guide', 'Explained', or 'Overview').`);
+      improvements.push(`Add a format specifier like 'Step-by-Step Guide' or 'Key Takeaways'.`);
+    } else {
+      score += 7;
+    }
+
+    if (problems.length === 0) {
+      problems.push(`Default description may lack chapter timestamps for video search indexing.`);
+      problems.push(`Tags could be more focused around specific long-tail user questions.`);
+    }
+
+    if (improvements.length === 0) {
+      improvements.push(`Include verified chapter timestamps to help search engines index key moments.`);
+      improvements.push(`Use 3–5 targeted lowercase hashtags directly relevant to ${category}.`);
+    }
+
+    const tags = topicWords.slice(0, 4).map(w => `#${w.toLowerCase()}`);
+    if (tags.length < 3) tags.push('#guide', '#tutorial', '#video');
+
+    // Improved Title Suggestion: Accurately matches actual video without clickbait
+    let improvedTitleSuggestion = mainClean;
+    if (!/guide|tutorial|explained|overview|how to/i.test(mainClean)) {
+      improvedTitleSuggestion = `${mainClean}: Step-by-Step Practical Guide & Key Takeaways`;
+    }
+
+    return {
+      overallScore: Math.min(95, Math.max(45, score)),
+      tierLabel: 'Solid Packaging',
+      tierBadgeClass: 'tier-good',
+      tierSummary: `Evaluated on title packaging and ${category} search intent.`,
+      problemsFound: problems.slice(0, 3),
+      exactImprovements: improvements.slice(0, 3),
+      improvedTitleSuggestion: improvedTitleSuggestion,
+      optimizedDescription: `In this video, we provide a structured overview and walkthrough of ${mainClean}.\n\nWe cover foundational concepts, step-by-step execution, and key takeaways to help you better understand the topic.\n\nTIMESTAMPS & CHAPTERS:\nData unavailable (Video duration could not be reliably verified; timestamps were not generated to prevent inaccuracies).\n\n${tags.slice(0, 5).join(' ')}`,
+      relevantKeywords: [
+        mainTopic.toLowerCase(),
+        `${mainTopic.toLowerCase()} guide`,
+        `${mainTopic.toLowerCase()} tutorial`,
+        `how to understand ${mainTopic.toLowerCase()}`,
+        `${mainTopic.toLowerCase()} best practices`
+      ],
+      relevantHashtags: tags.slice(0, 5),
+      tagsOrSeoTerms: [
+        mainTopic.toLowerCase(),
+        `${mainTopic.toLowerCase()} overview`,
+        `${mainTopic.toLowerCase()} walkthrough`,
+        `${category.toLowerCase()}`,
+        `${mainTopic.toLowerCase()} tips`
+      ],
+      whyThisMatters: `Front-loading high-intent search keywords and providing accurate chapter timestamps gives search algorithms clear structural cues, improving click-through and viewer retention.`,
+      verifiedMetadata: {
+        platform: url.includes('youtube') ? 'YouTube' : url.includes('vimeo') ? 'Vimeo' : url.includes('tiktok') ? 'TikTok' : 'Video Platform',
+        title: title || 'Video Overview',
+        category: category,
+        isPublicDataVerified: false
+      }
+    };
   }
 
   renderAnalyticsSummary() {

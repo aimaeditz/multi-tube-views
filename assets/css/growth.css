@@ -4,8 +4,167 @@
  */
 
 /* ==========================================================================
-   Creator Growth Header & Tabbed Nav
+   Audit Specific Result Cards (Problems, Improvements, Why Matters)
    ========================================================================== */
+.audit-grid-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .audit-grid-two-col {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+.audit-card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.audit-card-title {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.audit-card-title.problems {
+  color: var(--danger-text, #e53e3e);
+}
+
+.audit-card-title.improvements {
+  color: var(--success-text, #38a169);
+}
+
+.audit-bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.audit-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.audit-bullet-icon {
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.audit-bullet-item.problem .audit-bullet-icon {
+  color: var(--danger-text, #e53e3e);
+}
+
+.audit-bullet-item.improvement .audit-bullet-icon {
+  color: var(--success-text, #38a169);
+}
+
+.audit-improved-title-box {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.audit-improved-title-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  flex: 1;
+  min-width: 200px;
+}
+
+.audit-why-matters-card {
+  background-color: var(--bg-primary);
+  border-left: 3px solid var(--accent-primary);
+  border-top: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.audit-why-matters-header {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.audit-why-matters-text {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.audit-verification-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.audit-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  gap: 1rem;
+  text-align: center;
+}
+
+.audit-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-subtle);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 .growth-hero-badge {
   display: inline-flex;
   align-items: center;
