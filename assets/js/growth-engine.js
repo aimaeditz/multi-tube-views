@@ -217,29 +217,29 @@ class GrowthEngine {
     const t = (title || '').trim();
     const d = (description || '').trim();
     
-    // 1. Title Score (Max 25 pts)
+    // 1. Title Structure & Length Score (Max 35 pts)
     let titleScore = 0;
     const titleTips = [];
     const tLen = t.length;
 
     if (tLen >= 40 && tLen <= 70) {
-      titleScore += 10;
+      titleScore += 15;
       titleTips.push({ pass: true, text: `Optimal length (${tLen} chars): Displays clearly across desktop and mobile feeds without truncation.` });
     } else if (tLen > 0 && tLen < 40) {
-      titleScore += 6;
+      titleScore += 8;
       titleTips.push({ pass: false, text: `Title is relatively short (${tLen} chars). Expand to 45–65 chars to provide more descriptive context.` });
     } else if (tLen > 70) {
-      titleScore += 6;
-      titleTips.push({ pass: false, text: `Title may truncate on mobile screens (${tLen} chars). Place the primary topic keywords near the beginning.` });
+      titleScore += 8;
+      titleTips.push({ pass: false, text: `Title may truncate on mobile feeds (${tLen} chars). Place the primary topic keywords near the beginning.` });
     } else {
-      titleTips.push({ pass: false, text: "Missing title. Enter a clear, descriptive title to evaluate." });
+      titleTips.push({ pass: false, text: "Missing title. Enter a clear, descriptive topic or title to evaluate." });
     }
 
     // Clarity and Informational intent check
     const descriptiveKeywords = ['how to', 'guide', 'overview', 'explained', 'tips', 'walkthrough', 'tutorial', 'review', 'mistakes', 'best practices', 'breakdown', 'insights', 'steps', 'summary', 'comparison'];
     const hasDescriptiveIntent = descriptiveKeywords.some(kw => t.toLowerCase().includes(kw));
     if (hasDescriptiveIntent) {
-      titleScore += 8;
+      titleScore += 12;
       titleTips.push({ pass: true, text: "Contains clear, intent-driven phrasing that informs viewers what to expect." });
     } else {
       titleTips.push({ pass: false, text: "Consider clarifying the content format in the title (e.g., 'Guide', 'Overview', 'Tips', or 'Breakdown')." });
@@ -247,8 +247,8 @@ class GrowthEngine {
 
     // Specificity / Structure indicator
     if (/\d+/.test(t) || /[:\-|]/.test(t)) {
-      titleScore += 4;
-      titleTips.push({ pass: true, text: "Structured format helps establish clear viewer expectations." });
+      titleScore += 5;
+      titleTips.push({ pass: true, text: "Structured formatting helps establish clear viewer expectations." });
     } else {
       titleTips.push({ pass: false, text: "Using structured dividers or numbered steps can improve reader scanability." });
     }
@@ -261,16 +261,16 @@ class GrowthEngine {
       titleScore += 3;
     }
 
-    // 2. Description & SEO Score (Max 25 pts)
+    // 2. Description & SEO Score (Max 35 pts)
     let descScore = 0;
     const descTips = [];
     const dLen = d.length;
 
     if (dLen >= 150) {
-      descScore += 8;
+      descScore += 12;
       descTips.push({ pass: true, text: `Solid description depth (${dLen} chars) provides meaningful search index context.` });
     } else if (dLen >= 50) {
-      descScore += 5;
+      descScore += 7;
       descTips.push({ pass: false, text: "Description is brief. Adding a summary of key points helps search engines index your content." });
     } else {
       descTips.push({ pass: false, text: "Description is very short. Provide a short summary of the main points covered." });
@@ -279,7 +279,7 @@ class GrowthEngine {
     // Chapters / Timestamps check
     const hasTimestamps = /\b\d{1,2}:\d{2}\b/.test(d);
     if (hasTimestamps) {
-      descScore += 8;
+      descScore += 11;
       descTips.push({ pass: true, text: "Timestamped chapters detected. Enables key moment navigation in video players and search." });
     } else {
       descTips.push({ pass: false, text: "No timestamps (00:00) detected. Adding chapters helps viewers navigate longer content." });
@@ -288,7 +288,7 @@ class GrowthEngine {
     // Resource / Reference Links check
     const hasLinks = /(http|https|www)/i.test(d);
     if (hasLinks) {
-      descScore += 5;
+      descScore += 7;
       descTips.push({ pass: true, text: "Reference links and resources are provided for viewer context." });
     } else {
       descTips.push({ pass: false, text: "Include relevant reference links or documentation where appropriate." });
@@ -297,40 +297,42 @@ class GrowthEngine {
     // Hashtags check (Rule: 3 to 8 relevant hashtags)
     const hashtagMatches = d.match(/#[a-zA-Z0-9_]+/g) || [];
     if (hashtagMatches.length >= 3 && hashtagMatches.length <= 8) {
-      descScore += 4;
+      descScore += 5;
       descTips.push({ pass: true, text: `Optimal hashtag count (${hashtagMatches.length} tags). Provides focused topical relevance.` });
     } else if (hashtagMatches.length > 8) {
       descTips.push({ pass: false, text: `High hashtag count (${hashtagMatches.length} tags). Limit to 3–8 focused hashtags to avoid tag stuffing.` });
     } else if (hashtagMatches.length > 0) {
-      descScore += 2;
+      descScore += 3;
       descTips.push({ pass: false, text: `Hashtag count (${hashtagMatches.length}) is below recommended 3–8 range.` });
     } else {
       descTips.push({ pass: false, text: "Add 3–5 relevant, lowercase hashtags at the bottom of the description." });
     }
 
-    // 3. Keyword & Topic Alignment (Max 20 pts)
-    let keywordScore = 16;
-    const keywordTips = [
-      { pass: true, text: "Topic alignment matches searchable user intent without keyword stuffing." },
-      { pass: true, text: "Search terms reflect real reader queries and specific long-tail phrasing." }
-    ];
+    // 3. Search Intent & Keyword Specificity (Max 30 pts)
+    let keywordScore = 0;
+    const keywordTips = [];
+    const topicWords = this.extractTopicWords(t);
 
-    // 4. Thumbnail & Visual Packaging (Max 20 pts)
-    let thumbScore = 17;
-    const thumbTips = [
-      { pass: true, text: "Standard 16:9 widescreen or 9:16 vertical aspect framing supported." },
-      { pass: true, text: "Visual clarity tested across desktop, mobile, and social preview cards." },
-      { pass: false, text: "Keep thumbnail text concise (≤ 4 words) and ensure high contrast against the background." }
-    ];
+    if (topicWords.length >= 3) {
+      keywordScore += 16;
+      keywordTips.push({ pass: true, text: `Identified ${topicWords.length} specific topical keywords to target search intent.` });
+    } else if (topicWords.length >= 1) {
+      keywordScore += 10;
+      keywordTips.push({ pass: false, text: "Topic has few distinct keywords. Consider adding specific subject terms." });
+    } else {
+      keywordScore += 4;
+      keywordTips.push({ pass: false, text: "Insufficient topic keywords provided. Enter a descriptive title." });
+    }
 
-    // 5. Social Share Readiness (Max 10 pts)
-    let shareScore = 9;
-    const shareTips = [
-      { pass: true, text: "Tailored promotional copy prepared for major community and social platforms." },
-      { pass: true, text: "Copy focuses on clear topical takeaways without exaggerated claims." }
-    ];
+    if (t.length > 15 && !/(test|video|sample|untitled|new)/i.test(t)) {
+      keywordScore += 14;
+      keywordTips.push({ pass: true, text: "Topical phrasing matches real reader queries without generic placeholders." });
+    } else {
+      keywordScore += 6;
+      keywordTips.push({ pass: false, text: "Avoid generic placeholder titles (e.g. 'Test Video') to improve search indexing." });
+    }
 
-    const totalScore = Math.min(100, Math.max(10, titleScore + descScore + keywordScore + thumbScore + shareScore));
+    const totalScore = Math.min(100, Math.max(10, titleScore + descScore + keywordScore));
 
     let tierLabel = 'Needs Optimization';
     let tierColor = 'var(--warning-text)';
@@ -360,11 +362,9 @@ class GrowthEngine {
       tierColor,
       tierBadgeClass,
       breakdown: {
-        title: { score: titleScore, max: 25, tips: titleTips },
-        description: { score: descScore, max: 25, tips: descTips },
-        keywords: { score: keywordScore, max: 20, tips: keywordTips },
-        thumbnail: { score: thumbScore, max: 20, tips: thumbTips },
-        share: { score: shareScore, max: 10, tips: shareTips }
+        title: { score: titleScore, max: 35, tips: titleTips },
+        description: { score: descScore, max: 35, tips: descTips },
+        keywords: { score: keywordScore, max: 30, tips: keywordTips }
       }
     };
   }
@@ -775,8 +775,9 @@ class GrowthEngine {
 
   renderOptimizationTools(data) {
     const toolsContainer = document.getElementById('optimization-tools-section');
-    if (!toolsContainer) return;
-    toolsContainer.style.display = 'block';
+    if (toolsContainer) {
+      toolsContainer.style.display = 'block';
+    }
 
     // 1. Title Variations
     const titleListContainer = document.getElementById('title-variations-list');
@@ -822,7 +823,7 @@ class GrowthEngine {
       `).join('');
     }
 
-    // 4. Social Promotion Kit
+    // 4. Social Promotion Kit (if present)
     const promoKit = this.generateSocialPromoKit(data.title, data.url, data.platform);
     this.updatePromoSnippet('promo-twitter-text', promoKit.twitter, 'btn-copy-twitter', 'Twitter/X');
     this.updatePromoSnippet('promo-reddit-text', promoKit.reddit, 'btn-copy-reddit', 'Reddit');
@@ -830,7 +831,7 @@ class GrowthEngine {
     this.updatePromoSnippet('promo-linkedin-text', promoKit.linkedin, 'btn-copy-linkedin', 'LinkedIn');
     this.updatePromoSnippet('promo-tiktok-text', promoKit.tiktok, 'btn-copy-tiktok', 'TikTok');
 
-    // 5. Direct Social Share Links
+    // 5. Direct Social Share Links (if present)
     const shareUrl = encodeURIComponent(data.url || window.location.href);
     const shareTitle = encodeURIComponent(`Take a look at this breakdown: ${data.title}`);
     
@@ -852,10 +853,10 @@ class GrowthEngine {
     const tgShareLink = document.getElementById('share-btn-telegram');
     if (tgShareLink) tgShareLink.href = `https://t.me/share/url?url=${shareUrl}&text=${shareTitle}`;
 
-    // Shareable landing page link
+    // Shareable link targeting the homepage growth analyzer
     const shareableUrlInput = document.getElementById('shareable-link-input');
     if (shareableUrlInput) {
-      const showcaseUrl = `${window.location.origin}${window.location.pathname.replace(/growth\.html|index\.html/, '')}growth.html?url=${encodeURIComponent(data.url)}&title=${encodeURIComponent(data.title)}`;
+      const showcaseUrl = `${window.location.origin}${window.location.pathname.replace(/index\.html/, '')}index.html?url=${encodeURIComponent(data.url)}&title=${encodeURIComponent(data.title)}#growth-suite`;
       shareableUrlInput.value = showcaseUrl;
     }
   }
@@ -891,7 +892,7 @@ class GrowthEngine {
 
     const mockChannels = document.querySelectorAll('.mock-video-channel');
     mockChannels.forEach(el => {
-      el.textContent = `Creator Growth Hub • ${platform}`;
+      el.textContent = `Video Channel • ${platform}`;
     });
   }
 

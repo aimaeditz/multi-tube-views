@@ -1,6 +1,6 @@
 {
   "name": "Multi Tube Views",
-  "description": "Creator Growth & Video Optimization Platform with Video Growth Analyzer, Title Optimizer, SEO Description Generator, Thumbnail CTR Simulator, and multi-platform media player workspaces.",
+  "description": "Multi-Platform Public Media Workspace with Homepage Video Growth Analyzer, Title Optimizer, SEO Description Generator, and multi-platform media player adapters.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
