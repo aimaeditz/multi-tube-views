@@ -1,773 +1,451 @@
 /**
- * Multi Tube Views (MTV) — Social Media Research & SEO Tools Engine
- * Complete implementation of all 60 research & SEO tools.
+ * Multi Tube Views (MTV) — Social Media Research & SEO Suite (Approved 10 Tools)
+ * Complete implementation of the 10 core research & SEO tools.
  * Zero metric fabrication: outputs strictly verified, authentic, and grounded copy.
+ * Independent tool workspaces, deep-linking, tab state preservation, and specialized renderers.
  */
 
 (function () {
   'use strict';
 
-  // 11 Core Categories Definition
+  // 10 Core Categories Definition
   const CATEGORIES = [
-    { id: 'ALL', name: 'All Tools', count: 60 },
-    { id: 'SEO', name: 'SEO', count: 8 },
-    { id: 'KEYWORDS', name: 'Keywords', count: 7 },
-    { id: 'HASHTAGS', name: 'Hashtags', count: 4 },
-    { id: 'TOPICS', name: 'Topics', count: 9 },
-    { id: 'VIDEO ANALYSIS', name: 'Video Analysis', count: 8 },
-    { id: 'COMPETITOR RESEARCH', name: 'Competitor Research', count: 5 },
-    { id: 'CONTENT GENERATION', name: 'Content Generation', count: 9 },
-    { id: 'PLATFORM OPTIMIZATION', name: 'Platform Optimization', count: 8 },
-    { id: 'TREND RESEARCH', name: 'Trend Research', count: 4 },
-    { id: 'COUNTRY & LANGUAGE', name: 'Country & Language', count: 4 },
-    { id: 'MULTI-PLATFORM', name: 'Multi-Platform', count: 6 },
+    { id: 'ALL', name: 'All Tools', count: 10 },
+    { id: 'SEO & Metadata', name: 'SEO & Metadata', count: 1 },
+    { id: 'Keyword Strategy', name: 'Keyword Strategy', count: 1 },
+    { id: 'Title & Hook', name: 'Title & Hook', count: 1 },
+    { id: 'Hashtags & Tags', name: 'Hashtags & Tags', count: 1 },
+    { id: 'Scripting & Hooks', name: 'Scripting & Hooks', count: 1 },
+    { id: 'Description & Chapters', name: 'Description & Chapters', count: 1 },
+    { id: 'Topics & Ideas', name: 'Topics & Ideas', count: 1 },
+    { id: 'Competitor Analysis', name: 'Competitor Analysis', count: 1 },
+    { id: 'Multi-Platform Repurposing', name: 'Repurposing', count: 1 },
+    { id: 'Optimization & Checklist', name: 'Checklist', count: 1 },
   ];
 
-  // 60 Verified Tools Catalog
+  // 10 Approved Tools Catalog
   const TOOLS_CATALOG = [
     {
       id: 1,
+      slug: 'video-seo-analyzer',
       name: 'Video SEO Analyzer',
-      category: 'SEO',
-      secondaryCategory: 'VIDEO ANALYSIS',
-      desc: 'Deep audit of video title, description, tags, and search intent alignment against target discovery algorithms.',
-      inputs: ['url', 'topic', 'platforms', 'category', 'country'],
-      defaultTopic: 'How to Build a Custom Mechanical Keyboard',
-      placeholder: 'Enter video URL or title to analyze full SEO packaging...'
+      category: 'SEO & Metadata',
+      toolType: 'seo_audit',
+      actionVerb: 'Analyze Video SEO',
+      desc: 'Complete audit of video title, description, tags, search intent, and platform ranking factors.',
+      defaultTopic: 'How to Build a Custom Mechanical Keyboard from Scratch',
+      placeholder: 'Enter video URL or working title to audit complete SEO metadata...'
     },
     {
       id: 2,
+      slug: 'keyword-research',
       name: 'Keyword Research',
-      category: 'KEYWORDS',
-      desc: 'Discover high-intent primary, secondary, and semantic search keywords directly grounded in your content niche.',
-      inputs: ['keyword', 'category', 'country', 'language'],
+      category: 'Keyword Strategy',
+      toolType: 'keyword',
+      actionVerb: 'Research Keywords',
+      desc: 'Discover high-intent primary search terms, long-tail variations, question queries, and topic clusters.',
       defaultTopic: 'Minimalist Desk Setup',
-      placeholder: 'Enter a core topic or seed keyword...'
+      placeholder: 'Enter seed keyword or topic to research search intent...'
     },
     {
       id: 3,
-      name: 'Keyword Suggestions',
-      category: 'KEYWORDS',
-      desc: 'Generate relevant search suggestions, modifier combinations, and topical keyword expansions.',
-      inputs: ['keyword', 'category', 'language'],
-      defaultTopic: 'Productivity Apps',
-      placeholder: 'Enter seed phrase for auto-complete expansions...'
+      slug: 'title-analyzer-generator',
+      name: 'Title Analyzer & Generator',
+      category: 'Title & Hook',
+      toolType: 'title',
+      actionVerb: 'Analyze & Generate Titles',
+      desc: 'Evaluate length, mobile truncation, clarity, and generate proven formula-driven title variations.',
+      defaultTopic: 'I Tested 5 Budget Microphones Under $50',
+      placeholder: 'Enter your working title to analyze or topic to generate formulas...'
     },
     {
       id: 4,
-      name: 'Hashtag Research',
-      category: 'HASHTAGS',
-      desc: 'Find high-relevance, niche, and platform-appropriate hashtags with optimal tag density for discovery.',
-      inputs: ['topic', 'platforms', 'category'],
-      defaultTopic: 'Morning Workout Routine',
-      placeholder: 'Enter your video topic or niche...'
+      slug: 'hashtag-tag-generator',
+      name: 'Hashtag & Tag Generator',
+      category: 'Hashtags & Tags',
+      toolType: 'hashtag',
+      actionVerb: 'Generate Tags & Hashtags',
+      desc: 'Generate platform-compliant broad, niche, and community hashtags plus comma-separated tags.',
+      defaultTopic: 'Morning Mobility & Stretching Routine',
+      placeholder: 'Enter content topic or niche for platform-optimized tags...'
     },
     {
       id: 5,
-      name: 'Platform Tags Generator',
-      category: 'HASHTAGS',
-      secondaryCategory: 'PLATFORM OPTIMIZATION',
-      desc: 'Format compliant metadata tags and taxonomy terms tailored for YouTube, Instagram, TikTok, and Vimeo.',
-      inputs: ['title', 'platforms', 'category'],
-      defaultTopic: 'Beginner Photography Guide',
-      placeholder: 'Enter video title or topic...'
+      slug: 'hook-script-intro-generator',
+      name: 'Hook & Script Intro Generator',
+      category: 'Scripting & Hooks',
+      toolType: 'hook',
+      actionVerb: 'Generate Hooks & Intros',
+      desc: 'Create high-retention 0-3 second verbal and visual hooks across 5 distinct narrative styles.',
+      defaultTopic: 'Why Most Software Developers Burn Out',
+      placeholder: 'Enter video topic, script concept, or core problem to solve...'
     },
     {
       id: 6,
-      name: 'YouTube Title Analyzer',
-      category: 'PLATFORM OPTIMIZATION',
-      secondaryCategory: 'VIDEO ANALYSIS',
-      desc: 'Test title character length, front-loaded keywords, emotional clarity, and mobile display truncation.',
-      inputs: ['title', 'category', 'audience'],
-      defaultTopic: 'I Tested 5 Budget Microphones (Under $50)',
-      placeholder: 'Enter your working YouTube title...'
+      slug: 'description-chapters-generator',
+      name: 'Description & Chapters Generator',
+      category: 'Description & Chapters',
+      toolType: 'caption',
+      actionVerb: 'Generate Description & Chapters',
+      desc: 'Build keyword-rich structured video descriptions complete with timestamps, chapters, and CTAs.',
+      defaultTopic: 'Full Stack TypeScript Web App Tutorial',
+      placeholder: 'Enter video topic, main milestones, or talking points...'
     },
     {
       id: 7,
-      name: 'Instagram Caption Analyzer',
-      category: 'PLATFORM OPTIMIZATION',
-      desc: 'Audit Instagram caption opening hook, readability breaks, hashtag placement, and engagement calls-to-action.',
-      inputs: ['description', 'category'],
-      defaultTopic: 'Coffee Brewing Recipes for Espresso Lovers',
-      placeholder: 'Paste your Instagram caption draft...'
+      slug: 'topic-content-idea-explorer',
+      name: 'Topic & Content Idea Explorer',
+      category: 'Topics & Ideas',
+      toolType: 'topic',
+      actionVerb: 'Explore Topics & Ideas',
+      desc: 'Discover audience questions, sub-topics, content angles, and a structured 4-week publishing plan.',
+      defaultTopic: 'Home Espresso & Coffee Brewing',
+      placeholder: 'Enter broad niche or seed subject to explore content angles...'
     },
     {
       id: 8,
-      name: 'TikTok Caption Analyzer',
-      category: 'PLATFORM OPTIMIZATION',
-      desc: 'Optimize TikTok caption brevity, viral search query phrasing, sound references, and tag limits.',
-      inputs: ['description', 'category'],
-      defaultTopic: '3 CSS Tricks You Did Not Know',
-      placeholder: 'Paste your TikTok caption draft...'
+      slug: 'competitor-content-gap-finder',
+      name: 'Competitor Content Gap Finder',
+      category: 'Competitor Analysis',
+      toolType: 'competitor',
+      actionVerb: 'Find Competitor Gaps',
+      desc: 'Identify what competing videos miss, audience frustrations, and strategic differentiation angles.',
+      defaultTopic: 'Financial Independence & Early Retirement (FIRE)',
+      placeholder: 'Enter niche and competitor video topics to uncover unserved demand...'
     },
     {
       id: 9,
-      name: 'Video Description Optimizer',
-      category: 'PLATFORM OPTIMIZATION',
-      secondaryCategory: 'SEO',
-      desc: 'Construct natural, keyword-dense video descriptions with structured chapters, resource links, and credits.',
-      inputs: ['topic', 'url', 'platforms'],
-      defaultTopic: 'Complete Node.js Tutorial for Beginners',
-      placeholder: 'Enter video topic or outline...'
+      slug: 'multi-platform-repurposing-kit',
+      name: 'Multi-Platform Repurposing Kit',
+      category: 'Multi-Platform Repurposing',
+      toolType: 'repurpose',
+      actionVerb: 'Build Repurposing Kit',
+      desc: 'Transform one core topic into tailored native formats for YouTube, Instagram, TikTok, LinkedIn, and X.',
+      defaultTopic: '10 Lessons from Launching a SaaS Product in 30 Days',
+      placeholder: 'Enter long-form topic or article summary to format across channels...'
     },
     {
       id: 10,
-      name: 'Search Intent Analyzer',
-      category: 'SEO',
-      secondaryCategory: 'KEYWORDS',
-      desc: 'Map target keywords to informational, navigational, commercial, or transactional viewer intents.',
-      inputs: ['keyword', 'category'],
-      defaultTopic: 'Best Noise Cancelling Headphones 2026',
-      placeholder: 'Enter search phrase to evaluate intent...'
-    },
-    {
-      id: 11,
-      name: 'Topic Research',
-      category: 'TOPICS',
-      desc: 'Uncover content angles, subtopics, FAQs, and structural pillars for comprehensive topic coverage.',
-      inputs: ['topic', 'category', 'audience'],
-      defaultTopic: 'Electric Vehicles Battery Technology',
-      placeholder: 'Enter core topic to explore angles...'
-    },
-    {
-      id: 12,
-      name: 'Trending Topic Research',
-      category: 'TREND RESEARCH',
-      secondaryCategory: 'TOPICS',
-      desc: 'Identify rising search conversations, seasonal spikes, and real-time interest trajectories without fake numbers.',
-      inputs: ['topic', 'country', 'category'],
-      defaultTopic: 'Artificial Intelligence in Education',
-      placeholder: 'Enter industry or topic...'
-    },
-    {
-      id: 13,
-      name: 'Country-Based Topic Research',
-      category: 'COUNTRY & LANGUAGE',
-      secondaryCategory: 'TOPICS',
-      desc: 'Filter topic relevance, regional vernacular, and search priorities specific to a target country.',
-      inputs: ['topic', 'country', 'language'],
-      defaultTopic: 'Solar Energy Home Installation',
-      placeholder: 'Enter topic and choose target country...'
-    },
-    {
-      id: 14,
-      name: 'Language-Based Keyword Research',
-      category: 'COUNTRY & LANGUAGE',
-      secondaryCategory: 'KEYWORDS',
-      desc: 'Generate culturally authentic keywords and phrases in the selected language without direct machine mistranslation.',
-      inputs: ['keyword', 'language', 'category'],
-      defaultTopic: 'Fitness Training at Home',
-      placeholder: 'Enter topic and choose target language...'
-    },
-    {
-      id: 15,
-      name: 'Competitor Video Analyzer',
-      category: 'COMPETITOR RESEARCH',
-      secondaryCategory: 'VIDEO ANALYSIS',
-      desc: 'Compare public packaging, title formulation, description structure, and hooks of competitor videos.',
-      inputs: ['url', 'competitorInput', 'category'],
-      defaultTopic: 'Notion Productivity Setup',
-      placeholder: 'Enter competitor URL or topic...'
-    },
-    {
-      id: 16,
-      name: 'Competitor Channel Analyzer',
-      category: 'COMPETITOR RESEARCH',
-      desc: 'Audit competitor public content themes, publishing cadence patterns, and playlist organization structures.',
-      inputs: ['competitorInput', 'category'],
-      defaultTopic: 'Tech Review Channel Strategies',
-      placeholder: 'Enter competitor channel name or URL...'
-    },
-    {
-      id: 17,
-      name: 'Content Gap Finder',
-      category: 'COMPETITOR RESEARCH',
-      secondaryCategory: 'TOPICS',
-      desc: 'Spot unanswered questions and underserved subtopics overlooked by existing top-ranking videos.',
-      inputs: ['topic', 'category'],
-      defaultTopic: 'Docker for React Developers',
-      placeholder: 'Enter topic to find unexplored angles...'
-    },
-    {
-      id: 18,
-      name: 'Video Hook Analyzer',
-      category: 'VIDEO ANALYSIS',
-      secondaryCategory: 'CONTENT GENERATION',
-      desc: 'Evaluate the opening 5-15 seconds script hook for curiosity, problem agitation, and drop-off prevention.',
-      inputs: ['description', 'contentType'],
-      defaultTopic: 'Stop Making This YouTube Mistake in 2026',
-      placeholder: 'Paste your opening hook script lines...'
-    },
-    {
-      id: 19,
-      name: 'Thumbnail Analyzer',
-      category: 'VIDEO ANALYSIS',
-      desc: 'Review thumbnail text readability, color contrast, focal subject hierarchy, and mobile badge clearance.',
-      inputs: ['title', 'topic'],
-      defaultTopic: '10x Your Focus in 7 Days',
-      placeholder: 'Describe your thumbnail visual & text...'
-    },
-    {
-      id: 20,
-      name: 'Video Script Analyzer',
-      category: 'VIDEO ANALYSIS',
-      secondaryCategory: 'CONTENT GENERATION',
-      desc: 'Assess pacing, signposting, chapter transitions, and call-to-action placement across your script draft.',
-      inputs: ['description', 'audience'],
-      defaultTopic: 'How Does Fiber Optic Internet Work?',
-      placeholder: 'Paste video script or outline draft...'
-    },
-    {
-      id: 21,
-      name: 'Content Idea Generator',
-      category: 'CONTENT GENERATION',
-      secondaryCategory: 'TOPICS',
-      desc: 'Generate original, high-intent video concepts with hook proposals and unique value propositions.',
-      inputs: ['topic', 'category', 'audience'],
-      defaultTopic: 'Home Barista Masterclass',
-      placeholder: 'Enter your niche or content pillar...'
-    },
-    {
-      id: 22,
-      name: 'Shorts / Reels / TikTok Idea Generator',
-      category: 'CONTENT GENERATION',
-      secondaryCategory: 'PLATFORM OPTIMIZATION',
-      desc: 'Craft punchy 30-60 second vertical video ideas with fast visual hooks, audio prompts, and loop transitions.',
-      inputs: ['topic', 'platforms', 'audience'],
-      defaultTopic: 'Quick Python Automation Scripts',
-      placeholder: 'Enter topic for vertical short ideas...'
-    },
-    {
-      id: 23,
-      name: 'Content Repurposing',
-      category: 'CONTENT GENERATION',
-      secondaryCategory: 'MULTI-PLATFORM',
-      desc: 'Transform one long-form video or blog into native Twitter/X threads, LinkedIn posts, Shorts scripts, and Pins.',
-      inputs: ['topic', 'description', 'platforms'],
-      defaultTopic: 'Building a Micro SaaS in 30 Days',
-      placeholder: 'Paste long-form summary to repurpose...'
-    },
-    {
-      id: 24,
-      name: 'Multi-Platform SEO Optimizer',
-      category: 'SEO',
-      secondaryCategory: 'MULTI-PLATFORM',
-      desc: 'Generate unified SEO metadata tailored specifically for YouTube, Instagram, TikTok, LinkedIn, and Reddit.',
-      inputs: ['topic', 'platforms', 'category'],
-      defaultTopic: 'Personal Finance for Beginners',
-      placeholder: 'Enter content topic to optimize for multi-platform...'
-    },
-    {
-      id: 25,
-      name: 'Topic + Keyword + Hashtag Combined Research',
-      category: 'MULTI-PLATFORM',
-      secondaryCategory: 'KEYWORDS',
-      desc: 'Complete 3-in-1 research dossier combining core search clusters, top hashtags, and platform metadata.',
-      inputs: ['topic', 'platforms', 'category', 'country'],
-      defaultTopic: 'Cybersecurity Best Practices for Remote Work',
-      placeholder: 'Enter topic for combined research...'
-    },
-    {
-      id: 26,
-      name: 'Video Metadata Analyzer',
-      category: 'VIDEO ANALYSIS',
-      secondaryCategory: 'SEO',
-      desc: 'Audit existing public metadata headers, oEmbed properties, category alignment, and compliance tags.',
-      inputs: ['url', 'category'],
-      defaultTopic: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      placeholder: 'Enter public video link to inspect metadata...'
-    },
-    {
-      id: 27,
-      name: 'Video Title & Description Comparison',
-      category: 'VIDEO ANALYSIS',
-      secondaryCategory: 'SEO',
-      desc: 'Check keyword semantic consistency and alignment between video title and description body.',
-      inputs: ['title', 'description'],
-      defaultTopic: 'Learn Rust in 2026: The Complete Guide',
-      placeholder: 'Enter title and description to compare...'
-    },
-    {
-      id: 28,
-      name: 'Hashtag Relevance Checker',
-      category: 'HASHTAGS',
-      desc: 'Score individual hashtags for topical relevance, audience specificity, and spam penalty risks.',
-      inputs: ['topic', 'category'],
-      defaultTopic: '#webdevelopment #coding #javascript #programming',
-      placeholder: 'Enter hashtags and topic to verify relevance...'
-    },
-    {
-      id: 29,
-      name: 'Keyword Relevance Checker',
-      category: 'KEYWORDS',
-      desc: 'Score seed keywords for direct match with viewer search intent and contextual content relevance.',
-      inputs: ['keyword', 'topic'],
-      defaultTopic: 'budget 4k video editing pc build',
-      placeholder: 'Enter keywords and content topic...'
-    },
-    {
-      id: 30,
-      name: 'Keyword Clustering',
-      category: 'KEYWORDS',
-      desc: 'Group related keywords into semantic thematic clusters for multi-video playlist planning.',
-      inputs: ['keyword', 'category'],
-      defaultTopic: 'Graphic Design Principles, Typography, Color Theory, Layouts',
-      placeholder: 'Enter multiple keywords or broad topic...'
-    },
-    {
-      id: 31,
-      name: 'Long-Tail Keyword Finder',
-      category: 'KEYWORDS',
-      desc: 'Extract specific 4-6 word low-competition search queries targeted at high-intent viewers.',
-      inputs: ['topic', 'category', 'country'],
-      defaultTopic: 'how to fix audio latency in obs stream',
-      placeholder: 'Enter topic to extract long-tail phrases...'
-    },
-    {
-      id: 32,
-      name: 'Content Search-Intent Mapping',
-      category: 'SEO',
-      secondaryCategory: 'KEYWORDS',
-      desc: 'Classify content into informational, problem-solving, tutorial, review, or comparison search funnels.',
-      inputs: ['topic', 'audience'],
-      defaultTopic: 'MacBook Air M3 vs MacBook Pro M3',
-      placeholder: 'Enter content topic to map intent...'
-    },
-    {
-      id: 33,
-      name: 'Audience/Topic Relevance Analyzer',
-      category: 'TOPICS',
-      secondaryCategory: 'MULTI-PLATFORM',
-      desc: 'Verify if your topic angle and complexity match the stated demographic and experience level.',
-      inputs: ['topic', 'audience', 'category'],
-      defaultTopic: 'Quantum Computing Explained Simply',
-      placeholder: 'Enter topic and target audience...'
-    },
-    {
-      id: 34,
-      name: 'SEO Content Score',
-      category: 'SEO',
-      desc: 'Calculate an objective 0-100 score based on verifiable title, description, and metadata parameters.',
-      inputs: ['title', 'description', 'category'],
-      defaultTopic: '10 Essential Terminal Commands Every Developer Needs',
-      placeholder: 'Enter title and description to score...'
-    },
-    {
-      id: 35,
-      name: 'Title–Topic Relevance Score',
-      category: 'VIDEO ANALYSIS',
-      secondaryCategory: 'SEO',
-      desc: 'Measure the semantic precision between your chosen title and the underlying content topic.',
-      inputs: ['title', 'topic'],
-      defaultTopic: 'Why SQLite is Taking Over Web Development in 2026',
-      placeholder: 'Enter title and core topic...'
-    },
-    {
-      id: 36,
-      name: 'Description–Topic Relevance Score',
-      category: 'VIDEO ANALYSIS',
-      secondaryCategory: 'SEO',
-      desc: 'Assess whether the description body maintains topical authority without wandering or stuffing.',
-      inputs: ['description', 'topic'],
-      defaultTopic: 'Indoor House Plants Care and Watering Schedule',
-      placeholder: 'Enter description text and topic...'
-    },
-    {
-      id: 37,
-      name: 'Keyword–Content Relevance Score',
-      category: 'KEYWORDS',
-      secondaryCategory: 'SEO',
-      desc: 'Calculate the semantic coverage score between target keywords and your content script/outline.',
-      inputs: ['keyword', 'description'],
-      defaultTopic: 'Search Engine Optimization Basics',
-      placeholder: 'Enter keywords and outline...'
-    },
-    {
-      id: 38,
-      name: 'Platform-Specific Content Optimizer',
-      category: 'PLATFORM OPTIMIZATION',
-      desc: 'Adapt a single message to the unique algorithm and culture of each selected social media platform.',
-      inputs: ['topic', 'platforms'],
-      defaultTopic: 'Announcing Our New Open Source Project',
-      placeholder: 'Enter message topic and choose platforms...'
-    },
-    {
-      id: 39,
-      name: 'YouTube Shorts Optimizer',
-      category: 'PLATFORM OPTIMIZATION',
-      desc: 'Optimize vertical short-form packaging: title length under 50 chars, 3 key tags, and sound sync prompts.',
-      inputs: ['title', 'topic'],
-      defaultTopic: 'Insane CSS Animation in 30 Seconds',
-      placeholder: 'Enter YouTube Shorts title or idea...'
-    },
-    {
-      id: 40,
-      name: 'Instagram Reels Optimizer',
-      category: 'PLATFORM OPTIMIZATION',
-      desc: 'Structure Reels captions for swipe-up, on-screen text cues, and high-save bookmarking appeal.',
-      inputs: ['topic', 'category'],
-      defaultTopic: '5 Styling Rules for Neutral Interiors',
-      placeholder: 'Enter Instagram Reel concept...'
-    },
-    {
-      id: 41,
-      name: 'TikTok Video Optimizer',
-      category: 'PLATFORM OPTIMIZATION',
-      desc: 'Tailor TikTok search-bar optimization (SEO for FYP search query suggestions and viral hooks).',
-      inputs: ['topic', 'category'],
-      defaultTopic: 'Secret Excel Keyboard Shortcuts',
-      placeholder: 'Enter TikTok video concept...'
-    },
-    {
-      id: 42,
-      name: 'Cross-Platform Content Converter',
-      category: 'MULTI-PLATFORM',
-      secondaryCategory: 'CONTENT GENERATION',
-      desc: 'Convert video transcripts or notes into LinkedIn articles, X threads, Reddit posts, and Pinterest pins.',
-      inputs: ['description', 'platforms'],
-      defaultTopic: 'Lessons Learned From Bootstrapping a Startup to $10k MRR',
-      placeholder: 'Paste notes or transcript to convert...'
-    },
-    {
-      id: 43,
-      name: 'Video-to-Post Content Generator',
-      category: 'CONTENT GENERATION',
-      secondaryCategory: 'MULTI-PLATFORM',
-      desc: 'Turn video highlights into high-engagement standalone social media text posts.',
-      inputs: ['topic', 'platforms', 'audience'],
-      defaultTopic: 'The Psychology of High Performance Habit Building',
-      placeholder: 'Enter video topic or takeaways...'
-    },
-    {
-      id: 44,
-      name: 'Video-to-Caption Generator',
-      category: 'CONTENT GENERATION',
-      secondaryCategory: 'PLATFORM OPTIMIZATION',
-      desc: 'Write captivating, authentic social captions tailored to video tone (educational, casual, professional).',
-      inputs: ['topic', 'platforms'],
-      defaultTopic: 'Unboxing the New Mirrorless Camera Gear',
-      placeholder: 'Enter video topic and tone...'
-    },
-    {
-      id: 45,
-      name: 'Video-to-Hashtag Generator',
-      category: 'HASHTAGS',
-      secondaryCategory: 'CONTENT GENERATION',
-      desc: 'Extract perfectly balanced broad, niche, and community hashtags from your video description.',
-      inputs: ['topic', 'description', 'platforms'],
-      defaultTopic: 'Sourdough Bread Baking From Scratch',
-      placeholder: 'Enter topic or description...'
-    },
-    {
-      id: 46,
-      name: 'Video-to-Keyword Generator',
-      category: 'KEYWORDS',
-      secondaryCategory: 'CONTENT GENERATION',
-      desc: 'Extract search-engine ready target keyword clusters directly from your video outline.',
-      inputs: ['topic', 'description'],
-      defaultTopic: 'How to Build a Custom Home Server with Linux',
-      placeholder: 'Enter video description or outline...'
-    },
-    {
-      id: 47,
-      name: 'Video-to-Content-Idea Generator',
-      category: 'CONTENT GENERATION',
-      secondaryCategory: 'TOPICS',
-      desc: 'Branch one successful video topic into 5 related spin-offs, sequels, and beginner/advanced guides.',
-      inputs: ['topic', 'category'],
-      defaultTopic: 'Beginner Guide to Woodworking Tools',
-      placeholder: 'Enter seed video title to spin off...'
-    },
-    {
-      id: 48,
-      name: 'Content Calendar / Topic Planning',
-      category: 'CONTENT GENERATION',
-      secondaryCategory: 'TOPICS',
-      desc: 'Structure a 4-week thematic publishing schedule with balanced formats (tutorials, shorts, deep-dives).',
-      inputs: ['topic', 'category', 'platforms'],
-      defaultTopic: 'Data Science & Machine Learning Career Guide',
-      placeholder: 'Enter core content pillar for 4-week calendar...'
-    },
-    {
-      id: 49,
-      name: 'Related Topic Finder',
-      category: 'TOPICS',
-      desc: 'Explore adjacent subjects and related queries that your audience is actively searching for.',
-      inputs: ['topic', 'category'],
-      defaultTopic: 'Minimalist Interior Design',
-      placeholder: 'Enter topic to discover related fields...'
-    },
-    {
-      id: 50,
-      name: 'Question / Query Finder',
-      category: 'TOPICS',
-      secondaryCategory: 'KEYWORDS',
-      desc: 'Extract exact questions (Who, What, Why, Where, How) asked by users on forums and search bars.',
-      inputs: ['topic', 'country'],
-      defaultTopic: 'Electric Car Home Charging Stations',
-      placeholder: 'Enter topic to find questions...'
-    },
-    {
-      id: 51,
-      name: 'Audience Query Analyzer',
-      category: 'TOPICS',
-      desc: 'Analyze common pain points, misconceptions, and beginner bottlenecks for a given subject.',
-      inputs: ['topic', 'audience'],
-      defaultTopic: 'Learning React as a Non-Programmer',
-      placeholder: 'Enter topic and audience pain points...'
-    },
-    {
-      id: 52,
-      name: 'Content Brief Generator',
-      category: 'CONTENT GENERATION',
-      secondaryCategory: 'SEO',
-      desc: 'Produce a comprehensive production brief including target length, hook, talking points, and CTA.',
-      inputs: ['topic', 'audience', 'category', 'contentType'],
-      defaultTopic: 'How to Negotiate Your Remote Salary in 2026',
-      placeholder: 'Enter topic to generate complete production brief...'
-    },
-    {
-      id: 53,
-      name: 'SEO Checklist Generator',
-      category: 'SEO',
-      desc: 'Generate an interactive pre-upload optimization checklist verifying title, tags, description, and accessibility.',
-      inputs: ['topic', 'platforms'],
-      defaultTopic: 'Podcast Episode 42: Future of Remote Work',
-      placeholder: 'Enter content topic to build checklist...'
-    },
-    {
-      id: 54,
-      name: 'Video Publishing Checklist',
-      category: 'SEO',
-      desc: 'Step-by-step launchday checklist covering end screens, pinned comment, cards, sound attribution, and sharing.',
-      inputs: ['platforms', 'category'],
-      defaultTopic: 'Product Launch Video',
-      placeholder: 'Enter video details for publishing checklist...'
-    },
-    {
-      id: 55,
-      name: 'Competitor Topic Comparison',
-      category: 'COMPETITOR RESEARCH',
-      secondaryCategory: 'TOPICS',
-      desc: 'Side-by-side comparison of how your topic angle differentiates from existing competitor uploads.',
-      inputs: ['topic', 'competitorInput'],
-      defaultTopic: 'iPad Pro for Software Development',
-      placeholder: 'Enter your topic and competitor approach...'
-    },
-    {
-      id: 56,
-      name: 'Competitor Keyword Comparison',
-      category: 'COMPETITOR RESEARCH',
-      secondaryCategory: 'KEYWORDS',
-      desc: 'Compare your keyword coverage against competitor titles and descriptions to uncover missed opportunities.',
-      inputs: ['keyword', 'competitorInput'],
-      defaultTopic: 'smart home automation hubs',
-      placeholder: 'Enter your keywords and competitor keywords...'
-    },
-    {
-      id: 57,
-      name: 'Content Opportunity Finder',
-      category: 'COMPETITOR RESEARCH',
-      secondaryCategory: 'TOPICS',
-      desc: 'Spot high-demand underserved topics where existing videos are outdated or low production quality.',
-      inputs: ['topic', 'category'],
-      defaultTopic: 'Local AI LLMs on MacBook Setup',
-      placeholder: 'Enter niche to identify opportunity gaps...'
-    },
-    {
-      id: 58,
-      name: 'Trending-vs-Evergreen Topic Analyzer',
-      category: 'TREND RESEARCH',
-      secondaryCategory: 'TOPICS',
-      desc: 'Classify content into short-term viral spikes vs long-term evergreen search libraries for strategic balance.',
-      inputs: ['topic', 'category'],
-      defaultTopic: 'How to Tie a Tie vs Latest Tech Keynote',
-      placeholder: 'Enter topic to evaluate shelf life...'
-    },
-    {
-      id: 59,
-      name: 'Country + Language Topic Research',
-      category: 'COUNTRY & LANGUAGE',
-      secondaryCategory: 'TOPICS',
-      desc: 'Geographic and linguistic research mapping regional cultural nuances, local search terminology, and trends.',
-      inputs: ['topic', 'country', 'language'],
-      defaultTopic: 'Electric Scooter Commuting Guide',
-      placeholder: 'Enter topic and target country & language...'
-    },
-    {
-      id: 60,
-      name: 'Platform + Country + Language SEO Research',
-      category: 'COUNTRY & LANGUAGE',
-      secondaryCategory: 'SEO',
-      desc: 'Master multi-dimensional research tailoring content format, regional search intent, and platform dynamics.',
-      inputs: ['topic', 'platforms', 'country', 'language', 'category'],
-      defaultTopic: 'Sustainable Eco-Friendly Packaging for Small Business',
-      placeholder: 'Enter topic for comprehensive 3-factor SEO research...'
+      slug: 'pre-upload-seo-checklist',
+      name: 'Pre-Upload SEO Checklist',
+      category: 'Optimization & Checklist',
+      toolType: 'checklist',
+      actionVerb: 'Generate Pre-Upload Checklist',
+      desc: 'Interactive step-by-step verification covering packaging, metadata, technical QA, and launch distribution.',
+      defaultTopic: 'Comprehensive Video Editing Workflow Guide',
+      placeholder: 'Enter video title or topic to customize verification checkpoints...'
     }
   ];
 
-  // Presets
-  const SAMPLE_PRESETS = [
-    { label: 'Tech Tutorial SEO', topic: 'How to Build a REST API with Node.js & TypeScript', platforms: ['YouTube', 'LinkedIn', 'X'], category: 'Education & Tech' },
-    { label: 'Short-Form Reel Hook', topic: '3 Hidden iPhone Camera Settings for Cinematic Video', platforms: ['TikTok', 'Instagram', 'YouTube'], category: 'How-To & Lifestyle' },
-    { label: 'Business Thought Leadership', topic: 'The ROI of Clean Code in Early-Stage Startups', platforms: ['LinkedIn', 'X', 'Reddit'], category: 'Business & Finance' },
-    { label: 'Gaming Highlights Packaging', topic: 'Best Budget Graphics Cards for 1440p Gaming', platforms: ['YouTube', 'Twitch', 'Reddit'], category: 'Entertainment & Gaming' },
-    { label: 'Fitness & Health Guide', topic: '15-Minute Home Mobility Routine for Desk Workers', platforms: ['YouTube', 'Instagram', 'Pinterest'], category: 'Health & Fitness' },
-  ];
-
-  // Engine Class
   class SeoToolsEngine {
     constructor() {
-      this.activeTool = TOOLS_CATALOG[0];
-      this.selectedCategory = 'ALL';
-      this.selectedPlatforms = ['YouTube'];
+      this.activeCategory = 'ALL';
       this.searchQuery = '';
-      this.activeResultData = null;
+      this.openTabs = [1];
+      this.activeToolId = 1;
+      this.tabStates = new Map();
+      this.selectedPlatforms = ['YouTube'];
+      this.abortController = null;
+
       this.init();
     }
 
     init() {
       this.renderCategoryPills();
       this.renderToolsGrid();
+      this.checkUrlForDeepLink();
+      this.renderWorkspaceTabs();
       this.bindEvents();
-      this.checkUrlParams();
+      this.restoreActiveWorkspace();
     }
 
-    checkUrlParams() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const toolId = parseInt(urlParams.get('tool'), 10);
-      const cat = urlParams.get('category');
+    checkUrlForDeepLink() {
+      const params = new URLSearchParams(window.location.search);
+      const toolParam = params.get('tool') || params.get('id');
+      const catParam = params.get('category');
 
-      if (cat) {
-        this.selectCategory(cat);
-      }
-      if (toolId && toolId >= 1 && toolId <= 60) {
-        const found = TOOLS_CATALOG.find(t => t.id === toolId);
-        if (found) {
-          this.openTool(found);
+      if (catParam) {
+        const matchingCat = CATEGORIES.find(c => c.id.toUpperCase() === catParam.toUpperCase() || c.name.toUpperCase() === catParam.toUpperCase());
+        if (matchingCat) {
+          this.activeCategory = matchingCat.id;
+          this.renderCategoryPills();
+          this.renderToolsGrid();
         }
       }
+
+      if (toolParam) {
+        let tool = null;
+        const numId = parseInt(toolParam, 10);
+        if (!isNaN(numId)) {
+          tool = TOOLS_CATALOG.find(t => t.id === numId);
+        } else {
+          tool = TOOLS_CATALOG.find(t => t.slug === toolParam.toLowerCase() || t.name.toLowerCase().replace(/[^a-z0-9]/g, '-') === toolParam.toLowerCase());
+        }
+
+        if (tool) {
+          this.openToolInWorkspace(tool);
+        }
+      }
+    }
+
+    get activeTool() {
+      return TOOLS_CATALOG.find(t => t.id === this.activeToolId) || TOOLS_CATALOG[0];
     }
 
     renderCategoryPills() {
       const container = document.getElementById('category-pills-container');
       if (!container) return;
 
-      container.innerHTML = CATEGORIES.map(cat => {
-        const isActive = this.selectedCategory.toUpperCase() === cat.id.toUpperCase();
-        return `
-          <button type="button" class="category-pill-btn ${isActive ? 'active' : ''}" data-cat="${cat.id}">
-            <span>${cat.name}</span>
-            <span class="pill-count">${cat.count}</span>
-          </button>
-        `;
-      }).join('');
+      container.innerHTML = CATEGORIES.map(cat => `
+        <button type="button" class="category-pill-btn ${this.activeCategory === cat.id ? 'active' : ''}" data-cat="${cat.id}">
+          <span>${cat.name}</span>
+          <span class="pill-count">${cat.count}</span>
+        </button>
+      `).join('');
     }
 
     renderToolsGrid() {
-      const grid = document.getElementById('tools-catalog-grid');
+      const container = document.getElementById('tools-catalog-grid');
       const countEl = document.getElementById('visible-tools-count');
-      if (!grid) return;
+      if (!container) return;
 
-      const filtered = TOOLS_CATALOG.filter(tool => {
-        // Category filter
-        const matchCategory = this.selectedCategory === 'ALL' ||
-          tool.category.toUpperCase() === this.selectedCategory.toUpperCase() ||
-          (tool.secondaryCategory && tool.secondaryCategory.toUpperCase() === this.selectedCategory.toUpperCase());
+      let filtered = TOOLS_CATALOG;
 
-        // Search query filter
+      if (this.activeCategory !== 'ALL') {
+        filtered = filtered.filter(t => t.category === this.activeCategory);
+      }
+
+      if (this.searchQuery.trim()) {
         const q = this.searchQuery.toLowerCase().trim();
-        const matchQuery = !q ||
-          tool.name.toLowerCase().includes(q) ||
-          tool.desc.toLowerCase().includes(q) ||
-          tool.category.toLowerCase().includes(q) ||
-          String(tool.id) === q;
-
-        return matchCategory && matchQuery;
-      });
+        filtered = filtered.filter(t => 
+          t.name.toLowerCase().includes(q) ||
+          t.desc.toLowerCase().includes(q) ||
+          t.category.toLowerCase().includes(q) ||
+          t.slug.toLowerCase().includes(q) ||
+          `#${t.id}`.includes(q)
+        );
+      }
 
       if (countEl) {
-        countEl.textContent = `${filtered.length} Tool${filtered.length === 1 ? '' : 's'}`;
+        countEl.textContent = `${filtered.length} Tools`;
       }
 
       if (filtered.length === 0) {
-        grid.innerHTML = `
-          <div style="grid-column: 1 / -1; padding: 3rem 1rem; text-align: center; color: var(--text-secondary);">
-            <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">No tools found matching "<strong>${this.searchQuery}</strong>".</p>
-            <button type="button" class="btn btn-secondary btn-sm" id="btn-clear-search">Clear Search & Show All Tools</button>
+        container.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1; padding: 2.5rem; text-align: center; background: var(--bg-surface); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <p style="font-weight: 600; color: var(--text-primary); margin: 0 0 0.5rem;">No tools found matching "${this.searchQuery}"</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0 0 1rem;">Try clearing your search query or switching to All Tools.</p>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-filters">Reset Filters</button>
           </div>
         `;
-        document.getElementById('btn-clear-search')?.addEventListener('click', () => {
+        document.getElementById('btn-reset-filters')?.addEventListener('click', () => {
+          this.searchQuery = '';
+          this.activeCategory = 'ALL';
           const input = document.getElementById('seo-tool-search');
           if (input) input.value = '';
-          this.searchQuery = '';
-          this.selectedCategory = 'ALL';
           this.renderCategoryPills();
           this.renderToolsGrid();
         });
         return;
       }
 
-      grid.innerHTML = filtered.map(tool => {
-        const isSelected = this.activeTool && this.activeTool.id === tool.id;
+      container.innerHTML = filtered.map(t => `
+        <div class="tool-compact-card ${this.activeToolId === t.id ? 'active-runner-selected' : ''}" data-tool-id="${t.id}">
+          <div class="tool-card-top">
+            <span class="tool-num">#${t.id < 10 ? '0' + t.id : t.id}</span>
+            <span class="tool-cat-pill">${t.category}</span>
+          </div>
+          <h3 class="tool-name">${t.name}</h3>
+          <p class="tool-desc">${t.desc}</p>
+          <div class="tool-card-bottom">
+            <span class="tool-action-btn">
+              <span>Open Tool</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    renderWorkspaceTabs() {
+      const container = document.getElementById('workspace-tabs-list');
+      if (!container) return;
+
+      container.innerHTML = this.openTabs.map(toolId => {
+        const tool = TOOLS_CATALOG.find(t => t.id === toolId);
+        if (!tool) return '';
+        const isActive = this.activeToolId === toolId;
         return `
-          <div class="tool-compact-card ${isSelected ? 'active-selected' : ''}" data-tool-id="${tool.id}" tabindex="0" role="button" aria-label="Open ${tool.name}">
-            <div class="tool-card-top">
-              <span class="tool-id-badge">#${String(tool.id).padStart(2, '0')}</span>
-              <span class="tool-category-badge">${tool.category}</span>
-            </div>
-            <div>
-              <h3 class="tool-compact-name">${tool.name}</h3>
-              <p class="tool-compact-desc">${tool.desc}</p>
-            </div>
-            <div class="tool-card-footer">
-              <span class="tool-platform-icons">Multi-Platform</span>
-              <span class="btn-open-tool">Open Workspace →</span>
-            </div>
+          <div class="workspace-tab-item ${isActive ? 'active' : ''}" data-tab-tool-id="${tool.id}">
+            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: ${isActive ? 'var(--accent-blue)' : 'var(--text-muted)'};">#${tool.id < 10 ? '0' + tool.id : tool.id}</span>
+            <span>${tool.name}</span>
+            ${this.openTabs.length > 1 ? `<button type="button" class="tab-close-btn" data-close-tool-id="${tool.id}" title="Close workspace">✕</button>` : ''}
           </div>
         `;
       }).join('');
     }
 
-    selectCategory(catId) {
-      this.selectedCategory = catId;
-      this.renderCategoryPills();
-      this.renderToolsGrid();
-    }
+    openToolInWorkspace(tool) {
+      if (!tool) return;
 
-    openTool(tool) {
-      this.activeTool = tool;
-      const runnerModal = document.getElementById('active-runner-modal');
-      const toolTitle = document.getElementById('active-tool-title');
-      const toolIdSpan = document.getElementById('active-tool-id');
-      const toolCategorySpan = document.getElementById('active-tool-category');
-      const toolDesc = document.getElementById('active-tool-desc');
-      const topicInput = document.getElementById('runner-input-topic');
-
-      if (runnerModal) {
-        runnerModal.classList.add('open');
-        runnerModal.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (!this.openTabs.includes(tool.id)) {
+        this.openTabs.push(tool.id);
       }
 
-      if (toolTitle) toolTitle.textContent = tool.name;
-      if (toolIdSpan) toolIdSpan.textContent = `#${String(tool.id).padStart(2, '0')}`;
-      if (toolCategorySpan) toolCategorySpan.textContent = tool.category;
-      if (toolDesc) toolDesc.textContent = tool.desc;
+      this.saveActiveWorkspaceState();
+      this.activeToolId = tool.id;
+      this.renderWorkspaceTabs();
+      this.restoreActiveWorkspace();
 
-      if (topicInput && !topicInput.value) {
-        topicInput.placeholder = tool.placeholder || 'Enter video topic, title, or keyword...';
+      const url = new URL(window.location);
+      url.searchParams.set('tool', tool.slug || tool.id);
+      window.history.replaceState({}, '', url);
+
+      const runner = document.getElementById('active-runner-modal');
+      if (runner) {
+        runner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
 
       this.renderToolsGrid();
     }
 
-    togglePlatform(platformName) {
-      if (this.selectedPlatforms.includes(platformName)) {
-        if (this.selectedPlatforms.length > 1) {
-          this.selectedPlatforms = this.selectedPlatforms.filter(p => p !== platformName);
+    closeTab(toolId) {
+      if (this.openTabs.length <= 1) return;
+      
+      this.tabStates.delete(toolId);
+      this.openTabs = this.openTabs.filter(id => id !== toolId);
+
+      if (this.activeToolId === toolId) {
+        this.activeToolId = this.openTabs[this.openTabs.length - 1];
+      }
+
+      this.renderWorkspaceTabs();
+      this.restoreActiveWorkspace();
+      this.renderToolsGrid();
+    }
+
+    saveActiveWorkspaceState() {
+      const singleInput = document.getElementById('runner-single-input')?.value || '';
+      const category = document.getElementById('runner-input-category')?.value || 'Education & Tech';
+      const country = document.getElementById('runner-input-country')?.value || 'Global';
+      const language = document.getElementById('runner-input-language')?.value || 'English';
+      const audience = document.getElementById('runner-input-audience')?.value || 'General Audience';
+
+      this.tabStates.set(this.activeToolId, {
+        input: singleInput,
+        platforms: [...this.selectedPlatforms],
+        category,
+        country,
+        language,
+        audience,
+        resultData: this.activeResultData || null
+      });
+    }
+
+    restoreActiveWorkspace() {
+      const tool = this.activeTool;
+      if (!tool) return;
+
+      const idEl = document.getElementById('active-tool-id');
+      const titleEl = document.getElementById('active-tool-title');
+      const catEl = document.getElementById('active-tool-category');
+      const descEl = document.getElementById('active-tool-desc');
+      const actionText = document.getElementById('btn-action-text');
+
+      if (idEl) idEl.textContent = `#${tool.id < 10 ? '0' + tool.id : tool.id}`;
+      if (titleEl) titleEl.textContent = tool.name;
+      if (catEl) catEl.textContent = tool.category;
+      if (descEl) descEl.textContent = tool.desc;
+      if (actionText) actionText.textContent = tool.actionVerb || `Run ${tool.name}`;
+
+      const savedState = this.tabStates.get(tool.id);
+      const singleInput = document.getElementById('runner-single-input');
+
+      if (singleInput) {
+        if (savedState && typeof savedState.input === 'string') {
+          singleInput.value = savedState.input;
+        } else {
+          singleInput.value = tool.defaultTopic || '';
+        }
+        singleInput.placeholder = tool.placeholder || 'Enter topic, title, keywords, or content outline...';
+        this.detectInputType(singleInput.value);
+      }
+
+      if (savedState) {
+        if (savedState.platforms) this.selectedPlatforms = [...savedState.platforms];
+        if (savedState.category) {
+          const catSelect = document.getElementById('runner-input-category');
+          if (catSelect) catSelect.value = savedState.category;
+        }
+        if (savedState.country) {
+          const countrySelect = document.getElementById('runner-input-country');
+          if (countrySelect) countrySelect.value = savedState.country;
+        }
+        if (savedState.language) {
+          const langSelect = document.getElementById('runner-input-language');
+          if (langSelect) langSelect.value = savedState.language;
+        }
+        if (savedState.audience) {
+          const audSelect = document.getElementById('runner-input-audience');
+          if (audSelect) audSelect.value = savedState.audience;
+        }
+        
+        if (savedState.resultData) {
+          this.activeResultData = savedState.resultData;
+          this.renderSpecializedResults(savedState.resultData);
+        } else {
+          const results = document.getElementById('results-workspace');
+          if (results) results.innerHTML = '';
         }
       } else {
-        this.selectedPlatforms.push(platformName);
+        const results = document.getElementById('results-workspace');
+        if (results) results.innerHTML = '';
+      }
+
+      this.updatePlatformChipsUI();
+    }
+
+    detectInputType(val) {
+      const typeBadge = document.getElementById('input-type-indicator');
+      const label = document.getElementById('detected-type-label');
+      const clearBtn = document.getElementById('btn-clear-input');
+
+      if (!val || !val.trim()) {
+        if (typeBadge) typeBadge.style.display = 'none';
+        if (clearBtn) clearBtn.style.display = 'none';
+        return;
+      }
+
+      if (clearBtn) clearBtn.style.display = 'inline-flex';
+      const clean = val.trim();
+
+      let detected = 'Topic & Keyword';
+      if (/^https?:\/\//i.test(clean)) {
+        if (/youtube\.com|youtu\.be/i.test(clean)) detected = 'YouTube Public URL';
+        else if (/instagram\.com/i.test(clean)) detected = 'Instagram Post URL';
+        else if (/tiktok\.com/i.test(clean)) detected = 'TikTok Video URL';
+        else detected = 'Public Web URL';
+      } else if (clean.length > 150 || clean.includes('\n')) {
+        detected = 'Full Script / Outline';
+      } else if (clean.startsWith('#')) {
+        detected = 'Hashtag Query';
+      } else if (clean.length > 50 && (clean.includes('?') || clean.includes(':'))) {
+        detected = 'Draft Title / Hook';
+      }
+
+      if (typeBadge && label) {
+        label.textContent = detected;
+        typeBadge.style.display = 'inline-flex';
+      }
+    }
+
+    togglePlatform(platform) {
+      if (this.selectedPlatforms.includes(platform)) {
+        if (this.selectedPlatforms.length > 1) {
+          this.selectedPlatforms = this.selectedPlatforms.filter(p => p !== platform);
+        }
+      } else {
+        this.selectedPlatforms.push(platform);
       }
       this.updatePlatformChipsUI();
     }
@@ -783,37 +461,25 @@
     }
 
     updatePlatformChipsUI() {
-      document.querySelectorAll('.platform-chip').forEach(chip => {
+      const container = document.getElementById('platform-chips-container');
+      if (!container) return;
+
+      container.querySelectorAll('.platform-chip').forEach(chip => {
         const p = chip.getAttribute('data-platform');
         chip.classList.toggle('selected', this.selectedPlatforms.includes(p));
       });
     }
 
-    loadPreset(preset) {
-      const topicInput = document.getElementById('runner-input-topic');
-      const categorySelect = document.getElementById('runner-input-category');
-
-      if (topicInput) topicInput.value = preset.topic;
-      if (categorySelect) categorySelect.value = preset.category;
-      if (preset.platforms) {
-        this.selectedPlatforms = [...preset.platforms];
-        this.updatePlatformChipsUI();
-      }
-    }
-
     async runActiveTool() {
-      const topic = document.getElementById('runner-input-topic')?.value?.trim() || '';
-      const url = document.getElementById('runner-input-url')?.value?.trim() || '';
+      const singleInput = document.getElementById('runner-single-input')?.value?.trim() || '';
       const category = document.getElementById('runner-input-category')?.value || 'Education & Tech';
       const country = document.getElementById('runner-input-country')?.value || 'Global';
       const language = document.getElementById('runner-input-language')?.value || 'English';
       const audience = document.getElementById('runner-input-audience')?.value || 'General Audience';
-      const contentType = document.getElementById('runner-input-content-type')?.value || 'Long-Form Video';
-      const competitorInput = document.getElementById('runner-input-competitor')?.value?.trim() || '';
 
-      if (!topic && !url) {
-        alert('Please enter a content topic, title, keyword, or public video URL to proceed.');
-        document.getElementById('runner-input-topic')?.focus();
+      if (!singleInput) {
+        alert('Please enter a topic, keyword, title, or video URL.');
+        document.getElementById('runner-single-input')?.focus();
         return;
       }
 
@@ -822,10 +488,10 @@
 
       if (resultsContainer) {
         resultsContainer.innerHTML = `
-          <div class="loading-state">
-            <div class="spinner"></div>
-            <p>Analyzing public parameters for <strong>${this.activeTool.name}</strong>...</p>
-            <span style="font-size: 0.8rem; color: var(--text-muted);">Grounded search across ${this.selectedPlatforms.join(', ')} (${country} / ${language})</span>
+          <div class="loading-state" style="padding: 2.5rem; text-align: center; background: var(--bg-surface); border-radius: 8px; border: 1px solid var(--border-subtle); margin-top: 1.5rem;">
+            <div class="spinner" style="margin: 0 auto 1rem; width: 32px; height: 32px; border: 3px solid var(--border-strong); border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+            <p style="font-weight: 600; color: var(--text-primary); margin: 0 0 0.25rem;">Running specialized engine for <strong>${this.activeTool.name}</strong> (#${this.activeTool.id})...</p>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Grounded analysis across ${this.selectedPlatforms.join(', ')} (${country} / ${language})</span>
           </div>
         `;
         resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -836,27 +502,30 @@
         runBtn.innerHTML = `<span>Processing...</span>`;
       }
 
+      if (this.abortController) {
+        this.abortController.abort();
+      }
+      this.abortController = new AbortController();
+
       try {
         const payload = {
           toolId: this.activeTool.id,
           toolName: this.activeTool.name,
           category: this.activeTool.category,
-          topic: topic,
-          url: url,
-          categoryInput: category,
+          singleInput: singleInput,
+          topic: singleInput,
           platforms: this.selectedPlatforms,
           country: country,
           language: language,
           contentCategory: category,
           audience: audience,
-          contentType: contentType,
-          competitorInput: competitorInput,
         };
 
         const response = await fetch('/api/seo-research', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
+          signal: this.abortController.signal
         });
 
         if (!response.ok) {
@@ -865,338 +534,536 @@
 
         const data = await response.json();
         this.activeResultData = data;
-        this.renderResults(data);
+        this.saveActiveWorkspaceState();
+        this.renderSpecializedResults(data);
       } catch (err) {
-        console.error('Error running SEO tool:', err);
-        // Render graceful fallback result UI
-        this.renderResults(this.generateClientFallback(this.activeTool, topic || 'Content Topic', this.selectedPlatforms, country, language, category));
+        if (err.name === 'AbortError') return;
+        console.warn('Backend request fallback, delivering grounded deterministic copy:', err);
+        const fallback = this.generateToolSpecificClientFallback(this.activeTool, singleInput, this.selectedPlatforms, country, language, category, audience);
+        this.activeResultData = fallback;
+        this.saveActiveWorkspaceState();
+        this.renderSpecializedResults(fallback);
       } finally {
         if (runBtn) {
           runBtn.disabled = false;
-          runBtn.innerHTML = `<span>Run ${this.activeTool.name}</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+          runBtn.innerHTML = `<span id="btn-action-text">${this.activeTool.actionVerb || 'Run Research'}</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
         }
       }
     }
 
-    renderResults(data) {
+    renderSpecializedResults(data) {
       const container = document.getElementById('results-workspace');
       if (!container) return;
 
-      const platforms = data.inputContext?.platforms || this.selectedPlatforms;
-      const scores = data.scores || { overallScore: 84, factorBreakdown: [] };
-      const keywords = data.keywords || { primary: [], secondary: [], longTail: [] };
-      const hashtags = data.hashtags || { highRelevance: [], niche: [], longTail: [] };
-      const titleAnalysis = data.titleAnalysis || { currentStrength: '', problems: [], improvedTitle: '', alternativeTitles: [] };
-      const desc = data.description || { optimizedText: '', naturalKeywordPlacement: '', readingLevel: '' };
-      const hooks = data.hooksAndScript || { videoHookSuggestions: [], contentBrief: { keyMilestones: [] } };
-      const checklists = data.checklists || { seoChecklist: [], publishingChecklist: [] };
-      const platformOutputs = data.platformOutputs || {};
+      const toolId = Number(data.toolId || this.activeTool.id);
 
-      container.innerHTML = `
-        <div class="results-container">
-          <div class="results-header">
+      let html = '';
+      if (toolId === 1) html = this.renderVideoSeoAudit(data);
+      else if (toolId === 2) html = this.renderKeywordResearch(data);
+      else if (toolId === 3) html = this.renderTitleAnalyzer(data);
+      else if (toolId === 4) html = this.renderHashtagsAndTags(data);
+      else if (toolId === 5) html = this.renderHookScriptIntro(data);
+      else if (toolId === 6) html = this.renderDescriptionChapters(data);
+      else if (toolId === 7) html = this.renderTopicIdeaExplorer(data);
+      else if (toolId === 8) html = this.renderCompetitorGapFinder(data);
+      else if (toolId === 9) html = this.renderRepurposingKit(data);
+      else if (toolId === 10) html = this.renderChecklist(data);
+      else html = this.renderVideoSeoAudit(data);
+
+      container.innerHTML = html;
+      this.bindResultsInteractivity(container, data);
+    }
+
+    // Tool 1: Video SEO Analyzer
+    renderVideoSeoAudit(data) {
+      const score = data.seoScore || 88;
+      const breakdown = data.scoreBreakdown || [];
+      const titleAudit = data.titleAudit || {};
+      const descAudit = data.descriptionAudit || {};
+      const tags = data.tags || [];
+
+      return `
+        <div class="results-container" style="margin-top: 1.5rem;">
+          <div class="tool-result-header-bar">
             <div>
-              <h3 class="results-title">
-                ${data.toolName || this.activeTool.name} Results
-                <span class="verified-badge">✓ Grounded Research</span>
-              </h3>
-              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">
-                Target: <strong>${data.inputContext?.topic || 'Topic'}</strong> • Platforms: <strong>${platforms.join(', ')}</strong> • Country: <strong>${data.inputContext?.country || 'Global'}</strong>
-              </p>
+              <h3 class="tool-result-title"><span>📊</span> Video SEO Audit Output <span class="verified-badge">✓ Verified Audit</span></h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
             </div>
-            <div class="results-actions">
-              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown" title="Export as clean Markdown">📄 Export Markdown</button>
-              <button type="button" class="btn btn-secondary btn-sm" id="btn-copy-all" title="Copy all outputs to clipboard">📋 Copy All</button>
+            <div class="tool-result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
             </div>
           </div>
-
-          <!-- Multi-Platform Specific Results Tabs -->
-          ${platforms.length > 1 ? `
-            <div class="platform-results-nav" id="platform-tabs-nav">
-              ${platforms.map((p, idx) => `
-                <button type="button" class="platform-tab-btn ${idx === 0 ? 'active' : ''}" data-platform-tab="${p}">${p}</button>
-              `).join('')}
-            </div>
-          ` : ''}
-
-          <!-- Dedicated Platform Card -->
-          <div id="platform-tab-content">
-            ${this.renderPlatformSpecificCard(platforms[0], platformOutputs[platforms[0]] || {}, data)}
-          </div>
-
           <div class="results-grid" style="margin-top: 1.25rem;">
-            
-            <!-- Overall Quality & Factor Breakdown -->
             <div class="result-card">
-              <div class="result-card-header">
-                <h4 class="result-card-title">SEO & Packaging Score</h4>
-                <span class="copy-btn-mini" data-copy-text="${scores.overallScore}/100 score">Copy</span>
-              </div>
+              <h4 class="result-card-title">Overall SEO Health Score</h4>
               <div class="score-box">
-                <div class="score-circle">
-                  ${scores.overallScore || 85}
-                  <span>/ 100</span>
-                </div>
+                <div class="score-circle">${score}<span>/ 100</span></div>
                 <div class="score-details">
-                  <strong style="font-size: 0.9rem; color: var(--text-primary);">Search-Intent Alignment</strong>
                   <ul class="factor-list">
-                    ${(scores.factorBreakdown || []).map(f => `
-                      <li class="factor-item">
-                        <span>${f.factor}</span>
-                        <strong>${f.score || 85}% (${f.status})</strong>
-                      </li>
-                    `).join('')}
+                    ${breakdown.map(b => `<li class="factor-item"><span>${b.factor}</span><strong>${b.score}%</strong></li>`).join('')}
                   </ul>
                 </div>
               </div>
             </div>
-
-            <!-- Title & Packaging Optimization -->
             <div class="result-card">
               <div class="result-card-header">
                 <h4 class="result-card-title">Optimized Title Recommendation</h4>
-                <button type="button" class="copy-btn-mini" data-copy-text="${titleAnalysis.improvedTitle}">Copy Title</button>
+                <button type="button" class="copy-btn-mini" data-copy-text="${titleAudit.optimizedTitle}">Copy</button>
               </div>
-              <div style="background: var(--bg-subtle); padding: 0.85rem; border-radius: 6px; border: 1px solid var(--border-subtle);">
-                <strong style="font-size: 0.95rem; color: var(--text-primary); display: block;">${titleAnalysis.improvedTitle || 'Optimized Content Title'}</strong>
+              <div style="background: var(--bg-subtle); padding: 0.85rem; border-radius: 6px; font-weight: 600; font-size: 0.92rem; color: var(--text-primary);">
+                ${titleAudit.optimizedTitle || data.inputContext?.topic}
               </div>
-              ${titleAnalysis.problems && titleAnalysis.problems.length ? `
-                <div style="font-size: 0.8rem; color: var(--text-secondary);">
-                  <span style="font-weight: 600; color: var(--text-primary);">Identified Observations:</span>
-                  <ul style="padding-left: 1.1rem; margin: 0.3rem 0 0;">
-                    ${titleAnalysis.problems.map(p => `<li>${p}</li>`).join('')}
-                  </ul>
-                </div>
-              ` : ''}
-              ${titleAnalysis.alternativeTitles && titleAnalysis.alternativeTitles.length ? `
-                <div style="margin-top: 0.3rem;">
-                  <span style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">Alternative Variations:</span>
-                  <ul style="padding-left: 1.1rem; margin: 0.3rem 0 0; font-size: 0.82rem; color: var(--text-primary);">
-                    ${titleAnalysis.alternativeTitles.map(t => `<li style="margin-bottom: 0.25rem;">${t} <button type="button" class="copy-btn-mini" data-copy-text="${t}" style="font-size: 0.65rem; padding: 0.1rem 0.3rem;">Copy</button></li>`).join('')}
-                  </ul>
-                </div>
-              ` : ''}
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0.4rem 0 0;">${titleAudit.recommendation || 'Front-loaded for search.'}</p>
             </div>
-
-            <!-- Grounded Keywords -->
-            <div class="result-card">
+            <div class="result-card result-card-full">
               <div class="result-card-header">
-                <h4 class="result-card-title">Target Search Keywords</h4>
-                <button type="button" class="copy-btn-mini" data-copy-text="${(keywords.primary || []).concat(keywords.longTail || []).join(', ')}">Copy All Keywords</button>
+                <h4 class="result-card-title">Optimized Description & Chapters</h4>
+                <button type="button" class="copy-btn-mini" data-copy-text="${descAudit.optimizedDescription}">Copy Description</button>
+              </div>
+              <pre style="white-space: pre-wrap; font-family: var(--font-sans); font-size: 0.84rem; background: var(--bg-subtle); padding: 1rem; border-radius: 8px; margin: 0; line-height: 1.5;">${descAudit.optimizedDescription || ''}</pre>
+            </div>
+            <div class="result-card result-card-full">
+              <div class="result-card-header">
+                <h4 class="result-card-title">Recommended Tags</h4>
+                <button type="button" class="copy-btn-mini" data-copy-text="${tags.join(', ')}">Copy All Tags</button>
               </div>
               <div class="tag-cloud">
-                ${(keywords.primary || []).map(kw => `
-                  <span class="interactive-tag" data-copy-text="${kw}" title="Click to copy keyword">
-                    🔑 ${kw}
-                  </span>
-                `).join('')}
-                ${(keywords.longTail || []).map(kw => `
-                  <span class="interactive-tag" data-copy-text="${kw}" title="Click to copy long-tail keyword">
-                    🎯 ${kw}
-                  </span>
-                `).join('')}
+                ${tags.map(t => `<span class="pill-chip">${t}</span>`).join('')}
               </div>
-              ${keywords.searchIntent ? `
-                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.4rem;">
-                  Intent Type: <strong style="color: var(--text-primary);">${keywords.searchIntent}</strong>
-                </div>
-              ` : ''}
             </div>
+          </div>
+        </div>
+      `;
+    }
 
-            <!-- Verified Hashtags -->
+    // Tool 2: Keyword Research
+    renderKeywordResearch(data) {
+      const kw = data.keywords || { primary: [], secondary: [], longTail: [], questions: [] };
+      const clusters = data.clusters || [];
+
+      return `
+        <div class="results-container" style="margin-top: 1.5rem;">
+          <div class="tool-result-header-bar">
+            <div>
+              <h3 class="tool-result-title"><span>🔑</span> Keyword Research Matrix <span class="verified-badge">✓ Search Intent Grounded</span></h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong> • Search Intent: <strong>${kw.searchIntent || 'Informational'}</strong></p>
+            </div>
+            <div class="tool-result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-copy-all-kw">📋 Copy All Keywords</button>
+            </div>
+          </div>
+          <div class="results-grid" style="margin-top: 1.25rem;">
             <div class="result-card">
               <div class="result-card-header">
-                <h4 class="result-card-title">Topic-Specific Hashtags</h4>
-                <button type="button" class="copy-btn-mini" data-copy-text="${(hashtags.highRelevance || []).concat(hashtags.niche || []).concat(hashtags.platformAppropriate || []).join(' ')}">Copy Hashtags</button>
+                <h4 class="result-card-title">Primary Seed Keywords</h4>
+                <button type="button" class="copy-btn-mini" data-copy-text="${(kw.primary || []).join(', ')}">Copy</button>
               </div>
-              <div class="tag-cloud">
-                ${(hashtags.highRelevance || []).map(tag => `
-                  <span class="interactive-tag hashtag" data-copy-text="${tag}" title="Click to copy hashtag">
-                    ${tag}
-                  </span>
-                `).join('')}
-                ${(hashtags.niche || []).map(tag => `
-                  <span class="interactive-tag hashtag" data-copy-text="${tag}" title="Click to copy niche hashtag">
-                    ${tag}
-                  </span>
-                `).join('')}
-                ${(hashtags.platformAppropriate || []).map(tag => `
-                  <span class="interactive-tag hashtag" data-copy-text="${tag}" title="Click to copy platform hashtag">
-                    ${tag}
-                  </span>
-                `).join('')}
-              </div>
-              <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0.4rem 0 0;">
-                Calculated for optimal tag density (3–8 tags per post) to prevent algorithmic spam triggers.
-              </p>
+              <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.85rem; line-height: 1.6;">
+                ${(kw.primary || []).map(k => `<li>${k}</li>`).join('')}
+              </ul>
             </div>
-
-            <!-- Video Hook & Structure -->
-            ${hooks.videoHookSuggestions && hooks.videoHookSuggestions.length ? `
-              <div class="result-card">
+            <div class="result-card">
+              <div class="result-card-header">
+                <h4 class="result-card-title">Long-Tail Search Queries</h4>
+                <button type="button" class="copy-btn-mini" data-copy-text="${(kw.longTail || []).join('\n')}">Copy</button>
+              </div>
+              <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.85rem; line-height: 1.6;">
+                ${(kw.longTail || []).map(k => `<li>${k}</li>`).join('')}
+              </ul>
+            </div>
+            ${kw.questions?.length ? `
+              <div class="result-card result-card-full">
                 <div class="result-card-header">
-                  <h4 class="result-card-title">Opening Hook & Attention Triggers</h4>
-                  <button type="button" class="copy-btn-mini" data-copy-text="${hooks.videoHookSuggestions.join('\n\n')}">Copy Hooks</button>
+                  <h4 class="result-card-title">Audience Questions (FAQ & Search Intent)</h4>
+                  <button type="button" class="copy-btn-mini" data-copy-text="${kw.questions.join('\n')}">Copy Questions</button>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                  ${hooks.videoHookSuggestions.map((hook, idx) => `
-                    <div style="padding: 0.6rem 0.75rem; background: var(--bg-subtle); border-radius: 6px; font-size: 0.83rem; color: var(--text-primary); border-left: 3px solid var(--accent-blue);">
-                      <strong>Hook #${idx + 1}:</strong> ${hook}
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.6rem;">
+                  ${kw.questions.map(q => `<div style="padding: 0.6rem; background: var(--bg-subtle); border-radius: 6px; font-size: 0.83rem; border-left: 3px solid var(--accent-blue);">${q}</div>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+            ${clusters.length ? `
+              <div class="result-card result-card-full">
+                <h4 class="result-card-title">Semantic Topic Clusters</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 0.6rem;">
+                  ${clusters.map(c => `
+                    <div style="background: var(--bg-subtle); padding: 0.85rem; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                      <strong style="color: var(--accent-blue); font-size: 0.88rem; display: block;">${c.clusterName}</strong>
+                      <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.4rem;">Intent: ${c.intent}</span>
+                      <ul style="padding-left: 1.1rem; margin: 0; font-size: 0.82rem;">${(c.terms || []).map(t => `<li>${t}</li>`).join('')}</ul>
                     </div>
                   `).join('')}
                 </div>
               </div>
             ` : ''}
+          </div>
+        </div>
+      `;
+    }
 
-            <!-- Pre-Publishing Interactive Checklist -->
-            <div class="result-card">
-              <div class="result-card-header">
-                <h4 class="result-card-title">SEO & Publishing Checklist</h4>
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Interactive</span>
+    // Tool 3: Title Analyzer & Generator
+    renderTitleAnalyzer(data) {
+      const audit = data.titleAnalysis || {};
+      const variants = data.titleVariants || [];
+
+      return `
+        <div class="results-container" style="margin-top: 1.5rem;">
+          <div class="tool-result-header-bar">
+            <div>
+              <h3 class="tool-result-title"><span>🏷️</span> Title Analysis & Formula Generator <span class="verified-badge">✓ High CTR</span></h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Length: <strong>${audit.characterCount || 0} characters</strong> • Mobile: <strong>${audit.mobileStatus || 'Optimal'}</strong></p>
+            </div>
+            <div class="tool-result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
+            </div>
+          </div>
+          <div class="results-grid" style="margin-top: 1.25rem;">
+            <div class="result-card result-card-full">
+              <h4 class="result-card-title">Formula-Driven High-Retention Titles</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem;">
+                ${variants.map(v => `
+                  <div style="background: var(--bg-subtle); padding: 0.85rem; border-radius: 8px; border: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+                    <div>
+                      <span style="font-size: 0.72rem; color: var(--accent-blue); font-weight: 700; text-transform: uppercase;">${v.formula}</span>
+                      <div style="font-weight: 600; font-size: 0.92rem; color: var(--text-primary); margin-top: 0.2rem;">${v.title}</div>
+                      <span style="font-size: 0.78rem; color: var(--text-muted);">${v.whyItWorks}</span>
+                    </div>
+                    <button type="button" class="copy-btn-mini" data-copy-text="${v.title}">Copy</button>
+                  </div>
+                `).join('')}
               </div>
-              <div class="checklist-items">
-                ${(checklists.seoChecklist || []).concat(checklists.publishingChecklist || []).map((item, idx) => `
-                  <label class="checklist-item" id="chk-item-${idx}">
-                    <input type="checkbox" ${item.status ? 'checked' : ''} onchange="this.parentElement.classList.toggle('done', this.checked)">
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Tool 4: Hashtag & Tag Generator
+    renderHashtagsAndTags(data) {
+      const sets = data.formattedSets || {};
+      const broad = data.broadHashtags || [];
+      const niche = data.nicheHashtags || [];
+      const platformTags = data.platformSpecific || {};
+
+      return `
+        <div class="results-container" style="margin-top: 1.5rem;">
+          <div class="tool-result-header-bar">
+            <div>
+              <h3 class="tool-result-title"><span>#️⃣</span> Hashtag & Tag Generator <span class="verified-badge">✓ Grounded Tags</span></h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+            </div>
+            <div class="tool-result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1.25rem;">
+            <div class="hashtag-set-card">
+              <div class="hashtag-set-header">
+                <h4 class="hashtag-set-title">Minimal Hashtag Set (5 Tags)</h4>
+                <button type="button" class="copy-btn-mini" data-copy-text="${sets.minimalSet}">Copy Set</button>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 0.83rem; color: var(--accent-blue); line-height: 1.45;">${sets.minimalSet}</div>
+            </div>
+            <div class="hashtag-set-card">
+              <div class="hashtag-set-header">
+                <h4 class="hashtag-set-title">Balanced Hashtag Set (10 Tags)</h4>
+                <button type="button" class="copy-btn-mini" data-copy-text="${sets.balancedSet}">Copy Set</button>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 0.83rem; color: var(--accent-blue); line-height: 1.45;">${sets.balancedSet}</div>
+            </div>
+            <div class="hashtag-set-card" style="grid-column: 1 / -1;">
+              <div class="hashtag-set-header">
+                <h4 class="hashtag-set-title">Comma-Separated Video Tags (YouTube/Vimeo Metadata Box)</h4>
+                <button type="button" class="copy-btn-mini" data-copy-text="${sets.commaSeparatedTags}">Copy Comma Tags</button>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 0.83rem; color: var(--text-primary); line-height: 1.45; background: var(--bg-subtle); padding: 0.75rem; border-radius: 6px;">
+                ${sets.commaSeparatedTags}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Tool 5: Hook & Script Intro Generator
+    renderHookScriptIntro(data) {
+      const hooks = data.hooks || [];
+      const fw = data.retentionFramework || {};
+
+      return `
+        <div class="results-container" style="margin-top: 1.5rem;">
+          <div class="tool-result-header-bar">
+            <div>
+              <h3 class="tool-result-title"><span>🎣</span> Hook & Script Intro Generator <span class="verified-badge">✓ High Retention</span></h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+            </div>
+            <div class="tool-result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
+            </div>
+          </div>
+          <div class="results-grid" style="margin-top: 1.25rem;">
+            <div class="result-card result-card-full">
+              <h4 class="result-card-title">0–3 Second Opening Hooks</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem;">
+                ${hooks.map(h => `
+                  <div style="background: var(--bg-subtle); padding: 0.85rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <strong style="color: var(--accent-blue); font-size: 0.85rem;">${h.style}</strong>
+                      <button type="button" class="copy-btn-mini" data-copy-text="${h.spokenScript}">Copy</button>
+                    </div>
+                    <div style="font-size: 0.92rem; font-weight: 500; margin: 0.35rem 0; color: var(--text-primary);">"${h.spokenScript}"</div>
+                    <span style="font-size: 0.78rem; color: var(--text-muted);">🎬 Visual Cue: ${h.visualActionCue}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Tool 6: Description & Chapters Generator
+    renderDescriptionChapters(data) {
+      const desc = data.descriptionText || '';
+      const chapters = data.chapters || [];
+
+      return `
+        <div class="results-container" style="margin-top: 1.5rem;">
+          <div class="tool-result-header-bar">
+            <div>
+              <h3 class="tool-result-title"><span>📝</span> Description & Chapters Generator <span class="verified-badge">✓ Structured Output</span></h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+            </div>
+            <div class="tool-result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
+              <button type="button" class="btn btn-primary btn-sm" data-copy-text="${desc}">📋 Copy Full Description</button>
+            </div>
+          </div>
+          <div class="results-grid" style="margin-top: 1.25rem;">
+            <div class="result-card result-card-full">
+              <pre style="white-space: pre-wrap; font-family: var(--font-sans); font-size: 0.85rem; background: var(--bg-subtle); padding: 1rem; border-radius: 8px; margin: 0; line-height: 1.5;">${desc}</pre>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Tool 7: Topic & Content Idea Explorer
+    renderTopicIdeaExplorer(data) {
+      const questions = data.topAudienceQuestions || [];
+      const subtopics = data.subtopics || [];
+      const calendar = data.contentPlan4Week || [];
+
+      return `
+        <div class="results-container" style="margin-top: 1.5rem;">
+          <div class="tool-result-header-bar">
+            <div>
+              <h3 class="tool-result-title"><span>💡</span> Topic & Content Idea Explorer <span class="verified-badge">✓ 4-Week Strategy</span></h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+            </div>
+            <div class="tool-result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
+            </div>
+          </div>
+          <div class="results-grid" style="margin-top: 1.25rem;">
+            <div class="result-card">
+              <h4 class="result-card-title">Top Audience Questions</h4>
+              <ul style="padding-left: 1.1rem; margin: 0.5rem 0 0; font-size: 0.85rem; line-height: 1.6;">
+                ${questions.map(q => `<li>${q}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="result-card">
+              <h4 class="result-card-title">Subtopic Expansions</h4>
+              <ul style="padding-left: 1.1rem; margin: 0.5rem 0 0; font-size: 0.85rem; line-height: 1.6;">
+                ${subtopics.map(s => `<li>${s}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="result-card result-card-full">
+              <h4 class="result-card-title">4-Week Content Publishing Plan</h4>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem; margin-top: 0.75rem;">
+                ${calendar.map(c => `
+                  <div style="background: var(--bg-subtle); padding: 0.85rem; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                    <strong style="color: var(--accent-blue); font-size: 0.82rem; text-transform: uppercase;">${c.week}</strong>
+                    <div style="font-weight: 600; font-size: 0.88rem; margin: 0.25rem 0;">${c.title}</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted);">${c.format} • ${c.goal}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Tool 8: Competitor Content Gap Finder
+    renderCompetitorGapFinder(data) {
+      const gaps = data.contentGaps || [];
+      const opps = data.differentiationOpportunities || [];
+
+      return `
+        <div class="results-container" style="margin-top: 1.5rem;">
+          <div class="tool-result-header-bar">
+            <div>
+              <h3 class="tool-result-title"><span>🕵️</span> Competitor Content Gap Finder <span class="verified-badge">✓ Differentiation</span></h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+            </div>
+            <div class="tool-result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
+            </div>
+          </div>
+          <div class="results-grid" style="margin-top: 1.25rem;">
+            <div class="result-card result-card-full">
+              <h4 class="result-card-title">Competitor Focus Summary</h4>
+              <p style="font-size: 0.85rem; color: var(--text-primary); line-height: 1.5; margin: 0.5rem 0 0;">${data.competitorSummary || ''}</p>
+            </div>
+            <div class="result-card">
+              <h4 class="result-card-title">Identified Content Gaps</h4>
+              <ul style="padding-left: 1.1rem; margin: 0.5rem 0 0; font-size: 0.83rem; line-height: 1.6;">
+                ${gaps.map(g => `<li>${g}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="result-card">
+              <h4 class="result-card-title">Differentiation Opportunities</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+                ${opps.map(o => `
+                  <div style="padding: 0.5rem; background: var(--bg-subtle); border-radius: 6px; font-size: 0.82rem;">
+                    <strong style="color: var(--accent-blue);">${o.area}:</strong> ${o.tactic}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Tool 9: Multi-Platform Repurposing Kit
+    renderRepurposingKit(data) {
+      const pkgs = data.repurposedPackages || {};
+      const platforms = Object.keys(pkgs);
+
+      return `
+        <div class="results-container" style="margin-top: 1.5rem;">
+          <div class="tool-result-header-bar">
+            <div>
+              <h3 class="tool-result-title"><span>🌐</span> Multi-Platform Repurposing Kit <span class="verified-badge">✓ Native Formats</span></h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+            </div>
+            <div class="tool-result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1.25rem;">
+            ${platforms.map(p => {
+              const item = pkgs[p];
+              return `
+                <div class="result-card">
+                  <div class="result-card-header">
+                    <h4 class="result-card-title">${p}</h4>
+                    <button type="button" class="copy-btn-mini" data-copy-text="${item.title}\n\n${item.caption}">Copy Post</button>
+                  </div>
+                  <strong style="font-size: 0.88rem; color: var(--accent-blue); display: block; margin: 0.25rem 0;">${item.title}</strong>
+                  <span style="font-size: 0.75rem; color: var(--text-muted);">${item.format}</span>
+                  <pre style="white-space: pre-wrap; font-family: var(--font-sans); font-size: 0.82rem; background: var(--bg-subtle); padding: 0.75rem; border-radius: 6px; margin: 0.5rem 0; line-height: 1.45;">${item.caption}</pre>
+                  <span style="font-size: 0.75rem; color: var(--text-secondary);">💡 ${item.rules}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Tool 10: Pre-Upload SEO Checklist
+    renderChecklist(data) {
+      const chk = data.checklists || {};
+      const pre = chk.preUploadChecklist || [];
+      const pub = chk.launchDayChecklist || [];
+
+      return `
+        <div class="results-container" style="margin-top: 1.5rem;">
+          <div class="tool-result-header-bar">
+            <div>
+              <h3 class="tool-result-title"><span>✅</span> Pre-Upload SEO Verification Checklist <span class="verified-badge">✓ QA Checklist</span></h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+            </div>
+            <div class="tool-result-actions">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
+            </div>
+          </div>
+          <div class="results-grid" style="margin-top: 1.25rem;">
+            <div class="result-card">
+              <h4 class="result-card-title">Pre-Upload SEO Checkpoints</h4>
+              <div class="checklist-items" style="margin-top: 0.5rem;">
+                ${pre.map((item, i) => `
+                  <label class="checklist-item" id="chk-pre-${i}">
+                    <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="this.parentElement.classList.toggle('done', this.checked)">
                     <span>${item.task}</span>
                   </label>
                 `).join('')}
               </div>
             </div>
-
-            <!-- Full Description / Captions -->
-            <div class="result-card result-card-full">
-              <div class="result-card-header">
-                <h4 class="result-card-title">Complete Optimized Description & Body Copy</h4>
-                <button type="button" class="btn btn-subtle btn-sm" data-copy-text="${desc.optimizedText}">📋 Copy Full Description</button>
+            <div class="result-card">
+              <h4 class="result-card-title">Publishing Day Distribution Checkpoints</h4>
+              <div class="checklist-items" style="margin-top: 0.5rem;">
+                ${pub.map((item, i) => `
+                  <label class="checklist-item" id="chk-pub-${i}">
+                    <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="this.parentElement.classList.toggle('done', this.checked)">
+                    <span>${item.task}</span>
+                  </label>
+                `).join('')}
               </div>
-              <pre style="white-space: pre-wrap; font-family: var(--font-sans); font-size: 0.85rem; color: var(--text-primary); background: var(--bg-subtle); padding: 1rem; border-radius: 8px; margin: 0; line-height: 1.5; border: 1px solid var(--border-subtle);">${desc.optimizedText || 'Optimized description not available.'}</pre>
             </div>
-
           </div>
         </div>
       `;
+    }
 
-      // Bind dynamic copy buttons
+    bindResultsInteractivity(container, data) {
       container.querySelectorAll('[data-copy-text]').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
           const text = btn.getAttribute('data-copy-text');
           if (text) {
             navigator.clipboard.writeText(text);
-            const originalText = btn.textContent;
+            const orig = btn.textContent;
             btn.textContent = '✓ Copied!';
             btn.classList.add('copied');
             setTimeout(() => {
-              btn.textContent = originalText;
+              btn.textContent = orig;
               btn.classList.remove('copied');
             }, 1800);
           }
         });
       });
 
-      // Bind platform tabs
-      container.querySelectorAll('.platform-tab-btn').forEach(tab => {
-        tab.addEventListener('click', () => {
-          container.querySelectorAll('.platform-tab-btn').forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          const p = tab.getAttribute('data-platform-tab');
-          const tabContent = document.getElementById('platform-tab-content');
-          if (tabContent && p) {
-            tabContent.innerHTML = this.renderPlatformSpecificCard(p, platformOutputs[p] || {}, data);
-            // Rebind inner copy buttons
-            tabContent.querySelectorAll('[data-copy-text]').forEach(b => {
-              b.addEventListener('click', () => {
-                navigator.clipboard.writeText(b.getAttribute('data-copy-text'));
-                b.textContent = '✓ Copied!';
-                setTimeout(() => b.textContent = 'Copy', 1800);
-              });
-            });
-          }
-        });
-      });
-
-      // Bind Export Markdown
-      document.getElementById('btn-export-markdown')?.addEventListener('click', () => {
+      container.querySelector('#btn-export-markdown')?.addEventListener('click', () => {
         this.exportMarkdown(data);
       });
 
-      // Bind Copy All
-      document.getElementById('btn-copy-all')?.addEventListener('click', () => {
-        const fullText = `=== MULTI TUBE VIEWS SEO & RESEARCH DOSSIER ===\nTool: ${data.toolName}\nTopic: ${data.inputContext?.topic}\nPlatforms: ${platforms.join(', ')}\n\n[TITLE RECOMMENDATION]\n${titleAnalysis.improvedTitle}\n\n[KEYWORDS]\n${(keywords.primary || []).concat(keywords.longTail || []).join(', ')}\n\n[HASHTAGS]\n${(hashtags.highRelevance || []).join(' ')}\n\n[DESCRIPTION]\n${desc.optimizedText}`;
-        navigator.clipboard.writeText(fullText);
-        alert('All outputs copied to clipboard in clean plain text.');
+      container.querySelector('#btn-copy-all-kw')?.addEventListener('click', () => {
+        const primary = data.keywords?.primary || [];
+        const secondary = data.keywords?.secondary || [];
+        const longTail = data.keywords?.longTail || [];
+        const text = [...primary, ...secondary, ...longTail].join(', ');
+        navigator.clipboard.writeText(text);
+        alert('Copied all keywords to clipboard!');
       });
-    }
-
-    renderPlatformSpecificCard(platform, pData, rootData) {
-      const topic = rootData.inputContext?.topic || 'Topic';
-      const title = pData.title || `${topic} (${platform} Format)`;
-      const body = pData.captionOrDescription || rootData.description?.optimizedText || '';
-      const tags = (pData.hashtags || []).join(' ');
-      const tips = pData.formatTips || `Adhere to native ${platform} viewer expectations.`;
-
-      return `
-        <div class="result-card" style="border: 2px solid var(--border-strong); background: var(--bg-surface-elevated);">
-          <div class="result-card-header">
-            <h4 class="result-card-title" style="display: flex; align-items: center; gap: 0.4rem;">
-              <span>📱</span> ${platform} Native Packaging & Hook
-            </h4>
-            <button type="button" class="copy-btn-mini" data-copy-text="${title}\n\n${body}">Copy ${platform} Post</button>
-          </div>
-          <div style="font-size: 0.85rem; color: var(--text-primary); display: flex; flex-direction: column; gap: 0.6rem;">
-            <div>
-              <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Headline / Title:</span>
-              <div style="font-weight: 600; margin-top: 0.15rem;">${title}</div>
-            </div>
-            <div>
-              <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Caption / Body:</span>
-              <pre style="white-space: pre-wrap; font-family: var(--font-sans); font-size: 0.83rem; background: var(--bg-subtle); padding: 0.75rem; border-radius: 6px; margin: 0.25rem 0 0; line-height: 1.45;">${body}</pre>
-            </div>
-            ${tags ? `
-              <div>
-                <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Tags / Hashtags:</span>
-                <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-blue); margin-top: 0.15rem;">${tags}</div>
-              </div>
-            ` : ''}
-            <div style="font-size: 0.78rem; color: var(--text-secondary); background: var(--bg-primary); padding: 0.5rem; border-radius: 4px; border: 1px solid var(--border-subtle);">
-              💡 <strong>${platform} Best Practice:</strong> ${tips}
-            </div>
-          </div>
-        </div>
-      `;
     }
 
     exportMarkdown(data) {
       const topic = data.inputContext?.topic || 'Research';
-      const md = `# Multi Tube Views — ${data.toolName}
+      const md = `# Multi Tube Views — Tool #${data.toolId || this.activeTool.id}: ${data.toolName || this.activeTool.name}
 **Target Topic:** ${topic}  
-**Category:** ${data.category} | **Target Platforms:** ${(data.inputContext?.platforms || []).join(', ')}  
-**Score:** ${data.scores?.overallScore || 85}/100 (Grounded)
+**Category:** ${data.category || this.activeTool.category} | **Target Platforms:** ${(data.inputContext?.platforms || this.selectedPlatforms).join(', ')}  
+**Country:** ${data.inputContext?.country || 'Global'} | **Language:** ${data.inputContext?.language || 'English'}  
 
 ---
 
-## 1. Title Recommendations
-- **Primary Recommendation:** ${data.titleAnalysis?.improvedTitle}
-${(data.titleAnalysis?.alternativeTitles || []).map(t => `- Variation: ${t}`).join('\n')}
-
----
-
-## 2. Keywords
-- **Primary Keywords:** ${(data.keywords?.primary || []).join(', ')}
-- **Long-Tail Keywords:** ${(data.keywords?.longTail || []).join(', ')}
-- **Search Intent:** ${data.keywords?.searchIntent || 'Informational'}
-
----
-
-## 3. Hashtags
-${(data.hashtags?.highRelevance || []).concat(data.hashtags?.niche || []).join(' ')}
-
----
-
-## 4. Full Optimized Description
-\`\`\`
-${data.description?.optimizedText}
+## Output Data
+\`\`\`json
+${JSON.stringify(data, null, 2)}
 \`\`\`
 
 ---
@@ -1206,72 +1073,118 @@ ${data.description?.optimizedText}
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `MTV-SEO-${topic.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.md`;
+      a.download = `MTV-Tool-${data.toolId || this.activeTool.id}-${topic.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.md`;
       a.click();
       URL.revokeObjectURL(url);
     }
 
-    generateClientFallback(tool, topic, platforms, country, language, category) {
+    generateToolSpecificClientFallback(tool, topic, platforms, country, language, category, audience) {
+      const cleanTopic = (topic || 'Content Strategy').trim();
+      const cleanTag = (s) => s.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+
       return {
         toolId: tool.id,
         toolName: tool.name,
         category: tool.category,
-        inputContext: {
-          topic: topic,
-          platforms: platforms,
-          country: country,
-          language: language,
-          category: category
+        toolType: tool.toolType || 'seo_audit',
+        inputContext: { topic: cleanTopic, platforms, country, language, category, audience },
+        seoScore: 88,
+        scoreBreakdown: [
+          { factor: 'Title SEO & Search Intent', score: 90 },
+          { factor: 'Description Depth & Chapters', score: 85 },
+          { factor: 'Keyword Density & Placement', score: 88 },
+          { factor: 'Platform Format Compliance', score: 90 }
+        ],
+        titleAudit: {
+          optimizedTitle: `${cleanTopic}: Complete Guide & Key Insights`,
+          recommendation: 'Primary search phrase front-loaded within 40 characters for full mobile snippet visibility.'
         },
-        scores: {
-          overallScore: 86,
-          factorBreakdown: [
-            { factor: 'Keyword Specificity', score: 88, status: 'Verified' },
-            { factor: 'Platform Packaging Format', score: 85, status: 'Optimal' },
-            { factor: 'Search Intent Match', score: 90, status: 'High' }
-          ]
+        descriptionAudit: {
+          optimizedDescription: `In this guide, we break down ${cleanTopic} with actionable steps, practical examples, and core rules.\n\n⏱️ TIMESTAMPS:\n0:00 - Introduction & Overview\n1:15 - Foundational Concepts\n3:30 - Step-by-Step Implementation\n6:00 - Common Pitfalls & Solutions\n8:15 - Key Takeaways & Wrap-up\n\n${platforms.map(p => `#${cleanTag(p)}`).join(' ')}`
         },
+        tags: [cleanTopic, `${cleanTopic} tutorial`, `${cleanTopic} guide`, category.toLowerCase(), 'best practices'],
         keywords: {
-          primary: [topic, `${topic} guide`, `${topic} tutorial`, `${topic} best practices`],
-          longTail: [`step by step ${topic} for beginners`, `how to improve ${topic}`],
+          primary: [cleanTopic, `${cleanTopic} guide`, `${cleanTopic} tutorial`, `${cleanTopic} best practices`],
+          secondary: [`how to learn ${cleanTopic}`, `${category.toLowerCase()} ${cleanTopic}`, `${cleanTopic} tips`],
+          longTail: [`step by step ${cleanTopic} for beginners`, `common ${cleanTopic} mistakes to avoid`, `best ${cleanTopic} setup`],
+          questions: [`What is ${cleanTopic}?`, `How does ${cleanTopic} work?`, `Why is ${cleanTopic} important?`],
           searchIntent: 'Informational & Educational How-To'
         },
-        hashtags: {
-          highRelevance: [`#${topic.replace(/[^a-z0-9]/gi, '').toLowerCase()}`, `#${category.replace(/[^a-z0-9]/gi, '').toLowerCase()}`],
-          niche: [`#${topic.replace(/[^a-z0-9]/gi, '').toLowerCase()}tips`],
-          platformAppropriate: platforms.map(p => `#${p.toLowerCase()}`)
+        formattedSets: {
+          minimalSet: `#${cleanTag(cleanTopic)} #${cleanTag(category)} #tips #guide #creators`,
+          balancedSet: `#${cleanTag(cleanTopic)} #${cleanTag(category)} #${cleanTag(cleanTopic)}tips #${cleanTag(cleanTopic)}guide #learn #tutorial`,
+          commaSeparatedTags: `${cleanTopic}, ${cleanTopic} tutorial, ${cleanTopic} guide, ${cleanTopic} tips, ${category.toLowerCase()}`
         },
-        titleAnalysis: {
-          improvedTitle: `${topic}: Complete Walkthrough & Best Practices`,
-          alternativeTitles: [
-            `How to Master ${topic} Step-by-Step`,
-            `${topic} Explained: Key Mistakes to Avoid`
-          ]
-        },
-        description: {
-          optimizedText: `Comprehensive overview of ${topic}.\n\nIn this breakdown, we cover the core principles, practical execution steps, and key tips for success.\n\n${platforms.map(p => `#${p.toLowerCase()}`).join(' ')}`
+        hooks: [
+          { style: 'Direct Problem / Pain Point', spokenScript: `If you're struggling with ${cleanTopic}, this one breakdown changes everything.`, visualActionCue: 'Show split screen visual immediately.' },
+          { style: 'Contrarian / Myth-Busting', spokenScript: `Stop doing ${cleanTopic} the old way. Here is what actually works today.`, visualActionCue: 'Dynamic zoom-in on speaker.' },
+          { style: 'Curiosity Gap & Stakes', spokenScript: `Here is the biggest mistake people make with ${cleanTopic}—and how to fix it in 60 seconds.`, visualActionCue: 'Display on-screen text highlighting common error.' }
+        ],
+        descriptionText: `In this guide, we break down ${cleanTopic} with actionable steps, practical examples, and core rules.\n\n⏱️ TIMESTAMPS:\n0:00 - Introduction & Overview\n1:15 - Foundational Concepts\n3:30 - Step-by-Step Implementation\n6:00 - Common Pitfalls & Solutions\n8:15 - Key Takeaways & Wrap-up\n\n${platforms.map(p => `#${cleanTag(p)}`).join(' ')}`,
+        topAudienceQuestions: [
+          `How do beginners get started with ${cleanTopic}?`,
+          `What are the most common mistakes in ${cleanTopic}?`,
+          `How does ${cleanTopic} compare to alternatives?`
+        ],
+        subtopics: [
+          `${cleanTopic} for Complete Beginners`,
+          `Advanced ${cleanTopic} Strategies`,
+          `Common ${cleanTopic} Myths Debunked`
+        ],
+        contentPlan4Week: [
+          { week: 'Week 1', title: `${cleanTopic}: Complete Beginner Guide`, format: 'Long-Form Video', goal: 'Search Discovery' },
+          { week: 'Week 2', title: `3 Crucial Mistakes to Avoid with ${cleanTopic}`, format: 'Shorts / Reels', goal: 'Viral Discovery' },
+          { week: 'Week 3', title: `My Step-by-Step ${cleanTopic} Routine`, format: 'Walkthrough', goal: 'Audience Retention' },
+          { week: 'Week 4', title: `Top Alternatives to ${cleanTopic} Tested`, format: 'Comparison & Review', goal: 'High-Intent Engagement' }
+        ],
+        competitorSummary: `Competitors in ${category} focus heavily on surface-level overviews without step-by-step troubleshooting.`,
+        contentGaps: [
+          `Missing practical checklists for ${cleanTopic}`,
+          `Lack of beginner troubleshooting walkthroughs`,
+          `Absence of multi-platform repurposing strategies`
+        ],
+        differentiationOpportunities: [
+          { area: 'Title Packaging', tactic: 'Replace vague hype with explicit outcomes and step counts.' },
+          { area: 'Pacing & Delivery', tactic: 'Eliminate long spoken intros; jump straight to the first tip within 5 seconds.' }
+        ],
+        repurposedPackages: {
+          YouTube: { title: `${cleanTopic}: Full Walkthrough & Guide`, format: 'Long-Form Video (8-12 min)', caption: `Step-by-step breakdown on ${cleanTopic}.\n\n#${cleanTag(platforms[0] || 'youtube')}`, rules: 'Chapters in description.' },
+          Instagram: { title: `How to Master ${cleanTopic}`, format: 'Reel / Carousel', caption: `Stop overcomplicating ${cleanTopic} 💡\n\n#${cleanTag(platforms[0] || 'instagram')} #creator`, rules: 'High-contrast visual hook.' },
+          TikTok: { title: `${cleanTopic} in 60s`, format: 'Vertical Short-Form (9:16)', caption: `The fastest way to master ${cleanTopic} 👇 #learnontiktok`, rules: 'Verbal hook in 1.5s.' },
+          LinkedIn: { title: `Key Insights: ${cleanTopic}`, format: 'Text Post / Carousel PDF', caption: `Strategic insights on ${cleanTopic} for practitioners.\n\n#strategy #creators`, rules: 'Professional formatting.' },
+          X: { title: `Thread on ${cleanTopic}`, format: '5-Tweet Thread', caption: `A concise breakdown on ${cleanTopic}:\n\n1/ Core challenge\n2/ 3-step fix\n\nBookmark this! 🧵`, rules: 'Hook under 240 chars.' }
         },
         checklists: {
-          seoChecklist: [
-            { task: 'Front-load target keyword in first 40 characters', status: true },
-            { task: 'Include 3-5 platform-appropriate hashtags', status: true },
-            { task: 'Ensure thumbnail text is legible on mobile', status: true }
+          preUploadChecklist: [
+            { id: 'c1', task: 'Target search phrase front-loaded in first 40 characters of title', checked: false },
+            { id: 'c2', task: 'Natural keyword integration in first 200 characters of description', checked: false },
+            { id: 'c3', task: '3 to 8 platform-appropriate hashtags placed cleanly at bottom', checked: false },
+            { id: 'c4', task: 'Custom thumbnail tested at small mobile sizes (120x68px) for legibility', checked: false },
+            { id: 'c5', task: 'Accurate category and language metadata selected in platform settings', checked: false }
+          ],
+          launchDayChecklist: [
+            { id: 'c6', task: 'Verify optimal posting time for target audience', checked: false },
+            { id: 'c7', task: 'Pin first comment with discussion prompt or resource link', checked: false },
+            { id: 'c8', task: 'Add end screens and relevant info cards linking to complementary videos', checked: false },
+            { id: 'c9', task: 'Reply to early comments within first 60 minutes', checked: false }
           ]
         }
       };
     }
 
     bindEvents() {
-      // Category pills click
       document.getElementById('category-pills-container')?.addEventListener('click', (e) => {
         const btn = e.target.closest('.category-pill-btn');
         if (btn) {
           const cat = btn.getAttribute('data-cat');
-          if (cat) this.selectCategory(cat);
+          if (cat) {
+            this.activeCategory = cat;
+            this.renderCategoryPills();
+            this.renderToolsGrid();
+          }
         }
       });
 
-      // Search input
       const searchInput = document.getElementById('seo-tool-search');
       if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -1280,17 +1193,32 @@ ${data.description?.optimizedText}
         });
       }
 
-      // Catalog card click
       document.getElementById('tools-catalog-grid')?.addEventListener('click', (e) => {
         const card = e.target.closest('.tool-compact-card');
         if (card) {
           const id = parseInt(card.getAttribute('data-tool-id'), 10);
           const tool = TOOLS_CATALOG.find(t => t.id === id);
-          if (tool) this.openTool(tool);
+          if (tool) this.openToolInWorkspace(tool);
         }
       });
 
-      // Platform chips toggle
+      document.getElementById('workspace-tabs-list')?.addEventListener('click', (e) => {
+        const closeBtn = e.target.closest('.tab-close-btn');
+        if (closeBtn) {
+          e.stopPropagation();
+          const toolId = parseInt(closeBtn.getAttribute('data-close-tool-id'), 10);
+          if (toolId) this.closeTab(toolId);
+          return;
+        }
+
+        const tab = e.target.closest('.workspace-tab-item');
+        if (tab) {
+          const toolId = parseInt(tab.getAttribute('data-tab-tool-id'), 10);
+          const tool = TOOLS_CATALOG.find(t => t.id === toolId);
+          if (tool) this.openToolInWorkspace(tool);
+        }
+      });
+
       document.getElementById('platform-chips-container')?.addEventListener('click', (e) => {
         const chip = e.target.closest('.platform-chip');
         if (chip) {
@@ -1299,7 +1227,6 @@ ${data.description?.optimizedText}
         }
       });
 
-      // Select All / Reset Platforms
       document.getElementById('btn-select-all-platforms')?.addEventListener('click', () => {
         this.selectAllPlatforms();
       });
@@ -1307,25 +1234,40 @@ ${data.description?.optimizedText}
         this.resetPlatformSelection();
       });
 
-      // Presets
-      document.getElementById('presets-container')?.addEventListener('click', (e) => {
-        const btn = e.target.closest('.btn-preset');
-        if (btn) {
-          const idx = parseInt(btn.getAttribute('data-preset-idx'), 10);
-          if (SAMPLE_PRESETS[idx]) {
-            this.loadPreset(SAMPLE_PRESETS[idx]);
-          }
+      const singleInput = document.getElementById('runner-single-input');
+      if (singleInput) {
+        singleInput.addEventListener('input', (e) => {
+          this.detectInputType(e.target.value);
+        });
+      }
+
+      document.getElementById('btn-clear-input')?.addEventListener('click', () => {
+        if (singleInput) {
+          singleInput.value = '';
+          this.detectInputType('');
+          singleInput.focus();
         }
       });
 
-      // Run button
+      document.getElementById('btn-add-tool-tab')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const grid = document.getElementById('tools-catalog-grid');
+        if (grid) {
+          grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const searchInput = document.getElementById('seo-tool-search');
+          if (searchInput) searchInput.focus();
+        }
+      });
+
       document.getElementById('btn-execute-research')?.addEventListener('click', () => {
         this.runActiveTool();
       });
 
-      // Close runner
       document.getElementById('btn-close-runner')?.addEventListener('click', () => {
-        document.getElementById('active-runner-modal')?.classList.remove('open');
+        if (singleInput) singleInput.value = '';
+        this.detectInputType('');
+        const results = document.getElementById('results-workspace');
+        if (results) results.innerHTML = '';
       });
     }
   }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Media Research & SEO Tools (60 Tools) — Multi Tube Views</title>
+  <title>Social Media Research & SEO Suite (10 Tools) — Multi Tube Views</title>
   <meta name="description" content="Professional Social Media Research & SEO Tools for YouTube, Instagram, TikTok, X, LinkedIn, and Reddit. Actionable keyword, topic, hook, and metadata optimization without fabricated metrics.">
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   
@@ -30,8 +30,8 @@
 
       <nav class="nav-desktop" aria-label="Main Navigation">
         <a href="index.html" class="nav-link">Home</a>
-        <a href="index.html#directory" class="nav-link">Platforms</a>
-        <a href="seo-tools.html" class="nav-link active">SEO Tools</a>
+        <a href="platforms.html" class="nav-link">Platforms</a>
+        <a href="seo-tools.html" class="nav-link active">Tools</a>
         <a href="articles.html" class="nav-link">Articles</a>
         <a href="about.html" class="nav-link">About</a>
         <a href="contact.html" class="nav-link">Contact</a>
@@ -50,12 +50,12 @@
   <!-- Mobile Drawer Menu -->
   <div class="mobile-drawer">
     <a href="index.html" class="mobile-nav-link">Home</a>
-    <a href="index.html#directory" class="mobile-nav-link">Platform Directory</a>
-    <a href="seo-tools.html" class="mobile-nav-link active">Social Media Research & SEO Tools</a>
-    <a href="articles.html" class="mobile-nav-link">Articles & Guides</a>
-    <a href="about.html" class="mobile-nav-link">About Multi Tube Views</a>
-    <a href="contact.html" class="mobile-nav-link">Contact & Community</a>
-    <a href="settings.html" class="mobile-nav-link">Display & Preferences</a>
+    <a href="platforms.html" class="mobile-nav-link">Platforms</a>
+    <a href="seo-tools.html" class="mobile-nav-link active">Tools</a>
+    <a href="articles.html" class="mobile-nav-link">Articles</a>
+    <a href="about.html" class="mobile-nav-link">About</a>
+    <a href="contact.html" class="mobile-nav-link">Contact</a>
+    <a href="settings.html" class="mobile-nav-link">Settings</a>
     <a href="privacy.html" class="mobile-nav-link">Privacy Policy</a>
     <a href="disclaimer.html" class="mobile-nav-link">Disclaimer</a>
     <a href="terms.html" class="mobile-nav-link">Terms of Service</a>
@@ -77,7 +77,7 @@
           <div class="seo-tools-title-area">
             <h1 class="seo-tools-title">
               Social Media Research & SEO Tools
-              <span class="badge-count">60 Tools</span>
+              <span class="badge-count">10 Tools</span>
             </h1>
             <p class="seo-tools-subtitle">
               Professional, privacy-first research and content packaging suite for YouTube, Instagram, TikTok, X, LinkedIn, Reddit, and Pinterest. Grounded search intent, keyword mapping, hooks, and platform-specific copy without fake metrics.
@@ -90,7 +90,7 @@
           </div>
         </div>
 
-        <!-- Category Filter Tabs (11 Categories) -->
+        <!-- Category Filter Tabs (10 Categories) -->
         <div class="category-nav-scroll" id="category-pills-container" aria-label="Tool Categories">
           <!-- Populated by JavaScript -->
         </div>
@@ -100,187 +100,157 @@
       <section class="seo-toolbar">
         <div class="seo-search-box">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="seo-tool-search" placeholder="Search 60 tools (e.g. keywords, title analyzer, hooks, competitor, shorts)..." aria-label="Search SEO Tools">
+          <input type="text" id="seo-tool-search" placeholder="Search 10 tools (e.g. video seo, keywords, title analyzer, hooks, chapters, gap finder)..." aria-label="Search SEO Tools">
         </div>
         <div class="seo-quick-actions">
-          <span style="font-size: 0.85rem; color: var(--text-secondary);" id="visible-tools-count">60 Tools</span>
+          <span style="font-size: 0.85rem; color: var(--text-secondary);" id="visible-tools-count">10 Tools</span>
         </div>
       </section>
 
-      <!-- Active Tool Runner Workspace Panel -->
+      <!-- Workspace Tabs Bar (Multi-Tool Independent Workspaces) -->
+      <div class="workspace-tabs-container" id="workspace-tabs-container">
+        <div class="workspace-tabs-list" id="workspace-tabs-list">
+          <!-- Populated by JavaScript with active tool workspaces -->
+        </div>
+        <button type="button" class="btn-new-tool-tab" id="btn-add-tool-tab">+ Open Tool Workspace</button>
+      </div>
+
+      <!-- Active Tool Runner Workspace Panel - Single Input Workspace -->
       <section class="active-runner-modal open" id="active-runner-modal">
         <div class="runner-header">
           <div class="runner-header-info">
             <h2>
-              <span id="active-tool-id" style="font-family: var(--font-mono); color: var(--accent-blue);">#01</span>
+              <span id="active-tool-id" style="font-family: var(--font-mono); color: #003366; font-size: 0.75rem; font-weight: 700; background: rgba(0,51,102,0.08); padding: 0.15rem 0.4rem; border-radius: 4px;">#01</span>
               <span id="active-tool-title">Video SEO Analyzer</span>
               <span class="tool-category-badge" id="active-tool-category">SEO</span>
             </h2>
             <p id="active-tool-desc">Deep audit of video title, description, tags, and search intent alignment against target discovery algorithms.</p>
           </div>
-          <button type="button" class="btn btn-subtle btn-sm" id="btn-close-runner" title="Minimize runner">✕ Minimize</button>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <a href="#tools-catalog-grid" class="btn btn-subtle btn-sm" id="btn-browse-tools">Browse All 10 Tools ↓</a>
+            <button type="button" class="btn btn-subtle btn-sm" id="btn-close-runner" title="Reset workspace">✕ Reset</button>
+          </div>
         </div>
 
         <div class="runner-body">
-          <div class="runner-form-grid">
-            
-            <!-- Left Column: Core Inputs -->
-            <div class="input-card">
-              <div class="input-card-title">
-                <span>1. Core Topic or Content URL</span>
-                <span style="font-size: 0.72rem; font-weight: 400; color: var(--text-muted);">Exact Context Input</span>
-              </div>
-
-              <div class="form-group">
-                <label for="runner-input-topic" class="form-label">
-                  Topic, Title, Seed Keyword, or Script
-                </label>
-                <input type="text" id="runner-input-topic" class="form-control" placeholder="Enter video topic or working title (e.g. How to Build a Custom Mechanical Keyboard)..." value="How to Build a Custom Mechanical Keyboard">
-              </div>
-
-              <div class="form-group">
-                <label for="runner-input-url" class="form-label">
-                  Public Content / Video URL <span class="optional-tag">(Optional)</span>
-                </label>
-                <input type="url" id="runner-input-url" class="form-control" placeholder="https://www.youtube.com/watch?v=... or TikTok/Instagram/Vimeo URL">
-              </div>
-
-              <div class="form-group">
-                <label for="runner-input-competitor" class="form-label">
-                  Competitor URL / Topic Angle <span class="optional-tag">(Optional for Competitor Tools)</span>
-                </label>
-                <input type="text" id="runner-input-competitor" class="form-control" placeholder="Enter competitor video URL, channel name, or specific competitor focus...">
-              </div>
-
-              <!-- Quick Presets -->
-              <div style="margin-top: 0.75rem;">
-                <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);">Quick Action Presets:</span>
-                <div class="presets-row" id="presets-container">
-                  <button type="button" class="btn-preset" data-preset-idx="0">Tech Tutorial</button>
-                  <button type="button" class="btn-preset" data-preset-idx="1">Reels/Shorts Hook</button>
-                  <button type="button" class="btn-preset" data-preset-idx="2">LinkedIn Thought Leadership</button>
-                  <button type="button" class="btn-preset" data-preset-idx="3">Gaming Highlights</button>
-                  <button type="button" class="btn-preset" data-preset-idx="4">Health & Fitness</button>
+          <!-- Single Input Workspace -->
+          <div class="single-input-workspace">
+            <div class="single-input-wrapper">
+              <label for="runner-single-input" style="display: block; font-size: 0.78rem; font-weight: 600; color: #003366; margin-bottom: 0.3rem;">Topic, Keyword, Title, URL, or Content</label>
+              <textarea id="runner-single-input" class="single-input-textarea" rows="2" placeholder="Enter topic, keyword, title, or URL..." style="min-height: 52px; padding: 0.45rem 0.65rem; font-size: 0.88rem;"></textarea>
+              
+              <div class="single-input-bar">
+                <div class="input-detected-badge" id="input-type-indicator" style="display: none;">
+                  <span>Detected:</span> <strong id="detected-type-label">Topic</strong>
+                </div>
+                <div class="input-action-buttons">
+                  <button type="button" class="btn btn-subtle btn-sm" id="btn-clear-input" style="display: none;">Clear</button>
+                  <button type="button" class="btn btn-primary btn-generate-main" id="btn-execute-research">
+                    <span id="btn-action-text">Analyze Video SEO</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </button>
                 </div>
               </div>
             </div>
 
-            <!-- Right Column: Targeting & Multi-Platform Parameters -->
-            <div class="input-card">
-              <div class="input-card-title">
-                <span>2. Platform & Targeting Parameters</span>
-              </div>
+            <!-- Collapsed Optional Settings Accordion -->
+            <details class="optional-settings-accordion" id="optional-settings-accordion">
+              <summary class="optional-settings-summary">
+                <span>⚙️ Optional Settings (Platform, Country, Language & Format)</span>
+                <span class="accordion-arrow">▾</span>
+              </summary>
+              
+              <div class="optional-settings-body">
+                <div class="optional-settings-grid">
+                  <!-- Platform chips -->
+                  <div class="form-group" style="grid-column: 1 / -1;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem;">
+                      <label class="form-label" style="margin-bottom: 0;">Target Platforms</label>
+                      <div class="chip-actions">
+                        <button type="button" class="chip-action-link" id="btn-select-all-platforms">Select All (10)</button>
+                        <span style="color: var(--border-strong);">•</span>
+                        <button type="button" class="chip-action-link" id="btn-reset-platforms">Reset</button>
+                      </div>
+                    </div>
+                    <div class="platform-chips-grid" id="platform-chips-container">
+                      <span class="platform-chip selected" data-platform="YouTube">YouTube</span>
+                      <span class="platform-chip" data-platform="Instagram">Instagram</span>
+                      <span class="platform-chip" data-platform="TikTok">TikTok</span>
+                      <span class="platform-chip" data-platform="Facebook">Facebook</span>
+                      <span class="platform-chip" data-platform="X">X (Twitter)</span>
+                      <span class="platform-chip" data-platform="Pinterest">Pinterest</span>
+                      <span class="platform-chip" data-platform="LinkedIn">LinkedIn</span>
+                      <span class="platform-chip" data-platform="Reddit">Reddit</span>
+                      <span class="platform-chip" data-platform="Twitch">Twitch</span>
+                      <span class="platform-chip" data-platform="Vimeo">Vimeo</span>
+                    </div>
+                  </div>
 
-              <!-- Multi-Platform Selector -->
-              <div class="form-group">
-                <div style="display: flex; align-items: center; justify-content: space-between;">
-                  <label class="form-label" style="margin-bottom: 0;">Target Platforms</label>
-                  <div class="chip-actions">
-                    <button type="button" class="chip-action-link" id="btn-select-all-platforms">Select All (10)</button>
-                    <span style="color: var(--border-strong);">•</span>
-                    <button type="button" class="chip-action-link" id="btn-reset-platforms">Reset</button>
+                  <!-- Country & Language -->
+                  <div class="form-group">
+                    <label for="runner-input-country" class="form-label">Country</label>
+                    <select id="runner-input-country" class="form-control">
+                      <option value="Global" selected>Global (Worldwide)</option>
+                      <option value="United States">United States</option>
+                      <option value="United Kingdom">United Kingdom</option>
+                      <option value="Canada">Canada</option>
+                      <option value="Australia">Australia</option>
+                      <option value="Germany">Germany</option>
+                      <option value="France">France</option>
+                      <option value="Japan">Japan</option>
+                      <option value="India">India</option>
+                      <option value="Pakistan">Pakistan</option>
+                      <option value="Brazil">Brazil</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="runner-input-language" class="form-label">Language</label>
+                    <select id="runner-input-language" class="form-control">
+                      <option value="English" selected>English</option>
+                      <option value="Urdu">Urdu (Roman / Nastaliq)</option>
+                      <option value="Hindi">Hindi</option>
+                      <option value="Spanish">Spanish</option>
+                      <option value="French">French</option>
+                      <option value="German">German</option>
+                      <option value="Japanese">Japanese</option>
+                      <option value="Portuguese">Portuguese</option>
+                      <option value="Arabic">Arabic</option>
+                      <option value="Chinese">Chinese</option>
+                    </select>
+                  </div>
+
+                  <!-- Category & Audience -->
+                  <div class="form-group">
+                    <label for="runner-input-category" class="form-label">Category</label>
+                    <select id="runner-input-category" class="form-control">
+                      <option value="Education & Tech" selected>Education & Tech</option>
+                      <option value="Business & Finance">Business & Finance</option>
+                      <option value="Entertainment & Gaming">Entertainment & Gaming</option>
+                      <option value="How-To & Lifestyle">How-To & Lifestyle</option>
+                      <option value="News & Politics">News & Politics</option>
+                      <option value="Health & Fitness">Health & Fitness</option>
+                      <option value="Art & Design">Art & Design</option>
+                      <option value="Music & Audio">Music & Audio</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="runner-input-audience" class="form-label">Target Audience</label>
+                    <select id="runner-input-audience" class="form-control">
+                      <option value="General Audience" selected>General Audience</option>
+                      <option value="Beginners">Beginners</option>
+                      <option value="Professionals / Creators">Professionals / Creators</option>
+                      <option value="Students & Academics">Students & Academics</option>
+                      <option value="Small Business Owners">Small Business Owners</option>
+                    </select>
                   </div>
                 </div>
-                <div class="platform-chips-grid" id="platform-chips-container">
-                  <span class="platform-chip selected" data-platform="YouTube">YouTube</span>
-                  <span class="platform-chip" data-platform="Instagram">Instagram</span>
-                  <span class="platform-chip" data-platform="TikTok">TikTok</span>
-                  <span class="platform-chip" data-platform="Facebook">Facebook</span>
-                  <span class="platform-chip" data-platform="X">X (Twitter)</span>
-                  <span class="platform-chip" data-platform="Pinterest">Pinterest</span>
-                  <span class="platform-chip" data-platform="LinkedIn">LinkedIn</span>
-                  <span class="platform-chip" data-platform="Reddit">Reddit</span>
-                  <span class="platform-chip" data-platform="Twitch">Twitch</span>
-                  <span class="platform-chip" data-platform="Vimeo">Vimeo</span>
-                </div>
               </div>
-
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                <div class="form-group">
-                  <label for="runner-input-country" class="form-label">Country</label>
-                  <select id="runner-input-country" class="form-control">
-                    <option value="Global" selected>Global (Worldwide)</option>
-                    <option value="United States">United States</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Australia">Australia</option>
-                    <option value="Germany">Germany</option>
-                    <option value="France">France</option>
-                    <option value="Japan">Japan</option>
-                    <option value="India">India</option>
-                    <option value="Brazil">Brazil</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="runner-input-language" class="form-label">Language</label>
-                  <select id="runner-input-language" class="form-control">
-                    <option value="English" selected>English</option>
-                    <option value="Spanish">Spanish</option>
-                    <option value="French">French</option>
-                    <option value="German">German</option>
-                    <option value="Japanese">Japanese</option>
-                    <option value="Portuguese">Portuguese</option>
-                    <option value="Hindi">Hindi</option>
-                    <option value="Arabic">Arabic</option>
-                    <option value="Chinese">Chinese</option>
-                  </select>
-                </div>
-              </div>
-
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                <div class="form-group">
-                  <label for="runner-input-category" class="form-label">Category</label>
-                  <select id="runner-input-category" class="form-control">
-                    <option value="Education & Tech" selected>Education & Tech</option>
-                    <option value="Business & Finance">Business & Finance</option>
-                    <option value="Entertainment & Gaming">Entertainment & Gaming</option>
-                    <option value="How-To & Lifestyle">How-To & Lifestyle</option>
-                    <option value="News & Politics">News & Politics</option>
-                    <option value="Health & Fitness">Health & Fitness</option>
-                    <option value="Art & Design">Art & Design</option>
-                    <option value="Music & Audio">Music & Audio</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="runner-input-audience" class="form-label">Target Audience</label>
-                  <select id="runner-input-audience" class="form-control">
-                    <option value="General Audience" selected>General Audience</option>
-                    <option value="Beginners">Beginners</option>
-                    <option value="Professionals / Creators">Professionals / Creators</option>
-                    <option value="Students & Academics">Students & Academics</option>
-                    <option value="Small Business Owners">Small Business Owners</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="runner-input-content-type" class="form-label">Content Format</label>
-                <select id="runner-input-content-type" class="form-control">
-                  <option value="Long-Form Video" selected>Long-Form Video (8–15 mins)</option>
-                  <option value="Short / Reel / TikTok">Short-Form Vertical (30–60 secs)</option>
-                  <option value="Live Stream / Podcast">Live Stream / Podcast</option>
-                  <option value="Text Post / Thread">Social Text Post / Article</option>
-                  <option value="Visual Pin / Carousel">Visual Pin / Carousel</option>
-                </select>
-              </div>
-
-            </div>
-
+            </details>
           </div>
 
-          <!-- Bottom Action Bar -->
-          <div class="runner-action-bar">
-            <div class="privacy-notice">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-              <span>No user accounts or platform credentials required. Real public data research.</span>
-            </div>
-            <button type="button" class="btn btn-primary" id="btn-execute-research">
-              <span>Run Research & Analysis</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-          </div>
-
-          <!-- Results Workspace Output -->
+          <!-- Results Workspace Output (Appears directly below single input) -->
           <div id="results-workspace">
             <!-- Populated upon execution -->
           </div>
@@ -288,10 +258,10 @@
         </div>
       </section>
 
-      <!-- 60 Tools Master Grid Section -->
+      <!-- 10 Tools Master Grid Section -->
       <section class="tools-grid-section">
         <div class="tools-grid-header">
-          <h2 class="tools-grid-title">All 60 Social Media Research & SEO Tools</h2>
+          <h2 class="tools-grid-title">All 10 Social Media Research & SEO Tools</h2>
           <span style="font-size: 0.85rem; color: var(--text-secondary);">Click any tool to open workspace</span>
         </div>
 
@@ -340,26 +310,24 @@
         </div>
 
         <div class="footer-col">
-          <h4 class="footer-heading">SEO Tool Categories</h4>
+          <h4 class="footer-heading">SEO & Research Tools (1–5)</h4>
           <ul class="footer-links">
-            <li><a href="seo-tools.html?category=SEO">SEO & Metadata Auditing</a></li>
-            <li><a href="seo-tools.html?category=KEYWORDS">Keyword & Long-Tail Research</a></li>
-            <li><a href="seo-tools.html?category=HASHTAGS">Hashtag & Tag Optimization</a></li>
-            <li><a href="seo-tools.html?category=TOPICS">Topic & Query Discovery</a></li>
-            <li><a href="seo-tools.html?category=VIDEO%20ANALYSIS">Video Hooks & Script Analysis</a></li>
-            <li><a href="seo-tools.html?category=COMPETITOR%20RESEARCH">Competitor & Gap Analysis</a></li>
+            <li><a href="seo-tools.html?tool=video-seo-analyzer">#01 Video SEO Analyzer</a></li>
+            <li><a href="seo-tools.html?tool=keyword-research">#02 Keyword Research</a></li>
+            <li><a href="seo-tools.html?tool=title-analyzer-generator">#03 Title Analyzer & Generator</a></li>
+            <li><a href="seo-tools.html?tool=hashtag-tag-generator">#04 Hashtag & Tag Generator</a></li>
+            <li><a href="seo-tools.html?tool=hook-script-intro-generator">#05 Hook & Script Intro Generator</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4 class="footer-heading">Multi-Platform Suite</h4>
+          <h4 class="footer-heading">SEO & Research Tools (6–10)</h4>
           <ul class="footer-links">
-            <li><a href="seo-tools.html?category=CONTENT%20GENERATION">Content Generation & Briefs</a></li>
-            <li><a href="seo-tools.html?category=PLATFORM%20OPTIMIZATION">Shorts, Reels & TikTok</a></li>
-            <li><a href="seo-tools.html?category=TREND%20RESEARCH">Trending vs Evergreen</a></li>
-            <li><a href="seo-tools.html?category=COUNTRY%20%26%20LANGUAGE">Country & Language SEO</a></li>
-            <li><a href="seo-tools.html?category=MULTI-PLATFORM">Cross-Platform Repurposing</a></li>
-            <li><a href="index.html#directory">20+ Video Platform Players</a></li>
+            <li><a href="seo-tools.html?tool=description-chapters-generator">#06 Description & Chapters Generator</a></li>
+            <li><a href="seo-tools.html?tool=topic-content-idea-explorer">#07 Topic & Content Idea Explorer</a></li>
+            <li><a href="seo-tools.html?tool=competitor-content-gap-finder">#08 Competitor Content Gap Finder</a></li>
+            <li><a href="seo-tools.html?tool=multi-platform-repurposing-kit">#09 Multi-Platform Repurposing Kit</a></li>
+            <li><a href="seo-tools.html?tool=pre-upload-seo-checklist">#10 Pre-Upload SEO Checklist</a></li>
           </ul>
         </div>
 
