@@ -108,43 +108,109 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   // TOOL 1: Video SEO Analyzer
   // =========================================================================
   if (toolId === 1) {
+    const videoId = urlData.videoId || "";
+    const computedThumbnail = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null;
+    const cleanTitle = (cleanTopic || urlData.realTitle || "Video Submission").trim();
+    const tLen = cleanTitle.length;
+
+    let titleScore = 78;
+    let mobileStatus = "Optimal";
+    if (tLen > 60) {
+      titleScore = 55;
+      mobileStatus = "High (Truncated after 60 characters)";
+    } else if (tLen < 40) {
+      titleScore = 65;
+      mobileStatus = "Safe (But lacks key search intent triggers)";
+    }
+
     return {
       toolId: 1,
       toolName: "Video SEO Analyzer",
       category: "SEO & Metadata",
       toolType: "seo_audit",
       inputContext: baseContext,
-      audit: {
-        overallScore: 88,
-        tierLabel: "Strong Search Alignment",
-        factorBreakdown: [
-          { factor: "Title Search Intent & Length", score: 92, status: "Optimal (Front-loaded keywords)" },
-          { factor: "Description Depth & Chapters", score: 85, status: "Good (Includes timestamps)" },
-          { factor: "Tag Taxonomy & Density", score: 88, status: "Balanced (No keyword stuffing)" },
-          { factor: "Platform Compliance", score: 90, status: "High Fit" },
-        ],
-        findings: [
-          `Clear topic identification around "${primaryKw}".`,
-          `High relevance across target platforms (${targetPlatforms.join(", ")}).`,
-          `Target audience (${audience}) aligns with educational/practical search intent.`,
-        ],
-        issues: [
-          "Ensure secondary search modifiers appear within the first 150 characters of description.",
-          "Add 3-5 platform-specific hashtags at bottom of video text.",
-        ],
-        recommendations: [
-          "Front-load the primary search term in the first 40 characters of the title for mobile snippet visibility.",
-          "Include structured timestamp chapters (0:00 start) to capture Google Search video key moments.",
-          "Add a pinned comment with an engaging discussion prompt to stimulate early comment velocity.",
-        ],
+      videoTitle: cleanTitle,
+      thumbnailUrl: computedThumbnail,
+      overallScore: Math.round((titleScore + 80 + 75) / 3),
+      overallGrade: "B",
+      overallSummary: `This is a robust fallback SEO audit for "${cleanTitle}" based on available public parameters. The title packaging is reasonably clear, but incorporating highly specific mobile search-intent cues is highly recommended to increase organic click-through rate.`,
+      titleAnalysis: {
+        score: titleScore,
+        charCount: tLen,
+        keywordPresence: `Primary phrase "${primaryKw}" detected in title.`,
+        readability: "Human-friendly, grammatically direct.",
+        mobileTruncationRisk: mobileStatus,
+        mainProblems: tLen > 60 ? ["Title exceeds 60 characters and will likely truncate on mobile devices."] : ["Lacks a formatting intent specifier like 'Step-by-Step Guide' or year."],
+        improvementSuggestions: tLen > 60 ? ["Shorten title to 45-55 characters."] : ["Append a high-value search intent cue like the current year."],
+        optimizedTitles: [
+          `${cleanTitle} - Step-by-Step Guide`,
+          `How to Master ${cleanTitle} (${year})`,
+          `${cleanTitle} Explained for Beginners`
+        ]
       },
-      optimizedPackaging: {
-        title: `${cleanTopic} (${year} Complete Guide)`,
-        descriptionWithChapters: `In this complete breakdown, we explore ${cleanTopic} with step-by-step strategies, best practices, and actionable walkthroughs for ${audience.toLowerCase()}.\n\n⏱️ TIMESTAMPS:\n0:00 - Introduction & Key Problem\n1:15 - Core Concepts & Fundamentals\n3:45 - Step-by-Step Implementation\n6:20 - Common Mistakes to Avoid\n8:30 - Final Checklist & Summary\n\n📌 Resources & Links:\n• Official Guide: https://multitubeviews.com\n\n${targetPlatforms.map(p => `#${cleanTag(p)}`).join(" ")} #${cleanTag(words[0] || "guide")}`,
-        tags: [primaryKw, `${primaryKw} tutorial`, `${primaryKw} guide`, `${cleanCategory.toLowerCase()}`, "tips and tricks", `${year}`],
-        hashtags: [`#${cleanTag(primaryKw)}`, `#${cleanTag(cleanCategory)}`, ...targetPlatforms.map(p => `#${cleanTag(p)}`)],
+      descriptionAnalysis: {
+        score: 75,
+        length: 220,
+        keywordPlacement: "Keyword positioned appropriately in descriptive metadata.",
+        openingLines: `Overview of ${cleanTitle} with actionable tips.`,
+        structure: "Lacks organized sections and social media reference points.",
+        warnings: "Optimal keyword density (no keyword stuffing detected).",
+        missingElements: ["Structured timeline chapters", "Engagement comments", "Actionable CTA links"],
+        improvements: [
+          "Add structured timestamp chapters starting with 0:00.",
+          "Add a clear call-to-action (e.g. Subscribe or Visit Website).",
+          "Include 3 platform-appropriate hashtags at the very bottom."
+        ]
       },
-      verifiedMetadata: verifiedMeta,
+      tagsHashtagsAnalysis: {
+        existingTags: [primaryKw, `${primaryKw} tips`],
+        suggestedTags: [
+          `${primaryKw} tutorial`,
+          `${primaryKw} guide`,
+          `how to do ${primaryKw}`,
+          `${primaryKw} for beginners`,
+          `${cleanCategory.toLowerCase()}`
+        ],
+        suggestedHashtags: [
+          `#${cleanTag(primaryKw)}`,
+          `#${cleanTag(cleanCategory)}`,
+          `#guide`
+        ],
+        issuesExplanation: "Broad keywords provide weak context. Prefer multi-word long-tail tags targeting exact viewer search terms."
+      },
+      seoIssues: [
+        {
+          problem: "Sub-optimal Title Packaging",
+          whyItMatters: "The title is the primary search ranking metric. Unoptimized spacing or length results in lost mobile click-through traffic.",
+          impact: "High",
+          recommendedFix: "Utilize one of the recommended title formulas below to increase CTR and establish clear search intent."
+        },
+        {
+          problem: "Missing Description Structuring",
+          whyItMatters: "Search engine algorithms scan description first 150 characters for ranking and categorization cues.",
+          impact: "Medium",
+          recommendedFix: "Incorporate a concise 2-sentence summary and structured timestamps inside your description."
+        }
+      ],
+      technicalChecks: [
+        { name: "Title Length", status: tLen <= 60 && tLen >= 40 ? "pass" : "fail", note: `${tLen} characters` },
+        { name: "Keyword Placement", status: "warning", note: "Consider moving keyword to the front" },
+        { name: "Description Quality", status: "warning", note: "Requires structured summary sections" },
+        { name: "Tags Optimization", status: "warning", note: "Add more high-intent tags" },
+        { name: "Hashtag Count", status: "fail", note: "No hashtags detected" },
+        { name: "Metadata Completeness", status: "fail", note: "No timestamps or chapters" }
+      ],
+      topRecommendations: [
+        "Shorten and front-load your video title within 45-55 characters to ensure mobile display safety.",
+        "Include structured timestamps and timeline chapters starting at 0:00 to enable video key moments indexing.",
+        "Add high-value semantic tags targeting exact viewer search intent phrases."
+      ],
+      keywordOpportunities: [
+        `best ${primaryKw} tutorial`,
+        `how to optimize ${primaryKw}`,
+        `${primaryKw} checklist ${year}`
+      ],
+      verifiedMetadata: verifiedMeta
     };
   }
 

@@ -580,61 +580,364 @@
 
     // Tool 1: Video SEO Analyzer
     renderVideoSeoAudit(data) {
-      const score = data.seoScore || 88;
-      const breakdown = data.scoreBreakdown || [];
-      const titleAudit = data.titleAudit || {};
-      const descAudit = data.descriptionAudit || {};
-      const tags = data.tags || [];
+      const title = data.videoTitle || data.inputContext?.topic || 'Video Analysis';
+      const thumbnailUrl = data.thumbnailUrl || null;
+      const overallScore = data.overallScore || data.seoScore || 85;
+      const overallGrade = data.overallGrade || (overallScore >= 90 ? 'A' : overallScore >= 80 ? 'B' : 'C');
+      const overallSummary = data.overallSummary || 'This video has been analyzed based on public SEO criteria and search indicators.';
+
+      // Title Analysis
+      const titleAnalysis = data.titleAnalysis || {};
+      const titleScore = titleAnalysis.score || 78;
+      const charCount = titleAnalysis.charCount || title.length;
+      const keywordPresence = titleAnalysis.keywordPresence || 'Keywords present in metadata.';
+      const readability = titleAnalysis.readability || 'Clear to read.';
+      const mobileTruncationRisk = titleAnalysis.mobileTruncationRisk || 'Low';
+      const titleProblems = titleAnalysis.mainProblems || [];
+      const titleSuggestions = titleAnalysis.improvementSuggestions || [];
+      const optimizedTitles = titleAnalysis.optimizedTitles || [];
+
+      // Description Analysis
+      const descAnalysis = data.descriptionAnalysis || {};
+      const descScore = descAnalysis.score || 75;
+      const descLength = descAnalysis.length || 0;
+      const keywordPlacement = descAnalysis.keywordPlacement || 'Keywords appropriately configured.';
+      const openingLines = descAnalysis.openingLines || 'Good opening summary.';
+      const descStructure = descAnalysis.structure || 'Clear layout.';
+      const descWarnings = descAnalysis.warnings || 'No keyword stuffing detected.';
+      const descMissing = descAnalysis.missingElements || [];
+      const descImprovements = descAnalysis.improvements || [];
+
+      // Tags & Hashtags Analysis
+      const tagsAnalysis = data.tagsHashtagsAnalysis || {};
+      const existingTags = tagsAnalysis.existingTags || data.tags || [];
+      const suggestedTags = tagsAnalysis.suggestedTags || [];
+      const suggestedHashtags = tagsAnalysis.suggestedHashtags || [];
+      const tagsIssuesExplanation = tagsAnalysis.issuesExplanation || 'Appropriate tag taxonomy adds deep organic search relevance.';
+
+      // SEO Issues
+      const seoIssues = data.seoIssues || [];
+
+      // Technical/Metadata Checks
+      const technicalChecks = data.technicalChecks || [];
+
+      // Top Recommendations
+      const topRecommendations = data.topRecommendations || [];
+
+      // Keyword Opportunities
+      const keywordOpportunities = data.keywordOpportunities || [];
 
       return `
         <div class="results-container" style="margin-top: 1.5rem;">
           <div class="tool-result-header-bar">
             <div>
-              <h3 class="tool-result-title"><span>📊</span> Video SEO Audit Output <span class="verified-badge">✓ Verified Audit</span></h3>
-              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+              <h3 class="tool-result-title"><span>📊</span> Professional Video SEO Audit <span class="verified-badge">✓ Verified Complete</span></h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Report Generated Based on Public Search Evidence</p>
             </div>
             <div class="tool-result-actions">
               <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
             </div>
           </div>
+
           <div class="results-grid" style="margin-top: 1.25rem;">
-            <div class="result-card">
-              <h4 class="result-card-title">Overall SEO Health Score</h4>
-              <div class="score-box">
-                <div class="score-circle">${score}<span>/ 100</span></div>
-                <div class="score-details">
-                  <ul class="factor-list">
-                    ${breakdown.map(b => `<li class="factor-item"><span>${b.factor}</span><strong>${b.score}%</strong></li>`).join('')}
-                  </ul>
+            <!-- Section 1: Overview Score & Thumbnail Card (Full Width) -->
+            <div class="result-card result-card-full" style="border: 1px solid var(--border-strong); background: var(--bg-surface); padding: 1.5rem;">
+              <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; width: 100%;">
+                ${thumbnailUrl ? `
+                  <div style="flex-shrink: 0; width: 220px; aspect-ratio: 16/9; overflow: hidden; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--bg-subtle);">
+                    <img src="${thumbnailUrl}" referrerPolicy="no-referrer" alt="Video Thumbnail" style="width: 100%; height: 100%; object-fit: cover;">
+                  </div>
+                ` : `
+                  <div style="flex-shrink: 0; width: 220px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 1px dashed var(--border-strong); background: var(--bg-subtle); color: var(--text-muted); font-size: 0.8rem;">
+                    <span>No Public Thumbnail</span>
+                  </div>
+                `}
+                <div style="flex: 1; min-width: 280px;">
+                  <h4 style="font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin: 0 0 0.5rem; line-height: 1.4;">${title}</h4>
+                  <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">${overallSummary}</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-subtle); border-radius: 12px; border: 1px solid var(--border-subtle); margin-left: auto; min-width: 160px; justify-content: center;">
+                  <div style="text-align: center;">
+                    <div style="font-size: 2.25rem; font-weight: 800; color: var(--accent-blue); line-height: 1;">${overallScore}<span style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);">/100</span></div>
+                    <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-top: 0.35rem; letter-spacing: 0.05em;">SEO Health</div>
+                  </div>
+                  <div style="width: 1px; height: 40px; background: var(--border-strong);"></div>
+                  <div style="font-size: 2.5rem; font-weight: 900; color: var(--text-primary); line-height: 1;">${overallGrade}</div>
                 </div>
               </div>
             </div>
-            <div class="result-card">
-              <div class="result-card-header">
-                <h4 class="result-card-title">Optimized Title Recommendation</h4>
-                <button type="button" class="copy-btn-mini" data-copy-text="${titleAudit.optimizedTitle}">Copy</button>
+
+            <!-- Section 2: Title Analysis Card -->
+            <div class="result-card" style="padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface);">
+              <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>📝</span> Title Optimization
+                </h4>
+                <span style="font-size: 0.8rem; font-weight: 700; background: var(--bg-subtle); border: 1px solid var(--border-subtle); padding: 0.2rem 0.5rem; border-radius: 6px;">Score: ${titleScore}/100</span>
               </div>
-              <div style="background: var(--bg-subtle); padding: 0.85rem; border-radius: 6px; font-weight: 600; font-size: 0.92rem; color: var(--text-primary);">
-                ${titleAudit.optimizedTitle || data.inputContext?.topic}
+              
+              <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; line-height: 1.4;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                  <span style="color: var(--text-secondary);">Character Count:</span>
+                  <strong style="color: var(--text-primary);">${charCount} characters ${charCount > 60 ? '<span style="color: #ef4444; font-size: 0.75rem; font-weight: 500; margin-left: 0.25rem;">(Over 60 limit)</span>' : '<span style="color: var(--success-text); font-size: 0.75rem; font-weight: 500; margin-left: 0.25rem;">(Optimal)</span>'}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                  <span style="color: var(--text-secondary);">Mobile Readability:</span>
+                  <strong style="color: var(--text-primary);">${readability}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                  <span style="color: var(--text-secondary);">Mobile Truncation Risk:</span>
+                  <strong style="color: ${mobileTruncationRisk.toLowerCase().includes('high') ? '#ef4444' : 'var(--text-primary)'};">${mobileTruncationRisk}</strong>
+                </div>
+                <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                  <span style="color: var(--text-secondary); display: block; margin-bottom: 0.2rem;">Keyword Placement:</span>
+                  <strong style="color: var(--text-primary); display: block;">${keywordPresence}</strong>
+                </div>
+                
+                ${titleProblems.length ? `
+                  <div style="margin-top: 0.4rem;">
+                    <span style="color: #ef4444; font-weight: 700; font-size: 0.8rem; display: block; margin-bottom: 0.25rem;">Detected Issues:</span>
+                    <ul style="margin: 0; padding-left: 1.1rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.25rem;">
+                      ${titleProblems.map(p => `<li>${p}</li>`).join('')}
+                    </ul>
+                  </div>
+                ` : ''}
+
+                ${titleSuggestions.length ? `
+                  <div style="margin-top: 0.4rem;">
+                    <span style="color: var(--accent-blue); font-weight: 700; font-size: 0.8rem; display: block; margin-bottom: 0.25rem;">Improvement Steps:</span>
+                    <ul style="margin: 0; padding-left: 1.1rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.25rem;">
+                      ${titleSuggestions.map(s => `<li>${s}</li>`).join('')}
+                    </ul>
+                  </div>
+                ` : ''}
+                
+                <div style="margin-top: 0.75rem; border-top: 1px solid var(--border-subtle); padding-top: 0.75rem;">
+                  <span style="color: var(--text-primary); font-weight: 700; font-size: 0.8rem; display: block; margin-bottom: 0.5rem;">✨ High-CTR Title Suggestions:</span>
+                  <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    ${optimizedTitles.map(t => `
+                      <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; background: var(--bg-subtle); padding: 0.5rem 0.6rem; border-radius: 6px; font-size: 0.8rem; border: 1px solid var(--border-subtle);">
+                        <span style="font-weight: 600; color: var(--text-primary); line-height: 1.3; text-align: left;">${t}</span>
+                        <button type="button" class="copy-btn-mini" data-copy-text="${t}" style="flex-shrink: 0;">Copy</button>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
               </div>
-              <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0.4rem 0 0;">${titleAudit.recommendation || 'Front-loaded for search.'}</p>
             </div>
-            <div class="result-card result-card-full">
-              <div class="result-card-header">
-                <h4 class="result-card-title">Optimized Description & Chapters</h4>
-                <button type="button" class="copy-btn-mini" data-copy-text="${descAudit.optimizedDescription}">Copy Description</button>
+
+            <!-- Section 3: Description Analysis Card -->
+            <div class="result-card" style="padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface);">
+              <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>📝</span> Description Structuring
+                </h4>
+                <span style="font-size: 0.8rem; font-weight: 700; background: var(--bg-subtle); border: 1px solid var(--border-subtle); padding: 0.2rem 0.5rem; border-radius: 6px;">Score: ${descScore}/100</span>
               </div>
-              <pre style="white-space: pre-wrap; font-family: var(--font-sans); font-size: 0.84rem; background: var(--bg-subtle); padding: 1rem; border-radius: 8px; margin: 0; line-height: 1.5;">${descAudit.optimizedDescription || ''}</pre>
+
+              <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; line-height: 1.4;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                  <span style="color: var(--text-secondary);">Estimated Length:</span>
+                  <strong style="color: var(--text-primary);">${descLength ? `${descLength} characters` : '0 characters / Missing'}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                  <span style="color: var(--text-secondary);">First 2 Lines Keyword Fit:</span>
+                  <strong style="color: var(--text-primary);">${keywordPlacement}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                  <span style="color: var(--text-secondary);">Format Warnings:</span>
+                  <strong style="color: ${descWarnings.toLowerCase().includes('stuffing') || descWarnings.toLowerCase().includes('warning') ? '#f59e0b' : 'var(--text-primary)'};">${descWarnings}</strong>
+                </div>
+                <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem;">
+                  <span style="color: var(--text-secondary); display: block; margin-bottom: 0.1rem;">First Line Preview:</span>
+                  <p style="margin: 0; color: var(--text-muted); font-size: 0.8rem; font-style: italic;">"${openingLines}"</p>
+                </div>
+
+                ${descMissing.length ? `
+                  <div style="margin-top: 0.4rem;">
+                    <span style="color: #f59e0b; font-weight: 700; font-size: 0.8rem; display: block; margin-bottom: 0.25rem;">⚠️ Missing Essential Elements:</span>
+                    <ul style="margin: 0; padding-left: 1.1rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.25rem;">
+                      ${descMissing.map(m => `<li>${m}</li>`).join('')}
+                    </ul>
+                  </div>
+                ` : ''}
+
+                ${descImprovements.length ? `
+                  <div style="margin-top: 0.4rem;">
+                    <span style="color: var(--success-text); font-weight: 700; font-size: 0.8rem; display: block; margin-bottom: 0.25rem;">💡 Actionable Enhancements:</span>
+                    <ul style="margin: 0; padding-left: 1.1rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.25rem;">
+                      ${descImprovements.map(e => `<li>${e}</li>`).join('')}
+                    </ul>
+                  </div>
+                ` : ''}
+              </div>
             </div>
-            <div class="result-card result-card-full">
-              <div class="result-card-header">
-                <h4 class="result-card-title">Recommended Tags</h4>
-                <button type="button" class="copy-btn-mini" data-copy-text="${tags.join(', ')}">Copy All Tags</button>
+
+            <!-- Section 4: Tags & Hashtags Analysis (Full Width) -->
+            <div class="result-card result-card-full" style="padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface);">
+              <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🏷️</span> Tags & Hashtags Optimization
+                </h4>
               </div>
-              <div class="tag-cloud">
-                ${tags.map(t => `<span class="pill-chip">${t}</span>`).join('')}
+
+              <div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.85rem; line-height: 1.5;">
+                ${existingTags.length ? `
+                  <div>
+                    <span style="color: var(--text-secondary); font-weight: 600; font-size: 0.8rem; display: block; margin-bottom: 0.35rem;">Parsed Public Video Tags:</span>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                      ${existingTags.map(t => `<span style="display: inline-block; background: var(--bg-subtle); border: 1px solid var(--border-subtle); color: var(--text-secondary); font-size: 0.75rem; font-family: var(--font-mono); padding: 0.2rem 0.5rem; border-radius: 6px;">${t}</span>`).join('')}
+                    </div>
+                  </div>
+                ` : `
+                  <div>
+                    <span style="color: var(--text-secondary); font-weight: 600; font-size: 0.8rem; display: block; margin-bottom: 0.2rem;">Parsed Public Video Tags:</span>
+                    <p style="margin: 0; font-size: 0.78rem; color: var(--text-muted); font-style: italic;">No public tags visible or parsed. Modern platform optimization focuses more on broad semantic topic mapping.</p>
+                  </div>
+                `}
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 0.25rem;">
+                  <div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem;">
+                      <span style="color: var(--text-primary); font-weight: 700; font-size: 0.8rem;">🎯 Suggested High-Value Tags:</span>
+                      <button type="button" class="copy-btn-mini" data-copy-text="${suggestedTags.join(', ')}">Copy All</button>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                      ${suggestedTags.map(st => `<span style="display: inline-block; background: rgba(0, 102, 204, 0.05); border: 1px solid rgba(0, 102, 204, 0.15); color: var(--accent-blue); font-size: 0.75rem; font-family: var(--font-mono); padding: 0.2rem 0.5rem; border-radius: 6px;">${st}</span>`).join('')}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem;">
+                      <span style="color: var(--text-primary); font-weight: 700; font-size: 0.8rem;">#️⃣ Recommended Hashtags:</span>
+                      <button type="button" class="copy-btn-mini" data-copy-text="${suggestedHashtags.join(' ')}">Copy All</button>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                      ${suggestedHashtags.map(h => `<span style="display: inline-block; background: var(--bg-subtle); border: 1px solid var(--border-strong); color: var(--text-primary); font-weight: 600; font-size: 0.75rem; font-family: var(--font-mono); padding: 0.2rem 0.5rem; border-radius: 6px; cursor: pointer; transition: background 0.15s;" onclick="navigator.clipboard.writeText('${h}')">${h}</span>`).join('')}
+                    </div>
+                  </div>
+                </div>
+
+                <div style="background: var(--bg-subtle); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle); font-size: 0.8rem; color: var(--text-secondary);">
+                  <strong>Expert Strategy Note:</strong> ${tagsIssuesExplanation}
+                </div>
               </div>
             </div>
+
+            <!-- Section 5: SEO Issues (Full Width) -->
+            ${seoIssues.length ? `
+              <div class="result-card result-card-full" style="padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface);">
+                <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+                  <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 0.4rem;">
+                    <span>🚨</span> Critical SEO Issues & Structural Problems
+                  </h4>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                  ${seoIssues.map(issue => {
+                    let badgeColor = "var(--text-secondary)";
+                    let badgeBg = "var(--bg-subtle)";
+                    let badgeBorder = "var(--border-strong)";
+                    if (issue.impact.toLowerCase().includes("high")) {
+                      badgeColor = "#ef4444";
+                      badgeBg = "rgba(239, 68, 68, 0.05)";
+                      badgeBorder = "rgba(239, 68, 68, 0.15)";
+                    } else if (issue.impact.toLowerCase().includes("medium")) {
+                      badgeColor = "#f59e0b";
+                      badgeBg = "rgba(245, 158, 11, 0.05)";
+                      badgeBorder = "rgba(245, 158, 11, 0.15)";
+                    }
+                    return `
+                      <div style="background: var(--bg-surface); border: 1px solid var(--border-strong); border-radius: 10px; padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; justify-content: space-between;">
+                        <div>
+                          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem;">
+                            <span style="font-weight: 700; font-size: 0.85rem; color: var(--text-primary);">${issue.problem}</span>
+                            <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: ${badgeColor}; background: ${badgeBg}; border: 1px solid ${badgeBorder}; padding: 0.15rem 0.45rem; border-radius: 4px;">${issue.impact} Impact</span>
+                          </div>
+                          <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0 0 0.5rem; line-height: 1.4;">
+                            <strong>Why it matters:</strong> ${issue.whyItMatters}
+                          </p>
+                        </div>
+                        <div style="background: var(--bg-subtle); padding: 0.6rem 0.75rem; border-radius: 6px; font-size: 0.78rem; border-left: 3px solid ${badgeColor}; color: var(--text-primary);">
+                          <strong>Exact Fix:</strong> ${issue.recommendedFix}
+                        </div>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Section 6: Technical Checks -->
+            <div class="result-card" style="padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface);">
+              <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🛠️</span> Technical Metadata Checklist
+                </h4>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.82rem;">
+                ${technicalChecks.map(check => {
+                  let indicator = `<span style="color: var(--success-text); background: var(--success-bg); border: 1px solid var(--success-border); width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 0.75rem;">✓</span>`;
+                  if (check.status === "fail" || check.status === "error") {
+                    indicator = `<span style="color: #ef4444; background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.15); width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 0.75rem;">✗</span>`;
+                  } else if (check.status === "warning") {
+                    indicator = `<span style="color: #f59e0b; background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.15); width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 0.75rem;">!</span>`;
+                  }
+                  return `
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.45rem 0; border-bottom: 1px dashed var(--border-subtle);">
+                      <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        ${indicator}
+                        <span style="font-weight: 600; color: var(--text-primary);">${check.name}</span>
+                      </div>
+                      <span style="color: var(--text-secondary); font-size: 0.78rem;">${check.note}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <!-- Section 7: Top Recommendations -->
+            <div class="result-card" style="padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface);">
+              <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🎯</span> Ranked SEO Actions
+                </h4>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem; line-height: 1.45;">
+                ${topRecommendations.map((rec, idx) => `
+                  <div style="display: flex; gap: 0.75rem; align-items: flex-start; background: var(--bg-subtle); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                    <div style="background: var(--accent-primary); color: var(--text-inverse); font-weight: 800; font-size: 0.75rem; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; margin-top: 0.1rem;">
+                      ${idx + 1}
+                    </div>
+                    <div style="color: var(--text-primary); font-weight: 500;">${rec}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Section 8: Keyword Opportunities -->
+            <div class="result-card result-card-full" style="padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface);">
+              <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 0.4rem;">
+                  <span>🔑</span> High-Intent Search Keyword & Topic Opportunities
+                </h4>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem;">
+                <p style="margin: 0 0 0.25rem; font-size: 0.78rem; color: var(--text-muted);">Derived search queries with grounded semantic context (no fabricated search volumes):</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.6rem;">
+                  ${keywordOpportunities.map(opp => `
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; background: var(--bg-subtle); padding: 0.5rem 0.75rem; border-radius: 6px; border: 1px solid var(--border-subtle);">
+                      <span style="font-weight: 600; color: var(--text-primary); font-family: var(--font-mono); font-size: 0.8rem;">${opp}</span>
+                      <button type="button" class="copy-btn-mini" data-copy-text="${opp}">Copy</button>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       `;

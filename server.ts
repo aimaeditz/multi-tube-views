@@ -735,8 +735,172 @@ app.post("/api/seo-research", async (req, res) => {
 
     if (ai && (resolvedTopic || inputUrl)) {
       try {
-        const systemPrompt = `You are the specialized AI research engine for Multi Tube Views Tool #${numericToolId}: "${toolName}" (${category}). Return concise, actionable JSON strictly for this tool with zero metric fabrication or fake engagement metrics.`;
-        const userPrompt = `Generate the exact data structure for Tool #${numericToolId} "${toolName}".
+        let systemPrompt = "";
+        let userPrompt = "";
+        let responseSchema: any = undefined;
+
+        if (numericToolId === 1) {
+          const videoId = urlData.videoId || "";
+          const computedThumbnail = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null;
+
+          systemPrompt = `You are an expert video SEO and packaging auditor. Analyze the video and generate a professional, clear, detailed SEO audit. Return STRICT JSON conforming EXACTLY to the requested schema. No fake views, no fabricated CTR, likes, or comments. Use verified data where available or reasonably analyzed from the submitted input.`;
+          
+          userPrompt = `Perform a full professional video SEO audit of the following video submission:
+- URL/Input: "${inputUrl || 'None'}"
+- Platform: YouTube (or other platform if detected, focus primarily on YouTube SEO)
+- Verified Real Title: "${urlData.realTitle || 'Data unavailable'}"
+- Submitted Topic/Title: "${resolvedTopic}"
+- Content Category: "${cleanCategory}"
+- Verified Video Duration: ${urlData.durationSeconds ? `${urlData.durationFormatted} (${urlData.durationSeconds} seconds)` : 'Data unavailable'}
+- Public Description Snippet: "${urlData.realDescription ? urlData.realDescription.slice(0, 500) : 'Data unavailable'}"
+
+Do not invent private analytics or engagement signals. Grade the available evidence and calculate an overall score.
+
+Your output must follow this exact schema:
+{
+  "videoTitle": string, (The analyzed video's title or the submitted topic)
+  "thumbnailUrl": string or null, (Use "${computedThumbnail}" if videoId is available, otherwise null)
+  "overallScore": number, (1 to 100)
+  "overallGrade": string, (e.g., "A", "B+", "C")
+  "overallSummary": string, (A 2-3 sentence expert summary of the SEO health)
+  "titleAnalysis": {
+    "score": number, (1 to 100)
+    "charCount": number, (Estimate or compute exact character count of title)
+    "keywordPresence": string, (Analysis of whether keywords are in the title and if they are front-loaded)
+    "readability": string, (Analysis of how readable the title is for humans)
+    "mobileTruncationRisk": string, (High / Medium / Low risk with details)
+    "mainProblems": string[], (1 to 3 key title issues)
+    "improvementSuggestions": string[], (1 to 3 suggestions)
+    "optimizedTitles": string[] (3 to 5 clear, optimized, click-worthy but non-clickbait title options)
+  },
+  "descriptionAnalysis": {
+    "score": number, (1 to 100)
+    "length": number, (Estimate of description length in characters, or 0 if no desc)
+    "keywordPlacement": string, (Whether keywords appear in the opening 150 characters)
+    "openingLines": string, (Analysis of the first 2 sentences)
+    "structure": string, (Analysis of formatting, links, and layout)
+    "warnings": string, (Any keyword stuffing or hashtag warning)
+    "missingElements": string[], (List of missing elements like chapters, links, CTAs)
+    "improvements": string[] (2 to 4 actionable description improvements)
+  },
+  "tagsHashtagsAnalysis": {
+    "existingTags": string[], (List of existing tags if parsed, or analyzed from content)
+    "suggestedTags": string[], (4 to 8 highly relevant multi-word tags to target search intent)
+    "suggestedHashtags": string[], (3 to 5 appropriate hashtags)
+    "issuesExplanation": string (Expert advice on tags and hashtags optimization)
+  },
+  "seoIssues": [
+    {
+      "problem": string,
+      "whyItMatters": string,
+      "impact": string, (High, Medium, Low)
+      "recommendedFix": string
+    }
+  ], (Show 2 to 4 clear issue cards)
+  "technicalChecks": [
+    { "name": "Title Length", "status": "pass" | "warning" | "fail", "note": string },
+    { "name": "Keyword Placement", "status": "pass" | "warning" | "fail", "note": string },
+    { "name": "Description Quality", "status": "pass" | "warning" | "fail", "note": string },
+    { "name": "Tags", "status": "pass" | "warning" | "fail", "note": string },
+    { "name": "Hashtag Count", "status": "pass" | "warning" | "fail", "note": string },
+    { "name": "Metadata Completeness", "status": "pass" | "warning" | "fail", "note": string }
+  ],
+  "topRecommendations": string[], (Ranked list, highest impact first. Return exactly 3 items)
+  "keywordOpportunities": string[] (3 to 5 high-value keyword phrases derived from the actual subject, without fabricated numbers)
+}`;
+
+          responseSchema = {
+            type: Type.OBJECT,
+            properties: {
+              videoTitle: { type: Type.STRING },
+              thumbnailUrl: { type: Type.STRING, nullable: true },
+              overallScore: { type: Type.INTEGER },
+              overallGrade: { type: Type.STRING },
+              overallSummary: { type: Type.STRING },
+              titleAnalysis: {
+                type: Type.OBJECT,
+                properties: {
+                  score: { type: Type.INTEGER },
+                  charCount: { type: Type.INTEGER },
+                  keywordPresence: { type: Type.STRING },
+                  readability: { type: Type.STRING },
+                  mobileTruncationRisk: { type: Type.STRING },
+                  mainProblems: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  improvementSuggestions: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  optimizedTitles: { type: Type.ARRAY, items: { type: Type.STRING } }
+                },
+                required: ["score", "charCount", "keywordPresence", "readability", "mobileTruncationRisk", "mainProblems", "improvementSuggestions", "optimizedTitles"]
+              },
+              descriptionAnalysis: {
+                type: Type.OBJECT,
+                properties: {
+                  score: { type: Type.INTEGER },
+                  length: { type: Type.INTEGER },
+                  keywordPlacement: { type: Type.STRING },
+                  openingLines: { type: Type.STRING },
+                  structure: { type: Type.STRING },
+                  warnings: { type: Type.STRING },
+                  missingElements: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  improvements: { type: Type.ARRAY, items: { type: Type.STRING } }
+                },
+                required: ["score", "length", "keywordPlacement", "openingLines", "structure", "warnings", "missingElements", "improvements"]
+              },
+              tagsHashtagsAnalysis: {
+                type: Type.OBJECT,
+                properties: {
+                  existingTags: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  suggestedTags: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  suggestedHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  issuesExplanation: { type: Type.STRING }
+                },
+                required: ["existingTags", "suggestedTags", "suggestedHashtags", "issuesExplanation"]
+              },
+              seoIssues: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    problem: { type: Type.STRING },
+                    whyItMatters: { type: Type.STRING },
+                    impact: { type: Type.STRING },
+                    recommendedFix: { type: Type.STRING }
+                  },
+                  required: ["problem", "whyItMatters", "impact", "recommendedFix"]
+                }
+              },
+              technicalChecks: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    name: { type: Type.STRING },
+                    status: { type: Type.STRING },
+                    note: { type: Type.STRING }
+                  },
+                  required: ["name", "status", "note"]
+                }
+              },
+              topRecommendations: { type: Type.ARRAY, items: { type: Type.STRING } },
+              keywordOpportunities: { type: Type.ARRAY, items: { type: Type.STRING } }
+            },
+            required: [
+              "videoTitle",
+              "thumbnailUrl",
+              "overallScore",
+              "overallGrade",
+              "overallSummary",
+              "titleAnalysis",
+              "descriptionAnalysis",
+              "tagsHashtagsAnalysis",
+              "seoIssues",
+              "technicalChecks",
+              "topRecommendations",
+              "keywordOpportunities"
+            ]
+          };
+        } else {
+          systemPrompt = `You are the specialized AI research engine for Multi Tube Views Tool #${numericToolId}: "${toolName}" (${category}). Return concise, actionable JSON strictly for this tool with zero metric fabrication or fake engagement metrics.`;
+          userPrompt = `Generate the exact data structure for Tool #${numericToolId} "${toolName}".
 Topic/Input: "${resolvedTopic}"
 URL: "${inputUrl || 'None'}"
 Platforms: ${activePlatforms.join(', ')}
@@ -744,15 +908,21 @@ Country: ${geoCountry} | Language: ${targetLang} | Category: ${cleanCategory} | 
 Competitor/Secondary Input: "${competitorInput || 'None'}"
 
 STRICT RULE: Output strictly valid JSON matching Tool #${numericToolId}'s specific schema. No fake views, no fabricated CTR numbers.`;
+        }
+
+        const configObj: any = {
+          systemInstruction: systemPrompt,
+          responseMimeType: "application/json",
+          temperature: 0.3,
+        };
+        if (responseSchema) {
+          configObj.responseSchema = responseSchema;
+        }
 
         const aiPromise = ai.models.generateContent({
           model: "gemini-3.7-flash",
           contents: userPrompt,
-          config: {
-            systemInstruction: systemPrompt,
-            responseMimeType: "application/json",
-            temperature: 0.3,
-          },
+          config: configObj,
         });
 
         const timeoutPromise = new Promise<never>((_, reject) =>
