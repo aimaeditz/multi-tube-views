@@ -1,136 +1,99 @@
 # Multi Tube Views (MTV) 📺
 
-> **A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for 20+ video, live-stream, and audio services.**
+> **A clean, responsive, multi-platform public media viewing workspace and AI-powered creator growth suite with a provider-agnostic multi-AI gateway.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-success.svg)](https://pages.github.com/)
-[![Pure Static](https://img.shields.io/badge/Architecture-Pure%20Static%20HTML%2FCSS%2FJS-brightgreen.svg)]()
+[![Multi-AI Gateway](https://img.shields.io/badge/AI-Multi--Provider%20Fallback-purple.svg)]()
+[![Full-Stack Node.js](https://img.shields.io/badge/Backend-Express%20%2B%20TypeScript-green.svg)]()
 
 ---
 
 ## 🌟 Overview
 
-**Multi Tube Views** is a specialized frontend productivity tool designed to help creators, researchers, media analysts, esports enthusiasts, and educators view and monitor multiple public media streams side-by-side in custom responsive grid layouts.
-
-### Key Architectural Principles
-- **Dedicated Platform Tools:** Each of the 20 platforms has its own distinct static HTML page with customized regex validators, sample loaders, and layout preferences.
-- **Pure Client-Side / Zero Backend:** 100% static architecture suitable for instant deployment on GitHub Pages, Cloudflare Pages, Vercel, or Netlify.
-- **Honest Embed Support:** Respects platform Content Security Policies (CSP). Features official iframe embeds where supported (YouTube, Vimeo, Twitch, Spotify, SoundCloud, Dailymotion, etc.) and clean official-view gateways for platforms that restrict cross-origin embedding (Instagram, TikTok, X, etc.).
-- **Strictly Ethical:** **No view botting, no fake engagement, no hidden frames, and no artificial autoplay loops.**
-- **Apple-Inspired Design:** Clean typography, generous spacing, high-contrast dark/light mode themes, and silky-smooth micro-interactions.
+**Multi Tube Views (MTV)** is a comprehensive web application designed for content creators, researchers, media analysts, and digital marketers:
+1. **Multi-Platform Viewing Workspace:** Monitor multiple public media streams side-by-side across 20+ video, live-stream, and audio services.
+2. **AI-Powered Creator Growth Suite:** Access specialized SEO tools, video audit analyzers, title generators, script intro hooks, chapter/description formatters, and multi-platform content repurposing tools.
+3. **Provider-Agnostic Multi-AI Architecture:** Communicates with multiple legitimate AI providers (Google Gemini, OpenAI, xAI Grok, DeepSeek, Anthropic Claude, Mistral AI, OpenRouter) with intelligent fallback routing and side-by-side response comparison.
 
 ---
 
-## 📁 Directory Structure
+## 🔒 Security & Multi-Provider Architecture
+
+- **Zero Client-Side API Keys:** All API keys are kept strictly server-side in Node.js environment variables.
+- **Provider-Agnostic Routing & Fallback:** If a primary provider experiences downtime or rate limits, the `AIOrchestrator` automatically falls back to secondary configured providers (e.g. Gemini → OpenAI → Grok → DeepSeek → Claude → Mistral → OpenRouter).
+- **Built-In Rate Limiting:** Protects backend endpoints using a sliding window rate limiter (configurable via `RATE_LIMIT_WINDOW_MS` and `RATE_LIMIT_MAX_REQUESTS`).
+- **Strictly Grounded Outputs:** Zero clickbait or fabricated metrics; falls back gracefully to deterministic analysis if all AI providers are unavailable.
+
+---
+
+## 🚀 Environment Setup & Configuration
+
+### 1. Configure Environment Variables
+Copy `.env.example` to `.env` and set your preferred provider API keys:
+```env
+# Primary AI Providers (Configure any or all)
+GEMINI_API_KEY=your_gemini_api_key
+OPENAI_API_KEY=your_openai_api_key
+GROK_API_KEY=your_grok_api_key
+DEEPSEEK_API_KEY=your_deepseek_api_key
+CLAUDE_API_KEY=your_claude_api_key
+MISTRAL_API_KEY=your_mistral_api_key
+OPENROUTER_API_KEY=your_openrouter_api_key
+
+# Gateway Configuration
+DEFAULT_AI_PROVIDER=auto
+MAX_FALLBACK_ATTEMPTS=3
+RATE_LIMIT_WINDOW_MS=60000
+RATE_LIMIT_MAX_REQUESTS=30
+```
+
+---
+
+## 🛠️ API Endpoints
+
+| Route | Method | Description |
+| :--- | :--- | :--- |
+| `/api/ai` | `POST` | Universal multi-provider AI gateway router |
+| `/api/ai/health` | `GET` | Monitoring & active provider status health check |
+| `/api/ai/providers` | `GET` | Discovery endpoint listing configured AI providers |
+| `/api/ai/compare` | `POST` | Compare Mode: Query multiple providers in parallel |
+| `/api/analyze-video` | `POST` | Public video metadata audit & multi-AI packaging score |
+| `/api/seo-research` | `POST` | Specialized social media & video SEO research engine (Tools 1–7) |
+
+---
+
+## 📁 Architecture Directory Structure
 
 ```text
 multi-tube-views/
-├── .nojekyll                   # Prevents Jekyll processing on GitHub Pages
-├── index.html                  # Homepage with Platform Directory & Search
-├── about.html                  # About MTV and architecture principles
-├── articles.html               # Technical guides & articles
-├── privacy.html                # Privacy policy & data disclosures
-├── disclaimer.html             # Legal and trademark disclaimers
-├── terms.html                  # Terms of service
-├── contact.html                # Community & contribution info
-├── credits.html                # Open-source attributions
-├── settings.html               # Global display & theme preferences
-├── docs/
-│   └── deployment.md           # GitHub Pages deployment instructions
-├── platforms/                  # 20 Dedicated Platform Workspaces
-│   ├── youtube.html
-│   ├── vimeo.html
-│   ├── dailymotion.html
-│   ├── twitch.html
-│   ├── kick.html
-│   ├── facebook.html
-│   ├── instagram.html
-│   ├── tiktok.html
-│   ├── x.html
-│   ├── linkedin.html
-│   ├── reddit.html
-│   ├── pinterest.html
-│   ├── bilibili.html
-│   ├── rumble.html
-│   ├── odysee.html
-│   ├── soundcloud.html
-│   ├── spotify.html
-│   ├── snapchat.html
-│   ├── threads.html
-│   └── telegram.html
+├── server.ts                   # Express server entry point & API routes
+├── server/
+│   ├── ai/
+│   │   ├── types.ts            # AI Request/Response & Provider Interface definitions
+│   │   ├── registry.ts         # Central provider & model configurations
+│   │   ├── rate-limiter.ts     # Sliding window rate limiter
+│   │   ├── orchestrator.ts     # Fallback router & Compare mode engine
+│   │   └── adapters/           # Concrete provider adapters
+│   │       ├── gemini.ts       # Google Gemini adapter
+│   │       ├── openai.ts       # OpenAI adapter
+│   │       ├── grok.ts         # xAI Grok adapter
+│   │       ├── deepseek.ts     # DeepSeek adapter
+│   │       ├── claude.ts       # Anthropic Claude adapter
+│   │       ├── mistral.ts      # Mistral AI adapter
+│   │       └── openrouter.ts   # OpenRouter adapter
+│   └── seo-tools-registry.ts   # Deterministic fallback engines & tools context
+├── assets/js/
+│   ├── ai-provider-selector.js # Client-side provider selector & Compare UI engine
+│   ├── seo-tools-engine.js     # Frontend SEO tools workspace engine
+│   └── growth-engine.js        # Video packaging audit engine
+```
 └── assets/
-    ├── css/
-    │   ├── style.css           # Global tokens & base typography
-    │   ├── components.css      # Reusable UI component library
-    │   └── responsive.css      # Mobile, tablet, & ultra-wide rules
-    ├── js/
-    │   ├── storage.js          # LocalStorage preference manager
-    │   ├── theme.js            # Light/Dark/System theme engine
-    │   ├── validators.js       # URL parsers & regex validators
-    │   ├── platform-engine.js  # 20 Platform adapter configurations
-    │   ├── navigation.js       # Search bar & mobile menu controller
-    │   └── app.js              # Multi-player workspace controller
-    └── icons/
-        └── favicon.svg         # SVG vector brand icon
+    ├── css/                    # Modular styling & design system
+    └── js/                     # Client-side engines & UI controllers
 ```
-
----
-
-## 🚀 Quick Start (Local Development)
-
-Because Multi Tube Views is a static web application, you can run it with any local static HTTP server:
-
-```bash
-# Option 1: Using Python 3
-python3 -m http.server 3000
-
-# Option 2: Using npx serve
-npx serve -l 3000 .
-
-# Option 3: Using Vite
-npm run dev
-```
-
-Open `http://localhost:3000` in your web browser.
-
----
-
-## 🌐 Supported Platforms (20 Adapters)
-
-| Platform | Type | Embed Method | Features |
-| :--- | :--- | :--- | :--- |
-| **YouTube** | Video / Shorts / Live | Privacy NoCookie Iframe | Video IDs, Shorts, Playlists, Live |
-| **Vimeo** | Video / Film | Vimeo Player API | DNT mode, High Definition |
-| **Dailymotion** | Video | Dailymotion Embed | Auto-muted playback |
-| **Twitch** | Live / VOD / Clip | Parent Handshake Embed | Dynamic parent hostname resolution |
-| **Kick** | Live / Replay | Kick Player Embed | Channel broadcasts |
-| **Spotify** | Music / Podcast | Spotify Generator Embed | Tracks, Albums, Playlists |
-| **SoundCloud** | Audio / DJ Sets | SoundCloud Widget | Visual player mode |
-| **Bilibili** | Video / Anime | Bilibili Player | High-speed player stream |
-| **Rumble** | Video / Podcast | Rumble Embed | Broadcast replays |
-| **Odysee** | Video / LBRY | Odysee Embed | Decentralized video streaming |
-| **Facebook** | Watch / Video | Meta Player Plugin | Public video feeds |
-| **Telegram** | Post / Clip | Telegram Post Widget | Public channel streams |
-| **Instagram** | Reels / Posts | Official View Gateway | Direct verified link |
-| **TikTok** | Shorts / Clips | Official View Gateway | Direct verified link |
-| **X (Twitter)** | Posts / Spaces | Official View Gateway | Direct verified link |
-| **LinkedIn** | Video / Learning | Official View Gateway | Direct verified link |
-| **Reddit** | Discussion / Video | Official View Gateway | Direct verified link |
-| **Pinterest** | Video Pins | Official View Gateway | Direct verified link |
-| **Snapchat** | Spotlight | Official View Gateway | Direct verified link |
-| **Threads** | Posts / Clips | Official View Gateway | Direct verified link |
-
----
-
-## 🛠️ GitHub Pages Deployment
-
-1. Push this repository to GitHub.
-2. Go to **Settings** > **Pages**.
-3. Select `Deploy from a branch` -> `main` branch -> `/ (root)`.
-4. Your workspace is immediately live! See [docs/deployment.md](docs/deployment.md) for custom domains and advanced configurations.
 
 ---
 
 ## 📄 License & Attribution
 
-Distributed under the MIT License. See [credits.html](credits.html) for open-source acknowledgments. Trademarks belong to their respective owners.
+Distributed under the MIT License. Trademarks and brand logos belong to their respective platforms.

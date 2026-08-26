@@ -4,6 +4,8 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import { executeSeoTool } from "./server/seo-tools-registry.js";
+import { aiOrchestrator } from "./server/ai/orchestrator.js";
+import { globalRateLimiter } from "./server/ai/rate-limiter.js";
 
 dotenv.config();
 
@@ -517,10 +519,168 @@ function generateGroundedAudit(
   };
 }
 
+// AI Provider Health Check Endpoint
+app.get("/api/ai/health", (req, res) => {
+  const statusList = aiOrchestrator.getProviderStatusList();
+  const availableCount = statusList.filter(s => s.status === 'available').length;
+  res.json({
+    status: availableCount > 0 ? "ok" : "degraded",
+    availableCount,
+    totalProviders: statusList.length,
+    providers: statusList,
+  });
+});
+
+// AI Providers Listing Endpoint for UI Dropdown
+app.get("/api/ai/providers", (req, res) => {
+  const available = aiOrchestrator.getAvailableProviders();
+  const allProviders = aiOrchestrator.getProviderStatusList();
+  res.json({
+    success: true,
+    providers: available,
+    allProviders,
+  });
+});
+
+// Compare AI Providers Endpoint
+app.post("/api/ai/compare", async (req, res) => {
+  const clientIp = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || '127.0.0.1').split(',')[0].trim();
+  const rateLimit = globalRateLimiter.check(clientIp);
+  if (!rateLimit.allowed) {
+    return res.status(429).json({
+      error: "Rate limit exceeded. Please wait before submitting more requests.",
+      errorCode: "RATE_LIMITED",
+    });
+  }
+
+  const { prompt, systemInstruction, compareProviders } = req.body || {};
+  if (!prompt) {
+    return res.status(400).json({ error: "Prompt is required.", errorCode: "INVALID_REQUEST" });
+  }
+
+  const result = await aiOrchestrator.compare({
+    prompt,
+    systemInstruction,
+    compareProviders,
+  });
+
+  res.json(result);
+});
+
+// Universal Multi-Provider AI API Gateway
+app.post("/api/ai", async (req, res) => {
+  const clientIp = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || '127.0.0.1').split(',')[0].trim();
+  const rateLimit = globalRateLimiter.check(clientIp);
+  if (!rateLimit.allowed) {
+    return res.status(429).json({
+      error: "Rate limit exceeded. Please wait before submitting more requests.",
+      errorCode: "RATE_LIMITED",
+    });
+  }
+
+  try {
+    const { action, tool, toolId, input, prompt, provider, model, systemInstruction, compare } = req.body || {};
+    const targetProvider = provider || (req.headers['x-ai-provider'] as string) || 'auto';
+
+    // Route to video analysis if action or tool indicates video audit
+    if (action === "analyze-video" || tool === "analyze-video" || tool === "video-audit") {
+      const url = input?.url || req.body.url || "";
+      const title = input?.title || req.body.title || "";
+      const category = input?.category || req.body.category || "Education & Tech";
+      const urlData = await inspectAndFetchVideoMetadata(url);
+      const effectiveTitle = title || urlData.realTitle || (urlData.videoId ? `Video ${urlData.videoId}` : "");
+      const hasValidInput = Boolean(title || urlData.realTitle || urlData.videoId || urlData.isRecognized);
+
+      if (hasValidInput) {
+        const aiPrompt = `Analyze the actual submitted video and generate strictly accurate, non-clickbait packaging outputs.
+INPUT METADATA:
+- Submitted URL: ${url || "Data unavailable"}
+- Platform: ${urlData.platform}
+- Verified Real Title: ${urlData.realTitle || "Data unavailable"}
+- Working Title / Topic: "${effectiveTitle || "Data unavailable"}"
+- Content Category: "${category}"
+- Verified Video Duration: ${urlData.durationSeconds ? `${urlData.durationFormatted} (${urlData.durationSeconds} seconds)` : "Data unavailable"}`;
+
+        const aiResponse = await aiOrchestrator.generate({
+          prompt: aiPrompt,
+          systemInstruction: "You are an expert video SEO and packaging auditor. Output strict JSON adhering to exact verified duration, non-clickbait titles, and grounded timestamps.",
+          provider: targetProvider,
+          model,
+          responseFormat: 'json',
+          temperature: 0.2,
+        });
+
+        if (aiResponse.success && (aiResponse.json || aiResponse.text)) {
+          const auditData = aiResponse.json || JSON.parse(aiResponse.text);
+          return res.json({
+            ...auditData,
+            _aiMeta: {
+              provider: aiResponse.provider,
+              model: aiResponse.model,
+              latencyMs: aiResponse.latencyMs,
+              fallbackOccurred: aiResponse.fallbackOccurred,
+            },
+          });
+        }
+      }
+      return res.json(generateGroundedAudit(effectiveTitle, category, urlData, hasValidInput));
+    }
+
+    // Generic Multi-Provider AI prompt handler
+    const userPrompt = prompt || input?.prompt || JSON.stringify(input || req.body);
+    const sysInstruction = systemInstruction || req.body.systemInstruction || "You are an expert AI content assistant for Multi Tube Views. Return helpful, grounded, and accurate results in JSON format.";
+
+    const aiResponse = await aiOrchestrator.generate({
+      prompt: userPrompt,
+      systemInstruction: sysInstruction,
+      provider: targetProvider,
+      model,
+      responseFormat: 'json',
+      temperature: 0.3,
+    });
+
+    if (aiResponse.success) {
+      if (aiResponse.json) {
+        return res.json({
+          ...aiResponse.json,
+          _aiMeta: {
+            provider: aiResponse.provider,
+            model: aiResponse.model,
+            latencyMs: aiResponse.latencyMs,
+            fallbackOccurred: aiResponse.fallbackOccurred,
+          },
+        });
+      }
+      return res.json({ 
+        result: aiResponse.text,
+        _aiMeta: {
+          provider: aiResponse.provider,
+          model: aiResponse.model,
+          latencyMs: aiResponse.latencyMs,
+          fallbackOccurred: aiResponse.fallbackOccurred,
+        },
+      });
+    }
+
+    return res.status(500).json({
+      error: aiResponse.error || "Failed to process AI request across all available providers.",
+      errorCode: aiResponse.errorCode || "PROVIDER_UNAVAILABLE",
+      attemptedProviders: aiResponse.attemptedProviders,
+    });
+  } catch (error: any) {
+    console.error("Universal AI endpoint error:", error);
+    return res.status(500).json({
+      error: error.message || "Failed to process AI request.",
+      errorCode: "UNKNOWN_PROVIDER_ERROR",
+    });
+  }
+});
+
 // API endpoint for Video Growth Audit (backward compatibility)
 app.post("/api/analyze-video", async (req, res) => {
   try {
-    const { url = "", title = "", category = "Education & Tech" } = req.body;
+    const { url = "", title = "", category = "Education & Tech", provider } = req.body;
+    const targetProvider = provider || (req.headers['x-ai-provider'] as string) || 'auto';
     const inputUrl = String(url || "").trim();
     const inputTitle = String(title || "").trim();
     const inputCategory = String(category || "Education & Tech").trim();
@@ -536,10 +696,8 @@ app.post("/api/analyze-video", async (req, res) => {
     const effectiveTitle = inputTitle || urlData.realTitle || (urlData.videoId ? `Video ${urlData.videoId}` : "");
     const hasValidInput = Boolean(inputTitle || urlData.realTitle || urlData.videoId || urlData.isRecognized);
 
-    const ai = getAI();
-
-    // AI audit with Gemini (using gemini-3.7-flash with strict instructions for the 4 outputs)
-    if (ai && hasValidInput) {
+    // AI audit with AI Orchestrator (supports Gemini, OpenAI, Grok, DeepSeek, Claude, Mistral, OpenRouter with Fallback)
+    if (hasValidInput) {
       try {
         const prompt = `Analyze the actual submitted video and generate strictly accurate, non-clickbait packaging outputs.
 
@@ -562,77 +720,16 @@ CRITICAL MANDATORY INSTRUCTIONS:
 4. TAGS / SEO SEARCH TERMS: Generate only video-specific SEO search terms directly relevant to the video's real topic and content. If data unavailable, return ["Data unavailable"].
 5. Do NOT invent private creator analytics (views, CTR %, watch time).`;
 
-        const aiPromise = ai.models.generateContent({
-          model: "gemini-3.7-flash",
-          contents: prompt,
-          config: {
-            systemInstruction:
-              "You are an expert video SEO and packaging auditor. Output strict JSON adhering to exact verified duration, non-clickbait titles, and grounded timestamps.",
-            responseMimeType: "application/json",
-            temperature: 0.2,
-            responseSchema: {
-              type: Type.OBJECT,
-              properties: {
-                overallScore: { type: Type.INTEGER },
-                tierLabel: { type: Type.STRING },
-                tierBadgeClass: { type: Type.STRING },
-                tierSummary: { type: Type.STRING },
-                problemsFound: {
-                  type: Type.ARRAY,
-                  items: { type: Type.STRING },
-                  description: "3 to 5 key findings",
-                },
-                exactImprovements: {
-                  type: Type.ARRAY,
-                  items: { type: Type.STRING },
-                  description: "2 to 3 actionable improvements",
-                },
-                improvedTitleSuggestion: {
-                  type: Type.STRING,
-                  description: "Accurate, high-intent title without clickbait",
-                },
-                optimizedDescription: {
-                  type: Type.STRING,
-                  description: "Concise description with grounded timestamps based strictly on actual duration or explicit Data unavailable note",
-                },
-                relevantKeywords: {
-                  type: Type.ARRAY,
-                  items: { type: Type.STRING },
-                  description: "Video-specific keywords directly relevant to real topic",
-                },
-                relevantHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
-                tagsOrSeoTerms: {
-                  type: Type.ARRAY,
-                  items: { type: Type.STRING },
-                  description: "Video-specific SEO search terms directly relevant to real topic",
-                },
-                whyThisMatters: { type: Type.STRING },
-              },
-              required: [
-                "overallScore",
-                "tierLabel",
-                "tierBadgeClass",
-                "problemsFound",
-                "exactImprovements",
-                "improvedTitleSuggestion",
-                "optimizedDescription",
-                "relevantKeywords",
-                "relevantHashtags",
-                "tagsOrSeoTerms",
-                "whyThisMatters",
-              ],
-            },
-          },
+        const aiResponse = await aiOrchestrator.generate({
+          prompt,
+          systemInstruction: "You are an expert video SEO and packaging auditor. Output strict JSON adhering to exact verified duration, non-clickbait titles, and grounded timestamps.",
+          provider: targetProvider,
+          responseFormat: 'json',
+          temperature: 0.2,
         });
 
-        const timeoutPromise = new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("AI timeout")), 20000)
-        );
-
-        const response: any = await Promise.race([aiPromise, timeoutPromise]);
-        const text = response.text;
-        if (text) {
-          const parsed = JSON.parse(text);
+        if (aiResponse.success && (aiResponse.json || aiResponse.text)) {
+          const parsed = aiResponse.json || JSON.parse(aiResponse.text);
           return res.json({
             overallScore: parsed.overallScore || 80,
             tierLabel: parsed.tierLabel || "Search-Optimized",
@@ -654,6 +751,12 @@ CRITICAL MANDATORY INSTRUCTIONS:
               category: inputCategory,
               isPublicDataVerified: urlData.isRecognized && (!!urlData.realTitle || !!urlData.durationSeconds),
               statusNote: urlData.statusNote,
+            },
+            _aiMeta: {
+              provider: aiResponse.provider,
+              model: aiResponse.model,
+              latencyMs: aiResponse.latencyMs,
+              fallbackOccurred: aiResponse.fallbackOccurred,
             },
           });
         }
@@ -696,8 +799,10 @@ app.post("/api/seo-research", async (req, res) => {
       competitorInput = "",
       tone = "Educational",
       duration = "",
+      provider,
     } = req.body;
 
+    const targetProvider = provider || (req.headers['x-ai-provider'] as string) || 'auto';
     let inputUrl = String(url || "").trim();
     let effectiveTopic = String(singleInput || topic || title || keyword || description || "").trim();
 
@@ -728,9 +833,8 @@ app.post("/api/seo-research", async (req, res) => {
     };
 
     const toolTypeKey = toolTypeMap[numericToolId] || "general";
-    const ai = getAI();
 
-    if (ai && (resolvedTopic || inputUrl)) {
+    if (resolvedTopic || inputUrl) {
       try {
         let systemPrompt = "";
         let userPrompt = "";
@@ -915,29 +1019,16 @@ Competitor/Secondary Input: "${competitorInput || 'None'}"
 STRICT RULE: Output strictly valid JSON matching Tool #${numericToolId}'s specific schema. No fake views, no fabricated CTR numbers.`;
         }
 
-        const configObj: any = {
+        const aiResponse = await aiOrchestrator.generate({
+          prompt: userPrompt,
           systemInstruction: systemPrompt,
-          responseMimeType: "application/json",
+          provider: targetProvider,
+          responseFormat: 'json',
           temperature: 0.3,
-        };
-        if (responseSchema) {
-          configObj.responseSchema = responseSchema;
-        }
-
-        const aiPromise = ai.models.generateContent({
-          model: "gemini-3.7-flash",
-          contents: userPrompt,
-          config: configObj,
         });
 
-        const timeoutPromise = new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("AI timeout")), 18000)
-        );
-
-        const response: any = await Promise.race([aiPromise, timeoutPromise]);
-        const text = response.text;
-        if (text) {
-          const parsed = JSON.parse(text);
+        if (aiResponse.success && (aiResponse.json || aiResponse.text)) {
+          const parsed = aiResponse.json || JSON.parse(aiResponse.text);
           return res.json({
             toolId: numericToolId,
             toolName,
@@ -958,6 +1049,12 @@ STRICT RULE: Output strictly valid JSON matching Tool #${numericToolId}'s specif
               category: cleanCategory,
               isPublicDataVerified: urlData.isRecognized,
               statusNote: urlData.statusNote || "Research grounded in submitted parameters.",
+            },
+            _aiMeta: {
+              provider: aiResponse.provider,
+              model: aiResponse.model,
+              latencyMs: aiResponse.latencyMs,
+              fallbackOccurred: aiResponse.fallbackOccurred,
             },
           });
         }

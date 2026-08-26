@@ -698,7 +698,8 @@ class GrowthEngine {
         body: JSON.stringify({
           url: inputUrl,
           title: inputTitle,
-          category: inputCategory
+          category: inputCategory,
+          provider: window.MultiTubeAI ? window.MultiTubeAI.getSelectedProvider() : 'auto'
         })
       });
 

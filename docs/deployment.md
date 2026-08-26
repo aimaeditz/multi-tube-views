@@ -1,64 +1,65 @@
-# Multi Tube Views — GitHub Pages Deployment Guide
+# Multi Tube Views — Deployment & Backend Setup Guide
 
-This guide provides instructions for deploying **Multi Tube Views** (`multi-tube-views`) to GitHub Pages or any static web host.
-
----
-
-## 1. Static Architecture Overview
-
-Multi Tube Views is built entirely as a pure static frontend workspace:
-- **Zero Backend Dependencies:** No Node.js runtime or database required in production.
-- **Pure Client-Side Routing:** Every tool is its own static HTML document (`index.html`, `platforms/youtube.html`, etc.) which guarantees direct bookmarking and refresh persistence.
-- **LocalStorage Preferences:** User themes and grid settings stay entirely in the user's browser.
+This guide provides step-by-step instructions for configuring and deploying **Multi Tube Views (MTV)** with its secure server-side Google Gemini AI integration.
 
 ---
 
-## 2. GitHub Pages Deployment Steps
+## 1. Architecture Overview
 
-### Method A: Deploying Directly from Root Branch (`main` / `master`)
+Multi Tube Views is built with a modern full-stack architecture:
+- **Frontend Layer:** Responsive single-page and multi-page HTML5/JS views with dark/light themes, 20 platform adapters, and responsive multi-view grids.
+- **Backend API Layer (`server.ts`):** Express + TypeScript backend running on Node.js. Proxies all AI requests securely to the Google Gemini API using `@google/genai`.
+- **API Key Security:** The `GEMINI_API_KEY` remains strictly environment-bound on the server side. No API credentials are ever exposed to the client browser.
 
-1. **Initialize Git & Commit Files:**
+---
+
+## 2. Environment Setup
+
+1. **Create Environment File:**
    ```bash
-   git init
-   git add .
-   git commit -m "Initial commit: Multi Tube Views production release"
+   cp .env.example .env
    ```
 
-2. **Push to GitHub Repository:**
-   ```bash
-   git remote add origin https://github.com/<your-username>/multi-tube-views.git
-   git branch -M main
-   git push -u origin main
+2. **Set Your API Key:**
+   Open `.env` and set your key:
+   ```env
+   GEMINI_API_KEY=YOUR_NEW_GEMINI_API_KEY
    ```
-
-3. **Enable GitHub Pages:**
-   - Go to your repository on GitHub.
-   - Navigate to **Settings** > **Pages**.
-   - Under **Build and deployment** > **Source**, select **Deploy from a branch**.
-   - Select `main` branch and `/ (root)` folder.
-   - Click **Save**.
-
-4. **Verify Deployment:**
-   - Your site will be live at `https://<your-username>.github.io/multi-tube-views/`.
-   - Ensure the `.nojekyll` file remains at the project root to prevent Jekyll from skipping asset directories.
 
 ---
 
-## 3. Custom Domain Configuration (Optional)
+## 3. Local Development
 
-If using a custom domain (e.g., `views.yourdomain.com`):
-
-1. Create a `CNAME` file at the repository root containing your domain:
-   ```text
-   views.yourdomain.com
-   ```
-2. In your DNS provider (Cloudflare, Namecheap, Google Domains, etc.), create a `CNAME` record pointing `views` to `<your-username>.github.io`.
-3. In GitHub Repository **Settings** > **Pages**, enter your custom domain and check **Enforce HTTPS**.
+Start the development server:
+```bash
+npm run dev
+```
+The server will bind to `http://0.0.0.0:3000` (or `http://localhost:3000`), serving both the backend API endpoints (`/api/*`) and the frontend via Vite middleware.
 
 ---
 
-## 4. Platform Adapter Maintenance & CSP Notes
+## 4. Production Deployment
 
-- **Origin Handshakes:** Twitch embeds dynamically inject the current `window.location.hostname` into the `parent` parameter. When deploying to a custom domain, Twitch embeds will adapt automatically.
-- **No-Cookie Endpoints:** YouTube uses `https://www.youtube-nocookie.com/embed/` for privacy and compliance.
-- **DNT Privacy:** Vimeo embeds include the `dnt=1` parameter by default.
+### Option A: Cloud Run / Render / Railway / Heroku (Full-Stack Container)
+1. Push your codebase to GitHub.
+2. Connect your repository to your Cloud Run / Render / Railway project.
+3. Configure the **Environment Variables** in the provider's dashboard:
+   - `GEMINI_API_KEY`: Your Google Gemini API Key
+   - `NODE_ENV`: `production`
+4. Set Build and Start scripts:
+   - **Build Command:** `npm run build`
+   - **Start Command:** `npm run start`
+
+### Option B: Vercel / Serverless Deployment
+1. Import the repository into Vercel.
+2. Add `GEMINI_API_KEY` under **Project Settings > Environment Variables**.
+3. Deploy! Vercel handles the production build and serverless function execution automatically.
+
+---
+
+## 5. Security & Verification Checklist
+
+- [x] `GEMINI_API_KEY` is defined ONLY in `.env` or production platform environment variables.
+- [x] `.env` is listed in `.gitignore` to prevent accidental git commits.
+- [x] All AI tools use `fetch('/api/seo-research')`, `fetch('/api/analyze-video')`, or `fetch('/api/ai')`.
+- [x] Frontend code contains ZERO references to raw API keys or client-side Gemini initialization.

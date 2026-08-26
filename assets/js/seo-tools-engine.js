@@ -682,6 +682,7 @@
           language: language,
           contentCategory: category,
           audience: audience,
+          provider: window.MultiTubeAI ? window.MultiTubeAI.getSelectedProvider() : 'auto',
         };
 
         const response = await fetch('/api/seo-research', {
