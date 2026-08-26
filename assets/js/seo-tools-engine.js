@@ -141,8 +141,8 @@
     constructor() {
       this.activeCategory = 'ALL';
       this.searchQuery = '';
-      this.openTabs = [1];
-      this.activeToolId = 1;
+      this.openTabs = [];
+      this.activeToolId = null;
       this.tabStates = new Map();
       this.selectedPlatforms = ['YouTube'];
       this.abortController = null;
@@ -189,7 +189,8 @@
     }
 
     get activeTool() {
-      return TOOLS_CATALOG.find(t => t.id === this.activeToolId) || TOOLS_CATALOG[0];
+      if (this.activeToolId === null) return null;
+      return TOOLS_CATALOG.find(t => t.id === this.activeToolId) || null;
     }
 
     renderCategoryPills() {
@@ -303,6 +304,7 @@
 
       const runner = document.getElementById('active-runner-modal');
       if (runner) {
+        runner.classList.add('open');
         runner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
 
@@ -310,17 +312,19 @@
     }
 
     closeTab(toolId) {
-      if (this.openTabs.length <= 1) return;
-      
       this.tabStates.delete(toolId);
       this.openTabs = this.openTabs.filter(id => id !== toolId);
-
-      if (this.activeToolId === toolId) {
-        this.activeToolId = this.openTabs[this.openTabs.length - 1];
+    
+      if (this.openTabs.length === 0) {
+        this.activeToolId = null;
+        document.getElementById('active-runner-modal')?.classList.remove('open');
+      } else {
+        if (this.activeToolId === toolId) {
+          this.activeToolId = this.openTabs[this.openTabs.length - 1];
+        }
+        this.renderWorkspaceTabs();
+        this.restoreActiveWorkspace();
       }
-
-      this.renderWorkspaceTabs();
-      this.restoreActiveWorkspace();
       this.renderToolsGrid();
     }
 
@@ -1268,6 +1272,7 @@ ${JSON.stringify(data, null, 2)}
         this.detectInputType('');
         const results = document.getElementById('results-workspace');
         if (results) results.innerHTML = '';
+        document.getElementById('active-runner-modal')?.classList.remove('open');
       });
     }
   }

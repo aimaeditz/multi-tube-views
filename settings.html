@@ -67,207 +67,31 @@
       </div>
 
       <div style="margin-bottom: 2.5rem;">
-        <h1 style="margin-bottom: 0.5rem;">Website Display & Preferences</h1>
+        <h1 style="margin-bottom: 0.5rem;">Theme Settings</h1>
         <p style="font-size: 1.05rem; color: var(--text-secondary); max-width: 700px; margin: 0;">
-          Customize visual styling, accessibility features, interface density, and device performance. All preferences are preserved privately in local browser storage.
+          Choose your preferred theme: Light, Dark, or automatically matching your system settings.
         </p>
       </div>
 
-      <!-- Section 1: Appearance & Layout -->
+      <!-- Section 1: Appearance -->
       <div class="card" style="margin-bottom: 2rem;">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
           <div>
-            <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.2rem;">Appearance & Layout</h2>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Control colors, typography, density, and animation behavior.</p>
+            <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.2rem;">Appearance</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Control color theme preferences.</p>
           </div>
           <span style="font-size: 1.2rem;">🎨</span>
         </div>
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
-          <div>
+          <div style="max-width: 300px;">
             <label for="theme-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Color Theme</label>
             <select id="theme-select" class="setting-select" style="width: 100%;">
-              <option value="light">Light Mode (Clean iOS White - Default)</option>
-              <option value="dark">Dark Mode (Obsidian Dark)</option>
+              <option value="light">Light Mode</option>
+              <option value="dark">Dark Mode</option>
               <option value="system">System Preference (Automatic)</option>
             </select>
             <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Theme switches dynamically across all workspace tools.</p>
           </div>
-
-          <div>
-            <label for="display-mode-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Display Mode</label>
-            <select id="display-mode-select" class="setting-select" style="width: 100%;">
-              <option value="standard">Standard Responsive Container</option>
-              <option value="wide">Wide Canvas (Full Width)</option>
-              <option value="centered">Centered Focus View</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Adjusts content container max-width boundaries.</p>
-          </div>
-
-          <div>
-            <label for="density-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Display Density</label>
-            <select id="density-select" class="setting-select" style="width: 100%;">
-              <option value="comfortable">Comfortable (Spacious & Relaxed)</option>
-              <option value="compact">Compact (High Information Density)</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Reduces padding and margins for dense multi-tool workflows.</p>
-          </div>
-
-          <div>
-            <label for="font-scale-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Interface Font Scale</label>
-            <select id="font-scale-select" class="setting-select" style="width: 100%;">
-              <option value="standard">Standard (100% / 16px Base)</option>
-              <option value="large">Large (110% / 18px Base)</option>
-              <option value="compact">Compact (90% / 14.5px Base)</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Scales UI typography for optimal viewing comfort.</p>
-          </div>
-
-          <div>
-            <label for="motion-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Animation & Motion</label>
-            <select id="motion-select" class="setting-select" style="width: 100%;">
-              <option value="default">Full Fluid Animations</option>
-              <option value="reduced">Reduced Motion (Smooth & Subtle)</option>
-              <option value="off">Motion Off (Instant Display)</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Controls CSS animations and interface micro-interactions.</p>
-          </div>
-
-          <div>
-            <label for="transitions-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">UI Transitions</label>
-            <select id="transitions-select" class="setting-select" style="width: 100%;">
-              <option value="on">Transitions Enabled (Smooth)</option>
-              <option value="off">Transitions Disabled (Instant)</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Toggles hover states and layout transition durations.</p>
-          </div>
-
-          <div>
-            <label for="ui-effects-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">UI Visual Effects</label>
-            <select id="ui-effects-select" class="setting-select" style="width: 100%;">
-              <option value="on">Effects Enabled (Subtle Shadows & Blurs)</option>
-              <option value="off">Effects Off (Flat Clean Surfaces)</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Disables backdrop blur filters and elevation box-shadows.</p>
-          </div>
-
-          <div>
-            <label for="auto-layout-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Responsive Auto-Layout</label>
-            <select id="auto-layout-select" class="setting-select" style="width: 100%;">
-              <option value="fluid">Fluid Auto-Fit (Adapts to Viewport)</option>
-              <option value="standard">Standard Step-Breakpoints</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Configures layout grid responsiveness algorithm.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Section 2: Accessibility -->
-      <div class="card" style="margin-bottom: 2rem;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
-          <div>
-            <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.2rem;">Accessibility (WCAG AA)</h2>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Enhanced contrast, focus indicators, and text scaling.</p>
-          </div>
-          <span style="font-size: 1.2rem;">♿</span>
-        </div>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
-          <div>
-            <label for="contrast-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Contrast Mode</label>
-            <select id="contrast-select" class="setting-select" style="width: 100%;">
-              <option value="standard">Standard Contrast (Balanced)</option>
-              <option value="high">High Contrast (Bold Outlines & Max Legibility)</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Increases border stroke widths and text-to-background contrast.</p>
-          </div>
-
-          <div>
-            <label for="focus-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Focus Indicators</label>
-            <select id="focus-select" class="setting-select" style="width: 100%;">
-              <option value="default">Default Focus Ring</option>
-              <option value="prominent">Prominent Focus Ring (High Visibility)</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Enhances keyboard navigation focus halos for tab navigation.</p>
-          </div>
-
-          <div>
-            <label for="text-scaling-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Text Size Scaling</label>
-            <select id="text-scaling-select" class="setting-select" style="width: 100%;">
-              <option value="100">100% Standard Scale</option>
-              <option value="115">115% Medium Scale</option>
-              <option value="125">125% Large Scale</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Enlarges paragraph and heading text without altering card layout.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Section 3: Performance & Data -->
-      <div class="card" style="margin-bottom: 2rem;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
-          <div>
-            <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.2rem;">Performance & Data Optimization</h2>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Optimize browser CPU usage, memory footprint, and bandwidth efficiency.</p>
-          </div>
-          <span style="font-size: 1.2rem;">⚡</span>
-        </div>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
-          <div>
-            <label for="perf-mode-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Performance Profile</label>
-            <select id="perf-mode-select" class="setting-select" style="width: 100%;">
-              <option value="balanced">Balanced Mode (Recommended)</option>
-              <option value="fast">Fast High-Efficiency Mode</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Optimizes script execution and background reflow timers.</p>
-          </div>
-
-          <div>
-            <label for="lightweight-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Lightweight UI Mode</label>
-            <select id="lightweight-select" class="setting-select" style="width: 100%;">
-              <option value="off">Standard Rich Styling</option>
-              <option value="on">Lightweight UI (Zero GPU Shadow Load)</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Removes shadow rendering layers for maximum speed on mobile devices.</p>
-          </div>
-
-          <div>
-            <label for="lazy-load-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Lazy Load Media Embeds</label>
-            <select id="lazy-load-select" class="setting-select" style="width: 100%;">
-              <option value="on">Enabled (Load on Scroll / When Visible)</option>
-              <option value="off">Disabled (Load Immediately)</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Prevents offscreen iframe resource initialization.</p>
-          </div>
-
-          <div>
-            <label for="optimize-images-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Image Optimization</label>
-            <select id="optimize-images-select" class="setting-select" style="width: 100%;">
-              <option value="webp">Adaptive Format & Async Decoding</option>
-              <option value="standard">Standard Native Loading</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Ensures images decode off the main thread.</p>
-          </div>
-
-          <div>
-            <label for="low-power-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Low Power Mode</label>
-            <select id="low-power-select" class="setting-select" style="width: 100%;">
-              <option value="off">Disabled (Normal)</option>
-              <option value="on">Enabled (Conserves Battery)</option>
-            </select>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Minimizes timer intervals and background DOM operations.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Section 4: Reset -->
-      <div class="card" style="display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 3.5rem; border-color: var(--border-subtle);">
-        <div>
-          <h3 style="font-size: 1.05rem; margin-bottom: 0.25rem;">Reset All Website Preferences</h3>
-          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0;">Restores theme, accessibility, display, and performance options to factory defaults.</p>
-        </div>
-        <button type="button" id="btn-reset-settings" class="btn btn-secondary" style="border-color: var(--border-strong);">Reset to Defaults</button>
       </div>
 
     </div>
@@ -368,142 +192,14 @@
 
       // Select elements
       const themeSelect = document.getElementById('theme-select');
-      const displayModeSelect = document.getElementById('display-mode-select');
-      const densitySelect = document.getElementById('density-select');
-      const fontScaleSelect = document.getElementById('font-scale-select');
-      const motionSelect = document.getElementById('motion-select');
-      const transitionsSelect = document.getElementById('transitions-select');
-      const uiEffectsSelect = document.getElementById('ui-effects-select');
-      const autoLayoutSelect = document.getElementById('auto-layout-select');
-      
-      const contrastSelect = document.getElementById('contrast-select');
-      const focusSelect = document.getElementById('focus-select');
-      const textScalingSelect = document.getElementById('text-scaling-select');
-      
-      const perfModeSelect = document.getElementById('perf-mode-select');
-      const lightweightSelect = document.getElementById('lightweight-select');
-      const lazyLoadSelect = document.getElementById('lazy-load-select');
-      const optimizeImagesSelect = document.getElementById('optimize-images-select');
-      const lowPowerSelect = document.getElementById('low-power-select');
-      
-      const btnReset = document.getElementById('btn-reset-settings');
 
       if (sm && keys) {
         if (themeSelect) themeSelect.value = sm.get(keys.THEME, 'light');
-        if (displayModeSelect) displayModeSelect.value = sm.get(keys.DISPLAY_MODE, 'standard');
-        if (densitySelect) densitySelect.value = sm.get(keys.DENSITY, 'comfortable');
-        if (fontScaleSelect) fontScaleSelect.value = sm.get(keys.FONT_SCALE, 'standard');
-        if (motionSelect) motionSelect.value = sm.get(keys.MOTION, 'default');
-        if (transitionsSelect) transitionsSelect.value = sm.get(keys.TRANSITIONS, 'on');
-        if (uiEffectsSelect) uiEffectsSelect.value = sm.get(keys.UI_EFFECTS, 'on');
-        if (autoLayoutSelect) autoLayoutSelect.value = sm.get(keys.AUTO_LAYOUT, 'fluid');
-        
-        if (contrastSelect) contrastSelect.value = sm.get(keys.HIGH_CONTRAST, 'standard');
-        if (focusSelect) focusSelect.value = sm.get(keys.FOCUS_INDICATORS, 'default');
-        if (textScalingSelect) textScalingSelect.value = sm.get(keys.TEXT_SCALING, '100');
-        
-        if (perfModeSelect) perfModeSelect.value = sm.get(keys.PERF_MODE, 'balanced');
-        if (lightweightSelect) lightweightSelect.value = sm.get(keys.LIGHTWEIGHT_UI, 'off');
-        if (lazyLoadSelect) lazyLoadSelect.value = sm.get(keys.LAZY_LOAD, 'on');
-        if (optimizeImagesSelect) optimizeImagesSelect.value = sm.get(keys.OPTIMIZE_IMAGES, 'webp');
-        if (lowPowerSelect) lowPowerSelect.value = sm.get(keys.LOW_POWER, 'off');
       }
 
       // Event listeners
       themeSelect?.addEventListener('change', (e) => {
         window.ThemeEngine?.set(e.target.value);
-      });
-
-      displayModeSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.DISPLAY_MODE, e.target.value);
-      });
-
-      densitySelect?.addEventListener('change', (e) => {
-        sm?.set(keys.DENSITY, e.target.value);
-        window.ThemeEngine?.refresh();
-      });
-
-      fontScaleSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.FONT_SCALE, e.target.value);
-        window.ThemeEngine?.refresh();
-      });
-
-      motionSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.MOTION, e.target.value);
-        window.ThemeEngine?.refresh();
-      });
-
-      transitionsSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.TRANSITIONS, e.target.value);
-        window.ThemeEngine?.refresh();
-      });
-
-      uiEffectsSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.UI_EFFECTS, e.target.value);
-        window.ThemeEngine?.refresh();
-      });
-
-      autoLayoutSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.AUTO_LAYOUT, e.target.value);
-      });
-
-      contrastSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.HIGH_CONTRAST, e.target.value);
-        window.ThemeEngine?.refresh();
-      });
-
-      focusSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.FOCUS_INDICATORS, e.target.value);
-        window.ThemeEngine?.refresh();
-      });
-
-      textScalingSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.TEXT_SCALING, e.target.value);
-        if (e.target.value === '125') {
-          document.documentElement.style.fontSize = '20px';
-        } else if (e.target.value === '115') {
-          document.documentElement.style.fontSize = '18.4px';
-        } else {
-          document.documentElement.style.fontSize = '16px';
-        }
-      });
-
-      perfModeSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.PERF_MODE, e.target.value);
-      });
-
-      lightweightSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.LIGHTWEIGHT_UI, e.target.value);
-        window.ThemeEngine?.refresh();
-      });
-
-      lazyLoadSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.LAZY_LOAD, e.target.value);
-      });
-
-      optimizeImagesSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.OPTIMIZE_IMAGES, e.target.value);
-      });
-
-      lowPowerSelect?.addEventListener('change', (e) => {
-        sm?.set(keys.LOW_POWER, e.target.value);
-      });
-
-      btnReset?.addEventListener('click', () => {
-        if (confirm('Reset all display, accessibility, and performance settings to default?')) {
-          sm?.clearPreferences();
-          window.ThemeEngine?.set('light');
-          document.documentElement.removeAttribute('data-density');
-          document.documentElement.removeAttribute('data-motion');
-          document.documentElement.removeAttribute('data-contrast');
-          document.documentElement.removeAttribute('data-focus');
-          document.documentElement.removeAttribute('data-font-scale');
-          document.documentElement.removeAttribute('data-effects');
-          document.documentElement.removeAttribute('data-transitions');
-          document.documentElement.removeAttribute('data-lightweight');
-          document.documentElement.style.fontSize = '16px';
-          location.reload();
-        }
       });
     });
   </script>
