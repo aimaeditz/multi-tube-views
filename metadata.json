@@ -1,6 +1,6 @@
 {
   "name": "Multi Tube Views",
-  "description": "Multi-Platform Public Media Workspace with dedicated media player adapters for 20+ platforms.",
+  "description": "Multi-Platform Public Media Workspace with dedicated media player adapters for 20+ platforms and a professional Social Media Research & SEO suite.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

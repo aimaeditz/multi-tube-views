@@ -574,3 +574,98 @@ input, select, textarea, button {
   color: var(--text-primary);
 }
 
+/* ==========================================================================
+   Display, Accessibility & Performance Modes
+   ========================================================================== */
+
+/* Compact Density */
+[data-density="compact"] {
+  --header-height: 54px;
+}
+[data-density="compact"] .container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+[data-density="compact"] .card {
+  padding: 1rem;
+  gap: 0.75rem;
+}
+[data-density="compact"] .nav-link {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.85rem;
+}
+[data-density="compact"] p {
+  margin-bottom: 0.65rem;
+  line-height: 1.5;
+}
+
+/* Font Scaling */
+[data-font-scale="large"] {
+  font-size: 18px;
+}
+[data-font-scale="compact"] {
+  font-size: 14.5px;
+}
+
+/* High Contrast Mode */
+[data-contrast="high"] {
+  --text-secondary: #333336;
+  --text-muted: #222225;
+  --border-subtle: #8E8E93;
+  --border-strong: #000000;
+  --border-focus: #0040DD;
+}
+[data-theme="dark"][data-contrast="high"] {
+  --text-secondary: #EBEBF0;
+  --text-muted: #D1D1D6;
+  --border-subtle: #636366;
+  --border-strong: #FFFFFF;
+  --border-focus: #409CFF;
+}
+[data-contrast="high"] .card,
+[data-contrast="high"] .btn,
+[data-contrast="high"] input,
+[data-contrast="high"] select,
+[data-contrast="high"] textarea {
+  border-width: 2px !important;
+}
+
+/* Prominent Focus Indicators */
+[data-focus="prominent"] a:focus-visible,
+[data-focus="prominent"] button:focus-visible,
+[data-focus="prominent"] input:focus-visible,
+[data-focus="prominent"] select:focus-visible,
+[data-focus="prominent"] textarea:focus-visible,
+[data-focus="prominent"] [tabindex]:focus-visible {
+  outline: 3px solid var(--border-focus) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px rgba(0, 102, 204, 0.25) !important;
+}
+
+/* Reduced Motion & Off */
+[data-motion="reduced"] *,
+[data-motion="off"] *,
+[data-transitions="off"] * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* UI Effects Off / Lightweight UI Mode */
+[data-effects="off"],
+[data-lightweight="true"] {
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+}
+[data-lightweight="true"] .site-header {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+[data-lightweight="true"] * {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+

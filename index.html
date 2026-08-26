@@ -93,10 +93,10 @@
           },
           {
             "@type": "Question",
-            "name": "Is Multi Tube Views open-source and deployable to GitHub Pages?",
+            "name": "Is Multi Tube Views a static client-side web application?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. The entire application is built with pure, static HTML5, modular CSS, and vanilla JavaScript using clean relative asset paths. It runs seamlessly on GitHub Pages or any static web hosting provider."
+              "text": "Yes. The entire application is built with pure, static HTML5, modular CSS, and vanilla JavaScript using clean relative asset paths. It runs smoothly on modern web browsers and static web infrastructure without requiring local databases."
             }
           }
         ]
@@ -131,6 +131,7 @@
       <nav class="nav-desktop" aria-label="Main Navigation">
         <a href="index.html" class="nav-link active">Home</a>
         <a href="#directory" class="nav-link">Platforms</a>
+        <a href="seo-tools.html" class="nav-link">SEO Tools</a>
         <a href="articles.html" class="nav-link">Articles</a>
         <a href="about.html" class="nav-link">About</a>
         <a href="contact.html" class="nav-link">Contact</a>
@@ -157,10 +158,11 @@
   <div class="mobile-drawer" id="mobile-drawer">
     <a href="index.html" class="mobile-nav-link active">Home</a>
     <a href="#directory" class="mobile-nav-link">Platform Directory</a>
+    <a href="seo-tools.html" class="mobile-nav-link">Social Media Research & SEO Tools</a>
     <a href="articles.html" class="mobile-nav-link">Articles & Guides</a>
     <a href="about.html" class="mobile-nav-link">About Multi Tube Views</a>
-    <a href="contact.html" class="mobile-nav-link">Contact & Community</a>
-    <a href="settings.html" class="mobile-nav-link">Display & Preferences</a>
+    <a href="contact.html" class="mobile-nav-link">Contact Us</a>
+    <a href="settings.html" class="mobile-nav-link">Display & Accessibility</a>
     <a href="privacy.html" class="mobile-nav-link">Privacy Policy</a>
     <a href="disclaimer.html" class="mobile-nav-link">Disclaimer</a>
     <a href="terms.html" class="mobile-nav-link">Terms of Service</a>
@@ -172,16 +174,74 @@
     <section class="hero-section">
       <div class="container">
         <div class="hero-pill">
-          <span>⚡ Multi-Platform Public Media Workspace</span>
+          <span>⚡ Public Media Workspace & Social Research Suite</span>
         </div>
         <h1 class="hero-title">
-          View and organize public media streams side-by-side in a responsive grid.
+          Public Media Workspace & Social Research
         </h1>
         <p class="hero-description">
-          Organize and view public video streams across 20+ services including YouTube, Vimeo, Twitch, Spotify, and more without fake metrics or bot manipulation.
+          Explore public media and research content, keywords, topics and social discovery opportunities across major platforms.
         </p>
-        <div class="hero-actions">
-          <a href="#directory" class="btn btn-primary btn-lg">Explore 20 Platform Players ↓</a>
+        <div class="hero-actions" style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+          <a href="#directory" class="btn btn-primary btn-lg">Explore Platform Directory ↓</a>
+          <a href="seo-tools.html" class="btn btn-secondary btn-lg">Research & SEO Suite →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Media Research & SEO Tools Showcase Section -->
+    <section class="container" style="margin-bottom: 3.5rem;">
+      <div class="card" style="border: 1px solid var(--border-strong); background: var(--bg-surface-elevated); padding: 1.75rem;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+              <span class="embed-badge embed-badge-supported" style="font-size: 0.75rem;">⚡ Professional Research Suite</span>
+              <h2 style="font-size: 1.4rem; margin: 0; color: var(--text-primary);">Social Media Research & SEO Suite</h2>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0; max-width: 720px;">
+              Actionable, grounded research organized into clean professional categories for multi-platform creators and analysts. No fake metrics or synthetic estimates.
+            </p>
+          </div>
+          <a href="seo-tools.html" class="btn btn-primary btn-sm">Explore Research Suite →</a>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 1rem;">
+          <a href="seo-tools.html?category=RESEARCH" class="card" style="padding: 0.85rem; border: 1px solid var(--border-subtle); text-decoration: none; display: block; background: var(--bg-primary);">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">Research</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">Cross-Platform Search & Discovery Insights</div>
+          </a>
+          <a href="seo-tools.html?category=SEO" class="card" style="padding: 0.85rem; border: 1px solid var(--border-subtle); text-decoration: none; display: block; background: var(--bg-primary);">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">SEO</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">Video SEO Analyzer, Metadata Audits & Checklists</div>
+          </a>
+          <a href="seo-tools.html?category=KEYWORDS" class="card" style="padding: 0.85rem; border: 1px solid var(--border-subtle); text-decoration: none; display: block; background: var(--bg-primary);">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">Keywords</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">Keyword Clustering, Long-Tail Finder & Intent</div>
+          </a>
+          <a href="seo-tools.html?category=HASHTAGS" class="card" style="padding: 0.85rem; border: 1px solid var(--border-subtle); text-decoration: none; display: block; background: var(--bg-primary);">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">Hashtags</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">Platform Tags, Hashtag Relevance & Safe Density</div>
+          </a>
+          <a href="seo-tools.html?category=TOPICS" class="card" style="padding: 0.85rem; border: 1px solid var(--border-subtle); text-decoration: none; display: block; background: var(--bg-primary);">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">Topics</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">Topic Research, Question Finder & Audience Angles</div>
+          </a>
+          <a href="seo-tools.html?category=VIDEO%20ANALYSIS" class="card" style="padding: 0.85rem; border: 1px solid var(--border-subtle); text-decoration: none; display: block; background: var(--bg-primary);">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">Video Analysis</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">Hooks Analysis, Title Packaging & Chapter Markers</div>
+          </a>
+          <a href="seo-tools.html?category=COMPETITOR%20RESEARCH" class="card" style="padding: 0.85rem; border: 1px solid var(--border-subtle); text-decoration: none; display: block; background: var(--bg-primary);">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">Competitor Research</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">Content Gap Finder, Theme Audit & Differentiation</div>
+          </a>
+          <a href="seo-tools.html?category=CONTENT%20TOOLS" class="card" style="padding: 0.85rem; border: 1px solid var(--border-subtle); text-decoration: none; display: block; background: var(--bg-primary);">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">Content Tools</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">Briefs, Editorial Calendars, Script Outlines</div>
+          </a>
+          <a href="seo-tools.html?category=PLATFORM%20OPTIMIZATION" class="card" style="padding: 0.85rem; border: 1px solid var(--border-subtle); text-decoration: none; display: block; background: var(--bg-primary);">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem;">Platform Optimization</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">YouTube, Instagram, TikTok, LinkedIn & X Formatting</div>
+          </a>
         </div>
       </div>
     </section>
@@ -744,38 +804,57 @@
             <span class="brand-icon" style="width: 26px; height: 26px; font-size: 0.75rem;">MTV</span>
             <span>Multi Tube Views</span>
           </h3>
-          <p>A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for 20+ services.</p>
+          <p>A clean, responsive, multi-platform public media viewing workspace with dedicated adapters and social media research tools.</p>
         </div>
 
         <div class="footer-col">
-          <h4>Directory</h4>
+          <h4>Platforms</h4>
           <ul class="footer-links">
-            <li><a href="platforms/youtube.html">YouTube Workspace</a></li>
-            <li><a href="platforms/twitch.html">Twitch Workspace</a></li>
-            <li><a href="platforms/vimeo.html">Vimeo Workspace</a></li>
-            <li><a href="platforms/spotify.html">Spotify Workspace</a></li>
-            <li><a href="index.html#directory">All 20 Platforms</a></li>
+            <li><a href="platforms/youtube.html">YouTube</a></li>
+            <li><a href="platforms/twitch.html">Twitch</a></li>
+            <li><a href="platforms/vimeo.html">Vimeo</a></li>
+            <li><a href="platforms/spotify.html">Spotify</a></li>
+            <li><a href="index.html#directory">All Platforms</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4>Navigation</h4>
+          <h4>Research Suite</h4>
           <ul class="footer-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="articles.html">Articles & Guides</a></li>
+            <li><a href="seo-tools.html?category=SEO">SEO Tools</a></li>
+            <li><a href="seo-tools.html?category=KEYWORDS">Keywords</a></li>
+            <li><a href="seo-tools.html?category=HASHTAGS">Hashtags</a></li>
+            <li><a href="seo-tools.html?category=TOPICS">Topics</a></li>
+            <li><a href="seo-tools.html">All 60 Tools</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Articles & Guides</h4>
+          <ul class="footer-links">
+            <li><a href="articles.html">Browse Articles</a></li>
+            <li><a href="articles.html?category=Platform%20Guides">Platform Guides</a></li>
+            <li><a href="articles.html?category=SEO%20%26%20Optimization">SEO Tutorials</a></li>
+            <li><a href="articles.html?category=Creator%20Workflows">Workflows</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company & Tools</h4>
+          <ul class="footer-links">
             <li><a href="about.html">About MTV</a></li>
             <li><a href="contact.html">Contact Us</a></li>
-            <li><a href="settings.html">Display Settings</a></li>
+            <li><a href="settings.html">Display & Accessibility</a></li>
+            <li><a href="credits.html">Credits & Attributions</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4>Legal & Info</h4>
+          <h4>Legal & Safety</h4>
           <ul class="footer-links">
             <li><a href="privacy.html">Privacy Policy</a></li>
             <li><a href="disclaimer.html">Disclaimer</a></li>
             <li><a href="terms.html">Terms of Service</a></li>
-            <li><a href="credits.html">Credits & Attributions</a></li>
           </ul>
         </div>
       </div>

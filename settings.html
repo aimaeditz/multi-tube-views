@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Settings & Preferences — Multi Tube Views</title>
-  <meta name="description" content="Configure display density, theme preferences, default player grid layout, and reduced motion settings for Multi Tube Views.">
+  <title>Display & Accessibility Settings — Multi Tube Views</title>
+  <meta name="description" content="Configure website display, theme preferences, accessibility high-contrast modes, reduced motion, and lightweight performance settings for Multi Tube Views.">
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   
   <link rel="stylesheet" href="assets/css/style.css">
@@ -29,6 +29,7 @@
       <nav class="nav-desktop" aria-label="Main Navigation">
         <a href="index.html" class="nav-link">Home</a>
         <a href="index.html#directory" class="nav-link">Platforms</a>
+        <a href="seo-tools.html" class="nav-link">SEO Tools</a>
         <a href="articles.html" class="nav-link">Articles</a>
         <a href="about.html" class="nav-link">About</a>
         <a href="contact.html" class="nav-link">Contact</a>
@@ -47,117 +48,228 @@
   <div class="mobile-drawer">
     <a href="index.html" class="mobile-nav-link">Home</a>
     <a href="index.html#directory" class="mobile-nav-link">Platform Directory</a>
+    <a href="seo-tools.html" class="mobile-nav-link">Social Media Research & SEO</a>
     <a href="articles.html" class="mobile-nav-link">Articles & Guides</a>
     <a href="about.html" class="mobile-nav-link">About Multi Tube Views</a>
-    <a href="contact.html" class="mobile-nav-link">Contact & Community</a>
-    <a href="settings.html" class="mobile-nav-link active">Display & Preferences</a>
+    <a href="contact.html" class="mobile-nav-link">Contact Us</a>
+    <a href="settings.html" class="mobile-nav-link active">Display & Accessibility</a>
     <a href="privacy.html" class="mobile-nav-link">Privacy Policy</a>
     <a href="disclaimer.html" class="mobile-nav-link">Disclaimer</a>
     <a href="terms.html" class="mobile-nav-link">Terms of Service</a>
   </div>
 
   <main class="site-main">
-    <div class="container" style="max-width: 800px; padding-top: 2rem;">
+    <div class="container" style="max-width: 860px; padding-top: 2rem;">
       <div class="breadcrumb-nav">
         <a href="index.html">Home</a>
         <span class="breadcrumb-separator">/</span>
         <span>Settings</span>
       </div>
 
-      <h1>Settings & Workspace Preferences</h1>
-      <p style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 2.5rem;">
-        Customize your visual theme, player defaults, and performance preferences. All options are stored locally in your browser.
-      </p>
+      <div style="margin-bottom: 2.5rem;">
+        <h1 style="margin-bottom: 0.5rem;">Website Display & Preferences</h1>
+        <p style="font-size: 1.05rem; color: var(--text-secondary); max-width: 700px; margin: 0;">
+          Customize visual styling, accessibility features, interface density, and device performance. All preferences are preserved privately in local browser storage.
+        </p>
+      </div>
 
+      <!-- Section 1: Appearance & Layout -->
       <div class="card" style="margin-bottom: 2rem;">
-        <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Appearance & Theme</h2>
-        
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
           <div>
-            <label for="theme-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Color Theme</label>
-            <select id="theme-select" class="setting-select" style="width: 100%; max-width: 320px;">
-              <option value="system">System Default (Automatic)</option>
-              <option value="light">Light Mode (Clean iOS White)</option>
-              <option value="dark">Dark Mode (Near-Black Obsidian)</option>
+            <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.2rem;">Appearance & Layout</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Control colors, typography, density, and animation behavior.</p>
+          </div>
+          <span style="font-size: 1.2rem;">🎨</span>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
+          <div>
+            <label for="theme-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Color Theme</label>
+            <select id="theme-select" class="setting-select" style="width: 100%;">
+              <option value="light">Light Mode (Clean iOS White - Default)</option>
+              <option value="dark">Dark Mode (Obsidian Dark)</option>
+              <option value="system">System Preference (Automatic)</option>
             </select>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.35rem;">Theme switches instantly without page reload.</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Theme switches dynamically across all workspace tools.</p>
           </div>
 
           <div>
-            <label for="density-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Display Density</label>
-            <select id="density-select" class="setting-select" style="width: 100%; max-width: 320px;">
-              <option value="comfortable">Comfortable (Spacious Padding)</option>
+            <label for="display-mode-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Display Mode</label>
+            <select id="display-mode-select" class="setting-select" style="width: 100%;">
+              <option value="standard">Standard Responsive Container</option>
+              <option value="wide">Wide Canvas (Full Width)</option>
+              <option value="centered">Centered Focus View</option>
+            </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Adjusts content container max-width boundaries.</p>
+          </div>
+
+          <div>
+            <label for="density-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Display Density</label>
+            <select id="density-select" class="setting-select" style="width: 100%;">
+              <option value="comfortable">Comfortable (Spacious & Relaxed)</option>
               <option value="compact">Compact (High Information Density)</option>
             </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Reduces padding and margins for dense multi-tool workflows.</p>
           </div>
 
           <div>
-            <label for="motion-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Interface Motion</label>
-            <select id="motion-select" class="setting-select" style="width: 100%; max-width: 320px;">
-              <option value="default">Standard Fluid Animations</option>
-              <option value="reduced">Reduced Motion (Minimize Transitions)</option>
+            <label for="font-scale-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Interface Font Scale</label>
+            <select id="font-scale-select" class="setting-select" style="width: 100%;">
+              <option value="standard">Standard (100% / 16px Base)</option>
+              <option value="large">Large (110% / 18px Base)</option>
+              <option value="compact">Compact (90% / 14.5px Base)</option>
             </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Scales UI typography for optimal viewing comfort.</p>
+          </div>
+
+          <div>
+            <label for="motion-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Animation & Motion</label>
+            <select id="motion-select" class="setting-select" style="width: 100%;">
+              <option value="default">Full Fluid Animations</option>
+              <option value="reduced">Reduced Motion (Smooth & Subtle)</option>
+              <option value="off">Motion Off (Instant Display)</option>
+            </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Controls CSS animations and interface micro-interactions.</p>
+          </div>
+
+          <div>
+            <label for="transitions-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">UI Transitions</label>
+            <select id="transitions-select" class="setting-select" style="width: 100%;">
+              <option value="on">Transitions Enabled (Smooth)</option>
+              <option value="off">Transitions Disabled (Instant)</option>
+            </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Toggles hover states and layout transition durations.</p>
+          </div>
+
+          <div>
+            <label for="ui-effects-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">UI Visual Effects</label>
+            <select id="ui-effects-select" class="setting-select" style="width: 100%;">
+              <option value="on">Effects Enabled (Subtle Shadows & Blurs)</option>
+              <option value="off">Effects Off (Flat Clean Surfaces)</option>
+            </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Disables backdrop blur filters and elevation box-shadows.</p>
+          </div>
+
+          <div>
+            <label for="auto-layout-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Responsive Auto-Layout</label>
+            <select id="auto-layout-select" class="setting-select" style="width: 100%;">
+              <option value="fluid">Fluid Auto-Fit (Adapts to Viewport)</option>
+              <option value="standard">Standard Step-Breakpoints</option>
+            </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Configures layout grid responsiveness algorithm.</p>
           </div>
         </div>
       </div>
 
+      <!-- Section 2: Accessibility -->
       <div class="card" style="margin-bottom: 2rem;">
-        <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem;">Player Defaults</h2>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
+          <div>
+            <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.2rem;">Accessibility (WCAG AA)</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Enhanced contrast, focus indicators, and text scaling.</p>
+          </div>
+          <span style="font-size: 1.2rem;">♿</span>
+        </div>
         
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
           <div>
-            <label for="default-cols-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Default Grid Columns</label>
-            <select id="default-cols-select" class="setting-select" style="width: 100%; max-width: 320px;">
-              <option value="auto">Auto-Fit (Responsive)</option>
-              <option value="1">1 Column (Single Stream)</option>
-              <option value="2">2 Columns (Side-by-Side)</option>
-              <option value="3">3 Columns (Trio)</option>
-              <option value="4">4 Columns (Quad Grid)</option>
+            <label for="contrast-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Contrast Mode</label>
+            <select id="contrast-select" class="setting-select" style="width: 100%;">
+              <option value="standard">Standard Contrast (Balanced)</option>
+              <option value="high">High Contrast (Bold Outlines & Max Legibility)</option>
             </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Increases border stroke widths and text-to-background contrast.</p>
           </div>
 
           <div>
-            <label for="default-max-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Default Player Count</label>
-            <select id="default-max-select" class="setting-select" style="width: 100%; max-width: 320px;">
-              <option value="1">1 Player</option>
-              <option value="2">2 Players</option>
-              <option value="4">4 Players</option>
-              <option value="6">6 Players</option>
-              <option value="8">8 Players</option>
-              <option value="12">12 Players</option>
-              <option value="16">16 Players</option>
-              <option value="20">20 Players</option>
-              <option value="24">24 Players</option>
-              <option value="32">32 Players</option>
-              <option value="all">All Selected</option>
+            <label for="focus-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Focus Indicators</label>
+            <select id="focus-select" class="setting-select" style="width: 100%;">
+              <option value="default">Default Focus Ring</option>
+              <option value="prominent">Prominent Focus Ring (High Visibility)</option>
             </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Enhances keyboard navigation focus halos for tab navigation.</p>
           </div>
 
           <div>
-            <label for="default-loop-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Default Media Loop</label>
-            <select id="default-loop-select" class="setting-select" style="width: 100%; max-width: 320px;">
-              <option value="off">Loop Off (Standard Playback)</option>
-              <option value="on">Loop On (Repeat Continuously)</option>
+            <label for="text-scaling-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Text Size Scaling</label>
+            <select id="text-scaling-select" class="setting-select" style="width: 100%;">
+              <option value="100">100% Standard Scale</option>
+              <option value="115">115% Medium Scale</option>
+              <option value="125">125% Large Scale</option>
             </select>
-          </div>
-
-          <div>
-            <label for="default-audio-select" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Initial Audio State</label>
-            <select id="default-audio-select" class="setting-select" style="width: 100%; max-width: 320px;">
-              <option value="muted">Muted by Default (Browser-Safe)</option>
-              <option value="normal">Normal Audio (Subject to Browser Policy)</option>
-            </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Enlarges paragraph and heading text without altering card layout.</p>
           </div>
         </div>
       </div>
 
-      <div class="card" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem;">
+      <!-- Section 3: Performance & Data -->
+      <div class="card" style="margin-bottom: 2rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
+          <div>
+            <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.2rem;">Performance & Data Optimization</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Optimize browser CPU usage, memory footprint, and bandwidth efficiency.</p>
+          </div>
+          <span style="font-size: 1.2rem;">⚡</span>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
+          <div>
+            <label for="perf-mode-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Performance Profile</label>
+            <select id="perf-mode-select" class="setting-select" style="width: 100%;">
+              <option value="balanced">Balanced Mode (Recommended)</option>
+              <option value="fast">Fast High-Efficiency Mode</option>
+            </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Optimizes script execution and background reflow timers.</p>
+          </div>
+
+          <div>
+            <label for="lightweight-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Lightweight UI Mode</label>
+            <select id="lightweight-select" class="setting-select" style="width: 100%;">
+              <option value="off">Standard Rich Styling</option>
+              <option value="on">Lightweight UI (Zero GPU Shadow Load)</option>
+            </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Removes shadow rendering layers for maximum speed on mobile devices.</p>
+          </div>
+
+          <div>
+            <label for="lazy-load-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Lazy Load Media Embeds</label>
+            <select id="lazy-load-select" class="setting-select" style="width: 100%;">
+              <option value="on">Enabled (Load on Scroll / When Visible)</option>
+              <option value="off">Disabled (Load Immediately)</option>
+            </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Prevents offscreen iframe resource initialization.</p>
+          </div>
+
+          <div>
+            <label for="optimize-images-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Image Optimization</label>
+            <select id="optimize-images-select" class="setting-select" style="width: 100%;">
+              <option value="webp">Adaptive Format & Async Decoding</option>
+              <option value="standard">Standard Native Loading</option>
+            </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Ensures images decode off the main thread.</p>
+          </div>
+
+          <div>
+            <label for="low-power-select" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Low Power Mode</label>
+            <select id="low-power-select" class="setting-select" style="width: 100%;">
+              <option value="off">Disabled (Normal)</option>
+              <option value="on">Enabled (Conserves Battery)</option>
+            </select>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem;">Minimizes timer intervals and background DOM operations.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Reset -->
+      <div class="card" style="display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 3.5rem; border-color: var(--border-subtle);">
         <div>
-          <h3 style="font-size: 1.1rem; margin-bottom: 0.25rem;">Reset All Preferences</h3>
-          <p style="font-size: 0.88rem; color: var(--text-muted);">Restores all settings to their default out-of-the-box configuration.</p>
+          <h3 style="font-size: 1.05rem; margin-bottom: 0.25rem;">Reset All Website Preferences</h3>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0;">Restores theme, accessibility, display, and performance options to factory defaults.</p>
         </div>
-        <button type="button" id="btn-reset-settings" class="btn btn-danger">Reset to Defaults</button>
+        <button type="button" id="btn-reset-settings" class="btn btn-secondary" style="border-color: var(--border-strong);">Reset to Defaults</button>
       </div>
+
     </div>
   </main>
 
@@ -169,7 +281,7 @@
             <span class="brand-icon" style="width: 26px; height: 26px; font-size: 0.75rem;">MTV</span>
             <span>Multi Tube Views</span>
           </h3>
-          <p>A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for 20+ services.</p>
+          <p>A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for 20+ services and a comprehensive social research suite.</p>
         </div>
 
         <div class="footer-col">
@@ -179,28 +291,53 @@
             <li><a href="platforms/twitch.html">Twitch Workspace</a></li>
             <li><a href="platforms/vimeo.html">Vimeo Workspace</a></li>
             <li><a href="platforms/spotify.html">Spotify Workspace</a></li>
-            <li><a href="index.html#directory">All 20 Platforms</a></li>
+            <li><a href="index.html#directory">All Platforms</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4>Navigation</h4>
+          <h4>Social Media Research</h4>
+          <ul class="footer-links">
+            <li><a href="seo-tools.html?category=KEYWORDS">Keywords & Intent</a></li>
+            <li><a href="seo-tools.html?category=HASHTAGS">Hashtag Research</a></li>
+            <li><a href="seo-tools.html?category=TOPICS">Topic Angles</a></li>
+            <li><a href="seo-tools.html?category=VIDEO%20ANALYSIS">Video Analysis</a></li>
+            <li><a href="seo-tools.html?category=PLATFORM%20OPTIMIZATION">Platform Optimization</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>SEO & Discovery</h4>
+          <ul class="footer-links">
+            <li><a href="seo-tools.html?tool=1">Video SEO Analyzer</a></li>
+            <li><a href="seo-tools.html?tool=10">Search Intent Mapping</a></li>
+            <li><a href="seo-tools.html?tool=9">Metadata Packaging</a></li>
+            <li><a href="seo-tools.html?category=SEO">SEO Verification</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Content Research</h4>
+          <ul class="footer-links">
+            <li><a href="seo-tools.html?category=COMPETITOR%20RESEARCH">Competitor Analysis</a></li>
+            <li><a href="seo-tools.html?category=CONTENT%20TOOLS">Content Briefs</a></li>
+            <li><a href="seo-tools.html?tool=32">Hook Formulator</a></li>
+            <li><a href="seo-tools.html?tool=33">Script Outliner</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation & Legal</h4>
           <ul class="footer-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="articles.html">Articles & Guides</a></li>
             <li><a href="about.html">About MTV</a></li>
             <li><a href="contact.html">Contact Us</a></li>
             <li><a href="settings.html">Display Settings</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Legal & Info</h4>
-          <ul class="footer-links">
             <li><a href="privacy.html">Privacy Policy</a></li>
             <li><a href="disclaimer.html">Disclaimer</a></li>
             <li><a href="terms.html">Terms of Service</a></li>
-            <li><a href="credits.html">Credits & Attributions</a></li>
+            <li><a href="credits.html">Credits</a></li>
           </ul>
         </div>
       </div>
@@ -225,69 +362,147 @@
   <script src="assets/js/navigation.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      const sm = window.StorageManager;
+      const keys = window.STORAGE_KEYS;
+
+      // Select elements
       const themeSelect = document.getElementById('theme-select');
+      const displayModeSelect = document.getElementById('display-mode-select');
       const densitySelect = document.getElementById('density-select');
+      const fontScaleSelect = document.getElementById('font-scale-select');
       const motionSelect = document.getElementById('motion-select');
-      const colsSelect = document.getElementById('default-cols-select');
-      const maxSelect = document.getElementById('default-max-select');
-      const loopSelect = document.getElementById('default-loop-select');
-      const audioSelect = document.getElementById('default-audio-select');
+      const transitionsSelect = document.getElementById('transitions-select');
+      const uiEffectsSelect = document.getElementById('ui-effects-select');
+      const autoLayoutSelect = document.getElementById('auto-layout-select');
+      
+      const contrastSelect = document.getElementById('contrast-select');
+      const focusSelect = document.getElementById('focus-select');
+      const textScalingSelect = document.getElementById('text-scaling-select');
+      
+      const perfModeSelect = document.getElementById('perf-mode-select');
+      const lightweightSelect = document.getElementById('lightweight-select');
+      const lazyLoadSelect = document.getElementById('lazy-load-select');
+      const optimizeImagesSelect = document.getElementById('optimize-images-select');
+      const lowPowerSelect = document.getElementById('low-power-select');
+      
       const btnReset = document.getElementById('btn-reset-settings');
 
-      if (window.StorageManager) {
-        if (themeSelect) themeSelect.value = window.StorageManager.get(window.STORAGE_KEYS.THEME, 'light');
-        if (densitySelect) densitySelect.value = window.StorageManager.get(window.STORAGE_KEYS.DENSITY, 'comfortable');
-        if (motionSelect) motionSelect.value = window.StorageManager.get(window.STORAGE_KEYS.MOTION, 'default');
-        if (colsSelect) colsSelect.value = window.StorageManager.get(window.STORAGE_KEYS.LAYOUT_COLS, 'auto');
-        if (maxSelect) maxSelect.value = window.StorageManager.get(window.STORAGE_KEYS.MAX_PLAYERS, '4');
-        if (loopSelect) loopSelect.value = window.StorageManager.get(window.STORAGE_KEYS.LOOP_PREF, 'off');
-        if (audioSelect) audioSelect.value = window.StorageManager.get(window.STORAGE_KEYS.AUDIO_PREF, 'muted');
+      if (sm && keys) {
+        if (themeSelect) themeSelect.value = sm.get(keys.THEME, 'light');
+        if (displayModeSelect) displayModeSelect.value = sm.get(keys.DISPLAY_MODE, 'standard');
+        if (densitySelect) densitySelect.value = sm.get(keys.DENSITY, 'comfortable');
+        if (fontScaleSelect) fontScaleSelect.value = sm.get(keys.FONT_SCALE, 'standard');
+        if (motionSelect) motionSelect.value = sm.get(keys.MOTION, 'default');
+        if (transitionsSelect) transitionsSelect.value = sm.get(keys.TRANSITIONS, 'on');
+        if (uiEffectsSelect) uiEffectsSelect.value = sm.get(keys.UI_EFFECTS, 'on');
+        if (autoLayoutSelect) autoLayoutSelect.value = sm.get(keys.AUTO_LAYOUT, 'fluid');
+        
+        if (contrastSelect) contrastSelect.value = sm.get(keys.HIGH_CONTRAST, 'standard');
+        if (focusSelect) focusSelect.value = sm.get(keys.FOCUS_INDICATORS, 'default');
+        if (textScalingSelect) textScalingSelect.value = sm.get(keys.TEXT_SCALING, '100');
+        
+        if (perfModeSelect) perfModeSelect.value = sm.get(keys.PERF_MODE, 'balanced');
+        if (lightweightSelect) lightweightSelect.value = sm.get(keys.LIGHTWEIGHT_UI, 'off');
+        if (lazyLoadSelect) lazyLoadSelect.value = sm.get(keys.LAZY_LOAD, 'on');
+        if (optimizeImagesSelect) optimizeImagesSelect.value = sm.get(keys.OPTIMIZE_IMAGES, 'webp');
+        if (lowPowerSelect) lowPowerSelect.value = sm.get(keys.LOW_POWER, 'off');
       }
 
+      // Event listeners
       themeSelect?.addEventListener('change', (e) => {
         window.ThemeEngine?.set(e.target.value);
       });
 
+      displayModeSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.DISPLAY_MODE, e.target.value);
+      });
+
       densitySelect?.addEventListener('change', (e) => {
-        window.StorageManager?.set(window.STORAGE_KEYS.DENSITY, e.target.value);
-        if (e.target.value === 'compact') {
-          document.body.setAttribute('data-density', 'compact');
-        } else {
-          document.body.removeAttribute('data-density');
-        }
+        sm?.set(keys.DENSITY, e.target.value);
+        window.ThemeEngine?.refresh();
+      });
+
+      fontScaleSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.FONT_SCALE, e.target.value);
+        window.ThemeEngine?.refresh();
       });
 
       motionSelect?.addEventListener('change', (e) => {
-        window.StorageManager?.set(window.STORAGE_KEYS.MOTION, e.target.value);
-        if (e.target.value === 'reduced') {
-          document.body.setAttribute('data-motion', 'reduced');
+        sm?.set(keys.MOTION, e.target.value);
+        window.ThemeEngine?.refresh();
+      });
+
+      transitionsSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.TRANSITIONS, e.target.value);
+        window.ThemeEngine?.refresh();
+      });
+
+      uiEffectsSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.UI_EFFECTS, e.target.value);
+        window.ThemeEngine?.refresh();
+      });
+
+      autoLayoutSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.AUTO_LAYOUT, e.target.value);
+      });
+
+      contrastSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.HIGH_CONTRAST, e.target.value);
+        window.ThemeEngine?.refresh();
+      });
+
+      focusSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.FOCUS_INDICATORS, e.target.value);
+        window.ThemeEngine?.refresh();
+      });
+
+      textScalingSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.TEXT_SCALING, e.target.value);
+        if (e.target.value === '125') {
+          document.documentElement.style.fontSize = '20px';
+        } else if (e.target.value === '115') {
+          document.documentElement.style.fontSize = '18.4px';
         } else {
-          document.body.removeAttribute('data-motion');
+          document.documentElement.style.fontSize = '16px';
         }
       });
 
-      colsSelect?.addEventListener('change', (e) => {
-        window.StorageManager?.set(window.STORAGE_KEYS.LAYOUT_COLS, e.target.value);
+      perfModeSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.PERF_MODE, e.target.value);
       });
 
-      maxSelect?.addEventListener('change', (e) => {
-        window.StorageManager?.set(window.STORAGE_KEYS.MAX_PLAYERS, e.target.value);
+      lightweightSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.LIGHTWEIGHT_UI, e.target.value);
+        window.ThemeEngine?.refresh();
       });
 
-      loopSelect?.addEventListener('change', (e) => {
-        window.StorageManager?.set(window.STORAGE_KEYS.LOOP_PREF, e.target.value);
+      lazyLoadSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.LAZY_LOAD, e.target.value);
       });
 
-      audioSelect?.addEventListener('change', (e) => {
-        window.StorageManager?.set(window.STORAGE_KEYS.AUDIO_PREF, e.target.value);
+      optimizeImagesSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.OPTIMIZE_IMAGES, e.target.value);
+      });
+
+      lowPowerSelect?.addEventListener('change', (e) => {
+        sm?.set(keys.LOW_POWER, e.target.value);
       });
 
       btnReset?.addEventListener('click', () => {
-        window.StorageManager?.clearPreferences();
-        window.ThemeEngine?.set('light');
-        document.body.removeAttribute('data-density');
-        document.body.removeAttribute('data-motion');
-        location.reload();
+        if (confirm('Reset all display, accessibility, and performance settings to default?')) {
+          sm?.clearPreferences();
+          window.ThemeEngine?.set('light');
+          document.documentElement.removeAttribute('data-density');
+          document.documentElement.removeAttribute('data-motion');
+          document.documentElement.removeAttribute('data-contrast');
+          document.documentElement.removeAttribute('data-focus');
+          document.documentElement.removeAttribute('data-font-scale');
+          document.documentElement.removeAttribute('data-effects');
+          document.documentElement.removeAttribute('data-transitions');
+          document.documentElement.removeAttribute('data-lightweight');
+          document.documentElement.style.fontSize = '16px';
+          location.reload();
+        }
       });
     });
   </script>
