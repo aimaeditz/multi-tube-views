@@ -1,6 +1,6 @@
 /**
- * Multi Tube Views (MTV) — Social Media Research & SEO Suite (Approved 10 Tools)
- * Complete implementation of the 10 core research & SEO tools.
+ * Multi Tube Views (MTV) — Social Media Research & SEO Suite (Approved 6 Tools)
+ * Complete implementation of the 6 core research & SEO tools.
  * Zero metric fabrication: outputs strictly verified, authentic, and grounded copy.
  * Independent tool workspaces, deep-linking, tab state preservation, and specialized renderers.
  */
@@ -8,42 +8,21 @@
 (function () {
   'use strict';
 
-  // 10 Core Categories Definition
+  // 6 Core Categories Definition
   const CATEGORIES = [
-    { id: 'ALL', name: 'All Tools', count: 10 },
-    { id: 'SEO & Metadata', name: 'SEO & Metadata', count: 1 },
+    { id: 'ALL', name: 'All Tools', count: 6 },
     { id: 'Keyword Strategy', name: 'Keyword Strategy', count: 1 },
-    { id: 'Title & Hook', name: 'Title & Hook', count: 1 },
-    { id: 'Hashtags & Tags', name: 'Hashtags & Tags', count: 1 },
     { id: 'Scripting & Hooks', name: 'Scripting & Hooks', count: 1 },
     { id: 'Description & Chapters', name: 'Description & Chapters', count: 1 },
     { id: 'Topics & Ideas', name: 'Topics & Ideas', count: 1 },
-    { id: 'Competitor Analysis', name: 'Competitor Analysis', count: 1 },
     { id: 'Multi-Platform Repurposing', name: 'Repurposing', count: 1 },
     { id: 'Optimization & Checklist', name: 'Checklist', count: 1 },
   ];
 
-  // 10 Approved Tools Catalog
+  // 6 Approved Tools Catalog
   const TOOLS_CATALOG = [
     {
       id: 1,
-      slug: 'video-seo-analyzer',
-      name: 'Video SEO Analyzer',
-      category: 'SEO & Metadata',
-      toolType: 'seo_audit',
-      actionVerb: 'Analyze Video SEO',
-      desc: 'Complete audit of video title, description, tags, search intent, and platform ranking factors.',
-      defaultTopic: 'How to Build a Custom Mechanical Keyboard from Scratch',
-      placeholder: 'Enter video URL or working title to audit complete SEO metadata...',
-      howToUse: [
-        'Enter a public video URL (such as YouTube) or your proposed video working title in the input box.',
-        'Select optional target platforms and language preferences in the settings drawer.',
-        'Click "Analyze Video SEO" to run the automated optimization scanner.'
-      ],
-      expectedResult: 'A comprehensive, multi-point audit report with an SEO score (0-100), detailed issues, suggested high-performing tags, and optimized title suggestions.'
-    },
-    {
-      id: 2,
       slug: 'keyword-research',
       name: 'Keyword Research',
       category: 'Keyword Strategy',
@@ -60,41 +39,7 @@
       expectedResult: 'A structured mapping of search intent containing primary keywords, low-competition long-tail keywords, actual user-asked questions, and secondary clusters.'
     },
     {
-      id: 3,
-      slug: 'title-analyzer-generator',
-      name: 'Title Analyzer & Generator',
-      category: 'Title & Hook',
-      toolType: 'title',
-      actionVerb: 'Analyze & Generate Titles',
-      desc: 'Evaluate length, mobile truncation, clarity, and generate proven formula-driven title variations.',
-      defaultTopic: 'I Tested 5 Budget Microphones Under $50',
-      placeholder: 'Enter your working title to analyze or topic to generate formulas...',
-      howToUse: [
-        'Type your draft video title or central topic into the workspace.',
-        'Choose the category and target audience style to guide the style rules.',
-        'Click "Analyze & Generate Titles" to run the algorithmic headline optimizer.'
-      ],
-      expectedResult: 'An in-depth display of title readability, character length, mobile truncation warning tags, and 5 distinct formula-based title variations (Question, Buzzword, Lists, benefit-driven).'
-    },
-    {
-      id: 4,
-      slug: 'hashtag-tag-generator',
-      name: 'Hashtag & Tag Generator',
-      category: 'Hashtags & Tags',
-      toolType: 'hashtag',
-      actionVerb: 'Generate Tags & Hashtags',
-      desc: 'Generate platform-compliant broad, niche, and community hashtags plus comma-separated tags.',
-      defaultTopic: 'Morning Mobility & Stretching Routine',
-      placeholder: 'Enter content topic or niche for platform-optimized tags...',
-      howToUse: [
-        'Provide your video\'s core subject or niche keywords.',
-        'Set target platforms (such as YouTube, TikTok, or Instagram) in the options.',
-        'Click "Generate Tags & Hashtags" to compile optimized metadata.'
-      ],
-      expectedResult: 'A balanced bundle of platform-ready tags and hashtags segmented into broad-reach, niche-specific, and community categories, with instant copy options.'
-    },
-    {
-      id: 5,
+      id: 2,
       slug: 'hook-script-intro-generator',
       name: 'Hook & Script Intro Generator',
       category: 'Scripting & Hooks',
@@ -111,7 +56,7 @@
       expectedResult: 'Five highly engaging intro hook variations matching distinct psychology-backed templates (Fear of Missing Out, Story, Shocking Stat, Question, and Bold Claim) complete with visual setup suggestions.'
     },
     {
-      id: 6,
+      id: 3,
       slug: 'description-chapters-generator',
       name: 'Description & Chapters Generator',
       category: 'Description & Chapters',
@@ -128,7 +73,7 @@
       expectedResult: 'A perfectly structured, search-indexed description body with standard format markdown, custom calls-to-action, social links, and bounded chronological timestamps.'
     },
     {
-      id: 7,
+      id: 4,
       slug: 'topic-content-idea-explorer',
       name: 'Topic & Content Idea Explorer',
       category: 'Topics & Ideas',
@@ -145,24 +90,7 @@
       expectedResult: 'A 4-week structured content strategy calendar including weekly specific angles, target keywords, production complexity notes, and audience questions to answer.'
     },
     {
-      id: 8,
-      slug: 'competitor-content-gap-finder',
-      name: 'Competitor Content Gap Finder',
-      category: 'Competitor Analysis',
-      toolType: 'competitor',
-      actionVerb: 'Find Competitor Gaps',
-      desc: 'Identify what competing videos miss, audience frustrations, and strategic differentiation angles.',
-      defaultTopic: 'Financial Independence & Early Retirement (FIRE)',
-      placeholder: 'Enter niche and competitor video topics to uncover unserved demand...',
-      howToUse: [
-        'Enter your target topic alongside names or themes of popular competing channels.',
-        'Specify your target audience demographic to prioritize unserved needs.',
-        'Click "Find Competitor Gaps" to analyze marketplace saturation.'
-      ],
-      expectedResult: 'A strategic differentiation guide identifying standard competitor blindspots, audience complaint clusters, and specific unserved content angles you can capture.'
-    },
-    {
-      id: 9,
+      id: 5,
       slug: 'multi-platform-repurposing-kit',
       name: 'Multi-Platform Repurposing Kit',
       category: 'Multi-Platform Repurposing',
@@ -179,7 +107,7 @@
       expectedResult: 'Tailored native copy modules for selected social channels—including short-form vertical scripts, a visual thread for X, a professional LinkedIn post, and community-optimized descriptions.'
     },
     {
-      id: 10,
+      id: 6,
       slug: 'pre-upload-seo-checklist',
       name: 'Pre-Upload SEO Checklist',
       category: 'Optimization & Checklist',
@@ -360,11 +288,11 @@
       }
 
       let prevId = tool.id - 1;
-      if (prevId < 1) prevId = 10;
+      if (prevId < 1) prevId = 6;
       const prevTool = TOOLS_CATALOG.find(t => t.id === prevId);
 
       let nextId = tool.id + 1;
-      if (nextId > 10) nextId = 1;
+      if (nextId > 6) nextId = 1;
       const nextTool = TOOLS_CATALOG.find(t => t.id === nextId);
 
       container.innerHTML = `
@@ -776,17 +704,13 @@
       const toolId = Number(data.toolId || this.activeTool.id);
 
       let html = '';
-      if (toolId === 1) html = this.renderVideoSeoAudit(data);
-      else if (toolId === 2) html = this.renderKeywordResearch(data);
-      else if (toolId === 3) html = this.renderTitleAnalyzer(data);
-      else if (toolId === 4) html = this.renderHashtagsAndTags(data);
-      else if (toolId === 5) html = this.renderHookScriptIntro(data);
-      else if (toolId === 6) html = this.renderDescriptionChapters(data);
-      else if (toolId === 7) html = this.renderTopicIdeaExplorer(data);
-      else if (toolId === 8) html = this.renderCompetitorGapFinder(data);
-      else if (toolId === 9) html = this.renderRepurposingKit(data);
-      else if (toolId === 10) html = this.renderChecklist(data);
-      else html = this.renderVideoSeoAudit(data);
+      if (toolId === 1) html = this.renderKeywordResearch(data);
+      else if (toolId === 2) html = this.renderHookScriptIntro(data);
+      else if (toolId === 3) html = this.renderDescriptionChapters(data);
+      else if (toolId === 4) html = this.renderTopicIdeaExplorer(data);
+      else if (toolId === 5) html = this.renderRepurposingKit(data);
+      else if (toolId === 6) html = this.renderChecklist(data);
+      else html = this.renderKeywordResearch(data);
 
       container.innerHTML = html;
       this.bindResultsInteractivity(container, data);
@@ -1757,7 +1681,7 @@
         this.exportMarkdown(data);
       });
 
-      if (toolId === 2) {
+      if (toolId === 1) {
         // Render Chips initially
         this.renderKeywordChips();
 
@@ -2171,7 +2095,7 @@ ${JSON.stringify(data, null, 2)}
         e.preventDefault();
         if (this.activeToolId === null) return;
         let prevId = this.activeToolId - 1;
-        if (prevId < 1) prevId = 10;
+        if (prevId < 1) prevId = 6;
         this.navigateToTool(prevId);
       });
 
@@ -2179,7 +2103,7 @@ ${JSON.stringify(data, null, 2)}
         e.preventDefault();
         if (this.activeToolId === null) return;
         let nextId = this.activeToolId + 1;
-        if (nextId > 10) nextId = 1;
+        if (nextId > 6) nextId = 1;
         this.navigateToTool(nextId);
       });
 

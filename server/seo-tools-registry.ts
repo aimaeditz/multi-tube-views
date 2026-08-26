@@ -59,7 +59,7 @@ function extractKeywords(text: string, category: string = ""): string[] {
   return Array.from(new Set(clean));
 }
 
-// Master execution dispatcher for the Approved 10 Tools
+// Master execution dispatcher for the Approved 6 Tools
 export function executeSeoTool(ctx: ToolExecutionContext): any {
   const {
     toolId,
@@ -105,119 +105,9 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   };
 
   // =========================================================================
-  // TOOL 1: Video SEO Analyzer
+  // TOOL 1: Keyword Research & Search Intent
   // =========================================================================
   if (toolId === 1) {
-    const videoId = urlData.videoId || "";
-    const computedThumbnail = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null;
-    const cleanTitle = (cleanTopic || urlData.realTitle || "Video Submission").trim();
-    const tLen = cleanTitle.length;
-
-    let titleScore = 78;
-    let mobileStatus = "Optimal";
-    if (tLen > 60) {
-      titleScore = 55;
-      mobileStatus = "High (Truncated after 60 characters)";
-    } else if (tLen < 40) {
-      titleScore = 65;
-      mobileStatus = "Safe (But lacks key search intent triggers)";
-    }
-
-    return {
-      toolId: 1,
-      toolName: "Video SEO Analyzer",
-      category: "SEO & Metadata",
-      toolType: "seo_audit",
-      inputContext: baseContext,
-      videoTitle: cleanTitle,
-      thumbnailUrl: computedThumbnail,
-      overallScore: Math.round((titleScore + 80 + 75) / 3),
-      overallGrade: "B",
-      overallSummary: `This is a robust fallback SEO audit for "${cleanTitle}" based on available public parameters. The title packaging is reasonably clear, but incorporating highly specific mobile search-intent cues is highly recommended to increase organic click-through rate.`,
-      titleAnalysis: {
-        score: titleScore,
-        charCount: tLen,
-        keywordPresence: `Primary phrase "${primaryKw}" detected in title.`,
-        readability: "Human-friendly, grammatically direct.",
-        mobileTruncationRisk: mobileStatus,
-        mainProblems: tLen > 60 ? ["Title exceeds 60 characters and will likely truncate on mobile devices."] : ["Lacks a formatting intent specifier like 'Step-by-Step Guide' or year."],
-        improvementSuggestions: tLen > 60 ? ["Shorten title to 45-55 characters."] : ["Append a high-value search intent cue like the current year."],
-        optimizedTitles: [
-          `${cleanTitle} - Step-by-Step Guide`,
-          `How to Master ${cleanTitle} (${year})`,
-          `${cleanTitle} Explained for Beginners`
-        ]
-      },
-      descriptionAnalysis: {
-        score: 75,
-        length: 220,
-        keywordPlacement: "Keyword positioned appropriately in descriptive metadata.",
-        openingLines: `Overview of ${cleanTitle} with actionable tips.`,
-        structure: "Lacks organized sections and social media reference points.",
-        warnings: "Optimal keyword density (no keyword stuffing detected).",
-        missingElements: ["Structured timeline chapters", "Engagement comments", "Actionable CTA links"],
-        improvements: [
-          "Add structured timestamp chapters starting with 0:00.",
-          "Add a clear call-to-action (e.g. Subscribe or Visit Website).",
-          "Include 3 platform-appropriate hashtags at the very bottom."
-        ]
-      },
-      tagsHashtagsAnalysis: {
-        existingTags: [primaryKw, `${primaryKw} tips`],
-        suggestedTags: [
-          `${primaryKw} tutorial`,
-          `${primaryKw} guide`,
-          `how to do ${primaryKw}`,
-          `${primaryKw} for beginners`,
-          `${cleanCategory.toLowerCase()}`
-        ],
-        suggestedHashtags: [
-          `#${cleanTag(primaryKw)}`,
-          `#${cleanTag(cleanCategory)}`,
-          `#guide`
-        ],
-        issuesExplanation: "Broad keywords provide weak context. Prefer multi-word long-tail tags targeting exact viewer search terms."
-      },
-      seoIssues: [
-        {
-          problem: "Sub-optimal Title Packaging",
-          whyItMatters: "The title is the primary search ranking metric. Unoptimized spacing or length results in lost mobile click-through traffic.",
-          impact: "High",
-          recommendedFix: "Utilize one of the recommended title formulas below to increase CTR and establish clear search intent."
-        },
-        {
-          problem: "Missing Description Structuring",
-          whyItMatters: "Search engine algorithms scan description first 150 characters for ranking and categorization cues.",
-          impact: "Medium",
-          recommendedFix: "Incorporate a concise 2-sentence summary and structured timestamps inside your description."
-        }
-      ],
-      technicalChecks: [
-        { name: "Title Length", status: tLen <= 60 && tLen >= 40 ? "pass" : "fail", note: `${tLen} characters` },
-        { name: "Keyword Placement", status: "warning", note: "Consider moving keyword to the front" },
-        { name: "Description Quality", status: "warning", note: "Requires structured summary sections" },
-        { name: "Tags Optimization", status: "warning", note: "Add more high-intent tags" },
-        { name: "Hashtag Count", status: "fail", note: "No hashtags detected" },
-        { name: "Metadata Completeness", status: "fail", note: "No timestamps or chapters" }
-      ],
-      topRecommendations: [
-        "Shorten and front-load your video title within 45-55 characters to ensure mobile display safety.",
-        "Include structured timestamps and timeline chapters starting at 0:00 to enable video key moments indexing.",
-        "Add high-value semantic tags targeting exact viewer search intent phrases."
-      ],
-      keywordOpportunities: [
-        `best ${primaryKw} tutorial`,
-        `how to optimize ${primaryKw}`,
-        `${primaryKw} checklist ${year}`
-      ],
-      verifiedMetadata: verifiedMeta
-    };
-  }
-
-  // =========================================================================
-  // TOOL 2: Keyword Research & Search Intent
-  // =========================================================================
-  if (toolId === 2) {
     const year = new Date().getFullYear();
     const primary = [
       primaryKw,
@@ -249,7 +139,7 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
     ];
 
     return {
-      toolId: 2,
+      toolId: 1,
       toolName: "Keyword Research",
       category: "Keyword Strategy",
       toolType: "keyword",
@@ -333,118 +223,12 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   }
 
   // =========================================================================
-  // TOOL 3: Title Analyzer & CTR Optimizer
+  // TOOL 2: High-Retention Hook & Script Intro
   // =========================================================================
-  if (toolId === 3) {
-    const tLen = cleanTopic.length;
-    return {
-      toolId: 3,
-      toolName: "Title Analyzer & CTR Optimizer",
-      category: "Packaging & Titles",
-      toolType: "title",
-      inputContext: baseContext,
-      analysis: {
-        currentTitle: cleanTopic,
-        characterCount: tLen,
-        wordCount: cleanTopic.split(/\s+/).length,
-        mobileDisplayStatus: tLen <= 55 ? "Safe (No truncation on mobile search)" : "Warning (May truncate on mobile screens over 55 chars)",
-        curiosityScore: 84,
-        clarityScore: 92,
-        powerWordRating: "High Impact (Contains concrete outcome & audience relevance)",
-      },
-      formulaVariants: [
-        {
-          formula: "Direct How-To (High Search Intent)",
-          title: `How to Master ${cleanTopic}: Step-by-Step ${year} Guide`,
-          rationale: "Maximizes exact-match search volume on YouTube and Google Search.",
-        },
-        {
-          formula: "Curiosity & Stakes Hook",
-          title: `Why Most People Fail at ${cleanTopic} (And How to Fix It)`,
-          rationale: "Triggers psychological curiosity and loss-aversion without cheap clickbait.",
-        },
-        {
-          formula: "Numbered / Authority List",
-          title: `5 Crucial Rules for ${cleanTopic} You Must Know`,
-          rationale: "Provides structured cognitive expectations for high click-through rate.",
-        },
-        {
-          formula: "Problem-Agitation-Solution",
-          title: `Struggling with ${cleanTopic}? Do This Instead`,
-          rationale: "Directly addresses audience pain points with an empathetic solution.",
-        },
-        {
-          formula: "Question-Based Engagement",
-          title: `Is ${cleanTopic} Still Worth It in ${year}? Real Answer`,
-          rationale: "Captures trending decision-making searches from research-oriented viewers.",
-        },
-      ],
-      verifiedMetadata: verifiedMeta,
-    };
-  }
-
-  // =========================================================================
-  // TOOL 4: Hashtag & Platform Tags Generator
-  // =========================================================================
-  if (toolId === 4) {
-    const broadHashtags = [
-      `#${cleanTag(words[0] || "video")}`,
-      `#${cleanTag(words[1] || "tutorial")}`,
-      `#${cleanTag(cleanCategory)}`,
-      "#trending",
-      "#contentcreator",
-    ];
-
-    const nicheHashtags = [
-      `#${cleanTag(primaryKw)}`,
-      `#${cleanTag(primaryKw)}tips`,
-      `#${cleanTag(primaryKw)}guide`,
-      `#${cleanTag(primaryKw)}hacks`,
-      `#learn${cleanTag(words[0] || "skills")}`,
-    ];
-
-    const platformHashtagSets: Record<string, string[]> = {
-      YouTube: [`#${cleanTag(primaryKw)}`, `#${cleanTag(cleanCategory)}`, `#${cleanTag(words[0] || "guide")}`, `#${year}`],
-      Instagram: [`#${cleanTag(primaryKw)}`, `#${cleanTag(cleanCategory)}`, `#${cleanTag(words[0] || "tips")}`, "#instadaily", "#creators", "#explorepage"],
-      TikTok: [`#${cleanTag(primaryKw)}`, `#${cleanTag(cleanCategory)}`, "#learnontiktok", "#edutok", "#tipsandtricks"],
-      LinkedIn: [`#${cleanTag(primaryKw)}`, `#${cleanTag(cleanCategory)}`, "#strategy", "#professionaldevelopment", "#innovation"],
-      X: [`#${cleanTag(primaryKw)}`, `#${cleanTag(cleanCategory)}`, "#buildinpublic"],
-    };
-
-    const taxonomyTags = [
-      primaryKw,
-      `${primaryKw} tutorial`,
-      `${primaryKw} guide`,
-      `how to ${primaryKw}`,
-      `${primaryKw} tips`,
-      `${cleanCategory.toLowerCase()}`,
-      `${primaryKw} for beginners`,
-      `${year}`,
-    ];
-
-    return {
-      toolId: 4,
-      toolName: "Hashtag & Platform Tags Generator",
-      category: "Tags & Hashtags",
-      toolType: "hashtag",
-      inputContext: baseContext,
-      broadHashtags,
-      nicheHashtags,
-      platformHashtagSets,
-      taxonomyTags,
-      commaSeparatedTags: taxonomyTags.join(", "),
-      tagDensityRules: "Use 3-5 tags on YouTube/TikTok, 5-8 on Instagram, and 2-3 on LinkedIn/X to avoid spam filtering.",
-      verifiedMetadata: verifiedMeta,
-    };
-  }
-
-  // =========================================================================
-  // TOOL 5: High-Retention Hook & Script Intro
-  // =========================================================================
-  if (toolId === 5) {
+  if (toolId === 2) {
     const selectedTone = tone || "Direct & Educational";
     return {
-      toolId: 5,
+      toolId: 2,
       toolName: "High-Retention Hook & Script Intro",
       category: "Retention & Scripting",
       toolType: "hook",
@@ -469,14 +253,14 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   }
 
   // =========================================================================
-  // TOOL 6: Description & Timestamp Chapter Generator
+  // TOOL 3: Description & Timestamp Chapter Generator
   // =========================================================================
-  if (toolId === 6) {
+  if (toolId === 3) {
     const durSec = urlData.durationSeconds;
     const durFmt = urlData.durationFormatted || "8:30";
 
     return {
-      toolId: 6,
+      toolId: 3,
       toolName: "Description & Timestamp Chapter Generator",
       category: "SEO & Metadata",
       toolType: "caption",
@@ -503,11 +287,11 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   }
 
   // =========================================================================
-  // TOOL 7: Content Topic & Question Explorer
+  // TOOL 4: Content Topic & Question Explorer
   // =========================================================================
-  if (toolId === 7) {
+  if (toolId === 4) {
     return {
-      toolId: 7,
+      toolId: 4,
       toolName: "Content Topic & Question Explorer",
       category: "Ideation & Topics",
       toolType: "topic",
@@ -561,53 +345,9 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   }
 
   // =========================================================================
-  // TOOL 8: Competitor Content Gap & Strategy Analyzer
+  // TOOL 5: Multi-Platform Repurposing Kit
   // =========================================================================
-  if (toolId === 8) {
-    const compInput = competitorInput || "Competitors cover generic theory without practical examples";
-    return {
-      toolId: 8,
-      toolName: "Competitor Content Gap & Strategy Analyzer",
-      category: "Competitive Strategy",
-      toolType: "competitor",
-      inputContext: baseContext,
-      analysis: {
-        analyzedTopic: cleanTopic,
-        competitorFocusSummary: `Most competing content in ${cleanCategory} relies heavily on high-level overviews and surface-level tips without providing actionable templates or troubleshooting.`,
-        contentGaps: [
-          `Lack of clear, beginner-friendly troubleshooting steps for ${primaryKw}`,
-          `Missing downloadable checklists or practical templates`,
-          `Outdated recommendations that no longer reflect ${year} platform best practices`,
-          `Absence of transparent, real-world case studies and before/after comparisons`,
-        ],
-        differentiationTactics: [
-          {
-            area: "Title & Packaging",
-            tactic: "Replace vague hype with explicit outcomes and tangible milestones (e.g., '5-Step Verified Guide').",
-          },
-          {
-            area: "Pacing & Delivery",
-            tactic: "Skip the generic 45-second spoken intro and jump immediately into the first actionable insight within 5 seconds.",
-          },
-          {
-            area: "Visual Evidence",
-            tactic: "Show screen recordings and realistic walkthroughs rather than generic stock footage.",
-          },
-          {
-            area: "Actionable Takeaways",
-            tactic: "Provide a summarized recap and downloadable action plan in the video description.",
-          },
-        ],
-        uniqueValueProposition: `The definitive, zero-fluff walkthrough of ${cleanTopic} focused strictly on real-world execution and actionable results.`,
-      },
-      verifiedMetadata: verifiedMeta,
-    };
-  }
-
-  // =========================================================================
-  // TOOL 9: Multi-Platform Repurposing Kit
-  // =========================================================================
-  if (toolId === 9) {
+  if (toolId === 5) {
     const platformPackages: Record<string, any> = {};
 
     targetPlatforms.forEach(p => {
@@ -658,7 +398,7 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
     });
 
     return {
-      toolId: 9,
+      toolId: 5,
       toolName: "Multi-Platform Repurposing Kit",
       category: "Multi-Platform",
       toolType: "repurpose",
@@ -669,11 +409,11 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   }
 
   // =========================================================================
-  // TOOL 10: Pre-Upload SEO & Publishing Checklist
+  // TOOL 6: Pre-Upload SEO & Publishing Checklist
   // =========================================================================
-  if (toolId === 10) {
+  if (toolId === 6) {
     return {
-      toolId: 10,
+      toolId: 6,
       toolName: "Pre-Upload SEO & Publishing Checklist",
       category: "Checklists & Quality",
       toolType: "checklist",
@@ -700,5 +440,5 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   }
 
   // Fallback for any invalid tool ID -> Route to Tool 1
-  return executeSeoTool({ ...ctx, toolId: 1, toolName: "Video SEO Analyzer", category: "SEO & Metadata" });
+  return executeSeoTool({ ...ctx, toolId: 1, toolName: "Keyword Research", category: "Keyword Strategy" });
 }
