@@ -519,6 +519,46 @@ function generateGroundedAudit(
   };
 }
 
+// Intelligent backend routing mapping for different tools (Invisible AI Orchestration)
+function getIntelligentProvider(toolIdOrName: number | string | undefined): any {
+  const available = aiOrchestrator.getAvailableProviders();
+  if (available.length === 0) return 'auto';
+
+  // If a specific tool is requested by numeric ID or slug/action
+  if (toolIdOrName !== undefined) {
+    const toolId = Number(toolIdOrName);
+    if (!isNaN(toolId) && toolId > 0) {
+      const preferences: Record<number, string[]> = {
+        1: ['gemini', 'openai', 'deepseek'],         // Keyword Research
+        2: ['grok', 'mistral', 'openai', 'gemini'], // Hashtags & Tags
+        3: ['grok', 'openai', 'gemini'],            // Hook & Script Intro
+        4: ['claude', 'gemini', 'openai'],          // Description & Chapters
+        5: ['gemini', 'claude', 'openai'],          // Topic Explorer
+        6: ['claude', 'openai', 'gemini'],          // Repurposing Kit
+        7: ['gemini', 'claude', 'openai']           // Pre-Upload Checklist
+      };
+      const candidates = preferences[toolId] || ['gemini', 'openai'];
+      for (const providerId of candidates) {
+        if (available.some(p => p.id === providerId)) {
+          return providerId;
+        }
+      }
+    } else {
+      const name = String(toolIdOrName).toLowerCase();
+      if (name.includes('video') || name.includes('audit') || name.includes('analyze')) {
+        const candidates = ['gemini', 'claude', 'openai'];
+        for (const providerId of candidates) {
+          if (available.some(p => p.id === providerId)) {
+            return providerId;
+          }
+        }
+      }
+    }
+  }
+
+  return 'auto';
+}
+
 // AI Provider Health Check Endpoint
 app.get("/api/ai/health", (req, res) => {
   const statusList = aiOrchestrator.getProviderStatusList();
@@ -580,7 +620,7 @@ app.post("/api/ai", async (req, res) => {
 
   try {
     const { action, tool, toolId, input, prompt, provider, model, systemInstruction, compare } = req.body || {};
-    const targetProvider = provider || (req.headers['x-ai-provider'] as string) || 'auto';
+    const targetProvider = getIntelligentProvider(toolId || tool || action);
 
     // Route to video analysis if action or tool indicates video audit
     if (action === "analyze-video" || tool === "analyze-video" || tool === "video-audit") {
@@ -680,7 +720,7 @@ INPUT METADATA:
 app.post("/api/analyze-video", async (req, res) => {
   try {
     const { url = "", title = "", category = "Education & Tech", provider } = req.body;
-    const targetProvider = provider || (req.headers['x-ai-provider'] as string) || 'auto';
+    const targetProvider = getIntelligentProvider("analyze-video");
     const inputUrl = String(url || "").trim();
     const inputTitle = String(title || "").trim();
     const inputCategory = String(category || "Education & Tech").trim();
@@ -802,7 +842,7 @@ app.post("/api/seo-research", async (req, res) => {
       provider,
     } = req.body;
 
-    const targetProvider = provider || (req.headers['x-ai-provider'] as string) || 'auto';
+    const targetProvider = getIntelligentProvider(Number(toolId));
     let inputUrl = String(url || "").trim();
     let effectiveTopic = String(singleInput || topic || title || keyword || description || "").trim();
 
