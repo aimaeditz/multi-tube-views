@@ -218,37 +218,116 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   // TOOL 2: Keyword Research & Search Intent
   // =========================================================================
   if (toolId === 2) {
+    const year = new Date().getFullYear();
+    const primary = [
+      primaryKw,
+      `${primaryKw} guide`,
+      `${primaryKw} tutorial`,
+      `${primaryKw} best practices`,
+      `how to master ${primaryKw}`,
+    ];
+    const related = [
+      `${primaryKw} ideas`,
+      `${primaryKw} tips and tricks`,
+      `practical ${primaryKw} workflow`,
+      `${primaryKw} organization`,
+      `${primaryKw} design`,
+    ];
+    const longTail = [
+      `how to build a ${primaryKw} step by step`,
+      `best budget ${primaryKw} accessories for beginners`,
+      `${primaryKw} for productivity and remote work`,
+      `small space ${primaryKw} ideas ${year}`,
+      `hidden features in ${primaryKw} you should know`,
+    ];
+    const questions = [
+      `how to start with ${primaryKw}?`,
+      `what is the best way to optimize ${primaryKw}?`,
+      `why is ${primaryKw} so popular right now?`,
+      `where can I find premium ${primaryKw} resources?`,
+      `which ${primaryKw} is right for you?`,
+    ];
+
     return {
       toolId: 2,
-      toolName: "Keyword Research & Search Intent",
-      category: "Keywords & Search",
+      toolName: "Keyword Research",
+      category: "Keyword Strategy",
       toolType: "keyword",
       inputContext: baseContext,
-      primaryKeywords: [
-        primaryKw,
-        `${primaryKw} guide`,
-        `${primaryKw} tutorial`,
-        `${primaryKw} best practices`,
-        `${primaryKw} walkthrough`,
+      researchSummary: {
+        topic: cleanTopic,
+        platforms: baseContext.platforms,
+        country: baseContext.country,
+        language: baseContext.language,
+        totalCount: primary.length + related.length + longTail.length + questions.length,
+        summary: `Expert research report for "${cleanTopic}" on ${baseContext.platforms.join(", ")}. Search patterns indicate a strong emphasis on step-by-step practical implementation and budget considerations for this keyword group.`
+      },
+      primaryKeywords: primary,
+      relatedKeywords: related,
+      longTailKeywords: longTail,
+      questionKeywords: questions,
+      searchIntent: {
+        "Informational": [
+          `understanding the basics of ${primaryKw}`,
+          `what is ${primaryKw}: a complete overview`
+        ],
+        "Tutorial / How-To": [
+          `how to configure and use ${primaryKw}`,
+          `step-by-step ${primaryKw} walkthrough for beginners`
+        ],
+        "Commercial / Discovery": [
+          `top ${primaryKw} solutions compared`,
+          `is ${primaryKw} worth the price? real review`
+        ],
+        "Entertainment / Trend-oriented": [
+          `extreme ${primaryKw} transformation challenge`,
+          `insane ${primaryKw} secrets revealed`
+        ]
+      },
+      contentOpportunities: [
+        {
+          angle: "Tutorial",
+          keyword: `How to build a ${primaryKw} step-by-step`,
+          description: `A complete beginner walkthrough focusing on essential steps, layout, and foundational practices of ${primaryKw}.`
+        },
+        {
+          angle: "Comparison",
+          keyword: `Premium vs Budget ${primaryKw}`,
+          description: `An objective comparison of cheap setup solutions against premium high-end alternatives.`
+        },
+        {
+          angle: "Beginner guide",
+          keyword: `${primaryKw} 101: Where to Start`,
+          description: `Explaining the core principles and must-know rules of ${primaryKw} for complete beginners.`
+        },
+        {
+          angle: "Problem/solution",
+          keyword: `Fixing common mistakes in ${primaryKw}`,
+          description: `Showcasing the top 5 mistakes people make with ${primaryKw} and how to troubleshoot them in minutes.`
+        },
+        {
+          angle: "List format",
+          keyword: `5 essential elements of a high-quality ${primaryKw}`,
+          description: `A curated list of the absolute most critical elements that elevate any ${primaryKw} to professional levels.`
+        },
+        {
+          angle: "Shorts angle",
+          keyword: `Satisfying 30s ${primaryKw} transition`,
+          description: `A fast-pacing vertical video showing a complete setup transformation or a quick, highly engaging outcome.`
+        }
       ],
-      secondaryKeywords: [
-        `how to learn ${primaryKw}`,
-        `${cleanCategory.toLowerCase()} ${primaryKw}`,
-        `${primaryKw} tips and tricks`,
-        `practical ${primaryKw} workflow`,
-        `${primaryKw} step by step`,
-        `${primaryKw} for beginners`,
+      trendOpportunities: [
+        {
+          keyword: `AI-powered ${primaryKw} ideas`,
+          label: "AI Suggested Opportunity",
+          explanation: `Combining advanced automation tools with classic ${primaryKw} setups is showing rapidly growing search intent.`
+        },
+        {
+          keyword: `sustainable and ergonomic ${primaryKw} for ${year}`,
+          label: "Search-Relevance Suggestion",
+          explanation: `Strong semantic alignment with home wellness and environment-friendly office layouts.`
+        }
       ],
-      semanticKeywords: [
-        `${primaryKw} setup`,
-        `${primaryKw} tools`,
-        `${primaryKw} examples`,
-        `${primaryKw} alternatives`,
-        `${primaryKw} optimization`,
-      ],
-      searchIntent: "Informational & Practical How-To",
-      searchStage: "Top-of-Funnel & Problem Discovery",
-      densityAdvice: "Place primary keyword in title front 40 chars, first 100 words of description, and 1 spoken subtitle.",
       verifiedMetadata: verifiedMeta,
     };
   }

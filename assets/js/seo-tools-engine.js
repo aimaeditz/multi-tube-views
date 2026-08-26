@@ -50,7 +50,7 @@
       toolType: 'keyword',
       actionVerb: 'Research Keywords',
       desc: 'Discover high-intent primary search terms, long-tail variations, question queries, and topic clusters.',
-      defaultTopic: 'Minimalist Desk Setup',
+      defaultTopic: '',
       placeholder: 'Enter seed keyword or topic to research search intent...',
       howToUse: [
         'Input your seed keyword or general topic of interest in the input field.',
@@ -583,7 +583,7 @@
         if (savedState && typeof savedState.input === 'string') {
           singleInput.value = savedState.input;
         } else {
-          singleInput.value = tool.defaultTopic || '';
+          singleInput.value = tool.id === 2 ? '' : (tool.defaultTopic || '');
         }
         singleInput.placeholder = tool.placeholder || 'Enter topic, title, keywords, or content outline...';
         this.detectInputType(singleInput.value);
@@ -1159,66 +1159,258 @@
 
     // Tool 2: Keyword Research
     renderKeywordResearch(data) {
-      const kw = data.keywords || { primary: [], secondary: [], longTail: [], questions: [] };
-      const clusters = data.clusters || [];
+      // Initialize state for Tool 2
+      const topic = data.researchSummary?.topic || data.inputContext?.topic || 'Research';
+      
+      if (!this.keywordState || this.keywordState.topic !== topic) {
+        const list = [];
+        let index = 0;
+
+        (data.primaryKeywords || []).forEach(k => {
+          list.push({ id: `kw-${index++}`, text: k, category: 'Primary', selected: false, visible: true });
+        });
+
+        (data.relatedKeywords || []).forEach(k => {
+          list.push({ id: `kw-${index++}`, text: k, category: 'Related', selected: false, visible: true });
+        });
+
+        (data.longTailKeywords || []).forEach(k => {
+          list.push({ id: `kw-${index++}`, text: k, category: 'Long-Tail', selected: false, visible: true });
+        });
+
+        (data.questionKeywords || []).forEach(k => {
+          list.push({ id: `kw-${index++}`, text: k, category: 'Questions', selected: false, visible: true });
+        });
+
+        if (data.searchIntent) {
+          if (typeof data.searchIntent === 'object') {
+            Object.entries(data.searchIntent).forEach(([intentCat, kws]) => {
+              if (Array.isArray(kws)) {
+                kws.forEach(k => {
+                  list.push({ id: `kw-${index++}`, text: k, category: `Intent: ${intentCat}`, selected: false, visible: true });
+                });
+              }
+            });
+          } else if (Array.isArray(data.searchIntent)) {
+            data.searchIntent.forEach(k => {
+              list.push({ id: `kw-${index++}`, text: k, category: 'Search Intent', selected: false, visible: true });
+            });
+          }
+        }
+
+        (data.contentOpportunities || []).forEach(opp => {
+          if (opp && opp.keyword) {
+            list.push({ id: `kw-${index++}`, text: opp.keyword, category: 'Content Opportunities', selected: false, visible: true, extra: opp.angle + ': ' + opp.description });
+          }
+        });
+
+        (data.trendOpportunities || []).forEach(opp => {
+          if (opp && opp.keyword) {
+            list.push({ id: `kw-${index++}`, text: opp.keyword, category: 'Trend Opportunities', selected: false, visible: true, extra: (opp.label || 'Trend') + ': ' + opp.explanation });
+          }
+        });
+
+        this.keywordState = {
+          topic: topic,
+          keywords: list,
+          filterQuery: '',
+          activeFilterCategory: 'All'
+        };
+      }
+
+      const summaryText = data.researchSummary?.summary || 'Expert analysis generated for your target keywords.';
+      const totalCount = this.keywordState.keywords.length;
 
       return `
         <div class="results-container" style="margin-top: 1.5rem;">
-          <div class="tool-result-header-bar">
+          <style>
+            .kw-tag-chip:hover {
+              border-color: var(--accent-blue) !important;
+              background: rgba(59, 130, 246, 0.05) !important;
+            }
+            .kw-tag-chip.selected:hover {
+              background: rgba(59, 130, 246, 0.15) !important;
+            }
+            .kw-remove-btn:hover {
+              background-color: var(--border-strong) !important;
+              color: var(--text-primary) !important;
+            }
+            .kw-category-tab {
+              transition: all 0.15s ease;
+            }
+            .kw-category-tab:hover {
+              border-color: var(--accent-blue) !important;
+              background: var(--border-subtle) !important;
+            }
+            .kw-category-tab.active:hover {
+              background: var(--accent-blue) !important;
+              color: #ffffff !important;
+            }
+          </style>
+
+          <!-- Master Header Block -->
+          <div class="tool-result-header-bar" style="border-bottom: 1px solid var(--border-strong); padding-bottom: 1rem; margin-bottom: 1.5rem;">
             <div>
-              <h3 class="tool-result-title"><span>🔑</span> Keyword Research Matrix <span class="verified-badge">✓ Search Intent Grounded</span></h3>
-              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong> • Search Intent: <strong>${kw.searchIntent || 'Informational'}</strong></p>
+              <h3 class="tool-result-title" style="display: flex; align-items: center; gap: 0.5rem; font-size: 1.25rem; font-weight: 800;">
+                <span>🔑</span> YouTube Keyword Research Suite
+                <span class="verified-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--success-text); border: 1px solid rgba(16, 185, 129, 0.2); font-size: 0.72rem; padding: 0.15rem 0.4rem; border-radius: 4px; font-weight: 600;">✓ Authentic Research</span>
+              </h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Interactive keyword intelligence & search intent mapper</p>
             </div>
-            <div class="tool-result-actions">
-              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
-              <button type="button" class="btn btn-primary btn-sm" id="btn-copy-all-kw">📋 Copy All Keywords</button>
+            <div class="tool-result-actions" style="display: flex; gap: 0.5rem;">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown" style="font-weight: 600;">📄 Export Markdown</button>
             </div>
           </div>
-          <div class="results-grid" style="margin-top: 1.25rem;">
-            <div class="result-card">
-              <div class="result-card-header">
-                <h4 class="result-card-title">Primary Seed Keywords</h4>
-                <button type="button" class="copy-btn-mini" data-copy-text="${(kw.primary || []).join(', ')}">Copy</button>
-              </div>
-              <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.85rem; line-height: 1.6;">
-                ${(kw.primary || []).map(k => `<li>${k}</li>`).join('')}
-              </ul>
+
+          <!-- Section 1: Research Summary Grid -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 0.85rem; border-radius: var(--radius-md);">
+              <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Target Topic</span>
+              <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-top: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${topic}">${topic}</div>
             </div>
-            <div class="result-card">
-              <div class="result-card-header">
-                <h4 class="result-card-title">Long-Tail Search Queries</h4>
-                <button type="button" class="copy-btn-mini" data-copy-text="${(kw.longTail || []).join('\n')}">Copy</button>
-              </div>
-              <ul style="padding-left: 1.2rem; margin: 0; font-size: 0.85rem; line-height: 1.6;">
-                ${(kw.longTail || []).map(k => `<li>${k}</li>`).join('')}
-              </ul>
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 0.85rem; border-radius: var(--radius-md);">
+              <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Platforms</span>
+              <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-top: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${(data.researchSummary?.platforms || data.inputContext?.platforms || []).join(', ') || 'YouTube'}</div>
             </div>
-            ${kw.questions?.length ? `
-              <div class="result-card result-card-full">
-                <div class="result-card-header">
-                  <h4 class="result-card-title">Audience Questions (FAQ & Search Intent)</h4>
-                  <button type="button" class="copy-btn-mini" data-copy-text="${kw.questions.join('\n')}">Copy Questions</button>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.6rem;">
-                  ${kw.questions.map(q => `<div style="padding: 0.6rem; background: var(--bg-subtle); border-radius: 6px; font-size: 0.83rem; border-left: 3px solid var(--accent-blue);">${q}</div>`).join('')}
-                </div>
-              </div>
-            ` : ''}
-            ${clusters.length ? `
-              <div class="result-card result-card-full">
-                <h4 class="result-card-title">Semantic Topic Clusters</h4>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 0.6rem;">
-                  ${clusters.map(c => `
-                    <div style="background: var(--bg-subtle); padding: 0.85rem; border-radius: 6px; border: 1px solid var(--border-subtle);">
-                      <strong style="color: var(--accent-blue); font-size: 0.88rem; display: block;">${c.clusterName}</strong>
-                      <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.4rem;">Intent: ${c.intent}</span>
-                      <ul style="padding-left: 1.1rem; margin: 0; font-size: 0.82rem;">${(c.terms || []).map(t => `<li>${t}</li>`).join('')}</ul>
-                    </div>
-                  `).join('')}
-                </div>
-              </div>
-            ` : ''}
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 0.85rem; border-radius: var(--radius-md);">
+              <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Geographic Scope</span>
+              <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-top: 0.2rem;">${data.researchSummary?.country || data.inputContext?.country || 'Global'} (${data.researchSummary?.language || data.inputContext?.language || 'English'})</div>
+            </div>
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); padding: 0.85rem; border-radius: var(--radius-md);">
+              <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Discovered Ideas</span>
+              <div style="font-size: 0.95rem; font-weight: 800; color: var(--accent-blue); margin-top: 0.2rem;">${totalCount} opportunities</div>
+            </div>
           </div>
+
+          <!-- AI Summary Box -->
+          <div style="background: var(--bg-subtle); border-left: 4px solid var(--accent-blue); padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem; border-top: 1px solid var(--border-subtle); border-right: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+            <strong style="font-size: 0.82rem; color: var(--text-primary); display: block; margin-bottom: 0.3rem;">💡 Search Relevance Overview</strong>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">${summaryText}</p>
+          </div>
+
+          <!-- Interactive Workspace Controls Panel -->
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-strong); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.5rem;">
+            <!-- Row 1: Search, Add custom and filter category -->
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1rem; margin-bottom: 1rem;">
+              <div style="flex: 1; min-width: 260px; display: flex; gap: 0.5rem;">
+                <div style="position: relative; flex: 1;">
+                  <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.9rem;">🔍</span>
+                  <input type="text" id="kw-search-filter" placeholder="Filter keywords..." style="width: 100%; padding: 0.5rem 0.75rem 0.5rem 2rem; border-radius: var(--radius-md); border: 1px solid var(--border-strong); background: var(--bg-subtle); font-size: 0.85rem; color: var(--text-primary);" value="${this.keywordState.filterQuery}">
+                </div>
+              </div>
+
+              <!-- Add custom keyword form -->
+              <div style="display: flex; gap: 0.5rem; min-width: 280px;">
+                <input type="text" id="kw-add-input" placeholder="Add custom keyword..." style="flex: 1; padding: 0.5rem 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-strong); background: var(--bg-subtle); font-size: 0.85rem; color: var(--text-primary);">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-add-custom-kw" style="font-weight: 700; padding: 0.5rem 1rem;">＋ Add</button>
+              </div>
+            </div>
+
+            <!-- Row 2: Category tabs selection -->
+            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem;">
+              ${['All', 'Primary', 'Related', 'Long-Tail', 'Questions', 'Content Opportunities'].map(cat => {
+                const isActive = this.keywordState.activeFilterCategory === cat;
+                return `<button type="button" class="kw-category-tab ${isActive ? 'active' : ''}" data-kw-cat="${cat}" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; font-weight: 600; border-radius: 6px; border: 1px solid ${isActive ? 'var(--accent-blue)' : 'var(--border-subtle)'}; background: ${isActive ? 'var(--accent-blue)' : 'var(--bg-subtle)'}; color: ${isActive ? '#ffffff' : 'var(--text-secondary)'}; cursor: pointer;">${cat}</button>`;
+              }).join('')}
+            </div>
+
+            <!-- Row 3: Action Toolbar and Selection Stats -->
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; background: var(--bg-subtle); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border-subtle);">
+              <div id="kw-stats-container" style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); display: inline-flex; align-items: center;">
+                <!-- Dynamic Stats -->
+              </div>
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-kw-copy-selected" style="font-weight: 700; background: var(--bg-surface);">📋 Copy Selected</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-kw-copy-all" style="font-weight: 700; background: var(--bg-surface);">📋 Copy All</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-kw-export-csv" style="font-weight: 700; background: var(--bg-surface);">📥 Export CSV</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-kw-reset-list" style="font-weight: 700; color: var(--accent-red); border-color: rgba(239, 68, 68, 0.2); background: var(--bg-surface);">🔄 Reset List</button>
+              </div>
+            </div>
+
+            <!-- Row 4: Main interactive keyword workspace display grid -->
+            <div id="kw-list-container" style="margin-top: 1.25rem;">
+              <!-- Dynamic Keywords List -->
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    renderKeywordChips() {
+      const container = document.getElementById('kw-list-container');
+      const statsContainer = document.getElementById('kw-stats-container');
+      if (!container || !this.keywordState) return;
+
+      const q = this.keywordState.filterQuery.toLowerCase().trim();
+      const activeCat = this.keywordState.activeFilterCategory;
+
+      const filtered = this.keywordState.keywords.filter(kw => {
+        if (!kw.visible) return false;
+        
+        // Category Filter
+        if (activeCat !== 'All') {
+          if (activeCat === 'Content Opportunities') {
+            if (kw.category !== 'Content Opportunities' && kw.category !== 'Trend Opportunities') return false;
+          } else {
+            if (kw.category.toLowerCase() !== activeCat.toLowerCase()) return false;
+          }
+        }
+
+        // Text Search Filter
+        if (q) {
+          return kw.text.toLowerCase().includes(q) || kw.category.toLowerCase().includes(q);
+        }
+
+        return true;
+      });
+
+      const selectedCount = this.keywordState.keywords.filter(kw => kw.visible && kw.selected).length;
+
+      // Update Stats Container
+      if (statsContainer) {
+        statsContainer.innerHTML = `
+          <span style="color: var(--accent-blue); font-weight: 700; margin-right: 0.35rem; font-size: 1rem;">${selectedCount}</span> keywords selected
+          <span style="color: var(--text-muted); margin: 0 0.5rem;">|</span>
+          <span style="color: var(--text-secondary); font-weight: 700;">${filtered.length}</span> visible of <span style="color: var(--text-muted);">${this.keywordState.keywords.filter(k => k.visible).length}</span> total
+        `;
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="padding: 2.5rem 1rem; text-align: center; border: 1px dashed var(--border-subtle); border-radius: 8px; color: var(--text-muted); font-size: 0.85rem; background: var(--bg-subtle);">
+            No keywords match the active filter or search query. Try adding a custom keyword or resetting the filter!
+          </div>
+        `;
+        return;
+      }
+
+      // Render them as a beautiful cluster flow of tags.
+      container.innerHTML = `
+        <div style="display: flex; flex-wrap: wrap; gap: 0.65rem;">
+          ${filtered.map(kw => {
+            const isSel = kw.selected;
+            const extraInfo = kw.extra ? `title="${kw.extra}"` : `title="Category: ${kw.category}"`;
+            let catColor = 'var(--text-muted)';
+            if (kw.category === 'Primary') catColor = '#ef4444';
+            else if (kw.category === 'Related') catColor = '#3b82f6';
+            else if (kw.category === 'Long-Tail') catColor = '#10b981';
+            else if (kw.category === 'Questions') catColor = '#8b5cf6';
+            else if (kw.category === 'Content Opportunities') catColor = '#f59e0b';
+            else if (kw.category === 'Trend Opportunities') catColor = '#ec4899';
+
+            return `
+              <div class="kw-tag-chip ${isSel ? 'selected' : ''}" data-kw-id="${kw.id}" ${extraInfo} style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.85rem; border-radius: 30px; border: 1px solid ${isSel ? 'var(--accent-blue)' : 'var(--border-strong)'}; background: ${isSel ? 'rgba(59, 130, 246, 0.08)' : 'var(--bg-subtle)'}; cursor: pointer; transition: all 0.15s ease; user-select: none; box-shadow: ${isSel ? '0 0 0 1px var(--accent-blue)' : 'none'};">
+                <!-- Category Color dot -->
+                <span style="width: 7px; height: 7px; border-radius: 50%; background-color: ${catColor}; flex-shrink: 0;" title="Type: ${kw.category}"></span>
+                
+                <!-- Keyword Text -->
+                <span style="font-size: 0.85rem; font-weight: ${isSel ? '700' : '500'}; color: ${isSel ? 'var(--accent-blue)' : 'var(--text-primary)'}; font-family: var(--font-mono); white-space: nowrap;">${kw.text}</span>
+                
+                <!-- Remove Button -->
+                <button type="button" class="kw-remove-btn" data-kw-remove-id="${kw.id}" style="border: none; background: transparent; padding: 0; color: var(--text-muted); font-size: 0.72rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; transition: background-color 0.15s ease;" title="Remove keyword">✕</button>
+              </div>
+            `;
+          }).join('')}
         </div>
       `;
     }
@@ -1542,6 +1734,8 @@
     }
 
     bindResultsInteractivity(container, data) {
+      const toolId = Number(data.toolId || this.activeTool.id);
+
       container.querySelectorAll('[data-copy-text]').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -1563,14 +1757,198 @@
         this.exportMarkdown(data);
       });
 
-      container.querySelector('#btn-copy-all-kw')?.addEventListener('click', () => {
-        const primary = data.keywords?.primary || [];
-        const secondary = data.keywords?.secondary || [];
-        const longTail = data.keywords?.longTail || [];
-        const text = [...primary, ...secondary, ...longTail].join(', ');
-        navigator.clipboard.writeText(text);
-        alert('Copied all keywords to clipboard!');
-      });
+      if (toolId === 2) {
+        // Render Chips initially
+        this.renderKeywordChips();
+
+        // 1. Search Filter Input Event
+        const filterInput = container.querySelector('#kw-search-filter');
+        if (filterInput) {
+          filterInput.addEventListener('input', (e) => {
+            this.keywordState.filterQuery = e.target.value;
+            this.renderKeywordChips();
+          });
+        }
+
+        // 2. Add Custom Keyword Button and Input
+        const addBtn = container.querySelector('#btn-add-custom-kw');
+        const addInput = container.querySelector('#kw-add-input');
+        if (addBtn && addInput) {
+          const handleAdd = () => {
+            const val = addInput.value.trim();
+            if (val) {
+              const newId = `kw-${Date.now()}`;
+              this.keywordState.keywords.push({
+                id: newId,
+                text: val,
+                category: 'Primary',
+                selected: true,
+                visible: true
+              });
+              addInput.value = '';
+              this.renderKeywordChips();
+            }
+          };
+          addBtn.addEventListener('click', handleAdd);
+          addInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleAdd();
+          });
+        }
+
+        // 3. Category Tab Clicking
+        container.querySelectorAll('.kw-category-tab').forEach(tab => {
+          tab.addEventListener('click', (e) => {
+            container.querySelectorAll('.kw-category-tab').forEach(t => {
+              t.classList.remove('active');
+              t.style.background = 'var(--bg-subtle)';
+              t.style.color = 'var(--text-secondary)';
+              t.style.borderColor = 'var(--border-subtle)';
+            });
+
+            tab.classList.add('active');
+            tab.style.background = 'var(--accent-blue)';
+            tab.style.color = '#ffffff';
+            tab.style.borderColor = 'var(--accent-blue)';
+
+            const cat = tab.getAttribute('data-kw-cat');
+            this.keywordState.activeFilterCategory = cat;
+            this.renderKeywordChips();
+          });
+        });
+
+        // 4. Chip Click (Toggle Select) & Remove Click
+        const chipsContainer = container.querySelector('#kw-list-container');
+        if (chipsContainer) {
+          chipsContainer.addEventListener('click', (e) => {
+            const removeBtn = e.target.closest('.kw-remove-btn');
+            if (removeBtn) {
+              e.stopPropagation();
+              const kwId = removeBtn.getAttribute('data-kw-remove-id');
+              const found = this.keywordState.keywords.find(kw => kw.id === kwId);
+              if (found) {
+                found.visible = false;
+                this.renderKeywordChips();
+              }
+              return;
+            }
+
+            const chip = e.target.closest('.kw-tag-chip');
+            if (chip) {
+              const kwId = chip.getAttribute('data-kw-id');
+              const found = this.keywordState.keywords.find(kw => kw.id === kwId);
+              if (found) {
+                found.selected = !found.selected;
+                this.renderKeywordChips();
+              }
+            }
+          });
+        }
+
+        // 5. Copy Selected Action
+        const copySelectedBtn = container.querySelector('#btn-kw-copy-selected');
+        if (copySelectedBtn) {
+          copySelectedBtn.addEventListener('click', () => {
+            const selectedText = this.keywordState.keywords
+              .filter(kw => kw.visible && kw.selected)
+              .map(kw => kw.text)
+              .join('\n');
+            
+            if (!selectedText) {
+              alert('Please select at least one keyword tag first.');
+              return;
+            }
+
+            navigator.clipboard.writeText(selectedText);
+            const origText = copySelectedBtn.textContent;
+            copySelectedBtn.textContent = '✓ Copied successfully!';
+            copySelectedBtn.style.background = 'var(--success-text)';
+            copySelectedBtn.style.color = '#ffffff';
+            setTimeout(() => {
+              copySelectedBtn.textContent = origText;
+              copySelectedBtn.style.background = 'var(--bg-surface)';
+              copySelectedBtn.style.color = 'var(--text-primary)';
+            }, 1800);
+          });
+        }
+
+        // 6. Copy All Action
+        const copyAllBtn = container.querySelector('#btn-kw-copy-all');
+        if (copyAllBtn) {
+          copyAllBtn.addEventListener('click', () => {
+            const visibleText = this.keywordState.keywords
+              .filter(kw => kw.visible)
+              .map(kw => kw.text)
+              .join('\n');
+
+            if (!visibleText) {
+              alert('No keywords available to copy.');
+              return;
+            }
+
+            navigator.clipboard.writeText(visibleText);
+            const origText = copyAllBtn.textContent;
+            copyAllBtn.textContent = '✓ Copied successfully!';
+            copyAllBtn.style.background = 'var(--success-text)';
+            copyAllBtn.style.color = '#ffffff';
+            setTimeout(() => {
+              copyAllBtn.textContent = origText;
+              copyAllBtn.style.background = 'var(--bg-surface)';
+              copyAllBtn.style.color = 'var(--text-primary)';
+            }, 1800);
+          });
+        }
+
+        // 7. Export CSV Action
+        const exportCsvBtn = container.querySelector('#btn-kw-export-csv');
+        if (exportCsvBtn) {
+          exportCsvBtn.addEventListener('click', () => {
+            const visibleKeywords = this.keywordState.keywords.filter(kw => kw.visible);
+            if (visibleKeywords.length === 0) {
+              alert('No keywords visible to export.');
+              return;
+            }
+
+            let csvContent = "Category,Keyword\n";
+            visibleKeywords.forEach(kw => {
+              const escapedText = kw.text.replace(/"/g, '""');
+              const escapedCat = kw.category.replace(/"/g, '""');
+              csvContent += `"${escapedCat}","${escapedText}"\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `keyword-research-${this.keywordState.topic.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+          });
+        }
+
+        // 8. Reset List Action
+        const resetBtn = container.querySelector('#btn-kw-reset-list');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', () => {
+            this.keywordState.keywords.forEach(kw => {
+              kw.visible = true;
+              kw.selected = false;
+            });
+            this.renderKeywordChips();
+          });
+        }
+      } else {
+        container.querySelector('#btn-copy-all-kw')?.addEventListener('click', () => {
+          const primary = data.keywords?.primary || [];
+          const secondary = data.keywords?.secondary || [];
+          const longTail = data.keywords?.longTail || [];
+          const text = [...primary, ...secondary, ...longTail].join(', ');
+          navigator.clipboard.writeText(text);
+          alert('Copied all keywords to clipboard!');
+        });
+      }
     }
 
     exportMarkdown(data) {

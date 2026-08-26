@@ -898,6 +898,121 @@ Your output must follow this exact schema:
               "keywordOpportunities"
             ]
           };
+        } else if (numericToolId === 2) {
+          systemPrompt = `You are an expert keyword research analyst for YouTube and video platforms.
+Generate a structured list of highly relevant, natural keyword opportunities for the entered seed topic.
+Follow these rules strictly:
+1. Do NOT invent or estimate numerical metrics like search volume, CPC, or competition scores.
+2. Ensure every keyword is directly related to the user's topic, natural, search-oriented, and appropriate for the target language/region.
+3. Remove obvious duplicates.`;
+
+          userPrompt = `Perform keyword research for the seed topic: "${resolvedTopic}"
+Platform: ${activePlatforms.join(', ')}
+Country: ${geoCountry}
+Language: ${targetLang}
+Category: ${cleanCategory}
+
+Your output must follow this exact schema:
+{
+  "researchSummary": {
+    "topic": string,
+    "platforms": string[],
+    "country": string,
+    "language": string,
+    "totalCount": number,
+    "summary": string (A 2-3 sentence expert overview of search patterns, intent density, and opportunities for this topic)
+  },
+  "primaryKeywords": string[], (5 broad, high-relevance terms directly describing the seed topic)
+  "relatedKeywords": string[], (5 closely related variations)
+  "longTailKeywords": string[], (5 specific multi-word phrases)
+  "questionKeywords": string[], (5 search phrases starting with questions like how, what, why, when, where, which)
+  "searchIntent": {
+    "Informational": string[], (2-3 informational keywords)
+    "Tutorial / How-To": string[], (2-3 tutorial / step-by-step keywords)
+    "Commercial / Discovery": string[], (2-3 discovery / review / product keywords)
+    "Entertainment / Trend-oriented": string[] (2-3 trend or entertainment keywords)
+  },
+  "contentOpportunities": [
+    {
+      "angle": string, (e.g., "Tutorial", "Comparison", "Beginner guide", "Problem/solution", "List format", "Shorts angle", "Current-event/topic angle")
+      "keyword": string, (the specific keyword phrase matching the angle)
+      "description": string (explanation of how to build a video around this keyword)
+    }
+  ], (Provide 5-7 clear content opportunities)
+  "trendOpportunities": [
+    {
+      "keyword": string,
+      "label": "AI Suggested Opportunity" or "Search-Relevance Suggestion",
+      "explanation": string
+    }
+  ] (Provide 2 key trend opportunities)
+}`;
+
+          responseSchema = {
+            type: Type.OBJECT,
+            properties: {
+              researchSummary: {
+                type: Type.OBJECT,
+                properties: {
+                  topic: { type: Type.STRING },
+                  platforms: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  country: { type: Type.STRING },
+                  language: { type: Type.STRING },
+                  totalCount: { type: Type.INTEGER },
+                  summary: { type: Type.STRING }
+                },
+                required: ["topic", "platforms", "country", "language", "totalCount", "summary"]
+              },
+              primaryKeywords: { type: Type.ARRAY, items: { type: Type.STRING } },
+              relatedKeywords: { type: Type.ARRAY, items: { type: Type.STRING } },
+              longTailKeywords: { type: Type.ARRAY, items: { type: Type.STRING } },
+              questionKeywords: { type: Type.ARRAY, items: { type: Type.STRING } },
+              searchIntent: {
+                type: Type.OBJECT,
+                properties: {
+                  "Informational": { type: Type.ARRAY, items: { type: Type.STRING } },
+                  "Tutorial / How-To": { type: Type.ARRAY, items: { type: Type.STRING } },
+                  "Commercial / Discovery": { type: Type.ARRAY, items: { type: Type.STRING } },
+                  "Entertainment / Trend-oriented": { type: Type.ARRAY, items: { type: Type.STRING } }
+                },
+                required: ["Informational", "Tutorial / How-To", "Commercial / Discovery", "Entertainment / Trend-oriented"]
+              },
+              contentOpportunities: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    angle: { type: Type.STRING },
+                    keyword: { type: Type.STRING },
+                    description: { type: Type.STRING }
+                  },
+                  required: ["angle", "keyword", "description"]
+                }
+              },
+              trendOpportunities: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    keyword: { type: Type.STRING },
+                    label: { type: Type.STRING },
+                    explanation: { type: Type.STRING }
+                  },
+                  required: ["keyword", "label", "explanation"]
+                }
+              }
+            },
+            required: [
+              "researchSummary",
+              "primaryKeywords",
+              "relatedKeywords",
+              "longTailKeywords",
+              "questionKeywords",
+              "searchIntent",
+              "contentOpportunities",
+              "trendOpportunities"
+            ]
+          };
         } else {
           systemPrompt = `You are the specialized AI research engine for Multi Tube Views Tool #${numericToolId}: "${toolName}" (${category}). Return concise, actionable JSON strictly for this tool with zero metric fabrication or fake engagement metrics.`;
           userPrompt = `Generate the exact data structure for Tool #${numericToolId} "${toolName}".
