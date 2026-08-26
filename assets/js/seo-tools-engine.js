@@ -34,7 +34,13 @@
       actionVerb: 'Analyze Video SEO',
       desc: 'Complete audit of video title, description, tags, search intent, and platform ranking factors.',
       defaultTopic: 'How to Build a Custom Mechanical Keyboard from Scratch',
-      placeholder: 'Enter video URL or working title to audit complete SEO metadata...'
+      placeholder: 'Enter video URL or working title to audit complete SEO metadata...',
+      howToUse: [
+        'Enter a public video URL (such as YouTube) or your proposed video working title in the input box.',
+        'Select optional target platforms and language preferences in the settings drawer.',
+        'Click "Analyze Video SEO" to run the automated optimization scanner.'
+      ],
+      expectedResult: 'A comprehensive, multi-point audit report with an SEO score (0-100), detailed issues, suggested high-performing tags, and optimized title suggestions.'
     },
     {
       id: 2,
@@ -45,7 +51,13 @@
       actionVerb: 'Research Keywords',
       desc: 'Discover high-intent primary search terms, long-tail variations, question queries, and topic clusters.',
       defaultTopic: 'Minimalist Desk Setup',
-      placeholder: 'Enter seed keyword or topic to research search intent...'
+      placeholder: 'Enter seed keyword or topic to research search intent...',
+      howToUse: [
+        'Input your seed keyword or general topic of interest in the input field.',
+        'Select your target geographic country and language from the settings.',
+        'Click "Research Keywords" to trigger semantic cluster mapping.'
+      ],
+      expectedResult: 'A structured mapping of search intent containing primary keywords, low-competition long-tail keywords, actual user-asked questions, and secondary clusters.'
     },
     {
       id: 3,
@@ -56,7 +68,13 @@
       actionVerb: 'Analyze & Generate Titles',
       desc: 'Evaluate length, mobile truncation, clarity, and generate proven formula-driven title variations.',
       defaultTopic: 'I Tested 5 Budget Microphones Under $50',
-      placeholder: 'Enter your working title to analyze or topic to generate formulas...'
+      placeholder: 'Enter your working title to analyze or topic to generate formulas...',
+      howToUse: [
+        'Type your draft video title or central topic into the workspace.',
+        'Choose the category and target audience style to guide the style rules.',
+        'Click "Analyze & Generate Titles" to run the algorithmic headline optimizer.'
+      ],
+      expectedResult: 'An in-depth display of title readability, character length, mobile truncation warning tags, and 5 distinct formula-based title variations (Question, Buzzword, Lists, benefit-driven).'
     },
     {
       id: 4,
@@ -67,7 +85,13 @@
       actionVerb: 'Generate Tags & Hashtags',
       desc: 'Generate platform-compliant broad, niche, and community hashtags plus comma-separated tags.',
       defaultTopic: 'Morning Mobility & Stretching Routine',
-      placeholder: 'Enter content topic or niche for platform-optimized tags...'
+      placeholder: 'Enter content topic or niche for platform-optimized tags...',
+      howToUse: [
+        'Provide your video\'s core subject or niche keywords.',
+        'Set target platforms (such as YouTube, TikTok, or Instagram) in the options.',
+        'Click "Generate Tags & Hashtags" to compile optimized metadata.'
+      ],
+      expectedResult: 'A balanced bundle of platform-ready tags and hashtags segmented into broad-reach, niche-specific, and community categories, with instant copy options.'
     },
     {
       id: 5,
@@ -78,7 +102,13 @@
       actionVerb: 'Generate Hooks & Intros',
       desc: 'Create high-retention 0-3 second verbal and visual hooks across 5 distinct narrative styles.',
       defaultTopic: 'Why Most Software Developers Burn Out',
-      placeholder: 'Enter video topic, script concept, or core problem to solve...'
+      placeholder: 'Enter video topic, script concept, or core problem to solve...',
+      howToUse: [
+        'Input your primary video topic, target problem, or core concept.',
+        'Specify your preferred presentation tone (e.g. Educational, Entertaining).',
+        'Click "Generate Hooks & Intros" to construct retention-focused scripts.'
+      ],
+      expectedResult: 'Five highly engaging intro hook variations matching distinct psychology-backed templates (Fear of Missing Out, Story, Shocking Stat, Question, and Bold Claim) complete with visual setup suggestions.'
     },
     {
       id: 6,
@@ -89,7 +119,13 @@
       actionVerb: 'Generate Description & Chapters',
       desc: 'Build keyword-rich structured video descriptions complete with timestamps, chapters, and CTAs.',
       defaultTopic: 'Full Stack TypeScript Web App Tutorial',
-      placeholder: 'Enter video topic, main milestones, or talking points...'
+      placeholder: 'Enter video topic, main milestones, or talking points...',
+      howToUse: [
+        'Enter your main video talking points, milestones, or raw transcripts.',
+        'Add optional resource links or call-to-actions to include in the footer.',
+        'Click "Generate Description & Chapters" to compose search-optimized copy.'
+      ],
+      expectedResult: 'A perfectly structured, search-indexed description body with standard format markdown, custom calls-to-action, social links, and bounded chronological timestamps.'
     },
     {
       id: 7,
@@ -100,7 +136,13 @@
       actionVerb: 'Explore Topics & Ideas',
       desc: 'Discover audience questions, sub-topics, content angles, and a structured 4-week publishing plan.',
       defaultTopic: 'Home Espresso & Coffee Brewing',
-      placeholder: 'Enter broad niche or seed subject to explore content angles...'
+      placeholder: 'Enter broad niche or seed subject to explore content angles...',
+      howToUse: [
+        'Type a broad niche, interest category, or search subject.',
+        'Define your target audience level (e.g., Beginners, Professionals) to align difficulty.',
+        'Click "Explore Topics & Ideas" to map your content calendar.'
+      ],
+      expectedResult: 'A 4-week structured content strategy calendar including weekly specific angles, target keywords, production complexity notes, and audience questions to answer.'
     },
     {
       id: 8,
@@ -111,7 +153,13 @@
       actionVerb: 'Find Competitor Gaps',
       desc: 'Identify what competing videos miss, audience frustrations, and strategic differentiation angles.',
       defaultTopic: 'Financial Independence & Early Retirement (FIRE)',
-      placeholder: 'Enter niche and competitor video topics to uncover unserved demand...'
+      placeholder: 'Enter niche and competitor video topics to uncover unserved demand...',
+      howToUse: [
+        'Enter your target topic alongside names or themes of popular competing channels.',
+        'Specify your target audience demographic to prioritize unserved needs.',
+        'Click "Find Competitor Gaps" to analyze marketplace saturation.'
+      ],
+      expectedResult: 'A strategic differentiation guide identifying standard competitor blindspots, audience complaint clusters, and specific unserved content angles you can capture.'
     },
     {
       id: 9,
@@ -122,7 +170,13 @@
       actionVerb: 'Build Repurposing Kit',
       desc: 'Transform one core topic into tailored native formats for YouTube, Instagram, TikTok, LinkedIn, and X.',
       defaultTopic: '10 Lessons from Launching a SaaS Product in 30 Days',
-      placeholder: 'Enter long-form topic or article summary to format across channels...'
+      placeholder: 'Enter long-form topic or article summary to format across channels...',
+      howToUse: [
+        'Paste a summary of your long-form article, script outline, or core lesson.',
+        'Select all target platforms where you plan to repurpose your content.',
+        'Click "Build Repurposing Kit" to initiate cross-channel mapping.'
+      ],
+      expectedResult: 'Tailored native copy modules for selected social channels—including short-form vertical scripts, a visual thread for X, a professional LinkedIn post, and community-optimized descriptions.'
     },
     {
       id: 10,
@@ -133,7 +187,13 @@
       actionVerb: 'Generate Pre-Upload Checklist',
       desc: 'Interactive step-by-step verification covering packaging, metadata, technical QA, and launch distribution.',
       defaultTopic: 'Comprehensive Video Editing Workflow Guide',
-      placeholder: 'Enter video title or topic to customize verification checkpoints...'
+      placeholder: 'Enter video title or topic to customize verification checkpoints...',
+      howToUse: [
+        'Enter your finalized video title or central topic to personalize the checklist.',
+        'Choose the categories that correspond to your distribution workflow.',
+        'Click "Generate Pre-Upload Checklist" to compile your custom QA checklist.'
+      ],
+      expectedResult: 'An interactive checklist with specific verification items under packaging (thumbnail, title), technical checks (closed captions, audio level), and launch distribution steps.'
     }
   ];
 
@@ -157,6 +217,7 @@
       this.renderWorkspaceTabs();
       this.bindEvents();
       this.restoreActiveWorkspace();
+      this.togglePageView();
     }
 
     checkUrlForDeepLink() {
@@ -183,8 +244,163 @@
         }
 
         if (tool) {
-          this.openToolInWorkspace(tool);
+          this.openToolInWorkspace(tool, true);
         }
+      }
+    }
+
+    togglePageView() {
+      const runner = document.getElementById('active-runner-modal');
+      const heroSection = document.querySelector('.seo-tools-hero');
+      const toolbarSection = document.querySelector('.seo-toolbar');
+      const tabsContainer = document.getElementById('workspace-tabs-container');
+      const catalogSection = document.querySelector('.tools-grid-section');
+      const readingContentSection = document.querySelector('.reading-content');
+      const breadcrumbNav = document.querySelector('.breadcrumb-nav');
+
+      if (this.activeToolId !== null) {
+        if (runner) {
+          runner.classList.add('open');
+          runner.style.display = 'block';
+        }
+        
+        if (heroSection) heroSection.style.display = 'none';
+        if (toolbarSection) toolbarSection.style.display = 'none';
+        if (tabsContainer) tabsContainer.style.display = 'none';
+        if (catalogSection) catalogSection.style.display = 'none';
+        if (readingContentSection) readingContentSection.style.display = 'none';
+
+        if (breadcrumbNav) {
+          const tool = this.activeTool;
+          if (tool) {
+            breadcrumbNav.innerHTML = `
+              <a href="index.html">Home</a>
+              <span class="breadcrumb-separator">/</span>
+              <a href="seo-tools.html" id="breadcrumb-tools-link">Social Media Research & SEO Tools</a>
+              <span class="breadcrumb-separator">/</span>
+              <span style="color: var(--text-primary); font-weight: 600;">Tool #${tool.id < 10 ? '0' + tool.id : tool.id}: ${tool.name}</span>
+            `;
+            document.getElementById('breadcrumb-tools-link')?.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.goBackToCatalog();
+            });
+          }
+        }
+
+        this.renderToolInstructions();
+        this.renderToolFooterNav();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        if (runner) {
+          runner.classList.remove('open');
+          runner.style.display = 'none';
+        }
+        
+        if (heroSection) heroSection.style.display = 'block';
+        if (toolbarSection) toolbarSection.style.display = 'flex';
+        if (tabsContainer) tabsContainer.style.display = 'flex';
+        if (catalogSection) catalogSection.style.display = 'block';
+        if (readingContentSection) readingContentSection.style.display = 'block';
+
+        if (breadcrumbNav) {
+          breadcrumbNav.innerHTML = `
+            <a href="index.html">Home</a>
+            <span class="breadcrumb-separator">/</span>
+            <span>Social Media Research & SEO Tools</span>
+          `;
+        }
+      }
+    }
+
+    renderToolInstructions() {
+      const container = document.getElementById('tool-instructions-area');
+      if (!container) return;
+
+      const tool = this.activeTool;
+      if (!tool) {
+        container.innerHTML = '';
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="tool-instructions-card" style="margin: 1.5rem 0; padding: 1.25rem; background: var(--bg-subtle); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+            <div>
+              <h3 style="font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin: 0 0 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--accent-blue);"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                How to Use
+              </h3>
+              <ol style="margin: 0; padding-left: 1.2rem; font-size: 0.84rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.4rem; line-height: 1.45;">
+                ${tool.howToUse.map(step => `<li>${step}</li>`).join('')}
+              </ol>
+            </div>
+            
+            <div class="expected-result-column" style="border-left: 1px solid var(--border-subtle); padding-left: 1.5rem;">
+              <h3 style="font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin: 0 0 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--success-text);"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Expected Result
+              </h3>
+              <p style="margin: 0; font-size: 0.84rem; color: var(--text-secondary); line-height: 1.45;">
+                ${tool.expectedResult}
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    renderToolFooterNav() {
+      const container = document.getElementById('tool-footer-nav');
+      if (!container) return;
+
+      const tool = this.activeTool;
+      if (!tool) {
+        container.innerHTML = '';
+        return;
+      }
+
+      let prevId = tool.id - 1;
+      if (prevId < 1) prevId = 10;
+      const prevTool = TOOLS_CATALOG.find(t => t.id === prevId);
+
+      let nextId = tool.id + 1;
+      if (nextId > 10) nextId = 1;
+      const nextTool = TOOLS_CATALOG.find(t => t.id === nextId);
+
+      container.innerHTML = `
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-footer-prev" style="display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; cursor: pointer;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          #${prevTool.id < 10 ? '0' + prevTool.id : prevTool.id} ${prevTool.name}
+        </button>
+        
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-footer-next" style="display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; cursor: pointer;">
+          #${nextTool.id < 10 ? '0' + nextTool.id : nextTool.id} ${nextTool.name}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      `;
+
+      document.getElementById('btn-footer-prev')?.addEventListener('click', () => {
+        this.navigateToTool(prevId);
+      });
+      document.getElementById('btn-footer-next')?.addEventListener('click', () => {
+        this.navigateToTool(nextId);
+      });
+    }
+
+    goBackToCatalog() {
+      this.activeToolId = null;
+      const url = new URL(window.location);
+      url.searchParams.delete('tool');
+      url.searchParams.delete('id');
+      window.history.pushState({ catalog: true }, '', url);
+      this.togglePageView();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    navigateToTool(toolId) {
+      const tool = TOOLS_CATALOG.find(t => t.id === toolId);
+      if (tool) {
+        this.openToolInWorkspace(tool, false);
       }
     }
 
@@ -286,7 +502,7 @@
       }).join('');
     }
 
-    openToolInWorkspace(tool) {
+    openToolInWorkspace(tool, skipPushState = false) {
       if (!tool) return;
 
       if (!this.openTabs.includes(tool.id)) {
@@ -298,16 +514,13 @@
       this.renderWorkspaceTabs();
       this.restoreActiveWorkspace();
 
-      const url = new URL(window.location);
-      url.searchParams.set('tool', tool.slug || tool.id);
-      window.history.replaceState({}, '', url);
-
-      const runner = document.getElementById('active-runner-modal');
-      if (runner) {
-        runner.classList.add('open');
-        runner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (!skipPushState) {
+        const url = new URL(window.location);
+        url.searchParams.set('tool', tool.slug || tool.id);
+        window.history.pushState({ toolId: tool.id }, '', url);
       }
 
+      this.togglePageView();
       this.renderToolsGrid();
     }
 
@@ -317,13 +530,14 @@
     
       if (this.openTabs.length === 0) {
         this.activeToolId = null;
-        document.getElementById('active-runner-modal')?.classList.remove('open');
+        this.togglePageView();
       } else {
         if (this.activeToolId === toolId) {
           this.activeToolId = this.openTabs[this.openTabs.length - 1];
         }
         this.renderWorkspaceTabs();
         this.restoreActiveWorkspace();
+        this.togglePageView();
       }
       this.renderToolsGrid();
     }
@@ -1505,7 +1719,7 @@ ${JSON.stringify(data, null, 2)}
         if (card) {
           const id = parseInt(card.getAttribute('data-tool-id'), 10);
           const tool = TOOLS_CATALOG.find(t => t.id === id);
-          if (tool) this.openToolInWorkspace(tool);
+          if (tool) this.openToolInWorkspace(tool, false);
         }
       });
 
@@ -1522,7 +1736,7 @@ ${JSON.stringify(data, null, 2)}
         if (tab) {
           const toolId = parseInt(tab.getAttribute('data-tab-tool-id'), 10);
           const tool = TOOLS_CATALOG.find(t => t.id === toolId);
-          if (tool) this.openToolInWorkspace(tool);
+          if (tool) this.openToolInWorkspace(tool, false);
         }
       });
 
@@ -1570,12 +1784,31 @@ ${JSON.stringify(data, null, 2)}
         this.runActiveTool();
       });
 
-      document.getElementById('btn-close-runner')?.addEventListener('click', () => {
-        if (singleInput) singleInput.value = '';
-        this.detectInputType('');
-        const results = document.getElementById('results-workspace');
-        if (results) results.innerHTML = '';
-        document.getElementById('active-runner-modal')?.classList.remove('open');
+      document.getElementById('btn-back-to-catalog')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.goBackToCatalog();
+      });
+
+      document.getElementById('btn-prev-tool')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (this.activeToolId === null) return;
+        let prevId = this.activeToolId - 1;
+        if (prevId < 1) prevId = 10;
+        this.navigateToTool(prevId);
+      });
+
+      document.getElementById('btn-next-tool')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (this.activeToolId === null) return;
+        let nextId = this.activeToolId + 1;
+        if (nextId > 10) nextId = 1;
+        this.navigateToTool(nextId);
+      });
+
+      window.addEventListener('popstate', () => {
+        this.activeToolId = null;
+        this.checkUrlForDeepLink();
+        this.togglePageView();
       });
     }
   }

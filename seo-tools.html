@@ -115,20 +115,34 @@
         <button type="button" class="btn-new-tool-tab" id="btn-add-tool-tab">+ Open Tool Workspace</button>
       </div>
 
-      <!-- Active Tool Runner Workspace Panel - Single Input Workspace -->
+      <!-- Active Tool Runner Workspace Panel - Dedicated Tool Page -->
       <section class="active-runner-modal" id="active-runner-modal">
-        <div class="runner-header">
-          <div class="runner-header-info">
-            <h2>
-              <span id="active-tool-id" style="font-family: var(--font-mono); color: #003366; font-size: 0.75rem; font-weight: 700; background: rgba(0,51,102,0.08); padding: 0.15rem 0.4rem; border-radius: 4px;">#01</span>
-              <span id="active-tool-title">Video SEO Analyzer</span>
-              <span class="tool-category-badge" id="active-tool-category">SEO</span>
-            </h2>
-            <p id="active-tool-desc">Deep audit of video title, description, tags, and search intent alignment against target discovery algorithms.</p>
+        <div class="runner-header" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; background: var(--bg-subtle);">
+          <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
+            <button type="button" id="btn-back-to-catalog" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; cursor: pointer;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              Back to Tools
+            </button>
+            
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <button type="button" class="btn btn-subtle btn-sm" id="btn-prev-tool" title="Previous Tool" style="display: inline-flex; align-items: center; gap: 0.25rem; cursor: pointer;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                Prev
+              </button>
+              <button type="button" class="btn btn-subtle btn-sm" id="btn-next-tool" title="Next Tool" style="display: inline-flex; align-items: center; gap: 0.25rem; cursor: pointer;">
+                Next
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
           </div>
-          <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <a href="#tools-catalog-grid" class="btn btn-subtle btn-sm" id="btn-browse-tools">Browse All 10 Tools ↓</a>
-            <button type="button" class="btn btn-subtle btn-sm" id="btn-close-runner" title="Reset workspace">✕ Reset</button>
+          
+          <div class="runner-header-info" style="width: 100%;">
+            <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.4rem;">
+              <span id="active-tool-id" style="font-family: var(--font-mono); color: var(--accent-blue); font-size: 0.8rem; font-weight: 700; background: var(--accent-subtle); padding: 0.15rem 0.5rem; border-radius: 6px; border: 1px solid var(--accent-border);">#01</span>
+              <span class="tool-category-badge" id="active-tool-category">SEO</span>
+            </div>
+            <h1 id="active-tool-title" style="font-size: 1.75rem; font-weight: 700; color: var(--text-primary); margin: 0 0 0.5rem; letter-spacing: -0.02em;">Video SEO Analyzer</h1>
+            <p id="active-tool-desc" style="font-size: 0.95rem; color: var(--text-secondary); margin: 0; line-height: 1.5; max-width: 800px;">Deep audit of video title, description, tags, and search intent alignment against target discovery algorithms.</p>
           </div>
         </div>
 
@@ -250,11 +264,16 @@
             </details>
           </div>
 
+          <!-- Dynamic Instructions Area for Dedicated Tool Page -->
+          <div id="tool-instructions-area"></div>
+
           <!-- Results Workspace Output (Appears directly below single input) -->
           <div id="results-workspace">
             <!-- Populated upon execution -->
           </div>
 
+          <!-- Tool Footer Navigation -->
+          <div id="tool-footer-nav" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;"></div>
         </div>
       </section>
 
