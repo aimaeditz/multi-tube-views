@@ -1007,6 +1007,283 @@ Your output must follow this exact schema:
               "trendOpportunities"
             ]
           };
+        } else if (numericToolId === 3) {
+          systemPrompt = `You are an expert scriptwriter specializing in high-retention video intros and opening hooks for video platforms.
+Generate 5 distinct, high-impact hooks and visual cues tailored to the specified topic, tone, and audience.
+Follow these rules strictly:
+1. Provide 5 varied hook styles (Direct Problem, Contrarian/Myth-Busting, Curiosity Gap, Story/Transformation, Bold Claim).
+2. For each hook, include a spoken script (1-2 sentences) and a specific visual action cue.
+3. Include a retention framework with 3-second hook, visual pattern interrupt, 15-second intro script, retention cues, and drop-off prevention tips.
+4. Do NOT invent fake metrics or fake view numbers.`;
+
+          userPrompt = `Generate high-retention video hooks and intro script for topic: "${resolvedTopic}"
+Tone: ${tone}
+Audience: ${audience}
+Platforms: ${activePlatforms.join(', ')}
+Language: ${targetLang}
+Category: ${cleanCategory}
+
+Your output must follow this exact schema:
+{
+  "hooks": [
+    {
+      "style": string, (e.g. "Direct Problem / Pain Point")
+      "spokenScript": string, (The exact first 1-2 sentences to speak)
+      "visualActionCue": string (Visual direction or graphics note for the creator)
+    }
+  ], (5 distinct hooks)
+  "retentionFramework": {
+    "spokenHook3Seconds": string,
+    "visualPatternInterrupt": string,
+    "introScript15Seconds": string,
+    "retentionCues": string[],
+    "dropOffPreventionChecklist": string[]
+  }
+}`;
+
+          responseSchema = {
+            type: Type.OBJECT,
+            properties: {
+              hooks: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    style: { type: Type.STRING },
+                    spokenScript: { type: Type.STRING },
+                    visualActionCue: { type: Type.STRING }
+                  },
+                  required: ["style", "spokenScript", "visualActionCue"]
+                }
+              },
+              retentionFramework: {
+                type: Type.OBJECT,
+                properties: {
+                  spokenHook3Seconds: { type: Type.STRING },
+                  visualPatternInterrupt: { type: Type.STRING },
+                  introScript15Seconds: { type: Type.STRING },
+                  retentionCues: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  dropOffPreventionChecklist: { type: Type.ARRAY, items: { type: Type.STRING } }
+                },
+                required: ["spokenHook3Seconds", "visualPatternInterrupt", "introScript15Seconds", "retentionCues", "dropOffPreventionChecklist"]
+              }
+            },
+            required: ["hooks", "retentionFramework"]
+          };
+        } else if (numericToolId === 4) {
+          systemPrompt = `You are a video SEO metadata specialist.
+Generate a professional, search-optimized video description and timestamped chapters for the given topic.
+Follow these rules strictly:
+1. Front-load core keywords in the summary paragraph.
+2. Provide realistic timestamped chapters starting at 0:00.
+3. Include formatted resources and hashtags at the bottom.
+4. Do NOT invent fake views or metrics.`;
+
+          userPrompt = `Generate a video description and chapter timestamps for: "${resolvedTopic}"
+Platforms: ${activePlatforms.join(', ')}
+Audience: ${audience}
+Category: ${cleanCategory}
+Language: ${targetLang}
+
+Your output must follow this exact schema:
+{
+  "descriptionText": string, (The full ready-to-copy description formatted with timestamps and hashtags)
+  "chapters": [
+    { "time": string, "title": string }
+  ], (5-7 timestamp chapters starting at 0:00)
+  "descriptionKit": {
+    "frontLoadedSummary": string,
+    "timestampedChapters": [ { "time": string, "title": string } ],
+    "bulletPoints": string[],
+    "fullFormattedDescription": string
+  }
+}`;
+
+          responseSchema = {
+            type: Type.OBJECT,
+            properties: {
+              descriptionText: { type: Type.STRING },
+              chapters: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    time: { type: Type.STRING },
+                    title: { type: Type.STRING }
+                  },
+                  required: ["time", "title"]
+                }
+              },
+              descriptionKit: {
+                type: Type.OBJECT,
+                properties: {
+                  frontLoadedSummary: { type: Type.STRING },
+                  timestampedChapters: {
+                    type: Type.ARRAY,
+                    items: {
+                      type: Type.OBJECT,
+                      properties: {
+                        time: { type: Type.STRING },
+                        title: { type: Type.STRING }
+                      },
+                      required: ["time", "title"]
+                    }
+                  },
+                  bulletPoints: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  fullFormattedDescription: { type: Type.STRING }
+                },
+                required: ["frontLoadedSummary", "timestampedChapters", "bulletPoints", "fullFormattedDescription"]
+              }
+            },
+            required: ["descriptionText", "chapters", "descriptionKit"]
+          };
+        } else if (numericToolId === 5) {
+          systemPrompt = `You are a video content strategist and topic researcher.
+Generate audience questions, subtopics, and a 4-week content roadmap based on the seed topic.
+Follow these rules strictly:
+1. Provide top questions real users search for regarding this topic.
+2. Outline key subtopics to cover in separate videos or sections.
+3. Build a structured 4-week publishing plan with video titles, formats, and goals.
+4. Do NOT fabricate fake analytics or search volumes.`;
+
+          userPrompt = `Generate content ideation and question exploration for: "${resolvedTopic}"
+Category: ${cleanCategory}
+Audience: ${audience}
+Platforms: ${activePlatforms.join(', ')}
+
+Your output must follow this exact schema:
+{
+  "topAudienceQuestions": string[], (5-7 high-intent questions real viewers ask)
+  "subtopics": string[], (4-6 key subtopics or thematic angles)
+  "contentPlan4Week": [
+    { "week": string, "title": string, "format": string, "goal": string }
+  ] (4 week content plan: Week 1 to Week 4)
+}`;
+
+          responseSchema = {
+            type: Type.OBJECT,
+            properties: {
+              topAudienceQuestions: { type: Type.ARRAY, items: { type: Type.STRING } },
+              subtopics: { type: Type.ARRAY, items: { type: Type.STRING } },
+              contentPlan4Week: {
+                type: Type.ARRAY,
+                items: {
+                  type: Type.OBJECT,
+                  properties: {
+                    week: { type: Type.STRING },
+                    title: { type: Type.STRING },
+                    format: { type: Type.STRING },
+                    goal: { type: Type.STRING }
+                  },
+                  required: ["week", "title", "format", "goal"]
+                }
+              }
+            },
+            required: ["topAudienceQuestions", "subtopics", "contentPlan4Week"]
+          };
+        } else if (numericToolId === 6) {
+          systemPrompt = `You are a multi-platform social media repurposing expert.
+Adapt a core video topic into platform-native post packages for each selected platform.
+Follow these rules strictly:
+1. Provide native titles, formats, captions, and publishing rules for each target platform.
+2. Tailor tone and character lengths for YouTube, Instagram, TikTok, LinkedIn, X, etc.
+3. Do NOT invent fake metrics or fake engagement numbers.`;
+
+          userPrompt = `Repurpose the topic "${resolvedTopic}" for target platforms: ${activePlatforms.join(', ')}
+Category: ${cleanCategory}
+Audience: ${audience}
+
+Your output must follow this exact schema:
+{
+  "repurposedPackages": {
+    "PlatformName": {
+      "title": string,
+      "format": string,
+      "caption": string,
+      "rules": string
+    }
+  }
+}`;
+
+          responseSchema = {
+            type: Type.OBJECT,
+            properties: {
+              repurposedPackages: {
+                type: Type.OBJECT,
+                additionalProperties: {
+                  type: Type.OBJECT,
+                  properties: {
+                    title: { type: Type.STRING },
+                    format: { type: Type.STRING },
+                    caption: { type: Type.STRING },
+                    rules: { type: Type.STRING }
+                  },
+                  required: ["title", "format", "caption", "rules"]
+                }
+              }
+            },
+            required: ["repurposedPackages"]
+          };
+        } else if (numericToolId === 7) {
+          systemPrompt = `You are a video production QA and SEO compliance inspector.
+Generate a pre-upload SEO checklist and launch day checklist tailored to the video topic.
+Follow these rules strictly:
+1. Include essential technical, metadata, and visual check items for pre-upload.
+2. Include engagement and promotion check items for launch day.
+3. Return clean JSON checklists with id, task, and checked boolean (default false).`;
+
+          userPrompt = `Generate pre-upload and launch checklists for: "${resolvedTopic}"
+Category: ${cleanCategory}
+Platforms: ${activePlatforms.join(', ')}
+
+Your output must follow this exact schema:
+{
+  "checklists": {
+    "preUploadChecklist": [
+      { "id": string, "task": string, "checked": boolean }
+    ],
+    "launchDayChecklist": [
+      { "id": string, "task": string, "checked": boolean }
+    ]
+  }
+}`;
+
+          responseSchema = {
+            type: Type.OBJECT,
+            properties: {
+              checklists: {
+                type: Type.OBJECT,
+                properties: {
+                  preUploadChecklist: {
+                    type: Type.ARRAY,
+                    items: {
+                      type: Type.OBJECT,
+                      properties: {
+                        id: { type: Type.STRING },
+                        task: { type: Type.STRING },
+                        checked: { type: Type.BOOLEAN }
+                      },
+                      required: ["id", "task", "checked"]
+                    }
+                  },
+                  launchDayChecklist: {
+                    type: Type.ARRAY,
+                    items: {
+                      type: Type.OBJECT,
+                      properties: {
+                        id: { type: Type.STRING },
+                        task: { type: Type.STRING },
+                        checked: { type: Type.BOOLEAN }
+                      },
+                      required: ["id", "task", "checked"]
+                    }
+                  }
+                },
+                required: ["preUploadChecklist", "launchDayChecklist"]
+              }
+            },
+            required: ["checklists"]
+          };
         } else {
           systemPrompt = `You are the specialized AI research engine for Multi Tube Views Tool #${numericToolId}: "${toolName}" (${category}). Return concise, actionable JSON strictly for this tool with zero metric fabrication or fake engagement metrics.`;
           userPrompt = `Generate the exact data structure for Tool #${numericToolId} "${toolName}".

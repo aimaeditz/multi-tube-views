@@ -1444,15 +1444,18 @@
 
     // Tool 5: Hook & Script Intro Generator
     renderHookScriptIntro(data) {
-      const hooks = data.hooks || [];
-      const fw = data.retentionFramework || {};
+      const hooks = data.hooks || (data.hookFramework ? [
+        { style: "Spoken Hook (3s)", spokenScript: data.hookFramework.spokenHook3Seconds, visualActionCue: data.hookFramework.visualPatternInterrupt },
+        { style: "Intro Script (15s)", spokenScript: data.hookFramework.introScript15Seconds, visualActionCue: "Visual angle change" }
+      ] : []);
+      const fw = data.retentionFramework || data.hookFramework || {};
 
       return `
         <div class="results-container" style="margin-top: 1.5rem;">
           <div class="tool-result-header-bar">
             <div>
               <h3 class="tool-result-title"><span>🎣</span> Hook & Script Intro Generator <span class="verified-badge">✓ High Retention</span></h3>
-              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic || 'Selected Topic'}</strong></p>
             </div>
             <div class="tool-result-actions">
               <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
@@ -1481,15 +1484,15 @@
 
     // Tool 6: Description & Chapters Generator
     renderDescriptionChapters(data) {
-      const desc = data.descriptionText || '';
-      const chapters = data.chapters || [];
+      const desc = data.descriptionText || data.descriptionKit?.fullFormattedDescription || '';
+      const chapters = data.chapters || data.descriptionKit?.timestampedChapters || [];
 
       return `
         <div class="results-container" style="margin-top: 1.5rem;">
           <div class="tool-result-header-bar">
             <div>
               <h3 class="tool-result-title"><span>📝</span> Description & Chapters Generator <span class="verified-badge">✓ Structured Output</span></h3>
-              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic || 'Selected Topic'}</strong></p>
             </div>
             <div class="tool-result-actions">
               <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
@@ -1507,16 +1510,16 @@
 
     // Tool 7: Topic & Content Idea Explorer
     renderTopicIdeaExplorer(data) {
-      const questions = data.topAudienceQuestions || [];
-      const subtopics = data.subtopics || [];
-      const calendar = data.contentPlan4Week || [];
+      const questions = data.topAudienceQuestions || data.audienceQuestions?.howToQuestions || [];
+      const subtopics = data.subtopics || (data.videoAngleIdeas ? data.videoAngleIdeas.map(v => v.angle) : []);
+      const calendar = data.contentPlan4Week || (data.seriesRoadmap ? data.seriesRoadmap.map((s, i) => ({ week: `Week ${i+1}`, title: s.title, format: 'Video Series', goal: s.focus })) : []);
 
       return `
         <div class="results-container" style="margin-top: 1.5rem;">
           <div class="tool-result-header-bar">
             <div>
               <h3 class="tool-result-title"><span>💡</span> Topic & Content Idea Explorer <span class="verified-badge">✓ 4-Week Strategy</span></h3>
-              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic || 'Selected Topic'}</strong></p>
             </div>
             <div class="tool-result-actions">
               <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
@@ -1562,7 +1565,7 @@
           <div class="tool-result-header-bar">
             <div>
               <h3 class="tool-result-title"><span>🕵️</span> Competitor Content Gap Finder <span class="verified-badge">✓ Differentiation</span></h3>
-              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic || 'Selected Topic'}</strong></p>
             </div>
             <div class="tool-result-actions">
               <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
@@ -1596,7 +1599,7 @@
 
     // Tool 9: Multi-Platform Repurposing Kit
     renderRepurposingKit(data) {
-      const pkgs = data.repurposedPackages || {};
+      const pkgs = data.repurposedPackages || data.platformPackages || {};
       const platforms = Object.keys(pkgs);
 
       return `
@@ -1604,7 +1607,7 @@
           <div class="tool-result-header-bar">
             <div>
               <h3 class="tool-result-title"><span>🌐</span> Multi-Platform Repurposing Kit <span class="verified-badge">✓ Native Formats</span></h3>
-              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic}</strong></p>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0.2rem 0 0;">Topic: <strong>${data.inputContext?.topic || 'Selected Topic'}</strong></p>
             </div>
             <div class="tool-result-actions">
               <button type="button" class="btn btn-secondary btn-sm" id="btn-export-markdown">📄 Export Markdown</button>
@@ -1634,8 +1637,8 @@
     // Tool 10: Pre-Upload SEO Checklist
     renderChecklist(data) {
       const chk = data.checklists || {};
-      const pre = chk.preUploadChecklist || [];
-      const pub = chk.launchDayChecklist || [];
+      const pre = chk.preUploadChecklist || chk.preUploadSeoChecklist || [];
+      const pub = chk.launchDayChecklist || chk.publishingDayChecklist || [];
 
       return `
         <div class="results-container" style="margin-top: 1.5rem;">

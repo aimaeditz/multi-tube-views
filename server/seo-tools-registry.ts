@@ -290,9 +290,51 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
     return {
       toolId: 3,
       toolName: "High-Retention Hook & Script Intro",
-      category: "Retention & Scripting",
+      category: "Scripting & Hooks",
       toolType: "hook",
       inputContext: baseContext,
+      hooks: [
+        {
+          style: "Direct Problem / Pain Point",
+          spokenScript: `If you're still trying to figure out ${cleanTopic}, stop doing it the hard way.`,
+          visualActionCue: "Show high-energy close-up visual or split-screen contrast before speaking the first word.",
+        },
+        {
+          style: "Contrarian / Myth-Busting",
+          spokenScript: `Stop approaching ${cleanTopic} like everyone else. Here is what actually works today.`,
+          visualActionCue: "Dynamic zoom-in on presenter with bold on-screen headline.",
+        },
+        {
+          style: "Curiosity Gap & High Stakes",
+          spokenScript: `Here is the #1 mistake people make with ${cleanTopic}—and how to avoid it completely.`,
+          visualActionCue: "Display on-screen graphic text highlighting common pitfall.",
+        },
+        {
+          style: "Story & Transformation",
+          spokenScript: `When I first started with ${cleanTopic}, I wasted weeks doing this wrong. Here is what changed everything.`,
+          visualActionCue: "Cut to before/after comparison or screen capture.",
+        },
+        {
+          style: "Bold Claim / Big Promise",
+          spokenScript: `By the end of this video, you will know the exact step-by-step system for ${cleanTopic}.`,
+          visualActionCue: "Show 3-step checklist overlay animation on screen.",
+        },
+      ],
+      retentionFramework: {
+        spokenHook3Seconds: `If you're still trying to figure out ${cleanTopic}, stop doing it the hard way.`,
+        visualPatternInterrupt: `Show high-energy close-up visual or split-screen contrast before speaking the first word.`,
+        introScript15Seconds: `In this video, I'm breaking down the exact step-by-step system for ${cleanTopic}—without the fluff or outdated advice. By the end of this guide, you'll know exactly what to do first. Let's get right into it.`,
+        retentionCues: [
+          "0:00-0:03: State the core outcome or problem immediately.",
+          "0:03-0:08: Establish credibility or show immediate proof.",
+          "0:08-0:15: Preview the 3 key milestones to create open curiosity loops.",
+        ],
+        dropOffPreventionChecklist: [
+          "No animated intro channel logos longer than 1 second.",
+          "No asking for likes/subscribes in the first 60 seconds.",
+          "Change visual angle, zoom, or graphic overlay every 4 to 6 seconds.",
+        ],
+      },
       hookFramework: {
         spokenHook3Seconds: `If you're still trying to figure out ${cleanTopic}, stop doing it the hard way.`,
         visualPatternInterrupt: `Show high-energy close-up visual or split-screen contrast before speaking the first word.`,
@@ -318,6 +360,14 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   if (toolId === 4) {
     const durSec = urlData.durationSeconds;
     const durFmt = urlData.durationFormatted || "8:30";
+    const fullDesc = `In this video, we provide a complete, practical walkthrough of ${cleanTopic}.\n\nWhether you are a beginner or looking to refine your process, this guide covers essential strategies, best practices, and proven tips.\n\n⏱️ TIMESTAMPS:\n0:00 - Introduction & Key Problem\n1:15 - Foundations of ${cleanTopic}\n3:40 - Step-by-Step Implementation\n6:10 - Common Mistakes to Avoid\n8:00 - Key Takeaways & Action Plan\n\n📌 HELPFUL RESOURCES:\n• Official Platform: Multi Tube Views (https://multitubeviews.com)\n• Tools & Guides: https://multitubeviews.com/seo-tools.html\n\n💬 Have questions? Drop a comment below and share your thoughts!\n\n#${cleanTag(primaryKw)} #${cleanTag(cleanCategory)} #${cleanTag(words[0] || "guide")}`;
+    const chaptersList = [
+      { time: "0:00", title: "Introduction & Key Problem" },
+      { time: "1:15", title: `Foundations of ${cleanTopic}` },
+      { time: "3:40", title: "Step-by-Step Practical Implementation" },
+      { time: "6:10", title: "Common Mistakes to Avoid" },
+      { time: "8:00", title: "Key Takeaways & Action Plan" },
+    ];
 
     return {
       toolId: 4,
@@ -325,22 +375,18 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
       category: "SEO & Metadata",
       toolType: "caption",
       inputContext: baseContext,
+      descriptionText: fullDesc,
+      chapters: chaptersList,
       descriptionKit: {
         frontLoadedSummary: `Learn how to master ${cleanTopic} with this comprehensive, step-by-step breakdown designed for ${audience.toLowerCase()}.`,
-        timestampedChapters: [
-          { time: "0:00", title: "Introduction & Key Problem" },
-          { time: "1:15", title: `Foundations of ${cleanTopic}` },
-          { time: "3:40", title: "Step-by-Step Practical Implementation" },
-          { time: "6:10", title: "Common Mistakes to Avoid" },
-          { time: "8:00", title: "Key Takeaways & Action Plan" },
-        ],
+        timestampedChapters: chaptersList,
         bulletPoints: [
           `Clear understanding of ${cleanTopic} fundamentals`,
           "Actionable workflow you can implement today",
           "Pitfalls and common errors to steer clear of",
           "Practical recommendations and next steps",
         ],
-        fullFormattedDescription: `In this video, we provide a complete, practical walkthrough of ${cleanTopic}.\n\nWhether you are a beginner or looking to refine your process, this guide covers essential strategies, best practices, and proven tips.\n\n⏱️ TIMESTAMPS:\n0:00 - Introduction & Key Problem\n1:15 - Foundations of ${cleanTopic}\n3:40 - Step-by-Step Implementation\n6:10 - Common Mistakes to Avoid\n8:00 - Key Takeaways & Action Plan\n\n📌 HELPFUL RESOURCES:\n• Official Platform: Multi Tube Views (https://multitubeviews.com)\n• Tools & Guides: https://multitubeviews.com/seo-tools.html\n\n💬 Have questions? Drop a comment below and share your thoughts!\n\n#${cleanTag(primaryKw)} #${cleanTag(cleanCategory)} #${cleanTag(words[0] || "guide")}`,
+        fullFormattedDescription: fullDesc,
       },
       verifiedMetadata: verifiedMeta,
     };
@@ -350,12 +396,35 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   // TOOL 5: Content Topic & Question Explorer
   // =========================================================================
   if (toolId === 5) {
+    const questionsList = [
+      `How to get started with ${cleanTopic} from scratch?`,
+      `How to avoid common beginner mistakes in ${cleanTopic}?`,
+      `How to optimize your workflow for ${cleanTopic}?`,
+      `Why is my ${cleanTopic} not working as expected?`,
+      `Is ${cleanTopic} worth it for beginners?`,
+    ];
+    const subtopicsList = [
+      `Foundations & Setup of ${cleanTopic}`,
+      `Advanced Strategies & Workflow Optimization`,
+      `Troubleshooting Common ${cleanTopic} Errors`,
+      `Tool Comparisons & Equipment Setup for ${cleanTopic}`,
+    ];
+    const planList = [
+      { week: "Week 1", title: `${cleanTopic}: Complete Beginner Blueprint`, format: "Long-Form Walkthrough", goal: "Search Intent & Authority" },
+      { week: "Week 2", title: `3 Critical Mistakes to Avoid in ${cleanTopic}`, format: "Shorts / Reels (9:16)", goal: "Viral Discovery" },
+      { week: "Week 3", title: `Step-by-Step ${cleanTopic} Workflow Optimization`, format: "Tutorial & Screen Recording", goal: "Retention & Watch Time" },
+      { week: "Week 4", title: `Top Alternatives & Upgrades for ${cleanTopic} Tested`, format: "Comparison & Review", goal: "High-Intent Engagement" },
+    ];
+
     return {
       toolId: 5,
       toolName: "Content Topic & Question Explorer",
       category: "Ideation & Topics",
       toolType: "topic",
       inputContext: baseContext,
+      topAudienceQuestions: questionsList,
+      subtopics: subtopicsList,
+      contentPlan4Week: planList,
       audienceQuestions: {
         howToQuestions: [
           `How to get started with ${cleanTopic} from scratch?`,
@@ -463,6 +532,7 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
       category: "Multi-Platform",
       toolType: "repurpose",
       inputContext: baseContext,
+      repurposedPackages: platformPackages,
       platformPackages,
       verifiedMetadata: verifiedMeta,
     };
@@ -472,6 +542,22 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   // TOOL 7: Pre-Upload SEO & Publishing Checklist
   // =========================================================================
   if (toolId === 7) {
+    const preList = [
+      { id: "chk_1", task: "Target search phrase front-loaded in the first 40 characters of the title", checked: false },
+      { id: "chk_2", task: "Natural keyword integration in the first 200 characters of the description", checked: false },
+      { id: "chk_3", task: "3 to 5 platform-appropriate hashtags placed cleanly at the bottom", checked: false },
+      { id: "chk_4", task: "Custom thumbnail tested at small mobile sizes (120x68px) for text legibility", checked: false },
+      { id: "chk_5", task: "Bottom-right 20% of thumbnail kept clear of critical text to prevent timestamp overlay", checked: false },
+      { id: "chk_6", task: "Accurate category and language metadata selected in platform settings", checked: false },
+    ];
+    const pubList = [
+      { id: "chk_7", task: "Verify optimal posting time for target country/audience", checked: false },
+      { id: "chk_8", task: "Pin first comment with an engaging discussion prompt or resource link", checked: false },
+      { id: "chk_9", task: "Add end screens and relevant info cards linking to complementary videos", checked: false },
+      { id: "chk_10", task: "Distribute formatted snippets across secondary social channels", checked: false },
+      { id: "chk_11", task: "Reply to early viewer comments within the first 60 minutes to encourage discussion", checked: false },
+    ];
+
     return {
       toolId: 7,
       toolName: "Pre-Upload SEO & Publishing Checklist",
@@ -479,21 +565,10 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
       toolType: "checklist",
       inputContext: baseContext,
       checklists: {
-        preUploadSeoChecklist: [
-          { id: "chk_1", task: "Target search phrase front-loaded in the first 40 characters of the title", checked: false },
-          { id: "chk_2", task: "Natural keyword integration in the first 200 characters of the description", checked: false },
-          { id: "chk_3", task: "3 to 5 platform-appropriate hashtags placed cleanly at the bottom", checked: false },
-          { id: "chk_4", task: "Custom thumbnail tested at small mobile sizes (120x68px) for text legibility", checked: false },
-          { id: "chk_5", task: "Bottom-right 20% of thumbnail kept clear of critical text to prevent timestamp overlay", checked: false },
-          { id: "chk_6", task: "Accurate category and language metadata selected in platform settings", checked: false },
-        ],
-        publishingDayChecklist: [
-          { id: "chk_7", task: "Verify optimal posting time for target country/audience", checked: false },
-          { id: "chk_8", task: "Pin first comment with an engaging discussion prompt or resource link", checked: false },
-          { id: "chk_9", task: "Add end screens and relevant info cards linking to complementary videos", checked: false },
-          { id: "chk_10", task: "Distribute formatted snippets across secondary social channels", checked: false },
-          { id: "chk_11", task: "Reply to early viewer comments within the first 60 minutes to encourage discussion", checked: false },
-        ],
+        preUploadChecklist: preList,
+        launchDayChecklist: pubList,
+        preUploadSeoChecklist: preList,
+        publishingDayChecklist: pubList,
       },
       verifiedMetadata: verifiedMeta,
     };
