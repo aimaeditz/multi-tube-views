@@ -8,10 +8,10 @@
 (function () {
   'use strict';
 
-  // 6 Core Categories Definition
+  // 7 Core Categories Definition
   const CATEGORIES = [
-    { id: 'ALL', name: 'All Tools', count: 6 },
-    { id: 'Keyword Strategy', name: 'Keyword Strategy', count: 1 },
+    { id: 'ALL', name: 'All Tools', count: 7 },
+    { id: 'Keyword Strategy', name: 'Keyword Strategy', count: 2 },
     { id: 'Scripting & Hooks', name: 'Scripting & Hooks', count: 1 },
     { id: 'Description & Chapters', name: 'Description & Chapters', count: 1 },
     { id: 'Topics & Ideas', name: 'Topics & Ideas', count: 1 },
@@ -19,7 +19,7 @@
     { id: 'Optimization & Checklist', name: 'Checklist', count: 1 },
   ];
 
-  // 6 Approved Tools Catalog
+  // 7 Approved Tools Catalog
   const TOOLS_CATALOG = [
     {
       id: 1,
@@ -40,6 +40,23 @@
     },
     {
       id: 2,
+      slug: 'hashtag-generator',
+      name: 'Hashtags & Tags',
+      category: 'Keyword Strategy',
+      toolType: 'hashtag',
+      actionVerb: 'Generate Hashtags & Tags',
+      desc: 'Generate large, relevant, platform-specific sets of hashtags and tags optimized for platform metadata.',
+      defaultTopic: 'Healthy Meal Prep & Weekly Budgeting',
+      placeholder: 'Enter your video topic, keyword, title, URL, or optional content...',
+      howToUse: [
+        'Input your central video topic, main keyword, video title, or a video URL.',
+        'Add an optional description or content summary to capture specific details.',
+        'Click "Generate Hashtags & Tags" to generate customized, platform-appropriate tags.'
+      ],
+      expectedResult: 'A structured set of social hashtags categorized by primary, high-relevance, and niche groups, ready to copy individually or as balanced sets, plus custom video tags.'
+    },
+    {
+      id: 3,
       slug: 'hook-script-intro-generator',
       name: 'Hook & Script Intro Generator',
       category: 'Scripting & Hooks',
@@ -56,7 +73,7 @@
       expectedResult: 'Five highly engaging intro hook variations matching distinct psychology-backed templates (Fear of Missing Out, Story, Shocking Stat, Question, and Bold Claim) complete with visual setup suggestions.'
     },
     {
-      id: 3,
+      id: 4,
       slug: 'description-chapters-generator',
       name: 'Description & Chapters Generator',
       category: 'Description & Chapters',
@@ -73,7 +90,7 @@
       expectedResult: 'A perfectly structured, search-indexed description body with standard format markdown, custom calls-to-action, social links, and bounded chronological timestamps.'
     },
     {
-      id: 4,
+      id: 5,
       slug: 'topic-content-idea-explorer',
       name: 'Topic & Content Idea Explorer',
       category: 'Topics & Ideas',
@@ -90,7 +107,7 @@
       expectedResult: 'A 4-week structured content strategy calendar including weekly specific angles, target keywords, production complexity notes, and audience questions to answer.'
     },
     {
-      id: 5,
+      id: 6,
       slug: 'multi-platform-repurposing-kit',
       name: 'Multi-Platform Repurposing Kit',
       category: 'Multi-Platform Repurposing',
@@ -107,7 +124,7 @@
       expectedResult: 'Tailored native copy modules for selected social channels—including short-form vertical scripts, a visual thread for X, a professional LinkedIn post, and community-optimized descriptions.'
     },
     {
-      id: 6,
+      id: 7,
       slug: 'pre-upload-seo-checklist',
       name: 'Pre-Upload SEO Checklist',
       category: 'Optimization & Checklist',
@@ -288,11 +305,11 @@
       }
 
       let prevId = tool.id - 1;
-      if (prevId < 1) prevId = 6;
+      if (prevId < 1) prevId = 7;
       const prevTool = TOOLS_CATALOG.find(t => t.id === prevId);
 
       let nextId = tool.id + 1;
-      if (nextId > 6) nextId = 1;
+      if (nextId > 7) nextId = 1;
       const nextTool = TOOLS_CATALOG.find(t => t.id === nextId);
 
       container.innerHTML = `
@@ -705,11 +722,12 @@
 
       let html = '';
       if (toolId === 1) html = this.renderKeywordResearch(data);
-      else if (toolId === 2) html = this.renderHookScriptIntro(data);
-      else if (toolId === 3) html = this.renderDescriptionChapters(data);
-      else if (toolId === 4) html = this.renderTopicIdeaExplorer(data);
-      else if (toolId === 5) html = this.renderRepurposingKit(data);
-      else if (toolId === 6) html = this.renderChecklist(data);
+      else if (toolId === 2) html = this.renderHashtagsAndTags(data);
+      else if (toolId === 3) html = this.renderHookScriptIntro(data);
+      else if (toolId === 4) html = this.renderDescriptionChapters(data);
+      else if (toolId === 5) html = this.renderTopicIdeaExplorer(data);
+      else if (toolId === 6) html = this.renderRepurposingKit(data);
+      else if (toolId === 7) html = this.renderChecklist(data);
       else html = this.renderKeywordResearch(data);
 
       container.innerHTML = html;
@@ -1938,6 +1956,26 @@ ${JSON.stringify(data, null, 2)}
           balancedSet: `#${cleanTag(cleanTopic)} #${cleanTag(category)} #${cleanTag(cleanTopic)}tips #${cleanTag(cleanTopic)}guide #learn #tutorial`,
           commaSeparatedTags: `${cleanTopic}, ${cleanTopic} tutorial, ${cleanTopic} guide, ${cleanTopic} tips, ${category.toLowerCase()}`
         },
+        broadHashtags: [
+          `#${cleanTag(cleanTopic)}`,
+          `#${cleanTag(category)}`,
+          `#tips`,
+          `#guide`,
+          `#creators`,
+          `#viral`
+        ],
+        nicheHashtags: [
+          `#${cleanTag(cleanTopic)}tips`,
+          `#${cleanTag(cleanTopic)}guide`,
+          `#${cleanTag(cleanTopic)}tutorial`,
+          `#${cleanTag(cleanTopic)}hacks`,
+          `#${cleanTag(cleanTopic)}secrets`
+        ],
+        platformSpecific: {
+          YouTube: [`#${cleanTag(cleanTopic)}`, `#youtubecreators`, `#creators`],
+          Instagram: [`#${cleanTag(cleanTopic)}`, `#instagramreels`, `#creators`],
+          TikTok: [`#${cleanTag(cleanTopic)}`, `#learnontiktok`, `#creators`]
+        },
         hooks: [
           { style: 'Direct Problem / Pain Point', spokenScript: `If you're struggling with ${cleanTopic}, this one breakdown changes everything.`, visualActionCue: 'Show split screen visual immediately.' },
           { style: 'Contrarian / Myth-Busting', spokenScript: `Stop doing ${cleanTopic} the old way. Here is what actually works today.`, visualActionCue: 'Dynamic zoom-in on speaker.' },
@@ -2095,7 +2133,7 @@ ${JSON.stringify(data, null, 2)}
         e.preventDefault();
         if (this.activeToolId === null) return;
         let prevId = this.activeToolId - 1;
-        if (prevId < 1) prevId = 6;
+        if (prevId < 1) prevId = 7;
         this.navigateToTool(prevId);
       });
 
@@ -2103,7 +2141,7 @@ ${JSON.stringify(data, null, 2)}
         e.preventDefault();
         if (this.activeToolId === null) return;
         let nextId = this.activeToolId + 1;
-        if (nextId > 6) nextId = 1;
+        if (nextId > 7) nextId = 1;
         this.navigateToTool(nextId);
       });
 

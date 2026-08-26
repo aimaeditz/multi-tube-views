@@ -711,19 +711,20 @@ app.post("/api/seo-research", async (req, res) => {
     const resolvedTopic = effectiveTopic || urlData.realTitle || (urlData.videoId ? `Video ${urlData.videoId}` : "Content Strategy");
     const activePlatforms = Array.isArray(platforms) && platforms.length > 0 ? platforms : ["YouTube"];
 
-    const numericToolId = Math.max(1, Math.min(6, Number(toolId) || 1));
+    const numericToolId = Math.max(1, Math.min(7, Number(toolId) || 1));
     const cleanCategory = contentCategory || category || "Education & Tech";
     const geoCountry = country || "Global";
     const targetLang = language || "English";
 
-    // 6 Approved Tool classifications
+    // 7 Approved Tool classifications
     const toolTypeMap: Record<number, string> = {
       1: "keyword",
-      2: "hook",
-      3: "caption",
-      4: "topic",
-      5: "repurpose",
-      6: "checklist",
+      2: "hashtag",
+      3: "hook",
+      4: "caption",
+      5: "topic",
+      6: "repurpose",
+      7: "checklist",
     };
 
     const toolTypeKey = toolTypeMap[numericToolId] || "general";
@@ -735,7 +736,59 @@ app.post("/api/seo-research", async (req, res) => {
         let userPrompt = "";
         let responseSchema: any = undefined;
 
-        if (numericToolId === 1) {
+        if (numericToolId === 2) {
+          systemPrompt = `You are an expert social media hashtag and video tag generator.
+Generate a comprehensive, relevant list of platform-specific hashtags and tags based on the topic or content provided.
+Follow these rules strictly:
+1. Divide hashtags into clear, useful groups: Primary, High-Relevance, and Niche groupings.
+2. Provide pre-built minimal (5 hashtags) and balanced (10 hashtags) copy-paste sets.
+3. Provide comma-separated video tags specifically formatted for standard video uploading platform tags metadata fields.
+4. Customize suggestions specifically for each of the target social platforms selected by the user.`;
+
+          userPrompt = `Generate hashtags and tags for the content: "${resolvedTopic}"
+Platform: ${activePlatforms.join(', ')}
+Country: ${geoCountry}
+Language: ${targetLang}
+Category: ${cleanCategory}
+
+Your output must follow this exact schema:
+{
+  "formattedSets": {
+    "minimalSet": string, (5 space-separated hashtags starting with #)
+    "balancedSet": string, (10 space-separated hashtags starting with #)
+    "commaSeparatedTags": string (20-30 comma-separated keywords/phrases for video tags input, without # symbol)
+  },
+  "broadHashtags": string[], (6-10 primary broad hashtags starting with #)
+  "nicheHashtags": string[], (6-10 specific long-tail or niche hashtags starting with #)
+  "platformSpecific": {
+    "YouTube": string[], (5-7 hashtags starting with # if YouTube is in platforms list)
+    "Instagram": string[], (5-7 hashtags starting with # if Instagram is in platforms list)
+    "TikTok": string[] (5-7 hashtags starting with # if TikTok is in platforms list)
+  }
+}`;
+
+          responseSchema = {
+            type: Type.OBJECT,
+            properties: {
+              formattedSets: {
+                type: Type.OBJECT,
+                properties: {
+                  minimalSet: { type: Type.STRING },
+                  balancedSet: { type: Type.STRING },
+                  commaSeparatedTags: { type: Type.STRING }
+                },
+                required: ["minimalSet", "balancedSet", "commaSeparatedTags"]
+              },
+              broadHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
+              nicheHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
+              platformSpecific: {
+                type: Type.OBJECT,
+                additionalProperties: { type: Type.ARRAY, items: { type: Type.STRING } }
+              }
+            },
+            required: ["formattedSets", "broadHashtags", "nicheHashtags", "platformSpecific"]
+          };
+        } else if (numericToolId === 1) {
           systemPrompt = `You are an expert keyword research analyst for YouTube and video platforms.
 Generate a structured list of highly relevant, natural keyword opportunities for the entered seed topic.
 Follow these rules strictly:

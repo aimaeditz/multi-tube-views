@@ -223,12 +223,72 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   }
 
   // =========================================================================
-  // TOOL 2: High-Retention Hook & Script Intro
+  // TOOL 2: Hashtags & Tags
   // =========================================================================
   if (toolId === 2) {
-    const selectedTone = tone || "Direct & Educational";
+    const topicTag = cleanTag(cleanTopic);
+    const firstWord = cleanTag(words[0] || "viral");
+    const secondWord = cleanTag(words[1] || "trending");
+
+    const primary = [
+      `#${topicTag}`,
+      `#${topicTag}tips`,
+      `#${topicTag}guide`,
+      `#${firstWord}`,
+      `#${secondWord}`
+    ];
+
+    const niche = [
+      `#${firstWord}hacks`,
+      `#${firstWord}secrets`,
+      `#${firstWord}trends`,
+      `#${secondWord}tips`,
+      `#${topicTag}${year}`
+    ];
+
+    const uniqueTags = Array.from(new Set([...primary, ...niche].map(t => t.toLowerCase())));
+
+    const minimalSet = uniqueTags.slice(0, 5).join(" ");
+    const balancedSet = uniqueTags.slice(0, 10).join(" ");
+    const commaSeparatedTags = uniqueTags.map(t => t.replace("#", "")).join(", ");
+
+    const platformSpecific: Record<string, string[]> = {};
+    targetPlatforms.forEach(p => {
+      const pTag = cleanTag(p);
+      platformSpecific[p] = [
+        `#${topicTag}`,
+        `#${firstWord}`,
+        `#${pTag}`,
+        `#${pTag}${firstWord}`,
+        `#${pTag}creators`
+      ].map(t => t.toLowerCase());
+    });
+
     return {
       toolId: 2,
+      toolName: "Hashtags & Tags",
+      category: "Keyword Strategy",
+      toolType: "hashtag",
+      inputContext: baseContext,
+      formattedSets: {
+        minimalSet,
+        balancedSet,
+        commaSeparatedTags
+      },
+      broadHashtags: primary,
+      nicheHashtags: niche,
+      platformSpecific,
+      verifiedMetadata: verifiedMeta
+    };
+  }
+
+  // =========================================================================
+  // TOOL 3: High-Retention Hook & Script Intro
+  // =========================================================================
+  if (toolId === 3) {
+    const selectedTone = tone || "Direct & Educational";
+    return {
+      toolId: 3,
       toolName: "High-Retention Hook & Script Intro",
       category: "Retention & Scripting",
       toolType: "hook",
@@ -253,14 +313,14 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   }
 
   // =========================================================================
-  // TOOL 3: Description & Timestamp Chapter Generator
+  // TOOL 4: Description & Timestamp Chapter Generator
   // =========================================================================
-  if (toolId === 3) {
+  if (toolId === 4) {
     const durSec = urlData.durationSeconds;
     const durFmt = urlData.durationFormatted || "8:30";
 
     return {
-      toolId: 3,
+      toolId: 4,
       toolName: "Description & Timestamp Chapter Generator",
       category: "SEO & Metadata",
       toolType: "caption",
@@ -287,11 +347,11 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   }
 
   // =========================================================================
-  // TOOL 4: Content Topic & Question Explorer
+  // TOOL 5: Content Topic & Question Explorer
   // =========================================================================
-  if (toolId === 4) {
+  if (toolId === 5) {
     return {
-      toolId: 4,
+      toolId: 5,
       toolName: "Content Topic & Question Explorer",
       category: "Ideation & Topics",
       toolType: "topic",
@@ -345,9 +405,9 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   }
 
   // =========================================================================
-  // TOOL 5: Multi-Platform Repurposing Kit
+  // TOOL 6: Multi-Platform Repurposing Kit
   // =========================================================================
-  if (toolId === 5) {
+  if (toolId === 6) {
     const platformPackages: Record<string, any> = {};
 
     targetPlatforms.forEach(p => {
@@ -398,7 +458,7 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
     });
 
     return {
-      toolId: 5,
+      toolId: 6,
       toolName: "Multi-Platform Repurposing Kit",
       category: "Multi-Platform",
       toolType: "repurpose",
@@ -409,11 +469,11 @@ export function executeSeoTool(ctx: ToolExecutionContext): any {
   }
 
   // =========================================================================
-  // TOOL 6: Pre-Upload SEO & Publishing Checklist
+  // TOOL 7: Pre-Upload SEO & Publishing Checklist
   // =========================================================================
-  if (toolId === 6) {
+  if (toolId === 7) {
     return {
-      toolId: 6,
+      toolId: 7,
       toolName: "Pre-Upload SEO & Publishing Checklist",
       category: "Checklists & Quality",
       toolType: "checklist",
