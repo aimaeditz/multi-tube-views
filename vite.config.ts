@@ -17,10 +17,12 @@ export default defineConfig(() => {
         input: {
           main: path.resolve(__dirname, 'index.html'),
           about: path.resolve(__dirname, 'about.html'),
+          aiPrompt: path.resolve(__dirname, 'ai-prompt.html'),
           articles: path.resolve(__dirname, 'articles.html'),
           contact: path.resolve(__dirname, 'contact.html'),
           credits: path.resolve(__dirname, 'credits.html'),
           disclaimer: path.resolve(__dirname, 'disclaimer.html'),
+          platforms: path.resolve(__dirname, 'platforms.html'),
           privacy: path.resolve(__dirname, 'privacy.html'),
           settings: path.resolve(__dirname, 'settings.html'),
           terms: path.resolve(__dirname, 'terms.html'),

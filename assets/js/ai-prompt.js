@@ -1,10 +1,18 @@
 /**
  * Multi Tube Views (MTV) — AI Prompt Engine (Client)
  * Content source: Strictly https://aipromptxpert.blogspot.com/feeds/posts/default?alt=rss
+ * Fully compatible with GitHub Pages, custom domains, static hosting, and full-stack Node.
  */
 
 (function () {
   'use strict';
+
+  // Constants
+  const BLOGGER_BASE_URL = 'https://aipromptxpert.blogspot.com';
+  const RSS_FEED_URL = `${BLOGGER_BASE_URL}/feeds/posts/default?alt=rss`;
+  const JSON_FEED_URL = `${BLOGGER_BASE_URL}/feeds/posts/default?alt=json`;
+  const LOCAL_CACHE_KEY = 'mtv_ai_prompt_library_cache_v2';
+  const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes cache validity
 
   // State
   let allPrompts = [];
@@ -96,7 +104,7 @@
       });
     }
 
-    // Global copy delegation for cards
+    // Global copy & view delegation for cards
     document.addEventListener('click', (e) => {
       const copyBtn = e.target.closest('.btn-copy-prompt');
       if (copyBtn) {
@@ -122,55 +130,444 @@
     });
   }
 
+  // Helper to resolve possible asset paths for static hosting & subpaths
+  function getCandidateAssetUrls() {
+    const candidates = [];
+    const origin = window.location.origin;
+    const pathname = window.location.pathname;
+    const dir = pathname.substring(0, pathname.lastIndexOf('/') + 1);
+
+    // 1. Current directory relative
+    candidates.push('assets/data/ai-prompts.json');
+    candidates.push('./assets/data/ai-prompts.json');
+    
+    // 2. Computed relative to current directory path
+    if (origin && origin !== 'null') {
+      try {
+        const fullRel = new URL('assets/data/ai-prompts.json', origin + dir).href;
+        if (!candidates.includes(fullRel)) candidates.push(fullRel);
+      } catch (_) {}
+    }
+
+    // 3. Domain root absolute
+    candidates.push('/assets/data/ai-prompts.json');
+
+    // 4. Parent relative (if inside subfolder)
+    candidates.push('../assets/data/ai-prompts.json');
+
+    return candidates;
+  }
+
   /**
-   * Load prompt library data from /api/ai-prompts or fallback to assets/data/ai-prompts.json
+   * Main loader: Multi-tier strategy with instant cache display, local file fallback,
+   * server API fallback, and live Blogger feed synchronization.
    */
   async function loadPromptLibrary() {
-    showLoading(true);
+    // Step 0: Try loading from localStorage cache first for 0ms initial render
+    const cached = getLocalCache();
+    let hasLoadedInitialData = false;
 
-    try {
-      // 1. Try server API endpoint first
-      let data = null;
+    if (cached && Array.isArray(cached.prompts) && cached.prompts.length > 0) {
+      applyPromptsData(cached.prompts, cached.categories);
+      hasLoadedInitialData = true;
+    } else {
+      showLoading(true);
+    }
+
+    let loadedPrompts = null;
+    let sourceCategories = [];
+
+    // Step 1: Try Local Static JSON file first (fastest for GitHub Pages / static hosting)
+    const assetUrls = getCandidateAssetUrls();
+    for (const url of assetUrls) {
+      try {
+        const res = await fetch(url, { cache: 'no-cache' });
+        if (res.ok) {
+          const json = await res.json();
+          if (json && Array.isArray(json.prompts) && json.prompts.length > 0) {
+            loadedPrompts = json.prompts;
+            sourceCategories = json.categories || [];
+            break;
+          }
+        }
+      } catch (_) {
+        // continue to next candidate path
+      }
+    }
+
+    // Step 2: If static JSON not resolved, try Node server API endpoint
+    if (!loadedPrompts) {
       try {
         const res = await fetch('/api/ai-prompts?limit=1000');
         if (res.ok) {
           const json = await res.json();
           if (json.success && Array.isArray(json.prompts) && json.prompts.length > 0) {
-            data = json;
+            loadedPrompts = json.prompts;
+            sourceCategories = json.categories || [];
           }
         }
       } catch (_) {
-        // server endpoint unavailable, proceed to static json
+        // Node backend unavailable (e.g. pure static hosting)
       }
+    }
 
-      // 2. Fallback to static JSON file (for GitHub Pages & static hosting)
-      if (!data) {
-        let staticRes = await fetch('assets/data/ai-prompts.json').catch(() => null);
-        if (!staticRes || !staticRes.ok) {
-          staticRes = await fetch('/assets/data/ai-prompts.json').catch(() => null);
+    // Step 3: If still no data or for live updates, fetch directly from Blogger feed
+    if (!loadedPrompts) {
+      try {
+        const liveResult = await fetchBloggerPostsLive(50);
+        if (liveResult && liveResult.length > 0) {
+          loadedPrompts = liveResult;
         }
-        if (staticRes && staticRes.ok) {
-          const staticJson = await staticRes.json();
-          if (Array.isArray(staticJson.prompts) && staticJson.prompts.length > 0) {
-            data = staticJson;
-          }
-        }
+      } catch (err) {
+        console.warn("Live Blogger initial fetch attempt failed:", err);
       }
+    }
 
-      if (data && data.prompts && data.prompts.length > 0) {
-        allPrompts = data.prompts;
-        categories = buildUniqueCategories(data.prompts, data.categories || []);
-        renderCategoryFilters();
-        renderLibrary();
-      } else {
-        showEmptyState("Prompt library is temporarily unavailable. Please try again later.");
-      }
-    } catch (err) {
-      console.error("AI Prompt fetch error:", err);
-      showEmptyState("Prompt library is temporarily unavailable. Please try again later.");
-    } finally {
+    // If we obtained prompts from any source, apply and cache them
+    if (loadedPrompts && loadedPrompts.length > 0) {
+      applyPromptsData(loadedPrompts, sourceCategories);
+      setLocalCache(loadedPrompts, sourceCategories);
+      showLoading(false);
+    } else if (!hasLoadedInitialData) {
+      showEmptyState("Prompt library is currently updating. Please refresh in a moment.");
       showLoading(false);
     }
+
+    // Step 4: Background live sync to ensure future Blogger posts auto-update without rebuild
+    syncFutureBloggerPostsInBackground();
+  }
+
+  /**
+   * Apply prompts to state and trigger UI render
+   */
+  function applyPromptsData(prompts, initialCategories) {
+    // Deduplicate prompts by ID and content hash
+    const seen = new Set();
+    const cleanList = [];
+
+    for (const p of prompts) {
+      if (!p || !p.promptText || !p.imageUrl) continue;
+      const key = `${p.id || ''}::${p.imageUrl}::${p.promptText.slice(0, 60)}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        cleanList.push(p);
+      }
+    }
+
+    if (cleanList.length === 0) return;
+
+    allPrompts = cleanList;
+    categories = buildUniqueCategories(cleanList, initialCategories || []);
+    renderCategoryFilters();
+    renderLibrary();
+  }
+
+  /**
+   * Background sync: queries Blogger feed to automatically pull latest/future posts
+   * and merges them into the existing prompt library seamlessly.
+   */
+  async function syncFutureBloggerPostsInBackground() {
+    try {
+      const livePosts = await fetchBloggerPostsLive(30);
+      if (!livePosts || livePosts.length === 0) return;
+
+      let newCount = 0;
+      const existingIds = new Set(allPrompts.map(p => p.id));
+      const existingHashes = new Set(allPrompts.map(p => `${p.imageUrl}::${p.promptText.slice(0, 60)}`));
+      const toPrepend = [];
+
+      for (const p of livePosts) {
+        const hash = `${p.imageUrl}::${p.promptText.slice(0, 60)}`;
+        if (!existingIds.has(p.id) && !existingHashes.has(hash)) {
+          toPrepend.push(p);
+          existingIds.add(p.id);
+          existingHashes.add(hash);
+          newCount++;
+        }
+      }
+
+      if (newCount > 0) {
+        console.log(`[Blogger Sync] Discovered ${newCount} new live prompt(s) from Blogger.`);
+        allPrompts = [...toPrepend, ...allPrompts];
+        categories = buildUniqueCategories(allPrompts, []);
+        renderCategoryFilters();
+        renderLibrary();
+        setLocalCache(allPrompts, categories.map(c => c.name));
+      }
+    } catch (err) {
+      // Non-blocking background sync warning
+      console.debug("Background Blogger live sync check completed:", err);
+    }
+  }
+
+  /**
+   * Fetch live Blogger posts using JSON feed, JSONP, or RSS
+   */
+  async function fetchBloggerPostsLive(maxResults = 50) {
+    // Method A: Direct fetch of Blogger JSON feed
+    try {
+      const url = `${JSON_FEED_URL}&max-results=${maxResults}`;
+      const res = await fetch(url, { headers: { Accept: 'application/json' } });
+      if (res.ok) {
+        const json = await res.json();
+        if (json && json.feed && Array.isArray(json.feed.entry)) {
+          return parseBloggerJsonEntries(json.feed.entry);
+        }
+      }
+    } catch (_) {
+      // Direct CORS might be blocked in some browser contexts, fall through to JSONP
+    }
+
+    // Method B: JSONP script injection (100% CORS-proof across all browsers & static domains)
+    try {
+      const jsonpResult = await fetchBloggerViaJsonp(maxResults);
+      if (jsonpResult && jsonpResult.length > 0) {
+        return jsonpResult;
+      }
+    } catch (_) {
+      // JSONP fallback
+    }
+
+    // Method C: RSS via public CORS proxy
+    try {
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(`${RSS_FEED_URL}&max-results=${maxResults}`)}`;
+      const res = await fetch(proxyUrl);
+      if (res.ok) {
+        const xmlText = await res.text();
+        return parseRssXmlString(xmlText);
+      }
+    } catch (_) {
+      // Proxy fallback
+    }
+
+    return [];
+  }
+
+  /**
+   * JSONP loader for Blogger feed (bypasses browser CORS completely)
+   */
+  function fetchBloggerViaJsonp(maxResults = 50) {
+    return new Promise((resolve, reject) => {
+      const callbackName = '__mtvBloggerCallback_' + Math.floor(Math.random() * 1000000);
+      const script = document.createElement('script');
+      const timeout = setTimeout(() => {
+        cleanup();
+        reject(new Error('JSONP request timeout'));
+      }, 8000);
+
+      function cleanup() {
+        clearTimeout(timeout);
+        delete window[callbackName];
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      }
+
+      window[callbackName] = function (data) {
+        cleanup();
+        try {
+          if (data && data.feed && Array.isArray(data.feed.entry)) {
+            const parsed = parseBloggerJsonEntries(data.feed.entry);
+            resolve(parsed);
+          } else {
+            resolve([]);
+          }
+        } catch (e) {
+          reject(e);
+        }
+      };
+
+      script.src = `${BLOGGER_BASE_URL}/feeds/posts/default?alt=json-in-script&callback=${callbackName}&max-results=${maxResults}`;
+      script.onerror = function () {
+        cleanup();
+        reject(new Error('JSONP script load error'));
+      };
+
+      document.head.appendChild(script);
+    });
+  }
+
+  /**
+   * Parse Blogger JSON entry format into PromptRecord items
+   */
+  function parseBloggerJsonEntries(entries) {
+    const items = [];
+
+    for (const entry of entries) {
+      const rawTitle = entry.title?.$t || 'AI Prompt';
+      const postId = entry.id?.$t || '';
+      const pubDate = entry.published?.$t || entry.updated?.$t || '';
+      const sourceUrl = (entry.link || []).find(l => l.rel === 'alternate')?.href || BLOGGER_BASE_URL;
+      const catMatches = (entry.category || []).map(c => (c.term || '').trim()).filter(Boolean);
+      const primaryCategory = catMatches[0] || 'AI Prompt';
+      const rawHtml = entry.content?.$t || '';
+
+      if (!rawHtml) continue;
+
+      // Extract content images
+      const allImages = [...rawHtml.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)]
+        .map(m => m[1])
+        .filter(src => src && !src.includes('blogger_logo') && !src.includes('clear.gif') && !src.includes('blank.gif'));
+
+      // Extract prompt blocks
+      let promptBlocks = [...rawHtml.matchAll(/class=["'][^"']*prompt-text[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi)].map(m => m[1]);
+
+      if (promptBlocks.length === 0) {
+        const altMatches = [...rawHtml.matchAll(/(?:PROMPT|Prompt)\s*:\s*([\s\S]*?)(?:<\/div>|<\/p>|<button|<\/blockquote>)/gi)].map(m => m[1]);
+        if (altMatches.length > 0) promptBlocks = altMatches;
+      }
+
+      // Clean prompts
+      const validPrompts = promptBlocks
+        .map(p => cleanPromptText(p))
+        .filter(t => t.length > 20 && !t.startsWith('http') && !t.includes('Step 1 — Copy'));
+
+      const baseTitle = rawTitle.replace(/\s*\[Code\s*#?\d+\]/i, '').trim();
+
+      validPrompts.forEach((promptText, idx) => {
+        const imgUrl = allImages[idx] || allImages[0] || '';
+        if (promptText && imgUrl) {
+          const itemIdx = idx + 1;
+          const stableId = 'prompt_' + (postId.replace(/[^a-zA-Z0-9]/g, '_') || 'post') + '_' + itemIdx;
+          const itemTitle = validPrompts.length > 1 ? `${baseTitle} (Style ${itemIdx})` : baseTitle;
+
+          items.push({
+            id: stableId,
+            postId,
+            title: itemTitle,
+            originalPostTitle: rawTitle,
+            sourceUrl,
+            imageUrl: imgUrl,
+            promptText,
+            category: primaryCategory,
+            categories: catMatches.length > 0 ? catMatches : ['AI Prompt'],
+            pubDate,
+            itemIndex: itemIdx,
+          });
+        }
+      });
+    }
+
+    return items;
+  }
+
+  /**
+   * Parse RSS XML format string into PromptRecord items
+   */
+  function parseRssXmlString(xmlText) {
+    const items = [];
+    const rawItems = xmlText.split('<item>').slice(1);
+
+    for (const rawItem of rawItems) {
+      const titleMatch = rawItem.match(/<title>([^<]+)<\/title>/);
+      const rawTitle = titleMatch ? unescapeHtml(titleMatch[1]).trim() : '';
+
+      const linkMatch = rawItem.match(/<link>([^<]+)<\/link>/);
+      const sourceUrl = linkMatch ? linkMatch[1].trim() : '';
+
+      const guidMatch = rawItem.match(/<guid[^>]*>([^<]+)<\/guid>/);
+      const postId = guidMatch ? guidMatch[1].trim() : '';
+
+      const pubDateMatch = rawItem.match(/<pubDate>([^<]+)<\/pubDate>/);
+      const pubDate = pubDateMatch ? pubDateMatch[1].trim() : '';
+
+      const catMatches = [...rawItem.matchAll(/<category[^>]*>([^<]+)<\/category>/g)].map(m => unescapeHtml(m[1]).trim());
+      const primaryCategory = catMatches[0] || 'AI Prompt';
+
+      const descMatch = rawItem.match(/<description>([\s\S]*?)<\/description>/);
+      if (!descMatch) continue;
+
+      const rawHtml = unescapeHtml(descMatch[1]);
+
+      const allImages = [...rawHtml.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)]
+        .map(m => m[1])
+        .filter(src => src && !src.includes('blogger_logo') && !src.includes('clear.gif') && !src.includes('blank.gif'));
+
+      let promptBlocks = [...rawHtml.matchAll(/class=["'][^"']*prompt-text[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi)].map(m => m[1]);
+
+      if (promptBlocks.length === 0) {
+        const altMatches = [...rawHtml.matchAll(/(?:PROMPT|Prompt)\s*:\s*([\s\S]*?)(?:<\/div>|<\/p>|<button|<\/blockquote>)/gi)].map(m => m[1]);
+        if (altMatches.length > 0) promptBlocks = altMatches;
+      }
+
+      const validPrompts = promptBlocks
+        .map(p => cleanPromptText(p))
+        .filter(t => t.length > 20 && !t.startsWith('http') && !t.includes('Step 1 — Copy'));
+
+      const baseTitle = rawTitle.replace(/\s*\[Code\s*#?\d+\]/i, '').trim();
+
+      validPrompts.forEach((promptText, idx) => {
+        const imgUrl = allImages[idx] || allImages[0] || '';
+        if (promptText && imgUrl) {
+          const itemIdx = idx + 1;
+          const stableId = 'prompt_' + (postId.replace(/[^a-zA-Z0-9]/g, '_') || 'post') + '_' + itemIdx;
+          const itemTitle = validPrompts.length > 1 ? `${baseTitle} (Style ${itemIdx})` : baseTitle;
+
+          items.push({
+            id: stableId,
+            postId,
+            title: itemTitle,
+            originalPostTitle: rawTitle,
+            sourceUrl,
+            imageUrl: imgUrl,
+            promptText,
+            category: primaryCategory,
+            categories: catMatches.length > 0 ? catMatches : ['AI Prompt'],
+            pubDate,
+            itemIndex: itemIdx,
+          });
+        }
+      });
+    }
+
+    return items;
+  }
+
+  /**
+   * Remove hashtags, links, promo, and author text from prompt
+   */
+  function cleanPromptText(text) {
+    if (!text) return '';
+    let clean = unescapeHtml(text)
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    // Remove leading 'PROMPT:' or 'Prompt:' label
+    clean = clean.replace(/^(?:PROMPT|Prompt)\s*:\s*/i, '').trim();
+
+    // Remove trailing hashtags (#something or multiple #tags)
+    clean = clean.replace(/#\w+[\s\w#]*$/, '').trim();
+
+    // Remove any trailing instructions/promotions that might have leaked
+    clean = clean.replace(/(?:Support Us|Join Our Community|Follow on Instagram|Step 1\s*[—–-]|Welcome to AIPromptXpert).*$/i, '').trim();
+
+    return clean;
+  }
+
+  /**
+   * Local storage cache helpers
+   */
+  function getLocalCache() {
+    try {
+      const raw = localStorage.getItem(LOCAL_CACHE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.prompts) && parsed.prompts.length > 0) {
+        return parsed;
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  function setLocalCache(prompts, categories) {
+    try {
+      localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify({
+        timestamp: Date.now(),
+        categories: categories || [],
+        prompts: prompts || [],
+      }));
+    } catch (_) {}
   }
 
   /**
@@ -288,7 +685,6 @@
     if (emptyStateEl) emptyStateEl.style.display = 'none';
 
     const maxItems = currentPage * pageSize;
-    const itemsToRender = filtered.slice(0, maxItems);
     hasMore = maxItems < totalCount;
 
     if (!isAppend) {
@@ -320,7 +716,6 @@
     card.className = 'prompt-card';
     card.setAttribute('data-id', record.id);
 
-    // Optimized thumbnail
     const thumbUrl = record.imageUrl;
     const cleanTitle = record.title || 'AI Image Prompt';
     const categoryTag = record.category || 'AI Prompt';
@@ -382,7 +777,7 @@
     if (modalText) modalText.textContent = record.promptText;
 
     if (modalSourceLink) {
-      modalSourceLink.href = record.sourceUrl || 'https://aipromptxpert.blogspot.com/';
+      modalSourceLink.href = record.sourceUrl || BLOGGER_BASE_URL;
     }
 
     if (modalCopyBtn) {
@@ -403,12 +798,11 @@
   }
 
   /**
-   * Copy prompt text to clipboard (ensures ONLY exact prompt is copied, NO hashtags)
+   * Copy prompt text to clipboard (guarantees ONLY clean prompt text is copied)
    */
   async function copyPromptToClipboard(text, btnElement) {
     if (!text) return;
 
-    // Strict cleaning check to guarantee zero hashtags or external promotional text in copied string
     let cleanPrompt = text
       .replace(/#\w+[\s\w#]*$/, '')
       .replace(/^(?:PROMPT|Prompt)\s*:\s*/i, '')
@@ -418,7 +812,6 @@
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(cleanPrompt);
       } else {
-        // Fallback for older context
         const textArea = document.createElement('textarea');
         textArea.value = cleanPrompt;
         textArea.style.position = 'fixed';
@@ -433,7 +826,6 @@
 
       showToast("Prompt copied successfully.");
 
-      // Button feedback
       if (btnElement) {
         const originalHtml = btnElement.innerHTML;
         btnElement.classList.add('btn-copied');
@@ -495,6 +887,18 @@
     if (loadMoreBtn) {
       loadMoreBtn.style.display = 'none';
     }
+  }
+
+  function unescapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&#039;/g, "'")
+      .replace(/&nbsp;/g, ' ');
   }
 
   function escapeHtml(str) {

@@ -175,11 +175,24 @@ function loadDiskCache(): PromptSyncResult | null {
  */
 function saveDiskCache(data: PromptSyncResult): void {
   try {
-    const dir = path.dirname(DATA_FILE_PATH);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+    const targets = [
+      path.join(process.cwd(), "assets", "data", "ai-prompts.json"),
+      path.join(process.cwd(), "public", "assets", "data", "ai-prompts.json"),
+    ];
+
+    if (fs.existsSync(path.join(process.cwd(), "dist"))) {
+      targets.push(path.join(process.cwd(), "dist", "assets", "data", "ai-prompts.json"));
     }
-    fs.writeFileSync(DATA_FILE_PATH, JSON.stringify(data, null, 2), "utf-8");
+
+    const jsonStr = JSON.stringify(data, null, 2);
+
+    for (const target of targets) {
+      const dir = path.dirname(target);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(target, jsonStr, "utf-8");
+    }
   } catch (err) {
     console.error("Failed to write ai-prompts.json disk cache:", err);
   }
