@@ -692,9 +692,15 @@ class GrowthEngine {
     }
 
     try {
-      const response = await fetch('/api/analyze-video', {
+      const apiBase = (window.MTV_API_BASE_URL || (window.location && window.location.origin ? window.location.origin : '')).replace(/\/+$/, '');
+      const targetUrl = `${apiBase}/api/analyze-video`;
+
+      const response = await fetch(targetUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify({
           url: inputUrl,
           title: inputTitle,
@@ -703,11 +709,20 @@ class GrowthEngine {
         })
       });
 
-      if (!response.ok) {
-        throw new Error(`Server returned status ${response.status}`);
+      const contentType = response.headers.get('content-type') || '';
+      let rawData = null;
+
+      if (contentType.includes('application/json')) {
+        rawData = await response.json();
+      } else {
+        const rawText = await response.text();
+        console.error(`[MTV Growth Engine] Non-JSON API Response (${response.status}):`, rawText.slice(0, 300));
+        throw new Error(`Server returned a non-JSON response (${response.status}). Please check production backend API routes.`);
       }
 
-      const rawData = await response.json();
+      if (!response.ok || rawData.success === false || rawData.error) {
+        throw new Error(rawData.error || `Server returned status ${response.status}`);
+      }
       const auditData = (rawData && rawData.data) ? rawData.data : rawData;
       this.renderAuditResults(auditData, inputCategory);
       

@@ -650,6 +650,15 @@ app.post("/api/ai/compare", async (req, res) => {
 });
 
 // Universal Multi-Provider AI API Gateway
+app.get("/api/ai", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  return res.json({
+    success: true,
+    message: "Universal Multi-Provider AI API Gateway is active. Send a POST request to submit AI queries.",
+    endpoints: ["/api/ai", "/api/seo-research", "/api/analyze-video", "/api/ai/health", "/api/ai/providers"],
+  });
+});
+
 app.post("/api/ai", async (req, res) => {
   const clientIp = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || '127.0.0.1').split(',')[0].trim();
   const rateLimit = globalRateLimiter.check(clientIp);
@@ -759,6 +768,14 @@ INPUT METADATA:
 });
 
 // API endpoint for Video Growth Audit (backward compatibility)
+app.get("/api/analyze-video", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  return res.json({
+    success: true,
+    message: "Video Growth Audit API endpoint is active. Send a POST request with { url, title, category } payload to run video audits.",
+  });
+});
+
 app.post("/api/analyze-video", async (req, res) => {
   try {
     const { url = "", title = "", category = "Education & Tech", provider } = req.body;
@@ -860,6 +877,15 @@ CRITICAL MANDATORY INSTRUCTIONS:
 
 // Master API endpoint for Social Media Research & SEO Suite (Approved 6 Tools)
 // Provides tool-specific schemas, specialized prompts, and grounded deterministic engines for the 6 tools
+app.get("/api/seo-research", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  return res.json({
+    success: true,
+    message: "Social Media & Video SEO Research API endpoint is active. Send a POST request with { toolId, topic, platforms } payload to execute research.",
+    supportedTools: [1, 2, 3, 4, 5, 6, 7],
+  });
+});
+
 app.post("/api/seo-research", async (req, res) => {
   try {
     const {
@@ -2259,6 +2285,30 @@ function generateToolSpecificOutput(
 }
 
 async function startServer() {
+  // Catch all unmatched /api/* requests and return JSON 404 instead of SPA HTML fallback
+  app.all("/api/*", (req, res) => {
+    res.setHeader("Content-Type", "application/json");
+    return res.status(404).json({
+      success: false,
+      error: `API endpoint not found: ${req.method} ${req.path}`,
+      errorCode: "NOT_FOUND",
+    });
+  });
+
+  // Global API error handler ensuring errors on /api/* routes return JSON instead of HTML
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (req.path && req.path.startsWith("/api")) {
+      console.error("[API Error Handler]", err);
+      res.setHeader("Content-Type", "application/json");
+      return res.status(res.statusCode >= 400 ? res.statusCode : 500).json({
+        success: false,
+        error: err.message || "Internal server error occurred on API endpoint.",
+        errorCode: "INTERNAL_SERVER_ERROR",
+      });
+    }
+    next(err);
+  });
+
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },

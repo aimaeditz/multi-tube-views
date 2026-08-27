@@ -685,17 +685,32 @@
           provider: window.MultiTubeAI ? window.MultiTubeAI.getSelectedProvider() : 'auto',
         };
 
-        const apiBase = window.MTV_API_BASE_URL || '';
-        const response = await fetch(`${apiBase}/api/seo-research`, {
+        const apiBase = (window.MTV_API_BASE_URL || (window.location && window.location.origin ? window.location.origin : '')).replace(/\/+$/, '');
+        const targetUrl = `${apiBase}/api/seo-research`;
+
+        const response = await fetch(targetUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
           body: JSON.stringify(payload),
           signal: this.abortController.signal
         });
 
-        const data = await response.json();
+        const contentType = response.headers.get('content-type') || '';
+        let data = null;
+
+        if (contentType.includes('application/json')) {
+          data = await response.json();
+        } else {
+          const rawText = await response.text();
+          console.error(`[MTV SEO Tools] Non-JSON API Response (${response.status}):`, rawText.slice(0, 300));
+          throw new Error(`The backend service returned a non-JSON response (${response.status}). Please ensure the production API endpoint is active.`);
+        }
+
         if (!response.ok || data.success === false || data.error) {
-          throw new Error(data.error || 'AI research request failed');
+          throw new Error(data.error || `AI research request failed (${response.status})`);
         }
 
         this.activeResultData = data;
