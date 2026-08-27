@@ -18,6 +18,7 @@ export default defineConfig(() => {
           main: path.resolve(__dirname, 'index.html'),
           about: path.resolve(__dirname, 'about.html'),
           aiPrompt: path.resolve(__dirname, 'ai-prompt.html'),
+          aiTools: path.resolve(__dirname, 'ai-tools.html'),
           articles: path.resolve(__dirname, 'articles.html'),
           contact: path.resolve(__dirname, 'contact.html'),
           credits: path.resolve(__dirname, 'credits.html'),

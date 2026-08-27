@@ -55,7 +55,12 @@
                              host.includes('multitubeviews.com') ||
                              host.includes('netlify.app') ||
                              host.includes('vercel.app') ||
-                             host.includes('pages.dev');
+                             host.includes('pages.dev') ||
+                             (host &&
+                              host !== 'localhost' &&
+                              host !== '127.0.0.1' &&
+                              host !== '0.0.0.0' &&
+                              !host.includes('asia-east1.run.app'));
 
         if (isStaticDomain) {
           return DEFAULT_PRODUCTION_BACKEND;

@@ -198,7 +198,10 @@
     // Step 2: If static JSON not resolved, try Node server API endpoint
     if (!loadedPrompts) {
       try {
-        const res = await fetch('/api/ai-prompts?limit=1000');
+        const apiBase = (window.mtvAI && typeof window.mtvAI.getApiBaseUrl === 'function')
+          ? window.mtvAI.getApiBaseUrl()
+          : (window.MTV_API_BASE_URL || (window.location && window.location.origin ? window.location.origin : '')).replace(/\/+$/, '');
+        const res = await fetch(`${apiBase}/api/ai-prompts?limit=1000`);
         if (res.ok) {
           const json = await res.json();
           if (json.success && Array.isArray(json.prompts) && json.prompts.length > 0) {
