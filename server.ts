@@ -5,6 +5,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import { aiOrchestrator } from "./server/ai/orchestrator.js";
 import { globalRateLimiter } from "./server/ai/rate-limiter.js";
+import { getPrompts, getPromptById, syncPromptsFromRss } from "./server/ai-prompt-engine.js";
 
 dotenv.config();
 
@@ -876,12 +877,65 @@ CRITICAL MANDATORY INSTRUCTIONS:
 
 
 
-// Tool-Specific Deterministic Engine Generator
+// AI Prompt Library API Endpoints (Sourced strictly from AiPromptXpert Blogger RSS)
+app.get("/api/ai-prompts", async (req, res) => {
+  try {
+    const category = typeof req.query.category === "string" ? req.query.category : undefined;
+    const search = typeof req.query.search === "string" ? req.query.search : undefined;
+    const page = typeof req.query.page === "string" ? parseInt(req.query.page, 10) : undefined;
+    const limit = typeof req.query.limit === "string" ? parseInt(req.query.limit, 10) : undefined;
 
+    const data = await getPrompts({ category, search, page, limit });
+    res.json({
+      success: true,
+      ...data,
+    });
+  } catch (error: any) {
+    console.error("AI Prompts fetch error:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message || "Failed to retrieve AI prompts.",
+      total: 0,
+      prompts: [],
+      categories: [],
+    });
+  }
+});
 
+app.get("/api/ai-prompts/detail/:id", async (req, res) => {
+  try {
+    const prompt = await getPromptById(req.params.id);
+    if (!prompt) {
+      return res.status(404).json({
+        success: false,
+        error: "Prompt record not found.",
+      });
+    }
+    res.json({
+      success: true,
+      prompt,
+    });
+  } catch (error: any) {
+    console.error("AI Prompt detail error:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message || "Failed to retrieve prompt detail.",
+    });
+  }
+});
 
-
-
+app.post("/api/ai-prompts/sync", async (req, res) => {
+  try {
+    const result = await syncPromptsFromRss(true);
+    res.json(result);
+  } catch (error: any) {
+    console.error("AI Prompt manual sync error:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message || "Failed to synchronize RSS prompts.",
+    });
+  }
+});
 
 async function startServer() {
   // Catch all unmatched /api/* requests and return JSON 404 instead of SPA HTML fallback

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Prompt — Multi Tube Views</title>
+  <meta name="description" content="Discover curated AI image prompts with authentic visual references and easy one-click copying.">
+  <link rel="canonical" href="https://multitubeviews.com/ai-prompt.html">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="https://multitubeviews.com/assets/icons/favicon.svg">
+  <link rel="shortcut icon" type="image/svg+xml" href="https://multitubeviews.com/assets/icons/favicon.svg">
+  <link rel="apple-touch-icon" href="https://multitubeviews.com/assets/icons/favicon.svg">
+  
+  <meta property="og:title" content="AI Prompt — Multi Tube Views">
+  <meta property="og:description" content="Explore authentic AI image prompts with 1:1 image previews and instant one-click prompt copying.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://multitubeviews.com/ai-prompt.html">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/theme.js"></script>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Multi Tube Views Home">
+        <div class="brand-icon">MTV</div>
+        <div class="brand-text">
+          <span>Multi Tube Views</span>
+          <span class="brand-badge">PRO</span>
+        </div>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="ai-prompt.html" class="nav-link active">AI Prompt</a>
+        <a href="platforms.html" class="nav-link">Platforms</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="settings.html" class="nav-link">Settings</a>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-icon-only theme-toggle-btn" aria-label="Toggle Theme"></button>
+        <button type="button" class="btn-mobile-menu" aria-label="Open Navigation Menu" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer">
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="ai-prompt.html" class="mobile-nav-link active">AI Prompt</a>
+    <a href="platforms.html" class="mobile-nav-link">Platforms</a>
+    <a href="about.html" class="mobile-nav-link">About</a>
+    <a href="contact.html" class="mobile-nav-link">Contact</a>
+    <a href="settings.html" class="mobile-nav-link">Settings</a>
+    <a href="privacy.html" class="mobile-nav-link">Privacy Policy</a>
+    <a href="disclaimer.html" class="mobile-nav-link">Disclaimer</a>
+    <a href="terms.html" class="mobile-nav-link">Terms of Service</a>
+  </div>
+
+  <main class="site-main">
+    <div class="container">
+      
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-nav" style="margin-top: 1.5rem;">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>AI Prompt</span>
+      </div>
+
+      <!-- Header Section -->
+      <section class="prompt-header-section">
+        <span class="hero-pill">Prompt Library</span>
+        <h1>AI Prompt Library</h1>
+        <p>
+          Discover curated AI image prompts with authentic visual references and easy one-click copying.
+        </p>
+      </section>
+
+      <!-- Controls: Search & Category Filters -->
+      <section class="prompt-controls-bar" aria-label="Prompt search and category filters">
+        <div class="prompt-search-wrap">
+          <svg class="prompt-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            id="prompt-search-input" 
+            class="prompt-search-input" 
+            placeholder="Search prompts by keyword, subject, style, or code..." 
+            aria-label="Search AI Prompts"
+            autocomplete="off"
+          />
+          <button type="button" id="prompt-search-clear" class="prompt-search-clear" aria-label="Clear Search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div id="category-pills" class="category-pills-wrap" role="toolbar" aria-label="Filter prompts by category">
+          <!-- Dynamic Category Pills Rendered via ai-prompt.js -->
+        </div>
+      </section>
+
+      <!-- Meta Summary -->
+      <div class="prompt-meta-header">
+        <span id="prompt-count-summary">Loading AI prompt library...</span>
+      </div>
+
+      <!-- Loading Spinner -->
+      <div id="prompt-loading-spinner" style="display: none; justify-content: center; padding: 4rem 0;">
+        <div style="width: 32px; height: 32px; border: 3px solid var(--border-strong); border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+      </div>
+
+      <!-- Empty State -->
+      <div id="prompt-empty-state" class="prompt-empty-state" style="display: none;">
+        <div class="prompt-empty-icon">🔍</div>
+        <h3>No matching prompts found</h3>
+        <p>Try searching for different keywords or select "All" categories.</p>
+      </div>
+
+      <!-- Prompt Cards Grid -->
+      <section id="prompt-grid" class="prompt-grid" aria-label="AI Prompts Gallery">
+        <!-- Rendered dynamically by ai-prompt.js -->
+      </section>
+
+      <!-- Pagination / Load More -->
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <button type="button" id="load-more-btn" class="btn btn-outline" style="display: none; padding: 0.75rem 2rem; border-radius: var(--radius-full);">
+          Load More Prompts
+        </button>
+      </div>
+
+      <!-- Source Integrity Note Card -->
+      <section class="card" style="margin-bottom: 4rem; background: var(--bg-surface); border: 1px solid var(--border-strong);">
+        <div style="display: flex; gap: 1rem; align-items: flex-start;">
+          <div style="width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--bg-subtle); display: flex; align-items: center; justify-content: center; color: var(--accent-blue); flex-shrink: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          <div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text-primary);">About the AI Prompt Library</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0.5rem;">
+              Multi Tube Views integrates real AI image generation prompts from AiPromptXpert. Every prompt is faithfully rendered alongside its authentic reference image so you can inspect the exact visual style before copying the prompt text for use in your favorite AI image generators.
+            </p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+              Attribution: Prompts and reference images belong to their respective creators at AiPromptXpert. Multi Tube Views provides this directory as a public browsing utility without alterations or artificial insertions.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Prompt Detail Modal -->
+  <div id="prompt-detail-modal" class="prompt-modal" role="dialog" aria-modal="true" aria-labelledby="modal-prompt-title">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modal-prompt-title" class="modal-prompt-title">AI Prompt Details</h3>
+        <button type="button" class="modal-close-btn" aria-label="Close Prompt Dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-content">
+        <div class="modal-media-wrap">
+          <img src="" alt="Prompt Visual Style" class="modal-prompt-img" loading="lazy" decoding="async" />
+        </div>
+        <div class="modal-info-wrap">
+          <span class="modal-prompt-badge modal-prompt-category">AI Prompt</span>
+          <div>
+            <label style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.4rem;">Prompt Text</label>
+            <div class="modal-prompt-box modal-prompt-text"></div>
+          </div>
+          <div class="modal-source-meta">
+            Original: <a href="https://aipromptxpert.blogspot.com/" target="_blank" rel="noopener noreferrer" class="modal-source-link">View Original AiPromptXpert Post ↗</a>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-primary modal-copy-btn" style="flex-grow: 1;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copy Full Prompt</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copy Toast Notification -->
+  <div id="copy-toast" class="prompt-toast">Prompt copied successfully.</div>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <span class="brand-icon" style="width: 26px; height: 26px; font-size: 0.75rem;">MTV</span>
+            <span>Multi Tube Views</span>
+          </h3>
+          <p>A clean, responsive, multi-platform public media viewing workspace with dedicated adapters for 20+ services and genuine AI prompt directory.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Directory</h4>
+          <ul class="footer-links">
+            <li><a href="platforms/youtube.html">YouTube Workspace</a></li>
+            <li><a href="platforms/twitch.html">Twitch Workspace</a></li>
+            <li><a href="platforms/vimeo.html">Vimeo Workspace</a></li>
+            <li><a href="platforms/spotify.html">Spotify Workspace</a></li>
+            <li><a href="index.html#directory">All 20 Platforms</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ai-prompt.html">AI Prompt</a></li>
+            <li><a href="articles.html">Articles & Guides</a></li>
+            <li><a href="about.html">About MTV</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="settings.html">Display Settings</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Info</h4>
+          <ul class="footer-links">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="disclaimer.html">Disclaimer</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="credits.html">Credits & Attributions</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-info">
+          <div>© <span class="dynamic-year">2026</span> Multi Tube Views (MTV). All rights reserved.</div>
+          <div class="creator-credit">
+            Created by <span class="creator-name">AiMAEditz</span> <span class="creator-sep">•</span> <a href="credits.html#creator" class="creator-link">About Creator</a>
+          </div>
+        </div>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Privacy</a>
+          <a href="disclaimer.html">Disclaimer</a>
+          <a href="terms.html">Terms</a>
+          <a href="credits.html">Credits</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/navigation.js"></script>
+  <script src="assets/js/ai-prompt.js"></script>
+</body>
+</html>
