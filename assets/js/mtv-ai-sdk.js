@@ -92,8 +92,11 @@
         var response = await fetch(url, options);
         var contentType = response.headers.get('content-type') || '';
 
-        // Guard against static host returning HTML (e.g. index.html SPA fallback)
-        if (contentType.includes('text/html')) {
+        // Validate API response status and Content-Type before JSON parsing
+        var isHtmlOrNonJson = contentType.includes('text/html') || 
+                              (!contentType.includes('application/json') && contentType.trim() !== '');
+
+        if (isHtmlOrNonJson) {
           if (!isRetry && typeof window !== 'undefined') {
             var fallbackBackend = DEFAULT_PRODUCTION_BACKEND;
             if (activeBase !== fallbackBackend) {
@@ -104,19 +107,14 @@
               return this._request(endpoint, method, payload, true);
             }
           }
-          return {
-            success: false,
-            error: 'The endpoint returned HTML instead of JSON. Connected backend fallback active.',
-            errorCode: 'STATIC_HOST_HTML_RESPONSE',
-          };
+          throw new Error('Orchestration Offline');
         }
 
         var text = await response.text();
-        var data;
-        try {
-          data = JSON.parse(text);
-        } catch (parseErr) {
-          if (!isRetry && (text.trim().startsWith('<') || text.includes('<html>'))) {
+        var textLooksLikeHtml = text.trim().startsWith('<') || text.includes('<html>');
+
+        if (textLooksLikeHtml) {
+          if (!isRetry && typeof window !== 'undefined') {
             var fallbackBackend = DEFAULT_PRODUCTION_BACKEND;
             if (activeBase !== fallbackBackend) {
               this.setBaseUrl(fallbackBackend);
@@ -126,12 +124,14 @@
               return this._request(endpoint, method, payload, true);
             }
           }
-          return {
-            success: false,
-            error: 'Invalid JSON response from server.',
-            errorCode: 'PARSING_ERROR',
-            rawText: text.slice(0, 200),
-          };
+          throw new Error('Orchestration Offline');
+        }
+
+        var data;
+        try {
+          data = JSON.parse(text);
+        } catch (parseErr) {
+          throw new Error('Orchestration Offline');
         }
 
         if (!response.ok) {
@@ -145,6 +145,10 @@
 
         return data;
       } catch (err) {
+        if (err.message === 'Orchestration Offline') {
+          throw err;
+        }
+
         if (!isRetry && typeof window !== 'undefined') {
           var fallbackBackend = DEFAULT_PRODUCTION_BACKEND;
           if (activeBase !== fallbackBackend) {
@@ -152,14 +156,17 @@
             try {
               localStorage.setItem('mtv_api_backend_url', fallbackBackend);
             } catch (_) {}
-            return this._request(endpoint, method, payload, true);
+            try {
+              return await this._request(endpoint, method, payload, true);
+            } catch (retryErr) {
+              if (retryErr.message === 'Orchestration Offline') {
+                throw retryErr;
+              }
+              throw new Error('Orchestration Offline');
+            }
           }
         }
-        return {
-          success: false,
-          error: err.message || 'Network error communicating with Universal AI Gateway.',
-          errorCode: 'NETWORK_ERROR',
-        };
+        throw new Error('Orchestration Offline');
       }
     },
 
