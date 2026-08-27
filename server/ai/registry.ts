@@ -5,6 +5,7 @@
  */
 
 import { AIProviderConfig, AIProviderId, AIModelConfig } from './types.js';
+import { getModelsByProvider } from './models.js';
 
 export const PROVIDER_REGISTRY: Record<AIProviderId, AIProviderConfig> = {
   gemini: {
@@ -15,31 +16,12 @@ export const PROVIDER_REGISTRY: Record<AIProviderId, AIProviderConfig> = {
     defaultModel: 'gemini-3.6-flash',
     timeoutMs: 20000,
     priority: 1,
-    capabilities: ['text', 'json', 'vision', 'reasoning', 'long_context', 'coding'],
-    supportedModels: [
-      {
-        id: 'gemini-3.6-flash',
-        displayName: 'Gemini 3.6 Flash',
-        providerId: 'gemini',
-        capabilities: ['text', 'json', 'vision', 'reasoning', 'coding'],
-        maxContextTokens: 1000000,
-        isDefault: true,
-      },
-      {
-        id: 'gemini-3.6-pro',
-        displayName: 'Gemini 3.6 Pro',
-        providerId: 'gemini',
-        capabilities: ['text', 'json', 'vision', 'reasoning', 'coding', 'long_context'],
-        maxContextTokens: 2000000,
-      },
-      {
-        id: 'gemini-1.5-flash',
-        displayName: 'Gemini 1.5 Flash',
-        providerId: 'gemini',
-        capabilities: ['text', 'json', 'vision', 'long_context'],
-        maxContextTokens: 1000000,
-      },
+    capabilities: [
+      'TEXT_GENERATION', 'JSON_GENERATION', 'SEO_TITLE_GENERATION', 'META_DESCRIPTION', 
+      'KEYWORD_RESEARCH', 'YOUTUBE_SEO', 'YOUTUBE_ANALYSIS', 'SOCIAL_COPY', 
+      'CONTENT_BRIEF', 'VISION', 'STREAMING', 'REASONING', 'text', 'json', 'vision', 'reasoning', 'coding'
     ],
+    supportedModels: getModelsByProvider('gemini'),
   },
   openai: {
     id: 'openai',
@@ -50,31 +32,12 @@ export const PROVIDER_REGISTRY: Record<AIProviderId, AIProviderConfig> = {
     timeoutMs: 20000,
     priority: 2,
     apiBaseUrl: 'https://api.openai.com/v1',
-    capabilities: ['text', 'json', 'vision', 'reasoning', 'coding'],
-    supportedModels: [
-      {
-        id: 'gpt-4o-mini',
-        displayName: 'GPT-4o Mini',
-        providerId: 'openai',
-        capabilities: ['text', 'json', 'vision', 'coding'],
-        maxContextTokens: 128000,
-        isDefault: true,
-      },
-      {
-        id: 'gpt-4o',
-        displayName: 'GPT-4o',
-        providerId: 'openai',
-        capabilities: ['text', 'json', 'vision', 'reasoning', 'coding'],
-        maxContextTokens: 128000,
-      },
-      {
-        id: 'gpt-3.5-turbo',
-        displayName: 'GPT-3.5 Turbo',
-        providerId: 'openai',
-        capabilities: ['text', 'json'],
-        maxContextTokens: 16385,
-      },
+    capabilities: [
+      'TEXT_GENERATION', 'JSON_GENERATION', 'SEO_TITLE_GENERATION', 'META_DESCRIPTION', 
+      'KEYWORD_RESEARCH', 'YOUTUBE_SEO', 'YOUTUBE_ANALYSIS', 'SOCIAL_COPY', 
+      'CONTENT_BRIEF', 'VISION', 'STREAMING', 'REASONING', 'text', 'json', 'vision', 'coding'
     ],
+    supportedModels: getModelsByProvider('openai'),
   },
   grok: {
     id: 'grok',
@@ -85,24 +48,11 @@ export const PROVIDER_REGISTRY: Record<AIProviderId, AIProviderConfig> = {
     timeoutMs: 20000,
     priority: 3,
     apiBaseUrl: 'https://api.x.ai/v1',
-    capabilities: ['text', 'json', 'reasoning', 'coding'],
-    supportedModels: [
-      {
-        id: 'grok-2-latest',
-        displayName: 'Grok 2',
-        providerId: 'grok',
-        capabilities: ['text', 'json', 'reasoning', 'coding'],
-        maxContextTokens: 128000,
-        isDefault: true,
-      },
-      {
-        id: 'grok-beta',
-        displayName: 'Grok Beta',
-        providerId: 'grok',
-        capabilities: ['text', 'json', 'coding'],
-        maxContextTokens: 128000,
-      },
+    capabilities: [
+      'TEXT_GENERATION', 'JSON_GENERATION', 'SEO_TITLE_GENERATION', 'META_DESCRIPTION', 
+      'KEYWORD_RESEARCH', 'YOUTUBE_SEO', 'SOCIAL_COPY', 'STREAMING', 'REASONING', 'text', 'json'
     ],
+    supportedModels: getModelsByProvider('grok'),
   },
   deepseek: {
     id: 'deepseek',
@@ -113,24 +63,11 @@ export const PROVIDER_REGISTRY: Record<AIProviderId, AIProviderConfig> = {
     timeoutMs: 22000,
     priority: 4,
     apiBaseUrl: 'https://api.deepseek.com',
-    capabilities: ['text', 'json', 'reasoning', 'coding'],
-    supportedModels: [
-      {
-        id: 'deepseek-chat',
-        displayName: 'DeepSeek V3 (Chat)',
-        providerId: 'deepseek',
-        capabilities: ['text', 'json', 'coding'],
-        maxContextTokens: 64000,
-        isDefault: true,
-      },
-      {
-        id: 'deepseek-reasoner',
-        displayName: 'DeepSeek R1 (Reasoner)',
-        providerId: 'deepseek',
-        capabilities: ['text', 'reasoning', 'coding'],
-        maxContextTokens: 64000,
-      },
+    capabilities: [
+      'TEXT_GENERATION', 'JSON_GENERATION', 'SEO_TITLE_GENERATION', 'META_DESCRIPTION', 
+      'KEYWORD_RESEARCH', 'YOUTUBE_SEO', 'SOCIAL_COPY', 'CONTENT_BRIEF', 'STREAMING', 'REASONING', 'text', 'json'
     ],
+    supportedModels: getModelsByProvider('deepseek'),
   },
   claude: {
     id: 'claude',
@@ -141,24 +78,12 @@ export const PROVIDER_REGISTRY: Record<AIProviderId, AIProviderConfig> = {
     timeoutMs: 22000,
     priority: 5,
     apiBaseUrl: 'https://api.anthropic.com/v1',
-    capabilities: ['text', 'json', 'vision', 'reasoning', 'coding', 'long_context'],
-    supportedModels: [
-      {
-        id: 'claude-3-5-sonnet-20241022',
-        displayName: 'Claude 3.5 Sonnet',
-        providerId: 'claude',
-        capabilities: ['text', 'json', 'vision', 'reasoning', 'coding', 'long_context'],
-        maxContextTokens: 200000,
-        isDefault: true,
-      },
-      {
-        id: 'claude-3-haiku-20240307',
-        displayName: 'Claude 3 Haiku',
-        providerId: 'claude',
-        capabilities: ['text', 'json', 'vision', 'coding'],
-        maxContextTokens: 200000,
-      },
+    capabilities: [
+      'TEXT_GENERATION', 'JSON_GENERATION', 'SEO_TITLE_GENERATION', 'META_DESCRIPTION', 
+      'KEYWORD_RESEARCH', 'YOUTUBE_SEO', 'YOUTUBE_ANALYSIS', 'SOCIAL_COPY', 
+      'CONTENT_BRIEF', 'VISION', 'STREAMING', 'REASONING', 'text', 'json', 'vision', 'long_context'
     ],
+    supportedModels: getModelsByProvider('claude'),
   },
   mistral: {
     id: 'mistral',
@@ -169,24 +94,11 @@ export const PROVIDER_REGISTRY: Record<AIProviderId, AIProviderConfig> = {
     timeoutMs: 20000,
     priority: 6,
     apiBaseUrl: 'https://api.mistral.ai/v1',
-    capabilities: ['text', 'json', 'coding'],
-    supportedModels: [
-      {
-        id: 'mistral-small-latest',
-        displayName: 'Mistral Small',
-        providerId: 'mistral',
-        capabilities: ['text', 'json', 'coding'],
-        maxContextTokens: 32000,
-        isDefault: true,
-      },
-      {
-        id: 'mistral-large-latest',
-        displayName: 'Mistral Large',
-        providerId: 'mistral',
-        capabilities: ['text', 'json', 'reasoning', 'coding'],
-        maxContextTokens: 128000,
-      },
+    capabilities: [
+      'TEXT_GENERATION', 'JSON_GENERATION', 'SEO_TITLE_GENERATION', 'META_DESCRIPTION', 
+      'KEYWORD_RESEARCH', 'YOUTUBE_SEO', 'SOCIAL_COPY', 'CONTENT_BRIEF', 'STREAMING', 'REASONING', 'text', 'json'
     ],
+    supportedModels: getModelsByProvider('mistral'),
   },
   openrouter: {
     id: 'openrouter',
@@ -197,34 +109,25 @@ export const PROVIDER_REGISTRY: Record<AIProviderId, AIProviderConfig> = {
     timeoutMs: 22000,
     priority: 7,
     apiBaseUrl: 'https://openrouter.ai/api/v1',
-    capabilities: ['text', 'json', 'vision', 'reasoning', 'coding', 'long_context'],
-    supportedModels: [
-      {
-        id: 'google/gemini-3.6-flash',
-        displayName: 'OpenRouter: Gemini 3.6 Flash',
-        providerId: 'openrouter',
-        capabilities: ['text', 'json', 'vision'],
-        isDefault: true,
-      },
-      {
-        id: 'openai/gpt-4o-mini',
-        displayName: 'OpenRouter: GPT-4o Mini',
-        providerId: 'openrouter',
-        capabilities: ['text', 'json', 'coding'],
-      },
-      {
-        id: 'anthropic/claude-3.5-haiku',
-        displayName: 'OpenRouter: Claude 3.5 Haiku',
-        providerId: 'openrouter',
-        capabilities: ['text', 'json', 'reasoning'],
-      },
-      {
-        id: 'deepseek/deepseek-r1',
-        displayName: 'OpenRouter: DeepSeek R1',
-        providerId: 'openrouter',
-        capabilities: ['text', 'reasoning', 'coding'],
-      },
+    capabilities: [
+      'TEXT_GENERATION', 'JSON_GENERATION', 'SEO_TITLE_GENERATION', 'META_DESCRIPTION', 
+      'KEYWORD_RESEARCH', 'YOUTUBE_SEO', 'VISION', 'STREAMING', 'REASONING', 'text', 'json', 'vision'
     ],
+    supportedModels: getModelsByProvider('openrouter'),
+  },
+  puter: {
+    id: 'puter',
+    displayName: 'Puter AI (Optional Gateway)',
+    envKeyName: 'PUTER_AUTH_TOKEN',
+    enabledEnvVar: 'PUTER_ENABLED',
+    defaultModel: 'puter/gpt-4o-mini',
+    timeoutMs: 22000,
+    priority: 8,
+    isOptional: true,
+    capabilities: [
+      'TEXT_GENERATION', 'JSON_GENERATION', 'SEO_TITLE_GENERATION', 'META_DESCRIPTION', 'STREAMING', 'text', 'json'
+    ],
+    supportedModels: getModelsByProvider('puter'),
   },
 };
 

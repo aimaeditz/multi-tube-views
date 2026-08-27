@@ -5,6 +5,10 @@ import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import { aiOrchestrator } from "./server/ai/orchestrator.js";
 import { globalRateLimiter } from "./server/ai/rate-limiter.js";
+import { getAllTools, getToolDefinition } from "./server/ai/tools/registry.js";
+import { getAllCapabilities } from "./server/ai/capabilities.js";
+import { MODEL_REGISTRY } from "./server/ai/models.js";
+import { aiObservability } from "./server/ai/observability.js";
 import { getPrompts, getPromptById, syncPromptsFromRss } from "./server/ai-prompt-engine.js";
 
 dotenv.config();
@@ -601,15 +605,76 @@ function getIntelligentProvider(toolIdOrName: number | string | undefined): any 
   return 'auto';
 }
 
+// Universal AI Tool Registry Endpoint
+app.get("/api/ai/tools", (req, res) => {
+  const tools = getAllTools();
+  res.json({
+    success: true,
+    total: tools.length,
+    tools: tools.map(t => ({
+      toolId: t.toolId,
+      name: t.name,
+      slug: t.slug,
+      category: t.category,
+      description: t.description,
+      capability: t.capability,
+      platform: t.platform,
+      inputSchema: t.inputSchema,
+      outputSchema: t.outputSchema,
+      version: t.version,
+      enabled: t.enabled,
+    })),
+  });
+});
+
+app.get("/api/ai/tools/:id", (req, res) => {
+  const tool = getToolDefinition(req.params.id);
+  if (!tool) {
+    return res.status(404).json({ success: false, error: `Tool not found: ${req.params.id}` });
+  }
+  res.json({ success: true, tool });
+});
+
+// Universal AI Capabilities Registry Endpoint
+app.get("/api/ai/capabilities", (req, res) => {
+  const capabilities = getAllCapabilities();
+  res.json({
+    success: true,
+    total: capabilities.length,
+    capabilities,
+  });
+});
+
+// Centralized Model Registry Endpoint
+app.get("/api/ai/models", (req, res) => {
+  res.json({
+    success: true,
+    total: MODEL_REGISTRY.length,
+    models: MODEL_REGISTRY,
+  });
+});
+
+// AI Observability & Performance Metrics Endpoint
+app.get("/api/ai/metrics", (req, res) => {
+  const metrics = aiObservability.getMetrics();
+  res.json({
+    success: true,
+    metrics,
+  });
+});
+
 // AI Provider Health Check Endpoint
 app.get("/api/ai/health", (req, res) => {
   const statusList = aiOrchestrator.getProviderStatusList();
   const availableCount = statusList.filter(s => s.status === 'available').length;
+  const metrics = aiObservability.getMetrics();
   res.json({
     status: availableCount > 0 ? "ok" : "degraded",
     availableCount,
     totalProviders: statusList.length,
     providers: statusList,
+    systemUptimeSeconds: metrics.uptimeSeconds,
+    totalRequestsHandled: metrics.totalRequests,
   });
 });
 
@@ -635,15 +700,49 @@ app.post("/api/ai/compare", async (req, res) => {
     });
   }
 
-  const { prompt, systemInstruction, compareProviders } = req.body || {};
-  if (!prompt) {
-    return res.status(400).json({ error: "Prompt is required.", errorCode: "INVALID_REQUEST" });
+  const { prompt, systemInstruction, compareProviders, toolId, input } = req.body || {};
+  if (!prompt && !input) {
+    return res.status(400).json({ error: "Prompt or input is required for comparison.", errorCode: "INVALID_REQUEST" });
   }
 
   const result = await aiOrchestrator.compare({
     prompt,
     systemInstruction,
     compareProviders,
+    toolId,
+    input,
+  });
+
+  res.json(result);
+});
+
+// Batch AI Processing Endpoint
+app.post("/api/ai/batch", async (req, res) => {
+  const clientIp = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || '127.0.0.1').split(',')[0].trim();
+  const rateLimit = globalRateLimiter.check(clientIp);
+  if (!rateLimit.allowed) {
+    return res.status(429).json({
+      error: "Rate limit exceeded. Please wait before submitting more requests.",
+      errorCode: "RATE_LIMITED",
+    });
+  }
+
+  const { toolId, capability, items, provider, model, concurrency } = req.body || {};
+  if (!Array.isArray(items) || items.length === 0) {
+    return res.status(400).json({ error: "Array of items is required.", errorCode: "INVALID_REQUEST" });
+  }
+
+  if (items.length > 20) {
+    return res.status(400).json({ error: "Batch size exceeds maximum limit of 20 items.", errorCode: "INVALID_REQUEST" });
+  }
+
+  const result = await aiOrchestrator.processBatch({
+    toolId,
+    capability,
+    items,
+    provider,
+    model,
+    concurrency,
   });
 
   res.json(result);
@@ -655,7 +754,18 @@ app.get("/api/ai", (req, res) => {
   return res.json({
     success: true,
     message: "Universal Multi-Provider AI API Gateway is active. Send a POST request to submit AI queries.",
-    endpoints: ["/api/ai", "/api/analyze-video", "/api/ai/health", "/api/ai/providers"],
+    endpoints: [
+      "/api/ai",
+      "/api/ai/tools",
+      "/api/ai/capabilities",
+      "/api/ai/models",
+      "/api/ai/health",
+      "/api/ai/providers",
+      "/api/ai/compare",
+      "/api/ai/batch",
+      "/api/ai/metrics",
+      "/api/analyze-video",
+    ],
   });
 });
 
@@ -670,10 +780,10 @@ app.post("/api/ai", async (req, res) => {
   }
 
   try {
-    const { action, tool, toolId, input, prompt, provider, model, systemInstruction, compare } = req.body || {};
-    const targetProvider = getIntelligentProvider(toolId || tool || action);
+    const { action, tool, toolId, input, prompt, provider, model, systemInstruction, capability, options, platform } = req.body || {};
+    const effectiveToolId = toolId || tool || action;
 
-    // Route to video analysis if action or tool indicates video audit
+    // Special backward-compatibility handling for video audit action with custom scraping
     if (action === "analyze-video" || tool === "analyze-video" || tool === "video-audit") {
       const url = input?.url || req.body.url || "";
       const title = input?.title || req.body.title || "";
@@ -692,17 +802,23 @@ INPUT METADATA:
 - Content Category: "${category}"
 - Verified Video Duration: ${urlData.durationSeconds ? `${urlData.durationFormatted} (${urlData.durationSeconds} seconds)` : "Data unavailable"}`;
 
-        const aiResponse = await aiOrchestrator.generate({
+        const aiResponse = await aiOrchestrator.execute({
+          toolId: 'video-growth-audit',
           prompt: aiPrompt,
           systemInstruction: "You are an expert video SEO and packaging auditor. Output strict JSON adhering to exact verified duration, non-clickbait titles, and grounded timestamps.",
-          provider: targetProvider,
+          provider: provider || getIntelligentProvider('analyze-video'),
           model,
           responseFormat: 'json',
-          temperature: 0.2,
+          input: {
+            url,
+            title: effectiveTitle,
+            category,
+            durationSeconds: urlData.durationSeconds,
+          },
         });
 
-        if (aiResponse.success && (aiResponse.json || aiResponse.text)) {
-          const auditData = aiResponse.json || JSON.parse(aiResponse.text);
+        if (aiResponse.success && (aiResponse.json || aiResponse.data)) {
+          const auditData = aiResponse.data || aiResponse.json;
           return res.json({
             ...auditData,
             _aiMeta: {
@@ -717,38 +833,49 @@ INPUT METADATA:
       return res.json(generateGroundedAudit(effectiveTitle, category, urlData, hasValidInput));
     }
 
-    // Generic Multi-Provider AI prompt handler
-    const userPrompt = prompt || input?.prompt || JSON.stringify(input || req.body);
-    const sysInstruction = systemInstruction || req.body.systemInstruction || "You are an expert AI content assistant for Multi Tube Views. Return helpful, grounded, and accurate results in JSON format.";
+    // Universal AI Tool Execution & Prompt Gateway
+    const targetProvider = provider || (effectiveToolId ? getIntelligentProvider(effectiveToolId) : 'auto');
 
-    const aiResponse = await aiOrchestrator.generate({
-      prompt: userPrompt,
-      systemInstruction: sysInstruction,
+    const aiResponse = await aiOrchestrator.execute({
+      toolId: effectiveToolId,
+      capability,
+      input: input || (typeof req.body === 'object' ? req.body : {}),
+      prompt,
+      systemInstruction,
       provider: targetProvider,
       model,
-      responseFormat: 'json',
-      temperature: 0.3,
+      platform,
+      options,
     });
 
     if (aiResponse.success) {
-      if (aiResponse.json) {
+      if (aiResponse.data || aiResponse.json) {
         return res.json({
-          ...aiResponse.json,
+          ...(aiResponse.data || aiResponse.json),
           _aiMeta: {
+            requestId: aiResponse.requestId,
+            toolId: aiResponse.toolId,
+            capability: aiResponse.capability,
             provider: aiResponse.provider,
             model: aiResponse.model,
             latencyMs: aiResponse.latencyMs,
             fallbackOccurred: aiResponse.fallbackOccurred,
+            warnings: aiResponse.warnings,
           },
         });
       }
+
       return res.json({ 
         result: aiResponse.text,
         _aiMeta: {
+          requestId: aiResponse.requestId,
+          toolId: aiResponse.toolId,
+          capability: aiResponse.capability,
           provider: aiResponse.provider,
           model: aiResponse.model,
           latencyMs: aiResponse.latencyMs,
           fallbackOccurred: aiResponse.fallbackOccurred,
+          warnings: aiResponse.warnings,
         },
       });
     }
@@ -757,6 +884,7 @@ INPUT METADATA:
       error: aiResponse.error || "Failed to process AI request across all available providers.",
       errorCode: aiResponse.errorCode || "PROVIDER_UNAVAILABLE",
       attemptedProviders: aiResponse.attemptedProviders,
+      warnings: aiResponse.warnings,
     });
   } catch (error: any) {
     console.error("Universal AI endpoint error:", error);

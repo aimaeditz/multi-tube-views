@@ -1,0 +1,17 @@
+{
+  "name": "Multi Tube Views (MTV)",
+  "short_name": "MultiTubeViews",
+  "description": "Multi-Platform Public Media Workspace with Universal AI Engine",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "icons": [
+    {
+      "src": "assets/icons/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -42,7 +42,7 @@ function main() {
   console.log(`[Static Copy] Copied assets folder to dist/assets`);
 
   // Copy root meta files for GitHub Pages / static hosting
-  const rootFiles = ["CNAME", "robots.txt", "sitemap.xml", ".nojekyll"];
+  const rootFiles = ["CNAME", "robots.txt", "sitemap.xml", ".nojekyll", "manifest.json", "sw.js"];
   for (const f of rootFiles) {
     copyFileIfExists(path.join(process.cwd(), f), path.join(distDir, f));
   }
