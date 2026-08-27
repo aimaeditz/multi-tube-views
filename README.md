@@ -1,6 +1,6 @@
 # Multi Tube Views (MTV) 📺
 
-> **A clean, responsive, multi-platform public media viewing workspace and AI-powered creator growth suite with a provider-agnostic multi-AI gateway.**
+> **A clean, responsive, multi-platform public media viewing workspace with a provider-agnostic multi-AI gateway.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Multi-AI Gateway](https://img.shields.io/badge/AI-Multi--Provider%20Fallback-purple.svg)]()
@@ -12,8 +12,7 @@
 
 **Multi Tube Views (MTV)** is a comprehensive web application designed for content creators, researchers, media analysts, and digital marketers:
 1. **Multi-Platform Viewing Workspace:** Monitor multiple public media streams side-by-side across 20+ video, live-stream, and audio services.
-2. **AI-Powered Creator Growth Suite:** Access specialized SEO tools, video audit analyzers, title generators, script intro hooks, chapter/description formatters, and multi-platform content repurposing tools.
-3. **Provider-Agnostic Multi-AI Architecture:** Communicates with multiple legitimate AI providers (Google Gemini, OpenAI, xAI Grok, DeepSeek, Anthropic Claude, Mistral AI, OpenRouter) with intelligent fallback routing and side-by-side response comparison.
+2. **Multi-AI Gateway:** Communicates with multiple legitimate AI providers (Google Gemini, OpenAI, xAI Grok, DeepSeek, Anthropic Claude, Mistral AI, OpenRouter) with intelligent fallback routing and side-by-side response comparison.
 
 ---
 
@@ -58,7 +57,6 @@ RATE_LIMIT_MAX_REQUESTS=30
 | `/api/ai/providers` | `GET` | Discovery endpoint listing configured AI providers |
 | `/api/ai/compare` | `POST` | Compare Mode: Query multiple providers in parallel |
 | `/api/analyze-video` | `POST` | Public video metadata audit & multi-AI packaging score |
-| `/api/seo-research` | `POST` | Specialized social media & video SEO research engine (Tools 1–7) |
 
 ---
 
@@ -68,24 +66,8 @@ RATE_LIMIT_MAX_REQUESTS=30
 multi-tube-views/
 ├── server.ts                   # Express server entry point & API routes
 ├── server/
-│   ├── ai/
+│   └── ai/
 │   │   ├── types.ts            # AI Request/Response & Provider Interface definitions
-│   │   ├── registry.ts         # Central provider & model configurations
-│   │   ├── rate-limiter.ts     # Sliding window rate limiter
-│   │   ├── orchestrator.ts     # Fallback router & Compare mode engine
-│   │   └── adapters/           # Concrete provider adapters
-│   │       ├── gemini.ts       # Google Gemini adapter
-│   │       ├── openai.ts       # OpenAI adapter
-│   │       ├── grok.ts         # xAI Grok adapter
-│   │       ├── deepseek.ts     # DeepSeek adapter
-│   │       ├── claude.ts       # Anthropic Claude adapter
-│   │       ├── mistral.ts      # Mistral AI adapter
-│   │       └── openrouter.ts   # OpenRouter adapter
-│   └── seo-tools-registry.ts   # Deterministic fallback engines & tools context
-├── assets/js/
-│   ├── ai-provider-selector.js # Client-side provider selector & Compare UI engine
-│   ├── seo-tools-engine.js     # Frontend SEO tools workspace engine
-│   └── growth-engine.js        # Video packaging audit engine
 ```
 └── assets/
     ├── css/                    # Modular styling & design system

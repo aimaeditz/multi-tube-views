@@ -61,5 +61,5 @@ The server will bind to `http://0.0.0.0:3000` (or `http://localhost:3000`), serv
 
 - [x] `GEMINI_API_KEY` is defined ONLY in `.env` or production platform environment variables.
 - [x] `.env` is listed in `.gitignore` to prevent accidental git commits.
-- [x] All AI tools use `fetch('/api/seo-research')`, `fetch('/api/analyze-video')`, or `fetch('/api/ai')`.
+- [x] All AI tools use `fetch('/api/analyze-video')` or `fetch('/api/ai')`.
 - [x] Frontend code contains ZERO references to raw API keys or client-side Gemini initialization.
