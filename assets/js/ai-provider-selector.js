@@ -34,13 +34,21 @@
   }
 
   // Expose global AI Provider API with silent fallback handlers
-  window.MultiTubeAI = {
-    getSelectedProvider,
-    setSelectedProvider,
-    fetchProviders,
-    renderProviderSelector,
-    renderAiMetaFooter,
-    getAvailableProviders: () => [],
-  };
+  window.MultiTubeAI = Object.assign({}, window.mtvAI || {}, {
+    getSelectedProvider: function () {
+      return window.mtvAI && typeof window.mtvAI.getSelectedProvider === 'function'
+        ? window.mtvAI.getSelectedProvider()
+        : 'auto';
+    },
+    setSelectedProvider: function (providerId) {
+      if (window.mtvAI && typeof window.mtvAI.setSelectedProvider === 'function') {
+        window.mtvAI.setSelectedProvider(providerId);
+      }
+    },
+    fetchProviders: fetchProviders,
+    renderProviderSelector: renderProviderSelector,
+    renderAiMetaFooter: renderAiMetaFooter,
+    getAvailableProviders: function () { return []; },
+  });
 })();
 

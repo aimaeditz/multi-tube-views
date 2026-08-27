@@ -692,7 +692,9 @@ class GrowthEngine {
     }
 
     try {
-      const apiBase = (window.MTV_API_BASE_URL || (window.location && window.location.origin ? window.location.origin : '')).replace(/\/+$/, '');
+      const apiBase = (window.mtvAI && typeof window.mtvAI.getApiBaseUrl === 'function')
+        ? window.mtvAI.getApiBaseUrl()
+        : (window.MTV_API_BASE_URL || (window.location && window.location.origin ? window.location.origin : '')).replace(/\/+$/, '');
       const targetUrl = `${apiBase}/api/analyze-video`;
 
       const response = await fetch(targetUrl, {

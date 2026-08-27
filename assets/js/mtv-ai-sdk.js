@@ -7,22 +7,70 @@
 (function () {
   'use strict';
 
+  var DEFAULT_PRODUCTION_BACKEND = 'https://ais-pre-kltpfym7bqtxf22ftlzvjh-682257000756.asia-east1.run.app';
+
   var MTV_AI_SDK = {
-    version: '2.0.0',
+    version: '2.1.0',
     baseUrl: '',
+    selectedProvider: 'auto',
 
     /**
      * Set base API URL if running in a decoupled frontend environment
      */
     setBaseUrl: function (url) {
-      this.baseUrl = url.replace(/\/+$/, '');
+      this.baseUrl = url ? url.replace(/\/+$/, '') : '';
     },
 
     /**
-     * Helper to make secure JSON fetch requests to /api/ai
+     * Get or set selected AI provider
      */
-    _request: async function (endpoint, method, payload) {
-      var url = (this.baseUrl || '') + endpoint;
+    setSelectedProvider: function (provider) {
+      this.selectedProvider = provider || 'auto';
+    },
+
+    getSelectedProvider: function () {
+      return this.selectedProvider || 'auto';
+    },
+
+    /**
+     * Resolve active API Base URL with smart domain detection and localStorage fallback
+     */
+    getApiBaseUrl: function () {
+      if (this.baseUrl) return this.baseUrl.replace(/\/+$/, '');
+
+      if (typeof window !== 'undefined') {
+        if (window.MTV_API_BASE_URL) {
+          return String(window.MTV_API_BASE_URL).replace(/\/+$/, '');
+        }
+
+        try {
+          var stored = localStorage.getItem('mtv_api_backend_url') || localStorage.getItem('mtv_api_base_url');
+          if (stored && stored.trim()) {
+            return stored.trim().replace(/\/+$/, '');
+          }
+        } catch (_) {}
+
+        var host = window.location ? (window.location.hostname || '') : '';
+        var isStaticDomain = host.includes('github.io') ||
+                             host.includes('multitubeviews.com') ||
+                             host.includes('netlify.app') ||
+                             host.includes('vercel.app') ||
+                             host.includes('pages.dev');
+
+        if (isStaticDomain) {
+          return DEFAULT_PRODUCTION_BACKEND;
+        }
+      }
+
+      return '';
+    },
+
+    /**
+     * Helper to make secure JSON fetch requests to Universal AI Gateway
+     */
+    _request: async function (endpoint, method, payload, isRetry) {
+      var activeBase = this.getApiBaseUrl();
+      var url = (activeBase ? activeBase : '') + endpoint;
       var options = {
         method: method || 'GET',
         headers: {
@@ -37,9 +85,49 @@
 
       try {
         var response = await fetch(url, options);
-        var data = await response.json().catch(function () {
-          return { error: 'Invalid JSON response from server.', errorCode: 'PARSING_ERROR' };
-        });
+        var contentType = response.headers.get('content-type') || '';
+
+        // Guard against static host returning HTML (e.g. index.html SPA fallback)
+        if (contentType.includes('text/html')) {
+          if (!isRetry && typeof window !== 'undefined') {
+            var fallbackBackend = DEFAULT_PRODUCTION_BACKEND;
+            if (activeBase !== fallbackBackend) {
+              this.setBaseUrl(fallbackBackend);
+              try {
+                localStorage.setItem('mtv_api_backend_url', fallbackBackend);
+              } catch (_) {}
+              return this._request(endpoint, method, payload, true);
+            }
+          }
+          return {
+            success: false,
+            error: 'The endpoint returned HTML instead of JSON. Connected backend fallback active.',
+            errorCode: 'STATIC_HOST_HTML_RESPONSE',
+          };
+        }
+
+        var text = await response.text();
+        var data;
+        try {
+          data = JSON.parse(text);
+        } catch (parseErr) {
+          if (!isRetry && (text.trim().startsWith('<') || text.includes('<html>'))) {
+            var fallbackBackend = DEFAULT_PRODUCTION_BACKEND;
+            if (activeBase !== fallbackBackend) {
+              this.setBaseUrl(fallbackBackend);
+              try {
+                localStorage.setItem('mtv_api_backend_url', fallbackBackend);
+              } catch (_) {}
+              return this._request(endpoint, method, payload, true);
+            }
+          }
+          return {
+            success: false,
+            error: 'Invalid JSON response from server.',
+            errorCode: 'PARSING_ERROR',
+            rawText: text.slice(0, 200),
+          };
+        }
 
         if (!response.ok) {
           return {
@@ -52,6 +140,16 @@
 
         return data;
       } catch (err) {
+        if (!isRetry && typeof window !== 'undefined') {
+          var fallbackBackend = DEFAULT_PRODUCTION_BACKEND;
+          if (activeBase !== fallbackBackend) {
+            this.setBaseUrl(fallbackBackend);
+            try {
+              localStorage.setItem('mtv_api_backend_url', fallbackBackend);
+            } catch (_) {}
+            return this._request(endpoint, method, payload, true);
+          }
+        }
         return {
           success: false,
           error: err.message || 'Network error communicating with Universal AI Gateway.',
@@ -78,6 +176,7 @@
         toolId: toolId,
         input: input || {},
         options: options || {},
+        provider: (options && options.provider) || this.selectedProvider || 'auto',
       });
     },
 

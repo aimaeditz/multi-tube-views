@@ -96,6 +96,33 @@
           </div>
       </div>
 
+      <!-- Section 2: Universal AI Gateway & Backend Connection -->
+      <div class="card" style="margin-bottom: 2rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
+          <div>
+            <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.2rem;">Universal AI Gateway & API Routing</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Manage connection endpoint between static domain and production AI backend server.</p>
+          </div>
+          <span style="font-size: 1.2rem;">⚡</span>
+        </div>
+
+        <div>
+          <div style="margin-bottom: 1.25rem;">
+            <label for="api-backend-input" style="display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem;">Active Production API Backend URL</label>
+            <div style="display: flex; gap: 0.5rem; max-width: 600px;">
+              <input type="text" id="api-backend-input" class="form-input" placeholder="https://ais-pre-kltpfym7bqtxf22ftlzvjh-682257000756.asia-east1.run.app" style="flex: 1; font-family: monospace; font-size: 0.88rem;" />
+              <button type="button" id="api-backend-save" class="btn btn-primary btn-sm" style="white-space: nowrap;">Save URL</button>
+              <button type="button" id="api-backend-test" class="btn btn-outline btn-sm" style="white-space: nowrap;">Test Health</button>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.4rem;">
+              When hosted on GitHub Pages or custom domain (<code style="background: var(--bg-surface); padding: 2px 4px; border-radius: 4px;">multitubeviews.com</code>), the client routes requests to this production backend URL.
+            </p>
+          </div>
+
+          <div id="api-health-status" style="display: none; padding: 0.85rem 1rem; border-radius: var(--radius-sm); font-size: 0.88rem;"></div>
+        </div>
+      </div>
+
     </div>
   </main>
 
@@ -173,22 +200,77 @@
     </div>
   </footer>
 
+  <script src="assets/js/mtv-ai-sdk.js"></script>
   <script src="assets/js/navigation.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const sm = window.StorageManager;
       const keys = window.STORAGE_KEYS;
 
-      // Select elements
+      // Theme logic
       const themeSelect = document.getElementById('theme-select');
-
-      if (sm && keys) {
-        if (themeSelect) themeSelect.value = sm.get(keys.THEME, 'light');
+      if (sm && keys && themeSelect) {
+        themeSelect.value = sm.get(keys.THEME, 'light');
       }
-
-      // Event listeners
       themeSelect?.addEventListener('change', (e) => {
         window.ThemeEngine?.set(e.target.value);
+      });
+
+      // API Backend URL logic
+      const apiInput = document.getElementById('api-backend-input');
+      const apiSaveBtn = document.getElementById('api-backend-save');
+      const apiTestBtn = document.getElementById('api-backend-test');
+      const apiStatusEl = document.getElementById('api-health-status');
+
+      if (window.mtvAI && apiInput) {
+        apiInput.value = window.mtvAI.getApiBaseUrl();
+      }
+
+      apiSaveBtn?.addEventListener('click', () => {
+        const val = (apiInput ? apiInput.value : '').trim();
+        if (window.mtvAI) {
+          window.mtvAI.setBaseUrl(val);
+        }
+        try {
+          localStorage.setItem('mtv_api_backend_url', val);
+        } catch (_) {}
+
+        if (apiStatusEl) {
+          apiStatusEl.style.display = 'block';
+          apiStatusEl.style.background = 'var(--success-bg, rgba(16, 185, 129, 0.1))';
+          apiStatusEl.style.color = 'var(--success-text, #10b981)';
+          apiStatusEl.style.border = '1px solid var(--success-border, rgba(16, 185, 129, 0.3))';
+          apiStatusEl.textContent = '✓ Production API Backend URL saved successfully.';
+        }
+      });
+
+      apiTestBtn?.addEventListener('click', async () => {
+        if (!apiStatusEl) return;
+        apiStatusEl.style.display = 'block';
+        apiStatusEl.style.background = 'var(--bg-surface)';
+        apiStatusEl.style.color = 'var(--text-secondary)';
+        apiStatusEl.style.border = '1px solid var(--border-subtle)';
+        apiStatusEl.textContent = 'Checking AI Gateway health status...';
+
+        const val = (apiInput ? apiInput.value : '').trim();
+        if (window.mtvAI) window.mtvAI.setBaseUrl(val);
+
+        try {
+          const health = window.mtvAI ? await window.mtvAI.getHealth() : null;
+          if (health && (health.status === 'ok' || health.status === 'degraded' || health.availableCount > 0)) {
+            apiStatusEl.style.background = 'var(--success-bg, rgba(16, 185, 129, 0.1))';
+            apiStatusEl.style.color = 'var(--success-text, #10b981)';
+            apiStatusEl.style.border = '1px solid var(--success-border, rgba(16, 185, 129, 0.3))';
+            apiStatusEl.textContent = `✓ Connected to Universal AI Gateway (Status: ${health.status.toUpperCase()} • Available Providers: ${health.availableCount}/${health.totalProviders || 7})`;
+          } else {
+            throw new Error((health && health.error) || 'Backend endpoint unreachable or returned invalid response.');
+          }
+        } catch (err) {
+          apiStatusEl.style.background = 'var(--danger-bg, rgba(239, 68, 68, 0.1))';
+          apiStatusEl.style.color = 'var(--danger-text, #ef4444)';
+          apiStatusEl.style.border = '1px solid var(--danger-border, rgba(239, 68, 68, 0.3))';
+          apiStatusEl.textContent = `⚠️ Connection Test Failed: ${err.message || 'Unable to reach API backend'}`;
+        }
       });
     });
   </script>

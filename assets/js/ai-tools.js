@@ -299,18 +299,30 @@ async function executeTool() {
   };
 
   try {
-    const response = await fetch('/api/ai', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
+    let data = null;
 
-    const data = await response.json();
+    if (window.mtvAI && typeof window.mtvAI.generate === 'function') {
+      data = await window.mtvAI.generate(payload);
+    } else {
+      const apiBase = (window.MTV_API_BASE_URL || (window.location && window.location.origin ? window.location.origin : '')).replace(/\/+$/, '');
+      const response = await fetch(`${apiBase}/api/ai`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
 
-    if (!response.ok) {
-      throw new Error(data.error || 'Server error. Please verify api key configuration or retry.');
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error('API Gateway returned HTML response instead of JSON. Connected backend fallback active.');
+      }
+      data = await response.json();
+    }
+
+    if (!data || data.success === false || data.error) {
+      throw new Error((data && data.error) || 'Server error. Please verify API configuration or retry.');
     }
 
     // Capture and display outputs
