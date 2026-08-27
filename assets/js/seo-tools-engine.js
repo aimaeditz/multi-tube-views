@@ -685,28 +685,43 @@
           provider: window.MultiTubeAI ? window.MultiTubeAI.getSelectedProvider() : 'auto',
         };
 
-        const response = await fetch('/api/seo-research', {
+        const apiBase = window.MTV_API_BASE_URL || '';
+        const response = await fetch(`${apiBase}/api/seo-research`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
           signal: this.abortController.signal
         });
 
-        if (!response.ok) {
-          throw new Error('Research request failed');
+        const data = await response.json();
+        if (!response.ok || data.success === false || data.error) {
+          throw new Error(data.error || 'AI research request failed');
         }
 
-        const data = await response.json();
         this.activeResultData = data;
         this.saveActiveWorkspaceState();
         this.renderSpecializedResults(data);
       } catch (err) {
         if (err.name === 'AbortError') return;
-        console.warn('Backend request fallback, delivering grounded deterministic copy:', err);
-        const fallback = this.generateToolSpecificClientFallback(this.activeTool, singleInput, this.selectedPlatforms, country, language, category, audience);
-        this.activeResultData = fallback;
-        this.saveActiveWorkspaceState();
-        this.renderSpecializedResults(fallback);
+        console.error('AI Research API error:', err);
+        const resultsContainer = document.getElementById('results-workspace');
+        if (resultsContainer) {
+          resultsContainer.innerHTML = `
+            <div class="error-state" style="padding: 2.5rem 1.5rem; text-align: center; background: var(--bg-surface); border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.3); margin-top: 1.5rem;">
+              <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚠️</div>
+              <h3 style="font-weight: 700; color: var(--text-primary); margin: 0 0 0.5rem; font-size: 1.1rem;">AI Research Generation Error</h3>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0 0 1.25rem; max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.5;">
+                ${err.message || 'The backend AI service could not be reached. Please ensure GEMINI_API_KEY is configured on your production server environment.'}
+              </p>
+              <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                <button type="button" class="btn btn-primary btn-sm" id="btn-retry-tool-execution" style="padding: 0.5rem 1.25rem; font-weight: 600;">Try Again</button>
+              </div>
+            </div>
+          `;
+          document.getElementById('btn-retry-tool-execution')?.addEventListener('click', () => {
+            this.runActiveTool();
+          });
+        }
       } finally {
         if (runBtn) {
           runBtn.disabled = false;
@@ -1109,19 +1124,24 @@
         const list = [];
         let index = 0;
 
-        (data.primaryKeywords || []).forEach(k => {
+        const primaryArr = Array.isArray(data.primaryKeywords) ? data.primaryKeywords : (Array.isArray(data.keywords?.primary) ? data.keywords.primary : []);
+        const relatedArr = Array.isArray(data.relatedKeywords) ? data.relatedKeywords : (Array.isArray(data.keywords?.secondary) ? data.keywords.secondary : []);
+        const longTailArr = Array.isArray(data.longTailKeywords) ? data.longTailKeywords : (Array.isArray(data.keywords?.longTail) ? data.keywords.longTail : []);
+        const questionArr = Array.isArray(data.questionKeywords) ? data.questionKeywords : (Array.isArray(data.keywords?.questionKeywords) ? data.keywords.questionKeywords : []);
+
+        primaryArr.forEach(k => {
           list.push({ id: `kw-${index++}`, text: k, category: 'Primary', selected: false, visible: true });
         });
 
-        (data.relatedKeywords || []).forEach(k => {
+        relatedArr.forEach(k => {
           list.push({ id: `kw-${index++}`, text: k, category: 'Related', selected: false, visible: true });
         });
 
-        (data.longTailKeywords || []).forEach(k => {
+        longTailArr.forEach(k => {
           list.push({ id: `kw-${index++}`, text: k, category: 'Long-Tail', selected: false, visible: true });
         });
 
-        (data.questionKeywords || []).forEach(k => {
+        questionArr.forEach(k => {
           list.push({ id: `kw-${index++}`, text: k, category: 'Questions', selected: false, visible: true });
         });
 

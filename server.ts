@@ -14,6 +14,17 @@ const PORT = 3000;
 
 app.use(express.json());
 
+// Enable CORS for cross-domain static hosting deployment (e.g. multitubeviews.com)
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  next();
+});
+
 // Lazy-initialized Gemini AI Client
 let aiClient: GoogleGenAI | null = null;
 function getAI(): GoogleGenAI | null {
@@ -1345,64 +1356,115 @@ STRICT RULE: Output strictly valid JSON matching Tool #${numericToolId}'s specif
         });
 
         if (aiResponse.success && (aiResponse.json || aiResponse.text)) {
-          const parsed = aiResponse.json || JSON.parse(aiResponse.text);
-          return res.json({
-            toolId: numericToolId,
-            toolName,
-            category,
-            toolType: toolTypeKey,
-            inputContext: {
-              topic: resolvedTopic,
-              platforms: activePlatforms,
-              country: geoCountry,
-              language: targetLang,
-              category: cleanCategory,
-              audience,
-            },
-            ...parsed,
-            verifiedMetadata: {
-              platform: activePlatforms.join(", "),
-              title: urlData.realTitle || resolvedTopic,
-              category: cleanCategory,
-              isPublicDataVerified: urlData.isRecognized,
-              statusNote: urlData.statusNote || "Research grounded in submitted parameters.",
-            },
-            _aiMeta: {
-              provider: aiResponse.provider,
-              model: aiResponse.model,
-              latencyMs: aiResponse.latencyMs,
-              fallbackOccurred: aiResponse.fallbackOccurred,
-            },
-          });
+          let parsed = aiResponse.json;
+          if (!parsed && aiResponse.text) {
+            try {
+              const cleanText = aiResponse.text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+              parsed = JSON.parse(cleanText);
+            } catch (e) {
+              console.error("Failed to parse JSON text from AI response:", e);
+            }
+          }
+
+          if (parsed) {
+            return res.json({
+              success: true,
+              toolId: numericToolId,
+              toolName,
+              category,
+              toolType: toolTypeKey,
+              inputContext: {
+                topic: resolvedTopic,
+                platforms: activePlatforms,
+                country: geoCountry,
+                language: targetLang,
+                category: cleanCategory,
+                audience,
+              },
+              ...parsed,
+              verifiedMetadata: {
+                platform: activePlatforms.join(", "),
+                title: urlData.realTitle || resolvedTopic,
+                category: cleanCategory,
+                isPublicDataVerified: urlData.isRecognized,
+                statusNote: urlData.statusNote || "Research grounded in submitted parameters.",
+              },
+              _aiMeta: {
+                provider: aiResponse.provider,
+                model: aiResponse.model,
+                latencyMs: aiResponse.latencyMs,
+                fallbackOccurred: aiResponse.fallbackOccurred,
+              },
+            });
+          }
         }
+
+        // Fallback gracefully to grounded engine if AI response is missing or failed
+        console.warn(`[SEO API Fallback] AI generation unsuccessful (${aiResponse.error || 'Empty parsed response'}). Using grounded engine fallback for Tool #${numericToolId}`);
+        const fallbackData = generateToolSpecificOutput(
+          numericToolId,
+          toolName,
+          category,
+          resolvedTopic,
+          activePlatforms,
+          geoCountry,
+          targetLang,
+          cleanCategory,
+          audience,
+          contentType,
+          competitorInput,
+          urlData
+        );
+        return res.json({
+          success: true,
+          ...fallbackData,
+          _aiMeta: {
+            provider: targetProvider,
+            model: 'grounded-engine-fallback',
+            fallbackOccurred: true,
+            reason: aiResponse.error || 'AI generation returned empty output',
+          },
+        });
       } catch (err: any) {
-        // Fall back to deterministic tool generator
+        console.error("SEO Research API error, providing grounded fallback:", err);
+        const fallbackData = generateToolSpecificOutput(
+          numericToolId,
+          toolName,
+          category,
+          resolvedTopic,
+          activePlatforms,
+          geoCountry,
+          targetLang,
+          cleanCategory,
+          audience,
+          contentType,
+          competitorInput,
+          urlData
+        );
+        return res.json({
+          success: true,
+          ...fallbackData,
+          _aiMeta: {
+            provider: 'grounded-engine',
+            model: 'grounded-engine-fallback',
+            fallbackOccurred: true,
+            reason: err.message || 'Error occurred during AI processing',
+          },
+        });
       }
     }
 
-    // High quality deterministic tool-specific response matching strict per-tool contract
-    const groundedResult = executeSeoTool({
-      toolId: numericToolId,
-      toolName,
-      category,
-      topic: resolvedTopic,
-      platforms: activePlatforms,
-      country: geoCountry,
-      language: targetLang,
-      contentCategory: cleanCategory,
-      audience,
-      contentType,
-      competitorInput,
-      tone,
-      duration,
-      urlData,
+    return res.status(400).json({
+      success: false,
+      error: "Please enter a topic, keyword, title, or video URL.",
+      errorCode: "MISSING_INPUT",
     });
-
-    return res.json(groundedResult);
   } catch (error: any) {
     console.error("SEO Research API error:", error);
     return res.status(500).json({
-      error: "Unable to process SEO research request. Please verify inputs and try again.",
+      success: false,
+      error: error.message || "Unable to process SEO research request.",
+      errorCode: "SERVER_ERROR",
     });
   }
 });
@@ -1448,8 +1510,8 @@ function generateToolSpecificOutput(
     statusNote: urlData.statusNote || "Grounded analysis based on submitted input.",
   };
 
-  // #04, #05, #28, #45: HASHTAG TOOLS -> ONLY HASHTAGS & TAGS
-  if ([4, 5, 28, 45].includes(toolId)) {
+  // #02, #04, #05, #28, #45: HASHTAG TOOLS -> ONLY HASHTAGS & TAGS
+  if ([2, 4, 5, 28, 45].includes(toolId)) {
     const rawHigh = [
       `#${cleanTag(words[0] || "viral")}`,
       `#${cleanTag(words[1] || "trending")}`,
@@ -1517,8 +1579,8 @@ function generateToolSpecificOutput(
     };
   }
 
-  // #02, #03, #14, #29, #30, #31, #37, #46, #56: KEYWORD TOOLS -> ONLY KEYWORDS & INTENT
-  if ([2, 3, 14, 29, 30, 31, 37, 46, 56].includes(toolId)) {
+  // #01, #02, #03, #14, #29, #30, #31, #37, #46, #56: KEYWORD TOOLS -> ONLY KEYWORDS & INTENT
+  if ([1, 2, 3, 14, 29, 30, 31, 37, 46, 56].includes(toolId)) {
     return {
       toolId,
       toolName,
@@ -1641,8 +1703,8 @@ function generateToolSpecificOutput(
     };
   }
 
-  // #18: HOOK ANALYZER -> ONLY HOOKS & ATTENTION TRIGGERS
-  if ([18].includes(toolId)) {
+  // #03, #18: HOOK ANALYZER & GENERATOR
+  if ([3, 18].includes(toolId)) {
     return {
       toolId,
       toolName,
@@ -1753,8 +1815,8 @@ function generateToolSpecificOutput(
     };
   }
 
-  // #07, #08, #09, #36, #44: CAPTION & DESCRIPTION TOOLS
-  if ([7, 8, 9, 36, 44].includes(toolId)) {
+  // #04, #07, #08, #09, #36, #44: CAPTION & DESCRIPTION TOOLS
+  if ([4, 7, 8, 9, 36, 44].includes(toolId)) {
     const isInstagram = toolId === 7 || targetPlatforms.includes("Instagram");
     const isTikTok = toolId === 8 || targetPlatforms.includes("TikTok");
 
@@ -1815,8 +1877,8 @@ function generateToolSpecificOutput(
     };
   }
 
-  // #10, #11, #12, #13, #32, #33, #49, #50, #51, #58, #59: TOPIC & QUESTION FINDER TOOLS
-  if ([10, 11, 12, 13, 32, 33, 49, 50, 51, 58, 59].includes(toolId)) {
+  // #05, #10, #11, #12, #13, #32, #33, #49, #50, #51, #58, #59: TOPIC & QUESTION FINDER TOOLS
+  if ([5, 10, 11, 12, 13, 32, 33, 49, 50, 51, 58, 59].includes(toolId)) {
     return {
       toolId,
       toolName,
@@ -2001,8 +2063,8 @@ function generateToolSpecificOutput(
     };
   }
 
-  // #53, #54: CHECKLIST TOOLS
-  if ([53, 54].includes(toolId)) {
+  // #07, #53, #54: CHECKLIST TOOLS
+  if ([7, 53, 54].includes(toolId)) {
     return {
       toolId,
       toolName,
@@ -2030,8 +2092,8 @@ function generateToolSpecificOutput(
     };
   }
 
-  // #23, #24, #38, #39, #40, #41, #42, #60: REPURPOSING & MULTI-PLATFORM
-  if ([23, 24, 38, 39, 40, 41, 42, 60].includes(toolId)) {
+  // #06, #23, #24, #38, #39, #40, #41, #42, #60: REPURPOSING & MULTI-PLATFORM
+  if ([6, 23, 24, 38, 39, 40, 41, 42, 60].includes(toolId)) {
     const platformPackages: Record<string, any> = {};
     targetPlatforms.forEach(p => {
       const pTag = cleanTag(p);

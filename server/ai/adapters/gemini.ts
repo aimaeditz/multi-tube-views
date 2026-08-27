@@ -29,7 +29,7 @@ export class GeminiProvider implements AIProviderInterface {
           apiKey,
           httpOptions: {
             headers: {
-              'User-Agent': 'multitubeviews-ai-gateway',
+              'User-Agent': 'aistudio-build',
             },
           },
         });
