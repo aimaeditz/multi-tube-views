@@ -21,6 +21,9 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/index.html">
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="https://multitubeviews.com/assets/icons/favicon.svg">
+  <link rel="shortcut icon" type="image/svg+xml" href="https://multitubeviews.com/assets/icons/favicon.svg">
+  <link rel="apple-touch-icon" href="https://multitubeviews.com/assets/icons/favicon.svg">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -28,11 +31,13 @@
   <meta property="og:title" content="Multi Tube Views — Multi-Platform Public Media Workspace">
   <meta property="og:description" content="View and organize public media streams side-by-side in a responsive player grid.">
   <meta property="og:site_name" content="Multi Tube Views">
+  <meta property="og:image" content="https://multitubeviews.com/assets/icons/favicon.svg">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Multi Tube Views — Multi-Platform Public Media Workspace">
   <meta name="twitter:description" content="View and organize public media streams side-by-side in a responsive player grid.">
+  <meta name="twitter:image" content="https://multitubeviews.com/assets/icons/favicon.svg">
 
   <!-- Schema.org JSON-LD Structured Data -->
   <script type="application/ld+json">
@@ -40,14 +45,28 @@
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "Organization",
+        "@id": "https://multitubeviews.com/#organization",
+        "name": "Multi Tube Views",
+        "url": "https://multitubeviews.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://multitubeviews.com/assets/icons/favicon.svg",
+          "width": "512",
+          "height": "512"
+        },
+        "sameAs": [
+          "https://aimaeditz.github.io/multi-tube-views/"
+        ]
+      },
+      {
         "@type": "WebSite",
         "@id": "https://multitubeviews.com/#website",
         "url": "https://multitubeviews.com/",
         "name": "Multi Tube Views",
         "description": "Multi-Platform Public Media Viewing & Embedding Workspace with dedicated tool adapters.",
         "publisher": {
-          "@type": "Person",
-          "name": "AiMAEditz"
+          "@id": "https://multitubeviews.com/#organization"
         }
       },
       {
