@@ -2,7 +2,7 @@
 
 > **A clean, responsive, multi-platform public media viewing workspace with a provider-agnostic multi-AI gateway.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)]()
 [![Multi-AI Gateway](https://img.shields.io/badge/AI-Multi--Provider%20Fallback-purple.svg)]()
 [![Full-Stack Node.js](https://img.shields.io/badge/Backend-Express%20%2B%20TypeScript-green.svg)]()
 
@@ -10,7 +10,7 @@
 
 ## 🌟 Overview
 
-**Multi Tube Views (MTV)** is a comprehensive web application designed for content creators, researchers, media analysts, and digital marketers:
+**Multi Tube Views (MTV)** is a comprehensive web application designed for content creators and media analysts:
 1. **Multi-Platform Viewing Workspace:** Monitor multiple public media streams side-by-side across 20+ video, live-stream, and audio services.
 2. **Multi-AI Gateway:** Communicates with multiple legitimate AI providers (Google Gemini, OpenAI, xAI Grok, DeepSeek, Anthropic Claude, Mistral AI, OpenRouter) with intelligent fallback routing and side-by-side response comparison.
 
@@ -21,7 +21,7 @@
 - **Zero Client-Side API Keys:** All API keys are kept strictly server-side in Node.js environment variables.
 - **Provider-Agnostic Routing & Fallback:** If a primary provider experiences downtime or rate limits, the `AIOrchestrator` automatically falls back to secondary configured providers (e.g. Gemini → OpenAI → Grok → DeepSeek → Claude → Mistral → OpenRouter).
 - **Built-In Rate Limiting:** Protects backend endpoints using a sliding window rate limiter (configurable via `RATE_LIMIT_WINDOW_MS` and `RATE_LIMIT_MAX_REQUESTS`).
-- **Strictly Grounded Outputs:** Zero clickbait or fabricated metrics; falls back gracefully to deterministic analysis if all AI providers are unavailable.
+- **Strictly Grounded Outputs:** Falls back gracefully to deterministic analysis if all AI providers are unavailable.
 
 ---
 
@@ -56,7 +56,6 @@ RATE_LIMIT_MAX_REQUESTS=30
 | `/api/ai/health` | `GET` | Monitoring & active provider status health check |
 | `/api/ai/providers` | `GET` | Discovery endpoint listing configured AI providers |
 | `/api/ai/compare` | `POST` | Compare Mode: Query multiple providers in parallel |
-| `/api/analyze-video` | `POST` | Public video metadata audit & multi-AI packaging score |
 
 ---
 
@@ -67,11 +66,14 @@ multi-tube-views/
 ├── server.ts                   # Express server entry point & API routes
 ├── server/
 │   └── ai/
-│   │   ├── types.ts            # AI Request/Response & Provider Interface definitions
-```
-└── assets/
-    ├── css/                    # Modular styling & design system
-    └── js/                     # Client-side engines & UI controllers
+│       ├── orchestrator.ts     # AI gateway logic & fallback engine
+│       ├── registry.ts         # Provider & model configuration
+│       └── types.ts            # AI Request/Response & Interface definitions
+├── assets/
+│   ├── css/                    # Modular styling & design system
+│   └── js/                     # Client-side engines & UI controllers
+└── src/
+    └── App.tsx                 # Main frontend component
 ```
 
 ---
