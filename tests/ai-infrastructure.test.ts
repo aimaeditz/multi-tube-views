@@ -123,6 +123,43 @@ async function runTests() {
   assert(typeof metrics.uptimeSeconds === 'number', 'Uptime metric recorded');
   assert(metrics.totalRequests > 0, 'Recorded total request count in observability', `Total: ${metrics.totalRequests}`);
 
+  // --- TEST 8: INTEGRITY OF THE 8 CUSTOM WORKSPACE TOOLS ---
+  console.log('\n8. Testing Integrity of the 8 Custom Workspace Tools...');
+  const customTools = [
+    'youtube-seo-full-package',
+    'youtube-seo-title',
+    'keyword-research',
+    'hashtag-generator',
+    'meta-description-generator',
+    'topic-generator',
+    'grammar-text-improver',
+    'ai-translator'
+  ];
+
+  for (const tId of customTools) {
+    const def = getToolDefinition(tId);
+    assert(def !== undefined, `Tool ${tId} is registered in registry`);
+    assert(def?.inputSchema !== undefined, `Tool ${tId} has inputSchema defined`);
+    assert(def?.outputSchema !== undefined, `Tool ${tId} has outputSchema defined`);
+    assert(typeof def?.deterministicFallback === 'function', `Tool ${tId} has active deterministicFallback function`);
+    
+    // Execute deterministicFallback to verify compliance with outputSchema structure
+    const fallbackOut = def?.deterministicFallback({});
+    assert(fallbackOut !== null && typeof fallbackOut === 'object', `Tool ${tId} deterministicFallback returns non-null object`);
+    
+    // Validate custom schema requirements
+    if (tId === 'youtube-seo-full-package') {
+      assert(Array.isArray(fallbackOut.titles), 'youtube-seo-full-package returns titles array');
+      assert(typeof fallbackOut.description === 'string', 'youtube-seo-full-package returns description string');
+    } else if (tId === 'hashtag-generator') {
+      assert(Array.isArray(fallbackOut.hashtags), 'hashtag-generator returns hashtags array');
+    } else if (tId === 'grammar-text-improver') {
+      assert(typeof fallbackOut.improvedText === 'string', 'grammar-text-improver returns improvedText');
+    } else if (tId === 'ai-translator') {
+      assert(typeof fallbackOut.translatedText === 'string', 'ai-translator returns translatedText');
+    }
+  }
+
   console.log(`\n========================================`);
   console.log(`Test Summary: ${passed} Passed, ${failed} Failed`);
   console.log(`========================================\n`);

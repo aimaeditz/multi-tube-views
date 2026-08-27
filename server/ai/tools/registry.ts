@@ -186,14 +186,14 @@ export const TOOL_REGISTRY: Record<string, ToolDefinition> = {
   // --- 4. META DESCRIPTION GENERATOR ---
   'meta-description-generator': {
     toolId: 'meta-description-generator',
-    name: 'SERP Meta Description Generator',
+    name: 'Meta Description Generator',
     slug: 'meta-description-generator',
     category: 'SEO & Copywriting',
-    description: 'Generates search snippet descriptions bounded between 135–158 characters with front-loaded keywords.',
+    description: 'Generates SEO-friendly meta descriptions bounded between 135–158 characters with natural call-to-actions.',
     capability: 'META_DESCRIPTION',
     platform: 'all',
-    promptProfile: 'META_DESC_V1',
-    preferredModels: ['gemini-3.6-flash', 'gpt-4o-mini', 'claude-3-5-sonnet-20241022'],
+    promptProfile: 'META_DESCRIPTION_GENERATOR_V1',
+    preferredModels: ['gemini-2.5-flash', 'gpt-4o-mini'],
     fallbackPolicy: {
       maxAttempts: 3,
       allowDeterministicFallback: true,
@@ -201,40 +201,28 @@ export const TOOL_REGISTRY: Record<string, ToolDefinition> = {
     enabled: true,
     version: 1,
     inputSchema: {
-      name: 'MetaDescInput',
+      name: 'MetaDescriptionInput',
       version: 1,
-      requiredFields: ['title'],
+      requiredFields: ['topic'],
       properties: {
-        title: { type: 'string', description: 'Article or video title' },
-        primaryKeyword: { type: 'string', description: 'Primary keyword' },
-        summary: { type: 'string', description: 'Brief content summary' },
+        topic: { type: 'string', description: 'Core topic, page title, or keywords', required: true },
       },
     },
     outputSchema: {
-      name: 'MetaDescOutput',
+      name: 'MetaDescriptionOutput',
       version: 1,
       requiredFields: ['descriptions'],
       properties: {
-        descriptions: { type: 'array', description: '3 meta description variations with character counts' },
+        descriptions: { type: 'array', description: 'List of optimized meta descriptions' },
       },
     },
     deterministicFallback: (input: any) => {
-      const title = String(input?.title || 'Comprehensive Guide').trim();
-      const kw = String(input?.primaryKeyword || title).trim();
+      const topic = String(input?.topic || 'Subject').trim();
       return {
         descriptions: [
-          {
-            text: `Learn everything about ${kw} in this step-by-step guide. Explore practical walkthroughs, best practices, and key insights today.`,
-            charCount: 138,
-          },
-          {
-            text: `Discover how to master ${kw} with our complete overview. Get actionable tips, common mistakes to avoid, and expert recommendations.`,
-            charCount: 142,
-          },
-          {
-            text: `Looking for a clear guide on ${kw}? Find structured walkthroughs, proven techniques, and essential takeaways in this overview.`,
-            charCount: 139,
-          },
+          `Discover the ultimate guide to ${topic}. Learn best practices, key insights, and step-by-step walkthroughs in this complete overview.`,
+          `Want to master ${topic}? Read our actionable tips, step-by-step tutorial, and detailed breakdown to elevate your skills.`,
+          `Looking for a clear explanation of ${topic}? Explore expert techniques, common pitfalls to avoid, and essential takeaways.`,
         ],
       };
     },
@@ -305,17 +293,17 @@ export const TOOL_REGISTRY: Record<string, ToolDefinition> = {
     },
   },
 
-  // --- 6. HASHTAG & DISCOVERY TAG GENERATOR ---
+  // --- 6. HASHTAG GENERATOR ---
   'hashtag-generator': {
     toolId: 'hashtag-generator',
-    name: 'Hashtag & Discovery Tag Specialist',
+    name: 'Hashtag Generator',
     slug: 'hashtag-generator',
     category: 'SEO & Metadata',
-    description: 'Generates 4–8 directly relevant, clean, lowercase hashtags strictly bounded to the subject.',
+    description: 'Generates a large set of lowercase relevant hashtags based on your topic or niche.',
     capability: 'SOCIAL_COPY',
     platform: 'all',
-    promptProfile: 'HASHTAGS_V1',
-    preferredModels: ['grok-2-latest', 'gemini-3.6-flash', 'gpt-4o-mini'],
+    promptProfile: 'HASHTAG_GENERATOR_V1',
+    preferredModels: ['gemini-2.5-flash', 'gpt-4o-mini', 'grok-2-latest'],
     fallbackPolicy: {
       maxAttempts: 3,
       allowDeterministicFallback: true,
@@ -325,31 +313,29 @@ export const TOOL_REGISTRY: Record<string, ToolDefinition> = {
     inputSchema: {
       name: 'HashtagInput',
       version: 1,
-      requiredFields: ['title'],
+      requiredFields: ['topic'],
       properties: {
-        title: { type: 'string', description: 'Content topic or title' },
-        platform: { type: 'string', description: 'Target platform' },
-        category: { type: 'string', description: 'Niche category' },
+        topic: { type: 'string', description: 'Core topic or content description', required: true },
+        quantity: { type: 'number', description: 'Quantity of hashtags to generate (25, 50, 100, 200, 300)', default: 25 },
+        platform: { type: 'string', description: 'Target social media platform' },
       },
     },
     outputSchema: {
       name: 'HashtagOutput',
       version: 1,
-      requiredFields: ['hashtags', 'tags'],
+      requiredFields: ['hashtags'],
       properties: {
-        hashtags: { type: 'array', description: 'Formatted hashtags with #' },
-        tags: { type: 'array', description: 'Comma separated search tags' },
+        hashtags: { type: 'array', description: 'List of formatted hashtags starting with #' },
       },
     },
     deterministicFallback: (input: any) => {
-      const title = String(input?.title || 'video topic').toLowerCase();
-      const words = title.replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 2).slice(0, 4);
-      const hashtags = words.map(w => `#${w}`);
-      hashtags.push('#tutorial', '#guide');
-      return {
-        hashtags: Array.from(new Set(hashtags)).slice(0, 6),
-        tags: words.concat(['guide', 'tutorial', 'overview']),
-      };
+      const topic = String(input?.topic || 'video').toLowerCase().replace(/[^a-z0-9\s]/g, '');
+      const words = topic.split(/\s+/).filter(w => w.length > 2);
+      const qty = Number(input?.quantity) || 25;
+      const base = ['tutorial', 'guide', 'tips', 'trending', 'creator', 'video', 'viral', 'viralvideo', 'marketing', 'seo', 'growth', 'learning', 'howtoguide'];
+      const combined = words.concat(base).map(w => `#${w}`);
+      const hashtags = Array.from(new Set(combined)).slice(0, qty);
+      return { hashtags };
     },
   },
 
@@ -405,6 +391,310 @@ export const TOOL_REGISTRY: Record<string, ToolDefinition> = {
           'Verify audio normalization (-14 LUFS for YouTube)',
           'Ensure thumbnail high contrast and legible mobile font size',
         ],
+      };
+    },
+  },
+
+  // --- 8. KEYWORD GENERATOR ---
+  'keyword-generator': {
+    toolId: 'keyword-generator',
+    name: 'Keyword Generator',
+    slug: 'keyword-generator',
+    category: 'SEO & Research',
+    description: 'Discovers primary, secondary, long-tail, and related search keywords mapped to search intent.',
+    capability: 'KEYWORD_RESEARCH',
+    platform: 'all',
+    promptProfile: 'KEYWORD_GENERATOR_V1',
+    preferredModels: ['gemini-2.5-flash', 'gpt-4o-mini'],
+    fallbackPolicy: {
+      maxAttempts: 3,
+      allowDeterministicFallback: true,
+    },
+    enabled: true,
+    version: 1,
+    inputSchema: {
+      name: 'KeywordGeneratorInput',
+      version: 1,
+      requiredFields: ['topic'],
+      properties: {
+        topic: { type: 'string', description: 'Seed topic or niche keyword', required: true },
+      },
+    },
+    outputSchema: {
+      name: 'KeywordGeneratorOutput',
+      version: 1,
+      requiredFields: ['primary', 'secondary', 'longTail', 'related'],
+      properties: {
+        primary: { type: 'array', description: 'High-volume primary keywords' },
+        secondary: { type: 'array', description: 'Supporting secondary keywords' },
+        longTail: { type: 'array', description: 'Highly specific long-tail queries' },
+        related: { type: 'array', description: 'Thematically related keywords' },
+      },
+    },
+    deterministicFallback: (input: any) => {
+      const topic = String(input?.topic || 'SEO').toLowerCase().trim();
+      return {
+        primary: [topic, `${topic} tips`, `${topic} guide`],
+        secondary: [`how to do ${topic}`, `best ${topic} tool`, `mastering ${topic}`],
+        longTail: [`step by step ${topic} tutorial for beginners`, `how to increase views with ${topic}`, `common ${topic} mistakes and solutions`],
+        related: ['seo strategy', 'content creation', 'digital marketing', 'video optimization'],
+      };
+    },
+  },
+
+  // --- 9. SEO TITLE GENERATOR ---
+  'seo-title-generator': {
+    toolId: 'seo-title-generator',
+    name: 'SEO Title Generator',
+    slug: 'seo-title-generator',
+    category: 'SEO & Packaging',
+    description: 'Generates non-clickbait, high-CTR, search-intent-aligned titles.',
+    capability: 'SEO_TITLE_GENERATION',
+    platform: 'all',
+    promptProfile: 'SEO_TITLE_GENERATOR_V1',
+    preferredModels: ['gemini-2.5-flash', 'gpt-4o-mini'],
+    fallbackPolicy: {
+      maxAttempts: 3,
+      allowDeterministicFallback: true,
+    },
+    enabled: true,
+    version: 1,
+    inputSchema: {
+      name: 'SeoTitleInput',
+      version: 1,
+      requiredFields: ['topic'],
+      properties: {
+        topic: { type: 'string', description: 'Core topic, working title or keyword', required: true },
+      },
+    },
+    outputSchema: {
+      name: 'SeoTitleOutput',
+      version: 1,
+      requiredFields: ['titles'],
+      properties: {
+        titles: { type: 'array', description: 'A list of 5-8 highly optimized titles' },
+      },
+    },
+    deterministicFallback: (input: any) => {
+      const topic = String(input?.topic || 'Topic').trim();
+      return {
+        titles: [
+          `Mastering ${topic}: A Complete Step-by-Step Guide`,
+          `How to ${topic} (Beginners Tutorial & Best Practices)`,
+          `${topic} Explained: Everything You Need to Know`,
+          `5 Essential ${topic} Mistakes You Must Avoid`,
+          `Practical ${topic} Walkthrough (Overview & Tips)`,
+        ],
+      };
+    },
+  },
+
+  // --- 11. TOPIC GENERATOR ---
+  'topic-generator': {
+    toolId: 'topic-generator',
+    name: 'Topic Generator',
+    slug: 'topic-generator',
+    category: 'Content Strategy',
+    description: 'Generates creative, highly engaging content and video topic ideas.',
+    capability: 'CONTENT_BRIEF',
+    platform: 'all',
+    promptProfile: 'TOPIC_GENERATOR_V1',
+    preferredModels: ['gemini-2.5-flash', 'gpt-4o-mini'],
+    fallbackPolicy: {
+      maxAttempts: 3,
+      allowDeterministicFallback: true,
+    },
+    enabled: true,
+    version: 1,
+    inputSchema: {
+      name: 'TopicGeneratorInput',
+      version: 1,
+      requiredFields: ['topic'],
+      properties: {
+        topic: { type: 'string', description: 'Seed topic, category, or audience niche', required: true },
+      },
+    },
+    outputSchema: {
+      name: 'TopicGeneratorOutput',
+      version: 1,
+      requiredFields: ['topics'],
+      properties: {
+        topics: { type: 'array', description: 'List of creative topic/content ideas' },
+      },
+    },
+    deterministicFallback: (input: any) => {
+      const topic = String(input?.topic || 'niche').trim();
+      return {
+        topics: [
+          `${topic} Tutorial for Complete Beginners`,
+          `10 Common ${topic} Mistakes and How to Avoid Them`,
+          `Mastering ${topic}: A Practical Step-by-Step Guide`,
+          `The Future of ${topic}: Trends and Predictions`,
+          `Essential ${topic} Tools Every Creator Needs`,
+          `Step-by-Step ${topic} Walkthrough (Beginners to Pro)`,
+        ],
+      };
+    },
+  },
+
+  // --- 12. YOUTUBE SEO FULL PACKAGE GENERATOR ---
+  'youtube-seo-full-package': {
+    toolId: 'youtube-seo-full-package',
+    name: 'YouTube SEO Full Package Generator',
+    slug: 'youtube-seo-full-package',
+    category: 'Video Optimization',
+    description: 'Generates a complete YouTube SEO metadata package containing titles, keywords, description, hashtags, tags, search phrases, and thumbnail suggestions.',
+    capability: 'YOUTUBE_SEO',
+    platform: 'youtube',
+    promptProfile: 'YOUTUBE_SEO_FULL_PACKAGE_V1',
+    preferredModels: ['gemini-2.5-flash', 'gpt-4o-mini'],
+    fallbackPolicy: {
+      maxAttempts: 3,
+      allowDeterministicFallback: true,
+    },
+    enabled: true,
+    version: 1,
+    inputSchema: {
+      name: 'YouTubeSeoPackageInput',
+      version: 1,
+      requiredFields: ['topic'],
+      properties: {
+        topic: { type: 'string', description: 'Video topic or working title', required: true },
+        keyword: { type: 'string', description: 'Target primary keyword (optional)' },
+        audience: { type: 'string', description: 'Target audience (optional)' },
+        niche: { type: 'string', description: 'Channel niche/category (optional)' },
+        context: { type: 'string', description: 'Optional description or video context' },
+      },
+    },
+    outputSchema: {
+      name: 'YouTubeSeoPackageOutput',
+      version: 1,
+      requiredFields: ['titles', 'keywords', 'description', 'hashtags', 'tags', 'searchPhrases', 'thumbnailSuggestions', 'notes'],
+      properties: {
+        titles: { type: 'array', description: 'A list of 5 optimized titles' },
+        keywords: { type: 'array', description: 'Primary and secondary keywords' },
+        description: { type: 'string', description: 'Highly optimized description template' },
+        hashtags: { type: 'array', description: '3-5 lowercase relevant hashtags starting with #' },
+        tags: { type: 'array', description: 'YouTube video tags' },
+        searchPhrases: { type: 'array', description: 'Suggested viewer search terms' },
+        thumbnailSuggestions: { type: 'array', description: 'Visual text overlays for thumbnail designs' },
+        notes: { type: 'array', description: 'SEO implementation advice and quality tips' },
+      },
+    },
+    deterministicFallback: (input: any) => {
+      const topic = String(input?.topic || 'Video Topic').trim();
+      const kw = String(input?.keyword || topic).trim();
+      return {
+        titles: [
+          `Mastering ${topic}: Complete Step-by-Step Guide`,
+          `How to ${topic} for Beginners (Best Practices & Tips)`,
+          `${topic} Explained: Everything You Need to Know`,
+          `5 ${topic} Mistakes Every Creator Makes (And How to Fix)`,
+          `Ultimate ${topic} Walkthrough (Actionable Checklist)`,
+        ],
+        keywords: [kw, `${kw.toLowerCase()} guide`, `${kw.toLowerCase()} tutorial`, `how to ${kw.toLowerCase()}`],
+        description: `In this comprehensive step-by-step tutorial, we dive deep into ${topic}.\n\nLearn the essential principles, master key techniques, and avoid common mistakes that slow down your progress.\n\nMake sure to subscribe for more actionable guides and creation walkthroughs!`,
+        hashtags: [`#${topic.toLowerCase().replace(/[^a-z0-9]/g, '')}`, '#tutorial', '#guide', '#seo'],
+        tags: [kw.toLowerCase(), `${kw.toLowerCase()} guide`, `${kw.toLowerCase()} tutorial`, 'learn', 'how to'],
+        searchPhrases: [`how to get started with ${kw.toLowerCase()}`, `${kw.toLowerCase()} tutorial for beginners`, `best setup for ${kw.toLowerCase()}`],
+        thumbnailSuggestions: [
+          'EASY STEP-BY-STEP!',
+          'MASTER THIS NOW',
+          'STOP DOING THIS!',
+        ],
+        notes: [
+          'Place your primary keyword within the first 60 characters of your chosen title.',
+          'Add your link or CTA in the top 2 lines of the video description (above the fold).',
+          'Use high-contrast text on your thumbnail with at least 1:1 contrast ratio.',
+        ],
+      };
+    },
+  },
+
+  // --- 13. GRAMMAR & TEXT IMPROVER ---
+  'grammar-text-improver': {
+    toolId: 'grammar-text-improver',
+    name: 'Grammar & Text Improver',
+    slug: 'grammar-text-improver',
+    category: 'Quality & Editing',
+    description: 'Improves grammar, spelling, structure, and readability while preserving original meaning.',
+    capability: 'TEXT_REWRITING',
+    platform: 'all',
+    promptProfile: 'GRAMMAR_TEXT_IMPROVER_V1',
+    preferredModels: ['gemini-2.5-flash', 'gpt-4o-mini'],
+    fallbackPolicy: {
+      maxAttempts: 3,
+      allowDeterministicFallback: true,
+    },
+    enabled: true,
+    version: 1,
+    inputSchema: {
+      name: 'GrammarInput',
+      version: 1,
+      requiredFields: ['text'],
+      properties: {
+        text: { type: 'string', description: 'Original text to improve', required: true },
+      },
+    },
+    outputSchema: {
+      name: 'GrammarOutput',
+      version: 1,
+      requiredFields: ['improvedText'],
+      properties: {
+        improvedText: { type: 'string', description: 'Grammatically improved and polished text' },
+        shorterVersion: { type: 'string', description: 'More concise and brief version of the text' },
+        professionalVersion: { type: 'string', description: 'Polished corporate/professional version of the text' },
+      },
+    },
+    deterministicFallback: (input: any) => {
+      const orig = String(input?.text || '').trim();
+      return {
+        improvedText: orig || 'No text supplied.',
+        shorterVersion: orig ? orig.slice(0, Math.floor(orig.length * 0.7)) + '...' : '',
+        professionalVersion: orig ? `Please find the polished version: ${orig}` : '',
+      };
+    },
+  },
+
+  // --- 14. AI TRANSLATOR ---
+  'ai-translator': {
+    toolId: 'ai-translator',
+    name: 'AI Translator',
+    slug: 'ai-translator',
+    category: 'Utility & Language',
+    description: 'Translates text accurately while preserving context, tone, terminology, and formatting.',
+    capability: 'TRANSLATION',
+    platform: 'all',
+    promptProfile: 'AI_TRANSLATOR_V1',
+    preferredModels: ['gemini-2.5-flash', 'gpt-4o-mini'],
+    fallbackPolicy: {
+      maxAttempts: 3,
+      allowDeterministicFallback: true,
+    },
+    enabled: true,
+    version: 1,
+    inputSchema: {
+      name: 'TranslatorInput',
+      version: 1,
+      requiredFields: ['text', 'targetLanguage'],
+      properties: {
+        text: { type: 'string', description: 'Text to translate', required: true },
+        targetLanguage: { type: 'string', description: 'Target language (e.g. Spanish, French, German, Japanese)', required: true },
+      },
+    },
+    outputSchema: {
+      name: 'TranslatorOutput',
+      version: 1,
+      requiredFields: ['translatedText'],
+      properties: {
+        translatedText: { type: 'string', description: 'Accurately translated text' },
+      },
+    },
+    deterministicFallback: (input: any) => {
+      const orig = String(input?.text || '').trim();
+      const lang = String(input?.targetLanguage || 'Target Language').trim();
+      return {
+        translatedText: orig ? `[Deterministic Fallback Translation to ${lang}]: ${orig}` : 'No text supplied.',
       };
     },
   },
