@@ -552,31 +552,22 @@
           const topic = rawTopic || 'my video/content topic';
 
           const formattedPrompt = template.replace('{topic}', topic);
+          const isGemini = target === 'gemini';
+          const destinationUrl = isGemini ? 'https://gemini.google.com/' : 'https://chatgpt.com/';
+          const serviceName = isGemini ? 'Gemini' : 'ChatGPT';
 
-          // If Gemini selected, process via MTV Gemini AI backend in-app modal!
-          if (target === 'gemini' || target === 'mtv') {
-            if (window.mtvAI) {
-              window.mtvAI.openAssistantModal(
-                formattedPrompt, 
-                'You are an expert content growth consultant. Generate high-CTR, SEO-optimized suggestions tailored for YouTube and social video platforms.',
-                'MTV Gemini 3.7 Flash AI'
-              );
-            }
-            return;
-          }
-
-          // Otherwise, copy prompt to clipboard and open ChatGPT in external tab
+          // Copy prompt to clipboard and open official destination in a new tab
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(formattedPrompt).then(() => {
-              showToast('Prompt copied! Opening ChatGPT...');
+              showToast(`Prompt copied! Opening ${serviceName}...`);
             }).catch(() => {
-              showToast('Opening ChatGPT...');
+              showToast(`Opening ${serviceName}...`);
             });
           } else {
-            showToast('Opening ChatGPT...');
+            showToast(`Opening ${serviceName}...`);
           }
 
-          window.open('https://chatgpt.com/', '_blank', 'noopener,noreferrer');
+          window.open(destinationUrl, '_blank', 'noopener,noreferrer');
         });
       });
     });
