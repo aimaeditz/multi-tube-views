@@ -6,7 +6,20 @@ import {defineConfig} from 'vite';
 export default defineConfig(() => {
   return {
     base: './',
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      react(), 
+      tailwindcss(),
+      {
+        name: 'html-transform',
+        transformIndexHtml(html) {
+          const apiBaseUrl = process.env.VITE_API_BASE_URL || '';
+          return html.replace(
+            '</head>',
+            `  <script>window.MTV_API_BASE_URL = ${JSON.stringify(apiBaseUrl)};</script>\n</head>`
+          );
+        }
+      }
+    ],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

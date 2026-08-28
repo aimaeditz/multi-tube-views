@@ -111,6 +111,30 @@ export const TOOL_REGISTRY: Record<string, ToolDefinition> = {
         whyThisMatters: { type: 'string', description: 'Search retention insight' },
       },
     },
+    deterministicFallback: (input: any) => {
+      const title = String(input?.title || 'Video Topic').trim();
+      const category = String(input?.category || 'General').trim();
+      return {
+        overallScore: 82,
+        tierLabel: 'Solid Structure & Good Readability',
+        tierBadgeClass: 'tier-good',
+        tierSummary: `The video packaging shows a solid structure with clear search intent for the ${category} category.`,
+        problemsFound: [
+          'Title length could be optimized to prevent mobile truncation.',
+          'Missing structured timestamp markers to assist video platform indexing.'
+        ],
+        exactImprovements: [
+          'Front-load your primary keyword within the first 40 characters of your title.',
+          'Add 3-5 numbered chapter timestamps in the description to assist video platform search indexing.'
+        ],
+        improvedTitleSuggestion: `${title}: Step-by-Step Practical Guide & Key Takeaways`,
+        optimizedDescription: `In this walkthrough, we explore the essential concepts of ${title}.\n\n00:00 - Introduction & Topic Overview\n02:15 - Core Concepts & Walkthrough\n05:40 - Best Practices & Workflow Tips\n08:20 - Summary & Next Steps`,
+        relevantKeywords: [title.toLowerCase(), `${title.toLowerCase()} guide`, `${title.toLowerCase()} tutorial`],
+        relevantHashtags: [`#${title.toLowerCase().replace(/[^a-z0-9]/g, '')}`, '#tutorial', '#guide'],
+        tagsOrSeoTerms: [title.toLowerCase(), 'tutorial', 'guide', 'explained', 'tips'],
+        whyThisMatters: 'Clear title formatting and timestamped descriptions directly improve organic search discoverability and audience retention.'
+      };
+    },
   },
 
   // --- 3. SEO KEYWORD RESEARCH ---

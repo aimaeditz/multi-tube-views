@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  var DEFAULT_PRODUCTION_BACKEND = 'https://ais-pre-kltpfym7bqtxf22ftlzvjh-682257000756.asia-east1.run.app';
+  var DEFAULT_PRODUCTION_BACKEND = 'https://api.multitubeviews.com';
 
   var MTV_AI_SDK = {
     version: '2.1.0',
@@ -51,16 +51,24 @@
         } catch (_) {}
 
         var host = window.location ? (window.location.hostname || '') : '';
+        // If we are running on localhost or inside a cloud sandbox/preview container (e.g. .run.app, .googleusercontent.com),
+        // we serve full-stack so the backend API is always on the same origin.
+        if (host && (
+          host === 'localhost' || 
+          host === '127.0.0.1' || 
+          host === '0.0.0.0' || 
+          host.includes('run.app') || 
+          host.includes('aistudio') || 
+          host.includes('googleusercontent.com')
+        )) {
+          return window.location.origin;
+        }
+
         var isStaticDomain = host.includes('github.io') ||
                              host.includes('multitubeviews.com') ||
                              host.includes('netlify.app') ||
                              host.includes('vercel.app') ||
-                             host.includes('pages.dev') ||
-                             (host &&
-                              host !== 'localhost' &&
-                              host !== '127.0.0.1' &&
-                              host !== '0.0.0.0' &&
-                              !host.includes('asia-east1.run.app'));
+                             host.includes('pages.dev');
 
         if (isStaticDomain) {
           return DEFAULT_PRODUCTION_BACKEND;
