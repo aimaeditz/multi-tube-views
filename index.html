@@ -272,7 +272,7 @@
       </div>
 
       <!-- Media Platform Workspaces Entry Card -->
-      <div class="ai-prompt-entry-card" style="margin-top: 1.25rem;">
+      <div class="ai-prompt-entry-card" style="margin-top: 1.25rem; flex-direction: column; align-items: stretch; gap: 1.25rem;">
         <div class="ai-prompt-entry-info">
           <div class="ai-prompt-entry-icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -291,7 +291,44 @@
             </p>
           </div>
         </div>
-        <div style="display: flex; justify-content: flex-end;">
+
+        <!-- Platform Tools Compact Preview Grid (8 Platforms) -->
+        <div class="platform-preview-grid">
+          <a href="platforms/youtube.html" class="platform-preview-item">
+            <span class="platform-preview-icon" style="color: #FF0000;">▶</span>
+            <span class="platform-preview-name">YouTube</span>
+          </a>
+          <a href="platforms/facebook.html" class="platform-preview-item">
+            <span class="platform-preview-icon" style="color: #1877F2;">f</span>
+            <span class="platform-preview-name">Facebook</span>
+          </a>
+          <a href="platforms/instagram.html" class="platform-preview-item">
+            <span class="platform-preview-icon" style="color: #E4405F;">📷</span>
+            <span class="platform-preview-name">Instagram</span>
+          </a>
+          <a href="platforms/tiktok.html" class="platform-preview-item">
+            <span class="platform-preview-icon" style="color: #000000;">🎵</span>
+            <span class="platform-preview-name">TikTok</span>
+          </a>
+          <a href="platforms/threads.html" class="platform-preview-item">
+            <span class="platform-preview-icon" style="color: #000000;">🧵</span>
+            <span class="platform-preview-name">Threads</span>
+          </a>
+          <a href="platforms/vimeo.html" class="platform-preview-item">
+            <span class="platform-preview-icon" style="color: #1AB7EA;">v</span>
+            <span class="platform-preview-name">Vimeo</span>
+          </a>
+          <a href="platforms/dailymotion.html" class="platform-preview-item">
+            <span class="platform-preview-icon" style="color: #0066DC;">d</span>
+            <span class="platform-preview-name">Dailymotion</span>
+          </a>
+          <a href="platforms/twitch.html" class="platform-preview-item">
+            <span class="platform-preview-icon" style="color: #9146FF;">👾</span>
+            <span class="platform-preview-name">Twitch</span>
+          </a>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
           <a href="platforms.html" class="btn btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap; min-width: 260px; justify-content: center;">
             <span>Explore Platform Directory</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.35rem;">
