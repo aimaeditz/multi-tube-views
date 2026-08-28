@@ -119,7 +119,8 @@ function getGeminiClient(): GoogleGenAI | null {
 // Model health tracker to avoid quota-exhausted models
 const modelCooldownMap = new Map<string, number>();
 
-function markModelCooldown(modelName: string, durationMs = 120000) {
+function markModelCooldown(modelName: string, durationMs = 600000) {
+  console.warn(`[Gemini Cooldown] Placing model "${modelName}" in cooldown for ${Math.round(durationMs / 1000)}s due to rate limit/high demand`);
   modelCooldownMap.set(modelName, Date.now() + durationMs);
 }
 
@@ -133,20 +134,44 @@ function isModelInCooldown(modelName: string): boolean {
   return true;
 }
 
+function isTransientOrQuotaError(err: any): boolean {
+  if (!err) return false;
+  const status = err?.status || err?.response?.status || err?.code;
+  const errMsg = String(err?.message || err).toLowerCase();
+
+  if (status === 429 || status === 503 || status === 500 || status === 502 || status === 504) {
+    return true;
+  }
+  if (
+    errMsg.includes('quota') ||
+    errMsg.includes('rate limit') ||
+    errMsg.includes('resource_exhausted') ||
+    errMsg.includes('high demand') ||
+    errMsg.includes('unavailable') ||
+    errMsg.includes('overloaded') ||
+    errMsg.includes('exceeded') ||
+    errMsg.includes('limit:')
+  ) {
+    return true;
+  }
+  return false;
+}
+
 function getPrioritizedModels(requestedModel?: string): string[] {
-  const allCandidates = ['gemini-3.7-flash', 'gemini-3.1-flash-lite', 'gemini-flash-latest'];
+  const baseCandidates = ['gemini-3.7-flash', 'gemini-3.1-flash-lite', 'gemini-flash-latest'];
+  let candidates: string[] = [];
+
   if (requestedModel && requestedModel !== 'gemini-3.1-pro-preview') {
-    if (!isModelInCooldown(requestedModel)) {
-      allCandidates.unshift(requestedModel);
-    } else {
-      allCandidates.push(requestedModel);
-    }
+    candidates = [requestedModel, ...baseCandidates];
   } else if (requestedModel === 'gemini-3.1-pro-preview') {
-    allCandidates.push('gemini-3.1-pro-preview');
+    candidates = ['gemini-3.1-pro-preview', ...baseCandidates];
+  } else {
+    candidates = [...baseCandidates];
   }
 
-  const unique = Array.from(new Set(allCandidates));
-  return unique.sort((a, b) => {
+  const uniqueCandidates = Array.from(new Set(candidates));
+
+  return uniqueCandidates.sort((a, b) => {
     const aCool = isModelInCooldown(a) ? 1 : 0;
     const bCool = isModelInCooldown(b) ? 1 : 0;
     return aCool - bCool;
@@ -165,16 +190,14 @@ async function retryWithBackoff<T>(
       return await fn();
     } catch (err: any) {
       attempt++;
-      const errMsg = err?.message || String(err);
-      const isHardQuotaError = errMsg.includes('Quota exceeded') || errMsg.includes('limit: 0') || errMsg.includes('limit: 20') || errMsg.includes('free_tier_requests') || err?.status === 429;
       
-      // If quota is exhausted or rate limit hit, fail immediately so candidate cascade proceeds
-      if (isHardQuotaError) {
+      // If quota is exhausted, model unavailable/high-demand, or rate limit hit, fail immediately so candidate cascade proceeds
+      if (isTransientOrQuotaError(err)) {
         throw err;
       }
 
       const status = err?.status || err?.response?.status;
-      const isRetryable = status === 503 || status === 500 || status === 504;
+      const isRetryable = status === 500 || status === 502 || status === 504;
       
       if (attempt >= maxRetries || !isRetryable) {
         throw err;
@@ -823,9 +846,10 @@ app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
             return;
           }
         } catch (err: any) {
-          console.error(`Gemini model ${m} failed:`, err);
-          if (err?.status === 429 || (err?.message && err.message.includes('Quota exceeded'))) {
-            markModelCooldown(m, 120000);
+          const errMsg = err?.message || String(err);
+          console.warn(`[Gemini API] Candidate model ${m} failed: ${errMsg}. Switching to next candidate...`);
+          if (isTransientOrQuotaError(err)) {
+            markModelCooldown(m, 600000);
           }
         }
       }
@@ -986,8 +1010,10 @@ Return ONLY a valid raw JSON object with NO markdown codeblocks matching this ex
             rawText = (aiRes.text || '').replace(/```json/gi, '').replace(/```/g, '').trim();
             if (rawText) break;
           } catch (e: any) {
-            if (e?.status === 429 || (e?.message && e.message.includes('Quota exceeded'))) {
-              markModelCooldown(m, 120000);
+            const errMsg = e?.message || String(e);
+            console.warn(`[Gemini API] Video analysis candidate model ${m} failed: ${errMsg}. Switching to next candidate...`);
+            if (isTransientOrQuotaError(e)) {
+              markModelCooldown(m, 600000);
             }
           }
         }

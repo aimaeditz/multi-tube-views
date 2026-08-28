@@ -620,6 +620,16 @@
         }
       }
 
+      // TEMPORARY FALLBACK: Open ChatGPT in a new browser tab when clicking any Creator Tool
+      // To restore MTV AI system, simply delete or comment out this block.
+      document.querySelectorAll('.creator-tool-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          window.open('https://chatgpt.com/', '_blank', 'noopener,noreferrer');
+        }, true);
+      });
+
       // Event Wireups
       document.querySelectorAll('.btn-open-tool').forEach(link => {
         link.addEventListener('click', (e) => {
