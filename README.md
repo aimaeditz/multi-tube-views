@@ -98,7 +98,7 @@ multi-tube-views/
 ├── platforms.html          # Platform directory
 ├── platforms/              # 20 platform workspace pages
 ├── ai-prompt.html          # AI Prompt Library (static)
-├── about.html, contact.html, settings.html, ...
+├── about.html, settings.html, ...
 ├── assets/
 │   ├── css/                # Styles
 │   ├── js/                 # Platform engine, theme, navigation, etc.

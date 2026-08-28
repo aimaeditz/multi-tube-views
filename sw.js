@@ -12,7 +12,6 @@ const STATIC_ASSETS = [
   '/platforms.html',
   '/settings.html',
   '/about.html',
-  '/contact.html',
   '/credits.html',
   '/disclaimer.html',
   '/privacy.html',
