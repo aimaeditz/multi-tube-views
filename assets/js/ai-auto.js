@@ -99,6 +99,7 @@
         
         // Output Actions
         copyBtn: document.getElementById('btn-ai-auto-copy'),
+        copyAllBtn: document.getElementById('btn-ai-auto-copy-all'),
         regenerateBtn: document.getElementById('btn-ai-auto-regenerate'),
         clearOutputBtn: document.getElementById('btn-ai-auto-clear-output'),
         downloadBtn: document.getElementById('btn-ai-auto-download'),
@@ -168,6 +169,10 @@
 
       if (this.dom.copyBtn) {
         this.dom.copyBtn.addEventListener('click', () => this.handleCopy());
+      }
+
+      if (this.dom.copyAllBtn) {
+        this.dom.copyAllBtn.addEventListener('click', () => this.handleCopyAll());
       }
 
       if (this.dom.regenerateBtn) {
@@ -418,35 +423,54 @@
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(this.lastResponseText).then(() => {
-          this.showCopyFeedback();
+          this.showCopyFeedback(this.dom.copyBtn);
         }).catch(() => {
-          this.fallbackCopy(this.lastResponseText);
+          this.fallbackCopy(this.lastResponseText, this.dom.copyBtn);
         });
       } else {
-        this.fallbackCopy(this.lastResponseText);
+        this.fallbackCopy(this.lastResponseText, this.dom.copyBtn);
       }
     }
 
-    showCopyFeedback() {
-      if (this.dom.copyBtn) {
-        const originalHtml = this.dom.copyBtn.innerHTML;
-        this.dom.copyBtn.innerHTML = `
+    handleCopyAll() {
+      if (!this.lastResponseText) return;
+
+      // Copy the complete output box content exactly as generated
+      const textToCopy = this.lastResponseText;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          this.showCopyFeedback(this.dom.copyAllBtn);
+        }).catch(() => {
+          this.fallbackCopy(textToCopy, this.dom.copyAllBtn);
+        });
+      } else {
+        this.fallbackCopy(textToCopy, this.dom.copyAllBtn);
+      }
+    }
+
+    showCopyFeedback(btn) {
+      const targetBtn = btn || this.dom.copyBtn;
+      if (targetBtn) {
+        const originalHtml = targetBtn.innerHTML;
+        targetBtn.innerHTML = `
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
           <span>Copied!</span>
         `;
-        this.dom.copyBtn.style.borderColor = 'var(--success-border, #34c759)';
-        this.dom.copyBtn.style.color = 'var(--success-text, #34c759)';
+        targetBtn.style.borderColor = 'var(--success-border, #34c759)';
+        targetBtn.style.color = 'var(--success-text, #34c759)';
 
         setTimeout(() => {
-          this.dom.copyBtn.innerHTML = originalHtml;
-          this.dom.copyBtn.style.borderColor = '';
-          this.dom.copyBtn.style.color = '';
+          targetBtn.innerHTML = originalHtml;
+          targetBtn.style.borderColor = '';
+          targetBtn.style.color = '';
         }, 2200);
       }
       this.showToast('✓ Content copied to clipboard!');
     }
 
-    fallbackCopy(text) {
+    fallbackCopy(text, btn) {
+      const targetBtn = btn || this.dom.copyBtn;
       const textarea = document.createElement('textarea');
       textarea.value = text;
       textarea.style.position = 'fixed';
@@ -455,7 +479,7 @@
       textarea.select();
       try {
         document.execCommand('copy');
-        this.showCopyFeedback();
+        this.showCopyFeedback(targetBtn);
       } catch (err) {
         this.showToast('Could not copy to clipboard.');
       }

@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import fs from 'fs';
@@ -131,7 +134,7 @@ function isModelInCooldown(modelName: string): boolean {
 }
 
 function getPrioritizedModels(requestedModel?: string): string[] {
-  const allCandidates = ['gemini-3.1-flash-lite', 'gemini-flash-latest', 'gemini-3.7-flash'];
+  const allCandidates = ['gemini-3.7-flash', 'gemini-3.1-flash-lite', 'gemini-flash-latest'];
   if (requestedModel && requestedModel !== 'gemini-3.1-pro-preview') {
     if (!isModelInCooldown(requestedModel)) {
       allCandidates.unshift(requestedModel);
@@ -820,6 +823,7 @@ app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
             return;
           }
         } catch (err: any) {
+          console.error(`Gemini model ${m} failed:`, err);
           if (err?.status === 429 || (err?.message && err.message.includes('Quota exceeded'))) {
             markModelCooldown(m, 120000);
           }

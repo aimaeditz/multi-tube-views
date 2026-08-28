@@ -342,7 +342,9 @@
           <div id="dedicated-tool-output-wrap" style="display: none; margin-top: 1.5rem; width: 100%;">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
               <span style="font-weight: 600; color: var(--text-primary);">MTV AI Output:</span>
-              <div style="display: flex; gap: 0.75rem;">
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <button type="button" id="btn-dedicated-copy-all" style="background: none; border: none; color: var(--accent-blue); cursor: pointer; padding: 0; font-size: 0.85rem; font-weight: 600;">Copy All</button>
+                <span>•</span>
                 <button type="button" id="btn-dedicated-copy" style="background: none; border: none; color: var(--accent-blue); cursor: pointer; padding: 0; font-size: 0.85rem; font-weight: 600;">Copy Output</button>
                 <span>•</span>
                 <button type="button" id="btn-dedicated-clear" style="background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0; font-size: 0.85rem;">Clear</button>
@@ -540,6 +542,7 @@
       const dedicatedToolOutputWrap = document.getElementById('dedicated-tool-output-wrap');
       const dedicatedToolOutput = document.getElementById('dedicated-tool-output');
       const btnDedicatedCopy = document.getElementById('btn-dedicated-copy');
+      const btnDedicatedCopyAll = document.getElementById('btn-dedicated-copy-all');
       const btnDedicatedClear = document.getElementById('btn-dedicated-clear');
       
       const breadcrumbSubPage = document.getElementById('breadcrumb-sub-page');
@@ -740,6 +743,24 @@
       });
 
       // Copy & Clear logic
+      if (btnDedicatedCopyAll) {
+        btnDedicatedCopyAll.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (dedicatedToolOutput && (dedicatedToolOutput.innerText || dedicatedToolOutput.textContent)) {
+            const textToCopy = dedicatedToolOutput.innerText || dedicatedToolOutput.textContent;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast('✓ Complete output copied!');
+              }).catch(() => {
+                showToast('Failed to copy.');
+              });
+            } else {
+              showToast('Clipboard not supported.');
+            }
+          }
+        });
+      }
+
       if (btnDedicatedCopy) {
         btnDedicatedCopy.addEventListener('click', (e) => {
           e.preventDefault();
