@@ -96,10 +96,10 @@
 
       <!-- Header Section -->
       <section class="prompt-header-section" style="padding: 2rem 0 1.5rem 0;">
-        <span class="hero-pill">Creator Helpers</span>
+        <span class="hero-pill">⚡ Server-Side Gemini AI Powered</span>
         <h1>Creator Tools</h1>
         <p>
-          These helpers open in official AI sites in a new tab. MTV does not process AI on its own servers.
+          Run instant AI optimizations live inside Multi Tube Views via our server-side Gemini 3.7 Flash backend, or launch pre-formatted prompts in external platforms.
         </p>
       </section>
 
@@ -480,6 +480,7 @@
     </div>
   </footer>
 
+  <script src="assets/js/mtv-ai.js"></script>
   <script src="assets/js/navigation.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -506,20 +507,30 @@
 
           const formattedPrompt = template.replace('{topic}', topic);
 
-          // Copy prompt to clipboard
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(formattedPrompt).then(() => {
-              showToast(rawTopic ? 'Prompt copied! Opening AI chat...' : 'Prompt copied! Opening AI chat...');
-            }).catch(() => {
-              showToast('Opening AI chat...');
-            });
-          } else {
-            showToast('Opening AI chat...');
+          // If Gemini selected, process via MTV Gemini AI backend in-app modal!
+          if (target === 'gemini' || target === 'mtv') {
+            if (window.mtvAI) {
+              window.mtvAI.openAssistantModal(
+                formattedPrompt, 
+                'You are an expert content growth consultant. Generate high-CTR, SEO-optimized suggestions tailored for YouTube and social video platforms.',
+                'MTV Gemini 3.7 Flash AI'
+              );
+            }
+            return;
           }
 
-          // Open target AI site in new tab
-          const url = target === 'chatgpt' ? 'https://chatgpt.com/' : 'https://gemini.google.com/';
-          window.open(url, '_blank', 'noopener,noreferrer');
+          // Otherwise, copy prompt to clipboard and open ChatGPT in external tab
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(formattedPrompt).then(() => {
+              showToast('Prompt copied! Opening ChatGPT...');
+            }).catch(() => {
+              showToast('Opening ChatGPT...');
+            });
+          } else {
+            showToast('Opening ChatGPT...');
+          }
+
+          window.open('https://chatgpt.com/', '_blank', 'noopener,noreferrer');
         });
       });
     });

@@ -197,13 +197,16 @@
           <div class="modal-source-meta">
             Original: <a href="https://aipromptxpert.blogspot.com/" target="_blank" rel="noopener noreferrer" class="modal-source-link">View Original AiPromptXpert Post ↗</a>
           </div>
-          <div class="modal-actions">
+          <div class="modal-actions" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
             <button type="button" class="btn btn-primary modal-copy-btn" style="flex-grow: 1;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
               </svg>
               <span>Copy Full Prompt</span>
+            </button>
+            <button type="button" class="btn btn-secondary modal-run-ai-btn" id="modal-run-ai-btn" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; border: none; font-weight: 600;">
+              ✨ Run with Gemini AI
             </button>
           </div>
         </div>
@@ -278,6 +281,7 @@
     </div>
   </footer>
 
+  <script src="assets/js/mtv-ai.js"></script>
   <script src="assets/js/navigation.js"></script>
   <script src="assets/js/ai-prompt.js"></script>
 </body>
