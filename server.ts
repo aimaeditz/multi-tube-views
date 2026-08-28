@@ -398,18 +398,22 @@ app.get('/api/ai-prompts', (req: Request, res: Response) => {
 });
 
 // 3. Multi-Provider AI Chat Endpoint
-app.post('/api/chat', async (req: Request, res: Response) => {
+app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
   try {
-    const { provider = 'auto', model, message, messages, systemInstruction, temperature = 0.7 } = req.body;
+    const { provider = 'auto', model, message, prompt, userPrompt: reqUserPrompt, topic, text, messages, systemInstruction, temperature = 0.7 } = req.body;
     
-    const userPrompt = message || (Array.isArray(messages) && messages.length > 0 ? messages[messages.length - 1]?.content : '');
+    const userPrompt = message || prompt || reqUserPrompt || topic || text || (Array.isArray(messages) && messages.length > 0 ? messages[messages.length - 1]?.content : '');
 
-    if (!userPrompt || typeof userPrompt !== 'string') {
+    if (!userPrompt || typeof userPrompt !== 'string' || !userPrompt.trim()) {
       res.status(400).json({ success: false, error: 'Please provide a valid text message or prompt.' });
       return;
     }
 
-    const cacheKey = `chat_${model || 'default'}_${userPrompt.trim().slice(0, 150)}_${temperature}`;
+    const trimmedPrompt = userPrompt.trim();
+    const effectiveSystemInstruction = systemInstruction || 
+      'You are an expert AI SEO and content creation specialist for Multi Tube Views. Provide comprehensive, high-value, and actionable output formatted with clean Markdown (clear headings, bullet points, bold key terms, codeblocks, or tables where appropriate). Tailor your response dynamically and intelligently to the user\'s specific creator request, whether it is video titles, descriptions, keyword clusters, metadata, social posts, scripts, or SEO strategy.';
+
+    const cacheKey = `chat_${model || 'default'}_${trimmedPrompt.slice(0, 150)}_${temperature}`;
     const cachedResponse = getCached<any>(cacheKey);
     if (cachedResponse) {
       res.json(cachedResponse);
@@ -427,8 +431,8 @@ app.post('/api/chat', async (req: Request, res: Response) => {
           const aiResponse = await retryWithBackoff(async () => {
             return await gemini.models.generateContent({
               model: m,
-              contents: systemInstruction ? `${systemInstruction}\n\n${userPrompt}` : userPrompt,
-              config: { temperature },
+              contents: effectiveSystemInstruction ? `${effectiveSystemInstruction}\n\nUser Request: ${trimmedPrompt}` : trimmedPrompt,
+              config: { temperature: typeof temperature === 'number' ? temperature : 0.7 },
             });
           }, 2, 300);
 
@@ -459,7 +463,10 @@ app.post('/api/chat', async (req: Request, res: Response) => {
         },
         body: JSON.stringify({
           model: model || 'google/gemini-2.5-flash',
-          messages: [{ role: 'user', content: userPrompt }],
+          messages: [
+            { role: 'system', content: effectiveSystemInstruction },
+            { role: 'user', content: trimmedPrompt }
+          ],
           temperature,
         }),
       });
@@ -487,7 +494,10 @@ app.post('/api/chat', async (req: Request, res: Response) => {
         },
         body: JSON.stringify({
           model: model || 'gpt-4o-mini',
-          messages: [{ role: 'user', content: userPrompt }],
+          messages: [
+            { role: 'system', content: effectiveSystemInstruction },
+            { role: 'user', content: trimmedPrompt }
+          ],
           temperature,
         }),
       });
@@ -509,7 +519,7 @@ app.post('/api/chat', async (req: Request, res: Response) => {
     // Standard system notice mode if no AI API key is configured
     res.json({
       success: true,
-      response: `[Multi Tube Views AI] Backend system operating in standard mode. To enable live Gemini AI generation, please configure GEMINI_API_KEY in your environment settings.\n\nYour Request: "${userPrompt.slice(0, 100)}..."`,
+      response: `### Multi Tube Views AI Auto Response\n\n**Topic / Request:** ${trimmedPrompt}\n\n*Backend engine operational.* To connect to live Gemini 3.7 Flash server-side generation, ensure \`GEMINI_API_KEY\` is configured in the environment settings.\n\n#### Recommended Creator Actions:\n1. **Define Core Intent:** Target high-CTR, search-aligned keywords.\n2. **Structure Content:** Incorporate engaging hook, timestamps, and actionable takeaways.\n3. **Multi-Platform Distribution:** Repurpose highlights across YouTube, Shorts/Reels, and community posts.`,
       provider: 'system_notice',
       model: 'standard-engine',
     });

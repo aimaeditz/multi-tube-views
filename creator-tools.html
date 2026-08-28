@@ -123,6 +123,29 @@
       <!-- Tool Grid (4 columns desktop, 3 tablet, 2 mobile) -->
       <section class="creator-tools-grid" aria-label="Creator Tools Directory">
 
+        <!-- 0. AI Auto (Dedicated In-App MTV AI Tool) -->
+        <div class="creator-tool-card" id="card-ai-auto">
+          <div>
+            <div class="creator-tool-header">
+              <span class="creator-tool-icon" aria-hidden="true">⚡</span>
+              <h3 class="creator-tool-title">AI Auto</h3>
+            </div>
+            <p class="creator-tool-desc">Generate SEO-ready content & creator output</p>
+          </div>
+          <div class="creator-tool-actions">
+            <a 
+              href="ai-auto.html" 
+              class="btn-ai-launch btn-ai-auto-launch" 
+              id="btn-ai-auto-open"
+              style="width: 100%; text-align: center; justify-content: center; font-weight: 700; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #ffffff; border-color: #2563eb; text-decoration: none;"
+              aria-label="Open AI Auto Tool"
+            >
+              <span>Open Tool</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+        </div>
+
         <!-- 1. SEO Title -->
         <div class="creator-tool-card">
           <div>
@@ -486,7 +509,30 @@
     document.addEventListener('DOMContentLoaded', () => {
       const topicInput = document.getElementById('creator-topic-input');
       const toast = document.getElementById('copy-toast');
-      const launchBtns = document.querySelectorAll('.btn-ai-launch');
+      const launchBtns = document.querySelectorAll('.btn-ai-launch:not(.btn-ai-auto-launch)');
+      const aiAutoBtn = document.getElementById('btn-ai-auto-open');
+      const aiAutoCard = document.getElementById('card-ai-auto');
+
+      function handleAiAutoNav(e) {
+        if (e) e.preventDefault();
+        const rawTopic = (topicInput ? topicInput.value : '').trim();
+        if (rawTopic) {
+          window.location.href = `ai-auto.html?topic=${encodeURIComponent(rawTopic)}`;
+        } else {
+          window.location.href = 'ai-auto.html';
+        }
+      }
+
+      if (aiAutoBtn) {
+        aiAutoBtn.addEventListener('click', handleAiAutoNav);
+      }
+      if (aiAutoCard) {
+        aiAutoCard.addEventListener('click', (e) => {
+          if (!e.target.closest('a')) {
+            handleAiAutoNav(e);
+          }
+        });
+      }
 
       function showToast(message) {
         if (!toast) return;

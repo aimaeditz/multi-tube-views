@@ -2167,5 +2167,45 @@ textarea.form-control {
   opacity: 1;
 }
 
+/* Keyframe Animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.toast.show {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.ai-rendered-content pre {
+  margin: 0.85rem 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+}
+
+.ai-rendered-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.ai-rendered-content th,
+.ai-rendered-content td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-subtle);
+}
+
+.ai-rendered-content th {
+  background: var(--bg-subtle);
+  font-weight: 700;
+}
+
+
 
 
