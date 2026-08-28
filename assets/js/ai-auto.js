@@ -309,7 +309,8 @@
             systemInstruction: systemInstruction,
             provider: 'gemini',
             model: this.activeModel,
-            temperature: 0.7
+            temperature: 0.7,
+            toolId: 'ai-auto-' + mode
           })
         });
 

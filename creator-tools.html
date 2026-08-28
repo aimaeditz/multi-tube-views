@@ -14,13 +14,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Creator Tools — Multi Tube Views</title>
-  <meta name="description" content="Quick AI launcher tools for content creators. Open ready tool prompts in ChatGPT and Gemini with zero login or setup.">
+  <meta name="description" content="Dedicated creator tools for optimizing video SEO, descriptions, titles, tag lists, translation, and media strategy powered by server-side Gemini 3.7 Flash.">
   <link rel="canonical" href="https://multitubeviews.com/creator-tools.html">
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   <link rel="apple-touch-icon" href="assets/icons/favicon.svg">
 
   <meta property="og:title" content="Creator Tools — Multi Tube Views">
-  <meta property="og:description" content="Quick AI launcher tools for content creators. Open ready tool prompts in ChatGPT and Gemini in a new tab.">
+  <meta property="og:description" content="Dedicated creator tools for optimizing video SEO, descriptions, titles, tag lists, translation, and media strategy powered by server-side Gemini 3.7 Flash.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/creator-tools.html">
   <meta name="twitter:card" content="summary">
@@ -91,338 +91,274 @@
       <div class="breadcrumb-nav" style="margin-top: 1.5rem;">
         <a href="index.html">Home</a>
         <span class="breadcrumb-separator">/</span>
-        <span>Creator Tools</span>
+        <a href="creator-tools.html" id="breadcrumb-parent-link" style="color: inherit; text-decoration: none;">Creator Tools</a>
+        <span class="breadcrumb-separator" id="breadcrumb-sub-separator" style="display: none;">/</span>
+        <span id="breadcrumb-sub-page" style="color: var(--text-primary); font-weight: 600; display: none;">SEO Tool</span>
       </div>
 
-      <!-- Header Section -->
-      <section class="prompt-header-section" style="padding: 2rem 0 1.5rem 0;">
-        <span class="hero-pill">⚡ Server-Side Gemini AI Powered</span>
-        <h1>Creator Tools</h1>
-        <p>
-          Run instant AI optimizations live inside Multi Tube Views via our server-side Gemini 3.7 Flash backend, or launch pre-formatted prompts in external platforms.
-        </p>
-      </section>
+      <!-- Main Tools List View (Grid) -->
+      <div id="tools-list-view">
+        <!-- Header Section -->
+        <section class="prompt-header-section" style="padding: 2rem 0 1.5rem 0;">
+          <span class="hero-pill">⚡ Server-Side Gemini AI Powered</span>
+          <h1>Creator Tools</h1>
+          <p>
+            Accelerate your social media and video content workflows with dedicated, high-performance optimization tools running securely on server-side Gemini 3.7 Flash.
+          </p>
+        </section>
 
-      <!-- Optional Topic / Input Bar -->
-      <section class="creator-tools-input-card">
-        <label for="creator-topic-input" class="creator-tools-input-label">Your topic / text (optional)</label>
-        <div class="creator-tools-input-wrap">
-          <input 
-            type="text" 
-            id="creator-topic-input" 
-            class="creator-tools-input" 
-            placeholder="e.g. Tech review, gaming tutorial, travel vlog, AI news..." 
-            autocomplete="off"
-          />
-        </div>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 0;">
-          💡 When you launch a tool below, your topic will be copied to your clipboard automatically along with the optimized prompt.
-        </p>
-      </section>
+        <!-- Tool Grid (4 columns desktop, 3 tablet, 2 mobile) -->
+        <section class="creator-tools-grid" aria-label="Creator Tools Directory">
 
-      <!-- Tool Grid (4 columns desktop, 3 tablet, 2 mobile) -->
-      <section class="creator-tools-grid" aria-label="Creator Tools Directory">
-
-        <!-- 0. AI Auto (Dedicated In-App MTV AI Tool) -->
-        <div class="creator-tool-card" id="card-ai-auto">
-          <div>
-            <div class="creator-tool-header">
-              <span class="creator-tool-icon" aria-hidden="true">⚡</span>
-              <h3 class="creator-tool-title">AI Auto</h3>
+          <!-- 0. AI Auto -->
+          <div class="creator-tool-card" data-tool-id="ai-auto" id="card-ai-auto">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">⚡</span>
+                <h3 class="creator-tool-title">AI Auto</h3>
+              </div>
+              <p class="creator-tool-desc">Generate SEO-ready content & creator output</p>
             </div>
-            <p class="creator-tool-desc">Generate SEO-ready content & creator output</p>
-          </div>
-          <div class="creator-tool-actions">
-            <a 
-              href="ai-auto.html" 
-              class="btn-ai-launch btn-ai-auto-launch" 
-              id="btn-ai-auto-open"
-              style="width: 100%; text-align: center; justify-content: center; font-weight: 700; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #ffffff; border-color: #2563eb; text-decoration: none;"
-              aria-label="Open AI Auto Tool"
-            >
-              <span>Open Tool</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- 1. SEO Title -->
-        <div class="creator-tool-card">
-          <div>
-            <div class="creator-tool-header">
-              <span class="creator-tool-icon" aria-hidden="true">📝</span>
-              <h3 class="creator-tool-title">SEO Title</h3>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=ai-auto" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
             </div>
-            <p class="creator-tool-desc">High-CTR video / page titles</p>
           </div>
-          <div class="creator-tool-actions">
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-chatgpt" 
-              data-target="chatgpt" 
-              data-prompt-template="Generate 10 high-CTR video and page title ideas for: {topic}. Make them engaging, concise, and optimized for search."
-            >
-              <span>ChatGPT</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-gemini" 
-              data-target="gemini" 
-              data-prompt-template="Generate 10 high-CTR video and page title ideas for: {topic}. Make them engaging, concise, and optimized for search."
-            >
-              <span>Gemini</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-          </div>
-        </div>
 
-        <!-- 2. Keywords -->
-        <div class="creator-tool-card">
-          <div>
-            <div class="creator-tool-header">
-              <span class="creator-tool-icon" aria-hidden="true">🔑</span>
-              <h3 class="creator-tool-title">Keywords</h3>
+          <!-- 1. SEO Title -->
+          <div class="creator-tool-card" data-tool-id="seo-title">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">📝</span>
+                <h3 class="creator-tool-title">SEO Title</h3>
+              </div>
+              <p class="creator-tool-desc">High-CTR video / page titles</p>
             </div>
-            <p class="creator-tool-desc">Seed & long-tail keyword ideas</p>
-          </div>
-          <div class="creator-tool-actions">
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-chatgpt" 
-              data-target="chatgpt" 
-              data-prompt-template="Provide a structured list of seed and long-tail keyword ideas for: {topic}. Group them by search intent and relevance."
-            >
-              <span>ChatGPT</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-gemini" 
-              data-target="gemini" 
-              data-prompt-template="Provide a structured list of seed and long-tail keyword ideas for: {topic}. Group them by search intent and relevance."
-            >
-              <span>Gemini</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- 3. Hashtags -->
-        <div class="creator-tool-card">
-          <div>
-            <div class="creator-tool-header">
-              <span class="creator-tool-icon" aria-hidden="true">#️⃣</span>
-              <h3 class="creator-tool-title">Hashtags</h3>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=seo-title" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
             </div>
-            <p class="creator-tool-desc">Platform hashtag sets</p>
           </div>
-          <div class="creator-tool-actions">
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-chatgpt" 
-              data-target="chatgpt" 
-              data-prompt-template="Generate a high-performing hashtag set (15-20 hashtags) for: {topic} across YouTube, Instagram, TikTok, and X."
-            >
-              <span>ChatGPT</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-gemini" 
-              data-target="gemini" 
-              data-prompt-template="Generate a high-performing hashtag set (15-20 hashtags) for: {topic} across YouTube, Instagram, TikTok, and X."
-            >
-              <span>Gemini</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-          </div>
-        </div>
 
-        <!-- 4. Meta Description -->
-        <div class="creator-tool-card">
-          <div>
-            <div class="creator-tool-header">
-              <span class="creator-tool-icon" aria-hidden="true">📄</span>
-              <h3 class="creator-tool-title">Meta Description</h3>
+          <!-- 2. Keywords -->
+          <div class="creator-tool-card" data-tool-id="keywords">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">🔑</span>
+                <h3 class="creator-tool-title">Keywords</h3>
+              </div>
+              <p class="creator-tool-desc">Seed & long-tail keyword ideas</p>
             </div>
-            <p class="creator-tool-desc">Search snippet descriptions</p>
-          </div>
-          <div class="creator-tool-actions">
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-chatgpt" 
-              data-target="chatgpt" 
-              data-prompt-template="Write 3 compelling meta descriptions (under 155 characters each) for: {topic}. Include strong calls to action."
-            >
-              <span>ChatGPT</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-gemini" 
-              data-target="gemini" 
-              data-prompt-template="Write 3 compelling meta descriptions (under 155 characters each) for: {topic}. Include strong calls to action."
-            >
-              <span>Gemini</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- 5. Topic Ideas -->
-        <div class="creator-tool-card">
-          <div>
-            <div class="creator-tool-header">
-              <span class="creator-tool-icon" aria-hidden="true">💡</span>
-              <h3 class="creator-tool-title">Topic Ideas</h3>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=keywords" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
             </div>
-            <p class="creator-tool-desc">Content topic brainstorm</p>
           </div>
-          <div class="creator-tool-actions">
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-chatgpt" 
-              data-target="chatgpt" 
-              data-prompt-template="Brainstorm 10 creative, engaging, and viral content topic ideas about: {topic}."
-            >
-              <span>ChatGPT</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-gemini" 
-              data-target="gemini" 
-              data-prompt-template="Brainstorm 10 creative, engaging, and viral content topic ideas about: {topic}."
-            >
-              <span>Gemini</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-          </div>
-        </div>
 
-        <!-- 6. YouTube SEO Pack -->
-        <div class="creator-tool-card">
-          <div>
-            <div class="creator-tool-header">
-              <span class="creator-tool-icon" aria-hidden="true">🎬</span>
-              <h3 class="creator-tool-title">YouTube SEO Pack</h3>
+          <!-- 3. Hashtags -->
+          <div class="creator-tool-card" data-tool-id="hashtags">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">#️⃣</span>
+                <h3 class="creator-tool-title">Hashtags</h3>
+              </div>
+              <p class="creator-tool-desc">Platform hashtag sets</p>
             </div>
-            <p class="creator-tool-desc">Title + description + tags direction</p>
-          </div>
-          <div class="creator-tool-actions">
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-chatgpt" 
-              data-target="chatgpt" 
-              data-prompt-template="Create a complete YouTube SEO pack for: {topic}. Include 3 title options, a video description with timestamps placeholder, and 15 video tags."
-            >
-              <span>ChatGPT</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-gemini" 
-              data-target="gemini" 
-              data-prompt-template="Create a complete YouTube SEO pack for: {topic}. Include 3 title options, a video description with timestamps placeholder, and 15 video tags."
-            >
-              <span>Gemini</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- 7. Grammar Polish -->
-        <div class="creator-tool-card">
-          <div>
-            <div class="creator-tool-header">
-              <span class="creator-tool-icon" aria-hidden="true">✨</span>
-              <h3 class="creator-tool-title">Grammar Polish</h3>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=hashtags" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
             </div>
-            <p class="creator-tool-desc">Clean up draft text</p>
           </div>
-          <div class="creator-tool-actions">
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-chatgpt" 
-              data-target="chatgpt" 
-              data-prompt-template="Clean up, polish grammar, improve readability, and refine the tone of the following text: {topic}."
-            >
-              <span>ChatGPT</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-gemini" 
-              data-target="gemini" 
-              data-prompt-template="Clean up, polish grammar, improve readability, and refine the tone of the following text: {topic}."
-            >
-              <span>Gemini</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-          </div>
-        </div>
 
-        <!-- 8. Translate -->
-        <div class="creator-tool-card">
-          <div>
-            <div class="creator-tool-header">
-              <span class="creator-tool-icon" aria-hidden="true">🌐</span>
-              <h3 class="creator-tool-title">Translate</h3>
+          <!-- 4. Meta Description -->
+          <div class="creator-tool-card" data-tool-id="meta-description">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">📄</span>
+                <h3 class="creator-tool-title">Meta Description</h3>
+              </div>
+              <p class="creator-tool-desc">Search snippet descriptions</p>
             </div>
-            <p class="creator-tool-desc">Simple translation helper</p>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=meta-description" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
           </div>
-          <div class="creator-tool-actions">
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-chatgpt" 
-              data-target="chatgpt" 
-              data-prompt-template="Translate the following text into clear, natural English: {topic}."
-            >
-              <span>ChatGPT</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
-            <button 
-              type="button" 
-              class="btn-ai-launch launch-gemini" 
-              data-target="gemini" 
-              data-prompt-template="Translate the following text into clear, natural English: {topic}."
-            >
-              <span>Gemini</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            </button>
+
+          <!-- 5. Topic Ideas -->
+          <div class="creator-tool-card" data-tool-id="topic-ideas">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">💡</span>
+                <h3 class="creator-tool-title">Topic Ideas</h3>
+              </div>
+              <p class="creator-tool-desc">Content topic brainstorm</p>
+            </div>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=topic-ideas" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
           </div>
+
+          <!-- 6. YouTube SEO Pack -->
+          <div class="creator-tool-card" data-tool-id="youtube-seo-pack">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">🎬</span>
+                <h3 class="creator-tool-title">YouTube SEO Pack</h3>
+              </div>
+              <p class="creator-tool-desc">Title + description + tags direction</p>
+            </div>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=youtube-seo-pack" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 7. Grammar Polish -->
+          <div class="creator-tool-card" data-tool-id="grammar-polish">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">✨</span>
+                <h3 class="creator-tool-title">Grammar Polish</h3>
+              </div>
+              <p class="creator-tool-desc">Clean up draft text</p>
+            </div>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=grammar-polish" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 8. Translate -->
+          <div class="creator-tool-card" data-tool-id="translate">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">🌐</span>
+                <h3 class="creator-tool-title">Translate</h3>
+              </div>
+              <p class="creator-tool-desc">Simple translation helper</p>
+            </div>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=translate" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- About/Transparency Note Card -->
+        <section class="card" style="margin-bottom: 4rem; background: var(--bg-surface); border: 1px solid var(--border-strong);">
+          <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--bg-subtle); display: flex; align-items: center; justify-content: center; color: var(--accent-blue); flex-shrink: 0;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </div>
+            <div>
+              <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text-primary);">About MTV Creator Tools</h3>
+              <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0.5rem;">
+                Multi Tube Views provides these dedicated workspace tools to accelerate video production and SEO copywriting workflows, powered directly by our high-performance Gemini 3.7 Flash server-side integration.
+              </p>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+                Privacy Note: MTV processes requests securely on its own server infrastructure and does not store or collect user inputs. All AI generations are secure, immediate, and fully isolated.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Dedicated Single Tool View Workspace -->
+      <div id="dedicated-tool-workspace" style="display: none; max-width: 800px; margin: 1.5rem auto 4rem auto;">
+        
+        <!-- Back Link and Navigation Controller -->
+        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+          <a href="creator-tools.html" id="btn-back-to-tools" class="btn" style="background: var(--bg-subtle); border: 1px solid var(--border-strong); padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-primary); text-decoration: none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <span>Back to All Tools</span>
+          </a>
         </div>
 
-      </section>
+        <!-- Tool Input and Output Card -->
+        <div class="card" style="background: var(--bg-surface); border: 1px solid var(--border-strong); padding: 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);">
+          
+          <!-- Tool Header -->
+          <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+            <span id="dedicated-tool-icon" style="font-size: 2.2rem; min-width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;">⚡</span>
+            <div>
+              <h2 id="dedicated-tool-title" style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin: 0;">Tool Title</h2>
+              <p id="dedicated-tool-desc" style="font-size: 0.95rem; color: var(--text-secondary); margin: 0.25rem 0 0 0;">Tool description</p>
+            </div>
+          </div>
 
-      <!-- Transparency Note Card -->
-      <section class="card" style="margin-bottom: 4rem; background: var(--bg-surface); border: 1px solid var(--border-strong);">
-        <div style="display: flex; gap: 1rem; align-items: flex-start;">
-          <div style="width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--bg-subtle); display: flex; align-items: center; justify-content: center; color: var(--accent-blue); flex-shrink: 0;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
+          <!-- Tool Input Area -->
+          <div style="margin-bottom: 1.5rem;">
+            <label for="dedicated-tool-input" id="dedicated-input-label" style="display: block; font-size: 0.88rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">Enter Topic or Text</label>
+            <textarea 
+              id="dedicated-tool-input" 
+              rows="5" 
+              placeholder="Enter your input..." 
+              style="width: 100%; font-family: inherit; font-size: 0.95rem; line-height: 1.5; padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-strong); background: var(--bg-subtle); color: var(--text-primary); outline: none; transition: border-color 0.15s ease;"
+            ></textarea>
           </div>
-          <div>
-            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text-primary);">About MTV Creator Tools</h3>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0.5rem;">
-              Multi Tube Views provides these external AI helper shortcuts to accelerate video production and SEO copywriting workflows. When launched, your customized task prompt is copied to your system clipboard and the official AI application opens in a new browser tab.
-            </p>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
-              Privacy Note: MTV processes zero AI requests on its own servers and does not collect or store your inputs. All AI interactions occur directly within your official ChatGPT or Gemini account.
-            </p>
+
+          <!-- Generate Button -->
+          <button 
+            type="button" 
+            id="btn-generate-dedicated" 
+            style="width: 100%; padding: 0.75rem; font-size: 1rem; font-weight: 700; border-radius: var(--radius-md); border: none; background-color: var(--accent-primary); color: var(--text-inverse); display: flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer; transition: background-color var(--transition-speed) ease;"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <span>Generate Output</span>
+          </button>
+
+          <!-- Loading State -->
+          <div id="dedicated-tool-loading" style="display: none; margin-top: 1.5rem; text-align: center; font-size: 0.95rem; color: var(--text-secondary); background-color: var(--bg-subtle); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <div class="spinner-inline" style="display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(0,102,204,0.15); border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 0.5rem; vertical-align: middle;"></div>
+            <span id="dedicated-loading-text">Running AI Generation...</span>
           </div>
+
+          <!-- Output Area -->
+          <div id="dedicated-tool-output-wrap" style="display: none; margin-top: 1.5rem; width: 100%;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
+              <span style="font-weight: 600; color: var(--text-primary);">MTV AI Output:</span>
+              <div style="display: flex; gap: 0.75rem;">
+                <button type="button" id="btn-dedicated-copy" style="background: none; border: none; color: var(--accent-blue); cursor: pointer; padding: 0; font-size: 0.85rem; font-weight: 600;">Copy Output</button>
+                <span>•</span>
+                <button type="button" id="btn-dedicated-clear" style="background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0; font-size: 0.85rem;">Clear</button>
+              </div>
+            </div>
+            <div id="dedicated-tool-output" class="inline-tool-output ai-rendered-content" style="max-height: 500px; overflow-y: auto; padding: 1.25rem; font-size: 0.95rem; line-height: 1.6; border-radius: var(--radius-md); border: 1px solid var(--border-strong); background-color: var(--bg-primary); color: var(--text-primary); word-break: break-word; white-space: pre-wrap;"></div>
+          </div>
+
         </div>
-      </section>
+      </div>
 
     </div>
   </main>
 
   <!-- Copy Toast Notification -->
-  <div id="copy-toast" class="prompt-toast">Prompt copied to clipboard! Opening AI chat...</div>
+  <div id="copy-toast" class="prompt-toast">Copied to clipboard!</div>
 
   <!-- Global Footer -->
   <footer class="site-footer">
@@ -503,35 +439,131 @@
     </div>
   </footer>
 
+  <style>
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+
   <script src="assets/js/mtv-ai.js"></script>
   <script src="assets/js/navigation.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const topicInput = document.getElementById('creator-topic-input');
-      const toast = document.getElementById('copy-toast');
-      const launchBtns = document.querySelectorAll('.btn-ai-launch:not(.btn-ai-auto-launch)');
-      const aiAutoBtn = document.getElementById('btn-ai-auto-open');
-      const aiAutoCard = document.getElementById('card-ai-auto');
-
-      function handleAiAutoNav(e) {
-        if (e) e.preventDefault();
-        const rawTopic = (topicInput ? topicInput.value : '').trim();
-        if (rawTopic) {
-          window.location.href = `ai-auto.html?topic=${encodeURIComponent(rawTopic)}`;
-        } else {
-          window.location.href = 'ai-auto.html';
+      // 9 Dedicated Creator Tools Configurations
+      const toolsData = {
+        'ai-auto': {
+          title: 'AI Auto',
+          desc: 'Generate SEO-ready content & creator output',
+          icon: '⚡',
+          promptTemplate: 'Create a comprehensive, professional media optimization layout and execution plan for the topic: {topic}. Provide optimized title, keywords, hashtag cloud, description script, and distribution channel directions.',
+          placeholder: 'Enter topic, title, or keywords (e.g., Responsive CSS design system)',
+          label: 'Your Topic / Video Idea / SEO Request'
+        },
+        'seo-title': {
+          title: 'SEO Title',
+          desc: 'High-CTR video / page titles',
+          icon: '📝',
+          promptTemplate: 'Generate 10 high-CTR video and page title ideas for: {topic}. Make them engaging, concise, and optimized for search.',
+          placeholder: 'Enter your video topic or keywords (e.g., Beginner Gardening Guide)',
+          label: 'Topic / Content Theme'
+        },
+        'keywords': {
+          title: 'Keywords',
+          desc: 'Seed & long-tail keyword ideas',
+          icon: '🔑',
+          promptTemplate: 'Provide a structured list of seed and long-tail keyword ideas for: {topic}. Group them by search intent and relevance.',
+          placeholder: 'Enter your seed topic or keywords (e.g., Healthy Breakfast Recipes)',
+          label: 'Seed Topic / Keywords'
+        },
+        'hashtags': {
+          title: 'Hashtags',
+          desc: 'Platform hashtag sets',
+          icon: '#️⃣',
+          promptTemplate: 'Generate a high-performing hashtag set (15-20 hashtags) for: {topic} across YouTube, Instagram, TikTok, and X.',
+          placeholder: 'Enter your video topic or keywords (e.g., Solo Travel Vlogging)',
+          label: 'Video Topic / Hashtag Focus'
+        },
+        'meta-description': {
+          title: 'Meta Description',
+          desc: 'Search snippet descriptions',
+          icon: '📄',
+          promptTemplate: 'Write 3 compelling meta descriptions (under 155 characters each) for: {topic}. Include strong calls to action.',
+          placeholder: 'Enter your page or video topic (e.g., Affordable Gaming Laptops 2026)',
+          label: 'Page / Video Topic'
+        },
+        'topic-ideas': {
+          title: 'Topic Ideas',
+          desc: 'Content topic brainstorm',
+          icon: '💡',
+          promptTemplate: 'Brainstorm 10 creative, engaging, and viral content topic ideas about: {topic}.',
+          placeholder: 'Enter your broad topic area (e.g., Personal Finance for College Students)',
+          label: 'Broad Content Area'
+        },
+        'youtube-seo-pack': {
+          title: 'YouTube SEO Pack',
+          desc: 'Title + description + tags direction',
+          icon: '🎬',
+          promptTemplate: 'Create a complete YouTube SEO pack for: {topic}. Include 3 title options, a video description with timestamps placeholder, and 15 video tags.',
+          placeholder: 'Enter your video topic or keywords (e.g., Python Coding for Kids)',
+          label: 'YouTube Video Topic'
+        },
+        'grammar-polish': {
+          title: 'Grammar Polish',
+          desc: 'Clean up draft text',
+          icon: '✨',
+          promptTemplate: 'Clean up, polish grammar, improve readability, and refine the tone of the following text: {topic}.',
+          placeholder: 'Paste your draft text here to polish (e.g., The video are showing how to build a website from zero.)',
+          label: 'Draft Text'
+        },
+        'translate': {
+          title: 'Translate',
+          desc: 'Simple translation helper',
+          icon: '🌐',
+          promptTemplate: 'Translate the following text into clear, natural English: {topic}.',
+          placeholder: 'Paste the foreign text to translate into English (e.g., Hola, bienvenidos a mi canal de tecnología.)',
+          label: 'Foreign Text to Translate'
         }
-      }
+      };
 
-      if (aiAutoBtn) {
-        aiAutoBtn.addEventListener('click', handleAiAutoNav);
-      }
-      if (aiAutoCard) {
-        aiAutoCard.addEventListener('click', (e) => {
-          if (!e.target.closest('a')) {
-            handleAiAutoNav(e);
-          }
-        });
+      // DOM Selectors
+      const toolsListView = document.getElementById('tools-list-view');
+      const dedicatedToolWorkspace = document.getElementById('dedicated-tool-workspace');
+      const dedicatedToolTitle = document.getElementById('dedicated-tool-title');
+      const dedicatedToolDesc = document.getElementById('dedicated-tool-desc');
+      const dedicatedToolIcon = document.getElementById('dedicated-tool-icon');
+      const dedicatedInputLabel = document.getElementById('dedicated-input-label');
+      const dedicatedToolInput = document.getElementById('dedicated-tool-input');
+      const btnGenerateDedicated = document.getElementById('btn-generate-dedicated');
+      const dedicatedToolLoading = document.getElementById('dedicated-tool-loading');
+      const dedicatedLoadingText = document.getElementById('dedicated-loading-text');
+      const dedicatedToolOutputWrap = document.getElementById('dedicated-tool-output-wrap');
+      const dedicatedToolOutput = document.getElementById('dedicated-tool-output');
+      const btnDedicatedCopy = document.getElementById('btn-dedicated-copy');
+      const btnDedicatedClear = document.getElementById('btn-dedicated-clear');
+      
+      const breadcrumbSubPage = document.getElementById('breadcrumb-sub-page');
+      const breadcrumbSubSeparator = document.getElementById('breadcrumb-sub-separator');
+      const breadcrumbParent = document.getElementById('breadcrumb-parent-link');
+      const backBtn = document.getElementById('btn-back-to-tools');
+      const toast = document.getElementById('copy-toast');
+
+      // Simple Markdown Renderer
+      function formatMarkdown(text) {
+        if (!text) return '';
+        let escaped = text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+        
+        return escaped
+          .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text-primary); font-weight:700;">$1</strong>')
+          .replace(/^### (.*?)$/gm, '<h4 style="font-size:1.05rem; font-weight:700; margin-top:1rem; margin-bottom:0.4rem; color:var(--text-primary);">$1</h4>')
+          .replace(/^#### (.*?)$/gm, '<h5 style="font-size:0.95rem; font-weight:700; margin-top:0.75rem; margin-bottom:0.3rem; color:var(--text-primary);">$1</h5>')
+          .replace(/`(.*?)`/g, '<code style="background-color:var(--bg-subtle); padding:0.15rem 0.35rem; border-radius:3px; font-family:monospace; font-size:0.85rem;">$1</code>')
+          .replace(/^\* (.*?)$/gm, '<li style="margin-left:1rem; margin-bottom:0.35rem; list-style-type:disc;">$1</li>')
+          .replace(/^- (.*?)$/gm, '<li style="margin-left:1rem; margin-bottom:0.35rem; list-style-type:circle;">$1</li>')
+          .replace(/\n/g, '<br/>');
       }
 
       function showToast(message) {
@@ -543,33 +575,211 @@
         }, 2800);
       }
 
-      launchBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const target = btn.getAttribute('data-target');
-          const template = btn.getAttribute('data-prompt-template');
-          const rawTopic = (topicInput ? topicInput.value : '').trim();
-          const topic = rawTopic || 'my video/content topic';
+      // Router Switcher
+      function updateViewFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        let toolId = params.get('tool') || (window.location.hash ? window.location.hash.substring(1) : '');
+        
+        if (toolId.startsWith('tool=')) {
+          toolId = toolId.substring(5);
+        }
 
-          const formattedPrompt = template.replace('{topic}', topic);
-          const isGemini = target === 'gemini';
-          const destinationUrl = isGemini ? 'https://gemini.google.com/' : 'https://chatgpt.com/';
-          const serviceName = isGemini ? 'Gemini' : 'ChatGPT';
-
-          // Copy prompt to clipboard and open official destination in a new tab
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(formattedPrompt).then(() => {
-              showToast(`Prompt copied! Opening ${serviceName}...`);
-            }).catch(() => {
-              showToast(`Opening ${serviceName}...`);
-            });
+        if (toolId && toolsData[toolId]) {
+          const tool = toolsData[toolId];
+          toolsListView.style.display = 'none';
+          dedicatedToolWorkspace.style.display = 'block';
+          
+          dedicatedToolTitle.textContent = tool.title;
+          dedicatedToolDesc.textContent = tool.desc;
+          dedicatedToolIcon.textContent = tool.icon;
+          dedicatedInputLabel.textContent = tool.label;
+          dedicatedToolInput.placeholder = tool.placeholder;
+          
+          // Restore Tool Input & Output states securely from sessionStorage
+          const savedInput = sessionStorage.getItem(`mtv_input_${toolId}`) || '';
+          const savedOutput = sessionStorage.getItem(`mtv_output_${toolId}`) || '';
+          
+          dedicatedToolInput.value = savedInput;
+          if (savedOutput) {
+            dedicatedToolOutput.innerHTML = formatMarkdown(savedOutput);
+            dedicatedToolOutputWrap.style.display = 'block';
           } else {
-            showToast(`Opening ${serviceName}...`);
+            dedicatedToolOutput.innerHTML = '';
+            dedicatedToolOutputWrap.style.display = 'none';
           }
+          
+          breadcrumbSubPage.textContent = tool.title;
+          breadcrumbSubPage.style.display = 'inline';
+          breadcrumbSubSeparator.style.display = 'inline';
+        } else {
+          toolsListView.style.display = 'block';
+          dedicatedToolWorkspace.style.display = 'none';
+          
+          breadcrumbSubPage.style.display = 'none';
+          breadcrumbSubSeparator.style.display = 'none';
+        }
+      }
 
-          window.open(destinationUrl, '_blank', 'noopener,noreferrer');
+      // Event Wireups
+      document.querySelectorAll('.btn-open-tool').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const href = link.getAttribute('href');
+          history.pushState(null, '', href);
+          updateViewFromURL();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       });
+
+      document.querySelectorAll('.creator-tool-card').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', (e) => {
+          if (!e.target.closest('a')) {
+            const toolId = card.getAttribute('data-tool-id');
+            history.pushState(null, '', `?tool=${toolId}`);
+            updateViewFromURL();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+      });
+
+      if (backBtn) {
+        backBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          history.pushState(null, '', 'creator-tools.html');
+          updateViewFromURL();
+          window.scrollTo({ top: 0 });
+        });
+      }
+
+      if (breadcrumbParent) {
+        breadcrumbParent.addEventListener('click', (e) => {
+          e.preventDefault();
+          history.pushState(null, '', 'creator-tools.html');
+          updateViewFromURL();
+          window.scrollTo({ top: 0 });
+        });
+      }
+
+      window.addEventListener('popstate', () => {
+        updateViewFromURL();
+      });
+
+      // Generate Button logic
+      btnGenerateDedicated.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const params = new URLSearchParams(window.location.search);
+        let toolId = params.get('tool') || (window.location.hash ? window.location.hash.substring(1) : '');
+        if (toolId.startsWith('tool=')) {
+          toolId = toolId.substring(5);
+        }
+        
+        if (!toolId || !toolsData[toolId]) return;
+        const tool = toolsData[toolId];
+        
+        const rawInput = dedicatedToolInput.value.trim();
+        if (!rawInput) {
+          showToast('Please enter some text or keywords first.');
+          return;
+        }
+        
+        // Save Input state in sessionStorage
+        sessionStorage.setItem(`mtv_input_${toolId}`, rawInput);
+        
+        const formattedPrompt = tool.promptTemplate.replace('{topic}', rawInput);
+        
+        // UI Loading State
+        btnGenerateDedicated.disabled = true;
+        const originalBtnHtml = btnGenerateDedicated.innerHTML;
+        btnGenerateDedicated.innerHTML = `<span>Generating Output...</span>`;
+        dedicatedToolLoading.style.display = 'block';
+        dedicatedLoadingText.textContent = `Running ${tool.title} AI...`;
+        dedicatedToolOutputWrap.style.display = 'none';
+        
+        try {
+          const apiBase = window.MTV_API_BASE_URL ? window.MTV_API_BASE_URL.replace(/\/+$/, '') : (window.location.origin || '');
+          const response = await fetch(`${apiBase}/api/chat`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              message: formattedPrompt,
+              provider: 'gemini',
+              model: 'gemini-3.7-flash',
+              temperature: 0.7,
+              toolId: toolId,
+              topic: rawInput
+            })
+          });
+          
+          if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+          }
+          
+          const data = await response.json();
+          const aiText = data.response || 'No response received from AI model.';
+          
+          // Save Output state in sessionStorage
+          sessionStorage.setItem(`mtv_output_${toolId}`, aiText);
+          
+          // Render markdown response
+          dedicatedToolOutput.innerHTML = formatMarkdown(aiText);
+          dedicatedToolOutputWrap.style.display = 'block';
+          dedicatedToolOutput.scrollTop = 0;
+        } catch (err) {
+          console.error('AI Generation Failed:', err);
+          dedicatedToolOutput.innerHTML = `<span style="color:var(--accent-red); font-weight:600;">Error:</span> Failed to generate AI response. Please verify your connection or try again.`;
+          dedicatedToolOutputWrap.style.display = 'block';
+        } finally {
+          btnGenerateDedicated.disabled = false;
+          btnGenerateDedicated.innerHTML = originalBtnHtml;
+          dedicatedToolLoading.style.display = 'none';
+        }
+      });
+
+      // Copy & Clear logic
+      if (btnDedicatedCopy) {
+        btnDedicatedCopy.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (dedicatedToolOutput && (dedicatedToolOutput.innerText || dedicatedToolOutput.textContent)) {
+            const textToCopy = dedicatedToolOutput.innerText || dedicatedToolOutput.textContent;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast('Copied to clipboard!');
+              }).catch(() => {
+                showToast('Failed to copy.');
+              });
+            } else {
+              showToast('Clipboard not supported.');
+            }
+          }
+        });
+      }
+
+      if (btnDedicatedClear) {
+        btnDedicatedClear.addEventListener('click', (e) => {
+          e.preventDefault();
+          const params = new URLSearchParams(window.location.search);
+          let toolId = params.get('tool') || (window.location.hash ? window.location.hash.substring(1) : '');
+          if (toolId.startsWith('tool=')) {
+            toolId = toolId.substring(5);
+          }
+          
+          dedicatedToolInput.value = '';
+          dedicatedToolOutput.innerHTML = '';
+          dedicatedToolOutputWrap.style.display = 'none';
+          
+          if (toolId) {
+            sessionStorage.removeItem(`mtv_input_${toolId}`);
+            sessionStorage.removeItem(`mtv_output_${toolId}`);
+          }
+        });
+      }
+
+      // Initial View Trigger
+      updateViewFromURL();
     });
   </script>
 </body>

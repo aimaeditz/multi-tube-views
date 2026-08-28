@@ -2007,7 +2007,7 @@ textarea.form-control {
    ========================================================================== */
 
 .creator-tools-input-card {
-  display: none !important;
+  display: block;
   background-color: var(--bg-surface-elevated);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
