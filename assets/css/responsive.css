@@ -1829,6 +1829,95 @@
     min-height: 30px !important;
     font-size: 0.76rem !important;
   }
+
+  /* Creator Tools 2-Column Responsive Grid & Compact Cards for Mobile */
+  .creator-tools-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.45rem !important;
+    margin-bottom: 1.25rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .creator-tool-card {
+    padding: 0.45rem 0.35rem !important;
+    border-radius: var(--radius-md) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    height: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .creator-tool-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.3rem !important;
+    margin-bottom: 0.25rem !important;
+    min-width: 0 !important;
+  }
+
+  .creator-tool-icon {
+    font-size: 0.95rem !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .creator-tool-title {
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .creator-tool-desc {
+    font-size: 0.65rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.35rem !important;
+    color: var(--text-secondary) !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    word-break: break-word !important;
+    flex-grow: 1 !important;
+  }
+
+  .creator-tool-actions {
+    display: flex !important;
+    gap: 0.2rem !important;
+    align-items: center !important;
+    padding-top: 0.3rem !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .btn-ai-launch {
+    flex: 1 1 50% !important;
+    min-width: 0 !important;
+    height: 26px !important;
+    min-height: 26px !important;
+    padding: 0 0.2rem !important;
+    font-size: 0.62rem !important;
+    font-weight: 600 !important;
+    border-radius: 4px !important;
+    gap: 0.15rem !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+  }
+
+  .btn-ai-launch svg {
+    width: 10px !important;
+    height: 10px !important;
+    flex-shrink: 0 !important;
+  }
 }
 
 /* ==========================================================================
@@ -2029,6 +2118,37 @@
   }
 
   .prompt-card-actions svg {
+    width: 9px !important;
+    height: 9px !important;
+  }
+
+  /* Extra Small Creator Tool Card Refinements */
+  .creator-tools-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.35rem !important;
+  }
+
+  .creator-tool-card {
+    padding: 0.35rem 0.25rem !important;
+  }
+
+  .creator-tool-title {
+    font-size: 0.7rem !important;
+  }
+
+  .creator-tool-desc {
+    font-size: 0.61rem !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  .btn-ai-launch {
+    font-size: 0.58rem !important;
+    padding: 0 0.1rem !important;
+    height: 24px !important;
+    min-height: 24px !important;
+  }
+
+  .btn-ai-launch svg {
     width: 9px !important;
     height: 9px !important;
   }

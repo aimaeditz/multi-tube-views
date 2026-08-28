@@ -2,4 +2,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://multitubeviews.com/sitemap.xml
-Sitemap: https://aimaeditz.github.io/multi-tube-views/sitemap.xml

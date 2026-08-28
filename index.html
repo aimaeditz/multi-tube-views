@@ -54,7 +54,7 @@
           "height": "512"
         },
         "sameAs": [
-          "https://aimaeditz.github.io/multi-tube-views/"
+          "https://multitubeviews.com/"
         ]
       },
       {
@@ -62,7 +62,7 @@
         "@id": "https://multitubeviews.com/#website",
         "url": "https://multitubeviews.com/",
         "name": "Multi Tube Views",
-        "description": "Multi-Platform Public Media Viewing & Embedding Workspace with dedicated tool adapters.",
+        "description": "Multi-Platform Public Media Viewing Workspace with dedicated tool adapters.",
         "publisher": {
           "@id": "https://multitubeviews.com/#organization"
         }
@@ -86,18 +86,26 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Does Multi Tube Views generate artificial views, watch time, or bot traffic?",
+            "name": "How does Multi Tube Views work as a public media workspace?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Strictly No. Multi Tube Views is a legitimate frontend viewing and organizational workspace for public media. It does not automate views, simulate user activity, use proxies, inject background hidden iframes, loop videos to inflate metrics, or bypass platform security."
+              "text": "Multi Tube Views allows you to select a dedicated platform tool, paste single or multiple public URLs, validate link formats, and organize media players in a responsive grid. Media is displayed through official public embeds or direct official platform gateway links."
             }
           },
           {
             "@type": "Question",
-            "name": "Why do some platforms show an Official View Link instead of an embedded player?",
+            "name": "Does Multi Tube Views generate artificial views, watch time, or bot traffic?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Certain platforms (like Instagram, TikTok, X/Twitter, Snapchat, and LinkedIn) enforce strict Content Security Policies or do not provide open browser iframe embedding for general media. MTV honestly validates the link and generates a direct, secure official gateway button to view the post natively."
+              "text": "Strictly No. Multi Tube Views is an organizational viewing workspace for public media. It does not automate views, simulate user activity, loop videos, or bypass platform security. Every player is an official embedded iframe or direct gateway link rendered directly in your browser."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why do some platforms display an Official Gateway Link instead of an embedded player?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Certain platforms (such as Instagram, TikTok, X, Snapchat, and LinkedIn) enforce strict Content Security Policies or do not offer public iframe embedding for general posts. Multi Tube Views validates the URL format and provides a direct, secure official gateway link to view the post natively."
             }
           },
           {
@@ -105,15 +113,15 @@
             "name": "Why can't multiple players play unmuted audio simultaneously?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Modern browsers enforce strict Autoplay Policies to protect users from unexpected loud noise. When embedding multiple players, video streams default to muted state where supported. Users can interactively unmute any specific player using its native controls."
+              "text": "Modern web browsers enforce strict Autoplay Security Policies to protect users from unexpected loud noise. Embedded media streams default to a muted state where supported, allowing you to manually unmute individual players as needed."
             }
           },
           {
             "@type": "Question",
-            "name": "Is Multi Tube Views a static client-side web application?",
+            "name": "Is Multi Tube Views private and safe to use?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. The entire application is built with pure, static HTML5, modular CSS, and vanilla JavaScript using clean relative asset paths. It runs smoothly on modern web browsers and static web infrastructure without requiring local databases."
+              "text": "Yes. Multi Tube Views operates with a privacy-first approach directly in your browser. No account registration is required, and no personal data or viewing history is stored on external servers."
             }
           }
         ]
@@ -148,6 +156,7 @@
       <nav class="nav-desktop" aria-label="Main Navigation">
         <a href="index.html" class="nav-link active">Home</a>
         <a href="ai-prompt.html" class="nav-link">AI Prompt</a>
+        <a href="creator-tools.html" class="nav-link">Creator Tools</a>
         <a href="platforms.html" class="nav-link">Platforms</a>
         <a href="about.html" class="nav-link">About</a>
         <a href="contact.html" class="nav-link">Contact</a>
@@ -174,6 +183,7 @@
   <div class="mobile-drawer" id="mobile-drawer">
     <a href="index.html" class="mobile-nav-link active">Home</a>
     <a href="ai-prompt.html" class="mobile-nav-link">AI Prompt</a>
+    <a href="creator-tools.html" class="mobile-nav-link">Creator Tools</a>
     <a href="platforms.html" class="mobile-nav-link">Platforms</a>
     <a href="about.html" class="mobile-nav-link">About</a>
     <a href="contact.html" class="mobile-nav-link">Contact</a>
@@ -201,7 +211,7 @@
       </div>
     </section>
     
-    <!-- AI Prompt Feature Entry Section -->
+    <!-- Feature Directory Entry Cards Section -->
     <section class="container" id="ai-entry-sections" style="margin-bottom: 4rem;">
       
       <!-- AI Prompt Entry Card -->
@@ -215,7 +225,6 @@
           <div class="ai-prompt-entry-text">
             <h3>
               <span>AI Prompt Library</span>
-              <span class="hero-pill" style="margin: 0; font-size: 0.65rem; padding: 0.15rem 0.55rem;">New Library</span>
             </h3>
             <p>
               Discover curated AI image prompts with authentic visual references and easy one-click copying.
@@ -223,8 +232,68 @@
           </div>
         </div>
         <div style="display: flex; justify-content: flex-end;">
-          <a href="ai-prompt.html" class="btn btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap; min-width: 220px; justify-content: center;">
+          <a href="ai-prompt.html" class="btn btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap; min-width: 260px; justify-content: center;">
             <span>Explore AI Prompts</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.35rem;">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Creator Tools Entry Card -->
+      <div class="ai-prompt-entry-card" style="margin-top: 1.25rem;">
+        <div class="ai-prompt-entry-info">
+          <div class="ai-prompt-entry-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91-6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+          </div>
+          <div class="ai-prompt-entry-text">
+            <h3>
+              <span>Creator Tools</span>
+              <span class="hero-pill" style="margin: 0; font-size: 0.65rem; padding: 0.15rem 0.55rem;">Quick Helpers</span>
+            </h3>
+            <p>
+              Open ready tool prompts in official AI sites — no login on MTV.
+            </p>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+          <a href="creator-tools.html" class="btn btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap; min-width: 260px; justify-content: center;">
+            <span>Explore Creator Tools</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.35rem;">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Media Platform Workspaces Entry Card -->
+      <div class="ai-prompt-entry-card" style="margin-top: 1.25rem;">
+        <div class="ai-prompt-entry-info">
+          <div class="ai-prompt-entry-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <div class="ai-prompt-entry-text">
+            <h3>
+              <span>Media Platform Workspaces</span>
+              <span class="hero-pill" style="margin: 0; font-size: 0.65rem; padding: 0.15rem 0.55rem;">20 Platforms</span>
+            </h3>
+            <p>
+              Dedicated multi-player workspaces tailored with platform-specific regex validation, audio controllers, and synchronized layouts.
+            </p>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+          <a href="platforms.html" class="btn btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap; min-width: 260px; justify-content: center;">
+            <span>Explore Platform Directory</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.35rem;">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
@@ -235,129 +304,22 @@
 
     </section>
 
-    <!-- Media Suite Overview Section (Compact & Unified) -->
-    <section class="container" id="platforms" style="padding-top: 1rem; margin-bottom: 4rem;">
-      <div class="card" style="border: 2px solid var(--border-strong); background: var(--bg-surface-elevated); padding: 2rem;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.75rem;">
-          <div>
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem;">
-              <h2 style="font-size: 1.6rem; font-weight: 700; margin: 0; color: var(--text-primary);">Media Platform Workspaces</h2>
-              <span class="brand-badge" style="font-size: 0.78rem;">20 Isolated Players</span>
-            </div>
-            <p style="color: var(--text-secondary); max-width: 680px; margin: 0; font-size: 0.95rem; line-height: 1.5;">
-              Dedicated multi-player workspaces tailored with platform-specific regex validation, audio controllers, and synchronized layouts.
-            </p>
-          </div>
-          <div style="display: flex; justify-content: flex-end;">
-            <a href="platforms.html" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; min-width: 220px; justify-content: center;">
-              <span>Explore Platform Directory (20)</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- 6 Compact Platform Category Cards -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-          
-          <div class="card" style="padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border-subtle);">
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; display: flex; justify-content: space-between;">
-              <span>📺 Video & Streaming</span>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">4 Platforms</span>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem;">
-              <a href="platforms/youtube.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">▶ YouTube</a>
-              <a href="platforms/dailymotion.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">d Dailymotion</a>
-              <a href="platforms/bilibili.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">📺 Bilibili</a>
-              <a href="platforms/rumble.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">🟢 Rumble</a>
-            </div>
-          </div>
-
-          <div class="card" style="padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border-subtle);">
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; display: flex; justify-content: space-between;">
-              <span>💬 Social Networks</span>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">5 Platforms</span>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem;">
-              <a href="platforms/facebook.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">f Facebook</a>
-              <a href="platforms/instagram.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">📷 Instagram</a>
-              <a href="platforms/threads.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">🧵 Threads</a>
-              <a href="platforms/x.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">𝕏 Twitter / X</a>
-              <a href="platforms/linkedin.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">in LinkedIn</a>
-            </div>
-          </div>
-
-          <div class="card" style="padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border-subtle);">
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; display: flex; justify-content: space-between;">
-              <span>📱 Short-Form Video</span>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">2 Platforms</span>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem;">
-              <a href="platforms/tiktok.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">🎵 TikTok</a>
-              <a href="platforms/snapchat.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">👻 Snapchat</a>
-            </div>
-          </div>
-
-          <div class="card" style="padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border-subtle);">
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; display: flex; justify-content: space-between;">
-              <span>🎧 Audio & Podcasts</span>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">2 Platforms</span>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem;">
-              <a href="platforms/spotify.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">🎧 Spotify</a>
-              <a href="platforms/soundcloud.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">☁ SoundCloud</a>
-            </div>
-          </div>
-
-          <div class="card" style="padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border-subtle);">
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; display: flex; justify-content: space-between;">
-              <span>👾 Live Broadcasts</span>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">2 Platforms</span>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem;">
-              <a href="platforms/twitch.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">👾 Twitch</a>
-              <a href="platforms/kick.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">⚡ Kick</a>
-            </div>
-          </div>
-
-          <div class="card" style="padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border-subtle);">
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; display: flex; justify-content: space-between;">
-              <span>🎨 Creative & Community</span>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">5 Platforms</span>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem;">
-              <a href="platforms/vimeo.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">v Vimeo</a>
-              <a href="platforms/reddit.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">🤖 Reddit</a>
-              <a href="platforms/pinterest.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">📌 Pinterest</a>
-              <a href="platforms/odysee.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">🚀 Odysee</a>
-              <a href="platforms/telegram.html" class="category-pill-btn" style="padding: 0.2rem 0.6rem; font-size: 0.78rem; text-decoration: none;">✈ Telegram</a>
-            </div>
-          </div>
-
-        </div>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.82rem; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
-          <span>🔒 Privacy Guarantee: No cookies stored, no logins, no telemetry scripts</span>
-          <a href="platforms.html" style="font-weight: 600; color: var(--text-primary); text-decoration: none;">View All 20 Platform Adapters & Specifications →</a>
-        </div>
-      </div>
-    </section>
-
     <!-- How It Works Section -->
     <section class="container" style="margin-bottom: 4rem;">
       <div class="card">
         <h2 style="margin-bottom: 1.5rem; text-align: center;">How Multi Tube Views Works</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-top: 1rem;">
           <div>
-            <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--accent-primary);">1. Choose Your Tool</h3>
-            <p style="font-size: 0.92rem;">Select any of the 20 dedicated platform tools from the directory above. Each tool includes platform-tailored regex validation and embed generators.</p>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--accent-primary);">1. Choose a Platform Tool</h3>
+            <p style="font-size: 0.92rem;">Select any dedicated tool from the platform directory for YouTube, Vimeo, Twitch, Spotify, or 16+ other supported services.</p>
           </div>
           <div>
-            <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--accent-primary);">2. Paste Single or Batch URLs</h3>
-            <p style="font-size: 0.92rem;">Enter links one by one or paste a list of comma/newline-separated URLs. MTV sanitizes, validates, and builds a manageable link queue.</p>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--accent-primary);">2. Add & Validate URLs</h3>
+            <p style="font-size: 0.92rem;">Paste a single link or add multiple public media URLs at once using line breaks or commas. Automated syntax checks confirm supported link formats for videos, streams, and tracks.</p>
           </div>
           <div>
-            <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--accent-primary);">3. Configure & View</h3>
-            <p style="font-size: 0.92rem;">Select 1 to 4 responsive columns, customize aspect ratios (16:9, 4:3, 1:1), set audio preferences, and view clean embeds with official fallback gateways.</p>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem; color: var(--accent-primary);">3. Configure & View Grid</h3>
+            <p style="font-size: 0.92rem;">Set your workspace layout with 1 to 4 columns, choose 16:9, 4:3, or 1:1 aspect ratios, manage audio muting, and view media via official embeds or verified gateway links.</p>
           </div>
         </div>
       </div>
@@ -371,21 +333,31 @@
       <div class="faq-list">
         <div class="faq-item">
           <button type="button" class="faq-question" aria-expanded="false">
-            <span>Does Multi Tube Views generate artificial views, watch time, or bot traffic?</span>
+            <span>How does Multi Tube Views work as a public media workspace?</span>
             <span>+</span>
           </button>
           <div class="faq-answer">
-            <p><strong>Strictly No.</strong> Multi Tube Views is a legitimate frontend viewing and organizational workspace for public media. It does not automate views, simulate user activity, use proxies, inject background hidden iframes, loop videos to inflate metrics, or bypass platform security. Every player is a normal embedded iframe or official gateway link rendered in standard browser context.</p>
+            <p>Multi Tube Views is an organizational workspace for public media. You select a dedicated platform tool, paste single or multiple public URLs, validate link formats, and arrange video or audio players in a clean responsive grid. Content is displayed through official public embeds or direct official platform links.</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button type="button" class="faq-question" aria-expanded="false">
-            <span>Why do some platforms show an "Official View Link" instead of an embedded player?</span>
+            <span>Does Multi Tube Views generate artificial views, watch time, or bot traffic?</span>
             <span>+</span>
           </button>
           <div class="faq-answer">
-            <p>Certain platforms (like Instagram, TikTok, X/Twitter, Snapchat, and LinkedIn) enforce strict Content Security Policies (CSP) or do not provide open browser iframe embedding for general media. Rather than showing broken or fake players, MTV honestly validates the link and generates a direct, secure official gateway button to view the post natively.</p>
+            <p><strong>Strictly No.</strong> Multi Tube Views is a legitimate media viewing workspace. It does not automate views, simulate user activity, loop videos, or bypass platform security. Every player is an official embedded iframe or direct gateway link rendered natively in your browser.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-question" aria-expanded="false">
+            <span>Why do some platforms show an "Official Gateway Link" instead of an embedded player?</span>
+            <span>+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Certain platforms (such as Instagram, TikTok, X, Snapchat, and LinkedIn) enforce strict Content Security Policies or do not offer public iframe embedding for general posts. Multi Tube Views validates the link and generates a direct, secure official gateway link to view the content natively on the official platform.</p>
           </div>
         </div>
 
@@ -395,17 +367,17 @@
             <span>+</span>
           </button>
           <div class="faq-answer">
-            <p>Modern browsers (Chrome, Safari, Firefox, Edge) enforce strict Autoplay Policies to protect users from unexpected loud noise. When embedding multiple players, video streams default to muted state where supported. Users can interactively unmute any specific player using its native controls.</p>
+            <p>Modern web browsers enforce strict Autoplay Security Policies to protect users from unexpected loud noise. When loading multiple players, embedded streams default to a muted state where supported. Users can interactively unmute any specific player using its native controls.</p>
           </div>
         </div>
 
         <div class="faq-item">
           <button type="button" class="faq-question" aria-expanded="false">
-            <span>Is Multi Tube Views open-source and deployable to GitHub Pages?</span>
+            <span>Is Multi Tube Views private and secure?</span>
             <span>+</span>
           </button>
           <div class="faq-answer">
-            <p>Yes. The entire application is built with pure, static HTML5, modular CSS, and vanilla JavaScript using clean relative asset paths. It runs seamlessly on GitHub Pages, Cloudflare Pages, Vercel, or any static web hosting provider without requiring a backend server or database.</p>
+            <p>Yes. Multi Tube Views operates with a privacy-first approach directly in your browser. No account registration is required, and no personal data or viewing history is transmitted or saved on external servers. Your workspace layout settings are stored locally on your device.</p>
           </div>
         </div>
       </div>
@@ -416,7 +388,7 @@
       <div class="info-callout">
         <div class="info-callout-icon">ℹ️</div>
         <div class="info-callout-content">
-          <p><strong>Independent Educational & Productivity Project:</strong> Multi Tube Views is an independent public media workspace. It is not affiliated, endorsed, or partnered with YouTube, Vimeo, Twitch, Spotify, or any listed third-party trademark holder. All trademarks and media copyrights belong to their respective owners.</p>
+          <p>Multi Tube Views is an independent public media workspace. It is not affiliated with, endorsed by, or partnered with YouTube, Vimeo, Twitch, Spotify, or any other listed third-party trademark holder. All trademarks and media copyrights belong to their respective owners.</p>
         </div>
       </div>
     </section>
@@ -447,26 +419,10 @@
         </div>
 
         <div class="footer-col">
-          <h4>Research Suite</h4>
-          <ul class="footer-links">
-            <li><a href="articles.html?category=SEO%20%26%20Optimization">SEO Tutorials</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Articles & Guides</h4>
-          <ul class="footer-links">
-            <li><a href="articles.html">Browse Articles</a></li>
-            <li><a href="articles.html?category=Platform%20Guides">Platform Guides</a></li>
-            <li><a href="articles.html?category=SEO%20%26%20Optimization">SEO Tutorials</a></li>
-            <li><a href="articles.html?category=Creator%20Workflows">Workflows</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
           <h4>Company & Tools</h4>
           <ul class="footer-links">
             <li><a href="ai-prompt.html">AI Prompt Library</a></li>
+            <li><a href="creator-tools.html">Creator Tools</a></li>
             <li><a href="about.html">About MTV</a></li>
             <li><a href="contact.html">Contact Us</a></li>
             <li><a href="settings.html">Display & Accessibility</a></li>

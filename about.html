@@ -34,6 +34,7 @@
       <nav class="nav-desktop" aria-label="Main Navigation">
         <a href="index.html" class="nav-link">Home</a>
         <a href="ai-prompt.html" class="nav-link">AI Prompt</a>
+        <a href="creator-tools.html" class="nav-link">Creator Tools</a>
         <a href="platforms.html" class="nav-link">Platforms</a>
         <a href="about.html" class="nav-link active">About</a>
         <a href="contact.html" class="nav-link">Contact</a>
@@ -53,6 +54,7 @@
   <div class="mobile-drawer">
     <a href="index.html" class="mobile-nav-link">Home</a>
     <a href="ai-prompt.html" class="mobile-nav-link">AI Prompt</a>
+    <a href="creator-tools.html" class="mobile-nav-link">Creator Tools</a>
     <a href="platforms.html" class="mobile-nav-link">Platforms</a>
     <a href="about.html" class="mobile-nav-link active">About</a>
     <a href="contact.html" class="mobile-nav-link">Contact</a>
@@ -72,55 +74,78 @@
 
       <h1>About Multi Tube Views</h1>
       <p style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 2rem;">
-        An independent, privacy-conscious public media viewing workspace engineered for creators, researchers, media analysts, and enthusiasts.
+        An independent, privacy-first public media viewing workspace designed for creators, researchers, media analysts, and general audiences.
       </p>
 
       <h2>What is Multi Tube Views?</h2>
       <p>
-        Multi Tube Views (MTV) is a specialized frontend productivity tool designed to help users aggregate, organize, and view public media streams from multiple services side-by-side. Whether you are monitoring multiple esports tournaments on Twitch, previewing music playlists across SoundCloud and Spotify, or reviewing educational lectures on YouTube, MTV provides a fast, centralized workspace.
+        Multi Tube Views is a public media workspace engineered to help users aggregate, organize, and view public media content across multiple platforms side-by-side. Whether you are monitoring live broadcasts on Twitch, reviewing video tutorials on YouTube, or previewing music tracks on Spotify and SoundCloud, Multi Tube Views provides a clean, unified workspace.
       </p>
 
-      <h2>Why Dedicated Platform Pages?</h2>
+      <h2>How Multi Tube Views Works</h2>
       <p>
-        Unlike single-page tools that attempt to squeeze heterogeneous platform logic into a monolithic script, Multi Tube Views is structured with a modular platform directory. Each of the 20 supported platforms has its own dedicated page with tailored validation algorithms, parameter parsers, and custom embed handlers.
+        Multi Tube Views simplifies side-by-side media research and public viewing through an intuitive, multi-step workflow:
+      </p>
+      
+      <h3>1. Choosing a Platform Tool</h3>
+      <p>
+        Navigate through our directory of 20 dedicated platform tools tailored specifically for major video, audio, and live streaming services—including YouTube, Vimeo, Twitch, Spotify, SoundCloud, Dailymotion, and Kick.
+      </p>
+
+      <h3>2. Adding Single or Multiple Public Media URLs</h3>
+      <p>
+        Enter a single link or batch-paste multiple public URLs separated by commas or line breaks. This makes it effortless to queue up multiple streams, videos, or podcasts in one central session.
+      </p>
+
+      <h3>3. Validation and Supported URL Formats</h3>
+      <p>
+        Automated syntax validation immediately checks entered links against recognized URL structures for each platform. Supported formats include standard video links, live streams, shorts, creator clips, and audio tracks.
+      </p>
+
+      <h3>4. Configuring Columns, Aspect Ratio, and Audio Preferences</h3>
+      <p>
+        Customize your grid layout by selecting between 1 and 4 responsive columns, choosing appropriate aspect ratios (16:9 widescreen, 4:3 standard, or 1:1 square), and setting default audio muting preferences.
+      </p>
+
+      <h3>5. Viewing Media via Official Embeds or Fallback Links</h3>
+      <p>
+        Media is rendered using official public player embeds where supported. For platforms that do not permit open third-party iframe embeds, Multi Tube Views generates verified, direct official gateway links to view content natively.
+      </p>
+
+      <h3>6. Browser and Platform Restrictions</h3>
+      <p>
+        Multi Tube Views strictly respects native embedding permissions, access controls, and regional restrictions set by content creators and platform providers.
+      </p>
+
+      <h3>7. Why Some Platforms Cannot Provide Embedded Playback</h3>
+      <p>
+        Certain social platforms—such as Instagram, TikTok, X (Twitter), LinkedIn, and Snapchat—enforce strict Content Security Policies (CSP) or do not provide open browser iframe embedding for general posts. Rather than displaying broken media frames, Multi Tube Views validates the link and offers a direct, secure gateway link to open the post officially on the original host platform.
+      </p>
+
+      <h3>8. Simultaneous Audio & Autoplay Behavior</h3>
+      <p>
+        Modern web browsers enforce strict Autoplay Security Policies to protect users from unexpected loud sound. When loading multiple players simultaneously, media streams default to a muted state where supported. Users can interactively unmute any specific player using its native controls.
+      </p>
+
+      <h3>9. Privacy & Public-Use Behavior</h3>
+      <p>
+        Multi Tube Views operates with a privacy-first model directly inside your browser. No account registration or sign-in is required, and no personal browsing history or entered URLs are saved to external databases. Layout preferences (such as columns and theme choice) are stored locally on your device.
+      </p>
+
+      <h2>Commitment to Authentic Viewing</h2>
+      <p>
+        Multi Tube Views adheres to ethical web standards and platform terms of service:
       </p>
       <ul>
-        <li><strong>Precise URL Parsing:</strong> Custom regex engines handle platform-specific URLs (e.g. YouTube shorts, live streams, Vimeo IDs, Twitch clips with parent domain headers, Spotify URIs).</li>
-        <li><strong>Direct Bookmarkability:</strong> Every platform tool has a persistent, shareable URL that can be bookmarked and refreshed without losing state context.</li>
-        <li><strong>Clean Separation of Concerns:</strong> Adding new platforms or updating existing adapters requires modifying only the central platform engine without breaking other services.</li>
+        <li><strong>No Artificial Metrics:</strong> Multi Tube Views does not simulate fake traffic, use proxies, or generate artificial watch time.</li>
+        <li><strong>No Hidden Elements:</strong> All rendered players remain fully visible, interactive, and controllable by the user.</li>
+        <li><strong>Honest Gateway Links:</strong> Restricted media is clearly represented with verified official viewing links.</li>
       </ul>
 
-      <h2>Privacy-First Static Architecture</h2>
-      <p>
-        Multi Tube Views operates 100% on the client side. There are no server-side databases, no telemetry scripts, no third-party tracking cookies, and no account requirements. All user preferences (theme, grid columns, aspect ratio) are stored safely in the user's own browser via LocalStorage.
+      <h2>Independent Project Disclaimer</h2>
+      <p style="background-color: var(--bg-surface); padding: 1.25rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-blue); font-size: 0.95rem; line-height: 1.6;">
+        Multi Tube Views is an independent public media workspace. It is not affiliated with, endorsed by, or partnered with YouTube, Vimeo, Twitch, Spotify, or any other listed third-party trademark holder. All trademarks and media copyrights belong to their respective owners.
       </p>
-
-      <h2>Strict Commitment: No Artificial Engagement</h2>
-      <p>
-        Multi Tube Views is built with strict adherence to ethical web standards and platform service terms:
-      </p>
-      <ul>
-        <li><strong>No View Botting:</strong> MTV does not simulate fake viewers, rotate proxies, or generate artificial watch time.</li>
-        <li><strong>No Hidden Iframes:</strong> All players rendered on the canvas are visible, interactive, and controllable by the user.</li>
-        <li><strong>No Loop Manipulation:</strong> Video playback behaves strictly according to standard browser autoplay policies.</li>
-        <li><strong>Honest Error Handling:</strong> For platforms that do not permit open iframe embedding (such as Instagram, TikTok, or X), MTV provides a verified, direct official-view gateway rather than faking an embed.</li>
-      </ul>
-
-      <h2>Browser & Platform Limitations</h2>
-      <p>
-        Web browsers enforce strict Autoplay Security Policies that restrict unmuted audio playback across multiple background frames. Additionally, individual content creators or platforms may disable embedding on specific videos or copyright-protected broadcasts. MTV respects all such restrictions natively.
-      </p>
-
-      <h2>AI Prompt Directory</h2>
-      <p>
-        Multi Tube Views includes a dedicated <a href="ai-prompt.html" style="color: var(--accent-blue); font-weight: 600;">AI Prompt</a> library designed to help digital creators discover and reference high-fidelity prompt engineering styles:
-      </p>
-      <ul>
-        <li><strong>Curated Prompt Library:</strong> Displays structured prompts and category tags designed for digital creators.</li>
-        <li><strong>Dynamic Content Reflection:</strong> Automatically reflects newly published posts and categories.</li>
-        <li><strong>Individual Copy Functionality:</strong> Provides single-click clipboard copying for each prompt text with zero extraneous metadata.</li>
-        <li><strong>Quality Reference:</strong> Displays curated prompt texts and reference visuals faithfully.</li>
-      </ul>
 
       <!-- Creator Information Section -->
       <section class="creator-profile-card" id="creator" aria-labelledby="creator-title">
@@ -129,7 +154,7 @@
           <h2 id="creator-title" class="creator-profile-title">About the Creator</h2>
         </div>
         <p class="creator-profile-desc">
-          AiMAEditz is the creator of Multi Tube Views, focused on building clean, modern and useful web tools with a simple user experience.
+          AiMAEditz is the creator of Multi Tube Views, focused on providing clean, modern, and accessible web tools with a simple user experience.
         </p>
       </section>
     </div>
@@ -163,6 +188,7 @@
           <ul class="footer-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="ai-prompt.html">AI Prompt</a></li>
+            <li><a href="creator-tools.html">Creator Tools</a></li>
             <li><a href="articles.html">Articles & Guides</a></li>
             <li><a href="about.html">About MTV</a></li>
             <li><a href="contact.html">Contact Us</a></li>

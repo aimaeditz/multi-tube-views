@@ -1,65 +1,48 @@
-# Multi Tube Views — Deployment & Backend Setup Guide
+# Multi Tube Views — Architecture & Platform Reference Guide
 
-This guide provides step-by-step instructions for configuring and deploying **Multi Tube Views (MTV)** with its secure server-side Google Gemini AI integration.
-
----
-
-## 1. Architecture Overview
-
-Multi Tube Views is built with a modern full-stack architecture:
-- **Frontend Layer:** Responsive single-page and multi-page HTML5/JS views with dark/light themes, 20 platform adapters, and responsive multi-view grids.
-- **Backend API Layer (`server.ts`):** Express + TypeScript backend running on Node.js. Proxies all AI requests securely to the Google Gemini API using `@google/genai`.
-- **API Key Security:** The `GEMINI_API_KEY` remains strictly environment-bound on the server side. No API credentials are ever exposed to the client browser.
+This document provides a technical reference for the architecture, security practices, and browser standards implemented across **Multi Tube Views (MTV)**.
 
 ---
 
-## 2. Environment Setup
+## 1. System Architecture
 
-1. **Create Environment File:**
-   ```bash
-   cp .env.example .env
-   ```
+Multi Tube Views is built with a client-first, privacy-respecting architecture:
 
-2. **Set Your API Key:**
-   Open `.env` and set your key:
-   ```env
-   GEMINI_API_KEY=YOUR_NEW_GEMINI_API_KEY
-   ```
+- **Frontend Views:** Responsive HTML5/JS views with light/dark theme engines, 20 platform player adapters, an AI Prompt Library, and Creator Tools shortcuts.
+- **Client-Side Engine:** All URL parsing, platform regex validation, grid state generation, and local preferences management run entirely in the browser.
+- **No Backend Database or User Tracking:** The site requires no backend user accounts or external database logging. Submitted URLs and viewing preferences remain strictly on the user's local device.
 
 ---
 
-## 3. Local Development
+## 2. Local State Management
 
-Start the development server:
-```bash
-npm run dev
-```
-The server will bind to `http://0.0.0.0:3000` (or `http://localhost:3000`), serving both the backend API endpoints (`/api/*`) and the frontend via Vite middleware.
+Multi Tube Views uses browser `localStorage` to retain non-sensitive user display preferences across sessions:
 
----
-
-## 4. Production Deployment
-
-### Option A: Cloud Run / Render / Railway / Heroku (Full-Stack Container)
-1. Push your codebase to GitHub.
-2. Connect your repository to your Cloud Run / Render / Railway project.
-3. Configure the **Environment Variables** in the provider's dashboard:
-   - `GEMINI_API_KEY`: Your Google Gemini API Key
-   - `NODE_ENV`: `production`
-4. Set Build and Start scripts:
-   - **Build Command:** `npm run build`
-   - **Start Command:** `npm run start`
-
-### Option B: Vercel / Serverless Deployment
-1. Import the repository into Vercel.
-2. Add `GEMINI_API_KEY` under **Project Settings > Environment Variables**.
-3. Deploy! Vercel handles the production build and serverless function execution automatically.
+| Storage Key | Type | Description |
+|-------------|------|-------------|
+| `mtv_theme` | String (`light`, `dark`, `system`) | Saved theme mode preference |
+| `mtv_density` | String (`comfortable`, `compact`) | Saved interface layout density |
+| `mtv_motion` | String (`normal`, `reduced`) | Accessibility reduced motion setting |
+| `mtv_layout_cols` | String (`auto`, `1`, `2`, `3`, `4`) | Preferred multi-stream grid column layout |
+| `mtv_aspect_ratio` | String (`auto`, `16-9`, `9-16`, `4-3`, `1-1`) | Preferred player aspect ratio |
 
 ---
 
-## 5. Security & Verification Checklist
+## 3. Media Embedding & Security Compliance
 
-- [x] `GEMINI_API_KEY` is defined ONLY in `.env` or production platform environment variables.
-- [x] `.env` is listed in `.gitignore` to prevent accidental git commits.
-- [x] All AI tools use `fetch('/api/analyze-video')` or `fetch('/api/ai')`.
-- [x] Frontend code contains ZERO references to raw API keys or client-side Gemini initialization.
+### Cross-Origin Security
+- **Official Embeds:** Platform adapters for YouTube, Vimeo, Twitch, Spotify, Dailymotion, Kick, Bilibili, Telegram, SoundCloud, and Rumble utilize official provider iframe embed endpoints.
+- **Restricted Platforms:** Platforms enforcing `X-Frame-Options: SAMEORIGIN` or CSP `frame-ancestors 'self'` (e.g., Instagram, TikTok, Threads, X, LinkedIn, Reddit, Pinterest, Snapchat, Odysee) are rendered as verified "Official Platform View" gateway cards with direct links.
+
+### Browser Autoplay & Audio Management
+- Players initialize in muted mode by default to comply with browser Media Engagement Index (MEI) requirements.
+- Users can selectively unmute individual streams via embedded controls.
+
+---
+
+## 4. Privacy & Safety Summary
+
+- Zero client-side API secret keys exposed in code.
+- Zero server-side tracking or persistent user history logs.
+- Full WCAG AA color contrast compliance in light and dark modes.
+- Full responsive adaptation across mobile, tablet, and desktop viewports.

@@ -1,7 +1,7 @@
 /**
  * Multi Tube Views (MTV) — AI Prompt Engine (Client)
  * Content source: Strictly https://aipromptxpert.blogspot.com/feeds/posts/default?alt=rss
- * Fully compatible with GitHub Pages, custom domains, static hosting, and full-stack Node.
+ * Fully compatible with modern web browsers and web servers.
  */
 
 (function () {
@@ -177,7 +177,7 @@
     let loadedPrompts = null;
     let sourceCategories = [];
 
-    // Step 1: Try Local Static JSON file first (fastest for GitHub Pages / static hosting)
+    // Step 1: Try Local Static JSON file first (fastest for web application client)
     const assetUrls = getCandidateAssetUrls();
     for (const url of assetUrls) {
       try {
