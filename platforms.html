@@ -355,9 +355,13 @@
 
           if (matchesCat && matchesQuery) {
             card.style.display = 'flex';
+            card.classList.remove('is-hidden');
+            card.removeAttribute('hidden');
             visibleCount++;
           } else {
             card.style.display = 'none';
+            card.classList.add('is-hidden');
+            card.setAttribute('hidden', '');
           }
         });
 
