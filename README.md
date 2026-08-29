@@ -22,7 +22,7 @@
 - **Embed generation** — clean players where embedding is allowed  
 - **Official view links** — honest fallback when a platform blocks iframes  
 - **Layouts** — 1–4 columns, aspect ratios, audio controls  
-- **AI Prompt Library** — curated static prompt gallery (no backend required)  
+- **AI Prompts & Tools** — curated image prompts and external generator tools  
 - **Light / dark mode**, responsive design, accessibility-friendly UI  
 
 No login, no tracking cookies, no backend required for core features.
@@ -38,9 +38,9 @@ Isolated multi-player pages with:
 - Column and aspect-ratio controls  
 - Muted-by-default multi-player behavior (browser autoplay rules)  
 
-### AI Prompt Library
-Browse and copy curated prompts with simple one-click copy.  
-This is a **static** library (HTML + JSON/JS). It does **not** call an AI server.
+### AI Prompts & Tools
+Browse curated image prompts and explore free external AI image generator tools.  
+This is a **static** directory (HTML + JSON/JS). It does **not** require an AI server.
 
 ### Static & private by design
 - Runs on **GitHub Pages** (or any static host)  
@@ -57,7 +57,7 @@ Open: [https://multitubeviews.com](https://multitubeviews.com)
 Main entry points:
 - Home — overview + platform categories  
 - Platforms — full directory of 20 tools  
-- AI Prompt — prompt library  
+- AI Prompts & Tools — curated prompts and tool directory  
 - About / Contact / Settings / Legal pages  
 
 ---
@@ -97,7 +97,7 @@ multi-tube-views/
 ├── index.html              # Homepage
 ├── platforms.html          # Platform directory
 ├── platforms/              # 20 platform workspace pages
-├── ai-prompt.html          # AI Prompt Library (static)
+├── ai-prompt.html          # AI Prompts & Tools (static)
 ├── about.html, settings.html, ...
 ├── assets/
 │   ├── css/                # Styles

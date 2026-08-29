@@ -1,5 +1,5 @@
 /**
- * Multi Tube Views (MTV) — AI Prompt Library Engine
+ * Multi Tube Views (MTV) — AI Prompts & Tools Engine
  * Loads prompt feed from backend and manages search, filter, preview, modal, and clipboard copying.
  */
 
@@ -509,7 +509,7 @@
       spinner.style.display = show ? 'flex' : 'none';
     }
     if (show && countSummaryEl) {
-      countSummaryEl.textContent = 'Loading AI prompt library...';
+      countSummaryEl.textContent = 'Loading AI prompts...';
     }
   }
 

@@ -1900,6 +1900,114 @@
     height: 10px !important;
     flex-shrink: 0 !important;
   }
+
+  /* AI Image Tools 2-Column Responsive Grid & Compact Square Cards for Mobile */
+  .ai-image-tools-section {
+    margin-bottom: 1.5rem !important;
+    padding: 0.85rem 0.65rem 1rem 0.65rem !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .ai-image-tools-header {
+    margin-bottom: 0.75rem !important;
+  }
+
+  .ai-image-tools-title {
+    font-size: 1.05rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .ai-image-tools-subtitle {
+    font-size: 0.75rem !important;
+    line-height: 1.35 !important;
+    padding: 0 0.25rem !important;
+  }
+
+  .ai-image-tools-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.45rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .ai-image-tool-card {
+    aspect-ratio: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0.55rem 0.6rem !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-sm) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .ai-image-tool-header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    margin-bottom: 0.25rem !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .ai-image-tool-icon {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    border-radius: 5px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .ai-image-tool-icon svg {
+    width: 13px !important;
+    height: 13px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .ai-image-tool-title-wrap {
+    width: 100% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    flex: 1 !important;
+  }
+
+  .ai-image-tool-name {
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 100% !important;
+  }
+
+  .ai-image-tool-external {
+    display: none !important;
+  }
+
+  .ai-image-tool-desc {
+    font-size: 0.66rem !important;
+    line-height: 1.25 !important;
+    margin: 0 !important;
+    margin-top: 0.1rem !important;
+    padding-top: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    display: block !important;
+  }
 }
 
 /* ==========================================================================
@@ -1959,6 +2067,22 @@
 
   .prompt-card-preview {
     font-size: 0.66rem !important;
+  }
+
+  .ai-image-tools-grid {
+    gap: 0.4rem !important;
+  }
+
+  .ai-image-tool-card {
+    padding: 0.55rem 0.45rem !important;
+  }
+
+  .ai-image-tool-name {
+    font-size: 0.74rem !important;
+  }
+
+  .ai-image-tool-desc {
+    font-size: 0.62rem !important;
   }
 }
 
@@ -2113,6 +2237,37 @@
   .btn-ai-launch svg {
     width: 9px !important;
     height: 9px !important;
+  }
+
+  /* Extra Small AI Image Tools Refinements (Strictly 2 Columns) */
+  .ai-image-tools-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.35rem !important;
+  }
+
+  .ai-image-tool-card {
+    padding: 0.45rem 0.35rem !important;
+  }
+
+  .ai-image-tool-icon {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    border-radius: 5px !important;
+  }
+
+  .ai-image-tool-icon svg {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  .ai-image-tool-name {
+    font-size: 0.70rem !important;
+  }
+
+  .ai-image-tool-desc {
+    font-size: 0.58rem !important;
   }
 
   .footer-bottom-links {

@@ -342,7 +342,7 @@ export default function App() {
               }`}
             >
               <BookOpen className="w-4 h-4" />
-              <span>AI Prompt Library</span>
+              <span>AI Prompts & Tools</span>
             </button>
 
             <button
@@ -673,13 +673,13 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 3: AI Prompt Library */}
+          {/* TAB 3: AI Prompts & Tools */}
           {activeTab === 'prompts' && (
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-bold text-slate-900">AI Prompt Library</h2>
-                  <p className="text-sm text-slate-500">Curated prompts for image generation and video creation.</p>
+                  <h2 className="text-lg font-bold text-slate-900">AI Prompts & Tools</h2>
+                  <p className="text-sm text-slate-500">Curated image prompts and free image generation tools in one place.</p>
                 </div>
                 <div className="relative w-full sm:w-64">
                   <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
