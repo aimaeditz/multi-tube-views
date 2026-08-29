@@ -35,11 +35,17 @@
   let detailModal = null;
   let toastEl = null;
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function boot() {
     initElements();
     initEventListeners();
     loadPromptLibrary();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
 
   function initElements() {
     gridContainer = document.getElementById('prompt-grid');
@@ -137,22 +143,22 @@
     const pathname = window.location.pathname;
     const dir = pathname.substring(0, pathname.lastIndexOf('/') + 1);
 
-    // 1. Current directory relative
-    candidates.push('assets/data/ai-prompts.json');
+    // 1. Root-relative absolute path (guaranteed to resolve correctly from any page or domain root on Vercel / custom domains)
+    candidates.push('/assets/data/ai-prompts.json');
+
+    // 2. Relative to current path
     candidates.push('./assets/data/ai-prompts.json');
+    candidates.push('assets/data/ai-prompts.json');
     
-    // 2. Computed relative to current directory path
+    // 3. Computed relative to current directory path
     if (origin && origin !== 'null') {
       try {
-        const fullRel = new URL('assets/data/ai-prompts.json', origin + dir).href;
+        const fullRel = new URL('assets/data/ai-prompts.json', origin + (dir.endsWith('/') ? dir : dir + '/')).href;
         if (!candidates.includes(fullRel)) candidates.push(fullRel);
       } catch (_) {}
     }
 
-    // 3. Domain root absolute
-    candidates.push('/assets/data/ai-prompts.json');
-
-    // 4. Parent relative (if inside subfolder)
+    // 4. Parent relative (if inside subfolder like /platforms/)
     candidates.push('../assets/data/ai-prompts.json');
 
     return candidates;
@@ -177,13 +183,22 @@
     let loadedPrompts = null;
     let sourceCategories = [];
 
-    // Step 1: Try Local Static JSON file first (fastest for web application client)
+    // Step 1: Try Local Static JSON file first (fastest and most reliable for web application client)
     const assetUrls = getCandidateAssetUrls();
     for (const url of assetUrls) {
       try {
         const res = await fetch(url, { cache: 'no-cache' });
         if (res.ok) {
-          const json = await res.json();
+          const contentType = res.headers.get('content-type') || '';
+          if (contentType.includes('text/html')) {
+            continue; // Skip if server returned an HTML error/fallback page
+          }
+          const text = await res.text();
+          const trimmed = text.trim();
+          if (!trimmed.startsWith('{') && !trimmed.startsWith('[')) {
+            continue;
+          }
+          const json = JSON.parse(trimmed);
           if (json && Array.isArray(json.prompts) && json.prompts.length > 0) {
             loadedPrompts = json.prompts;
             sourceCategories = json.categories || [];
@@ -215,7 +230,7 @@
     }
 
     // Step 3: If still no data or for live updates, fetch directly from Blogger feed
-    if (!loadedPrompts) {
+    if (!loadedPrompts && !hasLoadedInitialData) {
       try {
         const liveResult = await fetchBloggerPostsLive(50);
         if (liveResult && liveResult.length > 0) {
@@ -232,7 +247,9 @@
       setLocalCache(loadedPrompts, sourceCategories);
       showLoading(false);
     } else if (!hasLoadedInitialData) {
-      showEmptyState("Prompt library is currently updating. Please refresh in a moment.");
+      showEmptyState("No prompts available at the moment. Please refresh or check your internet connection.");
+      showLoading(false);
+    } else {
       showLoading(false);
     }
 
