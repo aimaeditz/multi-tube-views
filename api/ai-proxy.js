@@ -1,17 +1,19 @@
 // ============================================================
-// MTV AI SYSTEM — Core AI Proxy (Backend)
+// MTV AI SYSTEM — Core AI Proxy (Backend) — with Caching
 // ============================================================
-// Auto-detects ANY number of Gemini API keys from Vercel Environment
-// Variables, named: GEMINI_API_KEY, GEMINI_API_KEY_2, GEMINI_API_KEY_3, ...
-// (keep numbering sequential, no gaps). You never need to edit this file
-// again when adding more keys — just add the next numbered variable in
-// Vercel and redeploy.
-//
-// Also tries multiple Gemini models per key, automatically moving to the
-// next key/model combination if one is busy or over its free limit.
-// The user never sees which key or model responded, and never sees any
-// raw error from Google — only a generic, safe message if everything fails.
+// Same as before (auto-detects all GEMINI_API_KEY / GEMINI_API_KEY_2...
+// keys, tries multiple models per key), PLUS:
+// - Caches identical requests (same tool + same input) for 1 hour, so
+//   repeated/duplicate requests don't burn extra API quota.
 // ============================================================
+
+// Simple in-memory cache (lives as long as this server instance stays warm)
+const responseCache = new Map();
+const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+
+function getCacheKey(task, prompt, platform, language) {
+  return `${task || 'default'}|${platform || ''}|${language || ''}|${(prompt || '').trim().toLowerCase()}`;
+}
 
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
@@ -38,7 +40,17 @@ export default async function handler(req, res) {
     }
 
     // --------------------------------------------------------
-    // AUTO-DETECT ALL GEMINI KEYS (no manual count needed, ever)
+    // CHECK CACHE FIRST
+    // --------------------------------------------------------
+    const cacheKey = getCacheKey(task, prompt, platform, language);
+    const cached = responseCache.get(cacheKey);
+    if (cached && (Date.now() - cached.time) < CACHE_TTL_MS) {
+      res.status(200).json({ result: cached.result, task: task || 'default' });
+      return;
+    }
+
+    // --------------------------------------------------------
+    // AUTO-DETECT ALL GEMINI KEYS
     // --------------------------------------------------------
     const apiKeys = [];
     if (process.env.GEMINI_API_KEY) apiKeys.push(process.env.GEMINI_API_KEY);
@@ -53,14 +65,8 @@ export default async function handler(req, res) {
       return;
     }
 
-    // --------------------------------------------------------
-    // MODELS TO TRY, IN ORDER, PER KEY
-    // --------------------------------------------------------
     const models = ['gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-2.5-flash'];
 
-    // --------------------------------------------------------
-    // YAHAN NAYE TOOLS ADD KARO (task name : instructions)
-    // --------------------------------------------------------
     const systemInstructions = {
       'ai-auto': 'You are an expert SEO content strategist. Given a topic, generate a complete, ready-to-use creator content package: 1) A high-CTR title, 2) A full SEO-optimized description (3-5 sentences), 3) A list of 15-20 relevant tags. Label each section clearly. Be specific to the exact topic given, never generic. No markdown asterisks.',
       'seo-title': 'You are an expert copywriter specializing in high-CTR titles. Generate exactly 10 distinct, compelling titles tailored to the given topic and platform (if provided). Return only a clean numbered list, no markdown asterisks.',
@@ -81,9 +87,6 @@ export default async function handler(req, res) {
     if (language) contextPrefix += `Target Language: ${language}\n`;
     const finalPrompt = contextPrefix ? `${contextPrefix}${prompt}` : prompt;
 
-    // --------------------------------------------------------
-    // TRY EVERY KEY x EVERY MODEL UNTIL ONE WORKS
-    // --------------------------------------------------------
     for (const key of apiKeys) {
       for (const model of models) {
         try {
@@ -104,18 +107,18 @@ export default async function handler(req, res) {
           if (response.ok) {
             const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
             if (resultText) {
+              // Save to cache before responding
+              responseCache.set(cacheKey, { result: resultText, time: Date.now() });
               res.status(200).json({ result: resultText, task: task || 'default' });
               return;
             }
           }
-          // If not ok or empty result, silently try the next model/key
         } catch (e) {
-          // Network/timeout on this key+model — silently try the next one
+          // try next key/model
         }
       }
     }
 
-    // All keys and models failed
     res.status(503).json({ error: 'Thoda busy hai, kripya kuch second baad dobara try karein.' });
 
   } catch (err) {
