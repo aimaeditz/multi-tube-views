@@ -5,17 +5,11 @@
 // Vercel isko automatically ek secure serverless endpoint bana dega:
 //   https://yourdomain.com/api/ai-proxy
 //
-// Kaam: Frontend se request leta hai, apni secret GEMINI_API_KEY
-// (Vercel Environment Variable se) use karke Google Gemini ko call
-// karta hai, aur result wapas frontend ko bhejta hai.
-// User ko kabhi bhi API key nazar nahi aati — wo sirf server par rehti hai.
-//
 // NAYA TOOL ADD KARNA HO? Bas neeche "systemInstructions" object mein
 // ek naya entry add karo — baaki sab automatic kaam karega.
 // ============================================================
 
-module.exports = async (req, res) => {
-  // Sirf POST requests allow
+export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -83,4 +77,4 @@ module.exports = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Server error: ' + err.message });
   }
-};
+}
