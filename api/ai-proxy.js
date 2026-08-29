@@ -1,18 +1,51 @@
 // ============================================================
-// MTV AI SYSTEM — Core AI Proxy (Backend) — with Caching
+// MTV AI SYSTEM — Core AI Proxy (Backend) — Parallel + Cached
 // ============================================================
-// Same as before (auto-detects all GEMINI_API_KEY / GEMINI_API_KEY_2...
-// keys, tries multiple models per key), PLUS:
-// - Caches identical requests (same tool + same input) for 1 hour, so
-//   repeated/duplicate requests don't burn extra API quota.
+// Same as before (caching, auto-detect keys), PLUS: tries multiple
+// keys/models in PARALLEL instead of one-by-one, so the first one that
+// responds wins — much faster average response time.
 // ============================================================
 
-// Simple in-memory cache (lives as long as this server instance stays warm)
 const responseCache = new Map();
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
 function getCacheKey(task, prompt, platform, language) {
   return `${task || 'default'}|${platform || ''}|${language || ''}|${(prompt || '').trim().toLowerCase()}`;
+}
+
+async function tryOne(key, model, systemInstruction, finalPrompt) {
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: systemInstruction }] },
+        contents: [{ parts: [{ text: finalPrompt }] }]
+      })
+    }
+  );
+  const data = await response.json();
+  if (!response.ok) throw new Error('failed');
+  const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  if (!resultText) throw new Error('empty');
+  return resultText;
+}
+
+// Returns the result of whichever promise resolves first; ignores failures
+// unless everything fails.
+function raceSuccess(promises) {
+  return new Promise((resolve, reject) => {
+    let remaining = promises.length;
+    let lastError = null;
+    promises.forEach((p) => {
+      p.then(resolve).catch((err) => {
+        lastError = err;
+        remaining--;
+        if (remaining === 0) reject(lastError);
+      });
+    });
+  });
 }
 
 export default async function handler(req, res) {
@@ -39,9 +72,6 @@ export default async function handler(req, res) {
       return;
     }
 
-    // --------------------------------------------------------
-    // CHECK CACHE FIRST
-    // --------------------------------------------------------
     const cacheKey = getCacheKey(task, prompt, platform, language);
     const cached = responseCache.get(cacheKey);
     if (cached && (Date.now() - cached.time) < CACHE_TTL_MS) {
@@ -49,9 +79,6 @@ export default async function handler(req, res) {
       return;
     }
 
-    // --------------------------------------------------------
-    // AUTO-DETECT ALL GEMINI KEYS
-    // --------------------------------------------------------
     const apiKeys = [];
     if (process.env.GEMINI_API_KEY) apiKeys.push(process.env.GEMINI_API_KEY);
     let i = 2;
@@ -87,35 +114,20 @@ export default async function handler(req, res) {
     if (language) contextPrefix += `Target Language: ${language}\n`;
     const finalPrompt = contextPrefix ? `${contextPrefix}${prompt}` : prompt;
 
-    for (const key of apiKeys) {
-      for (const model of models) {
-        try {
-          const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                system_instruction: { parts: [{ text: systemInstruction }] },
-                contents: [{ parts: [{ text: finalPrompt }] }]
-              })
-            }
-          );
-
-          const data = await response.json();
-
-          if (response.ok) {
-            const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-            if (resultText) {
-              // Save to cache before responding
-              responseCache.set(cacheKey, { result: resultText, time: Date.now() });
-              res.status(200).json({ result: resultText, task: task || 'default' });
-              return;
-            }
-          }
-        } catch (e) {
-          // try next key/model
-        }
+    // --------------------------------------------------------
+    // Try the first model across ALL keys in PARALLEL (fast).
+    // Only if every key fails on that model, move to the next model
+    // and try all keys in parallel again.
+    // --------------------------------------------------------
+    for (const model of models) {
+      const attempts = apiKeys.map((key) => tryOne(key, model, systemInstruction, finalPrompt));
+      try {
+        const resultText = await raceSuccess(attempts);
+        responseCache.set(cacheKey, { result: resultText, time: Date.now() });
+        res.status(200).json({ result: resultText, task: task || 'default' });
+        return;
+      } catch (e) {
+        // all keys failed for this model — try next model
       }
     }
 
