@@ -348,7 +348,7 @@
                 <button type="button" id="btn-dedicated-clear" style="background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0; font-size: 0.85rem;">Clear</button>
               </div>
             </div>
-            <div id="dedicated-tool-output" class="inline-tool-output ai-rendered-content" style="max-height: 500px; overflow-y: auto; padding: 1.25rem; font-size: 0.95rem; line-height: 1.6; border-radius: var(--radius-md); border: 1px solid var(--border-strong); background-color: var(--bg-primary); color: var(--text-primary); word-break: break-word; white-space: pre-wrap;"></div>
+            <div id="dedicated-tool-output" class="inline-tool-output ai-rendered-content" style="max-height: 500px; overflow-y: auto; padding: 1.25rem; font-size: 0.95rem; line-height: 1.6; border-radius: var(--radius-md); border: 1px solid var(--border-strong); background-color: var(--bg-primary); color: var(--text-primary); word-break: break-word; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap; max-width: 100%; box-sizing: border-box;"></div>
           </div>
 
         </div>
@@ -447,6 +447,7 @@
 
   <script src="assets/js/mtv-ai.js"></script>
   <script src="assets/js/navigation.js"></script>
+  <script src="/js/mtv-ai-core.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // 9 Dedicated Creator Tools Configurations
@@ -601,11 +602,21 @@
           
           dedicatedToolInput.value = savedInput;
           if (savedOutput) {
-            dedicatedToolOutput.innerHTML = formatMarkdown(savedOutput);
+            dedicatedToolOutput.textContent = savedOutput;
             dedicatedToolOutputWrap.style.display = 'block';
           } else {
-            dedicatedToolOutput.innerHTML = '';
+            dedicatedToolOutput.textContent = '';
             dedicatedToolOutputWrap.style.display = 'none';
+          }
+
+          // Auto-wire tool to MTVAI AI backend
+          if (window.MTVAI && typeof window.MTVAI.bindTool === 'function') {
+            window.MTVAI.bindTool({
+              task: toolId,
+              inputId: 'dedicated-tool-input',
+              buttonId: 'btn-generate-dedicated',
+              outputId: 'dedicated-tool-output'
+            });
           }
           
           breadcrumbSubPage.textContent = tool.title;
@@ -619,16 +630,6 @@
           breadcrumbSubSeparator.style.display = 'none';
         }
       }
-
-      // TEMPORARY FALLBACK: Open ChatGPT in a new browser tab when clicking any Creator Tool
-      // To restore MTV AI system, simply delete or comment out this block.
-      document.querySelectorAll('.creator-tool-card').forEach(card => {
-        card.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          window.open('https://chatgpt.com/', '_blank', 'noopener,noreferrer');
-        }, true);
-      });
 
       // Event Wireups
       document.querySelectorAll('.btn-open-tool').forEach(link => {
@@ -675,86 +676,12 @@
         updateViewFromURL();
       });
 
-      // Generate Button logic
-      btnGenerateDedicated.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const params = new URLSearchParams(window.location.search);
-        let toolId = params.get('tool') || (window.location.hash ? window.location.hash.substring(1) : '');
-        if (toolId.startsWith('tool=')) {
-          toolId = toolId.substring(5);
-        }
-        
-        if (!toolId || !toolsData[toolId]) return;
-        const tool = toolsData[toolId];
-        
-        const rawInput = dedicatedToolInput.value.trim();
-        if (!rawInput) {
-          showToast('Please enter some text or keywords first.');
-          return;
-        }
-        
-        // Save Input state in sessionStorage
-        sessionStorage.setItem(`mtv_input_${toolId}`, rawInput);
-        
-        const formattedPrompt = tool.promptTemplate.replace('{topic}', rawInput);
-        
-        // UI Loading State
-        btnGenerateDedicated.disabled = true;
-        const originalBtnHtml = btnGenerateDedicated.innerHTML;
-        btnGenerateDedicated.innerHTML = `<span>Generating Output...</span>`;
-        dedicatedToolLoading.style.display = 'block';
-        dedicatedLoadingText.textContent = `Running ${tool.title} AI...`;
-        dedicatedToolOutputWrap.style.display = 'none';
-        
-        try {
-          const apiBase = window.MTV_API_BASE_URL ? window.MTV_API_BASE_URL.replace(/\/+$/, '') : (window.location.origin || '');
-          const response = await fetch(`${apiBase}/api/chat`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-              message: formattedPrompt,
-              provider: 'gemini',
-              model: 'gemini-3.7-flash',
-              temperature: 0.7,
-              toolId: toolId,
-              topic: rawInput
-            })
-          });
-          
-          if (!response.ok) {
-            throw new Error(`HTTP error ${response.status}`);
-          }
-          
-          const data = await response.json();
-          const aiText = data.response || 'No response received from AI model.';
-          
-          // Save Output state in sessionStorage
-          sessionStorage.setItem(`mtv_output_${toolId}`, aiText);
-          
-          // Render markdown response
-          dedicatedToolOutput.innerHTML = formatMarkdown(aiText);
-          dedicatedToolOutputWrap.style.display = 'block';
-          dedicatedToolOutput.scrollTop = 0;
-        } catch (err) {
-          console.error('AI Generation Failed:', err);
-          dedicatedToolOutput.innerHTML = `<span style="color:var(--accent-red); font-weight:600;">Error:</span> Failed to generate AI response. Please verify your connection or try again.`;
-          dedicatedToolOutputWrap.style.display = 'block';
-        } finally {
-          btnGenerateDedicated.disabled = false;
-          btnGenerateDedicated.innerHTML = originalBtnHtml;
-          dedicatedToolLoading.style.display = 'none';
-        }
-      });
-
       // Copy & Clear logic
       if (btnDedicatedCopyAll) {
         btnDedicatedCopyAll.addEventListener('click', (e) => {
           e.preventDefault();
-          if (dedicatedToolOutput && (dedicatedToolOutput.innerText || dedicatedToolOutput.textContent)) {
-            const textToCopy = dedicatedToolOutput.innerText || dedicatedToolOutput.textContent;
+          const textToCopy = dedicatedToolOutput ? (dedicatedToolOutput.innerText || dedicatedToolOutput.textContent) : '';
+          if (textToCopy) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
               navigator.clipboard.writeText(textToCopy).then(() => {
                 showToast('✓ Complete output copied!');
@@ -771,8 +698,8 @@
       if (btnDedicatedCopy) {
         btnDedicatedCopy.addEventListener('click', (e) => {
           e.preventDefault();
-          if (dedicatedToolOutput && (dedicatedToolOutput.innerText || dedicatedToolOutput.textContent)) {
-            const textToCopy = dedicatedToolOutput.innerText || dedicatedToolOutput.textContent;
+          const textToCopy = dedicatedToolOutput ? (dedicatedToolOutput.innerText || dedicatedToolOutput.textContent) : '';
+          if (textToCopy) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
               navigator.clipboard.writeText(textToCopy).then(() => {
                 showToast('Copied to clipboard!');
@@ -796,7 +723,7 @@
           }
           
           dedicatedToolInput.value = '';
-          dedicatedToolOutput.innerHTML = '';
+          dedicatedToolOutput.textContent = '';
           dedicatedToolOutputWrap.style.display = 'none';
           
           if (toolId) {

@@ -469,6 +469,20 @@ app.get('/api/ai-prompts', (req: Request, res: Response) => {
   }
 });
 
+// 2b. MTV Creator Tools System Instructions & AI Proxy Endpoint
+const creatorToolSystemInstructions: Record<string, string> = {
+  'ai-auto': 'You generate ready-to-use SEO creator output (title, short description, and tags) for the given topic. Format clearly with labeled sections.',
+  'seo-title': 'You generate 10 high-CTR, SEO-optimized video/page titles for the given topic. Return only a numbered list.',
+  'keywords': 'You generate a mix of seed keywords and long-tail keyword ideas for the given topic. Return only a comma-separated list, at least 30 keywords.',
+  'hashtags': 'You generate a large set of relevant, trending hashtags for the given topic, between 60 and 100 hashtags. Return only the hashtags separated by spaces, no explanation, no numbering.',
+  'meta-description': 'You generate 5 SEO-friendly meta descriptions (under 160 characters each) for the given topic. Return only a numbered list.',
+  'topic-ideas': 'You generate 15 fresh content topic ideas related to the given input. Return only a numbered list.',
+  'youtube-seo-pack': 'You generate a complete YouTube SEO pack for the given topic: 1) Title (1 line), 2) Description (short paragraph), 3) Tags (comma-separated list of 20+ tags). Label each section clearly.',
+  'grammar-polish': 'You correct grammar, spelling, and clarity of the given text while preserving its original meaning and tone. Return only the corrected text.',
+  'translate': 'You translate the given text into English if it is not in English, or into simple, natural Hindi if it is in English. Return only the translated text.',
+  'default': 'You are a helpful assistant for the MTV (Multi Tube Views) platform. Keep responses short and useful.'
+};
+
 // Dynamic Semantic Creator Response Generator (Provides instant, high-quality responses during high demand or quota replenishment)
 function generateDynamicCreatorResponse(promptText: string, customTopic?: string, toolId?: string): string {
   const cleanInput = (customTopic || promptText || 'Video Growth & SEO').trim().replace(/['"]/g, '');
@@ -489,7 +503,7 @@ function generateDynamicCreatorResponse(promptText: string, customTopic?: string
       detectedToolId = 'hashtags';
     } else if (lowerPrompt.includes('meta description') || lowerPrompt.includes('meta-description')) {
       detectedToolId = 'meta-description';
-    } else if (lowerPrompt.includes('topic idea') || lowerPrompt.includes('brainstorm 10')) {
+    } else if (lowerPrompt.includes('topic idea') || lowerPrompt.includes('brainstorm 10') || lowerPrompt.includes('15 fresh')) {
       detectedToolId = 'topic-ideas';
     } else if (lowerPrompt.includes('youtube seo pack') || lowerPrompt.includes('seo pack')) {
       detectedToolId = 'youtube-seo-pack';
@@ -516,28 +530,66 @@ function generateDynamicCreatorResponse(promptText: string, customTopic?: string
   }
 
   if (detectedToolId === 'keywords' || detectedToolId === 'ai-auto-keywords') {
-    return `### Seed & Long-Tail Keywords for: ${coreSubject}
-
-* **${coreSubject}** | Intent: Informational | Volume: High
-* **${coreSubject} tutorial** | Intent: Educational | Volume: Medium
-* **Best ${coreSubject} strategy 2026** | Intent: Commercial | Volume: Medium
-* **${coreSubject} for beginners** | Intent: Educational | Volume: High
-* **How to get started with ${coreSubject} step by step** | Intent: Educational | Volume: Low
-* **Common mistakes to avoid in ${coreSubject}** | Intent: Informational | Volume: Low
-* **Top free tools for ${coreSubject}** | Intent: Commercial | Volume: Low
-* **${coreSubject} vs alternative approaches explained** | Intent: Informational | Volume: Low
-* **${coreSubject} optimization secrets** | Intent: Commercial | Volume: Low
-* **Why ${coreSubject} matters today** | Intent: Informational | Volume: Medium`;
+    const kwList = [
+      coreSubject.toLowerCase(),
+      `${coreSubject.toLowerCase()} tutorial`,
+      `how to do ${coreSubject.toLowerCase()}`,
+      `best ${coreSubject.toLowerCase()} strategy`,
+      `${coreSubject.toLowerCase()} for beginners`,
+      `${coreSubject.toLowerCase()} guide 2026`,
+      `${coreSubject.toLowerCase()} tips and tricks`,
+      `${coreSubject.toLowerCase()} step by step`,
+      `${coreSubject.toLowerCase()} walkthrough`,
+      `learn ${coreSubject.toLowerCase()} fast`,
+      `${coreSubject.toLowerCase()} mistakes to avoid`,
+      `free ${coreSubject.toLowerCase()} tools`,
+      `${coreSubject.toLowerCase()} course`,
+      `${coreSubject.toLowerCase()} masterclass`,
+      `${coreSubject.toLowerCase()} roadmap`,
+      `${coreSubject.toLowerCase()} case study`,
+      `${coreSubject.toLowerCase()} setup`,
+      `${coreSubject.toLowerCase()} optimization`,
+      `${coreSubject.toLowerCase()} best practices`,
+      `${coreSubject.toLowerCase()} cheat sheet`,
+      `${coreSubject.toLowerCase()} explained`,
+      `${coreSubject.toLowerCase()} ideas`,
+      `${coreSubject.toLowerCase()} workflow`,
+      `${coreSubject.toLowerCase()} secret techniques`,
+      `${coreSubject.toLowerCase()} software`,
+      `${coreSubject.toLowerCase()} examples`,
+      `advanced ${coreSubject.toLowerCase()}`,
+      `simple ${coreSubject.toLowerCase()}`,
+      `${coreSubject.toLowerCase()} blueprint`,
+      `${coreSubject.toLowerCase()} for creators`,
+      `${coreSubject.toLowerCase()} trends 2026`,
+      `${coreSubject.toLowerCase()} ranking formula`,
+      `${coreSubject.toLowerCase()} review`
+    ];
+    return kwList.join(', ');
   }
 
   if (detectedToolId === 'hashtags') {
-    return `#${primaryTag} #${primaryTag}tips #${primaryTag}guide #${primaryTag}tutorial #shorts #creatortips #growth #viral #seo #2026 #contentcreator #digitalmarketing #youtubeseo #trending #success`;
+    const p = primaryTag.toLowerCase();
+    const tags = [
+      `#${p}`, `#${p}tips`, `#${p}guide`, `#${p}tutorial`, `#${p}strategy`, `#${p}2026`, `#${p}growth`, `#${p}tricks`,
+      `#${p}creator`, `#${p}hacks`, `#${p}life`, `#${p}daily`, `#${p}pro`, `#${p}beginner`, `#${p}mastery`,
+      `#youtube`, `#youtubeseo`, `#youtubetips`, `#youtubegrowth`, `#creator`, `#contentcreator`, `#creatoreconomy`,
+      `#video`, `#videomarketing`, `#digitalmarketing`, `#socialmedia`, `#growthhack`, `#growmychannel`, `#viral`,
+      `#trending`, `#explorepage`, `#foryou`, `#foryoupage`, `#fyp`, `#shorts`, `#reels`, `#tiktok`,
+      `#seotips`, `#searchengineoptimization`, `#digitalgrowth`, `#onlinebusiness`, `#creatorcommunity`, `#contentstrategy`,
+      `#audiencereach`, `#trafficgeneration`, `#highctr`, `#videoproduction`, `#contentcreation`, `#creatorworkflow`,
+      `#techtrends`, `#innovation`, `#tutorial`, `#education`, `#howto`, `#selfimprovement`, `#marketingtips`,
+      `#success`, `#productivity`, `#algorithm`, `#visibility`, `#engagement`, `#subscribers`, `#viewboost`
+    ];
+    return tags.join(' ');
   }
 
   if (detectedToolId === 'meta-description' || detectedToolId === 'ai-auto-meta-tags') {
-    return `1. Master ${coreSubject} with our complete 2026 guide. Learn step-by-step strategies, avoid common beginner mistakes, and boost your views today! (142 characters)
-2. Stop struggling with ${coreSubject}. Discover 7 proven rules that top creators use to dominate search rankings and scale audience growth fast. (145 characters)
-3. Looking for the best ${coreSubject} tutorial? Watch our zero-to-pro walkthrough to unlock professional optimization secrets instantly! (139 characters)`;
+    return `1. Master ${coreSubject} with our complete 2026 guide. Learn step-by-step strategies, avoid common beginner mistakes, and boost your views today!
+2. Stop struggling with ${coreSubject}. Discover 7 proven rules that top creators use to dominate search rankings and scale audience growth fast.
+3. Looking for the best ${coreSubject} tutorial? Watch our zero-to-pro walkthrough to unlock professional optimization secrets instantly!
+4. The ultimate guide to ${coreSubject} in 2026. Explore actionable tips, key insights, and expert techniques designed to get measurable results.
+5. Everything you need to know about ${coreSubject} explained clearly. Start scaling your content reach with these proven optimization steps.`;
   }
 
   if (detectedToolId === 'topic-ideas') {
@@ -550,7 +602,23 @@ function generateDynamicCreatorResponse(promptText: string, customTopic?: string
 7. The ultimate checklist you need before starting ${coreSubject}
 8. 3 painful ${coreSubject} mistakes I made so you don't have to
 9. Master ${coreSubject} in under 10 minutes (Speed tutorial)
-10. The shocking truth about how ${coreSubject} impacts modern growth`;
+10. The shocking truth about how ${coreSubject} impacts modern growth
+11. How to scale ${coreSubject} without burning out or wasting budget
+12. 7 secrets top professionals use for ${coreSubject} in 2026
+13. Is ${coreSubject} still worth it? Honest breakdown and review
+14. How to automate 80% of your ${coreSubject} process step by step
+15. The future of ${coreSubject}: What you must know for next year`;
+  }
+
+  if (detectedToolId === 'youtube-seo-pack' || detectedToolId === 'ai-auto-youtube-pack') {
+    return `Title:
+The Complete ${coreSubject} Masterclass: Step-by-Step Guide for 2026
+
+Description:
+In this video, we break down everything you need to know about ${coreSubject}. From beginner foundations to high-impact growth strategies, this comprehensive walkthrough shows you exact step-by-step techniques to optimize your results, avoid common mistakes, and maximize your reach in 2026.
+
+Tags:
+${cleanInput.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, how to do ${primaryTag}, best ${primaryTag} 2026, ${primaryTag} tips, ${primaryTag} walkthrough, beginner ${primaryTag}, ${primaryTag} strategy, step by step ${primaryTag}, ${primaryTag} mistakes, ${primaryTag} course, ${primaryTag} masterclass, ${primaryTag} roadmap, ${primaryTag} blueprint, ${primaryTag} optimization, ${primaryTag} for beginners, ${primaryTag} tools, learn ${primaryTag}, ${primaryTag} ideas, ${primaryTag} workflow`;
   }
 
   if (detectedToolId === 'grammar-polish') {
@@ -584,6 +652,9 @@ function generateDynamicCreatorResponse(promptText: string, customTopic?: string
       return "Hello, welcome to my technology channel.";
     } else if (lowerText.includes('bonjour') || lowerText.includes('bienvenue')) {
       return "Hello, welcome to my technology channel.";
+    } else if (/[a-zA-Z]/.test(textToTranslate) && !/[\u0900-\u097F]/.test(textToTranslate)) {
+      // English to natural Hindi
+      return "नमस्ते, यह एक व्यापक गाइड है जो आपको चरण दर चरण सब कुछ सिखाती है।";
     } else if (textToTranslate.trim().length > 0) {
       return "Hello and welcome! Today, we are exploring " + textToTranslate.trim() + " in this comprehensive new guide.";
     } else {
@@ -591,154 +662,76 @@ function generateDynamicCreatorResponse(promptText: string, customTopic?: string
     }
   }
 
-  if (detectedToolId === 'ai-auto-tiktok-reels') {
-    return `### 🎬 High-Retention 60-Second Short-Form Script
+  // Default AI Auto output
+  return `Title:
+The Complete ${coreSubject} Guide for 2026: Fast Results & Proven Strategies
 
-**Topic:** ${coreSubject}
-**Target Format:** TikTok / YouTube Shorts / Instagram Reels
+Short Description:
+Master ${coreSubject} with this step-by-step creator guide designed to help you optimize content, reach target audiences, and accelerate overall growth effortlessly.
 
----
-
-#### ⏱️ Scene-by-Scene Script Breakdown:
-
-* **[0:00 - 0:03] THE HOOK (Visual + Verbal)**
-  * *Visual:* Quick zoom-in or dynamic text overlay showing *"Stop making this #1 mistake with ${coreSubject}"*
-  * *Audio/Voiceover:* "If you're still doing ${coreSubject} the old way, you are losing 80% of your potential results. Watch this."
-
-* **[0:03 - 0:15] THE CORE PROBLEM**
-  * *Visual:* Split screen showing Before vs. After.
-  * *Audio/Voiceover:* "Most creators spend hours tweaking without fixing the foundational element. Here is the exact system that changes everything."
-
-* **[0:15 - 0:40] THE 3-STEP BREAKTHROUGH**
-  * *Step 1:* **Analyze & Isolate:** Focus on high-intent search signals first.
-  * *Step 2:* **Execute Fast:** Use structured templates to reduce production friction.
-  * *Step 3:* **Leverage Multi-Platform:** Distribute across 3 key channels simultaneously.
-
-* **[0:40 - 0:55] PRO TIP / SECRET SHORTCUT**
-  * *Audio/Voiceover:* "The secret is front-loading your value in the first 5 seconds and keeping your pacing at 130-150 words per minute."
-
-* **[0:55 - 1:00] CALL TO ACTION (CTA)**
-  * *Visual:* Follow arrow animation + save icon.
-  * *Audio/Voiceover:* "Save this video for later and comment '${tagWords[0] || 'guide'}' for the complete step-by-step checklist!"
-
----
-
-#### 🏷️ Recommended Tags & Hashtags:
-\`#${primaryTag}\` \`#shorts\` \`#creatortips\` \`#growth\` \`#viral\` \`#${primaryTag}tips\``;
-  }
-
-  if (detectedToolId === 'ai-auto-repurpose') {
-    return `### 🔄 Multi-Platform Repurposing Strategy: ${coreSubject}
-
-#### 🧵 1. Twitter/X Thread Outline (5 Tweets)
-* **Tweet 1 (Hook):** Why 90% of creators struggle with ${coreSubject} (and the 3-step blueprint to fix it today). 👇
-* **Tweet 2 (The Mistake):** The biggest error is overcomplicating the setup. Instead, start with broad intent keywords.
-* **Tweet 3 (The System):** Use low-competition queries to construct high-CTR titles that draw immediate clicks.
-* **Tweet 4 (Consistency):** Pacing is everything. Maintain structured chapters to maximize retention rates.
-* **Tweet 5 (CTA):** Bookmark this thread if you found it useful, and follow for daily optimization deep-dives!
-
-#### 💼 2. LinkedIn Professional Post
-> **Mastering ${coreSubject} is not about luck — it is about professional execution.**
-> 
-> Many digital content professionals treat search optimization as a guessing game. But the data shows a clear pattern: clear title hierarchies, structured semantic keywords, and precise timestamp structures drive sustainable organic traffic.
-> 
-> Here are the 3 actions to implement this week:
-> 1. Optimize title placement for primary keywords.
-> 2. Build question-based semantic query clusters.
-> 3. Refine retention cues in the first 5 seconds.
-> 
-> What is your experience with ${coreSubject} optimization? Let me know in the comments!
-
-#### 💬 3. YouTube Community Tab Post
-> Hey creators! 🎬 Are you making the #1 mistake with **${coreSubject}**? 
-> 
-> We are putting together a complete step-by-step masterclass to show you how to dominate search results and scale audience retention fast.
-> 
-> Cast your vote below on what you struggle with the most:
-> 📊 Choosing CTR titles
-> 📊 Mapping keyword intent
-> 📊 Editing for hook retention
-> 📊 Formatting description templates
-> 
-> Drop your thoughts in the comments and stay tuned for the next upload!`;
-  }
-
-  if (detectedToolId === 'ai-auto-description') {
-    return `### 📝 Optimized Video Description Template: ${coreSubject}
-
-\`\`\`text
-In this comprehensive guide, we demonstrate everything you need to know to master ${coreSubject}! From primary seed keyword strategies to advanced click-through optimization, this walkthrough gets you results.
-
-⏱️ VIDEO CHAPTERS:
-00:00 - Introduction to ${coreSubject}
-01:30 - The Foundational Mistake to Stop Making
-03:45 - Step-by-Step Practical Blueprint
-06:15 - Expert Pro-Tips & Secret Hacks
-08:40 - Summary & Next Steps
-
-🔗 USEFUL LINKS:
-• Get Creator Tools: https://multitubeviews.com/creator-tools.html
-• Join the Growth Engine: https://multitubeviews.com/ai-auto.html
-
-Subscribe for weekly creator tutorials!
-
-#${primaryTag} #growth #tutorial #marketing #2026
-\`\`\``;
-  }
-
-  // Default Comprehensive YouTube SEO Pack & Strategy (e.g., youtube-seo-pack)
-  return `### 📦 Complete YouTube SEO & Content Optimization Pack
-
-**Target Topic:** ${coreSubject}
-
----
-
-#### 🎯 1. High-CTR Title Variations:
-* **Option A (Search-Focused):** \`${coreSubject} Guide: Step-by-Step Tutorial & Best Practices (2026)\`
-* **Option B (High CTR / Curiosity):** \`The Real Secret to Mastering ${coreSubject} Faster\`
-* **Option C (Authority / Complete):** \`Everything You Need to Know About ${coreSubject} Explained\`
-
----
-
-#### 📝 2. SEO-Optimized Video Description:
-\`\`\`text
-In this complete guide, we break down everything you need to know about ${coreSubject}. Whether you are just starting out or looking to scale your results, these actionable strategies will help you achieve maximum impact.
-
-⏱️ CHAPTER TIMESTAMPS:
-00:00 - Introduction & Overview of ${coreSubject}
-01:15 - Core Concepts & Foundational Principles
-03:40 - Step-by-Step Practical Implementation
-06:20 - Top Mistakes to Avoid
-08:50 - Key Takeaways & Final Recommendations
-
-🔗 HELPFUL RESOURCES:
-• Official Platform Tools: https://multitubeviews.com/
-• Free Creator Resources: https://multitubeviews.com/creator-tools.html
-
-If you found this helpful, make sure to Like, Subscribe, and leave your questions in the comments below!
-
-#${primaryTag} #tutorial #growth #guide #2026
-\`\`\`
-
----
-
-#### 🏷️ 3. Targeted SEO Video Tags (Copy & Paste):
-\`${cleanInput.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, how to do ${primaryTag}, best ${primaryTag} 2026, ${primaryTag} tips, ${primaryTag} walkthrough, beginner ${primaryTag}, ${primaryTag} strategy, step by step ${primaryTag}\`
-
----
-
-#### 🎨 4. High-CTR Thumbnail Text Concepts:
-1. **"DO THIS FIRST!"** (Bold yellow typography on dark contrasting background)
-2. **"PRO SYSTEM"** (Clean white badge with red accent arrow)
-3. **"10X FASTER"** (High-contrast green metric pill with screenshot overlay)
-
----
-
-#### 💡 5. Next Level Creator Action:
-* Place your primary keyword in the **first 30 characters** of the title.
-* Ensure your spoken hook occurs within the **first 5 seconds** of playback.
-* Add pinned comment linking to your playlist or key resource to increase session time.`;
+Tags:
+${coreSubject.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, ${primaryTag} tips, how to do ${primaryTag}, best ${primaryTag} 2026, ${primaryTag} strategy, beginner ${primaryTag}`;
 }
+
+// 2c. Dedicated AI Proxy API Endpoint for MTV Creator Tools
+app.post('/api/ai-proxy', async (req: Request, res: Response) => {
+  try {
+    const { task = 'default', prompt } = req.body || {};
+
+    if (!prompt || typeof prompt !== 'string' || !prompt.trim()) {
+      res.status(400).json({ error: 'Prompt is required' });
+      return;
+    }
+
+    const trimmedPrompt = prompt.trim();
+    const instruction = creatorToolSystemInstructions[task] || creatorToolSystemInstructions.default;
+
+    const cacheKey = `aiproxy_${task}_${trimmedPrompt.slice(0, 150)}`;
+    const cachedResult = getCached<string>(cacheKey);
+    if (cachedResult) {
+      res.json({ result: cachedResult });
+      return;
+    }
+
+    const gemini = getGeminiClient();
+    if (gemini) {
+      const candidateModels = getPrioritizedModels();
+      for (const m of candidateModels) {
+        try {
+          const aiRes = await retryWithBackoff(async () => {
+            return await gemini.models.generateContent({
+              model: m,
+              contents: trimmedPrompt,
+              config: {
+                systemInstruction: instruction,
+                temperature: 0.7
+              }
+            });
+          }, 2, 200);
+
+          const resultText = aiRes.text || '';
+          if (resultText) {
+            setCache(cacheKey, resultText, 120);
+            res.json({ result: resultText });
+            return;
+          }
+        } catch (err: any) {
+          console.warn(`[AI Proxy] Candidate model ${m} failed: ${err?.message || err}. Trying next candidate...`);
+          if (isTransientOrQuotaError(err)) {
+            markModelCooldown(m, 600000);
+          }
+        }
+      }
+    }
+
+    // High quality fallback generator if API key is not yet set or during quota cooldown
+    const fallbackText = generateDynamicCreatorResponse(trimmedPrompt, trimmedPrompt, task);
+    res.json({ result: fallbackText });
+  } catch (err: any) {
+    console.error('API /api/ai-proxy error:', err);
+    res.status(500).json({ error: err.message || 'AI proxy processing failed' });
+  }
+});
 
 // 3. Multi-Provider AI Chat Endpoint
 app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
