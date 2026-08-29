@@ -1128,9 +1128,12 @@
 
   .platform-card {
     display: flex !important;
-    flex-direction: column !important;
-    height: 100% !important;
-    padding: 0.65rem 0.55rem !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    height: auto !important;
+    min-height: 44px !important;
+    padding: 0.5rem 0.65rem !important;
     border-radius: var(--radius-md) !important;
     background-color: var(--bg-surface) !important;
     border: 1px solid var(--border-subtle) !important;
@@ -1147,19 +1150,12 @@
     border-color: var(--border-strong) !important;
   }
 
-  .platform-card-header {
-    display: flex !important;
-    align-items: flex-start !important;
-    gap: 0.4rem !important;
-    margin-bottom: 0.35rem !important;
-  }
-
   .platform-avatar {
-    width: 30px !important;
-    height: 30px !important;
-    min-width: 30px !important;
-    min-height: 30px !important;
-    font-size: 1rem !important;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    font-size: 0.95rem !important;
     font-weight: 700 !important;
     border-radius: 5px !important;
     background-color: var(--bg-subtle) !important;
@@ -1168,98 +1164,19 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-  }
-
-  .platform-card-header > div {
-    min-width: 0 !important;
-    flex: 1 !important;
+    line-height: 1 !important;
   }
 
   .platform-card-title {
     font-size: 0.82rem !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
     line-height: 1.22 !important;
     color: var(--text-primary) !important;
     letter-spacing: -0.01em !important;
     margin: 0 !important;
-    word-break: break-word !important;
-    overflow-wrap: anywhere !important;
-  }
-
-  .embed-badge {
-    font-size: 0.54rem !important;
-    font-weight: 600 !important;
-    padding: 0.06rem 0.28rem !important;
-    border-radius: 3px !important;
-    line-height: 1.2 !important;
-    margin-top: 0.1rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
     white-space: nowrap !important;
-  }
-
-  .platform-card-desc {
-    font-size: 0.7rem !important;
-    line-height: 1.34 !important;
-    color: var(--text-secondary) !important;
-    margin-bottom: 0.35rem !important;
-    flex-grow: 1 !important;
-    word-break: break-word !important;
-    overflow-wrap: anywhere !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 3 !important;
-    -webkit-box-orient: vertical !important;
     overflow: hidden !important;
-  }
-
-  .platform-support-section {
-    margin-top: auto !important;
-    margin-bottom: 0.35rem !important;
-  }
-
-  .support-tags-list {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 0.15rem !important;
-  }
-
-  .support-tag {
-    font-size: 0.54rem !important;
-    font-weight: 600 !important;
-    padding: 0.06rem 0.24rem !important;
-    border-radius: 3px !important;
-    line-height: 1.22 !important;
-    white-space: nowrap !important;
-    display: inline-flex !important;
-    align-items: center !important;
-  }
-
-  .platform-card-footer {
-    padding-top: 0.35rem !important;
-    border-top: 1px solid var(--border-subtle) !important;
-    margin-top: auto !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    width: 100% !important;
-  }
-
-  .platform-card-footer .btn,
-  .platform-open-label {
-    font-size: 0.68rem !important;
-    font-weight: 600 !important;
-    min-height: 26px !important;
-    height: 26px !important;
-    padding: 0 0.35rem !important;
-    width: 100% !important;
-    justify-content: center !important;
-    text-align: center !important;
-    border-radius: 4px !important;
-    white-space: nowrap !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    letter-spacing: 0.02em !important;
-    box-sizing: border-box !important;
+    text-overflow: ellipsis !important;
   }
 
   /* 13. Articles, Settings, About, Contact & Static Pages */
@@ -1966,24 +1883,21 @@
   }
 
   .platform-card {
-    padding: 0.55rem 0.45rem !important;
+    padding: 0.45rem 0.5rem !important;
+    min-height: 40px !important;
+    gap: 0.45rem !important;
   }
 
   .platform-avatar {
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px !important;
-    min-height: 28px !important;
-    font-size: 0.95rem !important;
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    font-size: 0.9rem !important;
   }
 
   .platform-card-title {
     font-size: 0.78rem !important;
-  }
-
-  .platform-card-desc {
-    font-size: 0.68rem !important;
-    line-height: 1.3 !important;
   }
 
   .prompt-grid {
@@ -2054,7 +1968,8 @@
   }
 
   .platform-card {
-    padding: 0.45rem 0.35rem !important;
+    padding: 0.45rem 0.45rem !important;
+    min-height: 38px !important;
   }
 
   .platform-avatar {
@@ -2067,30 +1982,6 @@
 
   .platform-card-title {
     font-size: 0.74rem !important;
-  }
-
-  .embed-badge {
-    font-size: 0.5rem !important;
-    padding: 0.05rem 0.2rem !important;
-  }
-
-  .platform-card-desc {
-    font-size: 0.64rem !important;
-    line-height: 1.28 !important;
-    -webkit-line-clamp: 2 !important;
-  }
-
-  .support-tag {
-    font-size: 0.5rem !important;
-    padding: 0.04rem 0.2rem !important;
-  }
-
-  .platform-card-footer .btn,
-  .platform-open-label {
-    font-size: 0.62rem !important;
-    min-height: 24px !important;
-    height: 24px !important;
-    padding: 0 0.2rem !important;
   }
 
   .single-input-row .btn {
