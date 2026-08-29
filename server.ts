@@ -469,6 +469,49 @@ app.get('/api/ai-prompts', (req: Request, res: Response) => {
   }
 });
 
+// 2a. Prompt Feed Endpoint
+app.get(['/api/prompt-feed', '/api/prompt-feed.js'], (req: Request, res: Response) => {
+  try {
+    const candidatePaths = [
+      path.join(process.cwd(), 'assets', 'data', 'ai-prompts.json'),
+      path.join(process.cwd(), 'public', 'assets', 'data', 'ai-prompts.json'),
+    ];
+
+    let fileData: any = null;
+    for (const p of candidatePaths) {
+      if (fs.existsSync(p)) {
+        const raw = fs.readFileSync(p, 'utf-8');
+        fileData = parseJsonWithSanitization(raw);
+        break;
+      }
+    }
+
+    if (!fileData || !Array.isArray(fileData.prompts)) {
+      res.json({ prompts: [] });
+      return;
+    }
+
+    const formattedPrompts = fileData.prompts.map((p: any) => ({
+      title: p.title || p.originalPostTitle || '',
+      image: p.imageUrl || p.image || '',
+      promptText: p.promptText || '',
+      categories:
+        Array.isArray(p.categories) && p.categories.length > 0
+          ? p.categories
+          : p.category
+          ? [p.category]
+          : ['AI Prompt'],
+      originalLink: p.sourceUrl || p.originalLink || '',
+      published: p.pubDate ? new Date(p.pubDate).toISOString() : new Date().toISOString(),
+    }));
+
+    res.json({ prompts: formattedPrompts });
+  } catch (err: any) {
+    console.error('API /api/prompt-feed error:', err);
+    res.status(500).json({ error: 'Could not load prompts right now', prompts: [] });
+  }
+});
+
 // 2b. MTV Creator Tools System Instructions & AI Proxy Endpoint
 const creatorToolSystemInstructions: Record<string, string> = {
   'ai-auto': 'You are an expert creator strategist and SEO consultant. Generate a structured, complete optimization package for the user topic: 1) High-CTR Title Options, 2) Comprehensive Description with timestamp chapters placeholder, 3) 25+ Comma-separated SEO Tags, 4) Hashtag Set, and 5) Key Channel Strategy Notes. Format with clean headings and bullet points.',

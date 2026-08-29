@@ -1,18 +1,10 @@
 /**
- * Multi Tube Views (MTV) — AI Prompt Engine (Client)
- * Content source: Strictly https://aipromptxpert.blogspot.com/feeds/posts/default?alt=rss
- * Fully compatible with modern web browsers and web servers.
+ * Multi Tube Views (MTV) — AI Prompt Library Engine
+ * Loads prompt feed from backend and manages search, filter, preview, modal, and clipboard copying.
  */
 
 (function () {
   'use strict';
-
-  // Constants
-  const BLOGGER_BASE_URL = 'https://aipromptxpert.blogspot.com';
-  const RSS_FEED_URL = `${BLOGGER_BASE_URL}/feeds/posts/default?alt=rss`;
-  const JSON_FEED_URL = `${BLOGGER_BASE_URL}/feeds/posts/default?alt=json`;
-  const LOCAL_CACHE_KEY = 'mtv_ai_prompt_library_cache_v2';
-  const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes cache validity
 
   // State
   let allPrompts = [];
@@ -117,7 +109,7 @@
         e.preventDefault();
         e.stopPropagation();
         const promptId = copyBtn.getAttribute('data-prompt-id');
-        const promptRecord = allPrompts.find(p => p.id === promptId);
+        const promptRecord = allPrompts.find((p) => p.id === promptId);
         if (promptRecord && promptRecord.promptText) {
           copyPromptToClipboard(promptRecord.promptText, copyBtn);
         }
@@ -128,7 +120,7 @@
         e.preventDefault();
         e.stopPropagation();
         const promptId = viewBtn.getAttribute('data-prompt-id');
-        const promptRecord = allPrompts.find(p => p.id === promptId);
+        const promptRecord = allPrompts.find((p) => p.id === promptId);
         if (promptRecord) {
           openDetailModal(promptRecord);
         }
@@ -136,469 +128,63 @@
     });
   }
 
-  // Helper to resolve possible asset paths for static hosting & subpaths
-  function getCandidateAssetUrls() {
-    const candidates = [];
-    const origin = window.location.origin;
-    const pathname = window.location.pathname;
-    const dir = pathname.substring(0, pathname.lastIndexOf('/') + 1);
-
-    // 1. Root-relative absolute path (guaranteed to resolve correctly from any page or domain root on Vercel / custom domains)
-    candidates.push('/assets/data/ai-prompts.json');
-
-    // 2. Relative to current path
-    candidates.push('./assets/data/ai-prompts.json');
-    candidates.push('assets/data/ai-prompts.json');
-    
-    // 3. Computed relative to current directory path
-    if (origin && origin !== 'null') {
-      try {
-        const fullRel = new URL('assets/data/ai-prompts.json', origin + (dir.endsWith('/') ? dir : dir + '/')).href;
-        if (!candidates.includes(fullRel)) candidates.push(fullRel);
-      } catch (_) {}
-    }
-
-    // 4. Parent relative (if inside subfolder like /platforms/)
-    candidates.push('../assets/data/ai-prompts.json');
-
-    return candidates;
-  }
-
   /**
-   * Main loader: Multi-tier strategy with instant cache display, local file fallback,
-   * server API fallback, and live Blogger feed synchronization.
+   * Load Prompt Feed from the backend endpoint /api/prompt-feed
    */
-  async function loadPromptLibrary() {
-    // Step 0: Try loading from localStorage cache first for 0ms initial render
-    const cached = getLocalCache();
-    let hasLoadedInitialData = false;
+  function loadPromptLibrary() {
+    showLoading(true);
 
-    if (cached && Array.isArray(cached.prompts) && cached.prompts.length > 0) {
-      applyPromptsData(cached.prompts, cached.categories);
-      hasLoadedInitialData = true;
-    } else {
-      showLoading(true);
-    }
-
-    let loadedPrompts = null;
-    let sourceCategories = [];
-
-    // Step 1: Try Local Static JSON file first (fastest and most reliable for web application client)
-    const assetUrls = getCandidateAssetUrls();
-    for (const url of assetUrls) {
-      try {
-        const res = await fetch(url, { cache: 'no-cache' });
-        if (res.ok) {
-          const contentType = res.headers.get('content-type') || '';
-          if (contentType.includes('text/html')) {
-            continue; // Skip if server returned an HTML error/fallback page
-          }
-          const text = await res.text();
-          const trimmed = text.trim();
-          if (!trimmed.startsWith('{') && !trimmed.startsWith('[')) {
-            continue;
-          }
-          const json = JSON.parse(trimmed);
-          if (json && Array.isArray(json.prompts) && json.prompts.length > 0) {
-            loadedPrompts = json.prompts;
-            sourceCategories = json.categories || [];
-            break;
-          }
+    fetch('/api/prompt-feed')
+      .then((r) => {
+        if (!r.ok) {
+          throw new Error('Network response was not ok');
         }
-      } catch (_) {
-        // continue to next candidate path
-      }
-    }
+        return r.json();
+      })
+      .then((data) => {
+        showLoading(false);
+        if (data && Array.isArray(data.prompts) && data.prompts.length > 0) {
+          allPrompts = data.prompts.map((p, idx) => ({
+            id: p.id || `prompt_${idx + 1}`,
+            title: p.title || 'AI Prompt',
+            image: p.image || p.imageUrl || '',
+            promptText: p.promptText || '',
+            categories:
+              Array.isArray(p.categories) && p.categories.length > 0
+                ? p.categories
+                : [p.category || 'AI Prompt'],
+            category:
+              (Array.isArray(p.categories) && p.categories[0]) || p.category || 'AI Prompt',
+            originalLink: p.originalLink || p.sourceUrl || '',
+            published: p.published || p.pubDate || '',
+          }));
 
-    // Step 2: If static JSON not resolved, try Node server API endpoint
-    if (!loadedPrompts) {
-      try {
-        const apiBase = (window.mtvAI && typeof window.mtvAI.getApiBaseUrl === 'function')
-          ? window.mtvAI.getApiBaseUrl()
-          : (window.MTV_API_BASE_URL || (window.location && window.location.origin ? window.location.origin : '')).replace(/\/+$/, '');
-        const res = await fetch(`${apiBase}/api/ai-prompts?limit=1000`);
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.prompts) && json.prompts.length > 0) {
-            loadedPrompts = json.prompts;
-            sourceCategories = json.categories || [];
-          }
+          categories = buildUniqueCategories(allPrompts);
+          renderCategoryFilters();
+          renderLibrary();
+        } else {
+          showEmptyState('Could not load prompts right now');
         }
-      } catch (_) {
-        // Node backend unavailable (e.g. pure static hosting)
-      }
-    }
-
-    // Step 3: If still no data or for live updates, fetch directly from Blogger feed
-    if (!loadedPrompts && !hasLoadedInitialData) {
-      try {
-        const liveResult = await fetchBloggerPostsLive(50);
-        if (liveResult && liveResult.length > 0) {
-          loadedPrompts = liveResult;
-        }
-      } catch (err) {
-        console.warn("Live Blogger initial fetch attempt failed:", err);
-      }
-    }
-
-    // If we obtained prompts from any source, apply and cache them
-    if (loadedPrompts && loadedPrompts.length > 0) {
-      applyPromptsData(loadedPrompts, sourceCategories);
-      setLocalCache(loadedPrompts, sourceCategories);
-      showLoading(false);
-    } else if (!hasLoadedInitialData) {
-      showEmptyState("No prompts available at the moment. Please refresh or check your internet connection.");
-      showLoading(false);
-    } else {
-      showLoading(false);
-    }
-
-    // Step 4: Background live sync to ensure future Blogger posts auto-update without rebuild
-    syncFutureBloggerPostsInBackground();
-  }
-
-  /**
-   * Apply prompts to state and trigger UI render
-   */
-  function applyPromptsData(prompts, initialCategories) {
-    // Deduplicate prompts by ID and content hash
-    const seen = new Set();
-    const cleanList = [];
-
-    for (const p of prompts) {
-      if (!p || !p.promptText || !p.imageUrl) continue;
-      const key = `${p.id || ''}::${p.imageUrl}::${p.promptText.slice(0, 60)}`;
-      if (!seen.has(key)) {
-        seen.add(key);
-        cleanList.push(p);
-      }
-    }
-
-    if (cleanList.length === 0) return;
-
-    allPrompts = cleanList;
-    categories = buildUniqueCategories(cleanList, initialCategories || []);
-    renderCategoryFilters();
-    renderLibrary();
-  }
-
-  /**
-   * Background sync: queries Blogger feed to automatically pull latest/future posts
-   * and merges them into the existing prompt library seamlessly.
-   */
-  async function syncFutureBloggerPostsInBackground() {
-    try {
-      const livePosts = await fetchBloggerPostsLive(30);
-      if (!livePosts || livePosts.length === 0) return;
-
-      let newCount = 0;
-      const existingIds = new Set(allPrompts.map(p => p.id));
-      const existingHashes = new Set(allPrompts.map(p => `${p.imageUrl}::${p.promptText.slice(0, 60)}`));
-      const toPrepend = [];
-
-      for (const p of livePosts) {
-        const hash = `${p.imageUrl}::${p.promptText.slice(0, 60)}`;
-        if (!existingIds.has(p.id) && !existingHashes.has(hash)) {
-          toPrepend.push(p);
-          existingIds.add(p.id);
-          existingHashes.add(hash);
-          newCount++;
-        }
-      }
-
-      if (newCount > 0) {
-        console.log(`[Blogger Sync] Discovered ${newCount} new live prompt(s) from Blogger.`);
-        allPrompts = [...toPrepend, ...allPrompts];
-        categories = buildUniqueCategories(allPrompts, []);
-        renderCategoryFilters();
-        renderLibrary();
-        setLocalCache(allPrompts, categories.map(c => c.name));
-      }
-    } catch (err) {
-      // Non-blocking background sync warning
-      console.debug("Background Blogger live sync check completed:", err);
-    }
-  }
-
-  /**
-   * Fetch live Blogger posts using JSON feed, JSONP, or RSS
-   */
-  async function fetchBloggerPostsLive(maxResults = 50) {
-    // Method A: Direct fetch of Blogger JSON feed
-    try {
-      const url = `${JSON_FEED_URL}&max-results=${maxResults}`;
-      const res = await fetch(url, { headers: { Accept: 'application/json' } });
-      if (res.ok) {
-        const json = await res.json();
-        if (json && json.feed && Array.isArray(json.feed.entry)) {
-          return parseBloggerJsonEntries(json.feed.entry);
-        }
-      }
-    } catch (_) {
-      // Direct CORS might be blocked in some browser contexts, fall through to JSONP
-    }
-
-    // Method B: JSONP script injection (100% CORS-proof across all browsers & static domains)
-    try {
-      const jsonpResult = await fetchBloggerViaJsonp(maxResults);
-      if (jsonpResult && jsonpResult.length > 0) {
-        return jsonpResult;
-      }
-    } catch (_) {
-      // JSONP fallback
-    }
-
-    // Method C: RSS via public CORS proxy
-    try {
-      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(`${RSS_FEED_URL}&max-results=${maxResults}`)}`;
-      const res = await fetch(proxyUrl);
-      if (res.ok) {
-        const xmlText = await res.text();
-        return parseRssXmlString(xmlText);
-      }
-    } catch (_) {
-      // Proxy fallback
-    }
-
-    return [];
-  }
-
-  /**
-   * JSONP loader for Blogger feed (bypasses browser CORS completely)
-   */
-  function fetchBloggerViaJsonp(maxResults = 50) {
-    return new Promise((resolve, reject) => {
-      const callbackName = '__mtvBloggerCallback_' + Math.floor(Math.random() * 1000000);
-      const script = document.createElement('script');
-      const timeout = setTimeout(() => {
-        cleanup();
-        reject(new Error('JSONP request timeout'));
-      }, 8000);
-
-      function cleanup() {
-        clearTimeout(timeout);
-        delete window[callbackName];
-        if (script.parentNode) {
-          script.parentNode.removeChild(script);
-        }
-      }
-
-      window[callbackName] = function (data) {
-        cleanup();
-        try {
-          if (data && data.feed && Array.isArray(data.feed.entry)) {
-            const parsed = parseBloggerJsonEntries(data.feed.entry);
-            resolve(parsed);
-          } else {
-            resolve([]);
-          }
-        } catch (e) {
-          reject(e);
-        }
-      };
-
-      script.src = `${BLOGGER_BASE_URL}/feeds/posts/default?alt=json-in-script&callback=${callbackName}&max-results=${maxResults}`;
-      script.onerror = function () {
-        cleanup();
-        reject(new Error('JSONP script load error'));
-      };
-
-      document.head.appendChild(script);
-    });
-  }
-
-  /**
-   * Parse Blogger JSON entry format into PromptRecord items
-   */
-  function parseBloggerJsonEntries(entries) {
-    const items = [];
-
-    for (const entry of entries) {
-      const rawTitle = entry.title?.$t || 'AI Prompt';
-      const postId = entry.id?.$t || '';
-      const pubDate = entry.published?.$t || entry.updated?.$t || '';
-      const sourceUrl = (entry.link || []).find(l => l.rel === 'alternate')?.href || BLOGGER_BASE_URL;
-      const catMatches = (entry.category || []).map(c => (c.term || '').trim()).filter(Boolean);
-      const primaryCategory = catMatches[0] || 'AI Prompt';
-      const rawHtml = entry.content?.$t || '';
-
-      if (!rawHtml) continue;
-
-      // Extract content images
-      const allImages = [...rawHtml.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)]
-        .map(m => m[1])
-        .filter(src => src && !src.includes('blogger_logo') && !src.includes('clear.gif') && !src.includes('blank.gif'));
-
-      // Extract prompt blocks
-      let promptBlocks = [...rawHtml.matchAll(/class=["'][^"']*prompt-text[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi)].map(m => m[1]);
-
-      if (promptBlocks.length === 0) {
-        const altMatches = [...rawHtml.matchAll(/(?:PROMPT|Prompt)\s*:\s*([\s\S]*?)(?:<\/div>|<\/p>|<button|<\/blockquote>)/gi)].map(m => m[1]);
-        if (altMatches.length > 0) promptBlocks = altMatches;
-      }
-
-      // Clean prompts
-      const validPrompts = promptBlocks
-        .map(p => cleanPromptText(p))
-        .filter(t => t.length > 20 && !t.startsWith('http') && !t.includes('Step 1 — Copy'));
-
-      const baseTitle = rawTitle.replace(/\s*\[Code\s*#?\d+\]/i, '').trim();
-
-      validPrompts.forEach((promptText, idx) => {
-        const imgUrl = allImages[idx] || allImages[0] || '';
-        if (promptText && imgUrl) {
-          const itemIdx = idx + 1;
-          const stableId = 'prompt_' + (postId.replace(/[^a-zA-Z0-9]/g, '_') || 'post') + '_' + itemIdx;
-          const itemTitle = validPrompts.length > 1 ? `${baseTitle} (Style ${itemIdx})` : baseTitle;
-
-          items.push({
-            id: stableId,
-            postId,
-            title: itemTitle,
-            originalPostTitle: rawTitle,
-            sourceUrl,
-            imageUrl: imgUrl,
-            promptText,
-            category: primaryCategory,
-            categories: catMatches.length > 0 ? catMatches : ['AI Prompt'],
-            pubDate,
-            itemIndex: itemIdx,
-          });
-        }
+      })
+      .catch((err) => {
+        console.error('Failed to load prompts from /api/prompt-feed:', err);
+        showLoading(false);
+        showEmptyState('Could not load prompts right now');
       });
-    }
-
-    return items;
   }
 
   /**
-   * Parse RSS XML format string into PromptRecord items
+   * Extract unique categories with accurate counts
    */
-  function parseRssXmlString(xmlText) {
-    const items = [];
-    const rawItems = xmlText.split('<item>').slice(1);
-
-    for (const rawItem of rawItems) {
-      const titleMatch = rawItem.match(/<title>([^<]+)<\/title>/);
-      const rawTitle = titleMatch ? unescapeHtml(titleMatch[1]).trim() : '';
-
-      const linkMatch = rawItem.match(/<link>([^<]+)<\/link>/);
-      const sourceUrl = linkMatch ? linkMatch[1].trim() : '';
-
-      const guidMatch = rawItem.match(/<guid[^>]*>([^<]+)<\/guid>/);
-      const postId = guidMatch ? guidMatch[1].trim() : '';
-
-      const pubDateMatch = rawItem.match(/<pubDate>([^<]+)<\/pubDate>/);
-      const pubDate = pubDateMatch ? pubDateMatch[1].trim() : '';
-
-      const catMatches = [...rawItem.matchAll(/<category[^>]*>([^<]+)<\/category>/g)].map(m => unescapeHtml(m[1]).trim());
-      const primaryCategory = catMatches[0] || 'AI Prompt';
-
-      const descMatch = rawItem.match(/<description>([\s\S]*?)<\/description>/);
-      if (!descMatch) continue;
-
-      const rawHtml = unescapeHtml(descMatch[1]);
-
-      const allImages = [...rawHtml.matchAll(/<img[^>]+src=["']([^"']+)["']/gi)]
-        .map(m => m[1])
-        .filter(src => src && !src.includes('blogger_logo') && !src.includes('clear.gif') && !src.includes('blank.gif'));
-
-      let promptBlocks = [...rawHtml.matchAll(/class=["'][^"']*prompt-text[^"']*["'][^>]*>([\s\S]*?)<\/div>/gi)].map(m => m[1]);
-
-      if (promptBlocks.length === 0) {
-        const altMatches = [...rawHtml.matchAll(/(?:PROMPT|Prompt)\s*:\s*([\s\S]*?)(?:<\/div>|<\/p>|<button|<\/blockquote>)/gi)].map(m => m[1]);
-        if (altMatches.length > 0) promptBlocks = altMatches;
-      }
-
-      const validPrompts = promptBlocks
-        .map(p => cleanPromptText(p))
-        .filter(t => t.length > 20 && !t.startsWith('http') && !t.includes('Step 1 — Copy'));
-
-      const baseTitle = rawTitle.replace(/\s*\[Code\s*#?\d+\]/i, '').trim();
-
-      validPrompts.forEach((promptText, idx) => {
-        const imgUrl = allImages[idx] || allImages[0] || '';
-        if (promptText && imgUrl) {
-          const itemIdx = idx + 1;
-          const stableId = 'prompt_' + (postId.replace(/[^a-zA-Z0-9]/g, '_') || 'post') + '_' + itemIdx;
-          const itemTitle = validPrompts.length > 1 ? `${baseTitle} (Style ${itemIdx})` : baseTitle;
-
-          items.push({
-            id: stableId,
-            postId,
-            title: itemTitle,
-            originalPostTitle: rawTitle,
-            sourceUrl,
-            imageUrl: imgUrl,
-            promptText,
-            category: primaryCategory,
-            categories: catMatches.length > 0 ? catMatches : ['AI Prompt'],
-            pubDate,
-            itemIndex: itemIdx,
-          });
-        }
-      });
-    }
-
-    return items;
-  }
-
-  /**
-   * Remove hashtags, links, promo, and author text from prompt
-   */
-  function cleanPromptText(text) {
-    if (!text) return '';
-    let clean = unescapeHtml(text)
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    // Remove leading 'PROMPT:' or 'Prompt:' label
-    clean = clean.replace(/^(?:PROMPT|Prompt)\s*:\s*/i, '').trim();
-
-    // Remove trailing hashtags (#something or multiple #tags)
-    clean = clean.replace(/#\w+[\s\w#]*$/, '').trim();
-
-    // Remove any trailing instructions/promotions that might have leaked
-    clean = clean.replace(/(?:Support Us|Join Our Community|Follow on Instagram|Step 1\s*[—–-]|Welcome to AIPromptXpert).*$/i, '').trim();
-
-    return clean;
-  }
-
-  /**
-   * Local storage cache helpers
-   */
-  function getLocalCache() {
-    try {
-      const raw = localStorage.getItem(LOCAL_CACHE_KEY);
-      if (!raw) return null;
-      const parsed = JSON.parse(raw);
-      if (parsed && Array.isArray(parsed.prompts) && parsed.prompts.length > 0) {
-        return parsed;
-      }
-    } catch (_) {}
-    return null;
-  }
-
-  function setLocalCache(prompts, categories) {
-    try {
-      localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify({
-        timestamp: Date.now(),
-        categories: categories || [],
-        prompts: prompts || [],
-      }));
-    } catch (_) {}
-  }
-
-  /**
-   * Extract and clean source categories
-   */
-  function buildUniqueCategories(prompts, sourceCategories) {
+  function buildUniqueCategories(prompts) {
     const map = new Map();
-    prompts.forEach(p => {
-      const cats = p.categories || [p.category || 'AI Prompt'];
-      cats.forEach(c => {
-        const clean = c.trim();
+    prompts.forEach((p) => {
+      const cats =
+        Array.isArray(p.categories) && p.categories.length > 0
+          ? p.categories
+          : [p.category || 'AI Prompt'];
+      cats.forEach((c) => {
+        const clean = (c || '').trim();
         if (clean) {
           map.set(clean, (map.get(clean) || 0) + 1);
         }
@@ -619,7 +205,7 @@
     if (!categoryPillsContainer) return;
     categoryPillsContainer.innerHTML = '';
 
-    categories.forEach(cat => {
+    categories.forEach((cat) => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = `category-pill ${cat.name === activeCategory ? 'active' : ''}`;
@@ -629,7 +215,7 @@
       btn.addEventListener('click', () => {
         if (activeCategory === cat.name) return;
         activeCategory = cat.name;
-        categoryPillsContainer.querySelectorAll('.category-pill').forEach(el => {
+        categoryPillsContainer.querySelectorAll('.category-pill').forEach((el) => {
           el.classList.toggle('active', el.getAttribute('data-category') === activeCategory);
         });
         currentPage = 1;
@@ -644,24 +230,28 @@
    * Filter prompts by active category and search keyword
    */
   function getFilteredPrompts() {
-    return allPrompts.filter(p => {
+    return allPrompts.filter((p) => {
       // Category match
       let matchCat = true;
       if (activeCategory !== 'All') {
         const target = activeCategory.toLowerCase();
-        const pCat = (p.category || '').toLowerCase();
-        const pCats = (p.categories || []).map(c => c.toLowerCase());
-        matchCat = pCat.includes(target) || pCats.includes(target);
+        const pCats = (Array.isArray(p.categories) ? p.categories : [p.category || '']).map((c) =>
+          (c || '').toLowerCase()
+        );
+        matchCat = pCats.some((c) => c.includes(target) || target.includes(c));
       }
 
-      // Search match
+      // Search match (title, promptText, categories)
       let matchSearch = true;
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
         const title = (p.title || '').toLowerCase();
-        const prompt = (p.promptText || '').toLowerCase();
-        const cat = (p.category || '').toLowerCase();
-        matchSearch = title.includes(q) || prompt.includes(q) || cat.includes(q);
+        const text = (p.promptText || '').toLowerCase();
+        const pCats = (Array.isArray(p.categories) ? p.categories : [p.category || '']).map((c) =>
+          (c || '').toLowerCase()
+        );
+        const catMatch = pCats.some((c) => c.includes(q));
+        matchSearch = title.includes(q) || text.includes(q) || catMatch;
       }
 
       return matchCat && matchSearch;
@@ -687,16 +277,20 @@
     // Update count summary
     if (countSummaryEl) {
       if (searchQuery) {
-        countSummaryEl.textContent = `Found ${totalCount} matching prompts for "${searchQuery}"`;
+        countSummaryEl.textContent = `Found ${totalCount} matching prompt${totalCount === 1 ? '' : 's'} for "${searchQuery}"`;
       } else if (activeCategory !== 'All') {
-        countSummaryEl.textContent = `Showing ${totalCount} prompts in ${activeCategory}`;
+        countSummaryEl.textContent = `Showing ${totalCount} prompt${totalCount === 1 ? '' : 's'} in ${activeCategory}`;
       } else {
-        countSummaryEl.textContent = `Showing all ${totalCount} genuine AI prompts from AiPromptXpert`;
+        countSummaryEl.textContent = `Showing all ${totalCount} AI prompts`;
       }
     }
 
     if (totalCount === 0) {
-      if (emptyStateEl) emptyStateEl.style.display = 'block';
+      if (emptyStateEl) {
+        emptyStateEl.style.display = 'block';
+        const p = emptyStateEl.querySelector('p');
+        if (p) p.textContent = 'Try searching for different keywords or select "All" categories.';
+      }
       if (loadMoreBtn) loadMoreBtn.style.display = 'none';
       if (gridContainer) gridContainer.innerHTML = '';
       return;
@@ -707,17 +301,19 @@
     const maxItems = currentPage * pageSize;
     hasMore = maxItems < totalCount;
 
-    if (!isAppend) {
+    if (!isAppend && gridContainer) {
       gridContainer.innerHTML = '';
     }
 
     const startIdx = isAppend ? (currentPage - 1) * pageSize : 0;
     const currentSlice = filtered.slice(startIdx, maxItems);
 
-    currentSlice.forEach(record => {
-      const card = createCardElement(record);
-      gridContainer.appendChild(card);
-    });
+    if (gridContainer) {
+      currentSlice.forEach((record) => {
+        const card = createCardElement(record);
+        gridContainer.appendChild(card);
+      });
+    }
 
     if (loadMoreBtn) {
       loadMoreBtn.style.display = hasMore ? 'inline-flex' : 'none';
@@ -736,10 +332,15 @@
     card.className = 'prompt-card';
     card.setAttribute('data-id', record.id);
 
-    const thumbUrl = record.imageUrl;
+    const thumbUrl = record.image || 'assets/icons/favicon.svg';
     const cleanTitle = record.title || 'AI Image Prompt';
-    const categoryTag = record.category || 'AI Prompt';
-    const previewText = (record.promptText || '').slice(0, 160) + (record.promptText.length > 160 ? '...' : '');
+    const categoryTag =
+      Array.isArray(record.categories) && record.categories.length > 0
+        ? record.categories[0]
+        : record.category || 'AI Prompt';
+    const previewText =
+      (record.promptText || '').slice(0, 160) +
+      (record.promptText && record.promptText.length > 160 ? '...' : '');
 
     card.innerHTML = `
       <div class="prompt-card-media">
@@ -757,12 +358,12 @@
         <h3 class="prompt-card-title">${escapeHtml(cleanTitle)}</h3>
         <p class="prompt-card-preview">${escapeHtml(previewText)}</p>
         <div class="prompt-card-actions">
-          <button type="button" class="btn btn-primary btn-sm btn-copy-prompt" data-prompt-id="${escapeHtml(record.id)}" aria-label="Copy AI Prompt">
+          <button type="button" class="btn btn-primary btn-sm btn-copy-prompt" data-prompt-id="${escapeHtml(record.id)}" aria-label="Copy Full Prompt">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
-            <span>Copy Prompt</span>
+            <span>Copy Full Prompt</span>
           </button>
           <button type="button" class="btn btn-outline btn-sm btn-view-prompt" data-prompt-id="${escapeHtml(record.id)}" aria-label="View Full Prompt">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -792,13 +393,32 @@
     const modalCopyBtn = detailModal.querySelector('.modal-copy-btn');
     const modalRunAiBtn = detailModal.querySelector('#modal-run-ai-btn');
 
-    if (modalImg) modalImg.src = record.imageUrl;
-    if (modalTitle) modalTitle.textContent = record.title;
-    if (modalCategory) modalCategory.textContent = record.category;
-    if (modalText) modalText.textContent = record.promptText;
+    if (modalImg) {
+      modalImg.src = record.image || 'assets/icons/favicon.svg';
+      modalImg.onerror = function () {
+        this.onerror = null;
+        this.src = 'assets/icons/favicon.svg';
+        this.style.objectFit = 'contain';
+        this.style.padding = '2rem';
+      };
+    }
+    if (modalTitle) modalTitle.textContent = record.title || 'AI Prompt Details';
+    if (modalCategory) {
+      const catText =
+        Array.isArray(record.categories) && record.categories.length > 0
+          ? record.categories.join(', ')
+          : record.category || 'AI Prompt';
+      modalCategory.textContent = catText;
+    }
+    if (modalText) modalText.textContent = record.promptText || '';
 
     if (modalSourceLink) {
-      modalSourceLink.href = record.sourceUrl || BLOGGER_BASE_URL;
+      if (record.originalLink) {
+        modalSourceLink.href = record.originalLink;
+        modalSourceLink.style.display = 'inline';
+      } else {
+        modalSourceLink.style.display = 'none';
+      }
     }
 
     if (modalCopyBtn) {
@@ -812,11 +432,11 @@
       modalRunAiBtn.onclick = (e) => {
         e.preventDefault();
         closeModal();
-        if (window.mtvAI) {
+        if (window.mtvAI && typeof window.mtvAI.openAssistantModal === 'function') {
           window.mtvAI.openAssistantModal(
             record.promptText,
-            'You are a creative AI assistant. Analyze or elaborate on this prompt, providing detailed creative variations and tips.',
-            `MTV AI: ${record.title}`
+            'Analyze or elaborate on this prompt, providing detailed creative variations and tips.',
+            `AI Prompt: ${record.title}`
           );
         }
       };
@@ -833,15 +453,12 @@
   }
 
   /**
-   * Copy prompt text to clipboard (guarantees ONLY clean prompt text is copied)
+   * Copy prompt text to clipboard
    */
   async function copyPromptToClipboard(text, btnElement) {
     if (!text) return;
 
-    let cleanPrompt = text
-      .replace(/#\w+[\s\w#]*$/, '')
-      .replace(/^(?:PROMPT|Prompt)\s*:\s*/i, '')
-      .trim();
+    const cleanPrompt = String(text).trim();
 
     try {
       if (navigator.clipboard && window.isSecureContext) {
@@ -859,7 +476,7 @@
         textArea.remove();
       }
 
-      showToast("Prompt copied successfully.");
+      showToast('Prompt copied successfully.');
 
       if (btnElement) {
         const originalHtml = btnElement.innerHTML;
@@ -876,8 +493,8 @@
         }, 2000);
       }
     } catch (err) {
-      console.error("Clipboard copy failed:", err);
-      showToast("Failed to copy prompt.");
+      console.error('Clipboard copy failed:', err);
+      showToast('Failed to copy prompt.');
     }
   }
 
@@ -901,17 +518,28 @@
   }
 
   function showLoading(show) {
+    isLoading = show;
     const spinner = document.getElementById('prompt-loading-spinner');
     if (spinner) {
       spinner.style.display = show ? 'flex' : 'none';
+    }
+    if (show && countSummaryEl) {
+      countSummaryEl.textContent = 'Loading AI prompt library...';
     }
   }
 
   function showEmptyState(msg) {
     if (emptyStateEl) {
       emptyStateEl.style.display = 'block';
+      const heading = emptyStateEl.querySelector('h3');
       const textEl = emptyStateEl.querySelector('p');
-      if (textEl) textEl.textContent = msg;
+      if (msg === 'Could not load prompts right now') {
+        if (heading) heading.textContent = 'Could not load prompts right now';
+        if (textEl) textEl.textContent = 'Please check your connection or try again later.';
+      } else {
+        if (heading) heading.textContent = 'No matching prompts found';
+        if (textEl) textEl.textContent = msg || 'Try searching for different keywords or select "All" categories.';
+      }
     }
     if (countSummaryEl) {
       countSummaryEl.textContent = msg;
@@ -924,18 +552,6 @@
     }
   }
 
-  function unescapeHtml(str) {
-    if (!str) return '';
-    return str
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, "'")
-      .replace(/&#039;/g, "'")
-      .replace(/&nbsp;/g, ' ');
-  }
-
   function escapeHtml(str) {
     if (!str) return '';
     return String(str)
@@ -945,5 +561,5 @@
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
   }
-
 })();
+

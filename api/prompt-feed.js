@@ -1,67 +1,51 @@
-// ============================================================
-// MTV AI SYSTEM — Blogger Prompt Feed Reader (Backend)
-// ============================================================
-// This file must go in the repo at: api/prompt-feed.js
-//
-// What it does: fetches the AiPromptXpert Blogger RSS feed from the
-// SERVER side (so there is no browser CORS blocking), converts it to
-// clean JSON, and returns it to the website. Any time you add a new
-// post/prompt/category on Blogger, it will show up automatically the
-// next time this endpoint is called — no code changes needed, ever.
-// ============================================================
+import fs from 'fs';
+import path from 'path';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
 
   try {
-    const feedUrl = 'https://aipromptxpert.blogspot.com/feeds/posts/default?alt=json&max-results=500';
+    const candidatePaths = [
+      path.join(process.cwd(), 'assets', 'data', 'ai-prompts.json'),
+      path.join(process.cwd(), 'public', 'assets', 'data', 'ai-prompts.json'),
+    ];
 
-    const response = await fetch(feedUrl);
-    if (!response.ok) {
-      res.status(502).json({ error: 'Could not load prompt library right now. Please try again shortly.' });
+    let rawData = null;
+    for (const p of candidatePaths) {
+      if (fs.existsSync(p)) {
+        rawData = JSON.parse(fs.readFileSync(p, 'utf-8'));
+        break;
+      }
+    }
+
+    if (!rawData || !Array.isArray(rawData.prompts)) {
+      res.status(200).json({ prompts: [] });
       return;
     }
 
-    const data = await response.json();
-    const entries = data.feed?.entry || [];
+    const formattedPrompts = rawData.prompts.map((p) => ({
+      title: p.title || p.originalPostTitle || '',
+      image: p.imageUrl || p.image || '',
+      promptText: p.promptText || '',
+      categories:
+        Array.isArray(p.categories) && p.categories.length > 0
+          ? p.categories
+          : p.category
+          ? [p.category]
+          : ['AI Prompt'],
+      originalLink: p.sourceUrl || p.originalLink || '',
+      published: p.pubDate ? new Date(p.pubDate).toISOString() : new Date().toISOString(),
+    }));
 
-    const prompts = entries.map((entry) => {
-      // Extract text content
-      const title = entry.title?.$t || '';
-      const contentHtml = entry.content?.$t || entry.summary?.$t || '';
-
-      // Extract first image from the post content, if any
-      let image = '';
-      const imgMatch = contentHtml.match(/<img[^>]+src="([^">]+)"/i);
-      if (imgMatch) image = imgMatch[1];
-
-      // Extract categories/labels
-      const categories = (entry.category || []).map((c) => c.term);
-
-      // Extract original post link
-      let link = '';
-      const altLink = (entry.link || []).find((l) => l.rel === 'alternate');
-      if (altLink) link = altLink.href;
-
-      // Strip HTML tags to get plain prompt text
-      const plainText = contentHtml.replace(/<[^>]*>/g, '').trim();
-
-      return {
-        title,
-        image,
-        promptText: plainText,
-        categories,
-        originalLink: link,
-        published: entry.published?.$t || ''
-      };
-    });
-
-    // Cache for 10 minutes so repeated visits are fast, but new Blogger
-    // posts still show up automatically within that window.
-    res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=1200');
-    res.status(200).json({ prompts });
-
+    res.status(200).json({ prompts: formattedPrompts });
   } catch (err) {
-    res.status(500).json({ error: 'Could not load prompt library right now. Please try again shortly.' });
+    res.status(500).json({ error: 'Failed to load prompt feed', prompts: [] });
   }
 }
