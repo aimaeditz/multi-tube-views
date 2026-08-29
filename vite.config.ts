@@ -1,6 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import fs from 'fs';
 import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
@@ -17,6 +18,18 @@ export default defineConfig(() => {
             '</head>',
             `  <script>window.MTV_API_BASE_URL = ${JSON.stringify(apiBaseUrl)};</script>\n</head>`
           );
+        }
+      },
+      {
+        name: 'copy-static-assets',
+        closeBundle() {
+          const srcAssets = path.resolve(__dirname, 'assets');
+          const distAssets = path.resolve(__dirname, 'dist/assets');
+          const publicAssets = path.resolve(__dirname, 'public/assets');
+          if (fs.existsSync(srcAssets)) {
+            fs.cpSync(srcAssets, distAssets, { recursive: true, force: true });
+            fs.cpSync(srcAssets, publicAssets, { recursive: true, force: true });
+          }
         }
       }
     ],

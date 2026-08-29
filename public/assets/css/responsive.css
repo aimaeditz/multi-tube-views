@@ -1,0 +1,2109 @@
+/**
+ * Multi Tube Views (MTV) — Responsive Design & Mobile Optimization System
+ * 
+ * Mobile-First Responsive Overrides for <=768px (Mobile & Small Tablets),
+ * <=480px (Standard Mobile Screens), and <=360px (Extra Small Phones).
+ * 
+ * STRICT ARCHITECTURAL RULE:
+ * Desktop (>=993px) and Tablet (769px-992px) styles remain 100% UNTOUCHED.
+ * All optimizations are strictly proportional sizing, spacing, and viewport containment.
+ */
+
+/* ==========================================================================
+   Mobile Menu Button & Drawer Navigation (Default: Desktop Hidden)
+   ========================================================================== */
+.btn-mobile-menu {
+  display: none;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+  flex-shrink: 0;
+  padding: 0;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.btn-mobile-menu:hover,
+.btn-mobile-menu:focus-visible {
+  background-color: var(--bg-subtle);
+  border-color: var(--text-primary);
+}
+
+.btn-mobile-menu:active {
+  transform: scale(0.94);
+}
+
+/* Mobile Drawer Overlay */
+.mobile-drawer {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100dvh - var(--header-height));
+  max-height: calc(100dvh - var(--header-height));
+  background-color: rgba(253, 253, 253, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem 0.5rem 1.25rem 0.5rem;
+  gap: 0.2rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+  transform: translateX(-100%);
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s;
+  border-top: 1px solid var(--border-subtle);
+}
+
+[data-theme="dark"] .mobile-drawer {
+  background-color: rgba(10, 10, 12, 0.98);
+}
+
+.mobile-drawer.open {
+  transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  touch-action: manipulation;
+  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;
+  min-height: 34px;
+  text-decoration: none;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link:active {
+  background-color: var(--bg-subtle);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.mobile-nav-link.active {
+  color: var(--accent-blue);
+  background-color: var(--accent-subtle);
+  border-color: var(--accent-border);
+}
+
+/* ==========================================================================
+   Mobile Platforms Collapsible Sub-menu Custom Styles
+   ========================================================================== */
+.mobile-nav-dropdown-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.mobile-nav-dropdown-trigger-container {
+  display: flex;
+  align-items: stretch;
+  gap: 0.2rem;
+  width: 100%;
+}
+
+.mobile-nav-dropdown-trigger-container .mobile-nav-link {
+  flex-grow: 1;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.mobile-nav-dropdown-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  min-width: 44px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  color: var(--text-primary);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+[data-theme="dark"] .mobile-nav-dropdown-toggle-btn {
+  background-color: var(--bg-surface);
+  border-color: var(--border-subtle);
+}
+
+.mobile-nav-dropdown-toggle-btn:hover,
+.mobile-nav-dropdown-toggle-btn:active,
+.mobile-nav-dropdown-toggle-btn:focus-visible {
+  background-color: var(--bg-subtle);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.mobile-nav-dropdown-toggle-btn .chevron-icon {
+  transition: transform var(--transition-speed) ease;
+}
+
+.mobile-nav-dropdown-toggle-btn[aria-expanded="true"] .chevron-icon {
+  transform: rotate(180deg);
+}
+
+.mobile-nav-dropdown-content {
+  display: none;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  margin-top: 0.2rem;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.mobile-nav-dropdown-content.open {
+  display: flex !important;
+}
+
+.mobile-submenu-category {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mobile-submenu-category-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  padding-left: 0.25rem;
+  margin-bottom: 0.15rem;
+}
+
+.mobile-submenu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.35rem;
+}
+
+.mobile-submenu-link {
+  display: flex;
+  align-items: center;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.76rem;
+  font-weight: 550;
+  color: var(--text-primary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  min-height: 28px;
+  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+[data-theme="dark"] .mobile-submenu-link {
+  background-color: var(--bg-surface);
+  border-color: var(--border-subtle);
+}
+
+.mobile-submenu-link:hover,
+.mobile-submenu-link:active {
+  background-color: var(--bg-subtle);
+  border-color: var(--border-strong);
+  color: var(--accent-blue);
+}
+
+.mobile-submenu-link.active {
+  color: var(--accent-blue);
+  background-color: var(--accent-subtle);
+  border-color: var(--accent-border);
+}
+
+/* ==========================================================================
+   Breakpoints: Tablets & Small Laptops (769px to 992px)
+   ========================================================================== */
+@media (max-width: 992px) and (min-width: 769px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .player-grid[data-cols="4"],
+  .player-grid[data-cols="3"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .platform-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* ==========================================================================
+   Breakpoints: Mobile Devices & Phablets (<= 768px)
+   COMPACT, CLEAN, PROPORTIONATE RESPONSIVE MOBILE SYSTEM
+   ========================================================================== */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 44px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+    --radius-xl: 12px;
+  }
+
+  /* Global Container & Mobile Canvas Containment */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box !important;
+  }
+
+  img, video, iframe, embed, object {
+    max-width: 100% !important;
+  }
+
+  .container {
+    padding-left: 0.65rem !important;
+    padding-right: 0.65rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .site-main {
+    padding-bottom: 1.25rem !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Neutralizing Desktop Inline Spacing on Mobile */
+  [style*="padding-top: 2rem"],
+  [style*="padding-top: 3rem"],
+  [style*="padding-top: 4rem"],
+  [style*="padding-top: 3.5rem"],
+  [style*="padding: 4rem"],
+  [style*="padding: 3rem"] {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  [style*="margin-bottom: 2rem"],
+  [style*="margin-bottom: 2.5rem"],
+  [style*="margin-bottom: 3rem"],
+  [style*="margin-bottom: 3.5rem"] {
+    margin-bottom: 0.75rem !important;
+  }
+
+  [style*="margin-top: 2rem"],
+  [style*="margin-top: 2.5rem"],
+  [style*="margin-top: 3rem"],
+  [style*="margin-top: 3.5rem"] {
+    margin-top: 0.75rem !important;
+  }
+
+  [style*="gap: 1.5rem"],
+  [style*="gap: 2rem"],
+  [style*="gap: 2.5rem"],
+  [style*="gap: 3rem"] {
+    gap: 0.55rem !important;
+  }
+
+  [style*="font-size: 1.15rem"],
+  [style*="font-size: 1.1rem"],
+  [style*="font-size: 1.25rem"] {
+    font-size: 0.82rem !important;
+    line-height: 1.4 !important;
+  }
+
+  /* 1. Header & Navigation */
+  .site-header {
+    height: 44px !important;
+  }
+
+  .header-inner {
+    padding: 0 !important;
+    height: 44px !important;
+  }
+
+  .brand {
+    gap: 0.35rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  .brand-icon {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    font-size: 0.66rem !important;
+    border-radius: 5px !important;
+  }
+
+  .brand-text span:first-child {
+    font-size: 0.85rem !important;
+    white-space: nowrap !important;
+  }
+
+  .brand-badge {
+    font-size: 0.52rem !important;
+    padding: 0.05rem 0.25rem !important;
+    border-radius: 3px !important;
+  }
+
+  .nav-desktop {
+    display: none !important;
+  }
+
+  .btn-mobile-menu {
+    display: flex !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    border-radius: 6px !important;
+    padding: 0 !important;
+  }
+
+  .btn-mobile-menu svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  .btn-icon-only {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    border-radius: 6px !important;
+    padding: 0 !important;
+  }
+
+  .btn-icon-only svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .header-actions {
+    gap: 0.35rem !important;
+  }
+
+  /* 2. Base Typography & Headings Scale on Mobile */
+  h1, .hero-title, .contact-title {
+    font-size: 1.25rem !important;
+    line-height: 1.22 !important;
+    letter-spacing: -0.015em !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  h2 {
+    font-size: 1.05rem !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.01em !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    margin: 0.55rem 0 0.25rem 0 !important;
+  }
+
+  h3 {
+    font-size: 0.9rem !important;
+    line-height: 1.28 !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    margin: 0.45rem 0 0.2rem 0 !important;
+  }
+
+  h4 {
+    font-size: 0.78rem !important;
+    letter-spacing: 0.04em !important;
+    margin-bottom: 0.18rem !important;
+  }
+
+  p {
+    font-size: 0.78rem !important;
+    line-height: 1.42 !important;
+    margin-bottom: 0.4rem !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  /* 3. Breadcrumbs */
+  .breadcrumb-nav {
+    margin: 0.3rem 0 0.45rem 0 !important;
+    font-size: 0.72rem !important;
+    flex-wrap: wrap !important;
+    gap: 0.2rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .breadcrumb-separator {
+    font-size: 0.68rem !important;
+  }
+
+  /* 4. Platform Workspace Header */
+  .tool-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.4rem !important;
+    padding: 0.35rem 0 0.55rem 0 !important;
+    margin-bottom: 0.55rem !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+  }
+
+  .tool-identity {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+  }
+
+  .tool-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    font-size: 1.05rem !important;
+    border-radius: 6px !important;
+    flex-shrink: 0 !important;
+    margin-top: 1px !important;
+  }
+
+  .tool-identity > div {
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+
+  .tool-title-row {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 0.2rem 0.4rem !important;
+    margin-bottom: 0.1rem !important;
+  }
+
+  .tool-title {
+    font-size: 1.05rem !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+  }
+
+  .embed-badge {
+    font-size: 0.58rem !important;
+    padding: 0.08rem 0.32rem !important;
+    border-radius: 3px !important;
+    line-height: 1.2 !important;
+  }
+
+  .tool-desc {
+    font-size: 0.74rem !important;
+    line-height: 1.38 !important;
+    color: var(--text-secondary) !important;
+    margin: 0.08rem 0 0.2rem 0 !important;
+  }
+
+  .platform-support-chips {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 0.2rem !important;
+    margin-top: 0.12rem !important;
+  }
+
+  .support-tag {
+    font-size: 0.58rem !important;
+    padding: 0.08rem 0.28rem !important;
+    border-radius: 3px !important;
+    line-height: 1.22 !important;
+  }
+
+  .tool-header .btn {
+    width: 100% !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    justify-content: center !important;
+    font-size: 0.72rem !important;
+    padding: 0.12rem 0.45rem !important;
+    border-radius: 5px !important;
+    margin-top: 0.1rem !important;
+  }
+
+  /* 5. Platform Support Info Box */
+  .platform-support-infobox {
+    padding: 0.55rem 0.65rem !important;
+    margin-bottom: 0.65rem !important;
+    border-radius: 8px !important;
+    gap: 0.35rem !important;
+  }
+
+  .platform-support-infobox-header {
+    gap: 0.35rem !important;
+  }
+
+  .platform-support-infobox-title {
+    font-size: 0.66rem !important;
+  }
+
+  .platform-support-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.3rem !important;
+  }
+
+  .platform-support-item {
+    font-size: 0.72rem !important;
+    gap: 0.35rem !important;
+  }
+
+  /* 6. Workspace Tool Panel */
+  .tool-panel {
+    padding: 0.65rem 0.65rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.65rem !important;
+    border: 1px solid var(--border-strong) !important;
+    box-shadow: none !important;
+  }
+
+  .input-section {
+    margin-bottom: 0.5rem !important;
+  }
+
+  .input-group-label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .input-hint {
+    font-size: 0.65rem !important;
+    color: var(--text-muted) !important;
+  }
+
+  /* Single Input Row */
+  .single-input-row {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.3rem !important;
+    width: 100% !important;
+  }
+
+  .single-input-row .url-input-field {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.78rem !important;
+    padding: 0.2rem 0.5rem !important;
+    border-radius: 5px !important;
+    border: 1px solid var(--border-strong) !important;
+    box-sizing: border-box !important;
+  }
+
+  .single-input-row .btn {
+    width: 100% !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    font-size: 0.7rem !important;
+    padding: 0.12rem 0.2rem !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    border-radius: 4px !important;
+    gap: 0.2rem !important;
+  }
+
+  .batch-textarea {
+    font-size: 0.78rem !important;
+    min-height: 70px !important;
+    padding: 0.35rem 0.5rem !important;
+    width: 100% !important;
+    border-radius: 5px !important;
+    box-sizing: border-box !important;
+  }
+
+  #batch-input-tab .btn {
+    width: 100% !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    justify-content: center !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* 7. Settings Toolbar on Mobile: Responsive Grid */
+  .settings-toolbar {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.4rem 0.45rem !important;
+    padding: 0.45rem 0.55rem !important;
+    border-radius: 6px !important;
+    margin-bottom: 0.55rem !important;
+    border: 1px solid var(--border-subtle) !important;
+    background-color: var(--bg-subtle) !important;
+  }
+
+  .settings-toolbar > .setting-item:last-child:nth-child(odd) {
+    grid-column: 1 / -1 !important;
+  }
+
+  .setting-item {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.12rem !important;
+    min-width: 0 !important;
+  }
+
+  .setting-label {
+    font-size: 0.6rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.03em !important;
+    text-transform: uppercase !important;
+    line-height: 1 !important;
+    margin-bottom: 0.08rem !important;
+    color: var(--text-muted) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .setting-select {
+    height: 28px !important;
+    min-height: 28px !important;
+    font-size: 0.74rem !important;
+    font-weight: 500 !important;
+    padding: 0.12rem 0.35rem !important;
+    border-radius: 4px !important;
+    border: 1px solid var(--border-strong) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background-color: var(--bg-surface) !important;
+    color: var(--text-primary) !important;
+    line-height: 1.2 !important;
+  }
+
+  /* 8. Action Buttons Row */
+  .tool-actions-row {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.4rem !important;
+  }
+
+  #btn-generate-players {
+    width: 100% !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    justify-content: center !important;
+    padding: 0.2rem 0.65rem !important;
+    border-radius: var(--radius-full) !important;
+    gap: 0.35rem !important;
+  }
+
+  #btn-generate-players svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  .tool-secondary-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    width: 100% !important;
+    gap: 0.4rem !important;
+  }
+
+  .tool-secondary-actions .btn {
+    width: 100% !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    font-size: 0.7rem !important;
+    justify-content: center !important;
+    padding: 0.12rem 0.35rem !important;
+    border-radius: 4px !important;
+    gap: 0.25rem !important;
+    white-space: nowrap !important;
+  }
+
+  .tool-secondary-actions .btn svg {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  /* 9. Player Canvas Stage & Grid */
+  .player-grid-section {
+    margin-top: 0.65rem !important;
+  }
+
+  .stage-empty-card {
+    padding: 1.15rem 0.75rem !important;
+    border-radius: 8px !important;
+    border: 1px dashed var(--border-strong) !important;
+  }
+
+  .stage-empty-icon {
+    font-size: 1.3rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .stage-empty-card h3 {
+    font-size: 0.88rem !important;
+    margin-bottom: 0.18rem !important;
+  }
+
+  .stage-empty-card p {
+    font-size: 0.74rem !important;
+    line-height: 1.38 !important;
+    max-width: 100% !important;
+  }
+
+  .player-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.65rem !important;
+    width: 100% !important;
+  }
+
+  .player-card {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .player-card-bar {
+    padding: 0.3rem 0.5rem !important;
+    font-size: 0.7rem !important;
+    gap: 0.3rem !important;
+    min-height: 28px !important;
+  }
+
+  .player-bar-left {
+    gap: 0.3rem !important;
+    font-size: 0.7rem !important;
+  }
+
+  .player-badge-num {
+    width: 16px !important;
+    height: 16px !important;
+    font-size: 0.56rem !important;
+    border-radius: 3px !important;
+  }
+
+  .player-slot-title {
+    font-size: 0.7rem !important;
+  }
+
+  .player-platform-badge {
+    font-size: 0.58rem !important;
+    padding: 0.06rem 0.26rem !important;
+    border-radius: 3px !important;
+  }
+
+  .slot-status-tag {
+    font-size: 0.56rem !important;
+    padding: 0.06rem 0.24rem !important;
+    border-radius: 3px !important;
+  }
+
+  .player-bar-actions {
+    gap: 0.2rem !important;
+  }
+
+  .btn-slot-action {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    font-size: 0.62rem !important;
+    border-radius: 3px !important;
+  }
+
+  .slot-ratio-select {
+    height: 22px !important;
+    font-size: 0.6rem !important;
+    padding: 0 0.2rem !important;
+    border-radius: 3px !important;
+  }
+
+  .player-card-footer-edit {
+    padding: 0.2rem 0.5rem !important;
+    font-size: 0.68rem !important;
+    gap: 0.3rem !important;
+  }
+
+  .slot-url-display {
+    font-size: 0.68rem !important;
+  }
+
+  .btn-slot-edit-trigger {
+    font-size: 0.65rem !important;
+  }
+
+  .slot-inline-edit-input {
+    font-size: 0.72rem !important;
+    min-height: 26px !important;
+    padding: 0.12rem 0.35rem !important;
+    border-radius: 3px !important;
+  }
+
+  /* Responsive Player Frame Containment */
+  .player-frame-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .player-frame-wrapper[data-ratio="16-9"],
+  .player-frame-wrapper.ratio-16-9,
+  .player-frame-wrapper[data-ratio="auto"].ratio-video,
+  .player-frame-wrapper.ratio-video {
+    width: 100% !important;
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .player-frame-wrapper[data-ratio="4-3"],
+  .player-frame-wrapper.ratio-4-3 {
+    width: 100% !important;
+    aspect-ratio: 4 / 3 !important;
+  }
+
+  .player-frame-wrapper[data-ratio="1-1"],
+  .player-frame-wrapper.ratio-1-1,
+  .player-frame-wrapper[data-ratio="auto"].ratio-square,
+  .player-frame-wrapper.ratio-square {
+    width: 100% !important;
+    max-width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    margin: 0 auto !important;
+  }
+
+  .player-frame-wrapper[data-ratio="9-16"],
+  .player-frame-wrapper.ratio-9-16,
+  .player-frame-wrapper[data-ratio="auto"].ratio-vertical,
+  .player-frame-wrapper.ratio-vertical {
+    width: 100% !important;
+    max-width: 100% !important;
+    aspect-ratio: 9 / 16 !important;
+    max-height: 55vh !important;
+    margin: 0 auto !important;
+  }
+
+  .player-frame-wrapper[data-ratio="auto"].ratio-social-post {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 260px !important;
+    height: 300px !important;
+    margin: 0 auto !important;
+  }
+
+  .player-frame-wrapper[data-ratio="auto"].ratio-audio-spotify,
+  .player-frame-wrapper[data-ratio="auto"].ratio-audio-soundcloud {
+    width: 100% !important;
+    height: 110px !important;
+    min-height: 110px !important;
+  }
+
+  .player-loading-overlay {
+    gap: 0.35rem !important;
+  }
+
+  .player-spinner {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .player-loading-text {
+    font-size: 0.68rem !important;
+  }
+
+  .fallback-player-card {
+    padding: 0.85rem 0.65rem !important;
+    gap: 0.35rem !important;
+    min-height: 130px !important;
+  }
+
+  .fallback-icon {
+    font-size: 1.3rem !important;
+  }
+
+  .fallback-title {
+    font-size: 0.82rem !important;
+  }
+
+  .fallback-desc {
+    font-size: 0.72rem !important;
+    line-height: 1.32 !important;
+    max-width: 100% !important;
+  }
+
+  .fallback-player-card .btn {
+    width: 100% !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    justify-content: center !important;
+    font-size: 0.7rem !important;
+  }
+
+  /* 10. Info Callouts & Status Bars */
+  .info-callout {
+    padding: 0.55rem 0.65rem !important;
+    gap: 0.35rem !important;
+    margin: 0.55rem 0 !important;
+    border-radius: 6px !important;
+  }
+
+  .info-callout-icon {
+    font-size: 0.9rem !important;
+  }
+
+  .info-callout-content p {
+    font-size: 0.74rem !important;
+    line-height: 1.38 !important;
+  }
+
+  .status-summary-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.3rem !important;
+    padding: 0.4rem 0.55rem !important;
+    margin-bottom: 0.55rem !important;
+    border-radius: 6px !important;
+  }
+
+  .summary-stats {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.25rem 0.35rem !important;
+    font-size: 0.68rem !important;
+    width: 100% !important;
+  }
+
+  .stat-pill {
+    font-size: 0.64rem !important;
+    white-space: nowrap !important;
+  }
+
+  /* 11. Homepage Hero Section */
+  .hero-section {
+    padding: 1rem 0 0.75rem 0 !important;
+  }
+
+  .hero-pill {
+    font-size: 0.6rem !important;
+    padding: 0.18rem 0.55rem !important;
+    margin-bottom: 0.35rem !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .hero-title {
+    font-size: 1.35rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .hero-description {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.75rem !important;
+    padding: 0 !important;
+  }
+
+  .hero-actions {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.35rem !important;
+  }
+
+  .hero-actions .btn {
+    width: 100% !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    justify-content: center !important;
+    font-size: 0.78rem !important;
+    padding: 0.2rem 0.75rem !important;
+    border-radius: var(--radius-full) !important;
+  }
+
+  /* 12. Homepage Platform Directory Grid — COMPACT 2-COLUMN MOBILE GRID */
+  #directory {
+    padding-top: 0.4rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .directory-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.35rem !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  .directory-header h2 {
+    font-size: 1.08rem !important;
+    margin-bottom: 0.1rem !important;
+  }
+
+  .directory-header p {
+    font-size: 0.76rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .search-input-wrap {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .search-input {
+    font-size: 0.78rem !important;
+    padding: 0.28rem 0.55rem 0.28rem 1.85rem !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    border-radius: var(--radius-full) !important;
+  }
+
+  .search-icon {
+    left: 0.65rem !important;
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  /* Primary 2-Column Mobile Grid for Platforms */
+  .platform-preview-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+  }
+
+  .platform-preview-item {
+    padding: 0.45rem 0.55rem !important;
+    font-size: 0.78rem !important;
+    gap: 0.45rem !important;
+    border-radius: var(--radius-sm) !important;
+  }
+
+  .platform-preview-icon {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .platform-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.55rem !important;
+    margin-bottom: 1.25rem !important;
+    width: 100% !important;
+  }
+
+  .platform-card {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    height: auto !important;
+    min-height: 44px !important;
+    padding: 0.5rem 0.65rem !important;
+    border-radius: var(--radius-md) !important;
+    background-color: var(--bg-surface) !important;
+    border: 1px solid var(--border-subtle) !important;
+    box-sizing: border-box !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    position: relative !important;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease !important;
+  }
+
+  .platform-card:hover,
+  .platform-card:active {
+    transform: translateY(-1px) !important;
+    border-color: var(--border-strong) !important;
+  }
+
+  .platform-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    border-radius: 5px !important;
+    background-color: var(--bg-subtle) !important;
+    border: 1px solid var(--border-subtle) !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+  }
+
+  .platform-card-title {
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    line-height: 1.22 !important;
+    color: var(--text-primary) !important;
+    letter-spacing: -0.01em !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* 13. Articles, Settings, About, Contact & Static Pages */
+  .article-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.55rem !important;
+    margin: 0.55rem 0 !important;
+  }
+
+  .article-card {
+    padding: 0.65rem 0.65rem !important;
+    border-radius: 8px !important;
+  }
+
+  .article-tag {
+    font-size: 0.58rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .article-card h3 {
+    font-size: 0.88rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .article-card p {
+    font-size: 0.74rem !important;
+    line-height: 1.38 !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  .article-card .btn {
+    height: 28px !important;
+    min-height: 28px !important;
+    font-size: 0.7rem !important;
+    padding: 0.12rem 0.45rem !important;
+  }
+
+  .reading-content {
+    padding: 0.35rem 0 1rem 0 !important;
+    max-width: 100% !important;
+  }
+
+  .reading-content h1,
+  .container > h1 {
+    font-size: 1.25rem !important;
+    line-height: 1.22 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .reading-content h2,
+  .card h2 {
+    font-size: 1.05rem !important;
+    line-height: 1.25 !important;
+    margin: 0.65rem 0 0.25rem 0 !important;
+  }
+
+  .reading-content h3,
+  .card h3 {
+    font-size: 0.9rem !important;
+    line-height: 1.28 !important;
+    margin: 0.5rem 0 0.2rem 0 !important;
+  }
+
+  .reading-content p,
+  .reading-content ul,
+  .reading-content ol,
+  .reading-content > p:first-of-type,
+  .container > p:first-of-type {
+    font-size: 0.78rem !important;
+    line-height: 1.42 !important;
+    margin-bottom: 0.45rem !important;
+  }
+
+  .reading-content ul,
+  .reading-content ol {
+    margin: 0.25rem 0 0.45rem 0.75rem !important;
+  }
+
+  .reading-content li {
+    margin-bottom: 0.15rem !important;
+  }
+
+  /* Contact Page */
+  .contact-page-header {
+    margin-bottom: 0.55rem !important;
+  }
+
+  .contact-title {
+    margin-bottom: 0.15rem !important;
+  }
+
+  .contact-subtitle {
+    font-size: 0.78rem !important;
+    line-height: 1.38 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .contact-form-container {
+    margin-bottom: 1.25rem !important;
+  }
+
+  .contact-card {
+    padding: 0.65rem 0.65rem !important;
+    border-radius: 8px !important;
+  }
+
+  .contact-form {
+    gap: 0.45rem !important;
+  }
+
+  .form-group {
+    gap: 0.12rem !important;
+  }
+
+  .form-label {
+    font-size: 0.75rem !important;
+  }
+
+  .form-label-hint {
+    font-size: 0.64rem !important;
+  }
+
+  .form-control {
+    font-size: 0.78rem !important;
+    padding: 0.2rem 0.45rem !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    border-radius: 5px !important;
+  }
+
+  textarea.form-control {
+    min-height: 70px !important;
+    height: 70px !important;
+  }
+
+  .contact-submit-btn {
+    font-size: 0.8rem !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0.2rem 0.75rem !important;
+    border-radius: var(--radius-full) !important;
+  }
+
+  .contact-inline-alert {
+    padding: 0.35rem 0.55rem !important;
+    font-size: 0.74rem !important;
+  }
+
+  /* Settings Page */
+  .settings-container,
+  .container[style*="max-width: 800px"] {
+    padding-top: 0.35rem !important;
+  }
+
+  .card {
+    padding: 0.65rem 0.65rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.55rem !important;
+  }
+
+  .card h2 {
+    font-size: 0.98rem !important;
+    margin-bottom: 0.45rem !important;
+  }
+
+  .setting-select-full,
+  .card .setting-select,
+  .settings-container .setting-select {
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 0.76rem !important;
+    height: 30px !important;
+    min-height: 30px !important;
+  }
+
+  .settings-actions {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.35rem !important;
+  }
+
+  .settings-actions .btn {
+    width: 100% !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.76rem !important;
+  }
+
+  /* Creator Profile Card (About & Credits) */
+  .creator-profile-card {
+    margin-top: 0.75rem !important;
+    padding: 0.65rem 0.65rem !important;
+    border-radius: 8px !important;
+    gap: 0.3rem !important;
+  }
+
+  .creator-profile-badge {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 0.72rem !important;
+  }
+
+  .creator-profile-title {
+    font-size: 0.88rem !important;
+  }
+
+  .creator-profile-desc {
+    font-size: 0.74rem !important;
+    line-height: 1.38 !important;
+  }
+
+  /* 14. Global Footer on Mobile */
+  .site-footer {
+    padding: 1rem 0 0.65rem 0 !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.65rem !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  .footer-brand h3 {
+    font-size: 0.88rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  .footer-brand p {
+    font-size: 0.74rem !important;
+    line-height: 1.38 !important;
+  }
+
+  .footer-col h4 {
+    margin-bottom: 0.2rem !important;
+    font-size: 0.68rem !important;
+  }
+
+  .footer-links {
+    gap: 0.2rem !important;
+  }
+
+  .footer-links a {
+    font-size: 0.74rem !important;
+    padding: 0.04rem 0 !important;
+  }
+
+  .footer-bottom {
+    flex-direction: column !important;
+    gap: 0.35rem !important;
+    text-align: center !important;
+    padding-top: 0.55rem !important;
+  }
+
+  .footer-bottom-info {
+    align-items: center !important;
+    gap: 0.12rem !important;
+    font-size: 0.68rem !important;
+  }
+
+  .creator-credit {
+    justify-content: center !important;
+    font-size: 0.68rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  .footer-bottom-links {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.25rem 0.65rem !important;
+  }
+
+  .footer-bottom-links a {
+    font-size: 0.68rem !important;
+  }
+
+  /* FAQ Accordion */
+  .faq-list {
+    gap: 0.35rem !important;
+    margin: 0.55rem 0 !important;
+  }
+
+  .faq-question {
+    padding: 0.45rem 0.55rem !important;
+    font-size: 0.8rem !important;
+    gap: 0.35rem !important;
+  }
+
+  .faq-answer {
+    padding: 0 0.55rem 0.45rem 0.55rem !important;
+    font-size: 0.74rem !important;
+    line-height: 1.38 !important;
+  }
+
+  /* Toast Notification */
+  .toast-container {
+    bottom: 0.55rem !important;
+    left: 0.55rem !important;
+    right: 0.55rem !important;
+    max-width: calc(100% - 1.1rem) !important;
+  }
+
+  .toast {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0.35rem 0.55rem !important;
+    font-size: 0.74rem !important;
+    border-radius: 5px !important;
+  }
+
+  /* Mobile Spacing Fix for Sections */
+  #ai-prompt-section, #platforms {
+    margin-bottom: 2rem !important;
+  }
+
+  /* ==========================================================================
+     15. AI Prompt Library & Cards — 2-Column Mobile Grid
+     Strict 2 cards side-by-side on mobile, balanced & touch-friendly
+     ========================================================================== */
+  .prompt-header-section {
+    padding: 1rem 0 0.65rem 0 !important;
+  }
+
+  .prompt-header-section h1 {
+    font-size: 1.25rem !important;
+    line-height: 1.22 !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .prompt-header-section p {
+    font-size: 0.78rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  .prompt-controls-bar {
+    gap: 0.45rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .prompt-search-wrap {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .prompt-search-input {
+    font-size: 0.78rem !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    padding: 0.28rem 2rem 0.28rem 1.85rem !important;
+    border-radius: var(--radius-full) !important;
+  }
+
+  .prompt-search-icon {
+    left: 0.65rem !important;
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  .prompt-search-clear {
+    right: 0.55rem !important;
+    padding: 0.2rem !important;
+  }
+
+  .category-pills-wrap {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    justify-content: flex-start !important;
+    padding: 0.1rem 0.1rem 0.35rem 0.1rem !important;
+    gap: 0.3rem !important;
+    scrollbar-width: none !important;
+  }
+
+  .category-pills-wrap::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .category-pill {
+    font-size: 0.7rem !important;
+    padding: 0.2rem 0.55rem !important;
+    gap: 0.25rem !important;
+    height: 26px !important;
+    min-height: 26px !important;
+    flex-shrink: 0 !important;
+    border-radius: var(--radius-full) !important;
+  }
+
+  .category-pill .pill-count {
+    font-size: 0.58rem !important;
+    padding: 0.04rem 0.25rem !important;
+  }
+
+  .prompt-meta-header {
+    font-size: 0.72rem !important;
+    margin-bottom: 0.65rem !important;
+    padding-bottom: 0.35rem !important;
+  }
+
+  /* 2-Column Responsive Prompt Grid for Mobile */
+  .prompt-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.45rem !important;
+    margin-bottom: 1.25rem !important;
+    width: 100% !important;
+  }
+
+  .prompt-card {
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-sm) !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .prompt-card-media {
+    position: relative !important;
+    width: 100% !important;
+    aspect-ratio: 3 / 4 !important;
+    background-color: var(--bg-subtle) !important;
+    overflow: hidden !important;
+  }
+
+  .prompt-card-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
+
+  .prompt-card-badge {
+    top: 0.25rem !important;
+    left: 0.25rem !important;
+    padding: 0.1rem 0.3rem !important;
+    font-size: 0.54rem !important;
+    max-width: calc(100% - 0.5rem) !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .prompt-card-body {
+    padding: 0.45rem 0.35rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .prompt-card-title {
+    font-size: 0.76rem !important;
+    font-weight: 600 !important;
+    line-height: 1.22 !important;
+    margin-bottom: 0.18rem !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    word-break: break-word !important;
+  }
+
+  .prompt-card-preview {
+    font-size: 0.68rem !important;
+    line-height: 1.32 !important;
+    margin-bottom: 0.35rem !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    word-break: break-word !important;
+    flex-grow: 1 !important;
+  }
+
+  .prompt-card-actions {
+    display: flex !important;
+    gap: 0.2rem !important;
+    align-items: center !important;
+    padding-top: 0.25rem !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .prompt-card-actions .btn {
+    min-height: 26px !important;
+    height: 26px !important;
+    font-size: 0.65rem !important;
+    padding: 0 0.25rem !important;
+    border-radius: 4px !important;
+    white-space: nowrap !important;
+    justify-content: center !important;
+  }
+
+  .btn-copy-prompt {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    gap: 0.15rem !important;
+  }
+
+  .btn-view-prompt {
+    flex: 0 0 auto !important;
+    gap: 0.15rem !important;
+  }
+
+  .prompt-card-actions svg {
+    width: 11px !important;
+    height: 11px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* AI Prompt Detail Modal Mobile */
+  .prompt-modal {
+    padding: 0.5rem !important;
+  }
+
+  .prompt-modal .modal-dialog {
+    max-height: 92vh !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .prompt-modal .modal-header {
+    padding: 0.55rem 0.75rem !important;
+  }
+
+  .prompt-modal .modal-header h3 {
+    font-size: 0.88rem !important;
+  }
+
+  .prompt-modal .modal-content {
+    grid-template-columns: 1fr !important;
+    gap: 0.55rem !important;
+    padding: 0.65rem !important;
+  }
+
+  .prompt-modal .modal-prompt-img {
+    max-height: 200px !important;
+    object-fit: cover !important;
+  }
+
+  .prompt-modal .modal-prompt-box {
+    font-size: 0.74rem !important;
+    padding: 0.55rem !important;
+    max-height: 140px !important;
+  }
+
+  .prompt-modal .modal-actions .btn {
+    height: 30px !important;
+    min-height: 30px !important;
+    font-size: 0.76rem !important;
+  }
+
+  /* Homepage Entry Card Mobile */
+  .ai-prompt-entry-card {
+    padding: 0.65rem 0.65rem !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.5rem !important;
+  }
+
+  .ai-prompt-entry-info {
+    gap: 0.5rem !important;
+  }
+
+  .ai-prompt-entry-icon {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+  }
+
+  .ai-prompt-entry-text h3 {
+    font-size: 0.88rem !important;
+  }
+
+  .ai-prompt-entry-text p {
+    font-size: 0.74rem !important;
+  }
+
+  .ai-prompt-entry-card .btn {
+    width: 100% !important;
+    justify-content: center !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    font-size: 0.76rem !important;
+  }
+
+  /* Creator Tools 2-Column Responsive Grid & Compact Cards for Mobile */
+  .creator-tools-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.45rem !important;
+    margin-bottom: 1.25rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .creator-tool-card {
+    padding: 0.45rem 0.35rem !important;
+    border-radius: var(--radius-md) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    height: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .creator-tool-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.3rem !important;
+    margin-bottom: 0.25rem !important;
+    min-width: 0 !important;
+  }
+
+  .creator-tool-icon {
+    font-size: 0.95rem !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .creator-tool-title {
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .creator-tool-desc {
+    font-size: 0.65rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.35rem !important;
+    color: var(--text-secondary) !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    word-break: break-word !important;
+    flex-grow: 1 !important;
+  }
+
+  .creator-tool-actions {
+    display: flex !important;
+    gap: 0.2rem !important;
+    align-items: center !important;
+    padding-top: 0.3rem !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .btn-ai-launch {
+    flex: 1 1 50% !important;
+    min-width: 0 !important;
+    height: 26px !important;
+    min-height: 26px !important;
+    padding: 0 0.2rem !important;
+    font-size: 0.62rem !important;
+    font-weight: 600 !important;
+    border-radius: 4px !important;
+    gap: 0.15rem !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+  }
+
+  .btn-ai-launch svg {
+    width: 10px !important;
+    height: 10px !important;
+    flex-shrink: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   Breakpoints: Wider Mobile & Phablets (580px to 768px)
+   Allows 3 columns when screen allows comfortable fit
+   ========================================================================== */
+@media (min-width: 580px) and (max-width: 768px) {
+  .platform-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.65rem !important;
+  }
+}
+
+/* ==========================================================================
+   Breakpoints: Standard Small Mobile (<= 480px)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .container {
+    padding-left: 0.55rem !important;
+    padding-right: 0.55rem !important;
+  }
+
+  .platform-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.45rem !important;
+  }
+
+  .platform-card {
+    padding: 0.45rem 0.5rem !important;
+    min-height: 40px !important;
+    gap: 0.45rem !important;
+  }
+
+  .platform-avatar {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .platform-card-title {
+    font-size: 0.78rem !important;
+  }
+
+  .prompt-grid {
+    gap: 0.4rem !important;
+  }
+
+  .prompt-card-body {
+    padding: 0.4rem 0.3rem !important;
+  }
+
+  .prompt-card-title {
+    font-size: 0.74rem !important;
+  }
+
+  .prompt-card-preview {
+    font-size: 0.66rem !important;
+  }
+}
+
+/* ==========================================================================
+   Breakpoints: Extra Small Phones (<= 360px: iPhone SE 1st Gen, Galaxy Fold)
+   ========================================================================== */
+@media (max-width: 360px) {
+  :root {
+    --header-height: 40px;
+  }
+
+  .container {
+    padding-left: 0.4rem !important;
+    padding-right: 0.4rem !important;
+  }
+
+  .brand-text span:first-child {
+    font-size: 0.78rem !important;
+  }
+
+  .brand-badge {
+    display: none !important;
+  }
+
+  .brand-icon {
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 0.6rem !important;
+  }
+
+  .btn-mobile-menu,
+  .btn-icon-only {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+  }
+
+  .btn-mobile-menu svg,
+  .btn-icon-only svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  h1, .hero-title, .tool-title {
+    font-size: 1.12rem !important;
+  }
+
+  .platform-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.35rem !important;
+  }
+
+  .platform-card {
+    padding: 0.45rem 0.45rem !important;
+    min-height: 38px !important;
+  }
+
+  .platform-avatar {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .platform-card-title {
+    font-size: 0.74rem !important;
+  }
+
+  .single-input-row .btn {
+    font-size: 0.64rem !important;
+    padding: 0.1rem 0.12rem !important;
+  }
+
+  .settings-toolbar {
+    grid-template-columns: 1fr !important;
+    gap: 0.3rem !important;
+  }
+
+  .summary-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  .tool-secondary-actions {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Extra Small Prompt Card Refinements (Strictly 2 Columns) */
+  .prompt-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.3rem !important;
+  }
+
+  .prompt-card-body {
+    padding: 0.35rem 0.25rem !important;
+  }
+
+  .prompt-card-title {
+    font-size: 0.7rem !important;
+  }
+
+  .prompt-card-preview {
+    font-size: 0.62rem !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  .prompt-card-actions .btn {
+    font-size: 0.6rem !important;
+    padding: 0 0.15rem !important;
+    height: 24px !important;
+    min-height: 24px !important;
+  }
+
+  .prompt-card-actions svg {
+    width: 9px !important;
+    height: 9px !important;
+  }
+
+  /* Extra Small Creator Tool Card Refinements */
+  .creator-tools-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.35rem !important;
+  }
+
+  .creator-tool-card {
+    padding: 0.35rem 0.25rem !important;
+  }
+
+  .creator-tool-title {
+    font-size: 0.7rem !important;
+  }
+
+  .creator-tool-desc {
+    font-size: 0.61rem !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  .btn-ai-launch {
+    font-size: 0.58rem !important;
+    padding: 0 0.1rem !important;
+    height: 24px !important;
+    min-height: 24px !important;
+  }
+
+  .btn-ai-launch svg {
+    width: 9px !important;
+    height: 9px !important;
+  }
+
+  .footer-bottom-links {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.2rem !important;
+  }
+}
+
+/* ==========================================================================
+   Reduced Motion Accessibility Support
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body[data-motion="reduced"] *,
+body[data-motion="reduced"] *::before,
+body[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ==========================================================================
+   Compact Display Mode Preference
+   ========================================================================== */
+body[data-density="compact"] .card,
+body[data-density="compact"] .tool-panel {
+  padding: 0.35rem !important;
+}
+
+body[data-density="compact"] .platform-card {
+  padding: 0.35rem !important;
+}
+
+body[data-density="compact"] .player-card-bar {
+  padding: 0.12rem 0.25rem !important;
+}
