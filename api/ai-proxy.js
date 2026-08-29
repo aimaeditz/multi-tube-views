@@ -84,7 +84,7 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!response.ok) {
-      res.status(response.status).json({ error: data.error?.message || 'AI request failed' });
+      res.status(response.status).json({ error: 'Thoda busy hai, kripya kuch second baad dobara try karein.' });
       return;
     }
 
@@ -92,6 +92,6 @@ export default async function handler(req, res) {
     res.status(200).json({ result: resultText, task: task || 'default' });
 
   } catch (err) {
-    res.status(500).json({ error: 'Server error: ' + err.message });
+    res.status(500).json({ error: 'Kuch gadbad ho gayi, dobara try karein.' });
   }
 }
