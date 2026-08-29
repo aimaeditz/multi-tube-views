@@ -391,7 +391,6 @@
     const modalText = detailModal.querySelector('.modal-prompt-text');
     const modalSourceLink = detailModal.querySelector('.modal-source-link');
     const modalCopyBtn = detailModal.querySelector('.modal-copy-btn');
-    const modalRunAiBtn = detailModal.querySelector('#modal-run-ai-btn');
 
     if (modalImg) {
       modalImg.src = record.image || 'assets/icons/favicon.svg';
@@ -425,20 +424,6 @@
       modalCopyBtn.onclick = (e) => {
         e.preventDefault();
         copyPromptToClipboard(record.promptText, modalCopyBtn);
-      };
-    }
-
-    if (modalRunAiBtn) {
-      modalRunAiBtn.onclick = (e) => {
-        e.preventDefault();
-        closeModal();
-        if (window.mtvAI && typeof window.mtvAI.openAssistantModal === 'function') {
-          window.mtvAI.openAssistantModal(
-            record.promptText,
-            'Analyze or elaborate on this prompt, providing detailed creative variations and tips.',
-            `AI Prompt: ${record.title}`
-          );
-        }
       };
     }
 
