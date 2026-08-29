@@ -11,10 +11,10 @@
       this.apiBase = this.getApiBaseUrl();
       this.activeModel = 'gemini-3.7-flash';
       this.availableModels = [
-        { id: 'gemini-3.7-flash', name: 'Gemini 3.7 Flash', badge: 'Recommended' },
-        { id: 'gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro', badge: 'Pro' },
-        { id: 'gemini-3.1-flash-lite', name: 'Gemini 3.1 Flash Lite', badge: 'Lite' },
-        { id: 'gemini-flash-latest', name: 'Gemini Flash Latest', badge: 'Latest' }
+        { id: 'gemini-3.7-flash', name: 'Standard (Fast)', badge: 'Recommended' },
+        { id: 'gemini-3.1-pro-preview', name: 'Pro Intelligence', badge: 'Pro' },
+        { id: 'gemini-3.1-flash-lite', name: 'Compact & Light', badge: 'Lite' },
+        { id: 'gemini-flash-latest', name: 'Latest Optimization', badge: 'Latest' }
       ];
       this.isProcessing = false;
       this.chatHistory = [];
@@ -83,10 +83,10 @@
                   <h3 id="mtv-ai-modal-title" class="mtv-ai-title">MTV AI Assistant</h3>
                   <div class="mtv-ai-model-selector-wrapper" style="margin-top: 2px;">
                     <select id="mtv-ai-model-select" class="mtv-ai-model-select" style="background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.3); border-radius: 6px; padding: 2px 6px; font-size: 0.75rem; font-weight: 600; color: #2563eb; cursor: pointer; outline: none;">
-                      <option value="gemini-3.7-flash">Gemini 3.7 Flash (Recommended)</option>
-                      <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro (Pro)</option>
-                      <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash Lite (Lite)</option>
-                      <option value="gemini-flash-latest">Gemini Flash Latest (Latest)</option>
+                      <option value="gemini-3.7-flash">Standard (Fast)</option>
+                      <option value="gemini-3.1-pro-preview">Pro Intelligence</option>
+                      <option value="gemini-3.1-flash-lite">Compact & Light</option>
+                      <option value="gemini-flash-latest">Latest Optimization</option>
                     </select>
                   </div>
                 </div>
@@ -101,7 +101,7 @@
 
             <div class="mtv-ai-modal-body" id="mtv-ai-chat-body">
               <div class="mtv-ai-welcome-card" id="mtv-ai-welcome">
-                <p>Welcome to <strong>Multi Tube Views AI</strong>. Your query is processed securely on our server using Google Gemini 3.7 Flash.</p>
+                <p>Welcome to <strong>Multi Tube Views AI</strong>. Your query is processed securely on our server using intelligent creator AI.</p>
               </div>
               <div class="mtv-ai-messages-list" id="mtv-ai-messages"></div>
             </div>
@@ -492,7 +492,7 @@
         if (data && data.success && data.response) {
           if (bubbleEl) bubbleEl.innerHTML = this.formatMarkdown(data.response);
           if (actionsEl) actionsEl.style.display = 'flex';
-          if (statusIndicator) statusIndicator.textContent = `Completed via ${data.model || 'gemini-3.7-flash'}`;
+          if (statusIndicator) statusIndicator.textContent = `Completed`;
         } else {
           const errMsg = data?.error || 'Failed to generate AI response. Please verify backend API setup.';
           if (bubbleEl) bubbleEl.textContent = `⚠️ Error: ${errMsg}`;

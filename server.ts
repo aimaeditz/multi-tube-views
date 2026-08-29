@@ -471,26 +471,27 @@ app.get('/api/ai-prompts', (req: Request, res: Response) => {
 
 // 2b. MTV Creator Tools System Instructions & AI Proxy Endpoint
 const creatorToolSystemInstructions: Record<string, string> = {
-  'ai-auto': 'You generate ready-to-use SEO creator output (title, short description, and tags) for the given topic. Format clearly with labeled sections.',
-  'seo-title': 'You generate 10 high-CTR, SEO-optimized video/page titles for the given topic. Return only a numbered list.',
-  'keywords': 'You generate a mix of seed keywords and long-tail keyword ideas for the given topic. Return only a comma-separated list, at least 30 keywords.',
-  'hashtags': 'You generate a large set of relevant, trending hashtags for the given topic, between 60 and 100 hashtags. Return only the hashtags separated by spaces, no explanation, no numbering.',
-  'meta-description': 'You generate 5 SEO-friendly meta descriptions (under 160 characters each) for the given topic. Return only a numbered list.',
-  'topic-ideas': 'You generate 15 fresh content topic ideas related to the given input. Return only a numbered list.',
-  'youtube-seo-pack': 'You generate a complete YouTube SEO pack for the given topic: 1) Title (1 line), 2) Description (short paragraph), 3) Tags (comma-separated list of 20+ tags). Label each section clearly.',
-  'grammar-polish': 'You correct grammar, spelling, and clarity of the given text while preserving its original meaning and tone. Return only the corrected text.',
-  'translate': 'You translate the given text into English if it is not in English, or into simple, natural Hindi if it is in English. Return only the translated text.',
-  'default': 'You are a helpful assistant for the MTV (Multi Tube Views) platform. Keep responses short and useful.'
+  'ai-auto': 'You are an expert creator strategist and SEO consultant. Generate a structured, complete optimization package for the user topic: 1) High-CTR Title Options, 2) Comprehensive Description with timestamp chapters placeholder, 3) 25+ Comma-separated SEO Tags, 4) Hashtag Set, and 5) Key Channel Strategy Notes. Format with clean headings and bullet points.',
+  'seo-title': 'You are an expert SEO title copywriter for video platforms and search engines. Generate 10 compelling, high-CTR, click-worthy, search-optimized title variations for the given topic and target platform. Include curiosity hooks, how-to structures, numbers, and high-ranking search terms. Return only a clean numbered list from 1 to 10.',
+  'keywords': 'You are an expert SEO keyword research specialist. Generate a comprehensive keyword strategy for the given topic and target platform. Include primary seed keywords, long-tail search queries, question-based search queries (People Also Ask), and low-competition search opportunities. Return at least 30+ keywords as a clean comma-separated list.',
+  'hashtags': 'You are a social media growth and algorithm specialist. Generate a large, high-performing set of 60 to 100 relevant, trending, and niche hashtags for the given topic and platform. Return ONLY the hashtags separated by spaces (e.g. #keyword1 #keyword2 ...). Do not include explanations, intro text, or numbering.',
+  'meta-description': 'You are an expert SEO copywriter. Generate 5 compelling, search-optimized meta descriptions (under 155 characters each) for the given topic and platform. Include strong calls to action (CTA), primary keywords, and clear viewer value. Return as a clean numbered list from 1 to 5.',
+  'topic-ideas': 'You are a viral content strategist and creative producer. Brainstorm 15 high-engagement, fresh content topic ideas with strong audience interest for the user niche and platform. Return as a numbered list with creative hooks and angles.',
+  'youtube-seo-pack': 'You are an elite YouTube SEO consultant. Generate a complete YouTube SEO pack for the given topic: 1) Title (3 high-CTR options), 2) Video Description (engaging intro, main points, chapter timestamps placeholder, links, and hashtags), 3) Video Tags (25+ comma-separated tags), and 4) 3 Thumbnail text concept suggestions. Clearly label each section.',
+  'grammar-polish': 'You are a master editor and content polisher. Correct grammar, spelling, punctuation, and phrasing while refining flow, clarity, and readability. Preserve the original meaning and natural voice. Return the clean, polished text ready for publication.',
+  'translate': 'You are an expert multilingual translator. Accurately and naturally translate the provided text into the requested target language (or natural English if foreign text is detected, or natural Hindi if English is provided without a specified language). Ensure natural phrasing, correct context, and cultural accuracy. Return only the translated text.',
+  'default': 'You are an intelligent creator assistant for Multi Tube Views. Provide concise, clear, and actionable recommendations for creators and media managers.'
 };
 
 // Dynamic Semantic Creator Response Generator (Provides instant, high-quality responses during high demand or quota replenishment)
-function generateDynamicCreatorResponse(promptText: string, customTopic?: string, toolId?: string): string {
+function generateDynamicCreatorResponse(promptText: string, customTopic?: string, toolId?: string, platform?: string, language?: string, tone?: string): string {
   const cleanInput = (customTopic || promptText || 'Video Growth & SEO').trim().replace(/['"]/g, '');
   const lower = cleanInput.toLowerCase();
   const titleWords = cleanInput.split(/\s+/).filter(w => w.length > 2);
   const coreSubject = titleWords.slice(0, 4).join(' ') || 'Content Creation';
   const tagWords = titleWords.map(w => w.toLowerCase().replace(/[^a-z0-9]/g, '')).filter(Boolean);
   const primaryTag = tagWords[0] || 'creator';
+  const targetPlatform = platform && platform !== 'all' ? platform : 'YouTube';
 
   let detectedToolId = toolId;
   if (!detectedToolId) {
@@ -520,11 +521,11 @@ function generateDynamicCreatorResponse(promptText: string, customTopic?: string
     return `1. The ${coreSubject} Secret Nobody Talks About (Until Now)
 2. I Tried ${coreSubject} for 30 Days — Here's What Actually Happened
 3. Why 90% of Beginners Fail at ${coreSubject} (And How to Win)
-4. How to Master ${coreSubject} in 2026 (Step-by-Step Guide)
+4. How to Master ${coreSubject} in 2026 (Step-by-Step ${targetPlatform} Guide)
 5. ${coreSubject} Tutorial for Complete Beginners: Zero to Pro
 6. The Ultimate Blueprint for ${coreSubject} (Easy Walkthrough)
 7. Top 5 ${coreSubject} Mistakes You Must Stop Making Today
-8. 7 Proven Rules for ${coreSubject} That Guarantee Growth
+8. 7 Proven Rules for ${coreSubject} That Guarantee Growth on ${targetPlatform}
 9. ${coreSubject} Explained in 10 Minutes
 10. The Only ${coreSubject} Guide You'll Ever Need (2026 Edition)`;
   }
@@ -611,14 +612,31 @@ function generateDynamicCreatorResponse(promptText: string, customTopic?: string
   }
 
   if (detectedToolId === 'youtube-seo-pack' || detectedToolId === 'ai-auto-youtube-pack') {
-    return `Title:
-The Complete ${coreSubject} Masterclass: Step-by-Step Guide for 2026
+    return `### Title Options:
+1. The Complete ${coreSubject} Masterclass: Step-by-Step Guide for 2026
+2. How to Master ${coreSubject} (From Zero to Pro Tutorial)
+3. ${coreSubject} Explained: 7 Proven Strategies That Actually Work
 
-Description:
+### Description:
 In this video, we break down everything you need to know about ${coreSubject}. From beginner foundations to high-impact growth strategies, this comprehensive walkthrough shows you exact step-by-step techniques to optimize your results, avoid common mistakes, and maximize your reach in 2026.
 
-Tags:
-${cleanInput.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, how to do ${primaryTag}, best ${primaryTag} 2026, ${primaryTag} tips, ${primaryTag} walkthrough, beginner ${primaryTag}, ${primaryTag} strategy, step by step ${primaryTag}, ${primaryTag} mistakes, ${primaryTag} course, ${primaryTag} masterclass, ${primaryTag} roadmap, ${primaryTag} blueprint, ${primaryTag} optimization, ${primaryTag} for beginners, ${primaryTag} tools, learn ${primaryTag}, ${primaryTag} ideas, ${primaryTag} workflow`;
+⏱️ Timestamps:
+00:00 - Introduction & Overview
+01:30 - Key Foundations & Core Concepts
+04:15 - Step-by-Step Implementation Walkthrough
+07:45 - Common Mistakes & How to Avoid Them
+10:20 - Advanced Tips & Key Takeaways
+
+🔗 Connect & Explore:
+• Multi Tube Views Workspace: https://multitubeviews.com/
+
+### Tags:
+${cleanInput.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, how to do ${primaryTag}, best ${primaryTag} 2026, ${primaryTag} tips, ${primaryTag} walkthrough, beginner ${primaryTag}, ${primaryTag} strategy, step by step ${primaryTag}, ${primaryTag} mistakes, ${primaryTag} course, ${primaryTag} masterclass, ${primaryTag} roadmap, ${primaryTag} blueprint, ${primaryTag} optimization, ${primaryTag} for beginners, ${primaryTag} tools, learn ${primaryTag}, ${primaryTag} ideas, ${primaryTag} workflow
+
+### Thumbnail Text Concepts:
+1. "MASTER THIS FAST"
+2. "DON'T SKIP THIS!"
+3. "ZERO TO PRO (2026)"`;
   }
 
   if (detectedToolId === 'grammar-polish') {
@@ -652,8 +670,11 @@ ${cleanInput.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, how to
       return "Hello, welcome to my technology channel.";
     } else if (lowerText.includes('bonjour') || lowerText.includes('bienvenue')) {
       return "Hello, welcome to my technology channel.";
+    } else if (language && language.toLowerCase().includes('hindi')) {
+      return "नमस्ते, यह एक व्यापक गाइड है जो आपको चरण दर चरण सब कुछ सिखाती है।";
+    } else if (language && language.toLowerCase().includes('spanish')) {
+      return "Hola y bienvenidos a esta guía completa.";
     } else if (/[a-zA-Z]/.test(textToTranslate) && !/[\u0900-\u097F]/.test(textToTranslate)) {
-      // English to natural Hindi
       return "नमस्ते, यह एक व्यापक गाइड है जो आपको चरण दर चरण सब कुछ सिखाती है।";
     } else if (textToTranslate.trim().length > 0) {
       return "Hello and welcome! Today, we are exploring " + textToTranslate.trim() + " in this comprehensive new guide.";
@@ -663,20 +684,23 @@ ${cleanInput.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, how to
   }
 
   // Default AI Auto output
-  return `Title:
+  return `### Title:
 The Complete ${coreSubject} Guide for 2026: Fast Results & Proven Strategies
 
-Short Description:
+### Short Description:
 Master ${coreSubject} with this step-by-step creator guide designed to help you optimize content, reach target audiences, and accelerate overall growth effortlessly.
 
-Tags:
-${coreSubject.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, ${primaryTag} tips, how to do ${primaryTag}, best ${primaryTag} 2026, ${primaryTag} strategy, beginner ${primaryTag}`;
+### Tags:
+${coreSubject.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, ${primaryTag} tips, how to do ${primaryTag}, best ${primaryTag} 2026, ${primaryTag} strategy, beginner ${primaryTag}
+
+### Hashtags:
+#${primaryTag} #${primaryTag}tips #${primaryTag}guide #creator #seo #growth`;
 }
 
 // 2c. Dedicated AI Proxy API Endpoint for MTV Creator Tools
 app.post('/api/ai-proxy', async (req: Request, res: Response) => {
   try {
-    const { task = 'default', prompt } = req.body || {};
+    const { task = 'default', prompt, platform, language, tone } = req.body || {};
 
     if (!prompt || typeof prompt !== 'string' || !prompt.trim()) {
       res.status(400).json({ error: 'Prompt is required' });
@@ -684,9 +708,20 @@ app.post('/api/ai-proxy', async (req: Request, res: Response) => {
     }
 
     const trimmedPrompt = prompt.trim();
-    const instruction = creatorToolSystemInstructions[task] || creatorToolSystemInstructions.default;
+    const baseInstruction = creatorToolSystemInstructions[task] || creatorToolSystemInstructions.default;
 
-    const cacheKey = `aiproxy_${task}_${trimmedPrompt.slice(0, 150)}`;
+    let contextualPrompt = trimmedPrompt;
+    if (platform && platform !== 'all') {
+      contextualPrompt = `[Target Platform: ${platform}]\n${contextualPrompt}`;
+    }
+    if (language && language !== 'auto') {
+      contextualPrompt = `[Target Language: ${language}]\n${contextualPrompt}`;
+    }
+    if (tone && tone !== 'default') {
+      contextualPrompt = `[Tone / Style: ${tone}]\n${contextualPrompt}`;
+    }
+
+    const cacheKey = `aiproxy_${task}_${contextualPrompt.slice(0, 150)}`;
     const cachedResult = getCached<string>(cacheKey);
     if (cachedResult) {
       res.json({ result: cachedResult });
@@ -701,9 +736,9 @@ app.post('/api/ai-proxy', async (req: Request, res: Response) => {
           const aiRes = await retryWithBackoff(async () => {
             return await gemini.models.generateContent({
               model: m,
-              contents: trimmedPrompt,
+              contents: contextualPrompt,
               config: {
-                systemInstruction: instruction,
+                systemInstruction: baseInstruction,
                 temperature: 0.7
               }
             });
@@ -725,7 +760,7 @@ app.post('/api/ai-proxy', async (req: Request, res: Response) => {
     }
 
     // High quality fallback generator if API key is not yet set or during quota cooldown
-    const fallbackText = generateDynamicCreatorResponse(trimmedPrompt, trimmedPrompt, task);
+    const fallbackText = generateDynamicCreatorResponse(trimmedPrompt, trimmedPrompt, task, platform, language, tone);
     res.json({ result: fallbackText });
   } catch (err: any) {
     console.error('API /api/ai-proxy error:', err);

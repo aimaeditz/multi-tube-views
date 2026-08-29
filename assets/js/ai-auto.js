@@ -16,10 +16,10 @@
       this.lastResponseText = '';
       this.lastPrompt = '';
       this.availableModels = [
-        { id: 'gemini-3.7-flash', name: 'Gemini 3.7 Flash', badge: 'Recommended' },
-        { id: 'gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro', badge: 'Pro' },
-        { id: 'gemini-3.1-flash-lite', name: 'Gemini 3.1 Flash Lite', badge: 'Lite' },
-        { id: 'gemini-flash-latest', name: 'Gemini Flash Latest', badge: 'Latest' }
+        { id: 'gemini-3.7-flash', name: 'Standard (Fast)', badge: 'Recommended' },
+        { id: 'gemini-3.1-pro-preview', name: 'Pro Intelligence', badge: 'Pro' },
+        { id: 'gemini-3.1-flash-lite', name: 'Compact & Light', badge: 'Lite' },
+        { id: 'gemini-flash-latest', name: 'Latest Optimization', badge: 'Latest' }
       ];
 
       this.presetPrompts = {
@@ -286,7 +286,7 @@
 
       // UI State -> Loading
       this.setUiState('loading');
-      this.updateLoadingStatus('Connecting to MTV Gemini server...');
+      this.updateLoadingStatus('Connecting to MTV AI server...');
 
       const mode = this.dom.modeSelect ? this.dom.modeSelect.value : 'general';
       let systemInstruction = 'You are an expert AI SEO, metadata, and creator content strategist for Multi Tube Views. Provide comprehensive, structured, high-CTR, and actionable responses using clean Markdown.';
@@ -297,7 +297,7 @@
       }
 
       try {
-        this.updateLoadingStatus('Processing with Gemini 3.7 Flash...');
+        this.updateLoadingStatus('Generating creator content...');
         
         const endpoint = `${this.apiBase}/api/chat`;
         const res = await fetch(endpoint, {
@@ -398,7 +398,7 @@
       }
 
       if (this.dom.resultModelBadge) {
-        this.dom.resultModelBadge.textContent = modelName || 'Gemini 3.7 Flash';
+        this.dom.resultModelBadge.textContent = 'AI Engine';
       }
 
       if (this.dom.resultTimeBadge) {
