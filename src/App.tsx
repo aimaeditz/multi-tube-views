@@ -284,7 +284,7 @@ export default function App() {
                   AI Studio
                 </span>
               </div>
-              <p className="text-xs text-slate-500">Frontend → MTV Express Backend → Gemini 3.7 Flash API</p>
+              <p className="text-xs text-slate-500">Frontend <span className="arrow-nudge inline-block">→</span> MTV Express Backend <span className="arrow-nudge inline-block">→</span> Gemini 3.7 Flash API</p>
             </div>
           </div>
 
@@ -297,7 +297,7 @@ export default function App() {
               href="/index.html" 
               className="text-xs font-medium text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 transition"
             >
-              Classic HTML Workspace ↗
+              Classic HTML Workspace <span className="arrow-nudge-up-right inline-block">↗</span>
             </a>
           </div>
         </div>

@@ -1733,7 +1733,7 @@ textarea.form-control {
   box-shadow: var(--shadow-md);
 }
 
-/* Keyframes & Animation for Continuous Explore Button Arrow Icon Movement */
+/* Keyframes & Animation for Continuous Explore Button & Arrow Icon Movement */
 @keyframes exploreArrowNudge {
   0%, 100% {
     transform: translateX(0);
@@ -1743,18 +1743,56 @@ textarea.form-control {
   }
 }
 
+@keyframes arrowNudgeLeft {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-3.5px);
+  }
+}
+
+@keyframes arrowNudgeDiag {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2.5px, -2.5px);
+  }
+}
+
 .ai-prompt-entry-card .btn svg,
 .btn-explore-arrow,
-.btn-arrow-nudge {
+.btn-arrow-nudge,
+.arrow-nudge,
+.arrow-nudge-right {
   display: inline-block;
   will-change: transform;
   animation: exploreArrowNudge 1.4s ease-in-out infinite;
 }
 
+.arrow-nudge-left {
+  display: inline-block;
+  will-change: transform;
+  animation: arrowNudgeLeft 1.4s ease-in-out infinite;
+}
+
+.arrow-nudge-up-right,
+.arrow-nudge-diag {
+  display: inline-block;
+  will-change: transform;
+  animation: arrowNudgeDiag 1.4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ai-prompt-entry-card .btn svg,
   .btn-explore-arrow,
-  .btn-arrow-nudge {
+  .btn-arrow-nudge,
+  .arrow-nudge,
+  .arrow-nudge-right,
+  .arrow-nudge-left,
+  .arrow-nudge-up-right,
+  .arrow-nudge-diag {
     animation: none !important;
   }
 }
