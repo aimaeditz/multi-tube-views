@@ -132,7 +132,7 @@
   }
 }
 
-/* Cards Smooth Hover & Tap System */
+/* Cards Smooth Hover & Tap System (Hardware-accelerated, 180ms transitions) */
 .card,
 .platform-card,
 .platform-preview-item,
@@ -154,11 +154,10 @@
 .doc-card,
 .workspace-card,
 .stat-card {
-  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 260ms ease, 
-              background-color 260ms ease;
-  will-change: transform, box-shadow;
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 180ms ease, 
+              background-color 180ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -182,8 +181,8 @@
   .doc-card:hover,
   .workspace-card:hover,
   .stat-card:hover {
-    transform: translateY(-3.5px);
-    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2.5px);
+    box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.07), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
     border-color: var(--border-strong);
   }
 
@@ -207,14 +206,14 @@
   [data-theme="dark"] .doc-card:hover,
   [data-theme="dark"] .workspace-card:hover,
   [data-theme="dark"] .stat-card:hover {
-    box-shadow: 0 14px 32px -6px rgba(0, 0, 0, 0.5), 0 4px 12px -2px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.45), 0 3px 10px -2px rgba(0, 0, 0, 0.25);
+    border-color: rgba(255, 255, 255, 0.16);
   }
 
   .platform-preview-item:hover .platform-preview-icon,
   .platform-card:hover .platform-card-icon,
   .creator-tools-card:hover .creator-tool-icon {
-    transform: scale(1.18);
+    transform: scale(1.12);
   }
 }
 
@@ -270,17 +269,17 @@
   box-shadow: 0 4px 14px -1px rgba(41, 151, 255, 0.22), 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
-/* Lightweight Scroll Reveal System */
+/* Lightweight Scroll Reveal System (Hardware-accelerated) */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transform: translateY(16px);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .scroll-reveal.is-revealed {
   opacity: 1;
   transform: translateY(0);
+  will-change: auto;
 }
 
 /* Staggered Entrance Delays for Lists and Grids */

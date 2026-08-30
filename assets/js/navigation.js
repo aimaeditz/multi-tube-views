@@ -265,38 +265,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Scroll Reveal Observer (Lightweight, non-blocking section entry animation)
+  // Scroll Reveal Observer (Hardware-accelerated, lightweight, single-trigger)
   const initScrollReveal = () => {
+    // Target primary section blocks and explicit reveal targets
     const selector = [
       'section',
-      '.section',
       '.site-section',
       '.hero-section',
-      '.card',
-      '.platform-card',
-      '.platform-preview-item',
-      '.ai-prompt-entry-card',
-      '.creator-tools-card',
-      '.image-tool-card',
-      '.prompt-card',
-      '.feature-card',
-      '.article-card',
-      '.info-callout',
-      '.faq-item',
-      '.audit-card',
-      '.creator-profile-card',
-      '.setting-card',
-      '.step-card',
-      '.how-it-works-step',
-      '.step-block',
-      '.legal-card',
-      '.doc-card',
-      '.workspace-card',
-      '.footer-grid',
+      '.growth-hero-section',
+      '.creator-tools-header',
       '.page-header',
       '.reading-header',
       '.platform-page-header',
       '.prompt-header-section',
+      '.footer-grid',
       '.scroll-reveal'
     ].join(', ');
 
@@ -318,13 +300,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, {
       root: null,
-      rootMargin: '0px 0px -30px 0px',
-      threshold: 0.04
+      rootMargin: '0px 0px -20px 0px',
+      threshold: 0.05
     });
+
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
     elements.forEach(el => {
       const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
+      // If already in or above initial viewport, reveal immediately without observing
+      if (rect.top <= windowHeight) {
         el.classList.add('is-revealed');
       } else {
         el.classList.add('scroll-reveal');

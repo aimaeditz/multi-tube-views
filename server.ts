@@ -387,44 +387,225 @@ app.get('/api/architecture', (req: Request, res: Response) => {
   });
 });
 
+// Helper to parse Blogger JSON feed into clean prompts array
+function parseBloggerFeed(feedData: any) {
+  const entries = feedData?.feed?.entry || [];
+  const prompts: any[] = [];
+
+  for (let i = 0; i < entries.length; i++) {
+    const entry = entries[i];
+    const postTitle = (entry.title?.$t || '').trim();
+    const postId = (entry.id?.$t || '').trim();
+    const published = entry.published?.$t || new Date().toISOString();
+    const categories = (entry.category || [])
+      .map((c: any) => c.term || c.$t)
+      .filter(Boolean);
+    const primaryCategory = categories[0] || 'AI Prompt';
+
+    const altLink = (entry.link || []).find((l: any) => l.rel === 'alternate');
+    const sourceUrl = altLink?.href || '';
+
+    const defaultThumb =
+      entry.media$thumbnail?.url?.replace(/\/s(?:72-c|320|400)\//, '/s800/') || '';
+    const content = entry.content?.$t || entry.summary?.$t || '';
+
+    // Collect all post images
+    const imgRegex = /<img[^>]+src=["']([^"']+)["']/gi;
+    const postImages: string[] = [];
+    let imgM;
+    while ((imgM = imgRegex.exec(content)) !== null) {
+      const src = imgM[1];
+      if (
+        !src.includes('favicon') &&
+        !src.includes('b16-rounded.gif') &&
+        !src.includes('clear.gif')
+      ) {
+        postImages.push(src.replace(/\/s(?:72-c|320|400)\//, '/s800/'));
+      }
+    }
+
+    const extractedInPost: any[] = [];
+
+    // Match prompt-text blocks
+    const ptRegex = /<div class=["']prompt-text["'][^>]*>([\s\S]*?)<\/div>/gi;
+    let ptM;
+    let itemIdx = 1;
+    while ((ptM = ptRegex.exec(content)) !== null) {
+      let rawText = ptM[1].replace(/<[^>]+>/g, '').trim();
+      rawText = rawText.replace(/^PROMPT:\s*/i, '').trim();
+      if (rawText.length > 20) {
+        extractedInPost.push({
+          text: rawText,
+          image: postImages[itemIdx - 1] || defaultThumb || postImages[0] || '',
+          itemIdx: itemIdx++,
+        });
+      }
+    }
+
+    if (extractedInPost.length === 0) {
+      const fallbackRegex = /PROMPT:\s*([^<]+)/gi;
+      let fbM;
+      while ((fbM = fallbackRegex.exec(content)) !== null) {
+        const text = fbM[1].trim();
+        if (text.length > 20) {
+          extractedInPost.push({
+            text,
+            image: postImages[0] || defaultThumb,
+            itemIdx: 1,
+          });
+        }
+      }
+    }
+
+    const cleanTitle = postTitle.replace(/\s*\[Code\s*#\d+\]\s*/i, '').trim();
+
+    if (extractedInPost.length > 0) {
+      extractedInPost.forEach((item) => {
+        const itemTitle =
+          extractedInPost.length > 1
+            ? `${cleanTitle} (Style ${item.itemIdx})`
+            : cleanTitle;
+        prompts.push({
+          id: `prompt_${postId.replace(/[^a-zA-Z0-9]/g, '_')}_${item.itemIdx}`,
+          postId,
+          title: itemTitle,
+          originalPostTitle: postTitle,
+          image: item.image || defaultThumb,
+          imageUrl: item.image || defaultThumb,
+          promptText: item.text,
+          category: primaryCategory,
+          categories: categories.length > 0 ? categories : [primaryCategory],
+          originalLink: sourceUrl,
+          sourceUrl,
+          published,
+          pubDate: published,
+          itemIndex: item.itemIdx,
+        });
+      });
+    } else {
+      const cleanContent = content
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      prompts.push({
+        id: `prompt_${postId.replace(/[^a-zA-Z0-9]/g, '_')}_1`,
+        postId,
+        title: cleanTitle || postTitle,
+        originalPostTitle: postTitle,
+        image: defaultThumb || postImages[0] || '',
+        imageUrl: defaultThumb || postImages[0] || '',
+        promptText: cleanContent.slice(0, 500),
+        category: primaryCategory,
+        categories: categories.length > 0 ? categories : [primaryCategory],
+        originalLink: sourceUrl,
+        sourceUrl,
+        published,
+        pubDate: published,
+        itemIndex: 1,
+      });
+    }
+  }
+
+  return prompts;
+}
+
+// Fetch live Blogger feed with cache and disk fallback
+async function getLiveOrCachedPrompts(): Promise<any[]> {
+  const cacheKey = 'blogger_feed_all_prompts';
+  const cached = getCached<any[]>(cacheKey);
+  if (cached && Array.isArray(cached) && cached.length > 0) {
+    return cached;
+  }
+
+  try {
+    const feedUrl = `https://aipromptxpert.blogspot.com/feeds/posts/default?alt=json&max-results=500&orderby=published&_t=${Date.now()}`;
+    const response = await fetch(feedUrl, {
+      cache: 'no-store',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; MultiTubeViews/2.0; +https://multitubeviews.com)',
+        'Accept': 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const parsed = parseBloggerFeed(data);
+      if (parsed.length > 0) {
+        setCache(cacheKey, parsed, 60); // 60-second in-memory cache
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.warn('[Blogger Feed Fetch] Live fetch failed, using fallback:', err);
+  }
+
+  // Fallback to local files
+  const candidatePaths = [
+    path.join(process.cwd(), 'assets', 'data', 'ai-prompts.json'),
+    path.join(process.cwd(), 'public', 'assets', 'data', 'ai-prompts.json'),
+  ];
+
+  for (const p of candidatePaths) {
+    if (fs.existsSync(p)) {
+      try {
+        const raw = fs.readFileSync(p, 'utf-8');
+        const fileData = parseJsonWithSanitization(raw);
+        if (fileData && Array.isArray(fileData.prompts)) {
+          const formatted = fileData.prompts.map((p: any) => ({
+            id: p.id || '',
+            title: p.title || p.originalPostTitle || '',
+            originalPostTitle: p.originalPostTitle || p.title || '',
+            image: p.imageUrl || p.image || '',
+            imageUrl: p.imageUrl || p.image || '',
+            promptText: p.promptText || '',
+            categories:
+              Array.isArray(p.categories) && p.categories.length > 0
+                ? p.categories
+                : p.category
+                ? [p.category]
+                : ['AI Prompt'],
+            category: (Array.isArray(p.categories) && p.categories[0]) || p.category || 'AI Prompt',
+            originalLink: p.sourceUrl || p.originalLink || '',
+            sourceUrl: p.sourceUrl || p.originalLink || '',
+            published: p.pubDate ? new Date(p.pubDate).toISOString() : new Date().toISOString(),
+            pubDate: p.pubDate || new Date().toISOString(),
+          }));
+          return formatted;
+        }
+      } catch (e) {
+        console.error('Error reading fallback prompt file:', e);
+      }
+    }
+  }
+
+  return [];
+}
+
 // 2. AI Prompts Library API Endpoint
-app.get('/api/ai-prompts', (req: Request, res: Response) => {
+app.get('/api/ai-prompts', async (req: Request, res: Response) => {
+  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120, max-age=60');
   try {
     const categoryParam = req.query.category ? String(req.query.category).toLowerCase().trim() : '';
     const searchParam = req.query.search ? String(req.query.search).toLowerCase().trim() : '';
     const page = parseInt(String(req.query.page || '1'), 10) || 1;
     const limit = parseInt(String(req.query.limit || '1000'), 10) || 1000;
 
-    const cacheKey = `prompts_${categoryParam}_${searchParam}_${page}_${limit}`;
-    const cachedData = getCached<any>(cacheKey);
-    if (cachedData) {
-      res.json(cachedData);
-      return;
-    }
+    const allPrompts = await getLiveOrCachedPrompts();
 
-    const candidatePaths = [
-      path.join(process.cwd(), 'assets', 'data', 'ai-prompts.json'),
-      path.join(process.cwd(), 'public', 'assets', 'data', 'ai-prompts.json'),
-    ];
-
-    let fileData: any = null;
-    for (const p of candidatePaths) {
-      if (fs.existsSync(p)) {
-        const raw = fs.readFileSync(p, 'utf-8');
-        fileData = parseJsonWithSanitization(raw);
-        break;
-      }
-    }
-
-    if (!fileData || !Array.isArray(fileData.prompts)) {
-      res.status(404).json({
-        success: false,
-        error: 'AI prompt dataset not found on server.',
+    if (!allPrompts || allPrompts.length === 0) {
+      res.status(200).json({
+        success: true,
+        total: 0,
+        page: 1,
+        limit,
+        categories: [],
+        prompts: [],
+        syncedAt: new Date().toISOString(),
       });
       return;
     }
 
-    let filtered = fileData.prompts;
+    let filtered = allPrompts;
 
     if (categoryParam && categoryParam !== 'all') {
       filtered = filtered.filter((p: any) => {
@@ -447,17 +628,26 @@ app.get('/api/ai-prompts', (req: Request, res: Response) => {
     const startIndex = (page - 1) * limit;
     const paginatedPrompts = filtered.slice(startIndex, startIndex + limit);
 
+    // Extract unique categories
+    const categoryMap = new Map<string, number>();
+    allPrompts.forEach((p: any) => {
+      const cats = Array.isArray(p.categories) ? p.categories : [p.category || 'AI Prompt'];
+      cats.forEach((c: string) => {
+        if (c) categoryMap.set(c, (categoryMap.get(c) || 0) + 1);
+      });
+    });
+    const categories = Array.from(categoryMap.keys());
+
     const responseObj = {
       success: true,
       total,
       page,
       limit,
-      categories: fileData.categories || [],
+      categories,
       prompts: paginatedPrompts,
-      syncedAt: fileData.syncedAt || new Date().toISOString(),
+      syncedAt: new Date().toISOString(),
     };
 
-    setCache(cacheKey, responseObj, 600);
     res.json(responseObj);
   } catch (err: any) {
     console.error('API /api/ai-prompts error:', err);
@@ -469,43 +659,12 @@ app.get('/api/ai-prompts', (req: Request, res: Response) => {
   }
 });
 
-// 2a. Prompt Feed Endpoint
-app.get(['/api/prompt-feed', '/api/prompt-feed.js'], (req: Request, res: Response) => {
+// 2a. Prompt Feed Endpoint (matching Vercel serverless /api/prompt-feed)
+app.get(['/api/prompt-feed', '/api/prompt-feed.js'], async (req: Request, res: Response) => {
+  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120, max-age=60');
   try {
-    const candidatePaths = [
-      path.join(process.cwd(), 'assets', 'data', 'ai-prompts.json'),
-      path.join(process.cwd(), 'public', 'assets', 'data', 'ai-prompts.json'),
-    ];
-
-    let fileData: any = null;
-    for (const p of candidatePaths) {
-      if (fs.existsSync(p)) {
-        const raw = fs.readFileSync(p, 'utf-8');
-        fileData = parseJsonWithSanitization(raw);
-        break;
-      }
-    }
-
-    if (!fileData || !Array.isArray(fileData.prompts)) {
-      res.json({ prompts: [] });
-      return;
-    }
-
-    const formattedPrompts = fileData.prompts.map((p: any) => ({
-      title: p.title || p.originalPostTitle || '',
-      image: p.imageUrl || p.image || '',
-      promptText: p.promptText || '',
-      categories:
-        Array.isArray(p.categories) && p.categories.length > 0
-          ? p.categories
-          : p.category
-          ? [p.category]
-          : ['AI Prompt'],
-      originalLink: p.sourceUrl || p.originalLink || '',
-      published: p.pubDate ? new Date(p.pubDate).toISOString() : new Date().toISOString(),
-    }));
-
-    res.json({ prompts: formattedPrompts });
+    const allPrompts = await getLiveOrCachedPrompts();
+    res.json({ prompts: allPrompts });
   } catch (err: any) {
     console.error('API /api/prompt-feed error:', err);
     res.status(500).json({ error: 'Could not load prompts right now', prompts: [] });

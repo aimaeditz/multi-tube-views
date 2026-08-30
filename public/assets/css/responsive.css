@@ -414,6 +414,29 @@
     gap: 0.35rem !important;
   }
 
+  /* Mobile Performance & Blur Optimizations */
+  .hero-section::before,
+  .prompt-header-section::before,
+  .growth-hero-section::before,
+  .creator-tools-header::before,
+  .platform-page-header::before,
+  .page-header::before,
+  .reading-header::before {
+    filter: none !important;
+    background: radial-gradient(ellipse at center, rgba(0, 102, 204, 0.06) 0%, transparent 70%) !important;
+    height: 180px !important;
+  }
+
+  [data-theme="dark"] .hero-section::before,
+  [data-theme="dark"] .prompt-header-section::before,
+  [data-theme="dark"] .growth-hero-section::before,
+  [data-theme="dark"] .creator-tools-header::before,
+  [data-theme="dark"] .platform-page-header::before,
+  [data-theme="dark"] .page-header::before,
+  [data-theme="dark"] .reading-header::before {
+    background: radial-gradient(ellipse at center, rgba(41, 151, 255, 0.09) 0%, transparent 70%) !important;
+  }
+
   /* 2. Base Typography & Headings Scale on Mobile */
   h1, .hero-title, .contact-title {
     font-size: 1.25rem !important;

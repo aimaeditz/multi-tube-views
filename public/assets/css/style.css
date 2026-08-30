@@ -433,7 +433,7 @@ input, select, textarea, button {
   border-color: var(--border-strong);
 }
 
-/* Footer — Minimalist Elegance */
+/* Footer — Minimalist Elegance & Hover Lift System */
 .site-footer {
   margin-top: auto;
   background-color: var(--bg-surface);
@@ -447,6 +447,18 @@ input, select, textarea, button {
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 3rem;
   margin-bottom: 2.5rem;
+}
+
+.footer-brand-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  border-radius: var(--radius-md);
+}
+
+.footer-brand-link h3 {
+  margin-bottom: 0;
 }
 
 .footer-brand h3 {
@@ -484,13 +496,6 @@ input, select, textarea, button {
 .footer-links a {
   font-size: 0.88rem;
   color: var(--text-secondary);
-  display: inline-block;
-  transition: color 220ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.footer-links a:hover {
-  color: var(--text-primary);
-  transform: translateX(3.5px);
 }
 
 .footer-bottom {
@@ -530,60 +535,6 @@ input, select, textarea, button {
   color: var(--text-muted);
   text-decoration: underline;
   text-underline-offset: 2px;
-  display: inline-block;
-  transition: color 220ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.creator-link:hover {
-  color: var(--accent-blue);
-  transform: translateY(-1px);
-}
-
-/* Creator Profile Card (Credits & About pages) */
-.creator-profile-card {
-  margin-top: 3rem;
-  padding: 1.5rem;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  box-shadow: var(--shadow-sm);
-  transition: border-color var(--transition-speed) ease;
-}
-
-.creator-profile-header {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.creator-profile-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  background-color: var(--accent-subtle);
-  color: var(--accent-primary);
-  border-radius: var(--radius-sm);
-  font-weight: 700;
-  font-size: 0.8rem;
-}
-
-.creator-profile-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.creator-profile-desc {
-  font-size: 0.92rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin: 0;
 }
 
 .footer-bottom-links {
@@ -593,13 +544,51 @@ input, select, textarea, button {
 
 .footer-bottom-links a {
   color: var(--text-muted);
-  display: inline-block;
-  transition: color 220ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-bottom-links a:hover {
-  color: var(--text-primary);
-  transform: translateY(-1.5px);
+/* Universal Footer Clickable Item Hover-Lift & Soft Shadow System */
+.site-footer a,
+.site-footer button,
+.footer-links a,
+.footer-bottom-links a,
+.creator-link,
+.footer-brand-link {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  padding: 0.25rem 0.6rem;
+  margin: -0.25rem -0.6rem;
+  border-radius: var(--radius-sm, 8px);
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1),
+              color 200ms ease,
+              background-color 200ms ease,
+              border-color 200ms ease;
+  will-change: transform, box-shadow;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-footer a:hover,
+  .site-footer button:hover,
+  .footer-links a:hover,
+  .footer-bottom-links a:hover,
+  .creator-link:hover,
+  .footer-brand-link:hover {
+    transform: translateY(-2.5px);
+    color: var(--text-primary);
+    background-color: var(--bg-surface);
+    box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.08), 0 2px 6px -2px rgba(0, 0, 0, 0.04);
+  }
+
+  [data-theme="dark"] .site-footer a:hover,
+  [data-theme="dark"] .site-footer button:hover,
+  [data-theme="dark"] .footer-links a:hover,
+  [data-theme="dark"] .footer-bottom-links a:hover,
+  [data-theme="dark"] .creator-link:hover,
+  [data-theme="dark"] .footer-brand-link:hover {
+    background-color: var(--bg-surface-elevated);
+    box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.5), 0 2px 8px -2px rgba(0, 0, 0, 0.3);
+  }
 }
 
 /* ==========================================================================

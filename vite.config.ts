@@ -30,6 +30,24 @@ export default defineConfig(() => {
             fs.cpSync(srcAssets, distAssets, { recursive: true, force: true });
             fs.cpSync(srcAssets, publicAssets, { recursive: true, force: true });
           }
+
+          // Ensure root favicon and icon files are copied to dist/ and public/
+          const rootFiles = ['favicon.ico', 'favicon-192.png', 'favicon-512.png', 'manifest.json', 'robots.txt', 'sitemap.xml', 'sw.js', 'CNAME', '.nojekyll'];
+          for (const file of rootFiles) {
+            const src = path.resolve(__dirname, file);
+            const distDest = path.resolve(__dirname, 'dist', file);
+            const pubDest = path.resolve(__dirname, 'public', file);
+            if (fs.existsSync(src)) {
+              if (!fs.existsSync(path.dirname(distDest))) {
+                fs.mkdirSync(path.dirname(distDest), { recursive: true });
+              }
+              fs.copyFileSync(src, distDest);
+              if (!fs.existsSync(path.dirname(pubDest))) {
+                fs.mkdirSync(path.dirname(pubDest), { recursive: true });
+              }
+              fs.copyFileSync(src, pubDest);
+            }
+          }
         }
       }
     ],

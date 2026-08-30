@@ -134,7 +134,8 @@
   function loadPromptLibrary() {
     showLoading(true);
 
-    fetch('/api/prompt-feed')
+    const feedUrl = `/api/prompt-feed?_t=${Date.now()}`;
+    fetch(feedUrl, { cache: 'no-cache' })
       .then((r) => {
         if (!r.ok) {
           throw new Error('Network response was not ok');
@@ -167,9 +168,24 @@
         }
       })
       .catch((err) => {
-        console.error('Failed to load prompts from /api/prompt-feed:', err);
-        showLoading(false);
-        showEmptyState('Could not load prompts right now');
+        console.error('Failed to load prompts from /api/prompt-feed, trying fallback:', err);
+        fetch('/api/ai-prompts?limit=1000')
+          .then((r) => r.json())
+          .then((fbData) => {
+            showLoading(false);
+            if (fbData && Array.isArray(fbData.prompts) && fbData.prompts.length > 0) {
+              allPrompts = fbData.prompts;
+              categories = buildUniqueCategories(allPrompts);
+              renderCategoryFilters();
+              renderLibrary();
+            } else {
+              showEmptyState('Could not load prompts right now');
+            }
+          })
+          .catch(() => {
+            showLoading(false);
+            showEmptyState('Could not load prompts right now');
+          });
       });
   }
 
