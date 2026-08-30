@@ -264,4 +264,74 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Scroll Reveal Observer (Lightweight, non-blocking section entry animation)
+  const initScrollReveal = () => {
+    const selector = [
+      'section',
+      '.section',
+      '.site-section',
+      '.hero-section',
+      '.card',
+      '.platform-card',
+      '.platform-preview-item',
+      '.ai-prompt-entry-card',
+      '.creator-tools-card',
+      '.image-tool-card',
+      '.prompt-card',
+      '.feature-card',
+      '.article-card',
+      '.info-callout',
+      '.faq-item',
+      '.audit-card',
+      '.creator-profile-card',
+      '.setting-card',
+      '.step-card',
+      '.how-it-works-step',
+      '.step-block',
+      '.legal-card',
+      '.doc-card',
+      '.workspace-card',
+      '.footer-grid',
+      '.page-header',
+      '.reading-header',
+      '.platform-page-header',
+      '.prompt-header-section',
+      '.scroll-reveal'
+    ].join(', ');
+
+    const elements = document.querySelectorAll(selector);
+
+    if (!elements.length) return;
+
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      elements.forEach(el => el.classList.add('is-revealed'));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '0px 0px -30px 0px',
+      threshold: 0.04
+    });
+
+    elements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('is-revealed');
+      } else {
+        el.classList.add('scroll-reveal');
+        observer.observe(el);
+      }
+    });
+  };
+
+  initScrollReveal();
 });

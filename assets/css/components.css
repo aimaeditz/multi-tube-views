@@ -146,7 +146,14 @@
 .creator-profile-card,
 .info-callout,
 .faq-item,
-.setting-card {
+.setting-card,
+.step-card,
+.how-it-works-step,
+.step-block,
+.legal-card,
+.doc-card,
+.workspace-card,
+.stat-card {
   transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), 
               box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1), 
               border-color 260ms ease, 
@@ -167,7 +174,14 @@
   .audit-card:hover,
   .creator-profile-card:hover,
   .info-callout:hover,
-  .setting-card:hover {
+  .setting-card:hover,
+  .step-card:hover,
+  .how-it-works-step:hover,
+  .step-block:hover,
+  .legal-card:hover,
+  .doc-card:hover,
+  .workspace-card:hover,
+  .stat-card:hover {
     transform: translateY(-3.5px);
     box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
     border-color: var(--border-strong);
@@ -185,9 +199,22 @@
   [data-theme="dark"] .audit-card:hover,
   [data-theme="dark"] .creator-profile-card:hover,
   [data-theme="dark"] .info-callout:hover,
-  [data-theme="dark"] .setting-card:hover {
+  [data-theme="dark"] .setting-card:hover,
+  [data-theme="dark"] .step-card:hover,
+  [data-theme="dark"] .how-it-works-step:hover,
+  [data-theme="dark"] .step-block:hover,
+  [data-theme="dark"] .legal-card:hover,
+  [data-theme="dark"] .doc-card:hover,
+  [data-theme="dark"] .workspace-card:hover,
+  [data-theme="dark"] .stat-card:hover {
     box-shadow: 0 14px 32px -6px rgba(0, 0, 0, 0.5), 0 4px 12px -2px rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  .platform-preview-item:hover .platform-preview-icon,
+  .platform-card:hover .platform-card-icon,
+  .creator-tools-card:hover .creator-tool-icon {
+    transform: scale(1.18);
   }
 }
 
@@ -203,7 +230,14 @@
 .audit-card:active,
 .creator-profile-card:active,
 .info-callout:active,
-.setting-card:active {
+.setting-card:active,
+.step-card:active,
+.how-it-works-step:active,
+.step-block:active,
+.legal-card:active,
+.doc-card:active,
+.workspace-card:active,
+.stat-card:active {
   transform: scale(0.985) translateY(0);
   transition: transform 120ms ease;
 }
@@ -239,8 +273,8 @@
 /* Lightweight Scroll Reveal System */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.52s cubic-bezier(0.16, 1, 0.3, 1), transform 0.52s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(22px);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
@@ -248,6 +282,22 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Staggered Entrance Delays for Lists and Grids */
+.platform-preview-grid > *:nth-child(1) { transition-delay: 0.03s; }
+.platform-preview-grid > *:nth-child(2) { transition-delay: 0.06s; }
+.platform-preview-grid > *:nth-child(3) { transition-delay: 0.09s; }
+.platform-preview-grid > *:nth-child(4) { transition-delay: 0.12s; }
+.platform-preview-grid > *:nth-child(5) { transition-delay: 0.15s; }
+.platform-preview-grid > *:nth-child(6) { transition-delay: 0.18s; }
+.platform-preview-grid > *:nth-child(7) { transition-delay: 0.21s; }
+.platform-preview-grid > *:nth-child(8) { transition-delay: 0.24s; }
+.platform-preview-grid > *:nth-child(9) { transition-delay: 0.27s; }
+.platform-preview-grid > *:nth-child(10) { transition-delay: 0.30s; }
+
+.how-it-works-step:nth-child(1), .step-card:nth-child(1) { transition-delay: 0.05s; }
+.how-it-works-step:nth-child(2), .step-card:nth-child(2) { transition-delay: 0.12s; }
+.how-it-works-step:nth-child(3), .step-card:nth-child(3) { transition-delay: 0.19s; }
 
 @media (prefers-reduced-motion: reduce) {
   .scroll-reveal {

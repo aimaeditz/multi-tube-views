@@ -141,20 +141,21 @@ body.drawer-open {
 /* Typography Hierarchy */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
-  font-weight: 700;
+  font-weight: 750;
   line-height: 1.2;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.028em;
 }
 
-h1 { font-size: clamp(1.5rem, 4vw, 2.75rem); font-weight: 700; }
-h2 { font-size: clamp(1.25rem, 3vw, 2rem); }
-h3 { font-size: clamp(1.05rem, 2.2vw, 1.4rem); font-weight: 600; }
-h4 { font-size: clamp(0.95rem, 1.8vw, 1.05rem); font-weight: 600; }
+h1 { font-size: clamp(1.6rem, 4.2vw, 2.85rem); font-weight: 800; }
+h2 { font-size: clamp(1.3rem, 3.2vw, 2.1rem); font-weight: 750; }
+h3 { font-size: clamp(1.08rem, 2.3vw, 1.45rem); font-weight: 700; }
+h4 { font-size: clamp(0.95rem, 1.8vw, 1.1rem); font-weight: 650; }
 
 p {
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  line-height: 1.62;
+  margin-bottom: 1.1rem;
+  font-weight: 400;
 }
 
 p:last-child {
@@ -222,6 +223,17 @@ input, select, textarea, button {
   height: 100%;
 }
 
+@keyframes brandLogoEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -231,11 +243,17 @@ input, select, textarea, button {
   color: var(--text-primary);
   text-decoration: none;
   letter-spacing: -0.02em;
+  transition: opacity var(--transition-speed) ease;
 }
 
 .brand:hover {
   color: var(--text-primary);
-  opacity: 0.9;
+  opacity: 0.95;
+}
+
+.brand:hover .brand-icon {
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.25);
 }
 
 .brand-icon {
@@ -250,6 +268,8 @@ input, select, textarea, button {
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: -0.03em;
+  animation: brandLogoEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) ease-out forwards;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1), background-color 260ms ease;
 }
 
 [data-theme="dark"] .brand-icon {
@@ -464,10 +484,13 @@ input, select, textarea, button {
 .footer-links a {
   font-size: 0.88rem;
   color: var(--text-secondary);
+  display: inline-block;
+  transition: color 220ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .footer-links a:hover {
   color: var(--text-primary);
+  transform: translateX(3.5px);
 }
 
 .footer-bottom {
@@ -507,11 +530,13 @@ input, select, textarea, button {
   color: var(--text-muted);
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: color var(--transition-speed) ease;
+  display: inline-block;
+  transition: color 220ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .creator-link:hover {
-  color: var(--accent-primary);
+  color: var(--accent-blue);
+  transform: translateY(-1px);
 }
 
 /* Creator Profile Card (Credits & About pages) */
@@ -568,10 +593,13 @@ input, select, textarea, button {
 
 .footer-bottom-links a {
   color: var(--text-muted);
+  display: inline-block;
+  transition: color 220ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .footer-bottom-links a:hover {
   color: var(--text-primary);
+  transform: translateY(-1.5px);
 }
 
 /* ==========================================================================

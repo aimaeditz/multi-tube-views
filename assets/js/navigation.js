@@ -267,12 +267,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Scroll Reveal Observer (Lightweight, non-blocking section entry animation)
   const initScrollReveal = () => {
-    const selector = '.hero-section, .ai-prompt-entry-card, .creator-tools-card, .image-tool-card, .platform-card, .feature-card, .article-card, .info-callout, .faq-item, .audit-card, .creator-profile-card, .setting-card, .platform-preview-item';
+    const selector = [
+      'section',
+      '.section',
+      '.site-section',
+      '.hero-section',
+      '.card',
+      '.platform-card',
+      '.platform-preview-item',
+      '.ai-prompt-entry-card',
+      '.creator-tools-card',
+      '.image-tool-card',
+      '.prompt-card',
+      '.feature-card',
+      '.article-card',
+      '.info-callout',
+      '.faq-item',
+      '.audit-card',
+      '.creator-profile-card',
+      '.setting-card',
+      '.step-card',
+      '.how-it-works-step',
+      '.step-block',
+      '.legal-card',
+      '.doc-card',
+      '.workspace-card',
+      '.footer-grid',
+      '.page-header',
+      '.reading-header',
+      '.platform-page-header',
+      '.prompt-header-section',
+      '.scroll-reveal'
+    ].join(', ');
+
     const elements = document.querySelectorAll(selector);
 
     if (!elements.length) return;
 
-    if (!('IntersectionObserver' in window)) {
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       elements.forEach(el => el.classList.add('is-revealed'));
       return;
     }
@@ -286,8 +318,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, {
       root: null,
-      rootMargin: '0px 0px -40px 0px',
-      threshold: 0.05
+      rootMargin: '0px 0px -30px 0px',
+      threshold: 0.04
     });
 
     elements.forEach(el => {
