@@ -264,4 +264,42 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Scroll Reveal Observer (Lightweight, non-blocking section entry animation)
+  const initScrollReveal = () => {
+    const selector = '.hero-section, .ai-prompt-entry-card, .creator-tools-card, .image-tool-card, .platform-card, .feature-card, .article-card, .info-callout, .faq-item, .audit-card, .creator-profile-card, .setting-card, .platform-preview-item';
+    const elements = document.querySelectorAll(selector);
+
+    if (!elements.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      elements.forEach(el => el.classList.add('is-revealed'));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '0px 0px -40px 0px',
+      threshold: 0.05
+    });
+
+    elements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('is-revealed');
+      } else {
+        el.classList.add('scroll-reveal');
+        observer.observe(el);
+      }
+    });
+  };
+
+  initScrollReveal();
 });
