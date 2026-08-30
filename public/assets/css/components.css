@@ -127,7 +127,7 @@
   border: 1px solid var(--border-strong);
   box-shadow: var(--shadow-sm);
   will-change: transform, translate;
-  animation: trustBadgeBob 3.6s ease-in-out infinite;
+  animation: trustBadgeBob 2.2s ease-in-out infinite;
   transition: translate 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease;
 }
 
@@ -136,15 +136,15 @@
 }
 
 .trust-badge:nth-child(2) {
-  animation-delay: 0.6s;
+  animation-delay: 0.35s;
 }
 
 .trust-badge:nth-child(3) {
-  animation-delay: 1.2s;
+  animation-delay: 0.7s;
 }
 
 .trust-badge:nth-child(4) {
-  animation-delay: 1.8s;
+  animation-delay: 1.05s;
 }
 
 .trust-badge svg {
@@ -1731,6 +1731,32 @@ textarea.form-control {
 .ai-prompt-entry-card:hover {
   border-color: var(--border-focus);
   box-shadow: var(--shadow-md);
+}
+
+/* Keyframes & Animation for Continuous Explore Button Arrow Icon Movement */
+@keyframes exploreArrowNudge {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3.5px);
+  }
+}
+
+.ai-prompt-entry-card .btn svg,
+.btn-explore-arrow,
+.btn-arrow-nudge {
+  display: inline-block;
+  will-change: transform;
+  animation: exploreArrowNudge 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-prompt-entry-card .btn svg,
+  .btn-explore-arrow,
+  .btn-arrow-nudge {
+    animation: none !important;
+  }
 }
 
 /* Platform Preview Grid for Home Page Media Platform Workspaces Section */
