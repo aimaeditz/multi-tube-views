@@ -1444,9 +1444,13 @@ textarea.form-control {
 /* Platform Preview Grid for Home Page Media Platform Workspaces Section */
 .platform-preview-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 0.75rem;
   width: 100%;
+}
+
+.creator-tools-preview-grid {
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .platform-preview-item {

@@ -241,7 +241,7 @@
       </div>
 
       <!-- Creator Tools Entry Card -->
-      <div class="ai-prompt-entry-card" style="margin-top: 1.25rem;">
+      <div class="ai-prompt-entry-card" style="margin-top: 1.25rem; flex-direction: column; align-items: stretch; gap: 1.25rem;">
         <div class="ai-prompt-entry-info">
           <div class="ai-prompt-entry-icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -265,7 +265,28 @@
             </p>
           </div>
         </div>
-        <div style="display: flex; justify-content: flex-end;">
+
+        <!-- Creator Tools Compact Preview Grid (4 Tools) -->
+        <div class="platform-preview-grid creator-tools-preview-grid">
+          <a href="creator-tools.html?tool=ai-auto" class="platform-preview-item">
+            <span class="platform-preview-icon">⚡</span>
+            <span class="platform-preview-name">AI Auto</span>
+          </a>
+          <a href="creator-tools.html?tool=seo-title" class="platform-preview-item">
+            <span class="platform-preview-icon">📝</span>
+            <span class="platform-preview-name">SEO Title</span>
+          </a>
+          <a href="creator-tools.html?tool=keywords" class="platform-preview-item">
+            <span class="platform-preview-icon">🔑</span>
+            <span class="platform-preview-name">Keywords</span>
+          </a>
+          <a href="creator-tools.html?tool=hashtags" class="platform-preview-item">
+            <span class="platform-preview-icon">#️⃣</span>
+            <span class="platform-preview-name">Hashtags</span>
+          </a>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
           <a href="creator-tools.html" class="btn btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap; min-width: 260px; justify-content: center;">
             <span>Explore Creator Tools</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.35rem;">
@@ -297,7 +318,7 @@
           </div>
         </div>
 
-        <!-- Platform Tools Compact Preview Grid (8 Platforms) -->
+        <!-- Platform Tools Compact Preview Grid (10 Platforms) -->
         <div class="platform-preview-grid">
           <a href="platforms/youtube.html" class="platform-preview-item">
             <span class="platform-preview-icon" style="color: #FF0000;">▶</span>
@@ -330,6 +351,14 @@
           <a href="platforms/twitch.html" class="platform-preview-item">
             <span class="platform-preview-icon" style="color: #9146FF;">👾</span>
             <span class="platform-preview-name">Twitch</span>
+          </a>
+          <a href="platforms/kick.html" class="platform-preview-item">
+            <span class="platform-preview-icon" style="color: #53FC18;">⚡</span>
+            <span class="platform-preview-name">Kick</span>
+          </a>
+          <a href="platforms/spotify.html" class="platform-preview-item">
+            <span class="platform-preview-icon" style="color: #1DB954;">🎧</span>
+            <span class="platform-preview-name">Spotify</span>
           </a>
         </div>
 

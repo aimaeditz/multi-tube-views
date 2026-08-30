@@ -1105,6 +1105,10 @@
     width: 100% !important;
   }
 
+  .platform-preview-grid:not(.creator-tools-preview-grid) .platform-preview-item:nth-child(n+9) {
+    display: none !important;
+  }
+
   .platform-preview-item {
     padding: 0.45rem 0.55rem !important;
     font-size: 0.78rem !important;
