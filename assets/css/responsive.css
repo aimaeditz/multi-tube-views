@@ -1078,6 +1078,67 @@
     border-radius: var(--radius-full) !important;
   }
 
+  /* Keyframes for subtle mobile idle floating oscillation */
+  @keyframes trustBadgeBob {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2.5px);
+    }
+  }
+
+  /* Compact Hero Trust Badges on Mobile (Clean 2x2 Grid) */
+  .hero-trust-badges {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    gap: 0.4rem 0.45rem !important;
+    margin-top: 0.65rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .hero-trust-badges .trust-badge {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+    padding: 0.22rem 0.45rem !important;
+    font-size: 0.68rem !important;
+    font-weight: 600 !important;
+    gap: 0.3rem !important;
+    border-radius: var(--radius-full) !important;
+    line-height: 1.2 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    will-change: transform !important;
+    animation: trustBadgeBob 3.6s ease-in-out infinite !important;
+  }
+
+  .hero-trust-badges .trust-badge svg {
+    width: 11px !important;
+    height: 11px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .hero-trust-badges .trust-badge:nth-child(1) {
+    animation-delay: 0s !important;
+  }
+  .hero-trust-badges .trust-badge:nth-child(2) {
+    animation-delay: 0.6s !important;
+  }
+  .hero-trust-badges .trust-badge:nth-child(3) {
+    animation-delay: 1.2s !important;
+  }
+  .hero-trust-badges .trust-badge:nth-child(4) {
+    animation-delay: 1.8s !important;
+  }
+
   /* 12. Homepage Platform Directory Grid — COMPACT 2-COLUMN MOBILE GRID */
   #directory {
     padding-top: 0.4rem !important;
@@ -2135,6 +2196,23 @@
   .ai-image-tool-desc {
     font-size: 0.62rem !important;
   }
+
+  .hero-trust-badges {
+    max-width: 300px !important;
+    gap: 0.35rem 0.35rem !important;
+    margin-top: 0.55rem !important;
+  }
+
+  .hero-trust-badges .trust-badge {
+    padding: 0.2rem 0.35rem !important;
+    font-size: 0.64rem !important;
+    gap: 0.25rem !important;
+  }
+
+  .hero-trust-badges .trust-badge svg {
+    width: 10px !important;
+    height: 10px !important;
+  }
 }
 
 /* ==========================================================================
@@ -2336,6 +2414,23 @@
   .footer-bottom-links a {
     font-size: 0.62rem !important;
     white-space: nowrap !important;
+  }
+
+  .hero-trust-badges {
+    max-width: 280px !important;
+    gap: 0.28rem 0.3rem !important;
+    margin-top: 0.45rem !important;
+  }
+
+  .hero-trust-badges .trust-badge {
+    padding: 0.18rem 0.25rem !important;
+    font-size: 0.58rem !important;
+    gap: 0.2rem !important;
+  }
+
+  .hero-trust-badges .trust-badge svg {
+    width: 9px !important;
+    height: 9px !important;
   }
 }
 

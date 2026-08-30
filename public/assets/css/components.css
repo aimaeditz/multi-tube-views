@@ -94,6 +94,16 @@
   color: var(--text-secondary);
 }
 
+/* Keyframes for subtle idle floating oscillation */
+@keyframes trustBadgeBob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.5px);
+  }
+}
+
 /* Trust & Credibility Badges */
 .hero-trust-badges {
   display: flex;
@@ -116,7 +126,25 @@
   color: var(--text-primary);
   border: 1px solid var(--border-strong);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease;
+  will-change: transform, translate;
+  animation: trustBadgeBob 3.6s ease-in-out infinite;
+  transition: translate 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease;
+}
+
+.trust-badge:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.trust-badge:nth-child(2) {
+  animation-delay: 0.6s;
+}
+
+.trust-badge:nth-child(3) {
+  animation-delay: 1.2s;
+}
+
+.trust-badge:nth-child(4) {
+  animation-delay: 1.8s;
 }
 
 .trust-badge svg {
@@ -126,9 +154,15 @@
 
 @media (hover: hover) and (pointer: fine) {
   .trust-badge:hover {
-    transform: translateY(-2px);
+    translate: 0 -2px;
     box-shadow: var(--shadow-md);
     border-color: var(--accent-blue);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trust-badge {
+    animation: none !important;
   }
 }
 
