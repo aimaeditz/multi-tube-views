@@ -14,22 +14,30 @@ function getCacheKey(task, prompt, platform, language) {
 }
 
 async function tryOne(key, model, systemInstruction, finalPrompt) {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: systemInstruction }] },
-        contents: [{ parts: [{ text: finalPrompt }] }]
-      })
-    }
-  );
-  const data = await response.json();
-  if (!response.ok) throw new Error('failed');
-  const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  if (!resultText) throw new Error('empty');
-  return resultText;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+  try {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemInstruction }] },
+          contents: [{ parts: [{ text: finalPrompt }] }]
+        })
+      }
+    );
+    const data = await response.json();
+    if (!response.ok) throw new Error('failed');
+    const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    if (!resultText) throw new Error('empty');
+    return resultText;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 // Returns the result of whichever promise resolves first; ignores failures
@@ -98,7 +106,7 @@ export default async function handler(req, res) {
       'ai-auto': 'You are an expert SEO content strategist. Given a topic, generate a complete, ready-to-use creator content package: 1) A high-CTR title, 2) A full SEO-optimized description (3-5 sentences), 3) A list of 15-20 relevant tags. Label each section clearly. Be specific to the exact topic given, never generic. No markdown asterisks.',
       'seo-title': 'You are an expert copywriter specializing in high-CTR titles. Generate exactly 10 distinct, compelling titles tailored to the given topic and platform (if provided). Return only a clean numbered list, no markdown asterisks.',
       'keywords': 'You are an SEO keyword research expert. Generate 10 short seed keywords and 20 long-tail keyword phrases for the given topic. Return as "Seed Keywords:" and "Long-Tail Keywords:" sections. No markdown asterisks.',
-      'hashtags': 'You are a social media hashtag strategist. Generate 60 to 100 highly relevant, real hashtags for the given topic and platform (if provided). Return only hashtags separated by spaces, grouped loosely by relevance. No numbering, no markdown asterisks.',
+      'hashtags': 'You are a social media hashtag strategist. Generate 30 to 60 highly relevant, real hashtags for the given topic and platform (if provided). Return only hashtags separated by spaces, grouped loosely by relevance. No numbering, no markdown asterisks.',
       'meta-description': 'You are an SEO copywriter. Generate 5 distinct meta descriptions, each under 155 characters, for the given topic. Return only a numbered list, no markdown asterisks.',
       'topic-ideas': 'You are a content strategist. Generate 15 specific, creative content topic ideas for the given subject. Return only a numbered list, no markdown asterisks.',
       'youtube-seo-pack': 'You are a YouTube SEO expert. Generate: 1) One high-CTR title, 2) A 3-4 sentence SEO description with a call to action, 3) A comma-separated list of 25+ tags. Label each section. No markdown asterisks.',

@@ -6,6 +6,7 @@ import path from 'path';
 import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
+import aiProxyHandler from './api/ai-proxy.js';
 
 const app = express();
 const PORT = 3000;
@@ -676,7 +677,7 @@ const creatorToolSystemInstructions: Record<string, string> = {
   'ai-auto': 'You are an expert creator strategist and SEO consultant. Generate a structured, complete optimization package for the user topic: 1) High-CTR Title Options, 2) Comprehensive Description with timestamp chapters placeholder, 3) 25+ Comma-separated SEO Tags, 4) Hashtag Set, and 5) Key Channel Strategy Notes. Format with clean headings and bullet points.',
   'seo-title': 'You are an expert SEO title copywriter for video platforms and search engines. Generate 10 compelling, high-CTR, click-worthy, search-optimized title variations for the given topic and target platform. Include curiosity hooks, how-to structures, numbers, and high-ranking search terms. Return only a clean numbered list from 1 to 10.',
   'keywords': 'You are an expert SEO keyword research specialist. Generate a comprehensive keyword strategy for the given topic and target platform. Include primary seed keywords, long-tail search queries, question-based search queries (People Also Ask), and low-competition search opportunities. Return at least 30+ keywords as a clean comma-separated list.',
-  'hashtags': 'You are a social media growth and algorithm specialist. Generate a large, high-performing set of 60 to 100 relevant, trending, and niche hashtags for the given topic and platform. Return ONLY the hashtags separated by spaces (e.g. #keyword1 #keyword2 ...). Do not include explanations, intro text, or numbering.',
+  'hashtags': 'You are a social media growth and algorithm specialist. Generate a set of 30 to 60 relevant, trending, and niche hashtags for the given topic and platform. Return ONLY the hashtags separated by spaces (e.g. #keyword1 #keyword2 ...). Do not include explanations, intro text, or numbering.',
   'meta-description': 'You are an expert SEO copywriter. Generate 5 compelling, search-optimized meta descriptions (under 155 characters each) for the given topic and platform. Include strong calls to action (CTA), primary keywords, and clear viewer value. Return as a clean numbered list from 1 to 5.',
   'topic-ideas': 'You are a viral content strategist and creative producer. Brainstorm 15 high-engagement, fresh content topic ideas with strong audience interest for the user niche and platform. Return as a numbered list with creative hooks and angles.',
   'youtube-seo-pack': 'You are an elite YouTube SEO consultant. Generate a complete YouTube SEO pack for the given topic: 1) Title (3 high-CTR options), 2) Video Description (engaging intro, main points, chapter timestamps placeholder, links, and hashtags), 3) Video Tags (25+ comma-separated tags), and 4) 3 Thumbnail text concept suggestions. Clearly label each section.',
@@ -900,74 +901,8 @@ ${coreSubject.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, ${pri
 }
 
 // 2c. Dedicated AI Proxy API Endpoint for MTV Creator Tools
-app.post('/api/ai-proxy', async (req: Request, res: Response) => {
-  try {
-    const { task = 'default', prompt, platform, language, tone } = req.body || {};
-
-    if (!prompt || typeof prompt !== 'string' || !prompt.trim()) {
-      res.status(400).json({ error: 'Prompt is required' });
-      return;
-    }
-
-    const trimmedPrompt = prompt.trim();
-    const baseInstruction = creatorToolSystemInstructions[task] || creatorToolSystemInstructions.default;
-
-    let contextualPrompt = trimmedPrompt;
-    if (platform && platform !== 'all') {
-      contextualPrompt = `[Target Platform: ${platform}]\n${contextualPrompt}`;
-    }
-    if (language && language !== 'auto') {
-      contextualPrompt = `[Target Language: ${language}]\n${contextualPrompt}`;
-    }
-    if (tone && tone !== 'default') {
-      contextualPrompt = `[Tone / Style: ${tone}]\n${contextualPrompt}`;
-    }
-
-    const cacheKey = `aiproxy_${task}_${contextualPrompt.slice(0, 150)}`;
-    const cachedResult = getCached<string>(cacheKey);
-    if (cachedResult) {
-      res.json({ result: cachedResult });
-      return;
-    }
-
-    const gemini = getGeminiClient();
-    if (gemini) {
-      const candidateModels = getPrioritizedModels();
-      for (const m of candidateModels) {
-        try {
-          const aiRes = await retryWithBackoff(async () => {
-            return await gemini.models.generateContent({
-              model: m,
-              contents: contextualPrompt,
-              config: {
-                systemInstruction: baseInstruction,
-                temperature: 0.7
-              }
-            });
-          }, 2, 200);
-
-          const resultText = aiRes.text || '';
-          if (resultText) {
-            setCache(cacheKey, resultText, 120);
-            res.json({ result: resultText });
-            return;
-          }
-        } catch (err: any) {
-          console.warn(`[AI Proxy] Candidate model ${m} failed: ${err?.message || err}. Trying next candidate...`);
-          if (isTransientOrQuotaError(err)) {
-            markModelCooldown(m, 600000);
-          }
-        }
-      }
-    }
-
-    // High quality fallback generator if API key is not yet set or during quota cooldown
-    const fallbackText = generateDynamicCreatorResponse(trimmedPrompt, trimmedPrompt, task, platform, language, tone);
-    res.json({ result: fallbackText });
-  } catch (err: any) {
-    console.error('API /api/ai-proxy error:', err);
-    res.status(500).json({ error: err.message || 'AI proxy processing failed' });
-  }
+app.all('/api/ai-proxy', (req: Request, res: Response) => {
+  return aiProxyHandler(req, res);
 });
 
 // 3. Multi-Provider AI Chat Endpoint
