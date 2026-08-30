@@ -353,17 +353,17 @@
   }
 
   .brand {
-    gap: 0.35rem !important;
-    font-size: 0.85rem !important;
+    gap: 0.45rem !important;
+    font-size: 0.88rem !important;
   }
 
   .brand-icon {
-    width: 26px !important;
-    height: 26px !important;
-    min-width: 26px !important;
-    min-height: 26px !important;
-    font-size: 0.66rem !important;
-    border-radius: 5px !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.76rem !important;
+    border-radius: 6px !important;
   }
 
   .brand-text span:first-child {
@@ -1447,15 +1447,21 @@
     line-height: 1.38 !important;
   }
 
-  /* 14. Global Footer on Mobile */
+  /* 14. Global Footer on Mobile (2-Column Grid Layout) */
   .site-footer {
-    padding: 1rem 0 0.65rem 0 !important;
+    padding: 1.25rem 0 0.75rem 0 !important;
   }
 
   .footer-grid {
-    grid-template-columns: 1fr !important;
-    gap: 0.65rem !important;
-    margin-bottom: 0.65rem !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.85rem 0.65rem !important;
+    margin-bottom: 0.85rem !important;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1 !important;
+    margin-bottom: 0.25rem !important;
   }
 
   .footer-brand h3 {
@@ -1466,20 +1472,38 @@
   .footer-brand p {
     font-size: 0.74rem !important;
     line-height: 1.38 !important;
+    max-width: 100% !important;
+  }
+
+  .footer-col {
+    min-width: 0 !important;
   }
 
   .footer-col h4 {
-    margin-bottom: 0.2rem !important;
-    font-size: 0.68rem !important;
+    margin-bottom: 0.35rem !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.05em !important;
+    color: var(--text-muted) !important;
   }
 
   .footer-links {
-    gap: 0.2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.3rem !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   .footer-links a {
     font-size: 0.74rem !important;
-    padding: 0.04rem 0 !important;
+    line-height: 1.35 !important;
+    padding: 0.15rem 0.2rem !important;
+    margin: 0 !important;
+    color: var(--text-secondary) !important;
+    display: inline-flex !important;
+    word-break: break-word !important;
   }
 
   .footer-bottom {
@@ -2135,9 +2159,12 @@
   }
 
   .brand-icon {
-    width: 22px !important;
-    height: 22px !important;
-    font-size: 0.6rem !important;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    font-size: 0.7rem !important;
+    border-radius: 5px !important;
   }
 
   .btn-mobile-menu,
