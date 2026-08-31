@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const faviconSnippet = `  <link rel="icon" href="/favicon.ico" sizes="any">
+const faviconSnippet = `  <link rel="icon" href="/assets/icons/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/icons/favicon-192.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192.png">
-  <link rel="apple-touch-icon" href="/assets/icons/favicon-192.png">`;
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/favicon-512.png">`;
 
 function getHtmlFiles(dir) {
   let results = [];

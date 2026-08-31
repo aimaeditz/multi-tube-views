@@ -62,6 +62,7 @@ async function generateFavicons() {
     fs.writeFileSync(path.join(dir, 'favicon-192.png'), pngBuffers[192]);
     fs.writeFileSync(path.join(dir, 'favicon-512.png'), pngBuffers[512]);
     fs.writeFileSync(path.join(dir, 'apple-touch-icon.png'), pngBuffers[192]);
+    fs.writeFileSync(path.join(dir, 'favicon.svg'), svgBuffer);
   }
 
   // Write root files (favicon.ico, favicon-192.png, favicon-512.png, apple-touch-icon.png) to root and public/
