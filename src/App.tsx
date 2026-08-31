@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   AlertCircle
 } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 
 interface ChatMessage {
   id: string;
@@ -849,6 +850,7 @@ export default function App() {
 
         </main>
       </div>
+      <Analytics />
     </div>
   );
 }
