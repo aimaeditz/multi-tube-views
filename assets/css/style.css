@@ -546,6 +546,55 @@ input, select, textarea, button {
   color: var(--text-muted);
 }
 
+/* Footer Social Icons Row */
+.footer-social-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.45rem;
+}
+
+.footer-social-link,
+.site-footer .footer-social-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 6px !important;
+  color: var(--text-secondary) !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: color 180ms ease, transform 180ms cubic-bezier(0.16, 1, 0.3, 1), background-color 180ms ease !important;
+  text-decoration: none !important;
+}
+
+.footer-social-link svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+  display: block;
+  transition: fill 180ms ease, color 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-social-link:hover,
+  .site-footer .footer-social-link:hover {
+    color: var(--accent-blue) !important;
+    background-color: var(--bg-subtle) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: none !important;
+  }
+  .footer-social-link:hover svg {
+    fill: var(--accent-blue) !important;
+  }
+}
+
 /* Universal Footer Clickable Item Hover-Lift & Soft Shadow System */
 .site-footer a,
 .site-footer button,
