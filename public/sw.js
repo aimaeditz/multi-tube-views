@@ -1,5 +1,5 @@
 /**
- * Multi Tube Views — Service Worker (Public Static Dist)
+ * Multi Tube Views — Service Worker
  * Offline static asset cache with explicit exclusion for all dynamic /api/* routes.
  */
 
