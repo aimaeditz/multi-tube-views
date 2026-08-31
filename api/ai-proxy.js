@@ -1,9 +1,14 @@
 // ============================================================
-// MTV AI SYSTEM — Core AI Proxy (Backend) — Parallel + Cached
+// MTV AI SYSTEM — Core AI Proxy (Backend) — Robust Final Version
 // ============================================================
-// Same as before (caching, auto-detect keys), PLUS: tries multiple
-// keys/models in PARALLEL instead of one-by-one, so the first one that
-// responds wins — much faster average response time.
+// - Auto-detects all GEMINI_API_KEY / GEMINI_API_KEY_2... keys
+// - Tries multiple models per key, IN PARALLEL, first success wins
+// - Per-attempt timeout (8s) so a slow key doesn't block others
+// - Caches identical requests for 1 hour
+// - Every tool now robustly handles ANY input: short, long, any language,
+//   any phrasing — always understands the topic and stays strictly on
+//   that tool's specific job.
+// - Translator supports many more languages.
 // ============================================================
 
 const responseCache = new Map();
@@ -15,8 +20,7 @@ function getCacheKey(task, prompt, platform, language) {
 
 async function tryOne(key, model, systemInstruction, finalPrompt) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 6000);
-
+  const timeout = setTimeout(() => controller.abort(), 8000);
   try {
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
@@ -36,12 +40,10 @@ async function tryOne(key, model, systemInstruction, finalPrompt) {
     if (!resultText) throw new Error('empty');
     return resultText;
   } finally {
-    clearTimeout(timeoutId);
+    clearTimeout(timeout);
   }
 }
 
-// Returns the result of whichever promise resolves first; ignores failures
-// unless everything fails.
 function raceSuccess(promises) {
   return new Promise((resolve, reject) => {
     let remaining = promises.length;
@@ -102,17 +104,27 @@ export default async function handler(req, res) {
 
     const models = ['gemini-3.6-flash', 'gemini-3.5-flash', 'gemini-2.5-flash'];
 
+    // ------------------------------------------------------------
+    // ROBUST BEHAVIOR RULE applied to every tool: no matter how messy,
+    // short, long, or in whatever language the user's input is, always
+    // figure out the real topic/intent and produce a complete, on-topic,
+    // correctly-formatted answer for that specific tool's job — never a
+    // vague, generic, or off-topic response, and never ask the user to
+    // rephrase.
+    // ------------------------------------------------------------
+    const robustRule = 'IMPORTANT: The user input may be short, long, messy, informal, in any language or mix of languages, or phrased as a casual sentence rather than a clean topic. Regardless of how it is written, identify the real subject/intent behind it and produce a complete, high-quality, correctly-formatted answer that fully matches this tool\'s specific job. Never respond with a generic, vague, or off-topic answer, and never ask the user to clarify — always do your best to understand and deliver the expected output. ';
+
     const systemInstructions = {
-      'ai-auto': 'You are an expert SEO content strategist. Given a topic, generate a complete, ready-to-use creator content package: 1) A high-CTR title, 2) A full SEO-optimized description (3-5 sentences), 3) A list of 15-20 relevant tags. Label each section clearly. Be specific to the exact topic given, never generic. No markdown asterisks.',
-      'seo-title': 'You are an expert copywriter specializing in high-CTR titles. Generate exactly 10 distinct, compelling titles tailored to the given topic and platform (if provided). Return only a clean numbered list, no markdown asterisks.',
-      'keywords': 'You are an SEO keyword research expert. Generate 10 short seed keywords and 20 long-tail keyword phrases for the given topic. Return as "Seed Keywords:" and "Long-Tail Keywords:" sections. No markdown asterisks.',
-      'hashtags': 'You are a social media hashtag strategist. Generate 30 to 60 highly relevant, real hashtags for the given topic and platform (if provided). Return only hashtags separated by spaces, grouped loosely by relevance. No numbering, no markdown asterisks.',
-      'meta-description': 'You are an SEO copywriter. Generate 5 distinct meta descriptions, each under 155 characters, for the given topic. Return only a numbered list, no markdown asterisks.',
-      'topic-ideas': 'You are a content strategist. Generate 15 specific, creative content topic ideas for the given subject. Return only a numbered list, no markdown asterisks.',
-      'youtube-seo-pack': 'You are a YouTube SEO expert. Generate: 1) One high-CTR title, 2) A 3-4 sentence SEO description with a call to action, 3) A comma-separated list of 25+ tags. Label each section. No markdown asterisks.',
-      'grammar-polish': 'You are a professional editor. Correct grammar, spelling, punctuation, and clarity while preserving meaning and tone. Return ONLY the corrected text. No markdown asterisks.',
-      'translate': 'You are a professional translator. Translate the given text into the target language specified, or detect and translate sensibly if none given. Return ONLY the translated text. No markdown asterisks.',
-      'default': 'You are a helpful assistant for the MTV platform. Keep responses clear, specific, and useful. No markdown asterisks.'
+      'ai-auto': robustRule + 'You are an expert SEO content strategist. Given a topic, generate a complete, ready-to-use creator content package: 1) A high-CTR title, 2) A full SEO-optimized description (3-5 sentences), 3) A list of 15-20 relevant tags. Label each section clearly. No markdown asterisks.',
+      'seo-title': robustRule + 'You are an expert copywriter specializing in high-CTR titles. Generate exactly 10 distinct, compelling titles tailored to the given topic and platform (if provided). Return only a clean numbered list, no markdown asterisks.',
+      'keywords': robustRule + 'You are an SEO keyword research expert. Generate 10 short seed keywords and 20 long-tail keyword phrases for the given topic. Return as "Seed Keywords:" and "Long-Tail Keywords:" sections. No markdown asterisks.',
+      'hashtags': robustRule + 'You are a social media hashtag strategist. Generate 60 relevant, real hashtags for the given topic and platform (if provided). Return only hashtags separated by spaces, grouped loosely by relevance. No numbering, no markdown asterisks.',
+      'meta-description': robustRule + 'You are an SEO copywriter. Generate 5 distinct meta descriptions, each under 155 characters, for the given topic. Return only a numbered list, no markdown asterisks.',
+      'topic-ideas': robustRule + 'You are a content strategist. Generate 15 specific, creative content topic ideas for the given subject. Return only a numbered list, no markdown asterisks.',
+      'youtube-seo-pack': robustRule + 'You are a YouTube SEO expert. Generate: 1) One high-CTR title, 2) A 3-4 sentence SEO description with a call to action, 3) A comma-separated list of 25+ tags. Label each section. No markdown asterisks.',
+      'grammar-polish': robustRule + 'You are a professional editor. Correct grammar, spelling, punctuation, and clarity while preserving meaning and tone, in whatever language the text is written. Return ONLY the corrected text. No markdown asterisks.',
+      'translate': robustRule + 'You are a professional translator fluent in all major world languages, including but not limited to: English, Hindi, Urdu, Arabic, Spanish, French, German, Portuguese, Russian, Chinese, Japanese, Korean, Turkish, Italian, Bengali, Indonesian, Vietnamese, Thai, Persian/Farsi, Punjabi, and Pashto. Translate the given text accurately into the target language specified. If no target language is specified: if the input is not in English, translate it to English; if the input is already in English, translate it to natural, fluent Hindi. Preserve tone and meaning. Return ONLY the translated text, no commentary, no markdown asterisks.',
+      'default': robustRule + 'You are a helpful assistant for the MTV platform. Keep responses clear, specific, and useful. No markdown asterisks.'
     };
 
     const systemInstruction = systemInstructions[task] || systemInstructions['default'];
@@ -122,11 +134,6 @@ export default async function handler(req, res) {
     if (language) contextPrefix += `Target Language: ${language}\n`;
     const finalPrompt = contextPrefix ? `${contextPrefix}${prompt}` : prompt;
 
-    // --------------------------------------------------------
-    // Try the first model across ALL keys in PARALLEL (fast).
-    // Only if every key fails on that model, move to the next model
-    // and try all keys in parallel again.
-    // --------------------------------------------------------
     for (const model of models) {
       const attempts = apiKeys.map((key) => tryOne(key, model, systemInstruction, finalPrompt));
       try {
