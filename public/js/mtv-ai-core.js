@@ -2,12 +2,106 @@
  * MTV AI Core — Lightweight Frontend AI Integration Helper
  * Exposes global MTVAI object:
  *  - MTVAI.run({ task, prompt }) -> returns { result } or { error }
- *  - MTVAI.bindTool({ task, inputId, buttonId, outputId }) -> auto-wires input + button + output to backend
+ *  - MTVAI.bindTool({ task, inputId, buttonId, outputId, selectId }) -> auto-wires input + button + output to backend with validation
  */
 (function (global) {
   'use strict';
 
+  // Inject validation styles dynamically if not already present
+  function injectValidationStyles() {
+    if (typeof document === 'undefined' || document.getElementById('mtv-validation-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'mtv-validation-styles';
+    style.textContent = `
+      @keyframes mtv-shake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-6px); }
+        40%, 80% { transform: translateX(6px); }
+      }
+      .mtv-invalid-field {
+        border-color: #ef4444 !important;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
+        animation: mtv-shake 300ms ease-in-out !important;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+      }
+      .mtvai-btn-inactive {
+        opacity: 0.65 !important;
+        cursor: not-allowed !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function triggerFieldFeedback(el) {
+    if (!el) return;
+    el.classList.remove('mtv-invalid-field');
+    void el.offsetWidth; // Force reflow
+    el.classList.add('mtv-invalid-field');
+
+    if (el._mtvValidationTimeout) {
+      clearTimeout(el._mtvValidationTimeout);
+    }
+    el._mtvValidationTimeout = setTimeout(() => {
+      el.classList.remove('mtv-invalid-field');
+    }, 1500);
+  }
+
+  function isInputFilled(inputEl) {
+    if (!inputEl) return false;
+    return Boolean(inputEl.value && inputEl.value.trim().length > 0);
+  }
+
+  function isDropdownSelected(selectEl) {
+    if (!selectEl) return true;
+    // If element or its container is hidden, treat as not applicable
+    if (selectEl.offsetParent === null && selectEl.offsetWidth === 0 && selectEl.offsetHeight === 0) {
+      return true;
+    }
+    const val = (selectEl.value || '').trim();
+    if (!val) return false;
+    if (val.toLowerCase() === 'placeholder' || val.toLowerCase().startsWith('select-') || val === 'select') {
+      return false;
+    }
+    const selectedOpt = selectEl.options[selectEl.selectedIndex];
+    if (selectedOpt && selectedOpt.disabled) {
+      return false;
+    }
+    return true;
+  }
+
+  function findActiveSelect(buttonEl, config) {
+    if (config && config.selectId) {
+      const el = document.getElementById(config.selectId);
+      if (el) return el;
+    }
+    const container = (buttonEl ? buttonEl.closest('.card, form, #dedicated-tool-workspace, body') : null) || document.body;
+    const selects = Array.from(container.querySelectorAll('select'));
+    for (const sel of selects) {
+      if (sel.id === 'mtv-ai-model-select' || sel.id === 'ai-auto-model-select') {
+        continue; // Skip AI engine model dropdowns
+      }
+      const style = window.getComputedStyle(sel);
+      const parentStyle = sel.parentElement ? window.getComputedStyle(sel.parentElement) : null;
+      const grandParentStyle = sel.parentElement && sel.parentElement.parentElement ? window.getComputedStyle(sel.parentElement.parentElement) : null;
+
+      const isHidden = (
+        style.display === 'none' || style.visibility === 'hidden' ||
+        (parentStyle && parentStyle.display === 'none') ||
+        (grandParentStyle && grandParentStyle.display === 'none')
+      );
+
+      if (!isHidden) {
+        return sel;
+      }
+    }
+    return null;
+  }
+
   const MTVAI = {
+    triggerFieldFeedback,
+    isInputFilled,
+    isDropdownSelected,
+
     /**
      * Run an AI task through the proxy backend
      * @param {Object} options
@@ -66,8 +160,11 @@
      * @param {string} config.inputId - ID of the input field / textarea
      * @param {string} config.buttonId - ID of the generate button
      * @param {string} config.outputId - ID of the output box
+     * @param {string} [config.selectId] - Optional ID of the platform/language dropdown
      */
-    bindTool({ task, inputId, buttonId, outputId }) {
+    bindTool({ task, inputId, buttonId, outputId, selectId }) {
+      injectValidationStyles();
+
       const inputEl = document.getElementById(inputId);
       const buttonEl = document.getElementById(buttonId);
       const outputEl = document.getElementById(outputId);
@@ -79,23 +176,78 @@
       // Store current bound task
       buttonEl._mtvaiBoundTask = task;
 
+      // Helper to update button visual active/inactive state
+      const updateButtonVisualState = () => {
+        if (buttonEl._isProcessing) return; // Do not alter visual state while executing request
+
+        const selectEl = findActiveSelect(buttonEl, { selectId });
+        const valid = isInputFilled(inputEl) && isDropdownSelected(selectEl);
+
+        if (valid) {
+          buttonEl.classList.remove('mtvai-btn-inactive');
+          buttonEl.style.opacity = '1';
+          buttonEl.style.cursor = 'pointer';
+        } else {
+          buttonEl.classList.add('mtvai-btn-inactive');
+          buttonEl.style.opacity = '0.65';
+          buttonEl.style.cursor = 'not-allowed';
+        }
+      };
+
+      // Bind input events for live validation feedback
+      if (!inputEl._mtvValidationBound) {
+        inputEl._mtvValidationBound = true;
+        inputEl.addEventListener('input', () => {
+          if (isInputFilled(inputEl)) {
+            inputEl.classList.remove('mtv-invalid-field');
+          }
+          updateButtonVisualState();
+        });
+      }
+
+      // Bind change events to all selects in the container
+      const container = buttonEl.closest('.card, form, #dedicated-tool-workspace, body') || document.body;
+      const selects = container.querySelectorAll('select');
+      selects.forEach(sel => {
+        if (!sel._mtvValidationBound) {
+          sel._mtvValidationBound = true;
+          sel.addEventListener('change', () => {
+            if (isDropdownSelected(sel)) {
+              sel.classList.remove('mtv-invalid-field');
+            }
+            updateButtonVisualState();
+          });
+        }
+      });
+
+      // Initial state sync
+      updateButtonVisualState();
+
       buttonEl.onclick = async (e) => {
         if (e) e.preventDefault();
-        
-        // Always check the current bound task on the button
-        const activeTask = buttonEl._mtvaiBoundTask || task;
-        const prompt = inputEl.value.trim();
 
-        if (!prompt) {
-          const toast = document.getElementById('copy-toast');
-          if (toast) {
-            toast.textContent = 'Please enter some text or keywords first.';
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-          }
-          inputEl.focus();
+        if (buttonEl.disabled || buttonEl._isProcessing) {
           return;
         }
+
+        const activeTask = buttonEl._mtvaiBoundTask || task;
+        const selectEl = findActiveSelect(buttonEl, { selectId });
+
+        const inputValid = isInputFilled(inputEl);
+        const selectValid = isDropdownSelected(selectEl);
+
+        if (!inputValid || !selectValid) {
+          if (!inputValid) {
+            triggerFieldFeedback(inputEl);
+          }
+          if (!selectValid && selectEl) {
+            triggerFieldFeedback(selectEl);
+          }
+          updateButtonVisualState();
+          return; // STOP! Do NOT call backend!
+        }
+
+        const prompt = inputEl.value.trim();
 
         // Save input state
         try {
@@ -103,6 +255,8 @@
         } catch (err) {}
 
         // UI Loading state
+        buttonEl._isProcessing = true;
+        buttonEl.classList.remove('mtvai-btn-inactive');
         const originalBtnHtml = buttonEl.innerHTML;
         const originalDisabled = buttonEl.disabled;
         buttonEl.disabled = true;
@@ -143,11 +297,13 @@
             outputWrap.style.display = 'block';
           }
         } finally {
+          buttonEl._isProcessing = false;
           buttonEl.disabled = originalDisabled;
           buttonEl.innerHTML = originalBtnHtml;
           if (loadingEl) {
             loadingEl.style.display = 'none';
           }
+          updateButtonVisualState();
         }
       };
     }

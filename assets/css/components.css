@@ -2890,6 +2890,25 @@ textarea.form-control {
   }
 }
 
+/* Tool Input & Selection Validation Styles */
+@keyframes mtv-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.mtv-invalid-field {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
+  animation: mtv-shake 300ms ease-in-out !important;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.mtvai-btn-inactive {
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+}
+
 
 
 

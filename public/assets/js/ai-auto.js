@@ -115,7 +115,13 @@
 
     bindEvents() {
       if (this.dom.input) {
-        this.dom.input.addEventListener('input', () => this.updateCharCount());
+        this.dom.input.addEventListener('input', () => {
+          this.updateCharCount();
+          if ((this.dom.input.value || '').trim().length > 0) {
+            this.dom.input.classList.remove('mtv-invalid-field');
+          }
+          this.updateGenerateButtonState();
+        });
         this.dom.input.addEventListener('keydown', (e) => {
           if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
             e.preventDefault();
@@ -123,6 +129,8 @@
           }
         });
       }
+
+      this.updateGenerateButtonState();
 
       if (this.dom.generateBtn) {
         this.dom.generateBtn.addEventListener('click', (e) => {
@@ -270,11 +278,36 @@
       });
     }
 
+    updateGenerateButtonState() {
+      if (!this.dom.generateBtn) return;
+      if (this.isGenerating) return;
+
+      const rawInput = (this.dom.input ? this.dom.input.value : '').trim();
+      if (rawInput.length > 0) {
+        this.dom.generateBtn.classList.remove('mtvai-btn-inactive');
+        this.dom.generateBtn.style.opacity = '1';
+        this.dom.generateBtn.style.cursor = 'pointer';
+      } else {
+        this.dom.generateBtn.classList.add('mtvai-btn-inactive');
+        this.dom.generateBtn.style.opacity = '0.65';
+        this.dom.generateBtn.style.cursor = 'not-allowed';
+      }
+    }
+
     async handleGenerate() {
       const rawInput = (this.dom.input ? this.dom.input.value : '').trim();
       if (!rawInput) {
-        this.showToast('Please enter a topic, keyword, or request first.');
-        if (this.dom.input) this.dom.input.focus();
+        if (this.dom.input) {
+          if (window.MTVAI && typeof window.MTVAI.triggerFieldFeedback === 'function') {
+            window.MTVAI.triggerFieldFeedback(this.dom.input);
+          } else {
+            this.dom.input.classList.remove('mtv-invalid-field');
+            void this.dom.input.offsetWidth;
+            this.dom.input.classList.add('mtv-invalid-field');
+            setTimeout(() => this.dom.input.classList.remove('mtv-invalid-field'), 1500);
+          }
+        }
+        this.updateGenerateButtonState();
         return;
       }
 
@@ -367,6 +400,7 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
             <span>Generate</span>
           `;
+          this.updateGenerateButtonState();
         }
       }
 
