@@ -1193,6 +1193,10 @@
     display: none !important;
   }
 
+  .creator-tools-preview-grid .platform-preview-item:nth-child(n+5) {
+    display: none !important;
+  }
+
   .platform-preview-item {
     padding: 0.45rem 0.55rem !important;
     font-size: 0.78rem !important;

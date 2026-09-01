@@ -1193,6 +1193,10 @@
     display: none !important;
   }
 
+  .creator-tools-preview-grid .platform-preview-item:nth-child(n+5) {
+    display: none !important;
+  }
+
   .platform-preview-item {
     padding: 0.45rem 0.55rem !important;
     font-size: 0.78rem !important;
@@ -1584,6 +1588,25 @@
     justify-content: center !important;
     font-size: 0.68rem !important;
     flex-wrap: wrap !important;
+  }
+
+  .footer-social-row {
+    justify-content: center !important;
+    margin-top: 0.35rem !important;
+    gap: 0.45rem !important;
+  }
+
+  .footer-social-link,
+  .site-footer .footer-social-link {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+  }
+
+  .footer-social-link svg {
+    width: 14px !important;
+    height: 14px !important;
   }
 
   .footer-bottom-links {
