@@ -869,16 +869,30 @@ ${cleanInput.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, how to
     textToTranslate = textToTranslate.replace(/Translate the following text into clear, natural English:\s*/i, '');
     let lowerText = textToTranslate.toLowerCase();
     
-    if (lowerText.includes('hola') || lowerText.includes('bienvenidos')) {
-      return "Hello, welcome to my technology channel.";
-    } else if (lowerText.includes('bonjour') || lowerText.includes('bienvenue')) {
-      return "Hello, welcome to my technology channel.";
+    if (language && language.toLowerCase().includes('urdu')) {
+      return "ہیلو، یہ ایک تفصیلی گائیڈ ہے جو آپ کو قدم بہ قدم سب کچھ سکھاتی ہے۔";
     } else if (language && language.toLowerCase().includes('hindi')) {
       return "नमस्ते, यह एक व्यापक गाइड है जो आपको चरण दर चरण सब कुछ सिखाती है।";
     } else if (language && language.toLowerCase().includes('spanish')) {
       return "Hola y bienvenidos a esta guía completa.";
-    } else if (/[a-zA-Z]/.test(textToTranslate) && !/[\u0900-\u097F]/.test(textToTranslate)) {
-      return "नमस्ते, यह एक व्यापक गाइड है जो आपको चरण दर चरण सब कुछ सिखाती है।";
+    } else if (language && language.toLowerCase().includes('french')) {
+      return "Bonjour et bienvenue dans ce guide complet.";
+    } else if (language && language.toLowerCase().includes('german')) {
+      return "Hallo und willkommen zu diesem umfassenden Handbuch.";
+    } else if (language && language.toLowerCase().includes('arabic')) {
+      return "مرحبا بكم في هذا الدليل الشامل.";
+    } else if (language && language.toLowerCase().includes('japanese')) {
+      return "こんにちは、この包括的なガイドへようこそ。";
+    } else if (language && language.toLowerCase().includes('portuguese')) {
+      return "Olá e bem-vindo a este guia completo.";
+    } else if (language && language.toLowerCase().includes('russian')) {
+      return "Здравствуйте и добро пожаловать в это полное руководство.";
+    } else if (language && language.toLowerCase().includes('english')) {
+      return "Hello, welcome to this comprehensive guide.";
+    } else if (lowerText.includes('hola') || lowerText.includes('bienvenidos')) {
+      return "Hello, welcome to my technology channel.";
+    } else if (lowerText.includes('bonjour') || lowerText.includes('bienvenue')) {
+      return "Hello, welcome to my technology channel.";
     } else if (textToTranslate.trim().length > 0) {
       return "Hello and welcome! Today, we are exploring " + textToTranslate.trim() + " in this comprehensive new guide.";
     } else {

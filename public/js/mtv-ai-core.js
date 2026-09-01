@@ -107,24 +107,32 @@
      * @param {Object} options
      * @param {string} options.task - Task identifier (e.g. 'seo-title', 'hashtags', etc.)
      * @param {string} options.prompt - Prompt or topic text
+     * @param {string} [options.platform] - Optional platform filter
+     * @param {string} [options.language] - Optional target language filter
+     * @param {string} [options.tone] - Optional tone filter
      * @returns {Promise<{result?: string, error?: string}>}
      */
-    async run({ task, prompt }) {
+    async run({ task, prompt, platform, language, tone }) {
       if (!prompt || typeof prompt !== 'string' || !prompt.trim()) {
         return { error: 'Please enter a topic or text first.' };
       }
 
       try {
+        const payload = {
+          task: task || 'default',
+          prompt: prompt.trim()
+        };
+        if (platform) payload.platform = platform;
+        if (language) payload.language = language;
+        if (tone) payload.tone = tone;
+
         const res = await fetch('/api/ai-proxy', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           },
-          body: JSON.stringify({
-            task: task || 'default',
-            prompt: prompt.trim()
-          })
+          body: JSON.stringify(payload)
         });
 
         const contentType = res.headers.get('content-type') || '';
@@ -231,6 +239,30 @@
         }
 
         const activeTask = buttonEl._mtvaiBoundTask || task;
+
+        // Gather modifier dropdown values securely
+        const langSelect = document.getElementById('dedicated-tool-language-select');
+        const platSelect = document.getElementById('dedicated-tool-platform-select');
+        const toneSelect = document.getElementById('dedicated-tool-tone-select');
+
+        let languageVal = '';
+        let platformVal = '';
+        let toneVal = '';
+
+        if (activeTask === 'translate') {
+          if (langSelect && isDropdownSelected(langSelect)) {
+            languageVal = langSelect.value;
+          }
+        } else if (activeTask === 'grammar-polish') {
+          if (toneSelect && isDropdownSelected(toneSelect)) {
+            toneVal = toneSelect.value;
+          }
+        } else {
+          if (platSelect && isDropdownSelected(platSelect)) {
+            platformVal = platSelect.value;
+          }
+        }
+
         const selectEl = findActiveSelect(buttonEl, { selectId });
 
         const inputValid = isInputFilled(inputEl);
@@ -275,7 +307,13 @@
         }
 
         try {
-          const res = await MTVAI.run({ task: activeTask, prompt });
+          const res = await MTVAI.run({
+            task: activeTask,
+            prompt,
+            platform: platformVal,
+            language: languageVal,
+            tone: toneVal
+          });
 
           if (res.error) {
             outputEl.textContent = `Error: ${res.error}`;

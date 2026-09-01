@@ -406,6 +406,7 @@
                 <option value="" disabled selected>-- Select Target Language --</option>
                 <option value="English">English</option>
                 <option value="Hindi">Hindi (हिंदी)</option>
+                <option value="Urdu">Urdu (اردو)</option>
                 <option value="Spanish">Spanish (Español)</option>
                 <option value="French">French (Français)</option>
                 <option value="German">German (Deutsch)</option>
@@ -420,8 +421,7 @@
             <div id="dedicated-tone-wrap" style="display: none; flex: 1; min-width: 160px;">
               <label for="dedicated-tool-tone-select" style="display: block; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 0.35rem;">Tone / Style:</label>
               <select id="dedicated-tool-tone-select" class="setting-select" style="width: 100%; font-size: 0.85rem; font-weight: 600; padding: 0.45rem 0.65rem; border-radius: var(--radius-md); border: 1px solid var(--border-strong); background: var(--bg-subtle); color: var(--text-primary); outline: none;">
-                <option value="" disabled selected>-- Select Tone / Style --</option>
-                <option value="default">Standard & Natural</option>
+                <option value="default" selected>Standard & Natural</option>
                 <option value="Professional / Business">Professional / Business</option>
                 <option value="Casual / Creator">Casual / Creator</option>
                 <option value="Engaging / High-Energy">Engaging / High-Energy</option>
@@ -643,7 +643,7 @@
           title: 'Grammar Polish',
           desc: 'Clean up draft text',
           icon: '✨',
-          promptTemplate: 'Clean up, polish grammar, improve readability, and refine the tone of the following text: {topic}.',
+          promptTemplate: '{topic}',
           placeholder: 'Paste your draft text here to polish (e.g., The video are showing how to build a website from zero.)',
           label: 'Draft Text'
         },
@@ -651,9 +651,9 @@
           title: 'Translate',
           desc: 'Simple translation helper',
           icon: '🌐',
-          promptTemplate: 'Translate the following text into clear, natural English: {topic}.',
-          placeholder: 'Paste the foreign text to translate into English (e.g., Hola, bienvenidos a mi canal de tecnología.)',
-          label: 'Foreign Text to Translate'
+          promptTemplate: '{topic}',
+          placeholder: 'Paste text to translate into selected Target Language (e.g., Hello, welcome to my technology channel.)',
+          label: 'Text to Translate'
         }
       };
 
