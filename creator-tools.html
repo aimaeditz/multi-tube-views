@@ -456,6 +456,57 @@
             </div>
           </div>
 
+          <!-- 17. Content Repurposing Ideas -->
+          <div class="creator-tool-card" data-tool-id="content-repurposing">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">🔄</span>
+                <h3 class="creator-tool-title">Content Repurposing Ideas</h3>
+              </div>
+              <p class="creator-tool-desc">Turn one topic into ideas for Shorts/Reels, carousel posts, blog posts, and threads</p>
+            </div>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=content-repurposing" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 18. A/B Title Split-Test -->
+          <div class="creator-tool-card" data-tool-id="ab-title-test">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">🧪</span>
+                <h3 class="creator-tool-title">A/B Title Split-Test</h3>
+              </div>
+              <p class="creator-tool-desc">Get two contrasting title styles to test against each other</p>
+            </div>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=ab-title-test" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 19. Description SEO Booster -->
+          <div class="creator-tool-card" data-tool-id="description-seo-booster">
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">🚀</span>
+                <h3 class="creator-tool-title">Description SEO Booster</h3>
+              </div>
+              <p class="creator-tool-desc">Expand a short description into a full, SEO-optimized video description</p>
+            </div>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=description-seo-booster" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
         </section>
 
         <!-- About/Transparency Note Card -->
@@ -471,7 +522,7 @@
             <div>
               <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text-primary);">About MTV Creator Tools</h3>
               <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0.5rem;">
-                Multi Tube Views provides an expanded suite of 17 dedicated creator tools to accelerate video production, thumbnail design, audience retention, and SEO copywriting workflows, powered directly by our high-performance AI engine.
+                Multi Tube Views provides an expanded suite of 20 dedicated creator tools to accelerate video production, thumbnail design, audience retention, and SEO copywriting workflows, powered directly by our high-performance AI engine.
               </p>
               <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
                 Privacy Note: MTV processes requests securely on its own server infrastructure and does not store or collect user inputs. All AI generations are secure, immediate, and fully isolated.
@@ -854,6 +905,30 @@
           promptTemplate: 'Compare these two titles and pick the stronger one: {topic}',
           placeholder: 'Enter two titles to compare (e.g., "10 Coding Tips" vs "How I Mastered Coding in 30 Days")',
           label: 'Two Titles to Compare (separated by vs or new line)'
+        },
+        'content-repurposing': {
+          title: 'Content Repurposing Ideas',
+          desc: 'Turn one topic into ideas for Shorts/Reels, carousel posts, blog posts, and threads',
+          icon: '🔄',
+          promptTemplate: 'Turn this topic or piece of content into repurposing ideas across 4 formats (Shorts/Reels, Carousel, Blog, Thread): {topic}',
+          placeholder: 'Enter a topic, article draft, or video concept (e.g., 5 Productivity Hacks for Freelancers)',
+          label: 'Topic / Content Idea'
+        },
+        'ab-title-test': {
+          title: 'A/B Title Split-Test',
+          desc: 'Get two contrasting title styles to test against each other',
+          icon: '🧪',
+          promptTemplate: 'Generate 2 contrasting title options for an A/B test for: {topic}',
+          placeholder: 'Enter your video topic or working title (e.g., How to Learn Web Development)',
+          label: 'Topic / Draft Title'
+        },
+        'description-seo-booster': {
+          title: 'Description SEO Booster',
+          desc: 'Expand a short description into a full, SEO-optimized video description',
+          icon: '🚀',
+          promptTemplate: 'Expand this short draft description into an SEO-optimized video description with tags: {topic}',
+          placeholder: 'Enter a short draft description or topic (e.g., Video about how to build a SaaS app in 2026)',
+          label: 'Draft Description / Topic'
         }
       };
 

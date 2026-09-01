@@ -691,6 +691,9 @@ const creatorToolSystemInstructions: Record<string, string> = {
   'trending-topics': 'You are a trend-aware content strategist. Generate 15 fresh, currently-relevant content topic ideas related to the given niche or subject. Return only a numbered list. No markdown asterisks.',
   'emoji-suggestions': 'You generate relevant emoji sets for captions or titles. Given the topic or text, return 15-20 relevant emojis grouped loosely by theme, separated by spaces. No explanation, no markdown asterisks.',
   'title-comparer': 'You are an expert copywriting judge. Given two titles provided by the user (they may be separated by a line break, "vs", or similar), pick the stronger one for click-through rate and clearly explain why in 2-3 sentences, then briefly suggest one improvement to the weaker one. No markdown asterisks.',
+  'content-repurposing': 'You are a cross-platform content strategist. Given one topic or piece of content, generate specific repurposing ideas across 4 formats: 1) Short-form video/Reel idea, 2) Carousel/slide post idea, 3) Blog post angle, 4) Thread/X post angle. Label each of the 4 sections clearly. No markdown asterisks.',
+  'ab-title-test': 'You are an expert copywriter running an A/B test. Given a topic, generate exactly 2 contrasting title options: Option A (curiosity/intrigue-driven) and Option B (direct/clear-benefit-driven). Label each clearly as "Option A:" and "Option B:", and add one short line explaining the different psychological angle each uses. No markdown asterisks.',
+  'description-seo-booster': 'You are a YouTube SEO copywriting expert. Given a short draft description or topic, expand it into a complete, SEO-optimized long-form video description (4-6 sentences) naturally including relevant keywords, followed by a short "Suggested Tags:" line with 10-15 comma-separated tags. No markdown asterisks.',
   'default': 'You are an intelligent creator assistant for Multi Tube Views. Provide concise, clear, and actionable recommendations for creators and media managers.'
 };
 
@@ -739,6 +742,12 @@ function generateDynamicCreatorResponse(promptText: string, customTopic?: string
       detectedToolId = 'emoji-suggestions';
     } else if (lowerPrompt.includes('title comparer') || lowerPrompt.includes('title-comparer') || lowerPrompt.includes('compare')) {
       detectedToolId = 'title-comparer';
+    } else if (lowerPrompt.includes('repurpos') || lowerPrompt.includes('content-repurposing')) {
+      detectedToolId = 'content-repurposing';
+    } else if (lowerPrompt.includes('ab title') || lowerPrompt.includes('ab-title') || lowerPrompt.includes('split-test') || lowerPrompt.includes('split test')) {
+      detectedToolId = 'ab-title-test';
+    } else if (lowerPrompt.includes('description seo') || lowerPrompt.includes('description-seo') || lowerPrompt.includes('description booster')) {
+      detectedToolId = 'description-seo-booster';
     } else {
       detectedToolId = 'ai-auto';
     }
@@ -1016,6 +1025,41 @@ Day 7: Weekly recap & action plan to scale ${coreSubject} next week`;
 Reasoning: Option 2 creates higher curiosity and specifies a clear value outcome ("How I Mastered..." vs "10 Tips"). Specific timeframes or transformation hooks generate higher click-through rates on modern media platforms.
 
 Improvement for Option 1: Add a high-curiosity outcome or number modifier (e.g., "10 ${coreSubject} Tips That Will Save You 100 Hours").`;
+  }
+
+  if (detectedToolId === 'content-repurposing') {
+    return `1) Short-Form Video / Reel Idea:
+Create a fast-paced 30-second video demonstrating the key takeaway of ${coreSubject}. Hook the viewer in the first 3 seconds with a bold question, followed by 3 rapid-fire tips and a clear CTA to check the full guide.
+
+2) Carousel / Slide Post Idea:
+A 5-slide visual carousel breaking down ${coreSubject}:
+Slide 1: High-contrast title hook ("5 Secrets of ${coreSubject}")
+Slide 2-4: Core steps with simple infographics or key stats
+Slide 5: Summary & "Save this post for later" prompt.
+
+3) Blog Post Angle:
+Title: "The Complete Guide to ${coreSubject}: What You Need to Know in 2026"
+An in-depth 1,000-word article analyzing ${coreSubject}, detailing common pitfalls, step-by-step implementation, and real-world examples.
+
+4) Thread / X Post Angle:
+A 6-tweet thread:
+Tweet 1: "I analyzed 100+ cases of ${coreSubject}. Here are the 5 biggest takeaways you can apply today 🧵👇"
+Tweets 2-5: Individual insights with actionable bullet points.
+Tweet 6: Final summary and call-to-action.`;
+  }
+
+  if (detectedToolId === 'ab-title-test') {
+    return `Option A: The ${coreSubject} Secret Nobody Is Telling You
+Angle: Curiosity & Intrigue-Driven — Triggers FOMO and high click intent by hinting at undisclosed information.
+
+Option B: How to Master ${coreSubject} in 3 Easy Steps (2026 Blueprint)
+Angle: Direct & Clear-Benefit-Driven — Clearly states the outcome, timeframe, and actionable value for searchers.`;
+  }
+
+  if (detectedToolId === 'description-seo-booster') {
+    return `In this video, we deliver a comprehensive breakdown of ${coreSubject}, walking you step-by-step through proven techniques to maximize your results. Whether you are a beginner looking for clear foundational guidance or an experienced creator aiming to refine your workflow, this tutorial covers essential strategies, common mistakes to avoid, and practical tips designed for 2026. Make sure to watch until the end for our top recommendations. Subscribe for more expert guides and update notifications!
+
+Suggested Tags: ${cleanInput.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, how to do ${primaryTag}, best ${primaryTag} 2026, ${primaryTag} tips, ${primaryTag} strategy, ${primaryTag} for beginners, ${primaryTag} walkthrough, learn ${primaryTag}, ${primaryTag} optimization, ${primaryTag} blueprint, ${primaryTag} secrets`;
   }
 
   // Default AI Auto output
