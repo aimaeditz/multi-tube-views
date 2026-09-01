@@ -683,6 +683,14 @@ const creatorToolSystemInstructions: Record<string, string> = {
   'youtube-seo-pack': 'You are an elite YouTube SEO consultant. Generate a complete YouTube SEO pack for the given topic: 1) Title (3 high-CTR options), 2) Video Description (engaging intro, main points, chapter timestamps placeholder, links, and hashtags), 3) Video Tags (25+ comma-separated tags), and 4) 3 Thumbnail text concept suggestions. Clearly label each section.',
   'grammar-polish': 'You are a master editor and content polisher. Correct grammar, spelling, punctuation, and phrasing while refining flow, clarity, and readability. Preserve the original meaning and natural voice. Return the clean, polished text ready for publication.',
   'translate': 'You are an expert multilingual translator. Accurately and naturally translate the provided text into the requested target language (or natural English if foreign text is detected, or natural Hindi if English is provided without a specified language). Ensure natural phrasing, correct context, and cultural accuracy. Return only the translated text.',
+  'thumbnail-text': 'You are a thumbnail copywriting expert. Generate 10 short, bold, high-impact thumbnail text ideas (2-5 words each) for the given topic. Return only a numbered list. No markdown asterisks.',
+  'video-hook': 'You are a video retention expert. Generate 8 attention-grabbing opening hook lines (1-2 sentences each) designed to stop viewers scrolling in the first 5 seconds, for the given topic. Return only a numbered list. No markdown asterisks.',
+  'script-outline': 'You are a video content strategist. Generate a clear bullet-point script outline (intro, 3-5 main points, conclusion/CTA) for a video on the given topic. Return only the outline with clear section labels. No markdown asterisks.',
+  'bio-generator': 'You are a branding copywriter. Generate 5 distinct short bio/about-section options (each 1-3 sentences) for the given creator, channel, or brand topic. Return only a numbered list. No markdown asterisks.',
+  'content-calendar': 'You are a content strategist. Generate a 7-day content posting plan for the given topic/niche, with one specific content idea per day, labeled Day 1 through Day 7. No markdown asterisks.',
+  'trending-topics': 'You are a trend-aware content strategist. Generate 15 fresh, currently-relevant content topic ideas related to the given niche or subject. Return only a numbered list. No markdown asterisks.',
+  'emoji-suggestions': 'You generate relevant emoji sets for captions or titles. Given the topic or text, return 15-20 relevant emojis grouped loosely by theme, separated by spaces. No explanation, no markdown asterisks.',
+  'title-comparer': 'You are an expert copywriting judge. Given two titles provided by the user (they may be separated by a line break, "vs", or similar), pick the stronger one for click-through rate and clearly explain why in 2-3 sentences, then briefly suggest one improvement to the weaker one. No markdown asterisks.',
   'default': 'You are an intelligent creator assistant for Multi Tube Views. Provide concise, clear, and actionable recommendations for creators and media managers.'
 };
 
@@ -715,6 +723,22 @@ function generateDynamicCreatorResponse(promptText: string, customTopic?: string
       detectedToolId = 'grammar-polish';
     } else if (lowerPrompt.includes('translate')) {
       detectedToolId = 'translate';
+    } else if (lowerPrompt.includes('thumbnail text') || lowerPrompt.includes('thumbnail-text')) {
+      detectedToolId = 'thumbnail-text';
+    } else if (lowerPrompt.includes('hook') || lowerPrompt.includes('video-hook')) {
+      detectedToolId = 'video-hook';
+    } else if (lowerPrompt.includes('script outline') || lowerPrompt.includes('script-outline')) {
+      detectedToolId = 'script-outline';
+    } else if (lowerPrompt.includes('bio') || lowerPrompt.includes('bio-generator')) {
+      detectedToolId = 'bio-generator';
+    } else if (lowerPrompt.includes('content calendar') || lowerPrompt.includes('content-calendar')) {
+      detectedToolId = 'content-calendar';
+    } else if (lowerPrompt.includes('trending topics') || lowerPrompt.includes('trending-topics')) {
+      detectedToolId = 'trending-topics';
+    } else if (lowerPrompt.includes('emoji') || lowerPrompt.includes('emoji-suggestions')) {
+      detectedToolId = 'emoji-suggestions';
+    } else if (lowerPrompt.includes('title comparer') || lowerPrompt.includes('title-comparer') || lowerPrompt.includes('compare')) {
+      detectedToolId = 'title-comparer';
     } else {
       detectedToolId = 'ai-auto';
     }
@@ -898,6 +922,100 @@ ${cleanInput.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, how to
     } else {
       return "Hello, welcome to my technology channel.";
     }
+  }
+
+  if (detectedToolId === 'thumbnail-text') {
+    return `1. THIS CHANGES EVERYTHING
+2. DON'T DO THIS
+3. 99% GET THIS WRONG
+4. MASTER ${coreSubject.toUpperCase()} NOW
+5. THE SECRET METHOD
+6. ZERO TO PRO
+7. FASTEST WAY TO WIN
+8. WATCH BEFORE STARTING
+9. 5 BIG MISTAKES
+10. UNLOCK FULL POTENTIAL`;
+  }
+
+  if (detectedToolId === 'video-hook') {
+    return `1. If you are still doing ${coreSubject} the old way, you are losing 90% of your potential results.
+2. What if I told you that 5 minutes of this single ${coreSubject} technique could double your growth?
+3. Stop scrolling! Before you start your next ${coreSubject} project, there is one critical mistake you must fix.
+4. Almost everyone gets ${coreSubject} wrong on day one — here is the exact secret top pros use instead.
+5. I tried every ${coreSubject} method for 30 days, and only one actually delivered real results.
+6. The biggest myth about ${coreSubject} is holding you back, and today we are breaking it down.
+7. Here is the exact 3-step blueprint for ${coreSubject} that nobody is talking about.
+8. If you want to master ${coreSubject} fast in 2026, pay close attention to this first step.`;
+  }
+
+  if (detectedToolId === 'script-outline') {
+    return `Intro:
+• Quick hook explaining why ${coreSubject} matters right now
+• Overview of what viewers will learn by the end of the video
+
+Main Point 1: Core Foundations of ${coreSubject}
+• Essential principles and initial setup
+• Common beginner misconceptions to ignore
+
+Main Point 2: Step-by-Step Execution Blueprint
+• Actionable walkthrough of the primary framework
+• Key tools and workflow optimizations
+
+Main Point 3: Pro Tips & Hidden Hacks
+• Advanced strategies to gain a competitive edge
+• Key pitfalls to avoid during execution
+
+Conclusion & Call-to-Action:
+• Recap of core takeaways
+• Next steps for the viewer & subscribe/follow call-to-action`;
+  }
+
+  if (detectedToolId === 'bio-generator') {
+    return `1. Passionate creator sharing daily insights, tutorials, and practical strategies on ${coreSubject}. Join the journey and master your skills with us!
+2. Your go-to resource for ${coreSubject}. Simplifying complex concepts into actionable, high-impact guides for creators and innovators.
+3. Helping you build, scale, and optimize ${coreSubject} faster. Subscribe for weekly deep dives and proven techniques.
+4. Exploring the cutting edge of ${coreSubject}. Tutorials, case studies, and real-world experiments for motivated learners.
+5. Official channel for ${coreSubject} masterclasses and tutorials. Transform your workflow with practical, step-by-step advice.`;
+  }
+
+  if (detectedToolId === 'content-calendar') {
+    return `Day 1: Introduction to ${coreSubject} — The ultimate beginner framework
+Day 2: Top 3 tools you need to master ${coreSubject} in 2026
+Day 3: Behind the scenes: My exact daily process for ${coreSubject}
+Day 4: Common mistakes everyone makes with ${coreSubject} (And fixes)
+Day 5: Case Study: How focusing on ${coreSubject} created 10x growth
+Day 6: Q&A session & responding to top audience questions on ${coreSubject}
+Day 7: Weekly recap & action plan to scale ${coreSubject} next week`;
+  }
+
+  if (detectedToolId === 'trending-topics') {
+    return `1. The AI Revolution in ${coreSubject}: What's changing in 2026
+2. Why ${coreSubject} is exploding on ${targetPlatform} right now
+3. Top 5 low-competition ${coreSubject} niches to target today
+4. How top creators are monetizing ${coreSubject} in 2026
+5. The future of ${coreSubject}: Trends you cannot ignore
+6. 10 minute automated workflow for ${coreSubject}
+7. ${coreSubject} vs Traditional Methods: Full comparison
+8. Is ${coreSubject} oversaturated? The honest truth
+9. Simple ${coreSubject} hacks that save 10+ hours a week
+10. How beginners can get immediate traction with ${coreSubject}
+11. Essential ${coreSubject} skills every creator needs this year
+12. Breakdown of the most viral ${coreSubject} campaigns
+13. How to combine ${coreSubject} with modern automation tools
+14. The step-by-step ${coreSubject} checklist for maximum reach
+15. Key predictions for ${coreSubject} over the next 12 months`;
+  }
+
+  if (detectedToolId === 'emoji-suggestions') {
+    return `🚀 🔥 💡 🎯 ✨ 📈 💻 ⚡ 🏆 🧠 🌟 📱 📌 🎬 📊 🛠️ 🔥 ✨ 🚀`;
+  }
+
+  if (detectedToolId === 'title-comparer') {
+    return `Recommended Pick: Option 2 is significantly stronger for CTR.
+
+Reasoning: Option 2 creates higher curiosity and specifies a clear value outcome ("How I Mastered..." vs "10 Tips"). Specific timeframes or transformation hooks generate higher click-through rates on modern media platforms.
+
+Improvement for Option 1: Add a high-curiosity outcome or number modifier (e.g., "10 ${coreSubject} Tips That Will Save You 100 Hours").`;
   }
 
   // Default AI Auto output
