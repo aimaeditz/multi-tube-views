@@ -58,8 +58,8 @@
       return true;
     }
     const val = (selectEl.value || '').trim();
-    if (!val) return false;
-    if (val.toLowerCase() === 'placeholder' || val.toLowerCase().startsWith('select-') || val === 'select') {
+    if (!val) return true; // Allow default fallback platform/language/tone
+    if (val.toLowerCase() === 'placeholder' || val.toLowerCase().startsWith('select-')) {
       return false;
     }
     const selectedOpt = selectEl.options[selectEl.selectedIndex];
