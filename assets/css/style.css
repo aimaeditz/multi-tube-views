@@ -44,11 +44,11 @@
   --danger-text: #FF3B30;
   --danger-border: #FFD1D1;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
-  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.02);
-  --shadow-xl: 0 20px 30px -6px rgba(0, 0, 0, 0.08);
+  /* Shadows — Refined Soft, Diffused, Cool-Toned Tokens */
+  --shadow-sm: 0 2px 8px -2px rgba(15, 23, 42, 0.04), 0 1px 3px -1px rgba(15, 23, 42, 0.02);
+  --shadow-md: 0 8px 24px -4px rgba(15, 23, 42, 0.06), 0 2px 8px -2px rgba(15, 23, 42, 0.03);
+  --shadow-lg: 0 16px 36px -6px rgba(15, 23, 42, 0.08), 0 4px 12px -3px rgba(15, 23, 42, 0.03);
+  --shadow-xl: 0 24px 48px -10px rgba(15, 23, 42, 0.10), 0 8px 20px -4px rgba(15, 23, 42, 0.04);
 
   /* Radii */
   --radius-sm: 8px;
@@ -97,10 +97,10 @@
   --danger-text: #FF453A;
   --danger-border: #5C151B;
 
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.6);
-  --shadow-xl: 0 20px 30px -6px rgba(0, 0, 0, 0.7);
+  --shadow-sm: 0 2px 8px -2px rgba(0, 0, 0, 0.35), 0 1px 3px -1px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.45), 0 2px 8px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.55), 0 4px 12px -3px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 24px 48px -10px rgba(0, 0, 0, 0.65), 0 8px 20px -4px rgba(0, 0, 0, 0.4);
 }
 
 /* Base Reset */
@@ -128,10 +128,24 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(ellipse 1000px 520px at 50% -40px, rgba(0, 102, 204, 0.045) 0%, rgba(139, 92, 246, 0.03) 45%, transparent 80%),
+    radial-gradient(ellipse 900px 600px at 90% 700px, rgba(0, 102, 204, 0.025) 0%, rgba(168, 85, 247, 0.018) 45%, transparent 75%),
+    radial-gradient(ellipse 850px 550px at 10% 1500px, rgba(139, 92, 246, 0.022) 0%, rgba(0, 102, 204, 0.015) 50%, transparent 75%),
+    radial-gradient(ellipse 1000px 600px at 50% 2300px, rgba(0, 102, 204, 0.02) 0%, rgba(139, 92, 246, 0.018) 50%, transparent 80%);
+  background-repeat: no-repeat;
   color: var(--text-primary);
   transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
   overflow-x: hidden;
   width: 100%;
+}
+
+[data-theme="dark"] body {
+  background-image: 
+    radial-gradient(ellipse 1000px 520px at 50% -40px, rgba(41, 151, 255, 0.06) 0%, rgba(168, 85, 247, 0.035) 45%, transparent 80%),
+    radial-gradient(ellipse 900px 600px at 90% 700px, rgba(41, 151, 255, 0.035) 0%, rgba(168, 85, 247, 0.02) 45%, transparent 75%),
+    radial-gradient(ellipse 850px 550px at 10% 1500px, rgba(168, 85, 247, 0.03) 0%, rgba(41, 151, 255, 0.02) 50%, transparent 75%),
+    radial-gradient(ellipse 1000px 600px at 50% 2300px, rgba(41, 151, 255, 0.025) 0%, rgba(168, 85, 247, 0.02) 50%, transparent 80%);
 }
 
 body.drawer-open {
@@ -626,7 +640,7 @@ input, select, textarea, button {
     transform: translateY(-2.5px);
     color: var(--text-primary);
     background-color: var(--bg-surface);
-    box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.08), 0 2px 6px -2px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.06), 0 2px 6px -2px rgba(15, 23, 42, 0.03);
   }
 
   [data-theme="dark"] .site-footer a:hover,
@@ -636,7 +650,7 @@ input, select, textarea, button {
   [data-theme="dark"] .creator-link:hover,
   [data-theme="dark"] .footer-brand-link:hover {
     background-color: var(--bg-surface-elevated);
-    box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.5), 0 2px 8px -2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 2px 8px -2px rgba(0, 0, 0, 0.3);
   }
 }
 

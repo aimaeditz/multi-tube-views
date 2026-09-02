@@ -19,14 +19,13 @@
 .reading-header::before {
   content: '';
   position: absolute;
-  top: -25%;
+  top: -20%;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  max-width: 900px;
-  height: 340px;
-  background: radial-gradient(ellipse at center, rgba(0, 102, 204, 0.08) 0%, rgba(139, 92, 246, 0.05) 50%, transparent 75%);
-  filter: blur(55px);
+  width: 92%;
+  max-width: 950px;
+  height: 360px;
+  background: radial-gradient(ellipse 75% 65% at 50% 45%, rgba(0, 102, 204, 0.065) 0%, rgba(139, 92, 246, 0.04) 45%, transparent 75%);
   pointer-events: none;
   z-index: 0;
   border-radius: 50%;
@@ -39,8 +38,7 @@
 [data-theme="dark"] .platform-page-header::before,
 [data-theme="dark"] .page-header::before,
 [data-theme="dark"] .reading-header::before {
-  background: radial-gradient(ellipse at center, rgba(41, 151, 255, 0.14) 0%, rgba(168, 85, 247, 0.09) 50%, transparent 75%);
-  filter: blur(65px);
+  background: radial-gradient(ellipse 75% 65% at 50% 45%, rgba(41, 151, 255, 0.11) 0%, rgba(168, 85, 247, 0.07) 45%, transparent 75%);
 }
 
 .hero-section > *,
@@ -187,7 +185,13 @@
 .legal-card,
 .doc-card,
 .workspace-card,
-.stat-card {
+.stat-card,
+.creator-tool-card,
+.ai-image-tool-card,
+.metric-card,
+.title-variation-card,
+.social-promo-card,
+.thumb-mock-card {
   transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), 
               box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1), 
               border-color 180ms ease, 
@@ -201,6 +205,8 @@
   .ai-prompt-entry-card:hover,
   .creator-tools-card:hover,
   .image-tool-card:hover,
+  .creator-tool-card:hover,
+  .ai-image-tool-card:hover,
   .prompt-card:hover,
   .feature-card:hover,
   .article-card:hover,
@@ -214,9 +220,13 @@
   .legal-card:hover,
   .doc-card:hover,
   .workspace-card:hover,
-  .stat-card:hover {
+  .stat-card:hover,
+  .metric-card:hover,
+  .title-variation-card:hover,
+  .social-promo-card:hover,
+  .thumb-mock-card:hover {
     transform: translateY(-2.5px);
-    box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.07), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.08), 0 3px 10px -2px rgba(15, 23, 42, 0.03);
     border-color: var(--border-strong);
   }
 
@@ -226,6 +236,8 @@
   [data-theme="dark"] .ai-prompt-entry-card:hover,
   [data-theme="dark"] .creator-tools-card:hover,
   [data-theme="dark"] .image-tool-card:hover,
+  [data-theme="dark"] .creator-tool-card:hover,
+  [data-theme="dark"] .ai-image-tool-card:hover,
   [data-theme="dark"] .prompt-card:hover,
   [data-theme="dark"] .feature-card:hover,
   [data-theme="dark"] .article-card:hover,
@@ -239,8 +251,12 @@
   [data-theme="dark"] .legal-card:hover,
   [data-theme="dark"] .doc-card:hover,
   [data-theme="dark"] .workspace-card:hover,
-  [data-theme="dark"] .stat-card:hover {
-    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.45), 0 3px 10px -2px rgba(0, 0, 0, 0.25);
+  [data-theme="dark"] .stat-card:hover,
+  [data-theme="dark"] .metric-card:hover,
+  [data-theme="dark"] .title-variation-card:hover,
+  [data-theme="dark"] .social-promo-card:hover,
+  [data-theme="dark"] .thumb-mock-card:hover {
+    box-shadow: 0 14px 32px -6px rgba(0, 0, 0, 0.52), 0 4px 12px -2px rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.16);
   }
 
