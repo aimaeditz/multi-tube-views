@@ -661,7 +661,7 @@
             <!-- Output Players -->
             <video id="media-output-video-player" controls class="media-preview-player" style="display: none;"></video>
             <audio id="media-output-audio-player" controls style="width: 100%; display: none; margin-top: 0.5rem;"></audio>
-            <img id="media-output-gif-preview" style="max-width: 100%; border-radius: var(--radius-md); display: none; margin-top: 0.5rem;" alt="Generated GIF Preview" />
+            <img id="media-output-gif-preview" class="media-preview-player" style="display: none; object-fit: contain; background: #000; margin-top: 1rem;" alt="Generated GIF Preview" />
 
             <!-- Output Action Buttons -->
             <div style="display: flex; gap: 1rem; margin-top: 1.25rem; flex-wrap: wrap;">
@@ -776,6 +776,7 @@
     }
   </style>
 
+  <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js"></script>
   <script src="assets/js/navigation.js"></script>
   <script src="assets/js/media-converter.js"></script>
 </body>
