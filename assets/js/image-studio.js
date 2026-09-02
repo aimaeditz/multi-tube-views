@@ -572,76 +572,180 @@ class ImageStudioEngine {
 
     let progress = 0;
     const interval = setInterval(() => {
-      progress += 15;
-      if (progress > 85) {
+      progress += 10;
+      if (progress > 80) {
         clearInterval(interval);
         this.runAlgorithm();
       } else {
         this.progressBar.style.width = `${progress}%`;
         this.loadingStatus.textContent = `Analyzing pixel matrices (${progress}%)...`;
       }
-    }, 80);
+    }, 70);
   }
 
-  runAlgorithm() {
-    this.loadingStatus.textContent = 'Rendering outputs...';
-    this.progressBar.style.width = '95%';
+  resizeImageIfLarge(imgElement, maxDimension = 1024) {
+    let width = imgElement.naturalWidth || imgElement.width;
+    let height = imgElement.naturalHeight || imgElement.height;
+    
+    if (width <= maxDimension && height <= maxDimension) {
+      // Return original base64 URL
+      return imgElement.src;
+    }
+    
+    if (width > height) {
+      height = Math.floor((maxDimension / width) * height);
+      width = maxDimension;
+    } else {
+      width = Math.floor((maxDimension / height) * width);
+      height = maxDimension;
+    }
+    
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(imgElement, 0, 0, width, height);
+    return canvas.toDataURL('image/jpeg', 0.92);
+  }
 
-    // Create temporary processing canvas matching the image original scale
-    const processCanvas = document.createElement('canvas');
-    let width = this.uploadedImageWidth;
-    let height = this.uploadedImageHeight;
+  generateEraserMaskBase64() {
+    const maskCanvas = document.createElement('canvas');
+    maskCanvas.width = this.uploadedImageWidth;
+    maskCanvas.height = this.uploadedImageHeight;
+    const maskCtx = maskCanvas.getContext('2d');
+    
+    // Solid black background (unmasked)
+    maskCtx.fillStyle = '#000000';
+    maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
+    
+    const scaleX = this.uploadedImageWidth / this.inpaintingCanvas.width;
+    const scaleY = this.uploadedImageHeight / this.inpaintingCanvas.height;
+    
+    const visibleMaskImgData = this.maskCtx.getImageData(0, 0, this.inpaintingCanvas.width, this.inpaintingCanvas.height);
+    const visibleMaskData = visibleMaskImgData.data;
+    
+    const hiresMaskImgData = maskCtx.getImageData(0, 0, maskCanvas.width, maskCanvas.height);
+    const hiresMaskData = hiresMaskImgData.data;
+    
+    for (let y = 0; y < maskCanvas.height; y++) {
+      const maskY = Math.min(this.inpaintingCanvas.height - 1, Math.floor(y / scaleY));
+      for (let x = 0; x < maskCanvas.width; x++) {
+        const maskX = Math.min(this.inpaintingCanvas.width - 1, Math.floor(x / scaleX));
+        const mIdx = (maskY * this.inpaintingCanvas.width + maskX) * 4;
+        
+        if (visibleMaskData[mIdx] > 180 && visibleMaskData[mIdx+1] < 120 && visibleMaskData[mIdx+2] < 120) {
+          const hIdx = (y * maskCanvas.width + x) * 4;
+          hiresMaskData[hIdx] = 255;     // R
+          hiresMaskData[hIdx+1] = 255;   // G
+          hiresMaskData[hIdx+2] = 255;   // B
+          hiresMaskData[hIdx+3] = 255;   // A
+        }
+      }
+    }
+    maskCtx.putImageData(hiresMaskImgData, 0, 0);
+    return maskCanvas.toDataURL('image/png');
+  }
 
-    // If upscaler is requested, adjust target dimensions first
-    if (this.currentTool === 'upscaler') {
-      const factor = document.getElementById('upscale-target').value;
-      const multiplier = factor === '2x' ? 2 : factor === '4x' ? 4 : 8;
-      width = width * multiplier;
-      height = height * multiplier;
+  async runAlgorithm() {
+    // If it's Smart Image Compressor, preserve its client-side functionality entirely
+    if (this.currentTool === 'compressor') {
+      this.loadingStatus.textContent = 'Rendering outputs...';
+      this.progressBar.style.width = '95%';
+
+      const processCanvas = document.createElement('canvas');
+      let width = this.uploadedImageWidth;
+      let height = this.uploadedImageHeight;
+      processCanvas.width = width;
+      processCanvas.height = height;
+      const ctx = processCanvas.getContext('2d');
+      ctx.drawImage(this.originalImage, 0, 0, width, height);
+
+      this.runCompressor(processCanvas);
+      return;
     }
 
-    processCanvas.width = width;
-    processCanvas.height = height;
+    this.loadingStatus.textContent = 'Contacting Gemini AI Engine...';
+    this.progressBar.style.width = '85%';
 
-    const ctx = processCanvas.getContext('2d');
+    try {
+      this.loadingStatus.textContent = 'Optimizing image resolution...';
+      const resizedBase64 = this.resizeImageIfLarge(this.originalImage, 1024);
 
-    // Run custom filter algorithm pipeline
-    if (this.currentTool === 'object-eraser') {
-      // Inpainter runs directly on visual dimensions from visible canvas, then exports to matching canvas size
-      this.runObjectEraser(ctx, processCanvas);
-    } else {
-      ctx.drawImage(this.originalImage, 0, 0, width, height);
-      const imgData = ctx.getImageData(0, 0, width, height);
+      let task = '';
+      const options = {};
 
       switch (this.currentTool) {
         case 'bg-remover':
-          this.runBackgroundRemover(imgData);
+          task = 'background-remover';
           break;
         case 'upscaler':
-          this.runUpscaler(ctx, processCanvas);
+          task = 'image-upscaler';
+          const factor = document.getElementById('upscale-target').value;
+          options.targetResolution = factor === '2x' ? '2K' : factor === '4x' ? '4K' : '8K';
           break;
         case 'sharpener':
-          this.runSharpener(imgData);
+          task = 'photo-sharpener';
           break;
         case 'restorer':
-          this.runRestorer(imgData);
+          task = 'photo-restorer';
           break;
         case 'colorizer':
-          this.runColorizer(imgData);
+          task = 'image-colorizer';
           break;
         case 'cartoon-filter':
-          this.runCartoonFilter(imgData);
+          task = 'art-style-filter';
+          const style = document.getElementById('art-style').value;
+          options.selectedStyle = style === 'sketch' ? 'Pencil Sketch' : style === 'painting' ? 'Watercolor Painting' : 'Comic Cartoon';
           break;
-        case 'compressor':
-          // Compressor runs via custom image blob quality encoding directly
-          this.runCompressor(processCanvas);
-          return; // returns early because it uses async toBlob
+        case 'object-eraser':
+          task = 'object-eraser';
+          this.loadingStatus.textContent = 'Generating brush selection mask...';
+          const maskBase64 = this.generateEraserMaskBase64();
+          options.maskImage = maskBase64;
+          break;
+        default:
+          throw new Error('Unsupported tool selected');
       }
 
-      if (this.currentTool !== 'upscaler') {
-        ctx.putImageData(imgData, 0, 0);
+      this.loadingStatus.textContent = 'Processing request with Gemini AI (this can take 5-15 seconds)...';
+      this.progressBar.style.width = '92%';
+
+      const response = await fetch('/api/image-proxy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          image: resizedBase64,
+          task,
+          options
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `Server responded with status ${response.status}`);
       }
-      this.displayResults(processCanvas.toDataURL('image/png'));
+
+      const result = await response.json();
+      if (!result.success || !result.image) {
+        throw new Error('No image was returned by the AI server.');
+      }
+
+      this.loadingStatus.textContent = 'Done! Rendering edited outputs...';
+      this.progressBar.style.width = '100%';
+      this.displayResults(result.image);
+
+    } catch (err) {
+      console.error('[ImageStudio] AI processing failed:', err);
+      
+      this.progressBar.style.width = '0%';
+      this.loadingIndicator.style.display = 'none';
+      
+      this.processBtn.disabled = false;
+      this.processBtn.style.opacity = '1';
+
+      alert(`AI Image Processing Failed: ${err.message || err}\n\nPlease try again. Ensure a valid Gemini API key is configured in settings.`);
     }
   }
 

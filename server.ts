@@ -7,6 +7,7 @@ import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
 import aiProxyHandler from './api/ai-proxy.js';
+import imageProxyHandler from './api/image-proxy.js';
 
 const app = express();
 const PORT = 3000;
@@ -1079,6 +1080,11 @@ ${coreSubject.toLowerCase()}, ${primaryTag} tutorial, ${primaryTag} guide, ${pri
 // 2c. Dedicated AI Proxy API Endpoint for MTV Creator Tools
 app.all('/api/ai-proxy', (req: Request, res: Response) => {
   return aiProxyHandler(req, res);
+});
+
+// 2d. Dedicated AI Image Proxy API Endpoint for MTV Image Studio Tools
+app.all('/api/image-proxy', (req: Request, res: Response) => {
+  return imageProxyHandler(req, res);
 });
 
 // 3. Multi-Provider AI Chat Endpoint
