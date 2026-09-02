@@ -1,6 +1,6 @@
 {
   "name": "Multi Tube Views",
-  "description": "Multi-Platform Public Media Workspace with dedicated media player adapters for 20+ platforms, curated AI prompts and image tools directory, and a 20-tool creator optimization suite.",
+  "description": "Multi-Platform Public Media Workspace with dedicated media player adapters for 40+ platforms, curated AI prompts and image tools directory, and a 20-tool creator optimization suite.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -16,7 +16,7 @@
 
 **Multi Tube Views (MTV)** is a public media workspace for creators, researchers, and everyday users.
 
-- **20 platform workspaces** — dedicated tools for major video, live, short-form, social, audio, and creative platforms  
+- **40 platform workspaces** — dedicated tools for major video, live, short-form, social, audio, and creative platforms  
 - **Single + batch URL input** — paste one link or many at once  
 - **Platform-specific validation** — regex and format checks per platform  
 - **Embed generation** — clean players where embedding is allowed  
@@ -56,7 +56,7 @@ Open: [https://multitubeviews.com](https://multitubeviews.com)
 
 Main entry points:
 - Home — overview + platform categories  
-- Platforms — full directory of 20 tools  
+- Platforms — full directory of 40 tools  
 - AI Prompts & Tools — curated prompts and tool directory  
 - About / Contact / Settings / Legal pages  
 
@@ -96,7 +96,7 @@ Also works on Cloudflare Pages, Netlify, or any static host.
 multi-tube-views/
 ├── index.html              # Homepage
 ├── platforms.html          # Platform directory
-├── platforms/              # 20 platform workspace pages
+├── platforms/              # 40 platform workspace pages
 ├── ai-prompt.html          # AI Prompts & Tools (static)
 ├── about.html, settings.html, ...
 ├── assets/

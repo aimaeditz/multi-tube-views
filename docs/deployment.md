@@ -8,7 +8,7 @@ This document provides a technical reference for the architecture, security prac
 
 Multi Tube Views is built with a client-first, privacy-respecting architecture:
 
-- **Frontend Views:** Responsive HTML5/JS views with light/dark theme engines, 20 platform player adapters, AI Prompts & Tools directory, and Creator Tools shortcuts.
+- **Frontend Views:** Responsive HTML5/JS views with light/dark theme engines, 40 platform player adapters, AI Prompts & Tools directory, and Creator Tools shortcuts.
 - **Client-Side Engine:** All URL parsing, platform regex validation, grid state generation, and local preferences management run entirely in the browser.
 - **No Backend Database or User Tracking:** The site requires no backend user accounts or external database logging. Submitted URLs and viewing preferences remain strictly on the user's local device.
 
