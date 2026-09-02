@@ -315,16 +315,25 @@ input, select, textarea, button {
 .nav-desktop {
   display: flex;
   align-items: center;
-  gap: 1.75rem;
+  gap: clamp(0.6rem, 1.3vw, 1.25rem);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-desktop::-webkit-scrollbar {
+  display: none;
 }
 
 .nav-link {
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-secondary);
-  padding: 0.4rem 0.2rem;
+  padding: 0.4rem 0.15rem;
   position: relative;
   transition: color var(--transition-speed) ease;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
