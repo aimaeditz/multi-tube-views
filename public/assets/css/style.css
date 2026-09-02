@@ -315,16 +315,66 @@ input, select, textarea, button {
 .nav-desktop {
   display: flex;
   align-items: center;
-  gap: 1.75rem;
+  gap: clamp(0.6rem, 1.3vw, 1.25rem);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  
+  /* Flexbox space allocation and shrinkage */
+  flex: 0 1 auto;
+  min-width: 0;
+  
+  /* Pushed to the right near the theme toggle button */
+  margin-left: auto;
+  margin-right: 0.5rem;
+  padding-left: 24px;
+  padding-right: 24px;
+  
+  /* Grab/grabbing cursor indicators for drag-scroll */
+  cursor: grab;
+  
+  /* Non-blocking dynamic fade mask for edges - controlled by JS classes */
+  mask-image: none;
+  -webkit-mask-image: none;
+  transition: mask-image 0.2s ease, -webkit-mask-image 0.2s ease;
+}
+
+/* Dynamic edge fade masks based on scrolling status */
+.nav-desktop.can-scroll-left.can-scroll-right {
+  mask-image: linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent);
+}
+
+.nav-desktop:not(.can-scroll-left).can-scroll-right {
+  mask-image: linear-gradient(to right, black, black calc(100% - 24px), transparent);
+  -webkit-mask-image: linear-gradient(to right, black, black calc(100% - 24px), transparent);
+}
+
+.nav-desktop.can-scroll-left:not(.can-scroll-right) {
+  mask-image: linear-gradient(to right, transparent, 24px, black);
+  -webkit-mask-image: linear-gradient(to right, transparent, 24px, black);
+}
+
+.nav-desktop:active {
+  cursor: grabbing;
+}
+
+.nav-desktop::-webkit-scrollbar {
+  display: none;
 }
 
 .nav-link {
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-secondary);
-  padding: 0.4rem 0.2rem;
+  padding: 0.4rem 0.15rem;
   position: relative;
   transition: color var(--transition-speed) ease;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .nav-link:hover {

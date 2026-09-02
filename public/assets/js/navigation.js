@@ -170,4 +170,77 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   initScrollReveal();
+
+  // Desktop Navigation Mouse Drag-to-Scroll & Fade Mask Behavior
+  const navDesktop = document.querySelector('.nav-desktop');
+  if (navDesktop) {
+    // Dynamic mask edge fade updates
+    const updateNavFade = () => {
+      const scrollLeft = navDesktop.scrollLeft;
+      const maxScroll = navDesktop.scrollWidth - navDesktop.clientWidth;
+      
+      const canScrollLeft = scrollLeft > 1;
+      const canScrollRight = scrollLeft < maxScroll - 1;
+      
+      navDesktop.classList.toggle('can-scroll-left', canScrollLeft);
+      navDesktop.classList.toggle('can-scroll-right', canScrollRight);
+    };
+
+    // Initialize and bind scroll events
+    updateNavFade();
+    navDesktop.addEventListener('scroll', updateNavFade, { passive: true });
+    window.addEventListener('resize', updateNavFade, { passive: true });
+    window.addEventListener('load', updateNavFade, { passive: true });
+
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let hasDragged = false;
+
+    navDesktop.addEventListener('mousedown', (e) => {
+      // Only drag with left mouse button
+      if (e.button !== 0) return;
+      isDown = true;
+      hasDragged = false;
+      startX = e.pageX;
+      scrollLeft = navDesktop.scrollLeft;
+      navDesktop.style.cursor = 'grabbing';
+      navDesktop.style.scrollBehavior = 'auto'; // Smooth scroll breaks instant drag feedback
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      const x = e.pageX;
+      const walk = (x - startX) * 1.5; // Scroll speed multiplier
+      if (Math.abs(walk) > 4) {
+        hasDragged = true;
+      }
+      navDesktop.scrollLeft = scrollLeft - walk;
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (!isDown) return;
+      isDown = false;
+      navDesktop.style.cursor = '';
+      navDesktop.style.scrollBehavior = 'smooth'; // Restore smooth scroll on mouseup
+      
+      if (hasDragged) {
+        // Prevent click navigation on active drag-scroll
+        const preventClick = (evt) => {
+          evt.preventDefault();
+          evt.stopPropagation();
+          navDesktop.removeEventListener('click', preventClick, true);
+        };
+        navDesktop.addEventListener('click', preventClick, true);
+      }
+    });
+
+    // Translate vertical scroll wheel into horizontal scroll for the navbar
+    navDesktop.addEventListener('wheel', (e) => {
+      if (e.deltaY !== 0 && e.deltaX === 0) {
+        e.preventDefault();
+        navDesktop.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+  }
 });
