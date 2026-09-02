@@ -193,7 +193,7 @@ export default async function handler(req, res) {
     }
 
     if (apiKeys.length === 0) {
-      res.status(500).json({ error: 'No Gemini API keys configured. Please add one in settings.' });
+      res.status(500).json({ error: 'No MTV AI API keys configured. Please add one in settings.' });
       return;
     }
 
@@ -225,7 +225,7 @@ export default async function handler(req, res) {
       }
     }
 
-    res.status(502).json({ error: 'All Gemini image editing API attempts were exhausted or timed out.' });
+    res.status(502).json({ error: 'All MTV AI image editing API attempts were exhausted or timed out.' });
 
   } catch (err) {
     console.error('[ImageProxy] Handler error:', err);

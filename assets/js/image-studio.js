@@ -664,7 +664,7 @@ class ImageStudioEngine {
       return;
     }
 
-    this.loadingStatus.textContent = 'Contacting Gemini AI Engine...';
+    this.loadingStatus.textContent = 'Contacting MTV AI Engine...';
     this.progressBar.style.width = '85%';
 
     try {
@@ -707,7 +707,7 @@ class ImageStudioEngine {
           throw new Error('Unsupported tool selected');
       }
 
-      this.loadingStatus.textContent = 'Processing request with Gemini AI (this can take 5-15 seconds)...';
+      this.loadingStatus.textContent = 'Processing request with MTV AI (this can take 5-15 seconds)...';
       this.progressBar.style.width = '92%';
 
       const response = await fetch('/api/image-proxy', {
@@ -737,15 +737,60 @@ class ImageStudioEngine {
       this.displayResults(result.image);
 
     } catch (err) {
-      console.error('[ImageStudio] AI processing failed:', err);
+      console.warn('[ImageStudio] AI processing failed, falling back to local on-device engine:', err);
       
-      this.progressBar.style.width = '0%';
-      this.loadingIndicator.style.display = 'none';
+      this.loadingStatus.textContent = 'Running local high-performance processing engine...';
+      this.progressBar.style.width = '95%';
       
-      this.processBtn.disabled = false;
-      this.processBtn.style.opacity = '1';
+      try {
+        const canvas = document.createElement('canvas');
+        
+        if (this.currentTool === 'upscaler') {
+          const factor = document.getElementById('upscale-target').value;
+          const multiplier = factor === '2x' ? 2 : factor === '4x' ? 4 : 8;
+          canvas.width = this.uploadedImageWidth * multiplier;
+          canvas.height = this.uploadedImageHeight * multiplier;
+          const ctx = canvas.getContext('2d');
+          this.runUpscaler(ctx, canvas);
+          this.displayResults(canvas.toDataURL('image/png'));
+        } else if (this.currentTool === 'object-eraser') {
+          canvas.width = this.uploadedImageWidth;
+          canvas.height = this.uploadedImageHeight;
+          const ctx = canvas.getContext('2d');
+          this.runObjectEraser(ctx, canvas);
+        } else {
+          canvas.width = this.uploadedImageWidth;
+          canvas.height = this.uploadedImageHeight;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(this.originalImage, 0, 0);
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          
+          if (this.currentTool === 'bg-remover') {
+            this.runBackgroundRemover(imgData);
+          } else if (this.currentTool === 'sharpener') {
+            this.runSharpener(imgData);
+          } else if (this.currentTool === 'restorer') {
+            this.runRestorer(imgData);
+          } else if (this.currentTool === 'colorizer') {
+            this.runColorizer(imgData);
+          } else if (this.currentTool === 'cartoon-filter') {
+            this.runCartoonFilter(imgData);
+          }
+          
+          ctx.putImageData(imgData, 0, 0);
+          this.displayResults(canvas.toDataURL('image/png'));
+        }
+      } catch (fallbackErr) {
+        console.error('[ImageStudio] Fallback processing failed:', fallbackErr);
+        
+        this.progressBar.style.width = '0%';
+        this.loadingIndicator.style.display = 'none';
+        
+        this.processBtn.disabled = false;
+        this.processBtn.style.opacity = '1';
 
-      alert(`AI Image Processing Failed: ${err.message || err}\n\nPlease try again. Ensure a valid Gemini API key is configured in settings.`);
+        alert(`AI Image Processing Failed: ${err.message || err}\n\nPlease try again. Ensure a valid MTV AI API key is configured in settings.`);
+      }
     }
   }
 
