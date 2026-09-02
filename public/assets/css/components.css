@@ -526,6 +526,28 @@
   text-align: center;
 }
 
+@media (min-width: 992px) {
+  .platform-avatar {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    border-radius: 11px;
+    font-size: 1.2rem;
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 3px 8px -1px rgba(15, 23, 42, 0.04);
+  }
+
+  .platform-avatar svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  [data-theme="dark"] .platform-avatar {
+    box-shadow: 0 2px 8px -1px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+}
+
 .platform-card:hover .platform-avatar {
   transform: scale(1.08);
   box-shadow: var(--shadow-icon-hover);
