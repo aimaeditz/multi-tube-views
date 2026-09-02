@@ -356,7 +356,7 @@ input, select, textarea, button {
   border: 1px solid transparent;
   cursor: pointer;
   white-space: nowrap;
-  transition: all var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
   user-select: none;
 }
 

@@ -210,7 +210,7 @@
   border: 1px solid var(--border-subtle);
   cursor: pointer;
   white-space: nowrap;
-  transition: all var(--transition-speed) ease;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
 
 .growth-tab-btn:hover {
@@ -272,7 +272,7 @@
   color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
   cursor: pointer;
-  transition: all var(--transition-speed) ease;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
 
 .btn-growth-sample:hover {
@@ -586,7 +586,7 @@
   color: var(--text-primary);
   border: 1px solid var(--border-subtle);
   cursor: pointer;
-  transition: all var(--transition-speed) ease;
+  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
 
 .keyword-pill:hover {
@@ -606,7 +606,7 @@
   color: var(--accent-blue);
   border: 1px solid var(--accent-border);
   cursor: pointer;
-  transition: all var(--transition-speed) ease;
+  transition: filter var(--transition-speed) ease;
 }
 
 .hashtag-pill:hover {
@@ -774,7 +774,7 @@
   color: var(--text-primary);
   background-color: var(--bg-subtle);
   border: 1px solid var(--border-strong);
-  transition: all var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease, color var(--transition-speed) ease;
 }
 
 .btn-share-social:hover {

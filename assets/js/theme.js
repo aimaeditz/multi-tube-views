@@ -6,6 +6,39 @@
 
 (function () {
   const root = document.documentElement;
+  let unlockTimer = null;
+
+  function disableTransitionsTemporarily() {
+    const head = document.head || document.getElementsByTagName('head')[0];
+    if (!head) return () => {};
+
+    let style = document.getElementById('mtv-theme-transition-lock');
+    if (!style) {
+      style = document.createElement('style');
+      style.id = 'mtv-theme-transition-lock';
+      style.textContent = '*, *::before, *::after { -webkit-transition: none !important; -moz-transition: none !important; -o-transition: none !important; -ms-transition: none !important; transition: none !important; }';
+      head.appendChild(style);
+    }
+
+    return () => {
+      if (document.body) {
+        // Read property to flush computed styles synchronously
+        void document.body.offsetHeight;
+      }
+      if (unlockTimer) {
+        cancelAnimationFrame(unlockTimer);
+      }
+      unlockTimer = requestAnimationFrame(() => {
+        unlockTimer = requestAnimationFrame(() => {
+          const lock = document.getElementById('mtv-theme-transition-lock');
+          if (lock && lock.parentNode) {
+            lock.parentNode.removeChild(lock);
+          }
+          unlockTimer = null;
+        });
+      });
+    };
+  }
 
   function getEffectiveTheme(savedTheme) {
     if (savedTheme === 'light') {
@@ -22,19 +55,23 @@
   }
 
   function applyTheme(themeName) {
+    const unlock = disableTransitionsTemporarily();
     const effective = getEffectiveTheme(themeName);
     root.setAttribute('data-theme', effective);
     root.style.colorScheme = effective;
     
     // Update theme toggle buttons across the page
     const toggleBtns = document.querySelectorAll('.theme-toggle-btn');
-    toggleBtns.forEach(btn => {
+    for (let i = 0; i < toggleBtns.length; i++) {
+      const btn = toggleBtns[i];
       btn.setAttribute('data-current-theme', effective);
       btn.setAttribute('aria-label', `Switch theme (Current: ${effective})`);
       btn.innerHTML = effective === 'dark' 
         ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`
         : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
-    });
+    }
+
+    unlock();
   }
 
   function applyPreferences() {

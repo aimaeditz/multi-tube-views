@@ -449,7 +449,7 @@
   border: 1px solid var(--border-strong);
   background-color: var(--bg-surface);
   color: var(--text-primary);
-  transition: all var(--transition-speed) ease;
+  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
 }
 
 .search-input:focus {
@@ -807,7 +807,7 @@
   border: 1px solid var(--border-strong);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: all var(--transition-speed) ease;
+  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
 }
 
 .url-input-field:focus {
@@ -1028,7 +1028,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
   text-decoration: none;
 }
 
@@ -1579,7 +1579,7 @@
   border: 1px solid var(--border-strong);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: all var(--transition-speed) ease;
+  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
   line-height: 1.45;
   min-height: 42px;
   box-sizing: border-box;
@@ -1637,7 +1637,7 @@ textarea.form-control {
   justify-content: center;
   gap: 0.5rem;
   cursor: pointer;
-  transition: all var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
   border: none;
   background-color: var(--accent-primary);
   color: var(--text-inverse);
@@ -2021,7 +2021,7 @@ textarea.form-control {
   background-color: var(--bg-surface);
   color: var(--text-primary);
   outline: none;
-  transition: all var(--transition-speed) ease;
+  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
   box-shadow: var(--shadow-sm);
 }
 
@@ -2081,7 +2081,7 @@ textarea.form-control {
   background-color: var(--bg-surface);
   color: var(--text-secondary);
   cursor: pointer;
-  transition: all var(--transition-speed) ease;
+  transition: border-color var(--transition-speed) ease, color var(--transition-speed) ease, background-color var(--transition-speed) ease;
   user-select: none;
   white-space: nowrap;
 }
@@ -2496,7 +2496,7 @@ textarea.form-control {
   background-color: var(--bg-surface);
   color: var(--text-primary);
   outline: none;
-  transition: all var(--transition-speed) ease;
+  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .creator-tools-input:focus {
@@ -2628,7 +2628,7 @@ textarea.form-control {
   color: var(--text-primary);
   cursor: pointer;
   text-decoration: none;
-  transition: all var(--transition-speed) ease;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
   white-space: nowrap;
 }
 
