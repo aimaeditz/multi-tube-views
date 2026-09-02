@@ -25,11 +25,11 @@
   width: 94%;
   max-width: 1000px;
   height: 380px;
-  background: radial-gradient(ellipse 75% 65% at 50% 45%, rgba(0, 102, 204, 0.16) 0%, rgba(139, 92, 246, 0.11) 40%, rgba(6, 182, 212, 0.08) 65%, transparent 80%);
+  background: radial-gradient(ellipse 75% 65% at 50% 45%, rgba(0, 102, 204, 0.045) 0%, rgba(139, 92, 246, 0.03) 40%, rgba(6, 182, 212, 0.02) 65%, transparent 80%);
   pointer-events: none;
   z-index: 0;
   border-radius: 50%;
-  filter: blur(28px);
+  filter: blur(32px);
 }
 
 @keyframes heroFadeSlideUp {
