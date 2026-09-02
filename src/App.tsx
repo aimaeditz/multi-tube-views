@@ -284,7 +284,7 @@ export default function App() {
                   AI Studio
                 </span>
               </div>
-              <p className="text-xs text-slate-500">Frontend <span className="arrow-nudge inline-block">→</span> MTV Express Backend <span className="arrow-nudge inline-block">→</span> Gemini 3.7 Flash API</p>
+              <p className="text-xs text-slate-500">Frontend <span className="arrow-nudge inline-block">→</span> MTV Express Backend <span className="arrow-nudge inline-block">→</span> MTV AI Engine</p>
             </div>
           </div>
 
@@ -318,7 +318,7 @@ export default function App() {
               }`}
             >
               <Sparkles className="w-4 h-4" />
-              <span>Gemini Chat</span>
+              <span>MTV AI Chat</span>
             </button>
 
             <button
@@ -466,7 +466,7 @@ export default function App() {
                     className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
                   >
                     <div className="flex items-center space-x-2 mb-1 text-[11px] font-semibold text-slate-400">
-                      <span>{msg.sender === 'user' ? 'You' : `MTV Gemini (${msg.model || 'gemini-3.7-flash'})`}</span>
+                      <span>{msg.sender === 'user' ? 'You' : `MTV AI (${msg.model || 'gemini-3.7-flash'})`}</span>
                       <span>•</span>
                       <span>{msg.timestamp}</span>
                     </div>
@@ -514,7 +514,7 @@ export default function App() {
                   type="text"
                   value={inputPrompt}
                   onChange={(e) => setInputPrompt(e.target.value)}
-                  placeholder="Ask MTV Gemini AI... (e.g. Generate 5 YouTube video title ideas for Tech Review)"
+                  placeholder="Ask MTV AI... (e.g. Generate 5 YouTube video title ideas for Tech Review)"
                   className="flex-1 px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
                 />
                 <button
@@ -534,7 +534,7 @@ export default function App() {
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
               <div>
                 <h2 className="text-lg font-bold text-slate-900">Video SEO & Packaging Audit</h2>
-                <p className="text-sm text-slate-500">Analyze video discoverability, title length, keywords, and description quality using Gemini AI.</p>
+                <p className="text-sm text-slate-500">Analyze video discoverability, title length, keywords, and description quality using MTV AI.</p>
               </div>
 
               <form onSubmit={handleRunAudit} className="space-y-4">
@@ -582,7 +582,7 @@ export default function App() {
                     {isAuditing ? (
                       <>
                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Auditing with Gemini...</span>
+                        <span>Auditing with MTV AI...</span>
                       </>
                     ) : (
                       <>

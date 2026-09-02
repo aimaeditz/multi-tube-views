@@ -356,9 +356,9 @@ class ImageStudioEngine {
         this.comparisonOriginalImg.src = e.target.result;
 
         // Routing layout structure based on tool logic
-        if (this.currentTool === 'object-eraser') {
+        if (this.currentTool === 'object-eraser' || this.currentTool === 'bg-remover') {
           this.canvasWorkspaceWrap.style.display = 'block';
-          this.inputPreviewWrap.style.display = 'none';
+          this.inputPreviewWrap.style.display = this.currentTool === 'bg-remover' ? 'block' : 'none';
           this.fitCanvasToImage();
         } else {
           this.canvasWorkspaceWrap.style.display = 'none';
@@ -374,7 +374,20 @@ class ImageStudioEngine {
     reader.readAsDataURL(file);
   }
 
-  // ERASER WORKSPACE INTERACTION (CANVAS & OVERLAYS)
+  // Helper method to detect if user painted on the canvas mask
+  hasDrawnMask() {
+    if (!this.maskCtx || !this.inpaintingCanvas) return false;
+    const imgData = this.maskCtx.getImageData(0, 0, this.inpaintingCanvas.width, this.inpaintingCanvas.height);
+    const data = imgData.data;
+    for (let i = 0; i < data.length; i += 16) {
+      if (data[i] > 180 && data[i+1] < 120 && data[i+2] < 120) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // ERASER / TOUCH-UP WORKSPACE INTERACTION (CANVAS & OVERLAYS)
   setupEraserCanvas() {
     const getPos = (e) => {
       const rect = this.inpaintingCanvas.getBoundingClientRect();
@@ -387,7 +400,7 @@ class ImageStudioEngine {
     };
 
     const startDraw = (e) => {
-      if (this.currentTool !== 'object-eraser') return;
+      if (this.currentTool !== 'object-eraser' && this.currentTool !== 'bg-remover') return;
       e.preventDefault();
       this.isDrawing = true;
       const pos = getPos(e);
@@ -396,7 +409,7 @@ class ImageStudioEngine {
     };
 
     const draw = (e) => {
-      if (!this.isDrawing || this.currentTool !== 'object-eraser') return;
+      if (!this.isDrawing || (this.currentTool !== 'object-eraser' && this.currentTool !== 'bg-remover')) return;
       e.preventDefault();
       const pos = getPos(e);
 
@@ -430,11 +443,11 @@ class ImageStudioEngine {
 
     // Eraser hover cursor indicator
     this.inpaintingCanvas.addEventListener('mouseenter', () => {
-      if (this.currentTool === 'object-eraser') this.brushPreview.style.display = 'block';
+      if (this.currentTool === 'object-eraser' || this.currentTool === 'bg-remover') this.brushPreview.style.display = 'block';
     });
 
     this.inpaintingCanvas.addEventListener('mousemove', (e) => {
-      if (this.currentTool !== 'object-eraser') return;
+      if (this.currentTool !== 'object-eraser' && this.currentTool !== 'bg-remover') return;
       const rect = this.inpaintingCanvas.getBoundingClientRect();
       const parentRect = this.canvasContainer.getBoundingClientRect();
 
@@ -532,10 +545,28 @@ class ImageStudioEngine {
 
     const eraserBrushSize = document.getElementById('eraser-brush-size');
     const brushSizeVal = document.getElementById('brush-size-val');
-    eraserBrushSize.addEventListener('input', (e) => {
-      this.brushSize = parseInt(e.target.value, 10);
-      brushSizeVal.textContent = `${e.target.value}px`;
-    });
+    if (eraserBrushSize && brushSizeVal) {
+      eraserBrushSize.addEventListener('input', (e) => {
+        this.brushSize = parseInt(e.target.value, 10);
+        brushSizeVal.textContent = `${e.target.value}px`;
+      });
+    }
+
+    const bgBrushSize = document.getElementById('bg-brush-size');
+    const bgBrushSizeVal = document.getElementById('bg-brush-size-val');
+    if (bgBrushSize && bgBrushSizeVal) {
+      bgBrushSize.addEventListener('input', (e) => {
+        this.brushSize = parseInt(e.target.value, 10);
+        bgBrushSizeVal.textContent = `${e.target.value}px`;
+      });
+    }
+
+    const clearBgMaskBtn = document.getElementById('btn-clear-bg-mask');
+    if (clearBgMaskBtn) {
+      clearBgMaskBtn.addEventListener('click', () => {
+        this.fitCanvasToImage();
+      });
+    }
   }
 
   setupWorkspaceListeners() {
@@ -677,6 +708,11 @@ class ImageStudioEngine {
       switch (this.currentTool) {
         case 'bg-remover':
           task = 'background-remover';
+          if (this.hasDrawnMask()) {
+            this.loadingStatus.textContent = 'Generating touch-up selection mask...';
+            const bgMaskBase64 = this.generateEraserMaskBase64();
+            options.maskImage = bgMaskBase64;
+          }
           break;
         case 'upscaler':
           task = 'image-upscaler';
@@ -878,6 +914,27 @@ class ImageStudioEngine {
         // Soft feather edge alpha blending
         const factor = (distance - threshold) / 10;
         data[i + 3] = Math.floor(factor * 255);
+      }
+    }
+
+    // Apply touch-up mask if drawn
+    if (this.hasDrawnMask()) {
+      const scaleX = this.inpaintingCanvas.width / imgData.width;
+      const scaleY = this.inpaintingCanvas.height / imgData.height;
+      const maskImgData = this.maskCtx.getImageData(0, 0, this.inpaintingCanvas.width, this.inpaintingCanvas.height);
+      const maskData = maskImgData.data;
+      const wMask = this.inpaintingCanvas.width;
+
+      for (let y = 0; y < imgData.height; y++) {
+        const maskY = Math.min(this.inpaintingCanvas.height - 1, Math.floor(y * scaleY));
+        for (let x = 0; x < imgData.width; x++) {
+          const maskX = Math.min(wMask - 1, Math.floor(x * scaleX));
+          const mIdx = (maskY * wMask + maskX) * 4;
+          if (maskData[mIdx] > 180 && maskData[mIdx + 1] < 120 && maskData[mIdx + 2] < 120) {
+            const idx = (y * imgData.width + x) * 4;
+            data[idx + 3] = 0; // Make transparent
+          }
+        }
       }
     }
   }

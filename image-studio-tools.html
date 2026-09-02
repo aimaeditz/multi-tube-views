@@ -526,7 +526,7 @@
                 <div class="image-option-group">
                   <label for="bg-method">Removal Strategy</label>
                   <select id="bg-method">
-                    <option value="auto" selected>Auto Dominant Color Erase (Best for solid backgrounds)</option>
+                    <option value="auto" selected>Auto Sub-Pixel Edge Matting (MTV AI)</option>
                     <option value="click">Manual Magic Wand (Click subject to select background)</option>
                   </select>
                 </div>
@@ -537,9 +537,19 @@
                     <span id="bg-threshold-val" style="font-weight: 600; min-width: 25px;">35</span>
                   </div>
                 </div>
+                <div class="image-option-group">
+                  <label for="bg-brush-size">Touch-Up Brush Size</label>
+                  <div class="image-option-row">
+                    <input type="range" id="bg-brush-size" min="5" max="80" value="25" style="flex: 1;" />
+                    <span class="brush-size-display" id="bg-brush-size-val">25px</span>
+                  </div>
+                </div>
+                <div class="image-option-group">
+                  <button type="button" class="btn btn-secondary" id="btn-clear-bg-mask" style="margin-top: auto; padding: 0.65rem;">Reset Touch-Up Mask</button>
+                </div>
               </div>
               <p id="bg-manual-hint" style="display: none; font-size: 0.85rem; color: var(--accent-primary); margin-top: 0.75rem; font-weight: 600;">
-                💡 Mode active: Click directly on the background color inside the "Uploaded Image" box above to select it for removal!
+                💡 Mode active: Click directly on the background color inside the "Uploaded Image" box above to select it for removal! You can also paint directly on the image workspace to highlight target removal areas.
               </p>
             </div>
 
