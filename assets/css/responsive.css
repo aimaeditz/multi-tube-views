@@ -1096,7 +1096,7 @@
     max-width: 320px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    gap: 0.4rem 0.45rem !important;
+    gap: 0.6rem 0.65rem !important;
     margin-top: 0.65rem !important;
     margin-bottom: 0.25rem !important;
   }
@@ -2388,7 +2388,7 @@
 
   .hero-trust-badges {
     max-width: 300px !important;
-    gap: 0.35rem 0.35rem !important;
+    gap: 0.55rem 0.55rem !important;
     margin-top: 0.55rem !important;
   }
 
@@ -2640,7 +2640,7 @@
 
   .hero-trust-badges {
     max-width: 280px !important;
-    gap: 0.28rem 0.3rem !important;
+    gap: 0.48rem 0.5rem !important;
     margin-top: 0.45rem !important;
   }
 

@@ -1096,7 +1096,7 @@
     max-width: 320px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    gap: 0.4rem 0.45rem !important;
+    gap: 0.6rem 0.65rem !important;
     margin-top: 0.65rem !important;
     margin-bottom: 0.25rem !important;
   }
@@ -2036,6 +2036,172 @@
     flex-shrink: 0 !important;
   }
 
+  /* Media Converter Tools 2-Column Responsive Grid & Compact Cards for Mobile */
+  .media-tool-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.45rem !important;
+    margin-bottom: 1.25rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .media-tool-card {
+    padding: 0.45rem 0.35rem !important;
+    border-radius: var(--radius-md) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    height: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .media-tool-card > div:first-child {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.15rem !important;
+  }
+
+  .media-tool-icon {
+    font-size: 1.1rem !important;
+    margin-bottom: 0.2rem !important;
+    display: inline-block !important;
+  }
+
+  .media-tool-card h3 {
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.2rem !important;
+    color: var(--text-primary) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .media-tool-card p {
+    font-size: 0.65rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.35rem !important;
+    color: var(--text-secondary) !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    word-break: break-word !important;
+    flex-grow: 1 !important;
+  }
+
+  .media-tool-card > div:last-child {
+    margin-top: 0.3rem !important;
+  }
+
+  .btn-open-media-tool,
+  .media-tool-card .btn {
+    width: 100% !important;
+    height: 26px !important;
+    min-height: 26px !important;
+    padding: 0 0.35rem !important;
+    font-size: 0.65rem !important;
+    font-weight: 600 !important;
+    border-radius: 4px !important;
+    gap: 0.2rem !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+  }
+
+  .btn-open-media-tool svg,
+  .media-tool-card .btn svg {
+    width: 10px !important;
+    height: 10px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Dedicated Media Tool Workspace Mobile Overrides */
+  #media-tool-workspace {
+    padding-top: 0.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  #btn-back-to-media-tools {
+    height: 28px !important;
+    min-height: 28px !important;
+    font-size: 0.72rem !important;
+    padding: 0.2rem 0.55rem !important;
+    border-radius: var(--radius-full) !important;
+  }
+
+  #media-tool-icon {
+    font-size: 1.5rem !important;
+  }
+
+  #media-tool-title {
+    font-size: 1.05rem !important;
+    line-height: 1.25 !important;
+  }
+
+  #media-tool-desc {
+    font-size: 0.76rem !important;
+  }
+
+  .media-dropzone {
+    padding: 1rem 0.75rem !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .media-dropzone-icon {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .media-dropzone p:first-of-type {
+    font-size: 0.85rem !important;
+  }
+
+  .media-dropzone p:last-of-type {
+    font-size: 0.72rem !important;
+  }
+
+  #btn-media-select-file {
+    height: 30px !important;
+    min-height: 30px !important;
+    font-size: 0.76rem !important;
+    padding: 0.2rem 0.75rem !important;
+  }
+
+  .media-options-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.55rem !important;
+    margin-top: 0.55rem !important;
+  }
+
+  .media-option-group label {
+    font-size: 0.74rem !important;
+  }
+
+  .media-option-group select,
+  .media-option-group input[type="number"],
+  .media-option-group input[type="range"] {
+    font-size: 0.78rem !important;
+    padding: 0.35rem 0.55rem !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    border-radius: var(--radius-sm) !important;
+  }
+
+  #btn-process-media,
+  #btn-download-media,
+  #btn-process-another {
+    height: 34px !important;
+    min-height: 34px !important;
+    font-size: 0.8rem !important;
+    padding: 0.2rem 0.75rem !important;
+    border-radius: var(--radius-full) !important;
+  }
+
   /* AI Image Tools 2-Column Responsive Grid & Compact Square Cards for Mobile */
   .ai-image-tools-section {
     margin-bottom: 1.5rem !important;
@@ -2222,7 +2388,7 @@
 
   .hero-trust-badges {
     max-width: 300px !important;
-    gap: 0.35rem 0.35rem !important;
+    gap: 0.55rem 0.55rem !important;
     margin-top: 0.55rem !important;
   }
 
@@ -2394,6 +2560,39 @@
     height: 9px !important;
   }
 
+  /* Extra Small Media Tool Card Refinements */
+  .media-tool-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.35rem !important;
+  }
+
+  .media-tool-card {
+    padding: 0.35rem 0.25rem !important;
+  }
+
+  .media-tool-card h3 {
+    font-size: 0.7rem !important;
+  }
+
+  .media-tool-card p {
+    font-size: 0.61rem !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  .btn-open-media-tool,
+  .media-tool-card .btn {
+    font-size: 0.58rem !important;
+    padding: 0 0.15rem !important;
+    height: 24px !important;
+    min-height: 24px !important;
+  }
+
+  .btn-open-media-tool svg,
+  .media-tool-card .btn svg {
+    width: 9px !important;
+    height: 9px !important;
+  }
+
   /* Extra Small AI Image Tools Refinements (Strictly 2 Columns) */
   .ai-image-tools-grid {
     grid-template-columns: repeat(2, 1fr) !important;
@@ -2441,7 +2640,7 @@
 
   .hero-trust-badges {
     max-width: 280px !important;
-    gap: 0.28rem 0.3rem !important;
+    gap: 0.48rem 0.5rem !important;
     margin-top: 0.45rem !important;
   }
 
