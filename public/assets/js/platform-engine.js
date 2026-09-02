@@ -80,7 +80,7 @@ const PLATFORM_CONFIG = {
   dailymotion: {
     id: 'dailymotion',
     name: 'Dailymotion',
-    category: 'Video Sharing',
+    category: 'Video & Streaming',
     description: 'Public news broadcasts, media clips, and community video content.',
     icon: 'd',
     color: '#0066DC',
@@ -128,7 +128,7 @@ const PLATFORM_CONFIG = {
   soundcloud: {
     id: 'soundcloud',
     name: 'SoundCloud',
-    category: 'Audio & Music',
+    category: 'Audio & Podcasts',
     description: 'Public electronic tracks, indie music, DJ sets, and podcast episodes.',
     icon: '☁',
     color: '#FF5500',
@@ -140,7 +140,7 @@ const PLATFORM_CONFIG = {
   bilibili: {
     id: 'bilibili',
     name: 'Bilibili',
-    category: 'Animation & Media',
+    category: 'Video & Streaming',
     description: 'Public anime, media creations, educational lectures, and creator streams.',
     icon: '📺',
     color: '#00A1D6',
@@ -152,7 +152,7 @@ const PLATFORM_CONFIG = {
   telegram: {
     id: 'telegram',
     name: 'Telegram',
-    category: 'Messaging & Channels',
+    category: 'Social Media',
     description: 'Public channel media broadcasts, video clips, and announcements.',
     icon: '✈',
     color: '#229ED9',
@@ -176,7 +176,7 @@ const PLATFORM_CONFIG = {
   linkedin: {
     id: 'linkedin',
     name: 'LinkedIn',
-    category: 'Professional Media',
+    category: 'Social Media',
     description: 'Public professional videos, keynote recordings, and company updates.',
     icon: 'in',
     color: '#0A66C2',
@@ -188,7 +188,7 @@ const PLATFORM_CONFIG = {
   reddit: {
     id: 'reddit',
     name: 'Reddit',
-    category: 'Community Discussions',
+    category: 'Creative Video',
     description: 'Public video posts, community discussions, and open media threads.',
     icon: '🤖',
     color: '#FF4500',
@@ -200,7 +200,7 @@ const PLATFORM_CONFIG = {
   pinterest: {
     id: 'pinterest',
     name: 'Pinterest',
-    category: 'Visual Discovery',
+    category: 'Creative Video',
     description: 'Public video pins, DIY tutorials, recipe clips, and visual design boards.',
     icon: '📌',
     color: '#BD081C',
@@ -212,7 +212,7 @@ const PLATFORM_CONFIG = {
   rumble: {
     id: 'rumble',
     name: 'Rumble',
-    category: 'Video Sharing',
+    category: 'Video & Streaming',
     description: 'Public independent video broadcasts, podcasts, and creator channels.',
     icon: '🟢',
     color: '#85c742',
@@ -224,7 +224,7 @@ const PLATFORM_CONFIG = {
   odysee: {
     id: 'odysee',
     name: 'Odysee',
-    category: 'Decentralized Video',
+    category: 'Creative Video',
     description: 'Public open-source media, technology discussions, and creator publications.',
     icon: '🚀',
     color: '#EF1955',
@@ -236,7 +236,7 @@ const PLATFORM_CONFIG = {
   snapchat: {
     id: 'snapchat',
     name: 'Snapchat',
-    category: 'Social Media',
+    category: 'Short-Form Video',
     description: 'Public Spotlight videos and creator stories with direct launch gateway.',
     icon: '👻',
     color: '#FFFC00',
@@ -248,7 +248,7 @@ const PLATFORM_CONFIG = {
   streamable: {
     id: 'streamable',
     name: 'Streamable',
-    category: 'Video Hosting',
+    category: 'Video & Streaming',
     description: 'Fast, simple public video and short clip sharing workspace.',
     icon: '▶',
     color: '#0F75BD',
@@ -260,7 +260,7 @@ const PLATFORM_CONFIG = {
   peertube: {
     id: 'peertube',
     name: 'PeerTube',
-    category: 'Decentralized Video',
+    category: 'Creative Video',
     description: 'Public decentralized, federated video network powered by ActivityPub & WebTorrent.',
     icon: '📺',
     color: '#F1680D',
@@ -272,7 +272,7 @@ const PLATFORM_CONFIG = {
   loom: {
     id: 'loom',
     name: 'Loom',
-    category: 'Video Messaging',
+    category: 'Video & Streaming',
     description: 'Public screen recordings, interactive demos, and asynchronous video messages.',
     icon: '📹',
     color: '#625DF5',
@@ -284,7 +284,7 @@ const PLATFORM_CONFIG = {
   vevo: {
     id: 'vevo',
     name: 'Vevo',
-    category: 'Music Video',
+    category: 'Video & Streaming',
     description: 'High-definition official music videos, live artist performances, and premieres.',
     icon: '🎵',
     color: '#E01F26',
@@ -464,7 +464,7 @@ const PLATFORM_CONFIG = {
   mastodon: {
     id: 'mastodon',
     name: 'Mastodon',
-    category: 'Decentralized Social',
+    category: 'Social Media',
     description: 'Federated microblogging media posts, open community videos, and decentralized updates.',
     icon: '🐘',
     color: '#6364FF',
@@ -476,7 +476,7 @@ const PLATFORM_CONFIG = {
   newgrounds: {
     id: 'newgrounds',
     name: 'Newgrounds',
-    category: 'Creative Animation & Audio',
+    category: 'Creative Video',
     description: 'Legendary independent animation portal, original music tracks, and indie art.',
     icon: '⚡',
     color: '#FFA500',
