@@ -66,7 +66,6 @@ export default defineConfig(() => {
           articles: path.resolve(__dirname, 'articles.html'),
           creatorTools: path.resolve(__dirname, 'creator-tools.html'),
           mediaConverterTools: path.resolve(__dirname, 'media-converter-tools.html'),
-          imageStudioTools: path.resolve(__dirname, 'image-studio-tools.html'),
           credits: path.resolve(__dirname, 'credits.html'),
           disclaimer: path.resolve(__dirname, 'disclaimer.html'),
           platforms: path.resolve(__dirname, 'platforms.html'),
