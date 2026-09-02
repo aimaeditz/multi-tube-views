@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Scroll Reveal Observer (Hardware-accelerated, lightweight, single-trigger)
   const initScrollReveal = () => {
-    // Target primary section blocks and explicit reveal targets
+    // Target primary section blocks, cards and explicit reveal targets
     const selector = [
       'section',
       '.site-section',
@@ -279,6 +279,12 @@ document.addEventListener('DOMContentLoaded', () => {
       '.platform-page-header',
       '.prompt-header-section',
       '.footer-grid',
+      '.creator-tool-card',
+      '.ai-image-tool-card',
+      '.platform-card',
+      '.prompt-card',
+      '.article-card',
+      '.player-card',
       '.scroll-reveal'
     ].join(', ');
 
