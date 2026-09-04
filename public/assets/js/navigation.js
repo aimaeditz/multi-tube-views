@@ -68,17 +68,111 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // FAQ Accordion Interactivity
-  const faqItems = document.querySelectorAll('.faq-item');
+  // FAQ Accordion Interactivity (Supports both standard and glass FAQ)
+  const faqItems = document.querySelectorAll('.faq-item, .glass-faq-item');
   faqItems.forEach(item => {
-    const questionBtn = item.querySelector('.faq-question');
+    const questionBtn = item.querySelector('.faq-question, .glass-faq-trigger');
     if (questionBtn) {
       questionBtn.addEventListener('click', () => {
         const isOpen = item.classList.toggle('open');
+        item.classList.toggle('active', isOpen);
         questionBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       });
     }
   });
+
+  // Live Stats Counter Animation with replay on every viewport re-entry
+  const initStatsCounter = () => {
+    const statsSection = document.getElementById('live-stats-section');
+    if (!statsSection) return;
+
+    const statElements = statsSection.querySelectorAll('.live-stat-number[data-target]');
+    if (!statElements.length) return;
+
+    const animationFrames = [];
+    const duration = 1200; // ms
+
+    const cancelAllFrames = () => {
+      animationFrames.forEach(id => cancelAnimationFrame(id));
+      animationFrames.length = 0;
+    };
+
+    const resetCounters = () => {
+      cancelAllFrames();
+      statElements.forEach(el => {
+        const suffix = el.getAttribute('data-suffix') || '';
+        el.textContent = '0' + suffix;
+      });
+    };
+
+    const runCountUp = () => {
+      cancelAllFrames();
+      const startTime = performance.now();
+
+      statElements.forEach((el, index) => {
+        const target = parseInt(el.getAttribute('data-target'), 10) || 0;
+        const suffix = el.getAttribute('data-suffix') || '';
+
+        const step = (currentTime) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease-out cubic curve
+          const ease = 1 - Math.pow(1 - progress, 3);
+          const currentVal = Math.round(ease * target);
+          el.textContent = currentVal + suffix;
+
+          if (progress < 1) {
+            animationFrames[index] = requestAnimationFrame(step);
+          } else {
+            el.textContent = target + suffix;
+          }
+        };
+
+        animationFrames[index] = requestAnimationFrame(step);
+      });
+    };
+
+    // Check reduced motion preference
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      statElements.forEach(el => {
+        const target = el.getAttribute('data-target') || '0';
+        const suffix = el.getAttribute('data-suffix') || '';
+        el.textContent = target + suffix;
+      });
+      return;
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      runCountUp();
+      return;
+    }
+
+    let isVisible = false;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!isVisible) {
+            isVisible = true;
+            runCountUp();
+          }
+        } else {
+          // Reset counter to 0 whenever section exits viewport
+          if (isVisible) {
+            isVisible = false;
+            resetCounters();
+          }
+        }
+      });
+    }, {
+      root: null,
+      threshold: 0.15,
+      rootMargin: '0px'
+    });
+
+    observer.observe(statsSection);
+  };
+
+  initStatsCounter();
 
   // Directory Live Search (Homepage)
   const searchInput = document.querySelector('#directory-search-input');
@@ -130,6 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
       '.prompt-card',
       '.article-card',
       '.player-card',
+      '.glass-card',
+      '.feature-showcase-card',
+      '.live-stat-card',
+      '.glass-cta-card',
       '.scroll-reveal'
     ].join(', ');
 
