@@ -340,9 +340,9 @@ input, select, textarea, button {
   flex: 0 1 auto;
   min-width: 0;
   
-  /* Pushed to the right near the theme toggle button */
+  /* Balanced desktop positioning: nudged moderately inward toward center */
   margin-left: auto;
-  margin-right: 0.5rem;
+  margin-right: clamp(1.5rem, 4.5vw, 6rem);
   padding-left: 24px;
   padding-right: 24px;
   
@@ -353,6 +353,12 @@ input, select, textarea, button {
   mask-image: none;
   -webkit-mask-image: none;
   transition: mask-image 0.2s ease, -webkit-mask-image 0.2s ease;
+}
+
+@media (min-width: 1400px) {
+  .nav-desktop {
+    margin-right: clamp(3.5rem, 5.5vw, 7.5rem);
+  }
 }
 
 /* Dynamic edge fade masks based on scrolling status */
@@ -508,6 +514,13 @@ input, select, textarea, button {
   transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
 
+@media (min-width: 993px) {
+  .card {
+    padding: clamp(1.75rem, 2.2vw, 2.5rem);
+    border-radius: var(--radius-xl, 20px);
+  }
+}
+
 .card-hoverable:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
@@ -523,11 +536,24 @@ input, select, textarea, button {
   transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
 
+@media (min-width: 993px) {
+  .site-footer {
+    padding: clamp(4.5rem, 5.5vw, 6rem) 0 2.5rem 0;
+  }
+}
+
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 3rem;
   margin-bottom: 2.5rem;
+}
+
+@media (min-width: 993px) {
+  .footer-grid {
+    gap: clamp(2.5rem, 3.5vw, 4rem);
+    margin-bottom: 3rem;
+  }
 }
 
 .footer-brand-link {
