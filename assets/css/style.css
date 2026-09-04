@@ -210,6 +210,20 @@ input, select, textarea, button {
   padding-right: clamp(0.75rem, 3.5vw, 1.5rem);
 }
 
+/* Fluid Full-Width Desktop Layout (Desktop/Laptop >= 993px) */
+@media (min-width: 993px) {
+  :root {
+    --max-width: 1760px;
+  }
+
+  .container {
+    width: 92vw;
+    max-width: 1760px;
+    padding-left: clamp(1rem, 2.5vw, 2.5rem);
+    padding-right: clamp(1rem, 2.5vw, 2.5rem);
+  }
+}
+
 .site-main {
   flex: 1 0 auto;
   padding-bottom: 4rem;

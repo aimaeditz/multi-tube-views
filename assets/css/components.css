@@ -32,6 +32,19 @@
   filter: blur(32px);
 }
 
+@media (min-width: 993px) {
+  .hero-section::before,
+  .prompt-header-section::before,
+  .growth-hero-section::before,
+  .creator-tools-header::before,
+  .platform-page-header::before,
+  .page-header::before,
+  .reading-header::before {
+    max-width: 1400px;
+    height: 440px;
+  }
+}
+
 @keyframes heroFadeSlideUp {
   0% {
     opacity: 0;
@@ -1503,6 +1516,19 @@
   max-width: 740px;
   margin: 0 auto;
   padding: 1.75rem 0;
+}
+
+@media (min-width: 993px) {
+  .reading-content {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .reading-content p,
+  .reading-content ul,
+  .reading-content ol {
+    max-width: 1200px;
+  }
 }
 
 .reading-content h2 {
@@ -3042,6 +3068,7 @@ textarea.form-control {
   opacity: 0.65 !important;
   cursor: not-allowed !important;
 }
+
 
 
 
