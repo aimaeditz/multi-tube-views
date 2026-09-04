@@ -130,6 +130,21 @@ export default async function handler(req, res) {
     const deepseekKeys = collectKeys('DEEPSEEK_API_KEY');
     const llm7Keys = collectKeys('LLM7_API_KEY');
 
+    console.log('MTV AI key counts:', {
+      gemini: geminiKeys.length,
+      groq: groqKeys.length,
+      openrouter: openrouterKeys.length,
+      deepseek: deepseekKeys.length,
+      llm7: llm7Keys.length
+    });
+
+    const totalKeys = geminiKeys.length + groqKeys.length + openrouterKeys.length + deepseekKeys.length + llm7Keys.length;
+    if (totalKeys === 0) {
+      console.error('MTV AI: no API keys found in environment variables');
+      res.status(503).json({ error: 'Thoda busy hai, kripya kuch second baad dobara try karein.' });
+      return;
+    }
+
     const geminiModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
     const groqModel = 'llama-3.3-70b-versatile';
     const openrouterModel = 'meta-llama/llama-3.3-70b-instruct:free';
@@ -195,8 +210,8 @@ export default async function handler(req, res) {
         responseCache.set(cacheKey, { result: resultText, time: Date.now() });
         res.status(200).json({ result: resultText, task: task || 'default' });
         return;
-      } catch (e) {
-        // all providers/keys failed — fall through to safe generic error below
+      } catch (lastError) {
+        console.error('MTV AI: all providers failed', lastError);
       }
     }
 
