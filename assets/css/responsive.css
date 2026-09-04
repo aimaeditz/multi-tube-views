@@ -1415,8 +1415,11 @@
   }
 
   .reading-content {
-    padding: 1.25rem 0 2.5rem 0 !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 2.5rem !important;
     max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
   }
 
   .reading-content h1,
