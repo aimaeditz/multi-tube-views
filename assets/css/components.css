@@ -3699,6 +3699,11 @@ section#live-stats-section.glass-section {
   -webkit-backdrop-filter: none !important;
 }
 
+/* Focus Mode CSS 1 Override */
+main:nth-of-type(1) > section#live-stats-section:nth-of-type(4) > div:nth-of-type(1) > div#stat-platforms:nth-of-type(1) {
+  background-color: #ffffff;
+}
+
 /* Live Stats Counter Grid (B) */
 .live-stats-grid {
   display: grid;
@@ -3713,8 +3718,8 @@ section#live-stats-section.glass-section {
   align-items: center;
   text-align: center;
   
-  /* Premium 3D-style soft two-layer shadow */
-  box-shadow: var(--shadow-md), 0 0 20px -2px rgba(0, 102, 204, 0.03);
+  /* Remove resting shadow entirely so cards sit completely flush and clean directly on background */
+  box-shadow: none;
   transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), 
               box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1), 
               border-color 260ms ease,
@@ -3722,7 +3727,7 @@ section#live-stats-section.glass-section {
 }
 
 [data-theme="dark"] .live-stat-card {
-  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45), 0 0 20px -2px rgba(41, 151, 255, 0.04);
+  box-shadow: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -3746,6 +3751,18 @@ section#live-stats-section.glass-section {
   margin-bottom: 0.4rem;
   font-variant-numeric: tabular-nums;
   min-height: 1.1em;
+  
+  /* Smooth scale & fade-in transitions to prevent flickering or sudden jumps on load/scroll */
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  transform: translateY(6px) scale(0.97);
+  will-change: transform, opacity;
+}
+
+.live-stat-number.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .live-stat-label {

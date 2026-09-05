@@ -102,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
       statElements.forEach(el => {
         const suffix = el.getAttribute('data-suffix') || '';
         el.textContent = '0' + suffix;
+        el.classList.remove('is-visible');
       });
     };
 
@@ -112,6 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
       statElements.forEach((el, index) => {
         const target = parseInt(el.getAttribute('data-target'), 10) || 0;
         const suffix = el.getAttribute('data-suffix') || '';
+        
+        // Add class to trigger CSS fade and scale lift transition
+        el.classList.add('is-visible');
 
         const step = (currentTime) => {
           const elapsed = currentTime - startTime;
@@ -138,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const target = el.getAttribute('data-target') || '0';
         const suffix = el.getAttribute('data-suffix') || '';
         el.textContent = target + suffix;
+        el.classList.add('is-visible');
       });
       return;
     }
@@ -165,8 +170,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, {
       root: null,
-      threshold: 0.15,
-      rootMargin: '0px'
+      threshold: 0.05,
+      rootMargin: '50px 0px'
     });
 
     observer.observe(statsSection);

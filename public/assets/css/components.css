@@ -590,6 +590,19 @@
   color: var(--text-primary);
   margin: 0 0 0.35rem 0;
   line-height: 1.25;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.platform-verified-badge {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  min-height: 14px;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .platform-card-desc {
@@ -3675,6 +3688,17 @@ textarea.form-control {
   margin: 0;
 }
 
+/* Live Stats Section styling to ensure transparent background */
+#live-stats-section,
+section#live-stats-section.glass-section {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
 /* Live Stats Counter Grid (B) */
 .live-stats-grid {
   display: grid;
@@ -3683,11 +3707,34 @@ textarea.form-control {
 }
 
 .live-stat-card {
-  padding: 1.75rem 1.25rem;
+  padding: 2.25rem 1.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  
+  /* Extremely subtle tight border-shadow to prevent any grayish box/silhouette visible underneath */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 260ms ease,
+              background-color 260ms ease;
+}
+
+[data-theme="dark"] .live-stat-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .live-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg), 0 0 24px 2px rgba(0, 102, 204, 0.08);
+    border-color: rgba(0, 102, 204, 0.35);
+  }
+  [data-theme="dark"] .live-stat-card:hover {
+    box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.65), 0 0 28px 2px rgba(41, 151, 255, 0.12);
+    border-color: rgba(41, 151, 255, 0.4);
+  }
 }
 
 .live-stat-number {
@@ -3699,6 +3746,18 @@ textarea.form-control {
   margin-bottom: 0.4rem;
   font-variant-numeric: tabular-nums;
   min-height: 1.1em;
+  
+  /* Smooth scale & fade-in transitions to prevent flickering or sudden jumps on load/scroll */
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  transform: translateY(6px) scale(0.97);
+  will-change: transform, opacity;
+}
+
+.live-stat-number.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .live-stat-label {
@@ -3935,7 +3994,7 @@ textarea.form-control {
   }
 
   .live-stat-card {
-    padding: 0.75rem 0.35rem;
+    padding: 1.25rem 0.75rem;
     border-radius: 14px;
   }
 
