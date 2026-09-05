@@ -3713,8 +3713,8 @@ section#live-stats-section.glass-section {
   align-items: center;
   text-align: center;
   
-  /* Extremely subtle tight border-shadow to prevent any grayish box/silhouette visible underneath */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.04);
+  /* Remove resting shadow entirely so cards sit completely flush and clean directly on background */
+  box-shadow: none;
   transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), 
               box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1), 
               border-color 260ms ease,
@@ -3722,7 +3722,7 @@ section#live-stats-section.glass-section {
 }
 
 [data-theme="dark"] .live-stat-card {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  box-shadow: none;
 }
 
 @media (hover: hover) and (pointer: fine) {

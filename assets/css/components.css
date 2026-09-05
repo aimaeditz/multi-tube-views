@@ -3699,11 +3699,6 @@ section#live-stats-section.glass-section {
   -webkit-backdrop-filter: none !important;
 }
 
-/* Focus Mode CSS 1 Override */
-main:nth-of-type(1) > section#live-stats-section:nth-of-type(4) > div:nth-of-type(1) > div#stat-platforms:nth-of-type(1) {
-  background-color: #ffffff;
-}
-
 /* Live Stats Counter Grid (B) */
 .live-stats-grid {
   display: grid;
