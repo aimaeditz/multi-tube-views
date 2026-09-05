@@ -63,7 +63,6 @@ export default defineConfig(() => {
           about: path.resolve(__dirname, 'about.html'),
           aiAuto: path.resolve(__dirname, 'ai-auto.html'),
           aiPrompt: path.resolve(__dirname, 'ai-prompt.html'),
-          aiImageGenerator: path.resolve(__dirname, 'ai-image-generator.html'),
           articles: path.resolve(__dirname, 'articles.html'),
           creatorTools: path.resolve(__dirname, 'creator-tools.html'),
           mediaConverterTools: path.resolve(__dirname, 'media-converter-tools.html'),

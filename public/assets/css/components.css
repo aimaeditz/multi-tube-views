@@ -3921,31 +3921,3 @@ textarea.form-control {
     max-width: 280px;
   }
 }
-
-@media (max-width: 480px) {
-  .live-stats-grid {
-    gap: 0.35rem;
-  }
-
-  .live-stat-card {
-    padding: 0.65rem 0.25rem;
-  }
-
-  .live-stat-number {
-    font-size: clamp(1.15rem, 4.8vw, 1.45rem);
-  }
-
-  .live-stat-label {
-    font-size: 0.62rem;
-  }
-
-  .live-stat-desc {
-    display: none; /* Keep super compact on narrow mobile screens */
-  }
-}
-
-
-
-
-
-

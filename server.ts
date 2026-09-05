@@ -7,7 +7,6 @@ import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
 import aiProxyHandler from './api/ai-proxy.js';
-import imageProxyHandler from './api/image-proxy.js';
 
 const app = express();
 const PORT = 3000;
@@ -1082,11 +1081,6 @@ app.all('/api/ai-proxy', (req: Request, res: Response) => {
   return aiProxyHandler(req, res);
 });
 
-// 2d. Dedicated AI Image Proxy API Endpoint for MTV Image Studio Tools
-app.all('/api/image-proxy', (req: Request, res: Response) => {
-  return imageProxyHandler(req, res);
-});
-
 // 3. Multi-Provider AI Chat Endpoint
 app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
   try {
@@ -1454,136 +1448,7 @@ Return ONLY a valid raw JSON object with NO markdown codeblocks matching this ex
   }
 });
 
-// 5. Image Generation API Endpoint
-function generateFallbackSvg(prompt: string, aspectRatio: string = '1:1'): string {
-  const width = 800;
-  let height = 800;
-  if (aspectRatio === '16:9') height = 450;
-  else if (aspectRatio === '4:3') height = 600;
-  else if (aspectRatio === '9:16') height = 1422;
-  else if (aspectRatio === '3:4') height = 1066;
-
-  const cleanPrompt = prompt
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-  
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="100%" height="100%">
-    <defs>
-      <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
-        <stop offset="50%" style="stop-color:#1f2937;stop-opacity:1" />
-        <stop offset="100%" style="stop-color:#111827;stop-opacity:1" />
-      </linearGradient>
-      <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-        <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
-      </linearGradient>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#grad)" />
-    <!-- Grid lines -->
-    <path d="M 0,${height/4} L ${width},${height/4} M 0,${height/2} L ${width},${height/2} M 0,${3*height/4} L ${width},${3*height/4} M ${width/4},0 L ${width/4},${height} M ${width/2},0 L ${width/2},${height} M ${3*width/4},0 L ${3*width/4},${height}" stroke="rgba(255,255,255,0.03)" stroke-width="1" />
-    
-    <!-- Central decorative ring -->
-    <circle cx="${width/2}" cy="${height/2}" r="120" fill="none" stroke="url(#accent)" stroke-width="2" stroke-opacity="0.3" stroke-dasharray="10, 5" />
-    <circle cx="${width/2}" cy="${height/2}" r="80" fill="none" stroke="url(#accent)" stroke-width="4" stroke-opacity="0.6" />
-    
-    <!-- Content wrapper -->
-    <text x="${width/2}" y="${height/2 - 150}" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-weight="bold" font-size="28" fill="#3b82f6" text-anchor="middle" letter-spacing="4">MULTI TUBE VIEWS</text>
-    <text x="${width/2}" y="${height/2 - 110}" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-size="14" fill="#9ca3af" text-anchor="middle" letter-spacing="2">AI THUMBNAIL ENGINE</text>
-    
-    <!-- Wrapped prompt text -->
-    <text x="${width/2}" y="${height/2 + 140}" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-weight="600" font-size="20" fill="#f3f4f6" text-anchor="middle" font-style="italic">"${cleanPrompt.length > 50 ? cleanPrompt.substring(0, 47) + '...' : cleanPrompt}"</text>
-    
-    <text x="${width/2}" y="${height/2 + 200}" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle">Rendered via MTV Multi-Platform Fallback Engine</text>
-  </svg>`;
-}
-
-app.post('/api/image', async (req: Request, res: Response) => {
-  try {
-    const { prompt, text, message, aspectRatio = '1:1', aspect_ratio } = req.body;
-    const inputPrompt = (prompt || text || message || 'Abstract technological media thumbnail').trim();
-    const targetAspectRatio = (aspect_ratio || aspectRatio || '1:1');
-
-    console.log(`[ImageAPI] Request for image generation: "${inputPrompt}" (${targetAspectRatio})`);
-
-    const gemini = getGeminiClient();
-    if (gemini) {
-      try {
-        console.log(`[ImageAPI] Sending request to Gemini Image model (gemini-3.1-flash-lite-image)...`);
-        const aiResponse = await retryWithBackoff(async () => {
-          return await gemini.models.generateContent({
-            model: 'gemini-3.1-flash-lite-image',
-            contents: {
-              parts: [{ text: inputPrompt }],
-            },
-            config: {
-              imageConfig: {
-                aspectRatio: targetAspectRatio as any,
-              },
-            },
-          });
-        }, 2, 200);
-
-        let base64Image = '';
-        if (aiResponse.candidates?.[0]?.content?.parts) {
-          for (const part of aiResponse.candidates[0].content.parts) {
-            if (part.inlineData && part.inlineData.data) {
-              base64Image = part.inlineData.data;
-              break;
-            }
-          }
-        }
-
-        if (base64Image) {
-          const mimeType = 'image/png';
-          const dataUri = `data:${mimeType};base64,${base64Image}`;
-          console.log(`[ImageAPI] Success generating real image with Gemini.`);
-          res.json({
-            success: true,
-            provider: 'gemini',
-            model: 'gemini-3.1-flash-lite-image',
-            image: dataUri,
-            images: [{ url: dataUri }],
-            prompt: inputPrompt,
-          });
-          return;
-        } else {
-          console.warn(`[ImageAPI] No inlineData found in Gemini response parts. Falling back to dynamic SVG.`);
-        }
-      } catch (geminiErr: any) {
-        console.warn(`[ImageAPI] Gemini generateContent failed or rejected: ${geminiErr.message}. Falling back to dynamic SVG.`);
-      }
-    } else {
-      console.log(`[ImageAPI] Gemini client is not initialized (missing API key). Falling back to dynamic SVG.`);
-    }
-
-    // Dynamic SVG fallback generator
-    const svg = generateFallbackSvg(inputPrompt, targetAspectRatio);
-    const fallbackDataUri = 'data:image/svg+xml;base64,' + Buffer.from(svg).toString('base64');
-
-    res.json({
-      success: true,
-      provider: 'mtv_thumbnail_fallback_engine',
-      model: 'svg-vector-generator',
-      image: fallbackDataUri,
-      images: [{ url: fallbackDataUri }],
-      prompt: inputPrompt,
-      message: 'Generated dynamic vector image layout via Multi-Platform Fallback Engine.',
-    });
-  } catch (err: any) {
-    console.error('[ImageAPI] Fatal endpoint error:', err);
-    res.status(500).json({
-      success: false,
-      error: 'Image generation failed.',
-      details: err.message,
-    });
-  }
-});
-
-// 6. Nonce & Legacy WP/AIPKit simulation routes
+// 5. Nonce & Legacy WP/AIPKit simulation routes
 app.all('/api/get-nonce', (req: Request, res: Response) => {
   res.json({ success: true, data: { nonce: 'mtv_live_nonce_v1' } });
 });
