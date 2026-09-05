@@ -8,22 +8,24 @@
 // - Fallback cascade options support high-quality gemini-3.1-flash-image
 // ============================================================
 
-async function tryOneImage(key, model, promptText, base64Image, mimeType, maskBase64 = null) {
+async function tryOneImage(key, model, promptText, base64Image = null, mimeType = null, maskBase64 = null, imageConfig = null) {
   // Use native AbortController
   const controller = new globalThis.AbortController();
-  // Image operations can take slightly longer, so we give it 35 seconds per attempt
-  const timeout = setTimeout(() => controller.abort(), 35000);
+  // Image operations can take slightly longer, so we give it 45 seconds per attempt
+  const timeout = setTimeout(() => controller.abort(), 45000);
   
   try {
     const parts = [];
     
-    // Add primary image
-    parts.push({
-      inlineData: {
-        mimeType: mimeType || 'image/jpeg',
-        data: base64Image
-      }
-    });
+    // Add primary or reference image if provided
+    if (base64Image) {
+      parts.push({
+        inlineData: {
+          mimeType: mimeType || 'image/jpeg',
+          data: base64Image
+        }
+      });
+    }
     
     // For object-eraser or background-remover with mask, add the mask image
     if (maskBase64) {
@@ -40,6 +42,16 @@ async function tryOneImage(key, model, promptText, base64Image, mimeType, maskBa
       text: promptText
     });
     
+    const requestPayload = {
+      contents: [{ parts }]
+    };
+
+    if (imageConfig) {
+      requestPayload.generationConfig = {
+        imageConfig
+      };
+    }
+    
     console.log(`[ImageProxy] Attempting model ${model} with key snippet: ...${key.slice(-5)}`);
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
@@ -47,9 +59,7 @@ async function tryOneImage(key, model, promptText, base64Image, mimeType, maskBa
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         signal: controller.signal,
-        body: JSON.stringify({
-          contents: [{ parts }]
-        })
+        body: JSON.stringify(requestPayload)
       }
     );
     
@@ -113,10 +123,12 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
 
   try {
-    const { image, task, options } = req.body || {};
+    const { image, task, options, prompt: rawPrompt, promptText: rawPromptText } = req.body || {};
 
-    if (!image) {
-      res.status(400).json({ error: 'Primary input image (base64) is required' });
+    const isGenerationTask = task === 'text-to-image' || task === 'image-generator' || task === 'generate-image';
+
+    if (!image && !isGenerationTask) {
+      res.status(400).json({ error: 'Primary input image (base64) is required for editing tasks' });
       return;
     }
 
@@ -125,10 +137,10 @@ export default async function handler(req, res) {
       return;
     }
 
-    // Extract mimeType and raw base64 data from the base64 URL
+    // Extract mimeType and raw base64 data from the base64 URL if provided
     let mimeType = 'image/jpeg';
-    let base64Image = image;
-    if (image.startsWith('data:')) {
+    let base64Image = image || null;
+    if (image && typeof image === 'string' && image.startsWith('data:')) {
       const match = image.match(/^data:([^;]+);base64,(.+)$/);
       if (match) {
         mimeType = match[1];
@@ -149,9 +161,52 @@ export default async function handler(req, res) {
       }
     }
 
+    // Determine target aspect ratio if specified
+    let imageConfig = null;
+    const requestedRatio = (options && (options.aspectRatio || options.aspect_ratio)) || '1:1';
+    const validRatios = ['1:1', '16:9', '9:16', '4:3', '3:4'];
+    if (isGenerationTask) {
+      imageConfig = {
+        aspectRatio: validRatios.includes(requestedRatio) ? requestedRatio : '1:1'
+      };
+    }
+
     // Build the task-specific high-precision MTV AI prompt instruction
     let promptText = '';
     switch (task) {
+      case 'text-to-image':
+      case 'image-generator':
+      case 'generate-image': {
+        const userPrompt = (rawPrompt || rawPromptText || (options && options.prompt) || '').trim();
+        if (!userPrompt) {
+          res.status(400).json({ error: 'Please enter a description for the image you want MTV AI to create.' });
+          return;
+        }
+
+        const style = (options && (options.style || options.selectedStyle)) || '';
+        const mood = (options && (options.mood || options.lighting)) || '';
+        const negativePrompt = (options && options.negativePrompt) || '';
+
+        if (base64Image) {
+          // Reference-to-Image / Image Guidance Mode
+          promptText = `Generate a brand new, visually stunning artwork based on this creative description: "${userPrompt}". Use the provided reference image as visual context for composition, subject structure, color harmony, and aesthetic style.`;
+        } else {
+          // Pure Text-to-Image Mode
+          promptText = `Create an original, ultra-detailed, high-definition visual based on the following prompt: "${userPrompt}".`;
+        }
+
+        if (style && style !== 'None' && style !== 'Auto' && style !== 'Default') {
+          promptText += ` Visual art style: ${style}.`;
+        }
+        if (mood && mood !== 'None' && mood !== 'Auto') {
+          promptText += ` Lighting & atmosphere: ${mood}.`;
+        }
+        if (negativePrompt && negativePrompt.trim()) {
+          promptText += ` Avoid the following unwanted elements: ${negativePrompt.trim()}.`;
+        }
+        promptText += ` Ensure professional aesthetic quality, rich texture detail, accurate anatomy, clean lighting, and balanced composition.`;
+        break;
+      }
       case 'background-remover':
         promptText = "Detect the primary subject (person, product, object, animal) with ultra-precise sub-pixel edge matting. Remove the entire background completely, leaving it 100% transparent. Preserve microscopic edge details like fine individual hair strands, fur, fabric threads, transparent glass edges, and complex silhouettes. Output ONLY the isolated subject on a transparent background with zero haloing, zero residual background pixels, and crisp antialiased edges.";
         if (maskBase64) {
@@ -197,7 +252,7 @@ export default async function handler(req, res) {
     }
 
     if (apiKeys.length === 0) {
-      res.status(500).json({ error: 'No MTV AI API keys configured. Please add one in settings.' });
+      res.status(500).json({ error: 'No MTV AI service key configured. Please configure an API key in settings.' });
       return;
     }
 
@@ -208,17 +263,18 @@ export default async function handler(req, res) {
     for (const model of imageModels) {
       // Create attempts for all available API keys in parallel for this model
       const attempts = apiKeys.map((key) => 
-        tryOneImage(key, model, promptText, base64Image, mimeType, maskBase64)
+        tryOneImage(key, model, promptText, base64Image, mimeType, maskBase64, imageConfig)
       );
       
       try {
         const resultBase64 = await raceSuccess(attempts);
         if (resultBase64) {
-          // Send back the base64 encoded edited image
-          const outMimeType = task === 'background-remover' ? 'image/png' : 'image/jpeg';
+          // Send back the base64 encoded edited or generated image
+          const outMimeType = (task === 'background-remover' || isGenerationTask) ? 'image/png' : 'image/jpeg';
           res.status(200).json({
             success: true,
-            model,
+            model: 'MTV AI Engine',
+            aspectRatio: imageConfig ? imageConfig.aspectRatio : undefined,
             image: `data:${outMimeType};base64,${resultBase64}`
           });
           return;
@@ -231,7 +287,7 @@ export default async function handler(req, res) {
     }
 
     res.status(502).json({ 
-      error: `All MTV AI image editing API attempts were exhausted or failed. Underlying errors: ${lastErrorDetails}` 
+      error: `MTV AI image processing attempt was unable to complete. Please try refining your prompt or reference image.` 
     });
 
   } catch (err) {
