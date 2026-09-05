@@ -550,13 +550,13 @@
       </div>
 
       <!-- Dedicated Single Tool View Workspace -->
-      <div id="dedicated-tool-workspace" style="display: none; width: 100%; max-width: 100%; margin: 1.5rem auto 4rem auto;">
+      <div id="dedicated-tool-workspace" style="display: none; width: 100%; max-width: 100%; margin: 0 auto 4rem auto;">
         
         <!-- Back Link and Navigation Controller -->
-        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
-          <a href="creator-tools.html" id="btn-back-to-tools" class="btn" style="background: var(--bg-subtle); border: 1px solid var(--border-strong); padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-primary); text-decoration: none;">
+        <div class="workspace-top-bar">
+          <a href="creator-tools.html" id="btn-back-to-tools" class="btn btn-secondary btn-workspace-back" aria-label="Back to Creator Tools">
             <svg class="arrow-nudge-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            <span>Back to All Tools</span>
+            <span>Back to Creator Tools</span>
           </a>
         </div>
 
@@ -1040,6 +1040,7 @@
           const tool = toolsData[toolId];
           toolsListView.style.display = 'none';
           dedicatedToolWorkspace.style.display = 'block';
+          document.body.classList.add('immersive-tool-active');
           
           dedicatedToolTitle.textContent = tool.title;
           dedicatedToolDesc.textContent = tool.desc;
@@ -1095,6 +1096,7 @@
         } else {
           toolsListView.style.display = 'block';
           dedicatedToolWorkspace.style.display = 'none';
+          document.body.classList.remove('immersive-tool-active');
           
           breadcrumbSubPage.style.display = 'none';
           breadcrumbSubSeparator.style.display = 'none';

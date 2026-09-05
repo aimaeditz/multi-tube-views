@@ -842,3 +842,75 @@ input, select, textarea, button {
   text-shadow: none !important;
 }
 
+/* ==========================================================================
+   Immersive Full-Screen Tool Workspace Mode
+   ========================================================================== */
+body.immersive-tool-active .site-header,
+body.immersive-tool-active .site-footer,
+body.immersive-tool-active .mobile-drawer,
+body.immersive-tool-active .breadcrumb-nav {
+  display: none !important;
+}
+
+body.immersive-tool-active .site-main {
+  padding-top: clamp(1.25rem, 2.5vw, 2.25rem);
+  padding-bottom: clamp(2.5rem, 4.5vw, 4.5rem);
+  min-height: 100vh;
+}
+
+/* Workspace Top Navigation Bar replacing standard navbar */
+.workspace-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: clamp(1.25rem, 2vw, 1.85rem);
+  width: 100%;
+}
+
+.btn-workspace-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-speed) ease, 
+              background-color var(--transition-speed) ease, 
+              border-color var(--transition-speed) ease, 
+              color var(--transition-speed) ease, 
+              box-shadow var(--transition-speed) ease;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.btn-workspace-back:hover {
+  background-color: var(--bg-subtle);
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+  transform: translateY(-1.5px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-workspace-back:active {
+  transform: translateY(0) scale(0.975);
+  transition: transform 100ms ease;
+}
+
+[data-theme="dark"] .btn-workspace-back {
+  background-color: var(--bg-surface-elevated);
+  border-color: var(--border-strong);
+}
+
+[data-theme="dark"] .btn-workspace-back:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-focus);
+}
+
+
