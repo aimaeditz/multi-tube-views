@@ -480,11 +480,15 @@
 
   /* 3. Breadcrumbs */
   .breadcrumb-nav {
-    margin: 0.75rem 0 1rem 0 !important;
+    margin: 1rem 0 0.85rem 0 !important;
     font-size: 0.8rem !important;
+    display: flex !important;
     flex-wrap: wrap !important;
     gap: 0.35rem !important;
     line-height: 1.4 !important;
+    width: 100% !important;
+    position: relative !important;
+    z-index: 2 !important;
   }
 
   .breadcrumb-separator {
@@ -496,10 +500,15 @@
     display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: 0.75rem !important;
-    padding: 0.75rem 0 1rem 0 !important;
+    gap: 0.85rem !important;
+    padding: 0.85rem 0 1.15rem 0 !important;
+    margin-top: 0 !important;
     margin-bottom: 1.25rem !important;
     border-bottom: 1px solid var(--border-subtle) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    z-index: 1 !important;
   }
 
   .tool-identity {
@@ -1002,13 +1011,24 @@
   /* 10. Info Callouts & Status Bars */
   .info-callout {
     padding: 0.85rem 1rem !important;
-    gap: 0.55rem !important;
+    gap: 0.65rem !important;
     margin: 0.85rem 0 !important;
     border-radius: var(--radius-md) !important;
+    align-items: flex-start !important;
   }
 
   .info-callout-icon {
-    font-size: 1.05rem !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.95rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: var(--radius-md) !important;
+    flex-shrink: 0 !important;
+    align-self: flex-start !important;
   }
 
   .info-callout-content p {
@@ -1065,11 +1085,12 @@
   }
 
   .hero-description {
-    font-size: 0.76rem !important;
-    line-height: 1.44 !important;
-    margin: 0 auto 1.15rem auto !important;
-    max-width: 480px !important;
-    padding: 0 0.5rem !important;
+    font-size: 0.72rem !important;
+    line-height: 1.4 !important;
+    letter-spacing: -0.01em !important;
+    margin: 0 auto 1rem auto !important;
+    max-width: 100% !important;
+    padding: 0 0.25rem !important;
     color: var(--text-secondary) !important;
   }
 
@@ -2033,17 +2054,18 @@
   .prompt-card-actions .btn {
     min-height: 30px !important;
     height: 30px !important;
-    font-size: 0.72rem !important;
-    padding: 0 0.55rem !important;
+    font-size: 0.68rem !important;
+    padding: 0 0.4rem !important;
     border-radius: var(--radius-sm) !important;
     white-space: nowrap !important;
     justify-content: center !important;
+    letter-spacing: -0.01em !important;
   }
 
   .btn-copy-prompt {
     flex: 1 1 auto !important;
     min-width: 0 !important;
-    gap: 0.25rem !important;
+    gap: 0.2rem !important;
   }
 
   .btn-view-prompt {
