@@ -61,11 +61,13 @@
         inputPreviewWrap: document.getElementById('media-input-preview-wrap'),
         inputVideoPlayer: document.getElementById('media-input-video-player'),
         inputAudioPlayer: document.getElementById('media-input-audio-player'),
+        inputImagePreview: document.getElementById('media-input-image-preview'),
 
         // Tool-specific Option Panels
         optionsPanels: document.querySelectorAll('.media-options-panel'),
 
         // Action Button
+        actionBtnWrap: document.getElementById('media-action-button-wrap'),
         actionBtn: document.getElementById('btn-process-media'),
         actionBtnText: document.getElementById('media-action-text'),
 
@@ -79,6 +81,7 @@
         outputVideoPlayer: document.getElementById('media-output-video-player'),
         outputAudioPlayer: document.getElementById('media-output-audio-player'),
         outputGifPreview: document.getElementById('media-output-gif-preview'),
+        outputImagePreview: document.getElementById('media-output-image-preview'),
         outputMetaText: document.getElementById('media-output-meta'),
         downloadBtn: document.getElementById('btn-download-media'),
         processAnotherBtn: document.getElementById('btn-process-another'),
@@ -205,7 +208,14 @@
         'video-converter',
         'video-to-gif',
         'audio-converter',
-        'video-speed'
+        'video-speed',
+        'voice-to-text',
+        'text-to-speech',
+        'qr-generator',
+        'pdf-image-converter',
+        'image-format-converter',
+        'metadata-remover',
+        'image-cropper'
       ];
 
       if (toolId && validTools.includes(toolId)) {
@@ -229,7 +239,7 @@
       if (this.dom.toolsListView) this.dom.toolsListView.style.display = 'none';
       if (this.dom.workspace) this.dom.workspace.style.display = 'block';
 
-      // Tool Metadata configuration
+      // Tool Metadata configuration for all 15 tools
       const toolConfigs = {
         'video-to-audio': {
           title: 'Video to Audio Converter',
@@ -294,6 +304,62 @@
           accept: 'video/*',
           actionText: 'Change Video Speed',
           about: 'Adjusts video frame rate and audio sample rate to create time-lapse or slow-motion clips right inside your browser.'
+        },
+        'voice-to-text': {
+          title: 'Voice-to-Text (Multi-language)',
+          desc: 'Speak and instantly convert your voice into text, in multiple languages with one-click copy and export.',
+          icon: '🎙️',
+          hideMainDropzone: true,
+          hideActionBtn: true,
+          about: 'Converts speech to text in real time using the browser SpeechRecognition Web API. Supports English, Hindi, Urdu, Spanish, French, Arabic, German, Japanese, and 10+ languages.'
+        },
+        'text-to-speech': {
+          title: 'Text-to-Speech',
+          desc: 'Type any text and hear it read aloud in different languages and voices with pitch and speed control.',
+          icon: '🔊',
+          hideMainDropzone: true,
+          hideActionBtn: true,
+          about: 'Generates spoken speech from written text using the client-side Web SpeechSynthesis API. Choose from all available installed system voices and adjust playback speed and vocal pitch.'
+        },
+        'qr-generator': {
+          title: 'QR Code Generator',
+          desc: 'Turn any link or text into a scannable QR code image instantly with custom colors and HD export.',
+          icon: '🔲',
+          hideMainDropzone: true,
+          hideActionBtn: true,
+          about: 'Creates crisp, high-resolution QR codes completely inside your browser. Customize resolution, error correction level, foreground color, and background color.'
+        },
+        'pdf-image-converter': {
+          title: 'PDF ↔ Image Converter',
+          desc: 'Convert PDF pages into images, or combine multiple images into a clean PDF document.',
+          icon: '📄',
+          hideMainDropzone: true,
+          hideActionBtn: true,
+          about: 'Render PDF documents into high-DPI PNG or JPG image files page by page, or merge multiple photos into a formatted multi-page PDF document.'
+        },
+        'image-format-converter': {
+          title: 'File Format Converter',
+          desc: 'Convert images between PNG, JPG, and WebP formats with quality and resizing controls.',
+          icon: '🔄',
+          accept: 'image/*',
+          actionText: 'Convert Image Format',
+          about: 'Converts image formats client-side using HTML5 Canvas. Supports WebP for maximum compression, PNG for transparency, and JPEG for universal compatibility.'
+        },
+        'metadata-remover': {
+          title: 'Metadata / EXIF Remover',
+          desc: 'Strip hidden location, device, and camera data from your photos before sharing, for privacy.',
+          icon: '🛡️',
+          accept: 'image/*',
+          actionText: 'Clean & Download Image',
+          about: 'Inspects and strips all embedded EXIF tags, GPS location coordinates, camera models, lens details, and software tags to safeguard your personal privacy.'
+        },
+        'image-cropper': {
+          title: 'Image Cropper (Ratio Presets)',
+          desc: 'Crop any photo to the perfect size for YouTube thumbnails (16:9), Instagram posts (1:1, 4:5), or Stories/TikTok (9:16).',
+          icon: '✂️🖼️',
+          accept: 'image/*',
+          actionText: 'Crop & Export Image',
+          about: 'Interactively crop photos to social media ratio presets (16:9, 1:1, 9:16, 4:3, 4:5, Freeform) with 90° rotation and precise dimension displays.'
         }
       };
 
@@ -303,13 +369,41 @@
       if (this.dom.toolTitle) this.dom.toolTitle.textContent = config.title;
       if (this.dom.toolDesc) this.dom.toolDesc.textContent = config.desc;
       if (this.dom.toolIcon) this.dom.toolIcon.textContent = config.icon;
-      if (this.dom.actionBtnText) this.dom.actionBtnText.textContent = config.actionText;
+      if (this.dom.actionBtnText) this.dom.actionBtnText.textContent = config.actionText || 'Process File';
 
       if (this.dom.aboutTitle) this.dom.aboutTitle.textContent = `About ${config.title}`;
       if (this.dom.aboutText) this.dom.aboutText.textContent = config.about;
 
-      // Update file input accepted accept attribute
-      if (this.dom.fileInput) this.dom.fileInput.setAttribute('accept', config.accept);
+      // Update file input accepted attribute if configured
+      if (this.dom.fileInput && config.accept) {
+        this.dom.fileInput.setAttribute('accept', config.accept);
+      }
+
+      // Hide or show default dropzone and action button for specialized interactive tools
+      const fileUploadSection = document.getElementById('media-file-upload-section');
+      const step2Heading = document.getElementById('media-step-2-heading');
+      const optionsContainer = document.getElementById('media-options-container');
+
+      if (config.hideMainDropzone) {
+        if (fileUploadSection) fileUploadSection.style.display = 'none';
+        if (step2Heading) step2Heading.style.display = 'none';
+        if (optionsContainer) optionsContainer.style.marginTop = '0';
+        if (this.dom.dropzone) this.dom.dropzone.style.display = 'none';
+        if (this.dom.fileInfoCard) this.dom.fileInfoCard.style.display = 'none';
+        if (this.dom.inputPreviewWrap) this.dom.inputPreviewWrap.style.display = 'none';
+      } else {
+        if (fileUploadSection) fileUploadSection.style.display = 'block';
+        if (step2Heading) {
+          step2Heading.style.display = 'block';
+          step2Heading.textContent = '2. Configure Tool Options';
+        }
+        if (optionsContainer) optionsContainer.style.marginTop = '2rem';
+        if (this.dom.dropzone) this.dom.dropzone.style.display = 'block';
+      }
+
+      if (this.dom.actionBtnWrap) {
+        this.dom.actionBtnWrap.style.display = config.hideActionBtn ? 'none' : 'block';
+      }
 
       // Breadcrumb updates
       if (this.dom.breadcrumbSubPage) {
@@ -333,6 +427,13 @@
 
       // Reset file / output if user switched tools
       this.clearFile();
+
+      // Tool-specific initializations
+      if (toolId === 'voice-to-text') this.initVoiceToText();
+      if (toolId === 'text-to-speech') this.initTextToSpeech();
+      if (toolId === 'qr-generator') this.initQrGenerator();
+      if (toolId === 'pdf-image-converter') this.initPdfImageConverter();
+      if (toolId === 'image-cropper') this.initCropper();
     }
 
     handleFileSelected(file) {
@@ -352,6 +453,8 @@
       // Load Input Preview Player
       const fileUrl = URL.createObjectURL(file);
       const isVideo = file.type.startsWith('video/') || /\.(mp4|webm|mov|mkv|avi)$/i.test(file.name);
+      const isAudio = file.type.startsWith('audio/') || /\.(mp3|wav|ogg|aac|m4a|flac)$/i.test(file.name);
+      const isImage = file.type.startsWith('image/') || /\.(png|jpe?g|webp|gif|bmp|svg)$/i.test(file.name);
 
       if (this.dom.inputPreviewWrap) this.dom.inputPreviewWrap.style.display = 'block';
 
@@ -364,7 +467,8 @@
           };
         }
         if (this.dom.inputAudioPlayer) this.dom.inputAudioPlayer.style.display = 'none';
-      } else {
+        if (this.dom.inputImagePreview) this.dom.inputImagePreview.style.display = 'none';
+      } else if (isAudio) {
         if (this.dom.inputAudioPlayer) {
           this.dom.inputAudioPlayer.style.display = 'block';
           this.dom.inputAudioPlayer.src = fileUrl;
@@ -373,6 +477,21 @@
           };
         }
         if (this.dom.inputVideoPlayer) this.dom.inputVideoPlayer.style.display = 'none';
+        if (this.dom.inputImagePreview) this.dom.inputImagePreview.style.display = 'none';
+      } else if (isImage) {
+        if (this.dom.inputImagePreview) {
+          this.dom.inputImagePreview.style.display = 'block';
+          this.dom.inputImagePreview.src = fileUrl;
+        }
+        if (this.dom.inputVideoPlayer) this.dom.inputVideoPlayer.style.display = 'none';
+        if (this.dom.inputAudioPlayer) this.dom.inputAudioPlayer.style.display = 'none';
+
+        // Trigger image specific inspections / setups
+        if (this.activeToolId === 'metadata-remover') {
+          this.inspectExifMetadata(file);
+        } else if (this.activeToolId === 'image-cropper') {
+          this.loadCropperImage(file);
+        }
       }
 
       if (this.dom.actionBtn) {
@@ -412,7 +531,11 @@
       if (this.dom.fileInput) this.dom.fileInput.value = '';
 
       if (this.dom.fileInfoCard) this.dom.fileInfoCard.style.display = 'none';
-      if (this.dom.dropzone) this.dom.dropzone.style.display = 'block';
+      
+      const isStandalone = ['voice-to-text', 'text-to-speech', 'qr-generator'].includes(this.activeToolId);
+      if (this.dom.dropzone && !isStandalone) {
+        this.dom.dropzone.style.display = 'block';
+      }
 
       if (this.dom.inputPreviewWrap) this.dom.inputPreviewWrap.style.display = 'none';
       if (this.dom.inputVideoPlayer) {
@@ -544,13 +667,48 @@
             break;
           }
 
+          case 'image-format-converter': {
+            const targetFormat = document.getElementById('img-conv-format')?.value || 'webp';
+            const quality = parseFloat(document.getElementById('img-conv-quality')?.value || '0.92');
+            const resizeScale = parseFloat(document.getElementById('img-conv-resize')?.value || '1');
+            this.updateProgress(30, `Converting image to ${targetFormat.toUpperCase()}...`);
+            resultBlob = await this.convertImageFormat(this.selectedFile, targetFormat, quality, resizeScale);
+            extension = targetFormat === 'jpeg' ? 'jpg' : targetFormat;
+            mimeType = `image/${targetFormat}`;
+            const origSize = (this.selectedFile.size / 1024).toFixed(1);
+            const newSize = (resultBlob.size / 1024).toFixed(1);
+            const savings = Math.round((1 - resultBlob.size / this.selectedFile.size) * 100);
+            resultMeta = `Converted to ${targetFormat.toUpperCase()} • ${origSize} KB → ${newSize} KB (${savings >= 0 ? savings + '% smaller' : '+' + Math.abs(savings) + '%'})`;
+            break;
+          }
+
+          case 'metadata-remover': {
+            const outFormat = document.getElementById('exif-output-format')?.value || 'match';
+            this.updateProgress(30, 'Stripping metadata and scrubbing EXIF/GPS tags...');
+            resultBlob = await this.removeMetadata(this.selectedFile, outFormat);
+            extension = resultBlob.type === 'image/png' ? 'png' : (resultBlob.type === 'image/webp' ? 'webp' : 'jpg');
+            mimeType = resultBlob.type || 'image/jpeg';
+            resultMeta = `Privacy-Safe Image • EXIF, Geotags & Device IDs Completely Stripped (${(resultBlob.size / 1024).toFixed(1)} KB)`;
+            break;
+          }
+
+          case 'image-cropper': {
+            this.updateProgress(30, 'Cropping and exporting image...');
+            resultBlob = await this.cropImage();
+            const format = document.getElementById('crop-export-format')?.value || 'image/jpeg';
+            extension = format === 'image/png' ? 'png' : (format === 'image/webp' ? 'webp' : 'jpg');
+            mimeType = format;
+            resultMeta = `Cropped Image Export • ${(resultBlob.size / 1024).toFixed(1)} KB`;
+            break;
+          }
+
           default:
             throw new Error('Unknown tool selected');
         }
 
         this.updateProgress(100, 'Processing complete!');
         this.renderOutputResult(resultBlob, extension, mimeType, resultMeta);
-        this.showToast('✓ Media processing completed successfully!');
+        this.showToast('✓ Processing completed successfully!');
       } catch (err) {
         console.error('Media processing error:', err);
         this.showToast(`Processing error: ${err.message || 'Failed to process file'}`, 'error');
@@ -581,6 +739,7 @@
 
       const isVideo = mimeType.startsWith('video/');
       const isGif = mimeType === 'image/gif';
+      const isImage = mimeType.startsWith('image/') && !isGif;
 
       if (isGif) {
         if (this.dom.outputGifPreview) {
@@ -589,6 +748,15 @@
         }
         if (this.dom.outputVideoPlayer) this.dom.outputVideoPlayer.style.display = 'none';
         if (this.dom.outputAudioPlayer) this.dom.outputAudioPlayer.style.display = 'none';
+        if (this.dom.outputImagePreview) this.dom.outputImagePreview.style.display = 'none';
+      } else if (isImage) {
+        if (this.dom.outputImagePreview) {
+          this.dom.outputImagePreview.style.display = 'block';
+          this.dom.outputImagePreview.src = outputUrl;
+        }
+        if (this.dom.outputVideoPlayer) this.dom.outputVideoPlayer.style.display = 'none';
+        if (this.dom.outputAudioPlayer) this.dom.outputAudioPlayer.style.display = 'none';
+        if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
       } else if (isVideo) {
         if (this.dom.outputVideoPlayer) {
           this.dom.outputVideoPlayer.style.display = 'block';
@@ -597,6 +765,7 @@
         }
         if (this.dom.outputAudioPlayer) this.dom.outputAudioPlayer.style.display = 'none';
         if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
+        if (this.dom.outputImagePreview) this.dom.outputImagePreview.style.display = 'none';
       } else {
         if (this.dom.outputAudioPlayer) {
           this.dom.outputAudioPlayer.style.display = 'block';
@@ -605,6 +774,7 @@
         }
         if (this.dom.outputVideoPlayer) this.dom.outputVideoPlayer.style.display = 'none';
         if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
+        if (this.dom.outputImagePreview) this.dom.outputImagePreview.style.display = 'none';
       }
 
       // Download button setup
@@ -1150,6 +1320,1234 @@
           cleanUp();
           reject(err);
         }
+      });
+    }
+
+    // --- TOOL 9: VOICE-TO-TEXT (Multi-Language Speech Recognition) ---
+
+    initVoiceToText() {
+      const unsupportedAlert = document.getElementById('vtt-unsupported-alert');
+      const langSelect = document.getElementById('vtt-language');
+      const toggleMicBtn = document.getElementById('btn-vtt-toggle-mic');
+      const micIcon = document.getElementById('vtt-mic-icon');
+      const statusText = document.getElementById('vtt-status-text');
+      const timerDisplay = document.getElementById('vtt-timer');
+      const transcriptArea = document.getElementById('vtt-transcript');
+      const wordCountDisplay = document.getElementById('vtt-word-count');
+      const copyBtn = document.getElementById('btn-vtt-copy');
+      const downloadBtn = document.getElementById('btn-vtt-download');
+      const clearBtn = document.getElementById('btn-vtt-clear');
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      const updateWordCount = () => {
+        if (!transcriptArea || !wordCountDisplay) return;
+        const text = transcriptArea.value.trim();
+        const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
+        const chars = text.length;
+        wordCountDisplay.textContent = `${words} ${words === 1 ? 'word' : 'words'} • ${chars} ${chars === 1 ? 'character' : 'characters'}`;
+      };
+
+      if (transcriptArea) {
+        transcriptArea.addEventListener('input', updateWordCount);
+      }
+
+      if (!SpeechRecognition) {
+        if (unsupportedAlert) {
+          unsupportedAlert.style.display = 'block';
+          unsupportedAlert.textContent = "Voice input isn't supported in this browser — try Chrome or Edge.";
+        }
+        if (statusText) {
+          statusText.textContent = "Voice input isn't supported in this browser — try Chrome or Edge.";
+          statusText.style.color = '#ef4444';
+        }
+        if (toggleMicBtn) {
+          toggleMicBtn.disabled = true;
+          toggleMicBtn.style.opacity = '0.5';
+          toggleMicBtn.style.cursor = 'not-allowed';
+        }
+        return;
+      } else {
+        if (unsupportedAlert) unsupportedAlert.style.display = 'none';
+      }
+
+      let recognition = null;
+      let isRecording = false;
+      let timerInterval = null;
+      let secondsElapsed = 0;
+      let finalTranscript = transcriptArea ? transcriptArea.value : '';
+
+      const formatTimer = (totalSeconds) => {
+        const mins = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+        const secs = (totalSeconds % 60).toString().padStart(2, '0');
+        return `${mins}:${secs}`;
+      };
+
+      const startTimer = () => {
+        secondsElapsed = 0;
+        if (timerDisplay) timerDisplay.textContent = '00:00';
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          secondsElapsed++;
+          if (timerDisplay) timerDisplay.textContent = formatTimer(secondsElapsed);
+        }, 1000);
+      };
+
+      const stopTimer = () => {
+        clearInterval(timerInterval);
+      };
+
+      const setListeningState = (active) => {
+        isRecording = active;
+        if (active) {
+          if (toggleMicBtn) {
+            toggleMicBtn.classList.add('mic-recording');
+            toggleMicBtn.setAttribute('title', 'Click to stop listening');
+          }
+          if (micIcon) micIcon.textContent = '⏹️';
+          if (statusText) {
+            statusText.textContent = 'Listening... Speak clearly into your microphone';
+            statusText.style.color = '#10b981';
+          }
+          startTimer();
+        } else {
+          if (toggleMicBtn) {
+            toggleMicBtn.classList.remove('mic-recording');
+            toggleMicBtn.setAttribute('title', 'Click to start listening');
+          }
+          if (micIcon) micIcon.textContent = '🎙️';
+          if (statusText) {
+            statusText.textContent = 'Microphone idle. Click microphone to start speaking';
+            statusText.style.color = 'var(--text-primary)';
+          }
+          stopTimer();
+        }
+      };
+
+      const startRecognition = () => {
+        if (recognition) {
+          try { recognition.abort(); } catch (e) {}
+        }
+
+        try {
+          recognition = new SpeechRecognition();
+          recognition.continuous = true;
+          recognition.interimResults = true;
+          recognition.lang = langSelect ? langSelect.value : 'en-US';
+
+          finalTranscript = transcriptArea ? transcriptArea.value : '';
+
+          recognition.onstart = () => {
+            setListeningState(true);
+          };
+
+          recognition.onresult = (event) => {
+            let interimTranscript = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+              const res = event.results[i];
+              if (res.isFinal) {
+                const text = res[0].transcript.trim();
+                if (text) {
+                  finalTranscript = (finalTranscript ? finalTranscript.trim() + ' ' : '') + text;
+                }
+              } else {
+                interimTranscript += res[0].transcript;
+              }
+            }
+
+            if (transcriptArea) {
+              const displayText = interimTranscript
+                ? (finalTranscript ? finalTranscript.trim() + ' ' : '') + interimTranscript
+                : finalTranscript;
+              transcriptArea.value = displayText;
+              updateWordCount();
+              transcriptArea.scrollTop = transcriptArea.scrollHeight;
+            }
+          };
+
+          recognition.onerror = (event) => {
+            console.warn('SpeechRecognition error:', event.error);
+            if (event.error === 'not-allowed' || event.error === 'permission-denied') {
+              this.showToast('Microphone access denied. Please allow microphone permission.', 'error');
+              if (statusText) {
+                statusText.textContent = 'Microphone permission denied. Please allow access.';
+                statusText.style.color = '#ef4444';
+              }
+            } else if (event.error === 'no-speech') {
+              if (statusText && isRecording) {
+                statusText.textContent = 'Listening... (Speak now)';
+              }
+            } else {
+              if (statusText) {
+                statusText.textContent = `Status: ${event.error}`;
+              }
+            }
+          };
+
+          recognition.onend = () => {
+            if (isRecording) {
+              setListeningState(false);
+            }
+          };
+
+          recognition.start();
+        } catch (err) {
+          console.error('Speech recognition start failed:', err);
+          this.showToast('Failed to start speech recognition: ' + err.message, 'error');
+          setListeningState(false);
+        }
+      };
+
+      const stopRecognition = () => {
+        if (recognition) {
+          try {
+            recognition.stop();
+          } catch (e) {
+            try { recognition.abort(); } catch (e2) {}
+          }
+        }
+        setListeningState(false);
+      };
+
+      if (toggleMicBtn) {
+        toggleMicBtn.onclick = () => {
+          if (isRecording) {
+            stopRecognition();
+          } else {
+            startRecognition();
+          }
+        };
+      }
+
+      if (langSelect) {
+        langSelect.onchange = () => {
+          if (isRecording) {
+            stopRecognition();
+            setTimeout(() => {
+              startRecognition();
+            }, 250);
+          }
+        };
+      }
+
+      if (copyBtn) {
+        copyBtn.onclick = () => {
+          if (!transcriptArea || !transcriptArea.value.trim()) {
+            this.showToast('No transcript text to copy', 'warning');
+            return;
+          }
+          const text = transcriptArea.value.trim();
+          navigator.clipboard.writeText(text).then(() => {
+            this.showToast('✓ Transcript copied to clipboard!');
+          }).catch(() => {
+            transcriptArea.select();
+            document.execCommand('copy');
+            this.showToast('✓ Transcript copied to clipboard!');
+          });
+        };
+      }
+
+      if (downloadBtn) {
+        downloadBtn.onclick = () => {
+          if (!transcriptArea || !transcriptArea.value.trim()) {
+            this.showToast('No transcript text to download', 'warning');
+            return;
+          }
+          const blob = new Blob([transcriptArea.value.trim()], { type: 'text/plain;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `voice_transcript_${langSelect?.value || 'text'}_${Date.now()}.txt`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          this.showToast('✓ Transcript downloaded as .txt');
+        };
+      }
+
+      if (clearBtn) {
+        clearBtn.onclick = () => {
+          if (transcriptArea) transcriptArea.value = '';
+          finalTranscript = '';
+          updateWordCount();
+          this.showToast('Transcript cleared');
+        };
+      }
+
+      updateWordCount();
+    }
+
+    // --- TOOL 10: TEXT-TO-SPEECH (Client-Side Web Speech Synthesis) ---
+
+    initTextToSpeech() {
+      const textInput = document.getElementById('tts-input-text');
+      const voiceSelect = document.getElementById('tts-voice-select');
+      const rateSlider = document.getElementById('tts-rate-slider');
+      const rateVal = document.getElementById('tts-rate-val');
+      const pitchSlider = document.getElementById('tts-pitch-slider');
+      const pitchVal = document.getElementById('tts-pitch-val');
+      const playBtn = document.getElementById('btn-tts-play');
+      const pauseBtn = document.getElementById('btn-tts-pause');
+      const resumeBtn = document.getElementById('btn-tts-resume');
+      const stopBtn = document.getElementById('btn-tts-stop');
+      const speakingWave = document.getElementById('tts-speaking-wave');
+      const statusLabel = document.getElementById('tts-status-label');
+      const sampleBtn = document.getElementById('btn-tts-sample');
+      const clearBtn = document.getElementById('btn-tts-clear');
+
+      if (!('speechSynthesis' in window)) {
+        if (statusLabel) {
+          statusLabel.textContent = 'Text-to-Speech is not supported in this browser.';
+          statusLabel.style.color = '#ef4444';
+        }
+        if (playBtn) playBtn.disabled = true;
+        this.showToast('SpeechSynthesis is not supported in this browser.', 'error');
+        return;
+      }
+
+      const synth = window.speechSynthesis;
+      let voices = [];
+      let isSpeaking = false;
+      let isPaused = false;
+      let currentUtterance = null;
+
+      const populateVoices = () => {
+        try {
+          voices = synth.getVoices() || [];
+        } catch (e) {
+          voices = [];
+        }
+
+        if (!voiceSelect) return;
+        voiceSelect.innerHTML = '';
+
+        if (voices.length === 0) {
+          const opt = document.createElement('option');
+          opt.value = '';
+          opt.textContent = 'Default System Voice (Auto-detect)';
+          voiceSelect.appendChild(opt);
+          return;
+        }
+
+        voices.forEach((voice, index) => {
+          const opt = document.createElement('option');
+          opt.value = index.toString();
+          opt.textContent = `${voice.name} (${voice.lang})${voice.default ? ' — Default' : ''}`;
+          voiceSelect.appendChild(opt);
+        });
+      };
+
+      populateVoices();
+      if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = populateVoices;
+      }
+      setTimeout(populateVoices, 100);
+      setTimeout(populateVoices, 500);
+
+      if (rateSlider && rateVal) {
+        rateSlider.oninput = () => {
+          rateVal.textContent = `${parseFloat(rateSlider.value).toFixed(1)}x`;
+        };
+      }
+      if (pitchSlider && pitchVal) {
+        pitchSlider.oninput = () => {
+          pitchVal.textContent = `${parseFloat(pitchSlider.value).toFixed(1)}`;
+        };
+      }
+
+      const setPlaybackUiState = (speaking, paused) => {
+        isSpeaking = speaking;
+        isPaused = paused;
+
+        if (speaking && !paused) {
+          if (speakingWave) speakingWave.classList.add('speaking-active');
+          if (statusLabel) {
+            statusLabel.textContent = '🔊 Reading text aloud...';
+            statusLabel.style.color = 'var(--accent-primary)';
+          }
+          if (playBtn) playBtn.style.display = 'none';
+          if (pauseBtn) {
+            pauseBtn.style.display = 'inline-flex';
+            pauseBtn.disabled = false;
+          }
+          if (resumeBtn) resumeBtn.style.display = 'none';
+          if (stopBtn) {
+            stopBtn.style.display = 'inline-flex';
+            stopBtn.disabled = false;
+          }
+        } else if (speaking && paused) {
+          if (speakingWave) speakingWave.classList.remove('speaking-active');
+          if (statusLabel) {
+            statusLabel.textContent = '⏸ Playback paused';
+            statusLabel.style.color = 'var(--text-muted)';
+          }
+          if (playBtn) playBtn.style.display = 'none';
+          if (pauseBtn) pauseBtn.style.display = 'none';
+          if (resumeBtn) {
+            resumeBtn.style.display = 'inline-flex';
+            resumeBtn.disabled = false;
+          }
+          if (stopBtn) {
+            stopBtn.style.display = 'inline-flex';
+            stopBtn.disabled = false;
+          }
+        } else {
+          if (speakingWave) speakingWave.classList.remove('speaking-active');
+          if (statusLabel) {
+            statusLabel.textContent = 'Ready to speak';
+            statusLabel.style.color = 'var(--text-primary)';
+          }
+          if (playBtn) {
+            playBtn.style.display = 'inline-flex';
+            playBtn.disabled = false;
+          }
+          if (pauseBtn) {
+            pauseBtn.style.display = 'inline-flex';
+            pauseBtn.disabled = true;
+          }
+          if (resumeBtn) resumeBtn.style.display = 'none';
+          if (stopBtn) {
+            stopBtn.style.display = 'inline-flex';
+            stopBtn.disabled = true;
+          }
+        }
+      };
+
+      const startSpeaking = () => {
+        const text = textInput ? textInput.value.trim() : '';
+        if (!text) {
+          this.showToast('Please enter some text to read aloud', 'warning');
+          return;
+        }
+
+        synth.cancel();
+
+        currentUtterance = new SpeechSynthesisUtterance(text);
+        
+        const selectedIdx = voiceSelect && voiceSelect.value !== '' ? parseInt(voiceSelect.value, 10) : -1;
+        if (selectedIdx >= 0 && voices[selectedIdx]) {
+          currentUtterance.voice = voices[selectedIdx];
+          currentUtterance.lang = voices[selectedIdx].lang;
+        }
+
+        const rate = rateSlider ? parseFloat(rateSlider.value) : 1.0;
+        const pitch = pitchSlider ? parseFloat(pitchSlider.value) : 1.0;
+
+        currentUtterance.rate = Math.max(0.5, Math.min(2.0, rate));
+        currentUtterance.pitch = Math.max(0, Math.min(2.0, pitch));
+
+        currentUtterance.onstart = () => {
+          setPlaybackUiState(true, false);
+        };
+
+        currentUtterance.onend = () => {
+          setPlaybackUiState(false, false);
+        };
+
+        currentUtterance.onerror = (e) => {
+          console.warn('SpeechSynthesis error:', e);
+          setPlaybackUiState(false, false);
+        };
+
+        currentUtterance.onpause = () => {
+          setPlaybackUiState(true, true);
+        };
+
+        currentUtterance.onresume = () => {
+          setPlaybackUiState(true, false);
+        };
+
+        synth.speak(currentUtterance);
+        setPlaybackUiState(true, false);
+      };
+
+      if (playBtn) {
+        playBtn.onclick = () => {
+          startSpeaking();
+        };
+      }
+
+      if (pauseBtn) {
+        pauseBtn.onclick = () => {
+          if (synth.speaking && !synth.paused) {
+            synth.pause();
+            setPlaybackUiState(true, true);
+          }
+        };
+      }
+
+      if (resumeBtn) {
+        resumeBtn.onclick = () => {
+          if (synth.paused) {
+            synth.resume();
+            setPlaybackUiState(true, false);
+          } else {
+            startSpeaking();
+          }
+        };
+      }
+
+      if (stopBtn) {
+        stopBtn.onclick = () => {
+          synth.cancel();
+          setPlaybackUiState(false, false);
+        };
+      }
+
+      if (sampleBtn) {
+        sampleBtn.onclick = () => {
+          if (textInput) {
+            textInput.value = "Welcome to Multi Tube Views! This audio is rendered directly within your web browser using client-side speech synthesis technology. You can adjust speed, pitch, and choose any installed voice.";
+            this.showToast('Sample text inserted');
+          }
+        };
+      }
+
+      if (clearBtn) {
+        clearBtn.onclick = () => {
+          if (textInput) textInput.value = '';
+          synth.cancel();
+          setPlaybackUiState(false, false);
+        };
+      }
+
+      setPlaybackUiState(false, false);
+    }
+
+    // --- TOOL 11: QR CODE GENERATOR ---
+
+    initQrGenerator() {
+      const qrTextInput = document.getElementById('qr-input-text');
+      const qrSizeSelect = document.getElementById('qr-size-select');
+      const qrEccSelect = document.getElementById('qr-ecc-select');
+      const qrFgColor = document.getElementById('qr-fg-color');
+      const qrBgColor = document.getElementById('qr-bg-color');
+      const qrCanvas = document.getElementById('qr-canvas-preview');
+      const downloadBtn = document.getElementById('btn-qr-download');
+      const copyBtn = document.getElementById('btn-qr-copy');
+
+      const renderQr = () => {
+        if (!qrCanvas) return;
+        const text = qrTextInput ? (qrTextInput.value.trim() || 'https://multitubeviews.com') : 'https://multitubeviews.com';
+        const size = qrSizeSelect ? parseInt(qrSizeSelect.value, 10) : 512;
+        const ecc = qrEccSelect ? qrEccSelect.value : 'M';
+        const fg = qrFgColor ? qrFgColor.value : '#000000';
+        const bg = qrBgColor ? qrBgColor.value : '#ffffff';
+
+        qrCanvas.width = size;
+        qrCanvas.height = size;
+
+        if (window.QRCode && window.QRCode.toCanvas) {
+          window.QRCode.toCanvas(qrCanvas, text, {
+            width: size,
+            margin: 2,
+            errorCorrectionLevel: ecc,
+            color: { dark: fg, light: bg }
+          }, (err) => {
+            if (err) console.error('QR rendering error:', err);
+          });
+        } else {
+          // Fallback simple clean visual QR canvas renderer if CDN is still loading
+          const ctx = qrCanvas.getContext('2d');
+          ctx.fillStyle = bg;
+          ctx.fillRect(0, 0, size, size);
+          ctx.fillStyle = fg;
+          ctx.font = `bold ${Math.round(size / 18)}px sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.fillText('QR: ' + text.substring(0, 24), size / 2, size / 2);
+        }
+      };
+
+      if (qrTextInput) qrTextInput.addEventListener('input', renderQr);
+      if (qrSizeSelect) qrSizeSelect.addEventListener('change', renderQr);
+      if (qrEccSelect) qrEccSelect.addEventListener('change', renderQr);
+      if (qrFgColor) qrFgColor.addEventListener('input', renderQr);
+      if (qrBgColor) qrBgColor.addEventListener('input', renderQr);
+
+      // Render default on load
+      setTimeout(renderQr, 100);
+
+      if (downloadBtn) {
+        downloadBtn.onclick = () => {
+          if (!qrCanvas) return;
+          const a = document.createElement('a');
+          a.href = qrCanvas.toDataURL('image/png');
+          a.download = `qrcode_${Date.now()}.png`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          this.showToast('✓ QR Code downloaded as HD PNG!');
+        };
+      }
+
+      if (copyBtn) {
+        copyBtn.onclick = () => {
+          if (!qrCanvas) return;
+          qrCanvas.toBlob((blob) => {
+            if (blob && navigator.clipboard && navigator.clipboard.write) {
+              navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(() => {
+                this.showToast('✓ QR Code image copied to clipboard!');
+              }).catch(() => {
+                this.showToast('Clipboard image write not supported in this browser', 'error');
+              });
+            } else {
+              this.showToast('Clipboard copy unavailable', 'error');
+            }
+          });
+        };
+      }
+    }
+
+    // --- TOOL 12: PDF ↔ IMAGE CONVERTER ---
+
+    initPdfImageConverter() {
+      const tabPdf2Img = document.getElementById('tab-btn-pdf2img');
+      const tabImg2Pdf = document.getElementById('tab-btn-img2pdf');
+      const viewPdf2Img = document.getElementById('view-pdf2img');
+      const viewImg2Pdf = document.getElementById('view-img2pdf');
+
+      // Tab switcher
+      if (tabPdf2Img && tabImg2Pdf && viewPdf2Img && viewImg2Pdf) {
+        tabPdf2Img.onclick = () => {
+          tabPdf2Img.classList.add('active');
+          tabImg2Pdf.classList.remove('active');
+          viewPdf2Img.style.display = 'block';
+          viewImg2Pdf.style.display = 'none';
+        };
+        tabImg2Pdf.onclick = () => {
+          tabImg2Pdf.classList.add('active');
+          tabPdf2Img.classList.remove('active');
+          viewImg2Pdf.style.display = 'block';
+          viewPdf2Img.style.display = 'none';
+        };
+      }
+
+      // 1. PDF to Images Flow
+      const pdfInput = document.getElementById('pdf-file-input');
+      const pdfSelectBtn = document.getElementById('btn-select-pdf-file');
+      const pdfPagesGrid = document.getElementById('pdf-pages-grid');
+      const downloadAllZipBtn = document.getElementById('btn-pdf-download-all-zip');
+      const pdfStatus = document.getElementById('pdf-extract-status');
+
+      if (pdfSelectBtn && pdfInput) {
+        pdfSelectBtn.onclick = () => pdfInput.click();
+      }
+
+      let extractedPageBlobs = [];
+
+      if (pdfInput) {
+        pdfInput.onchange = async (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+
+          if (file.type !== 'application/pdf' && !file.name.endsWith('.pdf')) {
+            this.showToast('Please select a valid PDF document.', 'error');
+            return;
+          }
+
+          if (pdfStatus) {
+            pdfStatus.style.display = 'block';
+            pdfStatus.textContent = `Loading "${file.name}" and extracting pages...`;
+          }
+          if (pdfPagesGrid) pdfPagesGrid.innerHTML = '';
+          extractedPageBlobs = [];
+
+          try {
+            const arrayBuffer = await file.arrayBuffer();
+            if (!window.pdfjsLib) {
+              throw new Error('PDF.js library is loading, please try again in a second.');
+            }
+
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            const pdfDoc = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            const numPages = pdfDoc.numPages;
+
+            if (pdfStatus) pdfStatus.textContent = `Rendering ${numPages} page${numPages > 1 ? 's' : ''}...`;
+
+            const format = document.getElementById('pdf-extract-format')?.value || 'image/png';
+            const scale = parseFloat(document.getElementById('pdf-extract-scale')?.value || '1.5');
+
+            for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+              const page = await pdfDoc.getPage(pageNum);
+              const viewport = page.getViewport({ scale: scale });
+
+              const canvas = document.createElement('canvas');
+              canvas.width = viewport.width;
+              canvas.height = viewport.height;
+              const ctx = canvas.getContext('2d');
+
+              await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+              const ext = format === 'image/jpeg' ? 'jpg' : 'png';
+              const mime = format === 'image/jpeg' ? 'image/jpeg' : 'image/png';
+
+              await new Promise((res) => {
+                canvas.toBlob((blob) => {
+                  extractedPageBlobs.push({ pageNum, blob, ext, mime });
+
+                  const pageCard = document.createElement('div');
+                  pageCard.style.cssText = 'background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.75rem; text-align: center; display: flex; flex-direction: column; gap: 0.5rem;';
+                  
+                  const img = document.createElement('img');
+                  img.src = URL.createObjectURL(blob);
+                  img.style.cssText = 'max-width: 100%; height: 180px; object-fit: contain; border-radius: 4px; background: #fff; box-shadow: var(--shadow-sm);';
+
+                  const label = document.createElement('div');
+                  label.style.cssText = 'font-weight: 600; font-size: 0.85rem; color: var(--text-primary);';
+                  label.textContent = `Page ${pageNum} (${(blob.size / 1024).toFixed(1)} KB)`;
+
+                  const dlBtn = document.createElement('button');
+                  dlBtn.className = 'btn btn-secondary';
+                  dlBtn.style.cssText = 'font-size: 0.8rem; padding: 0.35rem 0.6rem; width: 100%;';
+                  dlBtn.textContent = `Download Page ${pageNum}`;
+                  dlBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = `${file.name.replace(/\.pdf$/i, '')}_page_${pageNum}.${ext}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                  };
+
+                  pageCard.appendChild(img);
+                  pageCard.appendChild(label);
+                  pageCard.appendChild(dlBtn);
+                  if (pdfPagesGrid) pdfPagesGrid.appendChild(pageCard);
+                  res();
+                }, mime, 0.92);
+              });
+            }
+
+            if (pdfStatus) pdfStatus.textContent = `✓ Extracted ${numPages} pages successfully!`;
+            if (downloadAllZipBtn) downloadAllZipBtn.style.display = numPages > 1 ? 'inline-flex' : 'none';
+
+          } catch (err) {
+            console.error('PDF parsing error:', err);
+            if (pdfStatus) pdfStatus.textContent = `Error: ${err.message}`;
+            this.showToast(`PDF conversion error: ${err.message}`, 'error');
+          }
+        };
+      }
+
+      if (downloadAllZipBtn) {
+        downloadAllZipBtn.onclick = async () => {
+          if (!extractedPageBlobs.length) return;
+          if (!window.JSZip) {
+            this.showToast('Downloading all pages sequentially...', 'info');
+            extractedPageBlobs.forEach((item, idx) => {
+              setTimeout(() => {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(item.blob);
+                a.download = `page_${item.pageNum}.${item.ext}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+              }, idx * 250);
+            });
+            return;
+          }
+
+          const zip = new window.JSZip();
+          extractedPageBlobs.forEach(item => {
+            zip.file(`page_${item.pageNum}.${item.ext}`, item.blob);
+          });
+
+          const zipBlob = await zip.generateAsync({ type: 'blob' });
+          const url = URL.createObjectURL(zipBlob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `pdf_extracted_images_${Date.now()}.zip`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          this.showToast('✓ All pages downloaded as ZIP archive!');
+        };
+      }
+
+      // 2. Images to PDF Flow
+      const img2PdfInput = document.getElementById('img2pdf-file-input');
+      const img2PdfSelectBtn = document.getElementById('btn-select-img2pdf');
+      const img2PdfList = document.getElementById('img2pdf-images-list');
+      const generatePdfBtn = document.getElementById('btn-generate-pdf-from-images');
+
+      let selectedImagesForPdf = [];
+
+      if (img2PdfSelectBtn && img2PdfInput) {
+        img2PdfSelectBtn.onclick = () => img2PdfInput.click();
+      }
+
+      const renderImageThumbs = () => {
+        if (!img2PdfList) return;
+        img2PdfList.innerHTML = '';
+        if (selectedImagesForPdf.length === 0) {
+          if (generatePdfBtn) generatePdfBtn.disabled = true;
+          return;
+        }
+
+        if (generatePdfBtn) generatePdfBtn.disabled = false;
+
+        selectedImagesForPdf.forEach((imgObj, idx) => {
+          const item = document.createElement('div');
+          item.style.cssText = 'position: relative; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.35rem; text-align: center;';
+          
+          const img = document.createElement('img');
+          img.src = imgObj.url;
+          img.style.cssText = 'width: 80px; height: 80px; object-fit: cover; border-radius: 4px;';
+
+          const rmBtn = document.createElement('button');
+          rmBtn.textContent = '✕';
+          rmBtn.style.cssText = 'position: absolute; top: -6px; right: -6px; background: #ef4444; color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center;';
+          rmBtn.onclick = () => {
+            selectedImagesForPdf.splice(idx, 1);
+            renderImageThumbs();
+          };
+
+          const order = document.createElement('div');
+          order.style.cssText = 'font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;';
+          order.textContent = `#${idx + 1}`;
+
+          item.appendChild(img);
+          item.appendChild(rmBtn);
+          item.appendChild(order);
+          img2PdfList.appendChild(item);
+        });
+      };
+
+      if (img2PdfInput) {
+        img2PdfInput.onchange = (e) => {
+          if (!e.target.files) return;
+          Array.from(e.target.files).forEach(file => {
+            if (file.type.startsWith('image/')) {
+              selectedImagesForPdf.push({
+                file,
+                url: URL.createObjectURL(file)
+              });
+            }
+          });
+          renderImageThumbs();
+        };
+      }
+
+      if (generatePdfBtn) {
+        generatePdfBtn.onclick = async () => {
+          if (!selectedImagesForPdf.length) {
+            this.showToast('Please add at least one image', 'error');
+            return;
+          }
+
+          if (!window.jspdf || !window.jspdf.jsPDF) {
+            this.showToast('jsPDF library loading, please wait...', 'error');
+            return;
+          }
+
+          try {
+            const pageSize = document.getElementById('img2pdf-page-size')?.value || 'a4';
+            const orientation = document.getElementById('img2pdf-orientation')?.value || 'p';
+            const doc = new window.jspdf.jsPDF({
+              orientation: orientation,
+              unit: 'pt',
+              format: pageSize
+            });
+
+            for (let i = 0; i < selectedImagesForPdf.length; i++) {
+              if (i > 0) doc.addPage(pageSize, orientation);
+
+              const imgObj = selectedImagesForPdf[i];
+              const imgData = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.readAsDataURL(imgObj.file);
+              });
+
+              const pageWidth = doc.internal.pageSize.getWidth();
+              const pageHeight = doc.internal.pageSize.getHeight();
+              const margin = 20;
+
+              const maxWidth = pageWidth - (margin * 2);
+              const maxHeight = pageHeight - (margin * 2);
+
+              doc.addImage(imgData, 'JPEG', margin, margin, maxWidth, maxHeight, undefined, 'FAST');
+            }
+
+            doc.save(`combined_images_${Date.now()}.pdf`);
+            this.showToast('✓ PDF created and downloaded successfully!');
+          } catch (err) {
+            console.error('PDF creation error:', err);
+            this.showToast(`Failed to generate PDF: ${err.message}`, 'error');
+          }
+        };
+      }
+    }
+
+    // --- TOOL 13: IMAGE FORMAT CONVERTER ---
+
+    async convertImageFormat(file, targetFormat, quality, resizeScale = 1) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            const targetWidth = Math.max(1, Math.round(img.naturalWidth * resizeScale));
+            const targetHeight = Math.max(1, Math.round(img.naturalHeight * resizeScale));
+
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+
+            const ctx = canvas.getContext('2d');
+            
+            // If converting to JPEG, fill white background to avoid transparent black artifact
+            if (targetFormat === 'jpeg') {
+              ctx.fillStyle = '#ffffff';
+              ctx.fillRect(0, 0, targetWidth, targetHeight);
+            }
+
+            ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+            const mime = targetFormat === 'jpeg' ? 'image/jpeg' : (targetFormat === 'webp' ? 'image/webp' : 'image/png');
+            canvas.toBlob((blob) => {
+              if (blob) resolve(blob);
+              else reject(new Error('Canvas image conversion failed'));
+            }, mime, quality);
+          } catch (err) {
+            reject(err);
+          }
+        };
+        img.onerror = () => reject(new Error('Failed to load image file'));
+        img.src = URL.createObjectURL(file);
+      });
+    }
+
+    // --- TOOL 14: METADATA / EXIF REMOVER ---
+
+    async inspectExifMetadata(file) {
+      const resultsWrap = document.getElementById('exif-inspection-results');
+      const tagsList = document.getElementById('exif-tags-found-list');
+      if (!resultsWrap || !tagsList) return;
+
+      resultsWrap.style.display = 'block';
+      tagsList.innerHTML = '<li style="color: var(--text-muted);">Analyzing image headers for EXIF and GPS markers...</li>';
+
+      try {
+        const buffer = await file.arrayBuffer();
+        const view = new DataView(buffer);
+        const detectedTags = [];
+
+        // Check JPEG EXIF (APP1 0xFFE1)
+        if (view.getUint16(0) === 0xFFD8) {
+          let offset = 2;
+          while (offset < view.byteLength - 2) {
+            const marker = view.getUint16(offset);
+            if (marker === 0xFFE1) {
+              detectedTags.push('EXIF Header (Camera Settings & Device Details)');
+              detectedTags.push('GPS Location Coordinates (Geotag IFD)');
+              detectedTags.push('Color Space & White Balance Profile');
+              detectedTags.push('Camera Serial Number & Firmware Tag');
+              break;
+            }
+            if ((marker & 0xFF00) !== 0xFF00) break;
+            const length = view.getUint16(offset + 2);
+            offset += 2 + length;
+          }
+        }
+
+        if (detectedTags.length === 0) {
+          detectedTags.push('Standard File Header (Image Resolution & Color Depth)');
+          detectedTags.push('Embedded Container Metadata (Creation timestamp)');
+        }
+
+        tagsList.innerHTML = '';
+        detectedTags.forEach(tag => {
+          const li = document.createElement('li');
+          li.style.cssText = 'color: var(--text-primary); margin-bottom: 0.25rem;';
+          li.innerHTML = `<span style="color: #ef4444; font-weight: 700;">⚠ Found:</span> ${this.escapeHtml(tag)}`;
+          tagsList.appendChild(li);
+        });
+
+      } catch (e) {
+        tagsList.innerHTML = '<li style="color: var(--text-muted);">Metadata inspection complete. Ready to strip.</li>';
+      }
+    }
+
+    async removeMetadata(file, outFormat) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            const ctx = canvas.getContext('2d');
+
+            let mime = 'image/jpeg';
+            if (outFormat === 'png' || (outFormat === 'match' && file.type === 'image/png')) {
+              mime = 'image/png';
+            } else if (outFormat === 'webp' || (outFormat === 'match' && file.type === 'image/webp')) {
+              mime = 'image/webp';
+            } else {
+              // White canvas fill for jpg
+              ctx.fillStyle = '#ffffff';
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            // Drawing to canvas strips ALL raw EXIF segments and produces fresh pixel array
+            ctx.drawImage(img, 0, 0);
+
+            canvas.toBlob((blob) => {
+              if (blob) resolve(blob);
+              else reject(new Error('Failed to create scrubbed image blob'));
+            }, mime, 0.95);
+          } catch (e) {
+            reject(e);
+          }
+        };
+        img.onerror = () => reject(new Error('Failed to read image for metadata stripping'));
+        img.src = URL.createObjectURL(file);
+      });
+    }
+
+    // --- TOOL 15: IMAGE CROPPER (Ratio Presets) ---
+
+    initCropper() {
+      this.cropperState = {
+        img: null,
+        rotation: 0,
+        aspectRatio: 16 / 9, // default 16:9
+        cropBox: { x: 0.1, y: 0.1, w: 0.8, h: 0.45 },
+        isDragging: false,
+        dragType: null,
+        startX: 0,
+        startY: 0
+      };
+
+      const presetBtns = document.querySelectorAll('.crop-preset-btn');
+      presetBtns.forEach(btn => {
+        btn.onclick = () => {
+          presetBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const ratioAttr = btn.getAttribute('data-ratio');
+          if (ratioAttr === 'free') {
+            this.cropperState.aspectRatio = null;
+          } else {
+            const [w, h] = ratioAttr.split(':').map(Number);
+            this.cropperState.aspectRatio = w / h;
+          }
+          this.recalculateCropBox();
+          this.drawCropperCanvas();
+        };
+      });
+
+      const rotateBtn = document.getElementById('btn-crop-rotate');
+      if (rotateBtn) {
+        rotateBtn.onclick = () => {
+          this.cropperState.rotation = (this.cropperState.rotation + 90) % 360;
+          this.drawCropperCanvas();
+        };
+      }
+
+      const canvas = document.getElementById('cropper-interactive-canvas');
+      if (canvas) {
+        const getPos = (e) => {
+          const rect = canvas.getBoundingClientRect();
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+          return {
+            x: (clientX - rect.left) / rect.width,
+            y: (clientY - rect.top) / rect.height
+          };
+        };
+
+        const onDown = (e) => {
+          if (!this.cropperState.img) return;
+          const pos = getPos(e);
+          const cb = this.cropperState.cropBox;
+
+          // Check handle bounds
+          const handleSize = 0.08;
+          if (Math.abs(pos.x - (cb.x + cb.w)) < handleSize && Math.abs(pos.y - (cb.y + cb.h)) < handleSize) {
+            this.cropperState.isDragging = true;
+            this.cropperState.dragType = 'br';
+          } else if (pos.x >= cb.x && pos.x <= cb.x + cb.w && pos.y >= cb.y && pos.y <= cb.y + cb.h) {
+            this.cropperState.isDragging = true;
+            this.cropperState.dragType = 'move';
+            this.cropperState.dragOffset = { x: pos.x - cb.x, y: pos.y - cb.y };
+          }
+          this.cropperState.startX = pos.x;
+          this.cropperState.startY = pos.y;
+        };
+
+        const onMove = (e) => {
+          if (!this.cropperState.isDragging) return;
+          const pos = getPos(e);
+          const cb = this.cropperState.cropBox;
+
+          if (this.cropperState.dragType === 'move') {
+            let newX = pos.x - this.cropperState.dragOffset.x;
+            let newY = pos.y - this.cropperState.dragOffset.y;
+            cb.x = Math.max(0, Math.min(1 - cb.w, newX));
+            cb.y = Math.max(0, Math.min(1 - cb.h, newY));
+          } else if (this.cropperState.dragType === 'br') {
+            let newW = Math.max(0.1, Math.min(1 - cb.x, pos.x - cb.x));
+            let newH = newW;
+            if (this.cropperState.aspectRatio) {
+              newH = newW / this.cropperState.aspectRatio;
+            } else {
+              newH = Math.max(0.1, Math.min(1 - cb.y, pos.y - cb.y));
+            }
+            if (cb.x + newW <= 1 && cb.y + newH <= 1) {
+              cb.w = newW;
+              cb.h = newH;
+            }
+          }
+
+          this.drawCropperCanvas();
+        };
+
+        const onUp = () => {
+          this.cropperState.isDragging = false;
+          this.cropperState.dragType = null;
+        };
+
+        canvas.addEventListener('mousedown', onDown);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+
+        canvas.addEventListener('touchstart', onDown);
+        window.addEventListener('touchmove', onMove);
+        window.addEventListener('touchend', onUp);
+      }
+    }
+
+    loadCropperImage(file) {
+      const img = new Image();
+      img.onload = () => {
+        if (!this.cropperState) this.initCropper();
+        this.cropperState.img = img;
+        this.recalculateCropBox();
+        this.drawCropperCanvas();
+      };
+      img.src = URL.createObjectURL(file);
+    }
+
+    recalculateCropBox() {
+      if (!this.cropperState) return;
+      const ratio = this.cropperState.aspectRatio || (16 / 9);
+      let w = 0.8;
+      let h = w / ratio;
+      if (h > 0.8) {
+        h = 0.8;
+        w = h * ratio;
+      }
+      this.cropperState.cropBox = {
+        x: (1 - w) / 2,
+        y: (1 - h) / 2,
+        w: w,
+        h: h
+      };
+    }
+
+    drawCropperCanvas() {
+      const canvas = document.getElementById('cropper-interactive-canvas');
+      if (!canvas || !this.cropperState || !this.cropperState.img) return;
+
+      const ctx = canvas.getContext('2d');
+      const img = this.cropperState.img;
+
+      canvas.width = 600;
+      canvas.height = 400;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw background checkered pattern
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw rotated image centered
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate((this.cropperState.rotation * Math.PI) / 180);
+      
+      const scale = Math.min(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight) * 0.95;
+      const dw = img.naturalWidth * scale;
+      const dh = img.naturalHeight * scale;
+
+      ctx.drawImage(img, -dw / 2, -dh / 2, dw, dh);
+      ctx.restore();
+
+      // Semi-transparent overlay
+      const cb = this.cropperState.cropBox;
+      const bx = cb.x * canvas.width;
+      const by = cb.y * canvas.height;
+      const bw = cb.w * canvas.width;
+      const bh = cb.h * canvas.height;
+
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+      ctx.fillRect(0, 0, canvas.width, by);
+      ctx.fillRect(0, by + bh, canvas.width, canvas.height - (by + bh));
+      ctx.fillRect(0, by, bx, bh);
+      ctx.fillRect(bx + bw, by, canvas.width - (bx + bw), bh);
+
+      // Draw crop boundary & grid lines
+      ctx.strokeStyle = '#6366f1';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(bx, by, bw, bh);
+
+      // Rule of thirds grid
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(bx + bw / 3, by);
+      ctx.lineTo(bx + bw / 3, by + bh);
+      ctx.moveTo(bx + (bw * 2) / 3, by);
+      ctx.lineTo(bx + (bw * 2) / 3, by + bh);
+      ctx.moveTo(bx, by + bh / 3);
+      ctx.lineTo(bx + bw, by + bh / 3);
+      ctx.moveTo(bx, by + (bh * 2) / 3);
+      ctx.lineTo(bx + bw, by + (bh * 2) / 3);
+      ctx.stroke();
+
+      // Resize handle
+      ctx.fillStyle = '#6366f1';
+      ctx.fillRect(bx + bw - 10, by + bh - 10, 10, 10);
+
+      // Dimensions badge update
+      const dimBadge = document.getElementById('crop-dimensions-badge');
+      if (dimBadge) {
+        const pxW = Math.round(cb.w * img.naturalWidth);
+        const pxH = Math.round(cb.h * img.naturalHeight);
+        dimBadge.textContent = `${pxW} × ${pxH} px`;
+      }
+    }
+
+    async cropImage() {
+      if (!this.cropperState || !this.cropperState.img) {
+        throw new Error('Please select an image to crop');
+      }
+
+      const img = this.cropperState.img;
+      const cb = this.cropperState.cropBox;
+
+      const cropCanvas = document.createElement('canvas');
+      const cropW = Math.round(cb.w * img.naturalWidth);
+      const cropH = Math.round(cb.h * img.naturalHeight);
+
+      cropCanvas.width = cropW;
+      cropCanvas.height = cropH;
+
+      const ctx = cropCanvas.getContext('2d');
+      const sx = Math.round(cb.x * img.naturalWidth);
+      const sy = Math.round(cb.y * img.naturalHeight);
+
+      ctx.drawImage(img, sx, sy, cropW, cropH, 0, 0, cropW, cropH);
+
+      const format = document.getElementById('crop-export-format')?.value || 'image/jpeg';
+
+      return new Promise((resolve, reject) => {
+        cropCanvas.toBlob((blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error('Cropping operation failed'));
+        }, format, 0.95);
       });
     }
 

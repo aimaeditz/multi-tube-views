@@ -24,9 +24,9 @@
   <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/favicon-512.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
-  <title>Free Media Converter Tools — 100% Client-Side Video & Audio Suite | MTV</title>
-  <meta name="description" content="Free client-side media tools to convert video to audio, trim video/audio, generate slow + reverb, convert video/audio formats, change video speed, and generate GIFs directly in your browser with zero file uploads.">
-  <meta name="keywords" content="video to audio, video trimmer, slow reverb generator, audio trimmer, video converter, video to gif, audio converter, video speed changer, mtv">
+  <title>Free Media Converter Tools — 100% Client-Side Video, Audio & Image Suite | MTV</title>
+  <meta name="description" content="Free client-side media tools to convert video to audio, trim video/audio, generate slow + reverb, convert video/audio/image formats, change video speed, generate GIFs, voice-to-text, text-to-speech, QR code generator, PDF converter, EXIF remover, and image cropper directly in your browser with zero file uploads.">
+  <meta name="keywords" content="video to audio, video trimmer, slow reverb generator, audio trimmer, video converter, video to gif, audio converter, video speed changer, voice to text, text to speech, qr code generator, pdf converter, image converter, exif remover, image cropper, mtv">
   <meta name="author" content="AiMAEditz">
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/media-converter-tools.html">
@@ -34,8 +34,8 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/media-converter-tools.html">
-  <meta property="og:title" content="Free Media Converter Tools — 100% Client-Side Video & Audio Suite | MTV">
-  <meta property="og:description" content="Free client-side media tools to convert video to audio, trim video/audio, generate slow + reverb, convert video/audio formats, change video speed, and generate GIFs directly in your browser.">
+  <meta property="og:title" content="Free Media Converter Tools — 100% Client-Side Video, Audio & Image Suite | MTV">
+  <meta property="og:description" content="Free client-side media suite of 15 tools for video, audio, image conversion, speech recognition, TTS, QR generation, PDF tools, EXIF stripper, and crop editor with zero file uploads.">
   <meta property="og:site_name" content="Multi Tube Views">
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
@@ -43,8 +43,8 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Free Media Converter Tools — 100% Client-Side Video & Audio Suite | MTV">
-  <meta name="twitter:description" content="Free client-side media tools to convert video to audio, trim video/audio, generate slow + reverb, convert video/audio formats, change video speed, and generate GIFs directly in your browser.">
+  <meta name="twitter:title" content="Free Media Converter Tools — 100% Client-Side Video, Audio & Image Suite | MTV">
+  <meta name="twitter:description" content="Free client-side media suite of 15 tools for video, audio, image conversion, speech recognition, TTS, QR generation, PDF tools, EXIF stripper, and crop editor with zero file uploads.">
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   <!-- Schema.org JSON-LD Structured Data -->
@@ -57,7 +57,7 @@
         "@id": "https://multitubeviews.com/media-converter-tools.html#webapp",
         "name": "MTV Media Converter Tools Suite",
         "url": "https://multitubeviews.com/media-converter-tools.html",
-        "description": "Free suite of client-side browser video and audio tools: video to audio, video trimmer, slow + reverb generator, audio trimmer, video format converter, video to GIF, audio converter, video speed changer.",
+        "description": "Free suite of 15 client-side browser tools: video to audio, video trimmer, slow + reverb, audio trimmer, video converter, video to GIF, audio converter, video speed changer, voice-to-text, text-to-speech, QR code generator, PDF image converter, image format converter, EXIF remover, image cropper.",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "All",
         "offers": {
@@ -193,6 +193,126 @@
       margin-bottom: 0.75rem;
       display: inline-block;
     }
+    
+    /* New Tools Custom Styles */
+    .media-tabs-nav {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1.25rem;
+    }
+    .media-tab-btn {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .media-tab-btn.active {
+      color: var(--accent-primary);
+      border-bottom-color: var(--accent-primary);
+    }
+    @keyframes micPulse {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+      70% { box-shadow: 0 0 0 16px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+    .mic-recording {
+      animation: micPulse 1.5s infinite;
+      background: #ef4444 !important;
+      color: #fff !important;
+      border-color: #ef4444 !important;
+    }
+    .speaking-wave-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 32px;
+    }
+    .speaking-wave-bar {
+      width: 4px;
+      height: 6px;
+      background: var(--accent-primary);
+      border-radius: 2px;
+      transition: height 0.2s ease;
+    }
+    .speaking-active .speaking-wave-bar:nth-child(1) { animation: wave 0.8s ease-in-out infinite alternate 0.1s; }
+    .speaking-active .speaking-wave-bar:nth-child(2) { animation: wave 0.8s ease-in-out infinite alternate 0.3s; }
+    .speaking-active .speaking-wave-bar:nth-child(3) { animation: wave 0.8s ease-in-out infinite alternate 0.2s; }
+    .speaking-active .speaking-wave-bar:nth-child(4) { animation: wave 0.8s ease-in-out infinite alternate 0.4s; }
+    .speaking-active .speaking-wave-bar:nth-child(5) { animation: wave 0.8s ease-in-out infinite alternate 0.15s; }
+    @keyframes wave {
+      0% { height: 6px; }
+      100% { height: 28px; }
+    }
+    .cropper-stage-wrap {
+      position: relative;
+      max-width: 100%;
+      overflow: hidden;
+      background: #111;
+      border-radius: var(--radius-md);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 300px;
+      user-select: none;
+    }
+    .cropper-overlay {
+      position: absolute;
+      border: 2px solid var(--accent-primary);
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+      cursor: move;
+      touch-action: none;
+    }
+    .cropper-handle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border: 2px solid var(--accent-primary);
+      border-radius: 2px;
+    }
+    .cropper-handle.nw { top: -6px; left: -6px; cursor: nwse-resize; }
+    .cropper-handle.ne { top: -6px; right: -6px; cursor: nesw-resize; }
+    .cropper-handle.sw { bottom: -6px; left: -6px; cursor: nesw-resize; }
+    .cropper-handle.se { bottom: -6px; right: -6px; cursor: nwse-resize; }
+    .pdf-pages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .pdf-page-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .pdf-page-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .img-reorder-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.85rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.5rem;
+    }
   </style>
 
   <script src="assets/js/storage.js"></script>
@@ -272,7 +392,7 @@
           </p>
         </section>
 
-        <!-- Media Tools Grid (8 Tools) -->
+        <!-- Media Tools Grid (15 Tools) -->
         <section class="media-tool-grid" aria-label="Media Converter Tools Directory">
 
           <!-- 1. Video to Audio -->
@@ -395,6 +515,111 @@
             </div>
           </div>
 
+          <!-- 9. Voice-to-Text (Multi-language) -->
+          <div class="media-tool-card" data-tool-id="voice-to-text">
+            <div>
+              <span class="media-tool-icon">🎙️</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Voice-to-Text (Multi-language)</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Speak and instantly convert your voice into text, in multiple languages.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=voice-to-text" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Voice-to-Text</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 10. Text-to-Speech -->
+          <div class="media-tool-card" data-tool-id="text-to-speech">
+            <div>
+              <span class="media-tool-icon">🔊</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Text-to-Speech</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Type any text and hear it read aloud in different languages and voices.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=text-to-speech" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Text-to-Speech</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 11. QR Code Generator -->
+          <div class="media-tool-card" data-tool-id="qr-generator">
+            <div>
+              <span class="media-tool-icon">🔲</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">QR Code Generator</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Turn any link or text into a scannable QR code image instantly.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=qr-generator" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open QR Generator</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 12. PDF ↔ Image Converter -->
+          <div class="media-tool-card" data-tool-id="pdf-image-converter">
+            <div>
+              <span class="media-tool-icon">📄</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">PDF ↔ Image Converter</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Convert PDF pages into images, or combine images into a PDF file.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=pdf-image-converter" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open PDF Converter</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 13. File Format Converter (Image formats) -->
+          <div class="media-tool-card" data-tool-id="image-format-converter">
+            <div>
+              <span class="media-tool-icon">🔄</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">File Format Converter</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Convert images between PNG, JPG, and WebP formats directly in your browser.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=image-format-converter" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Image Converter</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 14. Metadata / EXIF Remover -->
+          <div class="media-tool-card" data-tool-id="metadata-remover">
+            <div>
+              <span class="media-tool-icon">🛡️</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Metadata / EXIF Remover</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Strip hidden location, device, and camera data from your photos before sharing, for privacy.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=metadata-remover" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Metadata Remover</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 15. Image Cropper (Ratio Presets) -->
+          <div class="media-tool-card" data-tool-id="image-cropper">
+            <div>
+              <span class="media-tool-icon">✂️🖼️</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image Cropper (Ratio Presets)</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Crop any photo to the perfect size for YouTube thumbnails, Instagram posts, or Stories in one click.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=image-cropper" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Image Cropper</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
         </section>
 
         <!-- About Media Converter Tools Card -->
@@ -424,37 +649,40 @@
         </div>
 
         <!-- Workspace Processing Area -->
-        <div class="card">
-          <h2 style="font-size: 1.15rem; margin-bottom: 1rem;">1. Select Input File</h2>
+        <div class="card" id="media-workspace-card">
+          <div id="media-file-upload-section">
+            <h2 id="media-step-1-heading" style="font-size: 1.15rem; margin-bottom: 1rem;">1. Select Input File</h2>
 
-          <!-- Dropzone -->
-          <div class="media-dropzone" id="media-file-dropzone">
-            <span class="media-dropzone-icon">📁</span>
-            <p style="font-weight: 600; font-size: 1.05rem; margin-bottom: 0.35rem;">Drag & drop video or audio file here</p>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Supports MP4, WebM, MOV, AVI, MKV, MP3, WAV, AAC, OGG</p>
-            <button type="button" class="btn btn-secondary" id="btn-media-select-file">Choose Media File</button>
-            <input type="file" id="media-file-input" style="display: none;" />
-          </div>
-
-          <!-- File Info Card (hidden initially) -->
-          <div class="media-file-info" id="media-file-info-card" style="display: none;">
-            <div>
-              <div id="media-file-name" style="font-weight: 700; color: var(--text-primary);">video_sample.mp4</div>
-              <div id="media-file-meta" style="font-size: 0.85rem; color: var(--text-muted);">video/mp4 • 12.4 MB</div>
+            <!-- Dropzone -->
+            <div class="media-dropzone" id="media-file-dropzone">
+              <span class="media-dropzone-icon">📁</span>
+              <p style="font-weight: 600; font-size: 1.05rem; margin-bottom: 0.35rem;">Drag & drop video or audio file here</p>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Supports MP4, WebM, MOV, AVI, MKV, MP3, WAV, AAC, OGG</p>
+              <button type="button" class="btn btn-secondary" id="btn-media-select-file">Choose Media File</button>
+              <input type="file" id="media-file-input" style="display: none;" />
             </div>
-            <button type="button" class="btn btn-secondary" id="btn-media-remove-file" style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Remove</button>
-          </div>
 
-          <!-- Live Input Preview Player -->
-          <div id="media-input-preview-wrap" style="display: none; margin-top: 1rem;">
-            <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Input Media Preview:</label>
-            <video id="media-input-video-player" controls class="media-preview-player" style="display: none;"></video>
-            <audio id="media-input-audio-player" controls style="width: 100%; display: none; margin-top: 0.5rem;"></audio>
+            <!-- File Info Card (hidden initially) -->
+            <div class="media-file-info" id="media-file-info-card" style="display: none;">
+              <div>
+                <div id="media-file-name" style="font-weight: 700; color: var(--text-primary);">video_sample.mp4</div>
+                <div id="media-file-meta" style="font-size: 0.85rem; color: var(--text-muted);">video/mp4 • 12.4 MB</div>
+              </div>
+              <button type="button" class="btn btn-secondary" id="btn-media-remove-file" style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Remove</button>
+            </div>
+
+            <!-- Live Input Preview Player -->
+            <div id="media-input-preview-wrap" style="display: none; margin-top: 1rem;">
+              <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Input Media Preview:</label>
+              <video id="media-input-video-player" controls class="media-preview-player" style="display: none;"></video>
+              <audio id="media-input-audio-player" controls style="width: 100%; display: none; margin-top: 0.5rem;"></audio>
+              <img id="media-input-image-preview" class="media-preview-player" style="display: none; max-height: 360px; object-fit: contain; margin: 0 auto; background: var(--bg-subtle);" alt="Input Image Preview" />
+            </div>
           </div>
 
           <!-- TOOL SPECIFIC OPTIONS PANELS -->
-          <div style="margin-top: 2rem;">
-            <h2 style="font-size: 1.15rem; margin-bottom: 1rem;">2. Configure Tool Options</h2>
+          <div style="margin-top: 2rem;" id="media-options-container">
+            <h2 id="media-step-2-heading" style="font-size: 1.15rem; margin-bottom: 1rem;">2. Configure Tool Options</h2>
 
             <!-- Panel: Video to Audio -->
             <div class="media-options-panel" id="panel-video-to-audio">
@@ -624,10 +852,403 @@
               </div>
             </div>
 
+            <!-- Panel: 9. Voice-to-Text -->
+            <div class="media-options-panel" id="panel-voice-to-text" style="display: none;">
+              <div id="vtt-unsupported-alert" style="display: none; padding: 1rem; background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; border-radius: var(--radius-md); margin-bottom: 1.25rem; color: #ef4444; font-weight: 500;">
+                Voice input isn't supported in this browser — try Chrome or Edge.
+              </div>
+
+              <div class="media-options-grid" style="margin-bottom: 1.25rem;">
+                <div class="media-option-group">
+                  <label for="vtt-language">Spoken Language</label>
+                  <select id="vtt-language">
+                    <option value="en-US" selected>English (United States) [en-US]</option>
+                    <option value="en-GB">English (United Kingdom) [en-GB]</option>
+                    <option value="hi-IN">Hindi (हिन्दी) [hi-IN]</option>
+                    <option value="ur-PK">Urdu (اردو) [ur-PK]</option>
+                    <option value="es-ES">Spanish (Español) [es-ES]</option>
+                    <option value="fr-FR">French (Français) [fr-FR]</option>
+                    <option value="ar-SA">Arabic (العربية) [ar-SA]</option>
+                    <option value="de-DE">German (Deutsch) [de-DE]</option>
+                    <option value="ja-JP">Japanese (日本語) [ja-JP]</option>
+                    <option value="pt-BR">Portuguese (Português) [pt-BR]</option>
+                    <option value="ru-RU">Russian (Русский) [ru-RU]</option>
+                    <option value="zh-CN">Chinese (Mandarin - 简体中文) [zh-CN]</option>
+                    <option value="bn-BD">Bengali (বাংলা) [bn-BD]</option>
+                    <option value="pa-IN">Punjabi (ਪੰਜਾਬੀ) [pa-IN]</option>
+                    <option value="it-IT">Italian (Italiano) [it-IT]</option>
+                    <option value="tr-TR">Turkish (Türkçe) [tr-TR]</option>
+                    <option value="ko-KR">Korean (한국어) [ko-KR]</option>
+                    <option value="id-ID">Indonesian (Bahasa Indonesia) [id-ID]</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Mic Control Area -->
+              <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem 1.5rem; text-align: center; margin-bottom: 1.5rem;">
+                <button type="button" id="btn-vtt-toggle-mic" class="btn" style="width: 80px; height: 80px; border-radius: 50%; font-size: 2.2rem; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-primary); color: #fff; border: 3px solid transparent; transition: all 0.25s ease; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.15);">
+                  <span id="vtt-mic-icon">🎙️</span>
+                </button>
+                <div style="margin-top: 1rem;">
+                  <div id="vtt-status-text" style="font-weight: 700; font-size: 1.1rem; color: var(--text-primary);">Click microphone to start speaking</div>
+                  <div id="vtt-timer" style="font-size: 0.9rem; color: var(--text-muted); margin-top: 0.25rem;">00:00</div>
+                </div>
+              </div>
+
+              <!-- Live Transcript -->
+              <div class="media-option-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <label for="vtt-transcript" style="margin-bottom: 0;">Recognized Transcript</label>
+                  <span id="vtt-word-count" style="font-size: 0.8rem; color: var(--text-muted);">0 words • 0 characters</span>
+                </div>
+                <textarea id="vtt-transcript" rows="6" placeholder="Your spoken words will appear here in real time as you speak..." style="width: 100%; padding: 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-card); color: var(--text-primary); font-size: 0.95rem; line-height: 1.6; resize: vertical;"></textarea>
+              </div>
+
+              <div style="display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap;">
+                <button type="button" class="btn btn-primary" id="btn-vtt-copy" style="flex: 1; justify-content: center; min-width: 140px;">
+                  <span>📋 Copy Text</span>
+                </button>
+                <button type="button" class="btn btn-secondary" id="btn-vtt-download" style="flex: 1; justify-content: center; min-width: 140px;">
+                  <span>💾 Download .TXT</span>
+                </button>
+                <button type="button" class="btn btn-secondary" id="btn-vtt-clear" style="justify-content: center;">
+                  <span>🗑️ Clear</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Panel: 10. Text-to-Speech -->
+            <div class="media-options-panel" id="panel-text-to-speech" style="display: none;">
+              <div class="media-option-group" style="margin-bottom: 1.25rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <label for="tts-input-text" style="margin-bottom: 0;">Text to Read Aloud</label>
+                  <div style="display: flex; gap: 0.5rem;">
+                    <button type="button" id="btn-tts-sample" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">Insert Sample</button>
+                    <button type="button" id="btn-tts-clear" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">Clear</button>
+                  </div>
+                </div>
+                <textarea id="tts-input-text" rows="5" placeholder="Enter or paste any text, article, script, or dialogue to hear it read aloud..." style="width: 100%; padding: 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-card); color: var(--text-primary); font-size: 0.95rem; line-height: 1.6; resize: vertical;">Welcome to Multi Tube Views! This audio is rendered directly within your web browser using client-side speech synthesis technology.</textarea>
+              </div>
+
+              <div class="media-options-grid">
+                <div class="media-option-group">
+                  <label for="tts-voice-select">Voice & Language</label>
+                  <select id="tts-voice-select">
+                    <option value="">Loading system voices...</option>
+                  </select>
+                </div>
+                <div class="media-option-group">
+                  <label for="tts-rate-slider">Speed: <span id="tts-rate-val">1.0x</span></label>
+                  <input type="range" id="tts-rate-slider" min="0.5" max="2.0" step="0.1" value="1.0" />
+                </div>
+                <div class="media-option-group">
+                  <label for="tts-pitch-slider">Pitch: <span id="tts-pitch-val">1.0</span></label>
+                  <input type="range" id="tts-pitch-slider" min="0" max="2.0" step="0.1" value="1.0" />
+                </div>
+              </div>
+
+              <!-- Speaking Visualizer & Playback Control Bar -->
+              <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                  <div id="tts-speaking-wave" class="speaking-wave-box">
+                    <div class="speaking-wave-bar"></div>
+                    <div class="speaking-wave-bar"></div>
+                    <div class="speaking-wave-bar"></div>
+                    <div class="speaking-wave-bar"></div>
+                    <div class="speaking-wave-bar"></div>
+                  </div>
+                  <span id="tts-status-label" style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary);">Ready to speak</span>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <button type="button" class="btn btn-primary" id="btn-tts-play">
+                    <span>▶ Play</span>
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btn-tts-pause" disabled>
+                    <span>⏸ Pause</span>
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btn-tts-resume" style="display: none;">
+                    <span>▶ Resume</span>
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btn-tts-stop" disabled>
+                    <span>⏹ Stop</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel: 11. QR Code Generator -->
+            <div class="media-options-panel" id="panel-qr-generator" style="display: none;">
+              <div class="media-option-group" style="margin-bottom: 1.25rem;">
+                <label for="qr-input-text">Link or Text Content</label>
+                <input type="text" id="qr-input-text" placeholder="https://multitubeviews.com" value="https://multitubeviews.com" style="width: 100%; padding: 0.75rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-card); color: var(--text-primary); font-size: 0.95rem;" />
+              </div>
+
+              <div class="media-options-grid">
+                <div class="media-option-group">
+                  <label for="qr-size">Resolution (Pixels)</label>
+                  <select id="qr-size">
+                    <option value="256">256 x 256 px</option>
+                    <option value="512" selected>512 x 512 px (HD)</option>
+                    <option value="1024">1024 x 1024 px (Ultra HD)</option>
+                  </select>
+                </div>
+                <div class="media-option-group">
+                  <label for="qr-ecc">Error Correction</label>
+                  <select id="qr-ecc">
+                    <option value="L">Low (7% recovery)</option>
+                    <option value="M" selected>Medium (15% recovery)</option>
+                    <option value="Q">Quartile (25% recovery)</option>
+                    <option value="H">High (30% recovery)</option>
+                  </select>
+                </div>
+                <div class="media-option-group">
+                  <label for="qr-color-dark">QR Code Color</label>
+                  <input type="color" id="qr-color-dark" value="#000000" style="width: 100%; height: 42px; padding: 2px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-card); cursor: pointer;" />
+                </div>
+                <div class="media-option-group">
+                  <label for="qr-color-light">Background Color</label>
+                  <input type="color" id="qr-color-light" value="#ffffff" style="width: 100%; height: 42px; padding: 2px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-card); cursor: pointer;" />
+                </div>
+              </div>
+
+              <!-- Live QR Preview Box -->
+              <div style="margin-top: 1.5rem; text-align: center; padding: 2rem; background: var(--bg-subtle); border-radius: var(--radius-lg); border: 1px solid var(--border-color);">
+                <div style="display: inline-block; padding: 12px; background: #fff; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
+                  <canvas id="qr-preview-canvas" style="max-width: 240px; height: auto; display: block;"></canvas>
+                </div>
+                <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+                  <button type="button" class="btn btn-primary" id="btn-qr-download">
+                    <span>📥 Download QR Code (PNG)</span>
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btn-qr-copy">
+                    <span>📋 Copy Image</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel: 12. PDF ↔ Image Converter -->
+            <div class="media-options-panel" id="panel-pdf-image-converter" style="display: none;">
+              <!-- Dual Mode Tabs -->
+              <div class="media-tabs-nav">
+                <button type="button" class="media-tab-btn active" id="tab-btn-pdf-to-img">PDF to Image</button>
+                <button type="button" class="media-tab-btn" id="tab-btn-img-to-pdf">Image to PDF</button>
+              </div>
+
+              <!-- Mode 1: PDF to Image -->
+              <div id="subpanel-pdf-to-img">
+                <div class="media-dropzone" id="pdf-to-img-dropzone" style="padding: 2rem 1.5rem; margin-bottom: 1.25rem;">
+                  <span class="media-dropzone-icon">📄</span>
+                  <p style="font-weight: 600; font-size: 1.05rem; margin-bottom: 0.35rem;">Choose or Drop a PDF File</p>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Renders every page of your document to high-quality images</p>
+                  <button type="button" class="btn btn-secondary" id="btn-select-pdf-file">Select PDF File</button>
+                  <input type="file" id="pdf-file-input" accept="application/pdf,.pdf" style="display: none;" />
+                </div>
+
+                <div id="pdf-file-info-badge" style="display: none; align-items: center; justify-content: space-between; background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.75rem 1rem; margin-bottom: 1.25rem;">
+                  <div>
+                    <strong id="pdf-file-name" style="color: var(--text-primary);">document.pdf</strong>
+                    <div id="pdf-file-meta" style="font-size: 0.85rem; color: var(--text-muted);">Pages: Loading...</div>
+                  </div>
+                  <button type="button" class="btn btn-secondary" id="btn-remove-pdf-file" style="font-size: 0.8rem; padding: 0.3rem 0.65rem;">Change File</button>
+                </div>
+
+                <div class="media-options-grid">
+                  <div class="media-option-group">
+                    <label for="pdf-output-format">Image Format</label>
+                    <select id="pdf-output-format">
+                      <option value="png" selected>PNG (Lossless High Quality)</option>
+                      <option value="jpeg">JPG / JPEG (Standard Compressed)</option>
+                    </select>
+                  </div>
+                  <div class="media-option-group">
+                    <label for="pdf-render-scale">Render Scale / DPI</label>
+                    <select id="pdf-render-scale">
+                      <option value="1.5">1.5x (Standard 150 DPI)</option>
+                      <option value="2.0" selected>2.0x (Crisp 200 DPI)</option>
+                      <option value="3.0">3.0x (Ultra Sharp 300 DPI)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                  <button type="button" class="btn btn-primary" id="btn-extract-pdf-pages" disabled style="width: 100%; justify-content: center; padding: 0.85rem;">
+                    <span>Extract PDF Pages as Images</span>
+                  </button>
+                </div>
+
+                <!-- PDF Pages Gallery Output -->
+                <div id="pdf-pages-output-wrap" style="display: none; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                    <h3 id="pdf-pages-count-title" style="font-size: 1.15rem; color: var(--text-primary); margin: 0;">Extracted Pages</h3>
+                    <button type="button" class="btn btn-primary" id="btn-download-all-pdf-images">
+                      <span>📥 Download All Pages</span>
+                    </button>
+                  </div>
+                  <div class="pdf-pages-grid" id="pdf-pages-gallery"></div>
+                </div>
+              </div>
+
+              <!-- Mode 2: Image to PDF -->
+              <div id="subpanel-img-to-pdf" style="display: none;">
+                <div class="media-dropzone" id="img-to-pdf-dropzone" style="padding: 2rem 1.5rem; margin-bottom: 1.25rem;">
+                  <span class="media-dropzone-icon">🖼️</span>
+                  <p style="font-weight: 600; font-size: 1.05rem; margin-bottom: 0.35rem;">Choose or Drop Images to Combine</p>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Select one or multiple PNG, JPG, or WebP images</p>
+                  <button type="button" class="btn btn-secondary" id="btn-select-images-for-pdf">Select Images</button>
+                  <input type="file" id="images-for-pdf-input" accept="image/*" multiple style="display: none;" />
+                </div>
+
+                <!-- Selected Images List -->
+                <div id="img-to-pdf-list-wrap" style="display: none; margin-bottom: 1.25rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin: 0;">Images to Include in PDF (Reorder as needed):</label>
+                    <button type="button" id="btn-clear-img-pdf-list" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">Clear All</button>
+                  </div>
+                  <div id="img-to-pdf-items-container"></div>
+                </div>
+
+                <div class="media-options-grid">
+                  <div class="media-option-group">
+                    <label for="img-pdf-page-format">Page Format</label>
+                    <select id="img-pdf-page-format">
+                      <option value="a4" selected>A4 (Standard Document)</option>
+                      <option value="letter">US Letter</option>
+                      <option value="fit">Fit to Image Size</option>
+                    </select>
+                  </div>
+                  <div class="media-option-group">
+                    <label for="img-pdf-orientation">Orientation</label>
+                    <select id="img-pdf-orientation">
+                      <option value="portrait" selected>Portrait</option>
+                      <option value="landscape">Landscape</option>
+                    </select>
+                  </div>
+                  <div class="media-option-group">
+                    <label for="img-pdf-margin">Margin</label>
+                    <select id="img-pdf-margin">
+                      <option value="0">None (0 mm)</option>
+                      <option value="5">Small (5 mm)</option>
+                      <option value="10" selected>Standard (10 mm)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                  <button type="button" class="btn btn-primary" id="btn-create-pdf-from-images" disabled style="width: 100%; justify-content: center; padding: 0.85rem;">
+                    <span>Combine Images into PDF Document</span>
+                  </button>
+                </div>
+
+                <div id="img-to-pdf-output-wrap" style="display: none; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); text-align: center;">
+                  <div style="font-weight: 700; font-size: 1.15rem; color: var(--accent-primary); margin-bottom: 0.5rem;">PDF Generated Successfully!</div>
+                  <div id="img-to-pdf-meta" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">Multi-page PDF • Ready for Download</div>
+                  <button type="button" class="btn btn-primary" id="btn-download-generated-pdf" style="min-width: 220px; justify-content: center;">
+                    <span>📥 Download PDF Document</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel: 13. File Format Converter (Image) -->
+            <div class="media-options-panel" id="panel-image-format-converter" style="display: none;">
+              <div class="media-options-grid">
+                <div class="media-option-group">
+                  <label for="imgconv-target-format">Target Image Format</label>
+                  <select id="imgconv-target-format">
+                    <option value="webp" selected>WebP (Modern, High Compression)</option>
+                    <option value="jpeg">JPG / JPEG (Universal Standard)</option>
+                    <option value="png">PNG (Lossless Transparency)</option>
+                  </select>
+                </div>
+                <div class="media-option-group" id="imgconv-quality-group">
+                  <label for="imgconv-quality">Quality: <span id="imgconv-quality-val">90%</span></label>
+                  <input type="range" id="imgconv-quality" min="10" max="100" step="5" value="90" />
+                </div>
+                <div class="media-option-group">
+                  <label for="imgconv-resize">Resize (Optional)</label>
+                  <select id="imgconv-resize">
+                    <option value="original" selected>Original Dimensions</option>
+                    <option value="1920">Max 1920px (Full HD)</option>
+                    <option value="1280">Max 1280px (HD)</option>
+                    <option value="800">Max 800px (Web Optimized)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Converted Image Comparison (Inside Output) -->
+              <div id="imgconv-comparison-wrap" style="display: none; margin-top: 1.5rem; padding: 1.25rem; background: var(--bg-subtle); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                  <span id="imgconv-savings-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; font-weight: 700; font-size: 0.85rem; padding: 0.3rem 0.75rem; border-radius: var(--radius-sm);"></span>
+                  <span id="imgconv-dims" style="font-size: 0.85rem; color: var(--text-muted);"></span>
+                </div>
+                <img id="imgconv-preview-img" style="max-width: 100%; max-height: 380px; object-fit: contain; border-radius: var(--radius-sm); display: block; margin: 0 auto;" alt="Converted Image" />
+              </div>
+            </div>
+
+            <!-- Panel: 14. Metadata / EXIF Remover -->
+            <div class="media-options-panel" id="panel-metadata-remover" style="display: none;">
+              <div style="background: var(--bg-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.25rem;">
+                <h4 style="font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                  <span>🔍 EXIF & Privacy Inspection</span>
+                </h4>
+                <div id="exif-inspection-results" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+                  Upload an image to scan for embedded GPS coordinates, camera model, lens metadata, and timestamps.
+                </div>
+              </div>
+
+              <div class="media-options-grid">
+                <div class="media-option-group">
+                  <label for="meta-clean-format">Cleaned Output Format</label>
+                  <select id="meta-clean-format">
+                    <option value="jpeg" selected>Clean JPEG / JPG</option>
+                    <option value="png">Clean PNG</option>
+                    <option value="webp">Clean WebP</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel: 15. Image Cropper -->
+            <div class="media-options-panel" id="panel-image-cropper" style="display: none;">
+              <div class="media-option-group" style="margin-bottom: 1.25rem;">
+                <label>Aspect Ratio Preset</label>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <button type="button" class="btn btn-secondary crop-ratio-btn active" data-ratio="16:9" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">16:9 (YouTube)</button>
+                  <button type="button" class="btn btn-secondary crop-ratio-btn" data-ratio="1:1" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">1:1 (Square)</button>
+                  <button type="button" class="btn btn-secondary crop-ratio-btn" data-ratio="9:16" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">9:16 (TikTok/Shorts)</button>
+                  <button type="button" class="btn btn-secondary crop-ratio-btn" data-ratio="4:3" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">4:3 (Photo)</button>
+                  <button type="button" class="btn btn-secondary crop-ratio-btn" data-ratio="4:5" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">4:5 (IG Portrait)</button>
+                  <button type="button" class="btn btn-secondary crop-ratio-btn" data-ratio="free" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">Freeform</button>
+                </div>
+              </div>
+
+              <!-- Interactive Cropper Canvas -->
+              <div id="cropper-container-box" style="display: none; margin-bottom: 1.25rem;">
+                <div class="cropper-stage-wrap" id="cropper-stage">
+                  <canvas id="cropper-canvas"></canvas>
+                  <div id="cropper-box" class="cropper-overlay">
+                    <div class="cropper-handle nw" data-handle="nw"></div>
+                    <div class="cropper-handle ne" data-handle="ne"></div>
+                    <div class="cropper-handle sw" data-handle="sw"></div>
+                    <div class="cropper-handle se" data-handle="se"></div>
+                  </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+                  <span id="cropper-dims-indicator" style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Crop Area: 0 x 0 px</span>
+                  <div style="display: flex; gap: 0.5rem;">
+                    <button type="button" class="btn btn-secondary" id="btn-crop-rotate-left" style="font-size: 0.8rem; padding: 0.35rem 0.7rem;">↺ Rotate 90°</button>
+                    <button type="button" class="btn btn-secondary" id="btn-crop-reset" style="font-size: 0.8rem; padding: 0.35rem 0.7rem;">Reset Crop</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <!-- PRIMARY ACTION BUTTON -->
-          <div style="margin-top: 2rem;">
+          <div style="margin-top: 2rem;" id="media-action-button-wrap">
             <button type="button" class="btn btn-primary" id="btn-process-media" disabled style="width: 100%; padding: 0.85rem; font-size: 1.05rem; justify-content: center; opacity: 0.6;">
               <span id="media-action-text">Process File</span>
             </button>
@@ -653,6 +1274,7 @@
             <video id="media-output-video-player" controls class="media-preview-player" style="display: none;"></video>
             <audio id="media-output-audio-player" controls style="width: 100%; display: none; margin-top: 0.5rem;"></audio>
             <img id="media-output-gif-preview" class="media-preview-player" style="display: none; object-fit: contain; background: #000; margin-top: 1rem;" alt="Generated GIF Preview" />
+            <img id="media-output-image-preview" class="media-preview-player" style="display: none; max-height: 420px; object-fit: contain; background: var(--bg-subtle); margin-top: 1rem;" alt="Processed Image Preview" />
 
             <!-- Output Action Buttons -->
             <div style="display: flex; gap: 1rem; margin-top: 1.25rem; flex-wrap: wrap;">
@@ -690,7 +1312,7 @@
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 20 creator optimization tools, 8 browser media converters, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 20 creator optimization tools, 15 browser media converters, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -767,6 +1389,11 @@
     }
   </style>
 
+  <!-- External Client-Side Libraries for New Tools -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js"></script>
   <script src="assets/js/navigation.js"></script>
   <script src="assets/js/media-converter.js"></script>

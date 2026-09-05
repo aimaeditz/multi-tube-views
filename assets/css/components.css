@@ -4048,3 +4048,75 @@ section#live-stats-section.glass-section {
     max-width: 280px;
   }
 }
+
+/* Voice-to-Text and Text-to-Speech Enhancements */
+.mic-recording {
+  background: #ef4444 !important;
+  animation: micPulse 1.25s infinite ease-in-out !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+@keyframes micPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 16px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.speaking-wave-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 22px;
+  opacity: 0.35;
+  transition: opacity 0.25s ease;
+}
+
+.speaking-wave-box.speaking-active {
+  opacity: 1;
+}
+
+.speaking-wave-bar {
+  width: 3.5px;
+  height: 100%;
+  background-color: var(--accent-primary, #6366f1);
+  border-radius: 3px;
+  transform: scaleY(0.2);
+  transform-origin: bottom;
+  transition: transform 0.2s ease;
+}
+
+.speaking-active .speaking-wave-bar:nth-child(1) {
+  animation: waveBarBounce 0.8s ease-in-out infinite alternate;
+  animation-delay: 0s;
+}
+.speaking-active .speaking-wave-bar:nth-child(2) {
+  animation: waveBarBounce 0.9s ease-in-out infinite alternate;
+  animation-delay: 0.15s;
+}
+.speaking-active .speaking-wave-bar:nth-child(3) {
+  animation: waveBarBounce 0.7s ease-in-out infinite alternate;
+  animation-delay: 0.3s;
+}
+.speaking-active .speaking-wave-bar:nth-child(4) {
+  animation: waveBarBounce 0.85s ease-in-out infinite alternate;
+  animation-delay: 0.1s;
+}
+.speaking-active .speaking-wave-bar:nth-child(5) {
+  animation: waveBarBounce 0.75s ease-in-out infinite alternate;
+  animation-delay: 0.25s;
+}
+
+@keyframes waveBarBounce {
+  0% { transform: scaleY(0.2); }
+  100% { transform: scaleY(1); }
+}
+
