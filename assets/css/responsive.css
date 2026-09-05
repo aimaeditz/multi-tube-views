@@ -1815,7 +1815,7 @@
   }
 
   .live-stat-card {
-    padding: 0.85rem 0.45rem !important;
+    padding: 1.25rem 0.75rem !important;
     border-radius: var(--radius-md) !important;
   }
 
