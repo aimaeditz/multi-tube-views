@@ -220,7 +220,6 @@
     showListView() {
       if (this.dom.toolsListView) this.dom.toolsListView.style.display = 'block';
       if (this.dom.workspace) this.dom.workspace.style.display = 'none';
-      document.body.classList.remove('immersive-tool-active');
 
       if (this.dom.breadcrumbSubPage) this.dom.breadcrumbSubPage.style.display = 'none';
       if (this.dom.breadcrumbSubSeparator) this.dom.breadcrumbSubSeparator.style.display = 'none';
@@ -229,7 +228,6 @@
     showToolWorkspace(toolId) {
       if (this.dom.toolsListView) this.dom.toolsListView.style.display = 'none';
       if (this.dom.workspace) this.dom.workspace.style.display = 'block';
-      document.body.classList.add('immersive-tool-active');
 
       // Tool Metadata configuration
       const toolConfigs = {

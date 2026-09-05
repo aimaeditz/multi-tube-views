@@ -552,14 +552,6 @@
       <!-- Dedicated Single Tool View Workspace -->
       <div id="dedicated-tool-workspace" style="display: none; width: 100%; max-width: 100%; margin: 0 auto 4rem auto;">
         
-        <!-- Back Link and Navigation Controller -->
-        <div class="workspace-top-bar">
-          <a href="creator-tools.html" id="btn-back-to-tools" class="btn btn-secondary btn-workspace-back" aria-label="Back to Creator Tools">
-            <svg class="arrow-nudge-left" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            <span>Back to Creator Tools</span>
-          </a>
-        </div>
-
         <!-- Tool Identity Header Card -->
         <div class="tool-header" style="border-bottom: 1px solid var(--border-strong); padding-bottom: 1.5rem; margin-bottom: 2rem;">
           <div class="tool-identity">
@@ -997,7 +989,6 @@
       const breadcrumbSubPage = document.getElementById('breadcrumb-sub-page');
       const breadcrumbSubSeparator = document.getElementById('breadcrumb-sub-separator');
       const breadcrumbParent = document.getElementById('breadcrumb-parent-link');
-      const backBtn = document.getElementById('btn-back-to-tools');
       const toast = document.getElementById('copy-toast');
 
       // Simple Markdown Renderer
@@ -1040,7 +1031,6 @@
           const tool = toolsData[toolId];
           toolsListView.style.display = 'none';
           dedicatedToolWorkspace.style.display = 'block';
-          document.body.classList.add('immersive-tool-active');
           
           dedicatedToolTitle.textContent = tool.title;
           dedicatedToolDesc.textContent = tool.desc;
@@ -1096,7 +1086,6 @@
         } else {
           toolsListView.style.display = 'block';
           dedicatedToolWorkspace.style.display = 'none';
-          document.body.classList.remove('immersive-tool-active');
           
           breadcrumbSubPage.style.display = 'none';
           breadcrumbSubSeparator.style.display = 'none';
@@ -1125,15 +1114,6 @@
           }
         });
       });
-
-      if (backBtn) {
-        backBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          history.pushState(null, '', 'creator-tools.html');
-          updateViewFromURL();
-          window.scrollTo({ top: 0 });
-        });
-      }
 
       if (breadcrumbParent) {
         breadcrumbParent.addEventListener('click', (e) => {
