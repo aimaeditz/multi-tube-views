@@ -392,6 +392,35 @@
           </p>
         </section>
 
+        <!-- Search Bar -->
+        <div class="prompt-search-wrap" style="margin-bottom: 2rem;">
+          <svg class="prompt-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            id="media-tools-search-input" 
+            class="prompt-search-input" 
+            placeholder="Search converter tools..." 
+            aria-label="Search Media Converter Tools"
+            autocomplete="off"
+          />
+          <button type="button" id="media-tools-search-clear" class="prompt-search-clear" aria-label="Clear Search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Empty State -->
+        <div id="media-tools-empty-state" class="prompt-empty-state" style="display: none;">
+          <div class="prompt-empty-icon">🔍</div>
+          <h3>No converter tools found</h3>
+          <p>No tools matched your search. Try searching for "audio", "video", "trimmer", or "converter".</p>
+        </div>
+
         <!-- Media Tools Grid (15 Tools) -->
         <section class="media-tool-grid" aria-label="Media Converter Tools Directory">
 
@@ -1419,5 +1448,57 @@
   <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js"></script>
   <script src="assets/js/navigation.js"></script>
   <script src="assets/js/media-converter.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('media-tools-search-input');
+      const searchClear = document.getElementById('media-tools-search-clear');
+      const emptyState = document.getElementById('media-tools-empty-state');
+      const toolCards = document.querySelectorAll('.media-tool-card');
+
+      function filterMediaTools() {
+        if (!searchInput) return;
+        const query = (searchInput.value || '').toLowerCase().trim();
+        let visibleCount = 0;
+
+        if (searchClear) {
+          searchClear.style.display = query ? 'flex' : 'none';
+        }
+
+        toolCards.forEach(card => {
+          const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
+          const desc = (card.querySelector('p')?.textContent || '').toLowerCase();
+          const toolId = (card.getAttribute('data-tool-id') || '').toLowerCase();
+
+          const matches = !query || title.includes(query) || desc.includes(query) || toolId.includes(query);
+
+          if (matches) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (emptyState) {
+          emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('input', filterMediaTools);
+      }
+
+      if (searchClear) {
+        searchClear.addEventListener('click', () => {
+          if (searchInput) {
+            searchInput.value = '';
+            searchClear.style.display = 'none';
+            searchInput.focus();
+            filterMediaTools();
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

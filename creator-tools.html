@@ -181,6 +181,35 @@
           </p>
         </section>
 
+        <!-- Search Bar -->
+        <div class="prompt-search-wrap" style="margin-bottom: 2rem;">
+          <svg class="prompt-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            id="creator-tools-search-input" 
+            class="prompt-search-input" 
+            placeholder="Search tools by name or purpose..." 
+            aria-label="Search Creator Tools"
+            autocomplete="off"
+          />
+          <button type="button" id="creator-tools-search-clear" class="prompt-search-clear" aria-label="Clear Search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Empty State -->
+        <div id="creator-tools-empty-state" class="prompt-empty-state" style="display: none;">
+          <div class="prompt-empty-icon">🔍</div>
+          <h3>No tools found</h3>
+          <p>No tools matched your search. Try searching for "SEO", "title", "tags", or "video".</p>
+        </div>
+
         <!-- Tool Grid (4 columns desktop, 3 tablet, 2 mobile) -->
         <section class="creator-tools-grid" aria-label="Creator Tools Directory">
 
@@ -1174,6 +1203,56 @@
           if (toolId) {
             sessionStorage.removeItem(`mtv_input_${toolId}`);
             sessionStorage.removeItem(`mtv_output_${toolId}`);
+          }
+        });
+      }
+
+      // Live search filtering for Creator Tools grid
+      const toolSearchInput = document.getElementById('creator-tools-search-input');
+      const toolSearchClear = document.getElementById('creator-tools-search-clear');
+      const toolEmptyState = document.getElementById('creator-tools-empty-state');
+      const toolCards = document.querySelectorAll('.creator-tool-card');
+
+      function filterCreatorTools() {
+        if (!toolSearchInput) return;
+        const query = (toolSearchInput.value || '').toLowerCase().trim();
+        let visibleCount = 0;
+
+        if (toolSearchClear) {
+          toolSearchClear.style.display = query ? 'flex' : 'none';
+        }
+
+        toolCards.forEach(card => {
+          const title = (card.querySelector('.creator-tool-title')?.textContent || '').toLowerCase();
+          const desc = (card.querySelector('.creator-tool-desc')?.textContent || '').toLowerCase();
+          const toolId = (card.getAttribute('data-tool-id') || '').toLowerCase();
+
+          const matches = !query || title.includes(query) || desc.includes(query) || toolId.includes(query);
+
+          if (matches) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (toolEmptyState) {
+          toolEmptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+      }
+
+      if (toolSearchInput) {
+        toolSearchInput.addEventListener('input', filterCreatorTools);
+      }
+
+      if (toolSearchClear) {
+        toolSearchClear.addEventListener('click', () => {
+          if (toolSearchInput) {
+            toolSearchInput.value = '';
+            toolSearchClear.style.display = 'none';
+            toolSearchInput.focus();
+            filterCreatorTools();
           }
         });
       }
