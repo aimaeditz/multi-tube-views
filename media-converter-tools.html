@@ -978,46 +978,54 @@
 
             <!-- Panel: 11. QR Code Generator -->
             <div class="media-options-panel" id="panel-qr-generator" style="display: none;">
+              <style>
+                #qrCodeOutput canvas, #qrCodeOutput img {
+                  max-width: 240px;
+                  height: auto;
+                  display: block;
+                  margin: 0 auto;
+                }
+              </style>
               <div class="media-option-group" style="margin-bottom: 1.25rem;">
-                <label for="qr-input-text">Link or Text Content</label>
-                <input type="text" id="qr-input-text" placeholder="https://multitubeviews.com" value="https://multitubeviews.com" style="width: 100%; padding: 0.75rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-card); color: var(--text-primary); font-size: 0.95rem;" />
+                <label for="qrTextInput">Link or Text Content</label>
+                <input type="text" id="qrTextInput" placeholder="https://multitubeviews.com" value="https://multitubeviews.com" style="width: 100%; padding: 0.75rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-card); color: var(--text-primary); font-size: 0.95rem;" />
               </div>
 
               <div class="media-options-grid">
                 <div class="media-option-group">
-                  <label for="qr-size">Resolution (Pixels)</label>
-                  <select id="qr-size">
+                  <label for="qrResolution">Resolution (Pixels)</label>
+                  <select id="qrResolution">
                     <option value="256">256 x 256 px</option>
                     <option value="512" selected>512 x 512 px (HD)</option>
                     <option value="1024">1024 x 1024 px (Ultra HD)</option>
                   </select>
                 </div>
                 <div class="media-option-group">
-                  <label for="qr-ecc">Error Correction</label>
-                  <select id="qr-ecc">
-                    <option value="L">Low (7% recovery)</option>
-                    <option value="M" selected>Medium (15% recovery)</option>
-                    <option value="Q">Quartile (25% recovery)</option>
-                    <option value="H">High (30% recovery)</option>
+                  <label for="qrEcc">Error Correction</label>
+                  <select id="qrEcc">
+                    <option value="Low">Low (7% recovery)</option>
+                    <option value="Medium" selected>Medium (15% recovery)</option>
+                    <option value="High">High (25% recovery)</option>
+                    <option value="Highest">Highest (30% recovery)</option>
                   </select>
                 </div>
                 <div class="media-option-group">
-                  <label for="qr-color-dark">QR Code Color</label>
-                  <input type="color" id="qr-color-dark" value="#000000" style="width: 100%; height: 42px; padding: 2px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-card); cursor: pointer;" />
+                  <label for="qrForegroundColor">QR Code Color</label>
+                  <input type="color" id="qrForegroundColor" value="#000000" style="width: 100%; height: 42px; padding: 2px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-card); cursor: pointer;" />
                 </div>
                 <div class="media-option-group">
-                  <label for="qr-color-light">Background Color</label>
-                  <input type="color" id="qr-color-light" value="#ffffff" style="width: 100%; height: 42px; padding: 2px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-card); cursor: pointer;" />
+                  <label for="qrBackgroundColor">Background Color</label>
+                  <input type="color" id="qrBackgroundColor" value="#ffffff" style="width: 100%; height: 42px; padding: 2px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-card); cursor: pointer;" />
                 </div>
               </div>
 
               <!-- Live QR Preview Box -->
               <div style="margin-top: 1.5rem; text-align: center; padding: 2rem; background: var(--bg-subtle); border-radius: var(--radius-lg); border: 1px solid var(--border-color);">
                 <div style="display: inline-block; padding: 12px; background: #fff; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
-                  <canvas id="qr-preview-canvas" style="max-width: 240px; height: auto; display: block;"></canvas>
+                  <div id="qrCodeOutput" style="display: flex; align-items: center; justify-content: center; min-width: 200px; min-height: 200px;"></div>
                 </div>
                 <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
-                  <button type="button" class="btn btn-primary" id="btn-qr-download">
+                  <button type="button" class="btn btn-primary" id="downloadQrBtn">
                     <span>📥 Download QR Code (PNG)</span>
                   </button>
                   <button type="button" class="btn btn-secondary" id="btn-qr-copy">
@@ -1399,8 +1407,13 @@
   </style>
 
   <!-- External Client-Side Libraries for New Tools -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js"></script>

@@ -1852,81 +1852,76 @@
     // --- TOOL 11: QR CODE GENERATOR ---
 
     initQrGenerator() {
-      const qrTextInput = document.getElementById('qr-input-text');
-      const qrSizeSelect = document.getElementById('qr-size');
-      const qrEccSelect = document.getElementById('qr-ecc');
-      const qrFgColor = document.getElementById('qr-color-dark');
-      const qrBgColor = document.getElementById('qr-color-light');
-      const qrCanvas = document.getElementById('qr-preview-canvas');
-      const downloadBtn = document.getElementById('btn-qr-download');
+      const qrTextInput = document.getElementById('qrTextInput') || document.getElementById('qr-input-text');
+      const qrResolution = document.getElementById('qrResolution') || document.getElementById('qr-size');
+      const qrEcc = document.getElementById('qrEcc') || document.getElementById('qr-ecc');
+      const qrFgColor = document.getElementById('qrForegroundColor') || document.getElementById('qr-color-dark');
+      const qrBgColor = document.getElementById('qrBackgroundColor') || document.getElementById('qr-color-light');
+      const downloadBtn = document.getElementById('downloadQrBtn') || document.getElementById('btn-qr-download');
       const copyBtn = document.getElementById('btn-qr-copy');
 
-      const renderQr = () => {
-        if (!qrCanvas) return;
-        const text = qrTextInput ? (qrTextInput.value.trim() || 'https://multitubeviews.com') : 'https://multitubeviews.com';
-        const size = qrSizeSelect ? parseInt(qrSizeSelect.value, 10) : 512;
-        const ecc = qrEccSelect ? qrEccSelect.value : 'M';
-        const fg = qrFgColor ? qrFgColor.value : '#000000';
-        const bg = qrBgColor ? qrBgColor.value : '#ffffff';
+      if (typeof window.renderQrCode === 'function') {
+        window.renderQrCode();
+      }
 
-        qrCanvas.width = size;
-        qrCanvas.height = size;
-
-        if (window.QRCode && window.QRCode.toCanvas) {
-          window.QRCode.toCanvas(qrCanvas, text, {
-            width: size,
-            margin: 2,
-            errorCorrectionLevel: ecc,
-            color: { dark: fg, light: bg }
-          }, (err) => {
-            if (err) console.error('QR rendering error:', err);
-          });
-        } else {
-          const ctx = qrCanvas.getContext('2d');
-          ctx.fillStyle = bg;
-          ctx.fillRect(0, 0, size, size);
-          ctx.fillStyle = fg;
-          ctx.font = `bold ${Math.round(size / 18)}px sans-serif`;
-          ctx.textAlign = 'center';
-          ctx.fillText('QR: ' + text.substring(0, 24), size / 2, size / 2);
-        }
-      };
-
-      if (qrTextInput) qrTextInput.addEventListener('input', renderQr);
-      if (qrSizeSelect) qrSizeSelect.addEventListener('change', renderQr);
-      if (qrEccSelect) qrEccSelect.addEventListener('change', renderQr);
-      if (qrFgColor) qrFgColor.addEventListener('input', renderQr);
-      if (qrBgColor) qrBgColor.addEventListener('input', renderQr);
-
-      setTimeout(renderQr, 100);
+      if (qrTextInput) {
+        qrTextInput.addEventListener('input', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
+        qrTextInput.addEventListener('change', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
+      }
+      if (qrResolution) qrResolution.addEventListener('change', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
+      if (qrEcc) qrEcc.addEventListener('change', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
+      if (qrFgColor) {
+        qrFgColor.addEventListener('input', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
+        qrFgColor.addEventListener('change', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
+      }
+      if (qrBgColor) {
+        qrBgColor.addEventListener('input', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
+        qrBgColor.addEventListener('change', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
+      }
 
       if (downloadBtn) {
-        downloadBtn.onclick = () => {
-          if (!qrCanvas) return;
+        const newDlBtn = downloadBtn.cloneNode(true);
+        if (downloadBtn.parentNode) downloadBtn.parentNode.replaceChild(newDlBtn, downloadBtn);
+        newDlBtn.addEventListener('click', () => {
+          const canvas = document.querySelector('#qrCodeOutput canvas');
+          const img = document.querySelector('#qrCodeOutput img');
+          const dataUrl = canvas ? canvas.toDataURL('image/png') : (img ? img.src : '');
+          if (!dataUrl) return;
           const a = document.createElement('a');
-          a.href = qrCanvas.toDataURL('image/png');
-          a.download = `qrcode_${Date.now()}.png`;
-          document.body.appendChild(a);
+          a.href = dataUrl;
+          a.download = 'mtv-qr-code.png';
           a.click();
-          document.body.removeChild(a);
           this.showToast('✓ QR Code downloaded as HD PNG!');
-        };
+        });
       }
 
       if (copyBtn) {
         copyBtn.onclick = () => {
-          if (!qrCanvas) return;
-          qrCanvas.toBlob((blob) => {
-            if (blob && navigator.clipboard && navigator.clipboard.write) {
-              navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(() => {
-                this.showToast('✓ QR Code image copied to clipboard!');
+          const canvas = document.querySelector('#qrCodeOutput canvas');
+          const img = document.querySelector('#qrCodeOutput img');
+          if (canvas) {
+            canvas.toBlob((blob) => {
+              if (blob && navigator.clipboard && navigator.clipboard.write) {
+                navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(() => {
+                  this.showToast('✓ QR Code image copied to clipboard!');
+                }).catch(() => {
+                  this.showToast('Clipboard image write not supported in this browser', 'error');
+                });
+              }
+            });
+          } else if (img && img.src) {
+            fetch(img.src)
+              .then(res => res.blob())
+              .then(blob => {
+                if (navigator.clipboard && navigator.clipboard.write) {
+                  navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(() => {
+                    this.showToast('✓ QR Code image copied to clipboard!');
+                  });
+                }
               }).catch(() => {
-                this.showToast('Clipboard image write not supported in this browser', 'error');
+                this.showToast('Clipboard image copy failed', 'error');
               });
-            } else {
-              this.showToast('Clipboard copy unavailable', 'error');
-            }
-          });
+          }
         };
       }
     }
@@ -1954,203 +1949,281 @@
         };
       }
 
-      // 1. PDF to Images Flow
+      if (window.pdfjsLib) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      }
+
+      // Step 2 exact implementation
+      const convertPdfToImages = async (file) => {
+        const pdfjsLib = window.pdfjsLib;
+        if (!pdfjsLib) throw new Error('PDF.js library is not loaded');
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const scaleSelect = document.getElementById('pdf-render-scale');
+        const scale = scaleSelect ? parseFloat(scaleSelect.value || '2.0') : 2.0;
+        const images = [];
+
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+          const page = await pdf.getPage(pageNum);
+          const viewport = page.getViewport({ scale });
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const context = canvas.getContext('2d');
+          await page.render({ canvasContext: context, viewport }).promise;
+          const dataUrl = canvas.toDataURL('image/png');
+          images.push({ pageNum, dataUrl });
+        }
+        return images;
+      };
+
+      // Step 3 exact implementation
+      const convertImagesToPdf = async (fileList) => {
+        if (!window.jspdf || !window.jspdf.jsPDF) {
+          throw new Error('jsPDF library is not loaded');
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const files = Array.from(fileList);
+
+        for (let i = 0; i < files.length; i++) {
+          const dataUrl = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.readAsDataURL(files[i]);
+          });
+
+          const img = new Image();
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = () => reject(new Error('Failed to load image file'));
+            img.src = dataUrl;
+          });
+
+          if (i > 0) doc.addPage();
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const pageHeight = doc.internal.pageSize.getHeight();
+          const ratio = Math.min(pageWidth / img.width, pageHeight / img.height);
+          const w = img.width * ratio;
+          const h = img.height * ratio;
+          doc.addImage(dataUrl, 'JPEG', (pageWidth - w) / 2, (pageHeight - h) / 2, w, h);
+        }
+
+        doc.save('converted-images.pdf');
+        return doc;
+      };
+
+      // --- TAB 1: PDF to Image ---
       const pdfInput = document.getElementById('pdf-file-input');
       const pdfSelectBtn = document.getElementById('btn-select-pdf-file');
+      const pdfDropzone = document.getElementById('pdf-to-img-dropzone');
       const pdfPagesGallery = document.getElementById('pdf-pages-gallery');
       const downloadAllImagesBtn = document.getElementById('btn-download-all-pdf-images');
       const pdfExtractBtn = document.getElementById('btn-extract-pdf-pages');
       const pdfBadge = document.getElementById('pdf-file-info-badge');
-      const pdfFileNameText = document.getElementById('pdf-file-name-text');
-      const pdfPageCountBadge = document.getElementById('pdf-page-count-badge');
+      const pdfFileNameText = document.getElementById('pdf-file-name') || document.getElementById('pdf-file-name-text');
+      const pdfFileMetaText = document.getElementById('pdf-file-meta') || document.getElementById('pdf-page-count-badge');
+      const pdfRemoveBtn = document.getElementById('btn-remove-pdf-file');
       const pdfPagesOutputWrap = document.getElementById('pdf-pages-output-wrap');
+      const pdfCountTitle = document.getElementById('pdf-pages-count-title');
+
+      let currentPdfFile = null;
+      let renderedPdfImages = [];
 
       if (pdfSelectBtn && pdfInput) {
         pdfSelectBtn.onclick = () => pdfInput.click();
       }
 
-      let loadedPdfFile = null;
-      let extractedPageBlobs = [];
+      if (pdfRemoveBtn) {
+        pdfRemoveBtn.onclick = () => {
+          currentPdfFile = null;
+          renderedPdfImages = [];
+          if (pdfInput) pdfInput.value = '';
+          if (pdfBadge) pdfBadge.style.display = 'none';
+          if (pdfPagesOutputWrap) pdfPagesOutputWrap.style.display = 'none';
+          if (pdfPagesGallery) pdfPagesGallery.innerHTML = '';
+          if (pdfExtractBtn) pdfExtractBtn.disabled = true;
+        };
+      }
+
+      const processPdfFile = async (file) => {
+        if (!file) return;
+        if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+          this.showToast('Please select a valid PDF file (.pdf)', 'error');
+          return;
+        }
+
+        currentPdfFile = file;
+        if (pdfFileNameText) pdfFileNameText.textContent = file.name;
+        if (pdfFileMetaText) pdfFileMetaText.textContent = `Processing document (${(file.size / (1024 * 1024)).toFixed(2)} MB)...`;
+        if (pdfBadge) pdfBadge.style.display = 'flex';
+        if (pdfExtractBtn) pdfExtractBtn.disabled = false;
+
+        this.setProcessingUi(true, 'Rendering PDF pages to images...');
+        try {
+          renderedPdfImages = await convertPdfToImages(file);
+
+          if (pdfFileMetaText) pdfFileMetaText.textContent = `${renderedPdfImages.length} Pages • ${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+          if (pdfCountTitle) pdfCountTitle.textContent = `Extracted ${renderedPdfImages.length} Page${renderedPdfImages.length > 1 ? 's' : ''}`;
+
+          if (pdfPagesGallery) pdfPagesGallery.innerHTML = '';
+
+          renderedPdfImages.forEach(({ pageNum, dataUrl }) => {
+            const pageCard = document.createElement('div');
+            pageCard.style.cssText = 'background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.75rem; text-align: center; display: flex; flex-direction: column; gap: 0.5rem;';
+
+            const img = document.createElement('img');
+            img.src = dataUrl;
+            img.alt = `Page ${pageNum}`;
+            img.style.cssText = 'max-width: 100%; height: 180px; object-fit: contain; border-radius: 4px; background: #fff; box-shadow: var(--shadow-sm);';
+
+            const label = document.createElement('div');
+            label.style.cssText = 'font-weight: 600; font-size: 0.85rem; color: var(--text-primary);';
+            label.textContent = `Page ${pageNum}`;
+
+            const dlBtn = document.createElement('a');
+            dlBtn.className = 'btn btn-secondary';
+            dlBtn.style.cssText = 'font-size: 0.8rem; padding: 0.35rem 0.6rem; width: 100%; text-decoration: none; justify-content: center; display: inline-flex; align-items: center; gap: 0.25rem;';
+            dlBtn.textContent = `Download Page ${pageNum}`;
+            dlBtn.href = dataUrl;
+            dlBtn.download = `${file.name.replace(/\.pdf$/i, '')}_page_${pageNum}.png`;
+
+            pageCard.appendChild(img);
+            pageCard.appendChild(label);
+            pageCard.appendChild(dlBtn);
+            if (pdfPagesGallery) pdfPagesGallery.appendChild(pageCard);
+          });
+
+          if (pdfPagesOutputWrap) pdfPagesOutputWrap.style.display = 'block';
+          this.showToast(`✓ Converted ${renderedPdfImages.length} pages successfully!`);
+        } catch (err) {
+          console.error('PDF Conversion Error:', err);
+          this.showToast(`PDF conversion error: ${err.message || 'Failed to parse PDF'}`, 'error');
+        } finally {
+          this.setProcessingUi(false);
+        }
+      };
 
       if (pdfInput) {
-        pdfInput.onchange = async (e) => {
+        pdfInput.onchange = (e) => {
           const file = e.target.files && e.target.files[0];
-          if (!file) return;
+          if (file) processPdfFile(file);
+        };
+      }
 
-          if (file.type !== 'application/pdf' && !file.name.endsWith('.pdf')) {
-            this.showToast('Please select a valid PDF document.', 'error');
-            return;
-          }
-
-          loadedPdfFile = file;
-          if (pdfFileNameText) pdfFileNameText.textContent = file.name;
-          if (pdfBadge) pdfBadge.style.display = 'flex';
-
-          try {
-            const arrayBuffer = await file.arrayBuffer();
-            if (window.pdfjsLib) {
-              window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-              const pdfDoc = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-              if (pdfPageCountBadge) pdfPageCountBadge.textContent = `${pdfDoc.numPages} Pages`;
-            }
-          } catch (err) {
-            console.error('Error loading PDF metadata:', err);
-          }
+      if (pdfDropzone) {
+        pdfDropzone.ondragover = (e) => {
+          e.preventDefault();
+          pdfDropzone.classList.add('drag-over');
+        };
+        pdfDropzone.ondragleave = () => pdfDropzone.classList.remove('drag-over');
+        pdfDropzone.ondrop = (e) => {
+          e.preventDefault();
+          pdfDropzone.classList.remove('drag-over');
+          const file = e.dataTransfer.files && e.dataTransfer.files[0];
+          if (file) processPdfFile(file);
         };
       }
 
       if (pdfExtractBtn) {
-        pdfExtractBtn.onclick = async () => {
-          if (!loadedPdfFile) {
+        pdfExtractBtn.onclick = () => {
+          if (currentPdfFile) {
+            processPdfFile(currentPdfFile);
+          } else {
             this.showToast('Please select a PDF file first.', 'warning');
-            return;
-          }
-
-          if (pdfPagesGallery) pdfPagesGallery.innerHTML = '';
-          if (pdfPagesOutputWrap) pdfPagesOutputWrap.style.display = 'block';
-          extractedPageBlobs = [];
-
-          try {
-            this.setProcessingUi(true, 'Rendering PDF pages...');
-            const arrayBuffer = await loadedPdfFile.arrayBuffer();
-            if (!window.pdfjsLib) {
-              throw new Error('PDF.js library is loading, please try again in a moment.');
-            }
-
-            window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-            const pdfDoc = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-            const numPages = pdfDoc.numPages;
-
-            const format = document.getElementById('pdf-output-format')?.value || 'png';
-            const scale = parseFloat(document.getElementById('pdf-render-scale')?.value || '2.0');
-
-            for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-              this.updateProgress(Math.round((pageNum / numPages) * 100), `Rendering page ${pageNum} of ${numPages}...`);
-              const page = await pdfDoc.getPage(pageNum);
-              const viewport = page.getViewport({ scale: scale });
-
-              const canvas = document.createElement('canvas');
-              canvas.width = viewport.width;
-              canvas.height = viewport.height;
-              const ctx = canvas.getContext('2d');
-
-              await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-
-              const ext = format === 'jpeg' ? 'jpg' : 'png';
-              const mime = format === 'jpeg' ? 'image/jpeg' : 'image/png';
-
-              await new Promise((res) => {
-                canvas.toBlob((blob) => {
-                  extractedPageBlobs.push({ pageNum, blob, ext, mime });
-
-                  const pageCard = document.createElement('div');
-                  pageCard.style.cssText = 'background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.75rem; text-align: center; display: flex; flex-direction: column; gap: 0.5rem;';
-                  
-                  const img = document.createElement('img');
-                  img.src = URL.createObjectURL(blob);
-                  img.style.cssText = 'max-width: 100%; height: 180px; object-fit: contain; border-radius: 4px; background: #fff; box-shadow: var(--shadow-sm);';
-
-                  const label = document.createElement('div');
-                  label.style.cssText = 'font-weight: 600; font-size: 0.85rem; color: var(--text-primary);';
-                  label.textContent = `Page ${pageNum} (${(blob.size / 1024).toFixed(1)} KB)`;
-
-                  const dlBtn = document.createElement('button');
-                  dlBtn.className = 'btn btn-secondary';
-                  dlBtn.style.cssText = 'font-size: 0.8rem; padding: 0.35rem 0.6rem; width: 100%;';
-                  dlBtn.textContent = `Download Page ${pageNum}`;
-                  dlBtn.onclick = () => {
-                    const a = document.createElement('a');
-                    a.href = URL.createObjectURL(blob);
-                    a.download = `${loadedPdfFile.name.replace(/\.pdf$/i, '')}_page_${pageNum}.${ext}`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                  };
-
-                  pageCard.appendChild(img);
-                  pageCard.appendChild(label);
-                  pageCard.appendChild(dlBtn);
-                  if (pdfPagesGallery) pdfPagesGallery.appendChild(pageCard);
-                  res();
-                }, mime, 0.92);
-              });
-            }
-
-            this.showToast(`✓ Extracted ${numPages} pages successfully!`);
-          } catch (err) {
-            console.error('PDF parsing error:', err);
-            this.showToast(`PDF extraction error: ${err.message}`, 'error');
-          } finally {
-            this.setProcessingUi(false);
           }
         };
       }
 
       if (downloadAllImagesBtn) {
         downloadAllImagesBtn.onclick = async () => {
-          if (!extractedPageBlobs.length) return;
-          if (!window.JSZip) {
-            this.showToast('Downloading all pages sequentially...', 'info');
-            extractedPageBlobs.forEach((item, idx) => {
+          if (!renderedPdfImages.length) return;
+          if (window.JSZip) {
+            const zip = new window.JSZip();
+            renderedPdfImages.forEach(({ pageNum, dataUrl }) => {
+              const base64Data = dataUrl.split(',')[1];
+              zip.file(`page_${pageNum}.png`, base64Data, { base64: true });
+            });
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            const url = URL.createObjectURL(zipBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${(currentPdfFile ? currentPdfFile.name : 'pdf').replace(/\.pdf$/i, '')}_images.zip`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            this.showToast('✓ All pages downloaded as ZIP archive!');
+          } else {
+            renderedPdfImages.forEach(({ pageNum, dataUrl }, idx) => {
               setTimeout(() => {
                 const a = document.createElement('a');
-                a.href = URL.createObjectURL(item.blob);
-                a.download = `page_${item.pageNum}.${item.ext}`;
+                a.href = dataUrl;
+                a.download = `page_${pageNum}.png`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
               }, idx * 250);
             });
-            return;
+            this.showToast('✓ Downloading all pages...');
           }
-
-          const zip = new window.JSZip();
-          extractedPageBlobs.forEach(item => {
-            zip.file(`page_${item.pageNum}.${item.ext}`, item.blob);
-          });
-
-          const zipBlob = await zip.generateAsync({ type: 'blob' });
-          const url = URL.createObjectURL(zipBlob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `pdf_extracted_pages_${Date.now()}.zip`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          this.showToast('✓ All pages downloaded as ZIP archive!');
         };
       }
 
-      // 2. Images to PDF Flow
+      // --- TAB 2: Image to PDF ---
       const img2PdfInput = document.getElementById('images-for-pdf-input');
       const img2PdfSelectBtn = document.getElementById('btn-select-images-for-pdf');
-      const img2PdfList = document.getElementById('img-to-pdf-items-container');
+      const img2PdfDropzone = document.getElementById('img-to-pdf-dropzone');
+      const img2PdfListWrap = document.getElementById('img-to-pdf-list-wrap');
+      const img2PdfItemsContainer = document.getElementById('img-to-pdf-items-container');
+      const clearImgPdfListBtn = document.getElementById('btn-clear-img-pdf-list');
       const createPdfBtn = document.getElementById('btn-create-pdf-from-images');
+      const img2PdfOutputWrap = document.getElementById('img-to-pdf-output-wrap');
+      const downloadGeneratedPdfBtn = document.getElementById('btn-download-generated-pdf');
 
-      let selectedImagesForPdf = [];
+      let selectedImageFilesForPdf = [];
 
       if (img2PdfSelectBtn && img2PdfInput) {
         img2PdfSelectBtn.onclick = () => img2PdfInput.click();
       }
 
-      const renderImageThumbs = () => {
-        if (!img2PdfList) return;
-        img2PdfList.innerHTML = '';
+      if (clearImgPdfListBtn) {
+        clearImgPdfListBtn.onclick = () => {
+          selectedImageFilesForPdf = [];
+          renderImageThumbnails();
+        };
+      }
 
-        selectedImagesForPdf.forEach((imgObj, idx) => {
+      const renderImageThumbnails = () => {
+        if (!img2PdfItemsContainer) return;
+        img2PdfItemsContainer.innerHTML = '';
+
+        if (selectedImageFilesForPdf.length === 0) {
+          if (img2PdfListWrap) img2PdfListWrap.style.display = 'none';
+          if (createPdfBtn) createPdfBtn.disabled = true;
+          if (img2PdfOutputWrap) img2PdfOutputWrap.style.display = 'none';
+          return;
+        }
+
+        if (img2PdfListWrap) img2PdfListWrap.style.display = 'block';
+        if (createPdfBtn) createPdfBtn.disabled = false;
+
+        selectedImageFilesForPdf.forEach((file, idx) => {
           const item = document.createElement('div');
           item.style.cssText = 'position: relative; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.35rem; text-align: center; display: inline-block; margin: 0.25rem;';
-          
+
           const img = document.createElement('img');
-          img.src = imgObj.url;
+          img.src = URL.createObjectURL(file);
           img.style.cssText = 'width: 80px; height: 80px; object-fit: cover; border-radius: 4px;';
 
           const rmBtn = document.createElement('button');
+          rmBtn.type = 'button';
           rmBtn.textContent = '✕';
           rmBtn.style.cssText = 'position: absolute; top: -6px; right: -6px; background: #ef4444; color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center;';
           rmBtn.onclick = () => {
-            selectedImagesForPdf.splice(idx, 1);
-            renderImageThumbs();
+            selectedImageFilesForPdf.splice(idx, 1);
+            renderImageThumbnails();
           };
 
           const order = document.createElement('div');
@@ -2160,94 +2233,64 @@
           item.appendChild(img);
           item.appendChild(rmBtn);
           item.appendChild(order);
-          img2PdfList.appendChild(item);
+          img2PdfItemsContainer.appendChild(item);
         });
+      };
+
+      const handleImageFilesAdded = (files) => {
+        if (!files || !files.length) return;
+        Array.from(files).forEach(file => {
+          if (file.type.startsWith('image/') || /\.(png|jpe?g|webp|gif|bmp)$/i.test(file.name)) {
+            selectedImageFilesForPdf.push(file);
+          }
+        });
+        renderImageThumbnails();
       };
 
       if (img2PdfInput) {
         img2PdfInput.onchange = (e) => {
-          if (!e.target.files) return;
-          Array.from(e.target.files).forEach(file => {
-            if (file.type.startsWith('image/')) {
-              selectedImagesForPdf.push({
-                file,
-                url: URL.createObjectURL(file)
-              });
-            }
-          });
-          renderImageThumbs();
+          handleImageFilesAdded(e.target.files);
         };
       }
 
-      if (createPdfBtn) {
-        createPdfBtn.onclick = async () => {
-          if (!selectedImagesForPdf.length) {
-            this.showToast('Please add at least one image file', 'warning');
-            return;
-          }
-
-          if (!window.jspdf || !window.jspdf.jsPDF) {
-            this.showToast('jsPDF library loading, please wait...', 'error');
-            return;
-          }
-
-          try {
-            this.setProcessingUi(true, 'Combining images into PDF...');
-            const pageSize = document.getElementById('img-pdf-page-format')?.value || 'a4';
-            const orientation = document.getElementById('img-pdf-orientation')?.value || 'portrait';
-            const margin = parseInt(document.getElementById('img-pdf-margin')?.value || '10', 10);
-
-            const doc = new window.jspdf.jsPDF({
-              orientation: orientation === 'portrait' ? 'p' : 'l',
-              unit: 'pt',
-              format: pageSize
-            });
-
-            for (let i = 0; i < selectedImagesForPdf.length; i++) {
-              if (i > 0) doc.addPage(pageSize, orientation === 'portrait' ? 'p' : 'l');
-
-              const imgObj = selectedImagesForPdf[i];
-              const imgData = await new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = (e) => resolve(e.target.result);
-                reader.readAsDataURL(imgObj.file);
-              });
-
-              const pageWidth = doc.internal.pageSize.getWidth();
-              const pageHeight = doc.internal.pageSize.getHeight();
-
-              const maxWidth = pageWidth - (margin * 2);
-              const maxHeight = pageHeight - (margin * 2);
-
-              doc.addImage(imgData, 'JPEG', margin, margin, maxWidth, maxHeight, undefined, 'FAST');
-            }
-
-            const pdfBlob = doc.output('blob');
-            const pdfUrl = URL.createObjectURL(pdfBlob);
-
-            const outputWrap = document.getElementById('img-to-pdf-output-wrap');
-            const downloadBtn = document.getElementById('btn-download-generated-pdf');
-
-            if (outputWrap) outputWrap.style.display = 'block';
-            if (downloadBtn) {
-              downloadBtn.onclick = () => {
-                const a = document.createElement('a');
-                a.href = pdfUrl;
-                a.download = `combined_images_${Date.now()}.pdf`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-              };
-            }
-
-            this.showToast('✓ PDF document created successfully!');
-          } catch (err) {
-            console.error('PDF creation error:', err);
-            this.showToast(`Failed to generate PDF: ${err.message}`, 'error');
-          } finally {
-            this.setProcessingUi(false);
-          }
+      if (img2PdfDropzone) {
+        img2PdfDropzone.ondragover = (e) => {
+          e.preventDefault();
+          img2PdfDropzone.classList.add('drag-over');
         };
+        img2PdfDropzone.ondragleave = () => img2PdfDropzone.classList.remove('drag-over');
+        img2PdfDropzone.ondrop = (e) => {
+          e.preventDefault();
+          img2PdfDropzone.classList.remove('drag-over');
+          handleImageFilesAdded(e.dataTransfer.files);
+        };
+      }
+
+      const runImageToPdfConversion = async () => {
+        if (!selectedImageFilesForPdf.length) {
+          this.showToast('Please select at least one image file', 'warning');
+          return;
+        }
+
+        this.setProcessingUi(true, 'Combining images into PDF document...');
+        try {
+          await convertImagesToPdf(selectedImageFilesForPdf);
+          if (img2PdfOutputWrap) img2PdfOutputWrap.style.display = 'block';
+          this.showToast('✓ PDF generated and downloaded successfully!');
+        } catch (err) {
+          console.error('Image to PDF error:', err);
+          this.showToast(`Failed to generate PDF: ${err.message || 'Error combining images'}`, 'error');
+        } finally {
+          this.setProcessingUi(false);
+        }
+      };
+
+      if (createPdfBtn) {
+        createPdfBtn.onclick = runImageToPdfConversion;
+      }
+
+      if (downloadGeneratedPdfBtn) {
+        downloadGeneratedPdfBtn.onclick = runImageToPdfConversion;
       }
     }
 
@@ -2708,6 +2751,78 @@
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
     }
+  }
+
+  let qrInstance = null;
+
+  function getSelectedResolutionValue() {
+    const el = document.getElementById('qrResolution') || document.getElementById('qr-size');
+    return el ? parseInt(el.value, 10) : 512;
+  }
+
+  function getSelectedErrorCorrectionLabel() {
+    const el = document.getElementById('qrEcc') || document.getElementById('qr-ecc');
+    if (!el) return 'Medium';
+    const val = el.value;
+    if (val === 'L') return 'Low';
+    if (val === 'M') return 'Medium';
+    if (val === 'Q') return 'High';
+    if (val === 'H') return 'Highest';
+    return val;
+  }
+
+  function renderQrCode() {
+    const textInput = document.getElementById('qrTextInput') || document.getElementById('qr-input-text');
+    const text = textInput ? (textInput.value || 'https://multitubeviews.com') : 'https://multitubeviews.com';
+    const size = getSelectedResolutionValue();
+    const fgInput = document.getElementById('qrForegroundColor') || document.getElementById('qr-color-dark');
+    const fgColor = fgInput ? (fgInput.value || '#000000') : '#000000';
+    const bgInput = document.getElementById('qrBackgroundColor') || document.getElementById('qr-color-light');
+    const bgColor = bgInput ? (bgInput.value || '#ffffff') : '#ffffff';
+
+    const errorLevelMap = {
+      Low: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.L : 1,
+      Medium: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.M : 0,
+      High: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.Q : 2,
+      Highest: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.H : 3
+    };
+    const label = getSelectedErrorCorrectionLabel();
+    const errorLevel = errorLevelMap[label] !== undefined
+      ? errorLevelMap[label]
+      : ((window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.M : 0);
+
+    const container = document.getElementById('qrCodeOutput');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (window.QRCode) {
+      qrInstance = new window.QRCode(container, {
+        text: text,
+        width: size,
+        height: size,
+        colorDark: fgColor,
+        colorLight: bgColor,
+        correctLevel: errorLevel
+      });
+    }
+  }
+
+  window.renderQrCode = renderQrCode;
+  window.getSelectedResolutionValue = getSelectedResolutionValue;
+  window.getSelectedErrorCorrectionLabel = getSelectedErrorCorrectionLabel;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      if (document.getElementById('qrCodeOutput')) {
+        renderQrCode();
+      }
+    });
+  } else {
+    setTimeout(() => {
+      if (document.getElementById('qrCodeOutput')) {
+        renderQrCode();
+      }
+    }, 100);
   }
 
   window.mediaConverterEngine = new MediaConverterEngine();
