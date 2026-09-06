@@ -1224,11 +1224,18 @@
     box-sizing: border-box !important;
   }
 
-  .platform-preview-grid:not(.creator-tools-preview-grid) .platform-preview-item:nth-child(n+9) {
+  /* Homepage Section Preview Grids Truncation (Mobile: 4 Media Tools, 8 Creator Tools, 10 Platform Workspaces) */
+  .media-converter-preview-grid .platform-preview-item:nth-child(n+5) {
     display: none !important;
   }
 
-  .creator-tools-preview-grid .platform-preview-item:nth-child(n+5) {
+  #creator-tools-preview-grid .platform-preview-item:nth-child(n+9),
+  .creator-tools-preview-grid:not(.media-converter-preview-grid) .platform-preview-item:nth-child(n+9) {
+    display: none !important;
+  }
+
+  #platform-workspaces-preview-grid .platform-preview-item:nth-child(n+11),
+  .platform-preview-grid:not(.creator-tools-preview-grid) .platform-preview-item:nth-child(n+11) {
     display: none !important;
   }
 
