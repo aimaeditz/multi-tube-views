@@ -7,6 +7,8 @@
 //   OPENROUTER_API_KEY, OPENROUTER_API_KEY_2, ...
 //   DEEPSEEK_API_KEY, DEEPSEEK_API_KEY_2, ...
 //   LLM7_API_KEY, LLM7_API_KEY_2, ...
+//   CEREBRAS_API_KEY, CEREBRAS_API_KEY_2, ...
+//   MISTRAL_API_KEY, MISTRAL_API_KEY_2, ...
 // ALL keys across ALL providers race in PARALLEL per model tier —
 // whichever responds first wins. 1-hour response cache included.
 // ============================================================
@@ -129,12 +131,16 @@ export default async function handler(req, res) {
     const openrouterKeys = collectKeys('OPENROUTER_API_KEY');
     const deepseekKeys = collectKeys('DEEPSEEK_API_KEY');
     const llm7Keys = collectKeys('LLM7_API_KEY');
+    const cerebrasKeys = collectKeys('CEREBRAS_API_KEY');
+    const mistralKeys = collectKeys('MISTRAL_API_KEY');
 
     const geminiModels = ['gemini-3.6-flash', 'gemini-2.5-flash', 'gemini-2.0-flash'];
     const groqModel = 'openai/gpt-oss-120b';
     const openrouterModel = 'meta-llama/llama-3.3-70b-instruct:free';
     const deepseekModel = 'deepseek-chat';
     const llm7Model = 'gpt-4o-mini-2024-07-18';
+    const cerebrasModel = 'llama-3.3-70b';
+    const mistralModel = 'mistral-small-latest';
 
     const robustRule = 'IMPORTANT: The user input may be short, long, messy, informal, in any language or mix of languages, or phrased as a casual sentence rather than a clean topic. Regardless of how it is written, identify the real subject/intent behind it and produce a complete, high-quality, correctly-formatted answer that fully matches this tool\'s specific job. Never respond with a generic, vague, or off-topic answer, and never ask the user to clarify — always do your best to understand and deliver the expected output. ';
 
@@ -187,6 +193,12 @@ export default async function handler(req, res) {
     });
     llm7Keys.forEach((key) => {
       attempts.push(tryOpenAICompatible('https://api.llm7.io/v1/chat/completions', key, llm7Model, systemInstruction, finalPrompt));
+    });
+    cerebrasKeys.forEach((key) => {
+      attempts.push(tryOpenAICompatible('https://api.cerebras.ai/v1/chat/completions', key, cerebrasModel, systemInstruction, finalPrompt));
+    });
+    mistralKeys.forEach((key) => {
+      attempts.push(tryOpenAICompatible('https://api.mistral.ai/v1/chat/completions', key, mistralModel, systemInstruction, finalPrompt));
     });
 
     if (attempts.length > 0) {
