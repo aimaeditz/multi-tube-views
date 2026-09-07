@@ -153,12 +153,19 @@
   <link rel="stylesheet" href="assets/css/style.css?v=2.1">
   <link rel="stylesheet" href="assets/css/components.css?v=2.1">
   <link rel="stylesheet" href="assets/css/responsive.css?v=2.1">
+  <link rel="stylesheet" href="assets/css/desktop-reference.css?v=2.1">
 
   <!-- Instant Theme Script to avoid flash -->
   <script src="assets/js/storage.js"></script>
   <script src="assets/js/theme.js"></script>
 </head>
-<body>
+<body class="desktop-ref-body">
+
+  <!-- Desktop Ambient Canvas Glows & Grid (Desktop Only) -->
+  <div class="page-glow" aria-hidden="true"></div>
+  <div class="page-glow-2" aria-hidden="true"></div>
+  <div class="page-glow-3" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
 
   <!-- Sticky Header -->
   <header class="site-header" id="site-header">
@@ -178,7 +185,7 @@
         <a href="creator-tools.html" class="nav-link">Creator Tools</a>
         <a href="media-converter-tools.html" class="nav-link">Converter Tools</a>
         <a href="platforms.html" class="nav-link">Platforms</a>
-        </nav>
+      </nav>
 
       <!-- Header Actions -->
       <div class="header-actions">
@@ -196,6 +203,52 @@
     </div>
   </header>
 
+  <!-- Desktop Top Ticker Marquee (Desktop Only) -->
+  <div class="marquee-shell desktop-only-ref" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-set">
+        <div class="marquee-item"><span class="dot"></span><span>100% Private &amp; Secure</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>100% Free Forever</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>No Login Required</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>AI-Powered Tools</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>40+ Media Platforms</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>20 Creator Tools</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>15 Media Converters</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>Client-Side In-Browser</span></div>
+      </div>
+      <div class="marquee-set" aria-hidden="true">
+        <div class="marquee-item"><span class="dot"></span><span>100% Private &amp; Secure</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>100% Free Forever</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>No Login Required</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>AI-Powered Tools</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>40+ Media Platforms</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>20 Creator Tools</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>15 Media Converters</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>Client-Side In-Browser</span></div>
+      </div>
+      <div class="marquee-set" aria-hidden="true">
+        <div class="marquee-item"><span class="dot"></span><span>100% Private &amp; Secure</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>100% Free Forever</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>No Login Required</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>AI-Powered Tools</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>40+ Media Platforms</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>20 Creator Tools</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>15 Media Converters</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>Client-Side In-Browser</span></div>
+      </div>
+      <div class="marquee-set" aria-hidden="true">
+        <div class="marquee-item"><span class="dot"></span><span>100% Private &amp; Secure</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>100% Free Forever</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>No Login Required</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>AI-Powered Tools</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>40+ Media Platforms</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>20 Creator Tools</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>15 Media Converters</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>Client-Side In-Browser</span></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Mobile Drawer Menu -->
   <div class="mobile-drawer" id="mobile-drawer">
     <a href="index.html" class="mobile-nav-link active">Home</a>
@@ -211,9 +264,864 @@
   </div>
 
   <main class="site-main">
-    
-    <!-- Hero Section -->
-    <section class="hero-section">
+
+    <!-- DESKTOP REFERENCE DESIGN SYSTEM (Desktop Only: >=769px) -->
+    <div class="desktop-ref-container desktop-only-ref">
+
+      <!-- 1. Hero Section -->
+      <section class="hero-desk reveal" id="hero">
+        <div class="hero-orbit" aria-hidden="true"></div>
+        
+        <!-- Floating Interactive Chips -->
+        <div class="float-chip float-chip-1">
+          <span>⚡</span>
+          <span>AI-Powered Suite</span>
+        </div>
+        <div class="float-chip float-chip-2">
+          <span>▶</span>
+          <span>40+ Platforms</span>
+        </div>
+        <div class="float-chip float-chip-3">
+          <span>🔒</span>
+          <span>100% Client-Side</span>
+        </div>
+        <div class="float-chip float-chip-4">
+          <span>✨</span>
+          <span>35+ Instant Tools</span>
+        </div>
+
+        <div class="hero-eyebrow">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span>⚡ Multi-Platform Media Hub</span>
+        </div>
+
+        <h1 class="hero-headline">
+          Public Media <span class="accent">Workspace</span>
+        </h1>
+
+        <p class="hero-subhead">
+          A unified, professional workspace engineered to organize, research, and monitor public media streams side-by-side across multiple major streaming and content networks. Built for creators and analysts with responsive layouts, automated link validation, and zero account friction.
+        </p>
+
+        <div class="hero-buttons-row">
+          <a href="#platforms" class="btn-ref-primary">
+            <span>Explore Platforms &amp; Tools</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="#how-it-works" class="btn-ref-secondary">
+            <span>How It Works</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- 2. Story Panel 1: AI Prompts & Tools -->
+      <section class="story-section" id="prompts">
+        <div class="story-panel reveal tilt-card">
+          <div class="story-copy">
+            <span class="story-kicker">⚡ PROMPT LIBRARY &amp; AI SUITE</span>
+            <h2 class="story-title">Discover. Copy. Create.</h2>
+            <p class="story-desc">
+              Curated AI image prompts and free image generation tools in one place. Explore high-aesthetic formulas for photorealism, anime, cinematic scenes, and digital art with one-click copy.
+            </p>
+            <div class="story-tags">
+              <span class="story-tag-pill">Midjourney</span>
+              <span class="story-tag-pill">DALL-E 3</span>
+              <span class="story-tag-pill">Stable Diffusion</span>
+              <span class="story-tag-pill">Flux.1</span>
+              <span class="story-tag-pill">Free Generation</span>
+            </div>
+            <a href="ai-prompt.html" class="story-cta-link">
+              <span>Explore Prompts &amp; Tools</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <div class="scene" aria-hidden="true">
+            <div class="scene-ring"></div>
+            <div class="scene-ring scene-ring-2"></div>
+            <div class="scene-object scene-obj-1"><span>🎨</span><span>Midjourney</span></div>
+            <div class="scene-object scene-obj-2"><span>✨</span><span>Aesthetics</span></div>
+            <div class="scene-object scene-obj-3"><span>🔮</span><span>AI Generator</span></div>
+            <div class="scene-object scene-obj-4"><span>🖼️</span><span>Ratio Presets</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Story Panel 2: Media Converter Tools & Tool Cloud -->
+      <section class="story-section" id="converter">
+        <div class="story-panel reverse reveal tilt-card">
+          <div class="scene" aria-hidden="true">
+            <div class="scene-ring"></div>
+            <div class="scene-ring scene-ring-2"></div>
+            <div class="scene-object scene-obj-1"><span>🎵</span><span>MP3 Extract</span></div>
+            <div class="scene-object scene-obj-2"><span>✂️</span><span>Trim Lossless</span></div>
+            <div class="scene-object scene-obj-3"><span>🌊</span><span>Slow + Reverb</span></div>
+            <div class="scene-object scene-obj-4"><span>⚡</span><span>Speed Mod</span></div>
+          </div>
+
+          <div class="story-copy">
+            <span class="story-kicker">🎬 MEDIA LAB &amp; CONVERTERS</span>
+            <h2 class="story-title">Small tools. Deep workspace.</h2>
+            <p class="story-desc">
+              Convert, trim, adjust speed, and edit video and audio files directly in your browser with 100% client-side privacy. Zero server uploads, zero wait times, and zero subscriptions.
+            </p>
+            <div class="story-tags">
+              <span class="story-tag-pill">100% Client-Side</span>
+              <span class="story-tag-pill">Zero Server Upload</span>
+              <span class="story-tag-pill">Audio &amp; Video</span>
+              <span class="story-tag-pill">15 Tools</span>
+            </div>
+            <a href="media-converter-tools.html" class="story-cta-link">
+              <span>Explore All Media Tools</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- 15 Media Converter Tools Cloud -->
+        <div class="tool-cloud-header">
+          <div class="tool-cloud-title">
+            <span>🎬</span>
+            <span>15 In-Browser Media Converter Tools</span>
+          </div>
+          <a href="media-converter-tools.html" class="story-cta-link">View All Converter Tools →</a>
+        </div>
+
+        <div class="tool-cloud-grid">
+          <a href="media-converter-tools.html?tool=video-to-audio" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🎵</div>
+              <div class="tool-cloud-name">Video to Audio</div>
+            </div>
+            <p class="tool-cloud-desc">Extract MP3, WAV, AAC, and audio tracks directly from video files.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=video-trimmer" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">✂️</div>
+              <div class="tool-cloud-name">Video Trimmer</div>
+            </div>
+            <p class="tool-cloud-desc">Cut and trim video clips to exact start/end timestamps losslessly.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=slow-reverb" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🌊</div>
+              <div class="tool-cloud-name">Slow + Reverb</div>
+            </div>
+            <p class="tool-cloud-desc">Slowed tempo and atmospheric spatial reverberation generator.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=audio-trimmer" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🎧</div>
+              <div class="tool-cloud-name">Audio Trimmer</div>
+            </div>
+            <p class="tool-cloud-desc">Cut audio files with waveform display and fade-in/fade-out curves.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=video-converter" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🎥</div>
+              <div class="tool-cloud-name">Video Converter</div>
+            </div>
+            <p class="tool-cloud-desc">Convert between MP4, WebM, MKV, and modern video codecs.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=video-to-gif" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🖼️</div>
+              <div class="tool-cloud-name">Video to GIF</div>
+            </div>
+            <p class="tool-cloud-desc">Convert video segments to animated GIF with custom FPS.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=audio-converter" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">📻</div>
+              <div class="tool-cloud-name">Audio Converter</div>
+            </div>
+            <p class="tool-cloud-desc">Convert between MP3, WAV, AAC, OGG, M4A, and FLAC audio.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=video-speed" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">⚡</div>
+              <div class="tool-cloud-name">Video Speed</div>
+            </div>
+            <p class="tool-cloud-desc">Change video playback speed (0.25x to 2.0x) with audio pitch sync.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=voice-to-text" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🎙️</div>
+              <div class="tool-cloud-name">Voice-to-Text</div>
+            </div>
+            <p class="tool-cloud-desc">Dictate speech in real-time or transcribe audio into plain text.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=text-to-speech" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🔊</div>
+              <div class="tool-cloud-name">Text-to-Speech</div>
+            </div>
+            <p class="tool-cloud-desc">Convert written text into natural vocal speech playback.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=qr-generator" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🔲</div>
+              <div class="tool-cloud-name">QR Generator</div>
+            </div>
+            <p class="tool-cloud-desc">Generate high-res downloadable QR codes for links and text.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=pdf-image-converter" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">📄</div>
+              <div class="tool-cloud-name">PDF ↔ Image</div>
+            </div>
+            <p class="tool-cloud-desc">Convert PDF pages to JPG/PNG images, or combine photos to PDF.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=image-format-converter" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🔄</div>
+              <div class="tool-cloud-name">Image Converter</div>
+            </div>
+            <p class="tool-cloud-desc">Convert PNG, JPG, WebP, and SVG images with quality compression.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=metadata-remover" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🛡️</div>
+              <div class="tool-cloud-name">Metadata Remover</div>
+            </div>
+            <p class="tool-cloud-desc">Strip camera, GPS, and personal EXIF metadata from photo files.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="media-converter-tools.html?tool=image-cropper" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">✂️</div>
+              <div class="tool-cloud-name">Image Cropper</div>
+            </div>
+            <p class="tool-cloud-desc">Crop photos with preset aspect ratios for YouTube, Instagram, and X.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 4. Story Panel 3: Creator Tools & Tool Cloud -->
+      <section class="story-section" id="creator">
+        <div class="story-panel reveal tilt-card">
+          <div class="story-copy">
+            <span class="story-kicker">🚀 CREATOR OPTIMIZATION ENGINE</span>
+            <h2 class="story-title">Ideas move with the scroll.</h2>
+            <p class="story-desc">
+              Access instant utilities for video titles, tags, descriptions, and SEO with no sign-in required. High-CTR ideas engineered for YouTube, TikTok, and social media creators.
+            </p>
+            <div class="story-tags">
+              <span class="story-tag-pill">Instant AI</span>
+              <span class="story-tag-pill">High CTR</span>
+              <span class="story-tag-pill">100% Free</span>
+              <span class="story-tag-pill">20 Creator Tools</span>
+            </div>
+            <a href="creator-tools.html" class="story-cta-link">
+              <span>Explore Creator Tools</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <div class="scene" aria-hidden="true">
+            <div class="scene-ring"></div>
+            <div class="scene-ring scene-ring-2"></div>
+            <div class="scene-object scene-obj-1"><span>📝</span><span>SEO Title</span></div>
+            <div class="scene-object scene-obj-2"><span>🪝</span><span>Viral Hook</span></div>
+            <div class="scene-object scene-obj-3"><span>🔑</span><span>Keywords</span></div>
+            <div class="scene-object scene-obj-4"><span>🎬</span><span>YouTube Pack</span></div>
+          </div>
+        </div>
+
+        <!-- 20 Creator Tools Cloud -->
+        <div class="tool-cloud-header">
+          <div class="tool-cloud-title">
+            <span>🚀</span>
+            <span>20 Free Creator Optimization Tools</span>
+          </div>
+          <a href="creator-tools.html" class="story-cta-link">View All Creator Tools →</a>
+        </div>
+
+        <div class="tool-cloud-grid">
+          <a href="creator-tools.html?tool=ai-auto" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">⚡</div>
+              <div class="tool-cloud-name">AI Auto</div>
+            </div>
+            <p class="tool-cloud-desc">Complete multi-step creator content bundle generated instantly.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=seo-title" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">📝</div>
+              <div class="tool-cloud-name">SEO Title</div>
+            </div>
+            <p class="tool-cloud-desc">High-CTR video and page title formulas for search ranking.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=keywords" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🔑</div>
+              <div class="tool-cloud-name">Keywords</div>
+            </div>
+            <p class="tool-cloud-desc">Seed and long-tail keyword suggestions for video metadata.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=hashtags" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">#️⃣</div>
+              <div class="tool-cloud-name">Hashtags</div>
+            </div>
+            <p class="tool-cloud-desc">High-reach platform-ready hashtag sets for YouTube, TikTok &amp; IG.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=meta-description" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">📄</div>
+              <div class="tool-cloud-name">Meta Description</div>
+            </div>
+            <p class="tool-cloud-desc">Search-optimized summaries tailored for search engine cards.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=topic-ideas" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">💡</div>
+              <div class="tool-cloud-name">Topic Ideas</div>
+            </div>
+            <p class="tool-cloud-desc">Brainstorm engaging video and content angles for your niche.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=youtube-seo-pack" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🎬</div>
+              <div class="tool-cloud-name">YouTube SEO Pack</div>
+            </div>
+            <p class="tool-cloud-desc">All-in-one title, tags, description and timestamp blueprint.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=grammar-polish" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">✨</div>
+              <div class="tool-cloud-name">Grammar Polish</div>
+            </div>
+            <p class="tool-cloud-desc">Clean, punchy sentence phrasing for descriptions and posts.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=translate" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🌐</div>
+              <div class="tool-cloud-name">Translate</div>
+            </div>
+            <p class="tool-cloud-desc">Multi-language creator translation for global audience reach.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=thumbnail-text" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🖼️</div>
+              <div class="tool-cloud-name">Thumbnail Text</div>
+            </div>
+            <p class="tool-cloud-desc">Short, bold 3-4 word punchlines for video cover art.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=video-hook" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🪝</div>
+              <div class="tool-cloud-name">Video Hook</div>
+            </div>
+            <p class="tool-cloud-desc">First 5-second attention grabbers to increase viewer retention.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=script-outline" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">📋</div>
+              <div class="tool-cloud-name">Script Outline</div>
+            </div>
+            <p class="tool-cloud-desc">Structured intro, body points, and CTA video script framework.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=bio-generator" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">👤</div>
+              <div class="tool-cloud-name">Bio Generator</div>
+            </div>
+            <p class="tool-cloud-desc">Compelling channel and profile bios tailored for conversions.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=content-calendar" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">📅</div>
+              <div class="tool-cloud-name">Content Calendar</div>
+            </div>
+            <p class="tool-cloud-desc">7-day and 30-day posting schedules mapped to audience timing.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=trending-topics" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🔥</div>
+              <div class="tool-cloud-name">Trending Topics</div>
+            </div>
+            <p class="tool-cloud-desc">Find breakout topics and viral conversational triggers.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=emoji-suggestions" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">😃</div>
+              <div class="tool-cloud-name">Emoji Suggestions</div>
+            </div>
+            <p class="tool-cloud-desc">Context-matched emojis to boost social media scan rate.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=title-comparer" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">⚖️</div>
+              <div class="tool-cloud-name">Title Comparer</div>
+            </div>
+            <p class="tool-cloud-desc">Evaluate two title options side-by-side with scoring.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=content-repurposing" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🔄</div>
+              <div class="tool-cloud-name">Repurposing</div>
+            </div>
+            <p class="tool-cloud-desc">Transform one video topic into Shorts, threads, and captions.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=ab-title-test" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🧪</div>
+              <div class="tool-cloud-name">A/B Title Test</div>
+            </div>
+            <p class="tool-cloud-desc">Generate contrasting title pairs (curiosity vs direct SEO).</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+
+          <a href="creator-tools.html?tool=description-seo-booster" class="tool-cloud-card">
+            <div class="tool-cloud-top">
+              <div class="tool-cloud-icon">🚀</div>
+              <div class="tool-cloud-name">SEO Booster</div>
+            </div>
+            <p class="tool-cloud-desc">Enrich descriptions with keyword density and structured links.</p>
+            <div class="tool-cloud-action"><span>Open Tool</span><span>→</span></div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 5. Story Panel 4: Platform Workspaces & Platform Ticker -->
+      <section class="story-section" id="platforms">
+        <!-- Platform Horizontal Scrolling Ticker Strip -->
+        <div class="category-window" aria-hidden="true">
+          <div class="category-track">
+            <div class="category-set">
+              <a href="platforms/youtube.html" class="platform-ticker-chip"><span style="color:#FF0000;">▶</span><span>YouTube</span></a>
+              <a href="platforms/twitch.html" class="platform-ticker-chip"><span style="color:#9146FF;">👾</span><span>Twitch</span></a>
+              <a href="platforms/instagram.html" class="platform-ticker-chip"><span style="color:#E4405F;">📷</span><span>Instagram</span></a>
+              <a href="platforms/tiktok.html" class="platform-ticker-chip"><span style="color:#000000;">🎵</span><span>TikTok</span></a>
+              <a href="platforms/spotify.html" class="platform-ticker-chip"><span style="color:#1DB954;">🎧</span><span>Spotify</span></a>
+              <a href="platforms/facebook.html" class="platform-ticker-chip"><span style="color:#1877F2;">f</span><span>Facebook</span></a>
+              <a href="platforms/vimeo.html" class="platform-ticker-chip"><span style="color:#1AB7EA;">v</span><span>Vimeo</span></a>
+              <a href="platforms/dailymotion.html" class="platform-ticker-chip"><span style="color:#0066DC;">d</span><span>Dailymotion</span></a>
+              <a href="platforms/kick.html" class="platform-ticker-chip"><span style="color:#53FC18;">⚡</span><span>Kick</span></a>
+              <a href="platforms/threads.html" class="platform-ticker-chip"><span style="color:#000000;">🧵</span><span>Threads</span></a>
+              <a href="platforms/rumble.html" class="platform-ticker-chip"><span style="color:#85c742;">🟢</span><span>Rumble</span></a>
+              <a href="platforms/soundcloud.html" class="platform-ticker-chip"><span style="color:#FF5500;">☁</span><span>SoundCloud</span></a>
+            </div>
+            <div class="category-set" aria-hidden="true">
+              <a href="platforms/youtube.html" class="platform-ticker-chip"><span style="color:#FF0000;">▶</span><span>YouTube</span></a>
+              <a href="platforms/twitch.html" class="platform-ticker-chip"><span style="color:#9146FF;">👾</span><span>Twitch</span></a>
+              <a href="platforms/instagram.html" class="platform-ticker-chip"><span style="color:#E4405F;">📷</span><span>Instagram</span></a>
+              <a href="platforms/tiktok.html" class="platform-ticker-chip"><span style="color:#000000;">🎵</span><span>TikTok</span></a>
+              <a href="platforms/spotify.html" class="platform-ticker-chip"><span style="color:#1DB954;">🎧</span><span>Spotify</span></a>
+              <a href="platforms/facebook.html" class="platform-ticker-chip"><span style="color:#1877F2;">f</span><span>Facebook</span></a>
+              <a href="platforms/vimeo.html" class="platform-ticker-chip"><span style="color:#1AB7EA;">v</span><span>Vimeo</span></a>
+              <a href="platforms/dailymotion.html" class="platform-ticker-chip"><span style="color:#0066DC;">d</span><span>Dailymotion</span></a>
+              <a href="platforms/kick.html" class="platform-ticker-chip"><span style="color:#53FC18;">⚡</span><span>Kick</span></a>
+              <a href="platforms/threads.html" class="platform-ticker-chip"><span style="color:#000000;">🧵</span><span>Threads</span></a>
+              <a href="platforms/rumble.html" class="platform-ticker-chip"><span style="color:#85c742;">🟢</span><span>Rumble</span></a>
+              <a href="platforms/soundcloud.html" class="platform-ticker-chip"><span style="color:#FF5500;">☁</span><span>SoundCloud</span></a>
+            </div>
+            <div class="category-set" aria-hidden="true">
+              <a href="platforms/youtube.html" class="platform-ticker-chip"><span style="color:#FF0000;">▶</span><span>YouTube</span></a>
+              <a href="platforms/twitch.html" class="platform-ticker-chip"><span style="color:#9146FF;">👾</span><span>Twitch</span></a>
+              <a href="platforms/instagram.html" class="platform-ticker-chip"><span style="color:#E4405F;">📷</span><span>Instagram</span></a>
+              <a href="platforms/tiktok.html" class="platform-ticker-chip"><span style="color:#000000;">🎵</span><span>TikTok</span></a>
+              <a href="platforms/spotify.html" class="platform-ticker-chip"><span style="color:#1DB954;">🎧</span><span>Spotify</span></a>
+              <a href="platforms/facebook.html" class="platform-ticker-chip"><span style="color:#1877F2;">f</span><span>Facebook</span></a>
+              <a href="platforms/vimeo.html" class="platform-ticker-chip"><span style="color:#1AB7EA;">v</span><span>Vimeo</span></a>
+              <a href="platforms/dailymotion.html" class="platform-ticker-chip"><span style="color:#0066DC;">d</span><span>Dailymotion</span></a>
+              <a href="platforms/kick.html" class="platform-ticker-chip"><span style="color:#53FC18;">⚡</span><span>Kick</span></a>
+              <a href="platforms/threads.html" class="platform-ticker-chip"><span style="color:#000000;">🧵</span><span>Threads</span></a>
+              <a href="platforms/rumble.html" class="platform-ticker-chip"><span style="color:#85c742;">🟢</span><span>Rumble</span></a>
+              <a href="platforms/soundcloud.html" class="platform-ticker-chip"><span style="color:#FF5500;">☁</span><span>SoundCloud</span></a>
+            </div>
+            <div class="category-set" aria-hidden="true">
+              <a href="platforms/youtube.html" class="platform-ticker-chip"><span style="color:#FF0000;">▶</span><span>YouTube</span></a>
+              <a href="platforms/twitch.html" class="platform-ticker-chip"><span style="color:#9146FF;">👾</span><span>Twitch</span></a>
+              <a href="platforms/instagram.html" class="platform-ticker-chip"><span style="color:#E4405F;">📷</span><span>Instagram</span></a>
+              <a href="platforms/tiktok.html" class="platform-ticker-chip"><span style="color:#000000;">🎵</span><span>TikTok</span></a>
+              <a href="platforms/spotify.html" class="platform-ticker-chip"><span style="color:#1DB954;">🎧</span><span>Spotify</span></a>
+              <a href="platforms/facebook.html" class="platform-ticker-chip"><span style="color:#1877F2;">f</span><span>Facebook</span></a>
+              <a href="platforms/vimeo.html" class="platform-ticker-chip"><span style="color:#1AB7EA;">v</span><span>Vimeo</span></a>
+              <a href="platforms/dailymotion.html" class="platform-ticker-chip"><span style="color:#0066DC;">d</span><span>Dailymotion</span></a>
+              <a href="platforms/kick.html" class="platform-ticker-chip"><span style="color:#53FC18;">⚡</span><span>Kick</span></a>
+              <a href="platforms/threads.html" class="platform-ticker-chip"><span style="color:#000000;">🧵</span><span>Threads</span></a>
+              <a href="platforms/rumble.html" class="platform-ticker-chip"><span style="color:#85c742;">🟢</span><span>Rumble</span></a>
+              <a href="platforms/soundcloud.html" class="platform-ticker-chip"><span style="color:#FF5500;">☁</span><span>SoundCloud</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="story-panel reverse reveal tilt-card">
+          <div class="scene" aria-hidden="true">
+            <div class="scene-ring"></div>
+            <div class="scene-ring scene-ring-2"></div>
+            <div class="scene-object scene-obj-1"><span>▶</span><span>YouTube Sync</span></div>
+            <div class="scene-object scene-obj-2"><span>👾</span><span>Twitch Live</span></div>
+            <div class="scene-object scene-obj-3"><span>📷</span><span>Instagram Post</span></div>
+            <div class="scene-object scene-obj-4"><span>🎧</span><span>Spotify Room</span></div>
+          </div>
+
+          <div class="story-copy">
+            <span class="story-kicker">🌐 40+ PLATFORM WORKSPACES</span>
+            <h2 class="story-title">One media wall. Many platforms.</h2>
+            <p class="story-desc">
+              Dedicated multi-player workspaces tailored with platform-specific regex validation, individual audio managers, and customizable grid columns for 40+ streaming networks.
+            </p>
+            <div class="story-tags">
+              <span class="story-tag-pill">Side-by-Side</span>
+              <span class="story-tag-pill">Multi-Stream Grid</span>
+              <span class="story-tag-pill">Audio Sync</span>
+              <span class="story-tag-pill">40+ Adapters</span>
+            </div>
+            <a href="platforms.html" class="story-cta-link">
+              <span>Explore Platform Directory</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Featured Platform Workspaces Grid -->
+        <div class="tool-cloud-header">
+          <div class="tool-cloud-title">
+            <span>🌐</span>
+            <span>Featured Multi-Player Workspaces</span>
+          </div>
+          <a href="platforms.html" class="story-cta-link">View All 40 Platforms →</a>
+        </div>
+
+        <div class="platform-tool-cloud">
+          <a href="platforms/youtube.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: #FF0000;">▶</div>
+              <span class="platform-featured-name">YouTube</span>
+            </div>
+            <p class="platform-featured-desc">Multi-video synchronized player grid with auto-embed and audio controls.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+
+          <a href="platforms/twitch.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: #9146FF;">👾</div>
+              <span class="platform-featured-name">Twitch</span>
+            </div>
+            <p class="platform-featured-desc">Multi-stream esports live viewer wall with side-by-side stream grids.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+
+          <a href="platforms/instagram.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: #E4405F;">📷</div>
+              <span class="platform-featured-name">Instagram</span>
+            </div>
+            <p class="platform-featured-desc">Reels and post research layout with official platform gateway checks.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+
+          <a href="platforms/tiktok.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: var(--ref-text);">🎵</div>
+              <span class="platform-featured-name">TikTok</span>
+            </div>
+            <p class="platform-featured-desc">Short-form video compare workspace with direct validated links.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+
+          <a href="platforms/spotify.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: #1DB954;">🎧</div>
+              <span class="platform-featured-name">Spotify</span>
+            </div>
+            <p class="platform-featured-desc">Track and playlist preview grid with instant playable player cards.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+
+          <a href="platforms/facebook.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: #1877F2;">f</div>
+              <span class="platform-featured-name">Facebook</span>
+            </div>
+            <p class="platform-featured-desc">Facebook Watch video grid and social broadcast comparator.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+
+          <a href="platforms/vimeo.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: #1AB7EA;">v</div>
+              <span class="platform-featured-name">Vimeo</span>
+            </div>
+            <p class="platform-featured-desc">High-definition filmmaker and showcase player workspace.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+
+          <a href="platforms/dailymotion.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: #0066DC;">d</div>
+              <span class="platform-featured-name">Dailymotion</span>
+            </div>
+            <p class="platform-featured-desc">Global news and entertainment stream comparator layout.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+
+          <a href="platforms/kick.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: #53FC18;">⚡</div>
+              <span class="platform-featured-name">Kick</span>
+            </div>
+            <p class="platform-featured-desc">Live gaming and community stream multi-view layout dashboard.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+
+          <a href="platforms/threads.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: var(--ref-text);">🧵</div>
+              <span class="platform-featured-name">Threads</span>
+            </div>
+            <p class="platform-featured-desc">Conversational posts and social media research gateway.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+
+          <a href="platforms/rumble.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: #85c742;">🟢</div>
+              <span class="platform-featured-name">Rumble</span>
+            </div>
+            <p class="platform-featured-desc">Independent video and broadcast multi-player organizer.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+
+          <a href="platforms/soundcloud.html" class="platform-featured-card">
+            <div class="platform-featured-header">
+              <div class="platform-featured-icon" style="color: #FF5500;">☁</div>
+              <span class="platform-featured-name">SoundCloud</span>
+            </div>
+            <p class="platform-featured-desc">Music tracks and audio stream comparison player grid.</p>
+            <div class="tool-cloud-action"><span>Open Workspace</span><span>→</span></div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 6. Features Strip Marquee -->
+      <div class="features-strip desktop-only-ref" aria-hidden="true">
+        <div class="features-track">
+          <div class="features-set">
+            <div class="feature-strip-item"><span>⚡</span><span>40+ Media Platforms</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>20 Creator SEO Tools</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>15 In-Browser Converters</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>AI-Powered Prompt Suite</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>100% Client-Side Privacy</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>40+ Media Platforms</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>20 Creator SEO Tools</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>15 In-Browser Converters</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>AI-Powered Prompt Suite</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>100% Client-Side Privacy</span></div>
+          </div>
+          <div class="features-set" aria-hidden="true">
+            <div class="feature-strip-item"><span>⚡</span><span>40+ Media Platforms</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>20 Creator SEO Tools</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>15 In-Browser Converters</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>AI-Powered Prompt Suite</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>100% Client-Side Privacy</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>40+ Media Platforms</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>20 Creator SEO Tools</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>15 In-Browser Converters</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>AI-Powered Prompt Suite</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>100% Client-Side Privacy</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Live Statistics Counters -->
+      <section class="stats-grid-desk reveal" aria-label="Suite Statistics">
+        <div class="stat-card-desk tilt-card">
+          <div class="stat-num-desk" data-count="40" data-suffix="+">0+</div>
+          <div class="stat-label-desk">Platforms</div>
+          <p class="stat-desc-desk">Unified workspace adapters</p>
+        </div>
+
+        <div class="stat-card-desk tilt-card">
+          <div class="stat-num-desk" data-count="20" data-suffix="">0</div>
+          <div class="stat-label-desk">Creator Tools</div>
+          <p class="stat-desc-desk">SEO, tags &amp; metadata suites</p>
+        </div>
+
+        <div class="stat-card-desk tilt-card">
+          <div class="stat-num-desk" data-count="15" data-suffix="">0</div>
+          <div class="stat-label-desk">Converter Tools</div>
+          <p class="stat-desc-desk">100% in-browser processing</p>
+        </div>
+      </section>
+
+      <!-- 8. How It Works Steps -->
+      <section class="steps-grid-desk reveal" id="how-it-works" aria-label="How Multi Tube Views Works">
+        <div class="step-card-desk tilt-card">
+          <div class="step-orb">1</div>
+          <div class="step-kicker-desk">01 / SELECT</div>
+          <h3 class="step-title-desk">Select a Workspace</h3>
+          <p class="step-desc-desk">Browse 40+ dedicated platform workspaces—including YouTube, Twitch, TikTok, and Spotify—or explore the creative prompt and optimization suites.</p>
+        </div>
+
+        <div class="step-card-desk tilt-card">
+          <div class="step-orb">2</div>
+          <div class="step-kicker-desk">02 / ARRANGE</div>
+          <h3 class="step-title-desk">Add Links &amp; Arrange</h3>
+          <p class="step-desc-desk">Paste single or multiple public URLs with automatic syntax verification, customize 1 to 4 responsive grid columns, choose aspect ratios, and manage audio.</p>
+        </div>
+
+        <div class="step-card-desk tilt-card">
+          <div class="step-orb">3</div>
+          <div class="step-kicker-desk">03 / OPTIMIZE</div>
+          <h3 class="step-title-desk">View &amp; Optimize</h3>
+          <p class="step-desc-desk">Monitor and research media streams side-by-side in real time, convert &amp; trim media with privacy-first tools, or generate high-performing titles and tags.</p>
+        </div>
+      </section>
+
+      <!-- 9. Frequently Asked Questions (Glass Accordion) -->
+      <section class="faq-section-desk reveal" id="faq" aria-label="Frequently Asked Questions">
+        <div class="faq-header-desk">
+          <h2>Frequently Asked Questions</h2>
+          <p>Everything you need to know about privacy, accounts, and free access.</p>
+        </div>
+
+        <div class="faq-list-desk">
+          <details class="faq-item-desk">
+            <summary class="faq-summary-desk">
+              <span>Is my data uploaded anywhere?</span>
+              <svg class="faq-icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-desk">
+              <p>No. Multi Tube Views operates 100% in your browser. All URL parsing, media viewing, video/audio conversions, and creator tool utilities run locally on your client machine. None of your media links, uploaded files, or personal information are ever stored on or transmitted to external servers.</p>
+            </div>
+          </details>
+
+          <details class="faq-item-desk">
+            <summary class="faq-summary-desk">
+              <span>Do I need an account to use the tools?</span>
+              <svg class="faq-icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-desk">
+              <p>No account or sign-up is required. All 40+ platform workspaces, 20 creator tools, and 15 media converters are completely open and accessible instantly with zero friction. You never need to enter an email address, password, or payment information.</p>
+            </div>
+          </details>
+
+          <details class="faq-item-desk">
+            <summary class="faq-summary-desk">
+              <span>Is Multi Tube Views free to use?</span>
+              <svg class="faq-icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-desk">
+              <p>Yes, 100% free with no hidden charges, paywalls, or premium subscription tiers. Every platform adapter, converter utility, and optimization tool is available for unlimited personal and professional use.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- 10. Closing CTA Banner -->
+      <section class="cta-section-desk reveal" aria-label="Get Started with MTV">
+        <div class="cta-card-desk">
+          <div class="cta-glow-ring" aria-hidden="true"></div>
+          <h2 class="cta-title-desk">Start Using MTV — No Sign-Up Needed</h2>
+          <p class="cta-desc-desk">Experience 40+ media platform workspaces, 20 creator optimization tools, and 15 privacy-first browser converters in one seamless dashboard.</p>
+          <a href="platforms.html" class="btn-ref-primary" style="margin: 0 auto;">
+            <span>Explore All Platforms &amp; Tools</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- Disclaimer Callout -->
+      <div class="info-callout" style="margin-bottom: 2rem;">
+        <div class="info-callout-icon">ℹ️</div>
+        <div class="info-callout-content">
+          <p>Multi Tube Views is an independent public media workspace. It is not affiliated with, endorsed by, or partnered with YouTube, Vimeo, Twitch, Spotify, or any other listed third-party trademark holder. All trademarks and media copyrights belong to their respective owners.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MOBILE-ONLY LAYOUT (100% Untouched on <= 768px) -->
+    <div class="mobile-only-section">
       <div class="container">
         <div class="hero-pill">
           <span>⚡ Multi-Platform Media Hub</span>
@@ -788,7 +1696,7 @@
       </div>
     </section>
 
-    <!-- Disclaimer Callout -->
+    <!-- Disclaimer Callout (Mobile) -->
     <section class="container">
       <div class="info-callout">
         <div class="info-callout-icon">ℹ️</div>
@@ -798,10 +1706,14 @@
       </div>
     </section>
 
+    </div><!-- End of mobile-only-section -->
+
   </main>
 
   <!-- Global Footer -->
-  <footer class="site-footer">
+  <footer class="site-footer" id="site-footer">
+
+
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
@@ -886,6 +1798,7 @@
   <script src="assets/js/platform-engine.js"></script>
   <script src="assets/js/growth-engine.js"></script>
   <script src="assets/js/navigation.js"></script>
+  <script src="assets/js/desktop-reference.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Platform Directory Search Filter

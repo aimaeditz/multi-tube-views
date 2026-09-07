@@ -1,0 +1,105 @@
+/**
+ * Multi Tube Views (MTV) — Desktop Reference Design System Interactivity
+ * Handles scroll reveals, number counting, and 3D card tilt effects (Desktop only).
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Only execute desktop interactions on wide viewports (>= 769px)
+  if (window.innerWidth < 769) return;
+
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 1. Scroll Reveal Animation
+  const revealElements = document.querySelectorAll('.reveal');
+  if (revealElements.length > 0) {
+    if (isReducedMotion) {
+      revealElements.forEach(el => el.classList.add('in'));
+    } else {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.12
+      });
+
+      revealElements.forEach(el => revealObserver.observe(el));
+    }
+  }
+
+  // 2. Animated Stats Number Counters
+  const countElements = document.querySelectorAll('.stat-num-desk[data-count]');
+  if (countElements.length > 0) {
+    if (isReducedMotion) {
+      countElements.forEach(el => {
+        const target = el.getAttribute('data-count');
+        const suffix = el.getAttribute('data-suffix') || '';
+        el.textContent = target + suffix;
+      });
+    } else {
+      const countObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            const target = parseInt(el.getAttribute('data-count'), 10) || 0;
+            const suffix = el.getAttribute('data-suffix') || '';
+            const duration = 1600;
+            const startTime = performance.now();
+
+            function updateCounter(currentTime) {
+              const elapsed = currentTime - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              // Ease out cubic
+              const easeProgress = 1 - Math.pow(1 - progress, 3);
+              const currentVal = Math.floor(easeProgress * target);
+              el.textContent = currentVal + suffix;
+
+              if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+              } else {
+                el.textContent = target + suffix;
+              }
+            }
+
+            requestAnimationFrame(updateCounter);
+            observer.unobserve(el);
+          }
+        });
+      }, {
+        threshold: 0.5
+      });
+
+      countElements.forEach(el => countObserver.observe(el));
+    }
+  }
+
+  // 3. 3D Mouse Tilt on Hover for Desktop Cards
+  const tiltCards = document.querySelectorAll('.tilt-card, .story-panel, .step-card-desk, .stat-card-desk');
+  const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (supportsHover && !isReducedMotion && tiltCards.length > 0) {
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -5;
+        const rotateY = ((x - centerX) / centerX) * 5;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-2px)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+      });
+    });
+  }
+});
