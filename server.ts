@@ -388,6 +388,18 @@ app.get('/api/architecture', (req: Request, res: Response) => {
   });
 });
 
+// Helper to check if a category is the excluded Boy & Girl Prompt category
+function isExcludedCategory(cat: string): boolean {
+  if (!cat) return false;
+  try {
+    const normalized = decodeURIComponent(cat).trim().toLowerCase().replace(/&amp;/g, '&');
+    return normalized === 'boy & girl prompt' || normalized === 'boy girl prompt' || normalized === 'boy and girl prompt';
+  } catch {
+    const normalized = cat.trim().toLowerCase().replace(/&amp;/g, '&');
+    return normalized === 'boy & girl prompt' || normalized === 'boy girl prompt' || normalized === 'boy and girl prompt';
+  }
+}
+
 // Helper to parse Blogger JSON feed into clean prompts array
 function parseBloggerFeed(feedData: any) {
   const entries = feedData?.feed?.entry || [];
@@ -401,6 +413,12 @@ function parseBloggerFeed(feedData: any) {
     const categories = (entry.category || [])
       .map((c: any) => c.term || c.$t)
       .filter(Boolean);
+
+    // Permanently exclude posts from the Boy & Girl Prompt category
+    if (categories.some((c: any) => isExcludedCategory(c))) {
+      continue;
+    }
+
     const primaryCategory = categories[0] || 'AI Prompt';
 
     const altLink = (entry.link || []).find((l: any) => l.rel === 'alternate');
@@ -431,13 +449,19 @@ function parseBloggerFeed(feedData: any) {
     const ptRegex = /<div class=["']prompt-text["'][^>]*>([\s\S]*?)<\/div>/gi;
     let ptM;
     let itemIdx = 1;
+    let currentPromptBlockIdx = -1;
     while ((ptM = ptRegex.exec(content)) !== null) {
       let rawText = ptM[1].replace(/<[^>]+>/g, '').trim();
+      const isNewPrompt = /PROMPT:/i.test(rawText);
+      if (isNewPrompt) {
+        currentPromptBlockIdx++;
+      }
       rawText = rawText.replace(/^PROMPT:\s*/i, '').trim();
       if (rawText.length > 20) {
+        const imageIdx = Math.max(0, currentPromptBlockIdx);
         extractedInPost.push({
           text: rawText,
-          image: postImages[itemIdx - 1] || defaultThumb || postImages[0] || '',
+          image: postImages[imageIdx] || defaultThumb || postImages[0] || '',
           itemIdx: itemIdx++,
         });
       }
@@ -519,21 +543,49 @@ async function getLiveOrCachedPrompts(): Promise<any[]> {
   }
 
   try {
-    const feedUrl = `https://aimaeditz.blogspot.com/feeds/posts/default?alt=json&max-results=500&orderby=published&_t=${Date.now()}`;
-    const response = await fetch(feedUrl, {
-      cache: 'no-store',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; MultiTubeViews/2.0; +https://multitubeviews.com)',
-        'Accept': 'application/json',
-      },
-    });
+    let allEntries: any[] = [];
+    let startIndex = 1;
+    const maxResultsPerPage = 100;
+    let hasMore = true;
 
-    if (response.ok) {
-      const data = await response.json();
-      const parsed = parseBloggerFeed(data);
+    while (hasMore) {
+      const feedUrl = `https://aimaeditz.blogspot.com/feeds/posts/default?alt=json&max-results=${maxResultsPerPage}&start-index=${startIndex}&orderby=published&_t=${Date.now()}`;
+      const response = await fetch(feedUrl, {
+        cache: 'no-store',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; MultiTubeViews/2.0; +https://multitubeviews.com)',
+          'Accept': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const entries = data?.feed?.entry || [];
+        if (entries.length === 0) {
+          hasMore = false;
+        } else {
+          allEntries = allEntries.concat(entries);
+          startIndex += entries.length;
+        }
+      } else {
+        hasMore = false;
+      }
+    }
+
+    if (allEntries.length > 0) {
+      const parsed = parseBloggerFeed({ feed: { entry: allEntries } });
       if (parsed.length > 0) {
-        setCache(cacheKey, parsed, 60); // 60-second in-memory cache
-        return parsed;
+        // Ensure absolutely no duplicate prompts
+        const uniquePrompts: any[] = [];
+        const seenIds = new Set<string>();
+        for (const p of parsed) {
+          if (!seenIds.has(p.id)) {
+            seenIds.add(p.id);
+            uniquePrompts.push(p);
+          }
+        }
+        setCache(cacheKey, uniquePrompts, 60); // 60-second in-memory cache
+        return uniquePrompts;
       }
     }
   } catch (err) {
@@ -552,7 +604,15 @@ async function getLiveOrCachedPrompts(): Promise<any[]> {
         const raw = fs.readFileSync(p, 'utf-8');
         const fileData = parseJsonWithSanitization(raw);
         if (fileData && Array.isArray(fileData.prompts)) {
-          const formatted = fileData.prompts.map((p: any) => ({
+          const validPrompts = fileData.prompts.filter((p: any) => {
+            const cats = Array.isArray(p.categories) && p.categories.length > 0
+              ? p.categories
+              : p.category
+              ? [p.category]
+              : [];
+            return !cats.some((c: string) => isExcludedCategory(c));
+          });
+          const formatted = validPrompts.map((p: any) => ({
             id: p.id || '',
             title: p.title || p.originalPostTitle || '',
             originalPostTitle: p.originalPostTitle || p.title || '',
