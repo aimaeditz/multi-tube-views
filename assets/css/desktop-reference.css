@@ -1260,6 +1260,122 @@
 }
 
 /* ==========================================================================
+   MID-RANGE DESKTOP / LAPTOP BREAKPOINTS (781px to 1200px)
+   Fixes layout breaking at intermediate window widths:
+   - Prevents floating decorative icon chips (.float-chip) from overlapping text or each other.
+   - Converts fixed multi-column grids to fluid 2-column or 3-column layouts.
+   - Prevents container overflow and text squishing on narrow laptop screens.
+   ========================================================================== */
+
+@media (min-width: 781px) and (max-width: 1200px) {
+  /* Floating Chips Fluid Scaling & Layout Resizing */
+  .hero-desk {
+    padding: 3.5rem 0 3rem 0;
+  }
+
+  .float-chip {
+    font-size: 0.72rem;
+    padding: 0.38rem 0.7rem;
+    backdrop-filter: blur(8px);
+  }
+
+  /* Story Panel Layout Adjustment */
+  .story-panel {
+    gap: 1.75rem !important;
+    padding: 2rem !important;
+  }
+
+  /* CTA Card Adjustments */
+  .cta-card-desk {
+    padding: 3rem 1.5rem !important;
+  }
+
+  .cta-title-desk {
+    font-size: 2.1rem !important;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1200px) {
+  /* Chips repositioning for wide laptops (1025px - 1200px) */
+  .float-chip-1 { top: 8%; left: 1.5%; }
+  .float-chip-2 { top: 12%; right: 1.5%; }
+  .float-chip-3 { bottom: 8%; left: 2%; }
+  .float-chip-4 { bottom: 8%; right: 2%; }
+
+  /* 3-Column Grids for 1025px - 1200px */
+  .tool-cloud-grid,
+  .platform-tool-cloud,
+  .ai-image-tools-grid,
+  .creator-tools-grid,
+  .prompt-grid,
+  .category-grid-desk,
+  .features-grid-desk {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1rem !important;
+  }
+
+  .platform-grid,
+  .platform-preview-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+}
+
+@media (min-width: 781px) and (max-width: 1024px) {
+  /* Chips repositioning for narrow laptops / tablets in landscape (781px - 1024px) */
+  .float-chip {
+    font-size: 0.68rem;
+    padding: 0.32rem 0.6rem;
+  }
+  .float-chip-1 { top: 4%; left: 0.5%; }
+  .float-chip-2 { top: 4%; right: 0.5%; }
+  .float-chip-3,
+  .float-chip-4 {
+    display: none !important;
+  }
+
+  /* 2-Column Grids for 781px - 1024px */
+  .tool-cloud-grid,
+  .platform-tool-cloud,
+  .ai-image-tools-grid,
+  .creator-tools-grid,
+  .prompt-grid,
+  .category-grid-desk,
+  .features-grid-desk,
+  .stats-grid-desk,
+  .steps-grid-desk {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.85rem !important;
+  }
+
+  .platform-grid,
+  .platform-preview-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.65rem !important;
+  }
+
+  .story-panel {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    padding: 1.5rem !important;
+  }
+
+  .tools-header-desk {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+
+  .hero-title-desk {
+    font-size: 2.35rem !important;
+  }
+
+  .hero-desc-desk {
+    font-size: 1.05rem !important;
+  }
+}
+
+/* ==========================================================================
    MTV — FULL MOBILE DESIGN SYSTEM (Exact Reference CSS Applied to Mobile)
    Strictly applies within @media (max-width: 780px) and @media (max-width: 470px).
    Desktop (>= 781px) remains completely untouched.
