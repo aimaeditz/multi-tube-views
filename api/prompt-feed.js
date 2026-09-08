@@ -170,7 +170,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const feedUrl = `https://aipromptxpert.blogspot.com/feeds/posts/default?alt=json&max-results=500&orderby=published&_t=${Date.now()}`;
+    const feedUrl = `https://aimaeditz.blogspot.com/feeds/posts/default?alt=json&max-results=500&orderby=published&_t=${Date.now()}`;
     const fetchResponse = await fetch(feedUrl, {
       cache: 'no-store',
       headers: {
