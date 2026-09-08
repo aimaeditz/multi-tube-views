@@ -4,9 +4,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Only execute desktop interactions on wide viewports (>= 769px)
-  if (window.innerWidth < 769) return;
-
   const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // 1. Scroll Reveal Animation
@@ -24,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }, {
         root: null,
-        rootMargin: '0px 0px -40px 0px',
-        threshold: 0.12
+        rootMargin: '0px 0px -10px 0px',
+        threshold: 0.08
       });
 
       revealElements.forEach(el => revealObserver.observe(el));
@@ -33,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 2. Animated Stats Number Counters
-  const countElements = document.querySelectorAll('.stat-num-desk[data-count]');
+  const countElements = document.querySelectorAll('.stat-num-desk[data-count], .stat .num[data-count], .stat-num[data-count]');
   if (countElements.length > 0) {
     if (isReducedMotion) {
       countElements.forEach(el => {
@@ -71,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       }, {
-        threshold: 0.5
+        threshold: 0.15
       });
 
       countElements.forEach(el => countObserver.observe(el));

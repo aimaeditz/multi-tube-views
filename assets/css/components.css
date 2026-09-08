@@ -855,6 +855,9 @@
 
 /* Tool Panel — Unified Single Workflow Form */
 .tool-panel {
+  width: min(calc(100% - 42px), var(--max-width, 1760px));
+  margin-left: auto;
+  margin-right: auto;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
