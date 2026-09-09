@@ -5,7 +5,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isMobile = window.innerWidth <= 780 || window.matchMedia('(max-width: 780px)').matches;
 
   // 1. Scroll Reveal Animation
   const revealElements = document.querySelectorAll('.reveal');
@@ -22,23 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }, {
         root: null,
-        // On mobile, trigger reveal slightly before section enters view so it's not caught mid-animation
-        rootMargin: isMobile ? '0px 0px -10% 0px' : '0px 0px -10px 0px',
-        threshold: isMobile ? 0.01 : 0.08
+        rootMargin: '0px 0px -10px 0px',
+        threshold: 0.08
       });
 
-      const winH = window.innerHeight || document.documentElement.clientHeight;
-      revealElements.forEach(el => {
-        // If element is already in or near initial viewport on mobile, reveal immediately
-        if (isMobile) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= winH + 120) {
-            el.classList.add('in');
-            return;
-          }
-        }
-        revealObserver.observe(el);
-      });
+      revealElements.forEach(el => revealObserver.observe(el));
     }
   }
 
@@ -58,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const el = entry.target;
             const target = parseInt(el.getAttribute('data-count'), 10) || 0;
             const suffix = el.getAttribute('data-suffix') || '';
-            const duration = isMobile ? 800 : 1600;
+            const duration = 1600;
             const startTime = performance.now();
 
             function updateCounter(currentTime) {
@@ -81,20 +68,19 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       }, {
-        threshold: isMobile ? 0.02 : 0.15,
-        rootMargin: isMobile ? '50px 0px' : '0px'
+        threshold: 0.15,
+        rootMargin: '0px'
       });
 
       countElements.forEach(el => countObserver.observe(el));
     }
   }
 
-  // 3. 3D Mouse Tilt on Hover for Desktop Cards (Desktop only with fine pointer)
+  // 3. 3D Mouse Tilt on Hover for Desktop Cards
   const tiltCards = document.querySelectorAll('.tilt-card, .story-panel, .step-card-desk, .stat-card-desk');
-  const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const supportsHover = window.matchMedia('(hover: hover)').matches;
 
-  if (supportsHover && !isTouchDevice && !isMobile && !isReducedMotion && tiltCards.length > 0) {
+  if (supportsHover && !isReducedMotion && tiltCards.length > 0) {
     tiltCards.forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
