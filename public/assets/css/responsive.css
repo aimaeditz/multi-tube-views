@@ -285,15 +285,19 @@
     position: fixed !important;
     top: -120px !important;
     left: 50% !important;
-    transform: translateX(-50%) !important;
+    transform: translate3d(-50%, 0, 0) !important;
     width: min(90vw, 420px) !important;
     height: 320px !important;
     background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.03) 40%, transparent 70%) !important;
     pointer-events: none !important;
     z-index: 0 !important;
-    filter: blur(35px) !important;
+    filter: blur(20px) !important;
     opacity: 0.35 !important;
     display: block !important;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    contain: layout paint;
   }
 
   .page-glow-2 {
@@ -305,9 +309,14 @@
     background: radial-gradient(circle, rgba(6, 182, 212, 0.035) 0%, rgba(59, 130, 246, 0.018) 45%, transparent 70%) !important;
     pointer-events: none !important;
     z-index: 0 !important;
-    filter: blur(40px) !important;
+    filter: blur(20px) !important;
     opacity: 0.30 !important;
     display: block !important;
+    transform: translate3d(0, 0, 0) !important;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    contain: layout paint;
   }
 
   .page-glow-3 {
@@ -319,9 +328,14 @@
     background: radial-gradient(circle, rgba(139, 92, 246, 0.035) 0%, rgba(236, 72, 153, 0.018) 45%, transparent 70%) !important;
     pointer-events: none !important;
     z-index: 0 !important;
-    filter: blur(40px) !important;
+    filter: blur(20px) !important;
     opacity: 0.30 !important;
     display: block !important;
+    transform: translate3d(0, 0, 0) !important;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    contain: layout paint;
   }
 
   .grid-overlay {
@@ -1625,6 +1639,149 @@
     padding: 0.65rem 0.85rem !important;
     font-size: 0.82rem !important;
     border-radius: var(--radius-md) !important;
+  }
+
+  /* ==========================================================================
+     MOBILE WORKSPACE & TOOL PAGES CUSTOM OPTIMIZATIONS
+     ========================================================================== */
+
+  /* ISSUE 1 — Tool Header: Icon Misaligned with Title/Description */
+  .tool-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+    padding: 0.5rem 0 1rem 0 !important;
+    margin-bottom: 1.25rem !important;
+  }
+  .tool-identity {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 0.85rem !important;
+    text-align: left !important;
+  }
+  .tool-avatar {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    font-size: 1.25rem !important;
+    margin-top: 0.2rem !important;
+    border-radius: var(--radius-md) !important;
+    flex-shrink: 0 !important;
+  }
+  .tool-title-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    margin-bottom: 0.25rem !important;
+    flex-direction: row !important;
+  }
+  .tool-title {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+  }
+  
+  /* Media Converter Header card fix */
+  #media-tool-workspace .card:first-of-type > div {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 0.85rem !important;
+  }
+  #media-tool-icon {
+    font-size: 2.25rem !important;
+    margin-top: 0.2rem !important;
+    flex-shrink: 0 !important;
+  }
+  #media-tool-title {
+    font-size: 1.35rem !important;
+    margin-bottom: 0.25rem !important;
+    font-weight: 700 !important;
+  }
+  #media-tool-desc {
+    font-size: 0.88rem !important;
+    line-height: 1.4 !important;
+  }
+
+  /* ISSUE 2 — Input Label + Badge Overlapping/Wrapping Awkwardly */
+  .input-group-label {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.25rem !important;
+    margin-bottom: 0.45rem !important;
+  }
+  .input-group-label label,
+  .input-group-label span {
+    display: block !important;
+    text-align: left !important;
+  }
+  .input-hint {
+    font-size: 0.72rem !important;
+    margin-top: 0.15rem !important;
+  }
+
+  /* ISSUE 3 — Input Field Action Buttons Row Overflowing Off-Screen */
+  .single-input-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  .single-input-row .url-input-field {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    box-sizing: border-box !important;
+  }
+  .single-input-row .btn,
+  .single-input-row button {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    padding: 0.45rem 0.25rem !important;
+    font-size: 0.74rem !important;
+    height: 36px !important;
+    min-height: 36px !important;
+  }
+
+  /* ISSUE 4 — Oversized Empty "Output Placeholder" State */
+  .stage-empty-card,
+  .media-dropzone,
+  .prompt-empty-state {
+    padding: 1.5rem 1rem !important;
+    margin: 1rem 0 !important;
+  }
+  .stage-empty-icon,
+  .media-dropzone-icon,
+  .prompt-empty-icon {
+    font-size: 1.75rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .stage-empty-card h3,
+  .prompt-empty-state h3 {
+    font-size: 1.05rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+  .stage-empty-card p,
+  .prompt-empty-state p,
+  .media-dropzone p {
+    font-size: 0.78rem !important;
+    line-height: 1.4 !important;
+    max-width: 100% !important;
+    margin-bottom: 0.75rem !important;
+  }
+  .media-dropzone p:last-of-type {
+    margin-bottom: 0.75rem !important;
+  }
+  .media-dropzone .btn {
+    padding: 0.45rem 1rem !important;
+    font-size: 0.8rem !important;
+    height: 36px !important;
+    min-height: 36px !important;
   }
 }
 

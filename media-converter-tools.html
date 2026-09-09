@@ -691,8 +691,8 @@
             <!-- Dropzone -->
             <div class="media-dropzone" id="media-file-dropzone">
               <span class="media-dropzone-icon">📁</span>
-              <p style="font-weight: 600; font-size: 1.05rem; margin-bottom: 0.35rem;">Drag & drop video or audio file here</p>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Supports MP4, WebM, MOV, AVI, MKV, MP3, WAV, AAC, OGG</p>
+              <p id="media-dropzone-title" style="font-weight: 600; font-size: 1.05rem; margin-bottom: 0.35rem;">Drag & drop video or audio file here</p>
+              <p id="media-dropzone-subtitle" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Supports MP4, WebM, MOV, AVI, MKV, MP3, WAV, AAC, OGG</p>
               <button type="button" class="btn btn-secondary" id="btn-media-select-file">Choose Media File</button>
               <input type="file" id="media-file-input" style="display: none;" />
             </div>
@@ -1237,6 +1237,7 @@
                 </h4>
                 <div id="exif-inspection-results" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
                   Upload an image to scan for embedded GPS coordinates, camera model, lens metadata, and timestamps.
+                  <ul id="exif-tags-found-list" style="margin: 0.5rem 0 0 1.25rem; padding: 0;"></ul>
                 </div>
               </div>
 
@@ -1452,6 +1453,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
   <script src="assets/js/navigation.js"></script>
   <script src="assets/js/media-converter.js"></script>
   <script>

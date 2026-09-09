@@ -285,15 +285,19 @@
     position: fixed !important;
     top: -120px !important;
     left: 50% !important;
-    transform: translateX(-50%) !important;
+    transform: translate3d(-50%, 0, 0) !important;
     width: min(90vw, 420px) !important;
     height: 320px !important;
     background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.03) 40%, transparent 70%) !important;
     pointer-events: none !important;
     z-index: 0 !important;
-    filter: blur(35px) !important;
+    filter: blur(20px) !important;
     opacity: 0.35 !important;
     display: block !important;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    contain: layout paint;
   }
 
   .page-glow-2 {
@@ -305,9 +309,14 @@
     background: radial-gradient(circle, rgba(6, 182, 212, 0.035) 0%, rgba(59, 130, 246, 0.018) 45%, transparent 70%) !important;
     pointer-events: none !important;
     z-index: 0 !important;
-    filter: blur(40px) !important;
+    filter: blur(20px) !important;
     opacity: 0.30 !important;
     display: block !important;
+    transform: translate3d(0, 0, 0) !important;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    contain: layout paint;
   }
 
   .page-glow-3 {
@@ -319,9 +328,14 @@
     background: radial-gradient(circle, rgba(139, 92, 246, 0.035) 0%, rgba(236, 72, 153, 0.018) 45%, transparent 70%) !important;
     pointer-events: none !important;
     z-index: 0 !important;
-    filter: blur(40px) !important;
+    filter: blur(20px) !important;
     opacity: 0.30 !important;
     display: block !important;
+    transform: translate3d(0, 0, 0) !important;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    contain: layout paint;
   }
 
   .grid-overlay {
