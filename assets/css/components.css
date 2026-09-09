@@ -409,11 +409,13 @@
 .how-it-works-step:nth-child(2), .step-card:nth-child(2) { transition-delay: 0.12s; }
 .how-it-works-step:nth-child(3), .step-card:nth-child(3) { transition-delay: 0.19s; }
 
-@media (prefers-reduced-motion: reduce) {
-  .scroll-reveal {
+@media (prefers-reduced-motion: reduce), (max-width: 780px) {
+  .scroll-reveal,
+  .scroll-reveal.is-revealed {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    will-change: auto !important;
   }
 }
 

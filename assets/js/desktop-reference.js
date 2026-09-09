@@ -5,11 +5,12 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = window.innerWidth <= 780 || window.matchMedia('(max-width: 780px)').matches;
 
-  // 1. Scroll Reveal Animation
+  // 1. Scroll Reveal Animation (Desktop only; on mobile, sections are fully visible immediately with no observer)
   const revealElements = document.querySelectorAll('.reveal');
   if (revealElements.length > 0) {
-    if (isReducedMotion) {
+    if (isReducedMotion || isMobile) {
       revealElements.forEach(el => el.classList.add('in'));
     } else {
       const revealObserver = new IntersectionObserver((entries, observer) => {

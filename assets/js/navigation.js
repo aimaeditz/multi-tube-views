@@ -240,7 +240,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!elements.length) return;
 
-    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const isMobile = window.innerWidth <= 780 || window.matchMedia('(max-width: 780px)').matches;
+
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches || isMobile) {
       elements.forEach(el => el.classList.add('is-revealed'));
       return;
     }

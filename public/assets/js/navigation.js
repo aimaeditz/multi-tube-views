@@ -240,12 +240,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!elements.length) return;
 
-    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const isMobile = window.innerWidth <= 780 || window.matchMedia('(max-width: 780px)').matches;
+
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches || isMobile) {
       elements.forEach(el => el.classList.add('is-revealed'));
       return;
     }
-
-    const isMobile = window.innerWidth <= 780 || window.matchMedia('(max-width: 780px)').matches;
 
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
@@ -256,17 +256,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, {
       root: null,
-      // On mobile, trigger reveal slightly before section enters view so it's not caught mid-animation
-      rootMargin: isMobile ? '0px 0px -10% 0px' : '0px 0px -20px 0px',
-      threshold: isMobile ? 0.01 : 0.05
+      rootMargin: '0px 0px -20px 0px',
+      threshold: 0.05
     });
 
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
     elements.forEach(el => {
       const rect = el.getBoundingClientRect();
-      // If already in or slightly above initial viewport, reveal immediately without observing
-      if (rect.top <= (isMobile ? windowHeight + 120 : windowHeight)) {
+      // If already in initial viewport, reveal immediately without observing
+      if (rect.top <= windowHeight) {
         el.classList.add('is-revealed');
       } else {
         el.classList.add('scroll-reveal');

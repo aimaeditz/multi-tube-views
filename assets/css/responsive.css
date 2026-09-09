@@ -256,6 +256,17 @@
    Breakpoints: Mobile Devices & Phablets (<= 780px)
    ========================================================================== */
 @media (max-width: 780px) {
+  /* Disable Scroll-Reveal Animation Completely (Mobile Only — fully visible immediately) */
+  .reveal,
+  .reveal.in,
+  .scroll-reveal,
+  .scroll-reveal.is-revealed {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+
   :root {
     --header-height: 60px;
     --radius-sm: 8px;

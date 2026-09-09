@@ -1383,6 +1383,15 @@
 
 @media (max-width: 780px) {
 
+  /* Disable Scroll-Reveal Animation (Mobile Only — sections are fully visible immediately with no delay or offset) */
+  .reveal,
+  .reveal.in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+
   /* Global Mobile Resets & Anti-Overflow */
   html, body {
     overflow-x: hidden !important;
