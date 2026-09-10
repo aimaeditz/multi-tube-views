@@ -126,7 +126,7 @@ export default async function handler(req, res) {
       return;
     }
 
-    const geminiKeys = collectKeys('GEMINI_API_KEY');
+    const geminiKeys = [...new Set([...collectKeys('GEMINI_API_KEY'), ...collectKeys('GOOGLE_AI_API_KEY')])];
     const groqKeys = collectKeys('GROQ_API_KEY');
     const openrouterKeys = collectKeys('OPENROUTER_API_KEY');
     const deepseekKeys = collectKeys('DEEPSEEK_API_KEY');
