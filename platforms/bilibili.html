@@ -14,9 +14,9 @@
   <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/favicon-512.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
-  <title>Bilibili Multi-Player & Video Grid — MTV</title>
-  <meta name="description" content="Watch multiple Bilibili videos, animations, and creator streams side-by-side in a responsive multi-player layout.">
-  <meta name="keywords" content="bilibili multi player, bilibili video grid, watch multiple bilibili, anime stream grid, mtv bilibili">
+  <title>Bilibili Multi-Player & Anime Grid Viewer — MTV Tools</title>
+  <meta name="description" content="Watch multiple Bilibili videos, animations, and gaming streams side-by-side in custom multi-screen grids. Responsive player for international viewers.">
+  <meta name="keywords" content="bilibili multi player, watch multiple bilibili videos, bilibili danmaku grid, bilibili split screen, bilibili anime stream viewer, bilibili simultaneous player, b station video grid, mtv bilibili, aimaeditz mtv bilibili">
   <meta name="author" content="AiMAEditz">
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/platforms/bilibili.html">
@@ -24,8 +24,8 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/platforms/bilibili.html">
-  <meta property="og:title" content="Bilibili Multi-Player & Video Grid — MTV">
-  <meta property="og:description" content="Watch multiple Bilibili videos, animations, and creator streams side-by-side in a responsive multi-player layout.">
+  <meta property="og:title" content="Bilibili Multi-Player & Anime Grid Viewer — MTV Tools">
+  <meta property="og:description" content="Watch multiple Bilibili videos, animations, and gaming streams side-by-side in custom multi-screen grids. Responsive player for international viewers.">
   <meta property="og:site_name" content="Multi Tube Views">
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
@@ -33,8 +33,8 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Bilibili Multi-Player & Video Grid — MTV">
-  <meta name="twitter:description" content="Watch multiple Bilibili videos, animations, and creator streams side-by-side in a responsive multi-player layout.">
+  <meta name="twitter:title" content="Bilibili Multi-Player & Anime Grid Viewer — MTV Tools">
+  <meta name="twitter:description" content="Watch multiple Bilibili videos, animations, and gaming streams side-by-side in custom multi-screen grids. Responsive player for international viewers.">
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   <!-- Schema.org JSON-LD Structured Data -->
@@ -45,16 +45,41 @@
       {
         "@type": "WebApplication",
         "@id": "https://multitubeviews.com/platforms/bilibili.html#webapp",
-        "name": "Bilibili Multi-Player Workspace",
+        "name": "Bilibili Multi-Stream Player Workspace",
+        "alternateName": [
+          "Bilibili Multi Player",
+          "Bilibili Danmaku Grid",
+          "Bilibili Split Screen",
+          "MTV Bilibili",
+          "AiMAEditz MTV Bilibili"
+        ],
         "url": "https://multitubeviews.com/platforms/bilibili.html",
-        "description": "Multi-video viewing workspace for public Bilibili videos, animations, and streams.",
+        "description": "Watch multiple Bilibili videos, animations, and gaming streams side-by-side in custom multi-screen grids. Responsive player for international viewers.",
         "applicationCategory": "MultimediaApplication",
+        "applicationSubCategory": "Video & Streaming Player",
         "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "keywords": "bilibili multi player, watch multiple bilibili videos, bilibili danmaku grid, bilibili split screen, bilibili anime stream viewer, bilibili simultaneous player, b station video grid, mtv bilibili, aimaeditz mtv bilibili",
+        "relatedLink": [
+          "https://multitubeviews.com/platforms/youtube.html",
+          "https://multitubeviews.com/platforms/vimeo.html",
+          "https://multitubeviews.com/platforms/dailymotion.html",
+          "https://multitubeviews.com/platforms/newgrounds.html",
+          "https://multitubeviews.com/index.html",
+          "https://multitubeviews.com/creator-tools.html"
+        ],
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD"
-        }
+        },
+        "featureList": [
+          "Side-by-side Bilibili multi-player video & audio grids",
+          "Dedicated Bilibili embed player adapter with official gateway fallback",
+          "Zero registration, 100% private client-side browser processing",
+          "Independent per-slot audio volume and mute controls",
+          "Responsive desktop, tablet, and mobile viewing layouts"
+        ]
       },
       {
         "@type": "BreadcrumbList",
@@ -77,6 +102,28 @@
             "position": 3,
             "name": "Bilibili Player",
             "item": "https://multitubeviews.com/platforms/bilibili.html"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://multitubeviews.com/platforms/bilibili.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can I load multiple Bilibili videos simultaneously?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, public Bilibili video URLs can be pasted into each grid slot for side-by-side viewing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do Bilibili embeds support subtitles?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Subtitles and controls available through Bilibili official player interface are preserved."
+            }
           }
         ]
       }

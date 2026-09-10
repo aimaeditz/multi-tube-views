@@ -261,7 +261,7 @@
           title: 'Slow + Reverb Generator',
           desc: 'Apply aesthetic slowed playback speed and atmospheric ambient reverb effect to audio/video.',
           icon: '🌊',
-          accept: 'audio/*,video/*',
+          accept: 'audio/*',
           actionText: 'Generate Slow + Reverb',
           about: 'Slows down media playback and applies a multi-tap delay & acoustic convolution reverb filter for aesthetic viral audio tracks.'
         },
@@ -557,7 +557,7 @@
 
       if (this.dom.fileInfoCard) this.dom.fileInfoCard.style.display = 'none';
       
-      const isStandalone = ['voice-to-text', 'text-to-speech', 'qr-generator'].includes(this.activeToolId);
+      const isStandalone = ['voice-to-text', 'text-to-speech', 'qr-generator', 'pdf-image-converter'].includes(this.activeToolId);
       if (this.dom.dropzone && !isStandalone) {
         this.dom.dropzone.style.display = 'block';
       }
@@ -607,8 +607,13 @@
             const format = formatSelect ? formatSelect.value : 'mp3';
             this.updateProgress(20, 'Extracting audio track...');
             resultBlob = await this.extractAudioFromVideo(this.selectedFile, format);
-            extension = format === 'wav' ? 'wav' : 'mp3';
-            mimeType = format === 'wav' ? 'audio/wav' : 'audio/mp3';
+            if (resultBlob.type === 'audio/mp3' || resultBlob.type === 'audio/mpeg') {
+              extension = 'mp3';
+              mimeType = 'audio/mp3';
+            } else {
+              extension = 'wav';
+              mimeType = 'audio/wav';
+            }
             resultMeta = `Extracted Audio (${extension.toUpperCase()}) • ${(resultBlob.size / (1024 * 1024)).toFixed(2)} MB`;
             break;
           }
@@ -676,9 +681,14 @@
             const targetFormat = document.getElementById('aconv-format')?.value || 'mp3';
             this.updateProgress(30, `Converting audio to ${targetFormat.toUpperCase()}...`);
             resultBlob = await this.convertAudioFormat(this.selectedFile, targetFormat);
-            extension = targetFormat === 'wav' ? 'wav' : 'mp3';
-            mimeType = targetFormat === 'wav' ? 'audio/wav' : 'audio/mp3';
-            resultMeta = `Converted Audio (${targetFormat.toUpperCase()}) • ${(resultBlob.size / (1024 * 1024)).toFixed(2)} MB`;
+            if (resultBlob.type === 'audio/mp3' || resultBlob.type === 'audio/mpeg') {
+              extension = 'mp3';
+              mimeType = 'audio/mp3';
+            } else {
+              extension = 'wav';
+              mimeType = 'audio/wav';
+            }
+            resultMeta = `Converted Audio (${extension.toUpperCase()}) • ${(resultBlob.size / (1024 * 1024)).toFixed(2)} MB`;
             break;
           }
 
@@ -808,7 +818,7 @@
 
       // Download button setup
       if (this.dom.downloadBtn) {
-        const baseName = this.selectedFile.name.replace(/\.[^/.]+$/, '');
+        const baseName = (this.selectedFile && this.selectedFile.name) ? this.selectedFile.name.replace(/\.[^/.]+$/, '') : 'media_output';
         const filename = `${baseName}_${this.activeToolId}.${extension}`;
 
         this.dom.downloadBtn.onclick = () => {
@@ -870,12 +880,29 @@
 
     async seekVideoTo(video, time) {
       return new Promise((resolve) => {
+        const targetTime = Math.max(0, Math.min(video.duration || 9999, time));
+        if (Math.abs(video.currentTime - targetTime) < 0.05) {
+          resolve();
+          return;
+        }
+        let timer = null;
         const onSeeked = () => {
+          if (timer) clearTimeout(timer);
           video.removeEventListener('seeked', onSeeked);
           resolve();
         };
+        timer = setTimeout(() => {
+          video.removeEventListener('seeked', onSeeked);
+          resolve();
+        }, 600);
         video.addEventListener('seeked', onSeeked);
-        video.currentTime = time;
+        try {
+          video.currentTime = targetTime;
+        } catch (e) {
+          if (timer) clearTimeout(timer);
+          video.removeEventListener('seeked', onSeeked);
+          resolve();
+        }
       });
     }
 
@@ -943,9 +970,64 @@
       return new Blob([buffer], { type: 'audio/wav' });
     }
 
+    audioBufferToMp3Blob(audioBuffer, bitrateKbps = 192) {
+      if (typeof window.lamejs !== 'undefined' && window.lamejs.Mp3Encoder) {
+        try {
+          const channels = audioBuffer.numberOfChannels;
+          const sampleRate = audioBuffer.sampleRate;
+          const mp3encoder = new window.lamejs.Mp3Encoder(channels, sampleRate, bitrateKbps);
+          const mp3Data = [];
+
+          const left = audioBuffer.getChannelData(0);
+          const right = channels > 1 ? audioBuffer.getChannelData(1) : left;
+
+          const leftInt16 = new Int16Array(left.length);
+          const rightInt16 = channels > 1 ? new Int16Array(right.length) : leftInt16;
+
+          for (let i = 0; i < left.length; i++) {
+            const sLeft = Math.max(-1, Math.min(1, left[i]));
+            leftInt16[i] = sLeft < 0 ? sLeft * 0x8000 : sLeft * 0x7FFF;
+            if (channels > 1) {
+              const sRight = Math.max(-1, Math.min(1, right[i]));
+              rightInt16[i] = sRight < 0 ? sRight * 0x8000 : sRight * 0x7FFF;
+            }
+          }
+
+          const sampleBlockSize = 1152;
+          for (let i = 0; i < leftInt16.length; i += sampleBlockSize) {
+            const leftChunk = leftInt16.subarray(i, i + sampleBlockSize);
+            let mp3buf;
+            if (channels === 1) {
+              mp3buf = mp3encoder.encodeBuffer(leftChunk);
+            } else {
+              const rightChunk = rightInt16.subarray(i, i + sampleBlockSize);
+              mp3buf = mp3encoder.encodeBuffer(leftChunk, rightChunk);
+            }
+            if (mp3buf && mp3buf.length > 0) {
+              mp3Data.push(mp3buf);
+            }
+          }
+
+          const mp3buf = mp3encoder.flush();
+          if (mp3buf && mp3buf.length > 0) {
+            mp3Data.push(mp3buf);
+          }
+
+          return new Blob(mp3Data, { type: 'audio/mp3' });
+        } catch (err) {
+          console.warn('lamejs encoding error, falling back to WAV:', err);
+          return this.audioBufferToWavBlob(audioBuffer);
+        }
+      }
+      return this.audioBufferToWavBlob(audioBuffer);
+    }
+
     // 1. Video to Audio
     async extractAudioFromVideo(file, format = 'mp3') {
       const audioBuffer = await this.getAudioBufferFromFile(file);
+      if (format === 'mp3') {
+        return this.audioBufferToMp3Blob(audioBuffer);
+      }
       return this.audioBufferToWavBlob(audioBuffer);
     }
 
@@ -1287,6 +1369,9 @@
     // 7. Audio Format Converter
     async convertAudioFormat(file, targetFormat = 'mp3') {
       const audioBuffer = await this.getAudioBufferFromFile(file);
+      if (targetFormat === 'mp3') {
+        return this.audioBufferToMp3Blob(audioBuffer);
+      }
       return this.audioBufferToWavBlob(audioBuffer);
     }
 
@@ -1405,6 +1490,7 @@
       let timerInterval = null;
       let secondsElapsed = 0;
       let finalTranscript = transcriptArea ? transcriptArea.value : '';
+      let lastFinalizedIndex = -1;
 
       const formatTimer = (totalSeconds) => {
         const mins = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
@@ -1466,11 +1552,12 @@
           const selectedLang = langSelect && langSelect.value ? langSelect.value : 'en-US';
           recognition.lang = selectedLang;
 
-          let currentText = transcriptArea ? transcriptArea.value : '';
-          if (currentText && !currentText.endsWith(' ')) {
+          let currentText = transcriptArea ? transcriptArea.value.trim() : '';
+          if (currentText) {
             currentText += ' ';
           }
           finalTranscript = currentText;
+          lastFinalizedIndex = -1;
 
           recognition.onstart = () => {
             setListeningState(true);
@@ -1481,7 +1568,10 @@
             for (let i = event.resultIndex; i < event.results.length; i++) {
               const transcriptPiece = event.results[i][0].transcript;
               if (event.results[i].isFinal) {
-                finalTranscript += transcriptPiece + ' ';
+                if (i > lastFinalizedIndex) {
+                  finalTranscript += transcriptPiece + ' ';
+                  lastFinalizedIndex = i;
+                }
               } else {
                 interimTranscript += transcriptPiece;
               }
@@ -1604,6 +1694,7 @@
         clearBtn.onclick = () => {
           if (transcriptArea) transcriptArea.value = '';
           finalTranscript = '';
+          lastFinalizedIndex = -1;
           updateWordCount();
           this.showToast('Transcript cleared');
         };
@@ -1890,7 +1981,9 @@
           const a = document.createElement('a');
           a.href = dataUrl;
           a.download = 'mtv-qr-code.png';
+          document.body.appendChild(a);
           a.click();
+          document.body.removeChild(a);
           this.showToast('✓ QR Code downloaded as HD PNG!');
         });
       }
@@ -1985,7 +2078,16 @@
           throw new Error('jsPDF library is not loaded');
         }
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+        const orient = document.getElementById('img2pdf-orientation')?.value || 'portrait';
+        const pageFmt = document.getElementById('img2pdf-format')?.value || 'a4';
+        const marginOpt = document.getElementById('img2pdf-margin')?.value || 'small';
+        const marginPx = marginOpt === 'none' ? 0 : (marginOpt === 'large' ? 40 : 20);
+
+        const doc = new jsPDF({
+          orientation: orient === 'landscape' ? 'landscape' : 'portrait',
+          unit: 'pt',
+          format: pageFmt
+        });
         const files = Array.from(fileList);
 
         for (let i = 0; i < files.length; i++) {
@@ -2002,13 +2104,17 @@
             img.src = dataUrl;
           });
 
-          if (i > 0) doc.addPage();
+          if (i > 0) doc.addPage(pageFmt, orient === 'landscape' ? 'landscape' : 'portrait');
           const pageWidth = doc.internal.pageSize.getWidth();
           const pageHeight = doc.internal.pageSize.getHeight();
-          const ratio = Math.min(pageWidth / img.width, pageHeight / img.height);
+          const availW = Math.max(10, pageWidth - marginPx * 2);
+          const availH = Math.max(10, pageHeight - marginPx * 2);
+          const ratio = Math.min(availW / img.width, availH / img.height);
           const w = img.width * ratio;
           const h = img.height * ratio;
-          doc.addImage(dataUrl, 'JPEG', (pageWidth - w) / 2, (pageHeight - h) / 2, w, h);
+          const x = (pageWidth - w) / 2;
+          const y = (pageHeight - h) / 2;
+          doc.addImage(dataUrl, 'JPEG', x, y, w, h);
         }
 
         doc.save('converted-images.pdf');

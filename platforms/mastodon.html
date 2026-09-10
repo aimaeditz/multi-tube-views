@@ -14,9 +14,9 @@
   <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/favicon-512.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
-  <title>Mastodon Fediverse Media Grid & Multi Post Viewer — MTV</title>
-  <meta name="description" content="Watch and monitor multiple public Mastodon federated video posts and status updates side-by-side in a responsive grid.">
-  <meta name="keywords" content="mastodon multi viewer, mastodon video grid, fediverse media player, view multiple mastodon posts, mtv mastodon">
+  <title>Mastodon Multi-Video Player & Fediverse Grid — MultiTube Views</title>
+  <meta name="description" content="Watch multiple Mastodon and Fediverse video posts side-by-side across instances. Decentralized open web media grid with complete client-side privacy.">
+  <meta name="keywords" content="mastodon video player, fediverse media grid, watch fediverse videos, activitypub video player, decentralized social media video viewer, mtv mastodon, aimaeditz mtv mastodon">
   <meta name="author" content="AiMAEditz">
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/platforms/mastodon.html">
@@ -24,8 +24,8 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/platforms/mastodon.html">
-  <meta property="og:title" content="Mastodon Fediverse Media Grid & Multi Post Viewer — MTV">
-  <meta property="og:description" content="Watch and monitor multiple public Mastodon federated video posts and status updates side-by-side in a responsive grid.">
+  <meta property="og:title" content="Mastodon Multi-Video Player & Fediverse Grid — MultiTube Views">
+  <meta property="og:description" content="Watch multiple Mastodon and Fediverse video posts side-by-side across instances. Decentralized open web media grid with complete client-side privacy.">
   <meta property="og:site_name" content="Multi Tube Views">
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
@@ -33,8 +33,8 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Mastodon Fediverse Media Grid & Multi Post Viewer — MTV">
-  <meta name="twitter:description" content="Watch and monitor multiple public Mastodon federated video posts and status updates side-by-side in a responsive grid.">
+  <meta name="twitter:title" content="Mastodon Multi-Video Player & Fediverse Grid — MultiTube Views">
+  <meta name="twitter:description" content="Watch multiple Mastodon and Fediverse video posts side-by-side across instances. Decentralized open web media grid with complete client-side privacy.">
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   <!-- Schema.org JSON-LD Structured Data -->
@@ -45,16 +45,41 @@
       {
         "@type": "WebApplication",
         "@id": "https://multitubeviews.com/platforms/mastodon.html#webapp",
-        "name": "Mastodon Video Grid Workspace",
+        "name": "Mastodon Multi-Stream Player Workspace",
+        "alternateName": [
+          "Mastodon Video Player",
+          "Fediverse Media Grid",
+          "ActivityPub Video Player",
+          "MTV Mastodon",
+          "AiMAEditz MTV Mastodon"
+        ],
         "url": "https://multitubeviews.com/platforms/mastodon.html",
-        "description": "Watch and monitor multiple public Mastodon federated video posts and status updates side-by-side in a responsive grid.",
+        "description": "Watch multiple Mastodon and Fediverse video posts side-by-side across instances. Decentralized open web media grid with complete client-side privacy.",
         "applicationCategory": "MultimediaApplication",
+        "applicationSubCategory": "Open & Decentralized Player",
         "operatingSystem": "All",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "keywords": "mastodon video player, fediverse media grid, watch fediverse videos, activitypub video player, decentralized social media video viewer, mtv mastodon, aimaeditz mtv mastodon",
+        "relatedLink": [
+          "https://multitubeviews.com/platforms/peertube.html",
+          "https://multitubeviews.com/platforms/odysee.html",
+          "https://multitubeviews.com/platforms/threads.html",
+          "https://multitubeviews.com/platforms/x.html",
+          "https://multitubeviews.com/index.html",
+          "https://multitubeviews.com/creator-tools.html"
+        ],
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD"
-        }
+        },
+        "featureList": [
+          "Side-by-side Mastodon multi-player video & audio grids",
+          "Dedicated Mastodon embed player adapter with official gateway fallback",
+          "Zero registration, 100% private client-side browser processing",
+          "Independent per-slot audio volume and mute controls",
+          "Responsive desktop, tablet, and mobile viewing layouts"
+        ]
       },
       {
         "@type": "BreadcrumbList",
@@ -75,8 +100,30 @@
           {
             "@type": "ListItem",
             "position": 3,
-            "name": "Mastodon Viewer",
+            "name": "Mastodon Player",
             "item": "https://multitubeviews.com/platforms/mastodon.html"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://multitubeviews.com/platforms/mastodon.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does Mastodon multi-view support different instances?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, video post links from any public Mastodon instance can be pasted into the grid slots."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is user activity tracked on Mastodon streams?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Multi Tube Views does not track user behavior or store personal viewing history."
+            }
           }
         ]
       }
