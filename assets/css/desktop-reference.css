@@ -168,6 +168,8 @@
 
 @media (min-width: 781px) {
 
+
+
   /* Page Ambient Canvas & Grid Background (Homepage Reference) */
   .desktop-ref-body {
     position: relative;
@@ -723,7 +725,7 @@
   }
 
   .tool-cloud-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px) scale(1.018);
     background: var(--ref-surface2);
     border-color: rgba(59, 130, 246, 0.4);
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
@@ -983,49 +985,96 @@
   /* Live Stats Section */
   .stats-grid-desk {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
     margin-bottom: 5.5rem;
+    position: relative;
+    z-index: 1;
   }
 
   .stat-card-desk {
-    background: var(--ref-surface);
+    position: relative;
+    background: linear-gradient(145deg, var(--ref-surface), var(--ref-surface2));
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--ref-line-strong);
-    border-radius: 24px;
-    padding: 2.2rem 2rem;
+    border-radius: 22px;
+    padding: 2.2rem 1.25rem;
     text-align: center;
-    box-shadow: var(--ref-shadow);
-    transition: transform 0.3s var(--ref-soft), border-color 0.3s ease;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition: transform 0.28s var(--ref-soft), border-color 0.28s ease, box-shadow 0.28s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  [data-theme="light"] .stat-card-desk,
+  :root:not([data-theme="dark"]) .stat-card-desk {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(246, 248, 252, 0.85));
+    box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.08), inset 0 1px 0 #ffffff;
+    border-color: rgba(15, 23, 42, 0.12);
+  }
+
+  .stat-card-desk::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--ref-blue), var(--ref-cyan), transparent);
+    opacity: 0.6;
+    transition: opacity 0.3s ease, left 0.3s ease, right 0.3s ease;
   }
 
   .stat-card-desk:hover {
-    transform: translateY(-4px);
-    border-color: rgba(59, 130, 246, 0.4);
+    transform: translateY(-5px);
+    border-color: rgba(59, 130, 246, 0.45);
+    box-shadow: 0 18px 40px -12px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  [data-theme="light"] .stat-card-desk:hover,
+  :root:not([data-theme="dark"]) .stat-card-desk:hover {
+    border-color: rgba(37, 99, 235, 0.4);
+    box-shadow: 0 18px 40px -12px rgba(37, 99, 235, 0.15), inset 0 1px 0 #ffffff;
+  }
+
+  .stat-card-desk:hover::before {
+    opacity: 1;
+    left: 5%;
+    right: 5%;
   }
 
   .stat-num-desk {
-    font-size: 3.5rem;
-    font-weight: 900;
+    font-size: clamp(2.5rem, 3.2vw, 3.3rem);
+    font-weight: 850;
     letter-spacing: -0.04em;
-    line-height: 1;
-    background: linear-gradient(135deg, var(--ref-blue), var(--ref-cyan));
+    line-height: 1.05;
+    background: linear-gradient(135deg, var(--ref-blue) 0%, var(--ref-cyan) 60%, var(--ref-violet) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.45rem;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    will-change: transform;
   }
 
   .stat-label-desk {
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-size: 1.08rem;
+    font-weight: 750;
     color: var(--ref-text);
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.01em;
   }
 
   .stat-desc-desk {
-    font-size: 0.88rem;
+    font-size: 0.84rem;
+    line-height: 1.4;
     color: var(--ref-text-secondary);
+    margin: 0;
   }
 
   /* How It Works Steps */
@@ -1342,10 +1391,30 @@
   .prompt-grid,
   .category-grid-desk,
   .features-grid-desk,
-  .stats-grid-desk,
   .steps-grid-desk {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 0.85rem !important;
+  }
+
+  .stats-grid-desk {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  .stats-grid-desk .stat-card-desk {
+    padding: 1.6rem 0.75rem !important;
+  }
+
+  .stats-grid-desk .stat-num-desk {
+    font-size: clamp(2rem, 2.8vw, 2.5rem) !important;
+  }
+
+  .stats-grid-desk .stat-label-desk {
+    font-size: 0.95rem !important;
+  }
+
+  .stats-grid-desk .stat-desc-desk {
+    font-size: 0.75rem !important;
   }
 
   .platform-grid,
@@ -2297,28 +2366,29 @@
     flex-shrink: 0 !important;
   }
 
-  /* 5. Statistics Counters: Single horizontal row of compact square boxes */
+  /* 5. Statistics Counters: 2x2 Grid on Mobile with Fluid Auto Height */
   .stats,
   .stats-grid,
   .stats-grid-desk {
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 8px !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
     width: 100% !important;
     box-sizing: border-box !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 22px !important;
   }
 
   .stat,
   .stat-card-desk {
     position: relative !important;
     text-align: center !important;
-    padding: 12px 4px !important;
-    aspect-ratio: 1 / 1 !important;
+    padding: 16px 12px 14px 12px !important;
+    min-height: auto !important;
+    aspect-ratio: auto !important;
     border: 1px solid var(--ref-line-strong, rgba(255, 255, 255, 0.16)) !important;
-    border-radius: 16px !important;
-    background: var(--ref-surface, rgba(255, 255, 255, 0.04)) !important;
-    box-shadow: var(--ref-shadow) !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg, var(--ref-surface, rgba(255, 255, 255, 0.04)), var(--ref-surface2, rgba(255, 255, 255, 0.07))) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
     overflow: hidden !important;
     display: flex !important;
     flex-direction: column !important;
@@ -2327,28 +2397,52 @@
     box-sizing: border-box !important;
   }
 
+  [data-theme="light"] .stat,
+  [data-theme="light"] .stat-card-desk,
+  :root:not([data-theme="dark"]) .stat,
+  :root:not([data-theme="dark"]) .stat-card-desk {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(246, 248, 252, 0.9)) !important;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06) !important;
+    border-color: rgba(15, 23, 42, 0.12) !important;
+  }
+
   .stat .num,
   .stat-num-desk {
     position: relative !important;
-    font-size: clamp(20px, 5.5vw, 24px) !important;
+    font-size: clamp(24px, 6.2vw, 30px) !important;
     font-weight: 850 !important;
-    letter-spacing: -0.04em !important;
-    line-height: 1 !important;
-    margin-bottom: 3px !important;
-    color: var(--ref-text) !important;
+    letter-spacing: -0.035em !important;
+    line-height: 1.1 !important;
+    margin-bottom: 4px !important;
+    background: linear-gradient(135deg, var(--ref-blue, #3b82f6), var(--ref-cyan, #06b6d4)) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    font-variant-numeric: tabular-nums !important;
+    font-feature-settings: "tnum" !important;
   }
 
   .stat-label-desk {
-    font-size: 10.5px !important;
-    font-weight: 700 !important;
+    font-size: 12px !important;
+    font-weight: 750 !important;
     color: var(--ref-text) !important;
-    line-height: 1.15 !important;
-    margin-bottom: 0 !important;
+    line-height: 1.25 !important;
+    margin-bottom: 2px !important;
+    white-space: nowrap !important;
   }
 
   .stat small,
   .stat-desc-desk {
-    display: none !important;
+    font-size: 9.5px !important;
+    line-height: 1.3 !important;
+    color: var(--ref-text-secondary, #94a3b8) !important;
+    margin: 0 !important;
+    display: block !important;
+    opacity: 0.85 !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    max-width: 100% !important;
   }
 
   /* 6. How It Works Steps: Generous internal padding and height */

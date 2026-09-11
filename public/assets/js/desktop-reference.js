@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 2. Animated Stats Number Counters
+  // 2. Animated Stats Number Counters (Fast, Fluid & Continuous)
   const countElements = document.querySelectorAll('.stat-num-desk[data-count], .stat .num[data-count], .stat-num[data-count]');
   if (countElements.length > 0) {
     if (isReducedMotion) {
@@ -40,37 +40,46 @@ document.addEventListener('DOMContentLoaded', () => {
         el.textContent = target + suffix;
       });
     } else {
+      const animateCounter = (el) => {
+        const target = parseInt(el.getAttribute('data-count'), 10) || 0;
+        const suffix = el.getAttribute('data-suffix') || '';
+        const duration = 1000; // Snappy, fluid 1.0s timing
+        let startTime = null;
+        let lastVal = -1;
+
+        function updateCounter(currentTime) {
+          if (!startTime) startTime = currentTime;
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Smooth Quartic Out: fast responsive ramp with seamless continuous landing
+          const easeProgress = 1 - Math.pow(1 - progress, 4);
+          const currentVal = Math.floor(easeProgress * target);
+
+          if (currentVal !== lastVal) {
+            el.textContent = currentVal + suffix;
+            lastVal = currentVal;
+          }
+
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          } else {
+            el.textContent = target + suffix;
+          }
+        }
+
+        requestAnimationFrame(updateCounter);
+      };
+
       const countObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            const el = entry.target;
-            const target = parseInt(el.getAttribute('data-count'), 10) || 0;
-            const suffix = el.getAttribute('data-suffix') || '';
-            const duration = 1600;
-            const startTime = performance.now();
-
-            function updateCounter(currentTime) {
-              const elapsed = currentTime - startTime;
-              const progress = Math.min(elapsed / duration, 1);
-              // Ease out cubic
-              const easeProgress = 1 - Math.pow(1 - progress, 3);
-              const currentVal = Math.floor(easeProgress * target);
-              el.textContent = currentVal + suffix;
-
-              if (progress < 1) {
-                requestAnimationFrame(updateCounter);
-              } else {
-                el.textContent = target + suffix;
-              }
-            }
-
-            requestAnimationFrame(updateCounter);
-            observer.unobserve(el);
+            animateCounter(entry.target);
+            observer.unobserve(entry.target);
           }
         });
       }, {
-        threshold: 0.15,
-        rootMargin: '0px'
+        threshold: 0.1,
+        rootMargin: '0px 0px 40px 0px'
       });
 
       countElements.forEach(el => countObserver.observe(el));

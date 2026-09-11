@@ -3,6 +3,71 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Shared Navigation Component Synchronization
+  const ensureSharedNavbar = () => {
+    const navDesktop = document.querySelector('.nav-desktop');
+    const mobileDrawer = document.querySelector('.mobile-drawer');
+    if (!navDesktop && !mobileDrawer) return;
+
+    const path = window.location.pathname;
+    const isSubfolder = path.includes('/platforms/') || path.includes('/browser-utilities/');
+    const p = isSubfolder ? '../' : '';
+
+    let activeKey = '';
+    if (path.endsWith('/') || path.endsWith('/index.html') || path.includes('/index.html')) {
+      activeKey = 'home';
+    } else if (path.includes('ai-prompt.html') || path.includes('ai-auto.html')) {
+      activeKey = 'ai-prompt';
+    } else if (path.includes('creator-tools.html')) {
+      activeKey = 'creator-tools';
+    } else if (path.includes('media-converter-tools.html')) {
+      activeKey = 'media-converter-tools';
+    } else if (path.includes('browser-utilities')) {
+      activeKey = 'browser-utilities';
+    } else if (path.includes('platforms')) {
+      activeKey = 'platforms';
+    } else if (path.includes('about.html')) {
+      activeKey = 'about';
+    } else if (path.includes('settings.html')) {
+      activeKey = 'settings';
+    } else if (path.includes('privacy.html')) {
+      activeKey = 'privacy';
+    } else if (path.includes('disclaimer.html')) {
+      activeKey = 'disclaimer';
+    } else if (path.includes('terms.html')) {
+      activeKey = 'terms';
+    }
+
+    if (navDesktop) {
+      navDesktop.innerHTML = `
+        <a href="${p}index.html" class="nav-link ${activeKey === 'home' ? 'active' : ''}">Home</a>
+        <a href="${p}ai-prompt.html" class="nav-link ${activeKey === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
+        <a href="${p}creator-tools.html" class="nav-link ${activeKey === 'creator-tools' ? 'active' : ''}">Creator Tools</a>
+        <a href="${p}media-converter-tools.html" class="nav-link ${activeKey === 'media-converter-tools' ? 'active' : ''}">Converter Tools</a>
+        <a href="${p}browser-utilities.html" class="nav-link ${activeKey === 'browser-utilities' ? 'active' : ''}">Browser Utilities</a>
+        <a href="${p}platforms.html" class="nav-link ${activeKey === 'platforms' ? 'active' : ''}">Platforms</a>
+      `;
+    }
+
+    if (mobileDrawer) {
+      mobileDrawer.innerHTML = `
+        <a href="${p}index.html" class="mobile-nav-link ${activeKey === 'home' ? 'active' : ''}">Home</a>
+        <a href="${p}ai-prompt.html" class="mobile-nav-link ${activeKey === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
+        <a href="${p}creator-tools.html" class="mobile-nav-link ${activeKey === 'creator-tools' ? 'active' : ''}">Creator Tools</a>
+        <a href="${p}media-converter-tools.html" class="mobile-nav-link ${activeKey === 'media-converter-tools' ? 'active' : ''}">Media Converter Tools</a>
+        <a href="${p}browser-utilities.html" class="mobile-nav-link ${activeKey === 'browser-utilities' ? 'active' : ''}">Browser Utilities</a>
+        <a href="${p}platforms.html" class="mobile-nav-link ${activeKey === 'platforms' ? 'active' : ''}">Platforms</a>
+        <a href="${p}about.html" class="mobile-nav-link ${activeKey === 'about' ? 'active' : ''}">About</a>
+        <a href="${p}settings.html" class="mobile-nav-link ${activeKey === 'settings' ? 'active' : ''}">Settings</a>
+        <a href="${p}privacy.html" class="mobile-nav-link ${activeKey === 'privacy' ? 'active' : ''}">Privacy Policy</a>
+        <a href="${p}disclaimer.html" class="mobile-nav-link ${activeKey === 'disclaimer' ? 'active' : ''}">Disclaimer</a>
+        <a href="${p}terms.html" class="mobile-nav-link ${activeKey === 'terms' ? 'active' : ''}">Terms of Service</a>
+      `;
+    }
+  };
+
+  ensureSharedNavbar();
+
   // Update copyright year
   const yearSpans = document.querySelectorAll('.dynamic-year');
   const currentYear = new Date().getFullYear();
@@ -221,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '.reading-header',
       '.platform-page-header',
       '.prompt-header-section',
-      '.footer-grid',
+      '.bu-card',
       '.creator-tool-card',
       '.media-tool-card',
       '.ai-image-tool-card',
@@ -350,4 +415,80 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, { passive: false });
   }
+
+  // Universal Arrow Icon Nudge Animation Enforcer (Site-wide & Future Sections/Pages)
+  const applyArrowNudges = (root = document.body) => {
+    if (!root) return;
+
+    // 1. Target existing elements with arrow classes or SVG icons inside buttons/links
+    const arrowSelectors = 'svg, .arrow, .arrow-right, .arrow-icon, [class*="arrow"]';
+    root.querySelectorAll(arrowSelectors).forEach(el => {
+      if (!el.classList.contains('arrow-nudge') && !el.classList.contains('arrow-nudge-left') && !el.classList.contains('arrow-nudge-up-right')) {
+        const svg = el.tagName === 'SVG' ? el : el.querySelector('svg');
+        if (svg && !svg.classList.contains('arrow-nudge')) {
+          svg.classList.add('arrow-nudge', 'inline-block');
+        }
+      }
+    });
+
+    // 2. Walk text nodes to wrap raw arrow characters (→, ↗, ←, ➔, ➜, ➡) in animated spans
+    const walkTextNodes = (node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.nodeValue;
+        if (text && (text.includes('→') || text.includes('←') || text.includes('↗') || text.includes('➔') || text.includes('➜') || text.includes('➡'))) {
+          const parent = node.parentNode;
+          if (parent && !parent.closest('.arrow-nudge-container') && !parent.classList.contains('arrow-nudge') && !parent.classList.contains('arrow-nudge-left') && !parent.classList.contains('arrow-nudge-up-right')) {
+            if (['SCRIPT', 'STYLE', 'TEXTAREA', 'INPUT'].includes(parent.tagName)) return;
+            
+            const fragment = document.createDocumentFragment();
+            const regex = /(→|←|↗|➔|➜|➡)/g;
+            let lastIdx = 0;
+            let match;
+
+            while ((match = regex.exec(text)) !== null) {
+              if (match.index > lastIdx) {
+                fragment.appendChild(document.createTextNode(text.substring(lastIdx, match.index)));
+              }
+              const span = document.createElement('span');
+              const char = match[1];
+              span.className = (char === '←' ? 'arrow-nudge-left' : (char === '↗' ? 'arrow-nudge-up-right' : 'arrow-nudge')) + ' inline-block';
+              span.textContent = char;
+              fragment.appendChild(span);
+
+              lastIdx = regex.lastIndex;
+            }
+            if (lastIdx < text.length) {
+              fragment.appendChild(document.createTextNode(text.substring(lastIdx)));
+            }
+            parent.replaceChild(fragment, node);
+          }
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        if (['SCRIPT', 'STYLE', 'TEXTAREA', 'INPUT', 'CODE', 'PRE'].includes(node.tagName)) return;
+        if (node.classList && (node.classList.contains('arrow-nudge') || node.classList.contains('arrow-nudge-left') || node.classList.contains('arrow-nudge-up-right'))) return;
+        
+        const children = Array.from(node.childNodes);
+        children.forEach(child => walkTextNodes(child));
+      }
+    };
+
+    walkTextNodes(root);
+  };
+
+  applyArrowNudges();
+
+  const mutationObserver = new MutationObserver((mutations) => {
+    mutations.forEach(mut => {
+      mut.addedNodes.forEach(node => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          applyArrowNudges(node);
+        }
+      });
+    });
+  });
+
+  mutationObserver.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
 });

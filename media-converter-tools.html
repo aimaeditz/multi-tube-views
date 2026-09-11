@@ -368,8 +368,8 @@
     }
   </style>
 
-  <script src="assets/js/storage.js"></script>
-  <script src="assets/js/theme.js"></script>
+  <script type="module" src="assets/js/storage.js"></script>
+  <script type="module" src="assets/js/theme.js"></script>
 </head>
 <body>
 
@@ -396,8 +396,9 @@
         <a href="ai-prompt.html" class="nav-link">AI Prompt</a>
         <a href="creator-tools.html" class="nav-link">Creator Tools</a>
         <a href="media-converter-tools.html" class="nav-link active">Converter Tools</a>
+        <a href="browser-utilities.html" class="nav-link">Browser Utilities</a>
         <a href="platforms.html" class="nav-link">Platforms</a>
-        </nav>
+      </nav>
 
       <!-- Header Actions -->
       <div class="header-actions">
@@ -419,6 +420,7 @@
     <a href="ai-prompt.html" class="mobile-nav-link">AI Prompt</a>
     <a href="creator-tools.html" class="mobile-nav-link">Creator Tools</a>
     <a href="media-converter-tools.html" class="mobile-nav-link active">Media Converter Tools</a>
+    <a href="browser-utilities.html" class="mobile-nav-link">Browser Utilities</a>
     <a href="platforms.html" class="mobile-nav-link">Platforms</a>
     <a href="about.html" class="mobile-nav-link">About</a>
     <a href="settings.html" class="mobile-nav-link">Settings</a>
@@ -1417,7 +1419,7 @@
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 20 creator optimization tools, 15 browser media converters, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 20 creator optimization tools, 15 browser media converters, 36 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -1437,6 +1439,7 @@
             <li><a href="ai-prompt.html">AI Prompts & Tools</a></li>
             <li><a href="creator-tools.html">Creator Tools</a></li>
             <li><a href="media-converter-tools.html">Media Converter Tools</a></li>
+            <li><a href="browser-utilities.html">Browser Utilities</a></li>
             <li><a href="about.html">About MTV</a></li>
             <li><a href="credits.html">Credits & Attributions</a></li>
           </ul>
@@ -1495,19 +1498,19 @@
   </style>
 
   <!-- External Client-Side Libraries for New Tools -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     if (window.pdfjsLib) {
       window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     }
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
-  <script src="assets/js/navigation.js"></script>
-  <script src="assets/js/media-converter.js"></script>
+  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js"></script>
+  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
+  <script type="module" src="assets/js/navigation.js"></script>
+  <script type="module" src="assets/js/media-converter.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const searchInput = document.getElementById('media-tools-search-input');

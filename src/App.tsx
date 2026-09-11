@@ -725,7 +725,7 @@ export default function App() {
                           className="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center space-x-1"
                         >
                           <span>Run</span>
-                          <ArrowRight className="w-3 h-3" />
+                          <ArrowRight className="w-3 h-3 arrow-nudge" />
                         </button>
                       </div>
                     </div>

@@ -552,6 +552,7 @@ async function getLiveOrCachedPrompts(): Promise<any[]> {
       const feedUrl = `https://aimaeditz.blogspot.com/feeds/posts/default?alt=json&max-results=${maxResultsPerPage}&start-index=${startIndex}&orderby=published&_t=${Date.now()}`;
       const response = await fetch(feedUrl, {
         cache: 'no-store',
+        signal: AbortSignal.timeout(8000),
         headers: {
           'User-Agent': 'Mozilla/5.0 (compatible; MultiTubeViews/2.0; +https://multitubeviews.com)',
           'Accept': 'application/json',

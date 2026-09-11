@@ -1,5 +1,67 @@
 @import "tailwindcss";
 
+/* Continuous Subtle Arrow Nudge Animation Classes */
+@keyframes exploreArrowNudge {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3.5px);
+  }
+}
+
+@keyframes arrowNudgeLeft {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-3.5px);
+  }
+}
+
+@keyframes arrowNudgeDiag {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2.5px, -2.5px);
+  }
+}
+
+.arrow-nudge,
+.arrow-nudge-right,
+.btn-arrow-nudge,
+.btn-explore-arrow {
+  display: inline-block;
+  will-change: transform;
+  animation: exploreArrowNudge 1.4s ease-in-out infinite;
+}
+
+.arrow-nudge-left {
+  display: inline-block;
+  will-change: transform;
+  animation: arrowNudgeLeft 1.4s ease-in-out infinite;
+}
+
+.arrow-nudge-up-right,
+.arrow-nudge-diag {
+  display: inline-block;
+  will-change: transform;
+  animation: arrowNudgeDiag 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow-nudge,
+  .arrow-nudge-right,
+  .btn-arrow-nudge,
+  .btn-explore-arrow,
+  .arrow-nudge-left,
+  .arrow-nudge-up-right,
+  .arrow-nudge-diag {
+    animation: none !important;
+  }
+}
+
 /* Global Invisible Scrollbars across Desktop and Mobile */
 html,
 body,

@@ -136,11 +136,11 @@ const CORE_PAGES_SEO = {
 
   'creator-tools.html': {
     title: 'Creator Tools Suite — Free Video SEO & Title Generators | MTV',
-    description: 'Optimize video SEO with 24 free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and descriptions with timestamps.',
+    description: 'Optimize video SEO with 20 free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and descriptions with timestamps.',
     keywords: 'creator tools, video seo generator, youtube seo pack, youtube tag generator free, youtube title maker, high ctr youtube title generator, video hook ideas, youtube description generator with timestamps, video retention hooks, video script outline generator, youtube hashtag finder, video keyword research tool, youtube metadata optimizer, thumbnail text copy generator, title ab testing tool, mtv creator tools, multitube views creator suite, aimaeditz mtv tools, free video seo tools',
     canonical: `${BASE_URL}/creator-tools.html`,
     ogTitle: 'Creator Tools Suite — Free Video SEO & Title Generators | MTV',
-    ogDescription: 'Optimize video SEO with 24 free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and descriptions with timestamps.',
+    ogDescription: 'Optimize video SEO with 20 free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and descriptions with timestamps.',
     getSchema: () => ({
       '@context': 'https://schema.org',
       '@graph': [
@@ -150,7 +150,7 @@ const CORE_PAGES_SEO = {
           'name': 'MTV Creator Optimization Suite',
           'alternateName': ['MTV Creator Tools', 'Multi Tube Views Creator Suite', 'AiMAEditz MTV Creator Tools', 'MTV Video SEO Pack'],
           'url': `${BASE_URL}/creator-tools.html`,
-          'description': 'Comprehensive 24-tool video SEO suite for content creators, featuring automated title scoring, tag clusters, hook generators, and timestamped descriptions.',
+          'description': 'Comprehensive 20-tool video SEO suite for content creators, featuring automated title scoring, tag clusters, hook generators, and timestamped descriptions.',
           'applicationCategory': 'BusinessApplication',
           'applicationSubCategory': 'SearchEngineOptimization',
           'operatingSystem': 'All',
@@ -168,7 +168,7 @@ const CORE_PAGES_SEO = {
             'priceCurrency': 'USD'
           },
           'featureList': [
-            '24 specialized video SEO, copywriting, and retention tools',
+            '20 specialized video SEO, copywriting, and retention tools',
             'High-CTR video title generator with emotional trigger scoring',
             'Timestamp chapter description builder with call-to-action blocks',
             'Hierarchical keyword and tag cluster generator',
@@ -203,7 +203,7 @@ const CORE_PAGES_SEO = {
               'name': 'What tools are included in the MTV Creator Tools Suite?',
               'acceptedAnswer': {
                 '@type': 'Answer',
-                'text': 'The suite includes 24 tools including Title Generator, Tag & Keyword Extractor, Description Maker with Timestamps, Retention Hook Generator, Script Outline Builder, Thumbnail Copy Generator, Hashtag Finder, and Video SEO Checklist.'
+                'text': 'The suite includes 20 tools including Title Generator, Tag & Keyword Extractor, Description Maker with Timestamps, Retention Hook Generator, Script Outline Builder, Thumbnail Copy Generator, Hashtag Finder, and Video SEO Checklist.'
               }
             },
             {

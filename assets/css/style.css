@@ -564,6 +564,14 @@ input, select, textarea, button {
   border-top: 1px solid var(--border-subtle);
   padding: 3.5rem 0 2rem 0;
   transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.site-footer .footer-grid,
+.site-footer .footer-bottom {
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 @media (min-width: 993px) {
