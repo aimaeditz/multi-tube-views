@@ -1464,7 +1464,6 @@
     font-size: 0.8rem !important;
     line-height: 1.5 !important;
     padding: 0.75rem 0.65rem !important;
-    max-height: 380px !important;
     border-radius: var(--radius-md) !important;
   }
 

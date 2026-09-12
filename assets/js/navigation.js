@@ -495,4 +495,71 @@ document.addEventListener('DOMContentLoaded', () => {
     childList: true,
     subtree: true
   });
+
+  // Consistently auto-expand all output boxes (textareas, divs, and table wraps) site-wide
+  const autoExpandOutputs = () => {
+    // 1. Handle #dedicated-tool-output div and other inline-tool-output elements
+    const dedicatedOutputs = document.querySelectorAll('#dedicated-tool-output, .inline-tool-output');
+    dedicatedOutputs.forEach(el => {
+      if (el.style.maxHeight !== 'none' || el.style.overflowY !== 'visible') {
+        el.style.maxHeight = 'none';
+        el.style.overflowY = 'visible';
+        el.style.setProperty('max-height', 'none', 'important');
+        el.style.setProperty('overflow-y', 'visible', 'important');
+      }
+    });
+
+    // 2. Handle output table wrappers like .bu-table-wrap
+    const tableWraps = document.querySelectorAll('.bu-table-wrap');
+    tableWraps.forEach(wrap => {
+      if (wrap.style.maxHeight !== 'none' || wrap.style.overflowY !== 'visible') {
+        wrap.style.maxHeight = 'none';
+        wrap.style.overflowY = 'visible';
+        wrap.style.setProperty('max-height', 'none', 'important');
+        wrap.style.setProperty('overflow-y', 'visible', 'important');
+      }
+    });
+
+    // 3. Handle output textareas (any readonly textarea or textarea matching output/result IDs)
+    const textareas = document.querySelectorAll('textarea');
+    textareas.forEach(textarea => {
+      const isOutput = textarea.hasAttribute('readonly') || 
+                       textarea.id.includes('output') || 
+                       textarea.id.includes('result') ||
+                       textarea.readOnly;
+      
+      if (isOutput) {
+        const currentVal = textarea.value;
+        if (textarea._prevVal !== currentVal || textarea._prevWidth !== textarea.offsetWidth) {
+          // Force layout properties to prevent scrolling and allow auto-expansion
+          textarea.style.overflowY = 'hidden';
+          textarea.style.setProperty('overflow-y', 'hidden', 'important');
+          textarea.style.resize = 'none';
+          
+          textarea.style.height = 'auto';
+          const newHeight = textarea.scrollHeight;
+          // Add 4px padding safety to avoid any potential sub-pixel layout oscillation
+          textarea.style.height = (newHeight > 0 ? (newHeight + 4) : 150) + 'px';
+          
+          textarea._prevVal = currentVal;
+          textarea._prevWidth = textarea.offsetWidth;
+        }
+      }
+    });
+  };
+
+  // Run autoExpandOutputs immediately and register triggers
+  autoExpandOutputs();
+  window.addEventListener('load', autoExpandOutputs);
+  window.addEventListener('resize', autoExpandOutputs);
+  
+  // High-frequency polling to immediately catch programmatic updates or model streamings
+  setInterval(autoExpandOutputs, 100);
+
+  // Fallback observer for textarea modifications or dynamic content loading
+  document.body.addEventListener('input', (e) => {
+    if (e.target.tagName === 'TEXTAREA') {
+      autoExpandOutputs();
+    }
+  });
 });

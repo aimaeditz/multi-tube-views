@@ -47,7 +47,7 @@ export const FILE_TOOLS = [
         <div class="bu-stat-item">Columns: <strong id="csv-cols-cnt">0</strong></div>
         <div class="bu-stat-item">Filtered Matches: <strong id="csv-filter-cnt">0</strong></div>
       </div>
-      <div class="bu-table-wrap" style="margin-top: 1rem; max-height: 380px; overflow-y: auto;">
+      <div class="bu-table-wrap" style="margin-top: 1rem;">
         <table class="bu-table" id="csv-table">
           <thead id="csv-thead"></thead>
           <tbody id="csv-tbody"></tbody>
