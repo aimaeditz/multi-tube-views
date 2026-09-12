@@ -48,7 +48,7 @@
 @keyframes heroFadeSlideUp {
   0% {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translateY(18px);
   }
   100% {
     opacity: 1;
@@ -58,21 +58,33 @@
 
 .hero-section .hero-pill,
 .prompt-header-section .hero-pill {
-  animation: heroFadeSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: heroFadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .hero-title,
 .prompt-header-section h1,
 .creator-tools-header h1,
 .platform-page-header h1 {
-  animation: heroFadeSlideUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+  animation: heroFadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
 }
 
 .hero-description,
 .prompt-header-section p,
 .creator-tools-header p,
 .platform-page-header p {
-  animation: heroFadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  animation: heroFadeSlideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
+}
+
+.prompt-search-wrap,
+.hero-search-wrap {
+  animation: heroFadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+}
+
+#category-filters-wrap,
+.category-pills-wrap,
+.category-filters-wrap,
+.prompt-controls-bar {
+  animation: heroFadeSlideUp 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;
 }
 
 [data-theme="dark"] .hero-section::before,
@@ -504,11 +516,28 @@
 .how-it-works-step:nth-child(3), .step-card:nth-child(3) { transition-delay: 0.19s; }
 
 @media (prefers-reduced-motion: reduce), (max-width: 780px) {
+  .hero-section .hero-pill,
+  .prompt-header-section .hero-pill,
+  .hero-title,
+  .prompt-header-section h1,
+  .creator-tools-header h1,
+  .platform-page-header h1,
+  .hero-description,
+  .prompt-header-section p,
+  .creator-tools-header p,
+  .platform-page-header p,
+  .prompt-search-wrap,
+  .hero-search-wrap,
+  #category-filters-wrap,
+  .category-pills-wrap,
+  .category-filters-wrap,
+  .prompt-controls-bar,
   .scroll-reveal,
   .scroll-reveal.is-revealed {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    animation: none !important;
     will-change: auto !important;
   }
 }
@@ -2820,6 +2849,12 @@ textarea.form-control {
   transition: transform var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
   box-shadow: var(--shadow-sm);
   height: 100%;
+}
+
+.creator-tool-card.is-hidden,
+.creator-tool-card[data-hidden="true"],
+.creator-tool-card[hidden] {
+  display: none !important;
 }
 
 .creator-tool-card:hover {

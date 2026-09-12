@@ -62,3 +62,14 @@ const StorageManager = {
 
 window.STORAGE_KEYS = STORAGE_KEYS;
 window.StorageManager = StorageManager;
+
+// Global defensive initialization for third-party scripts (AdSense / Analytics in sandboxed preview environments)
+if (typeof window !== 'undefined') {
+  window.adsbygoogle = window.adsbygoogle || [];
+  window.addEventListener('error', function (e) {
+    if (e && e.message && typeof e.message === 'string' && e.message.includes('_android')) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      return true;
+    }
+  }, true);
+}

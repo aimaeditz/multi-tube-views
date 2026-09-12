@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeKey = '';
     if (path.endsWith('/') || path.endsWith('/index.html') || path.includes('/index.html')) {
       activeKey = 'home';
+    } else if (path.includes('ai-tools.html')) {
+      activeKey = 'ai-tools';
     } else if (path.includes('ai-prompt.html') || path.includes('ai-auto.html')) {
       activeKey = 'ai-prompt';
     } else if (path.includes('creator-tools.html')) {
@@ -42,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
       navDesktop.innerHTML = `
         <a href="${p}index.html" class="nav-link ${activeKey === 'home' ? 'active' : ''}">Home</a>
         <a href="${p}ai-prompt.html" class="nav-link ${activeKey === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
+        <a href="${p}ai-tools.html" class="nav-link ${activeKey === 'ai-tools' ? 'active' : ''}">AI Tools</a>
         <a href="${p}creator-tools.html" class="nav-link ${activeKey === 'creator-tools' ? 'active' : ''}">Creator Tools</a>
         <a href="${p}media-converter-tools.html" class="nav-link ${activeKey === 'media-converter-tools' ? 'active' : ''}">Converter Tools</a>
         <a href="${p}browser-utilities.html" class="nav-link ${activeKey === 'browser-utilities' ? 'active' : ''}">Browser Utilities</a>
@@ -53,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileDrawer.innerHTML = `
         <a href="${p}index.html" class="mobile-nav-link ${activeKey === 'home' ? 'active' : ''}">Home</a>
         <a href="${p}ai-prompt.html" class="mobile-nav-link ${activeKey === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
+        <a href="${p}ai-tools.html" class="mobile-nav-link ${activeKey === 'ai-tools' ? 'active' : ''}">AI Tools</a>
         <a href="${p}creator-tools.html" class="mobile-nav-link ${activeKey === 'creator-tools' ? 'active' : ''}">Creator Tools</a>
         <a href="${p}media-converter-tools.html" class="mobile-nav-link ${activeKey === 'media-converter-tools' ? 'active' : ''}">Media Converter Tools</a>
         <a href="${p}browser-utilities.html" class="mobile-nav-link ${activeKey === 'browser-utilities' ? 'active' : ''}">Browser Utilities</a>

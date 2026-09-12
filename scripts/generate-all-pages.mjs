@@ -110,6 +110,7 @@ function renderHeader({ activeNav = 'browser-utilities', depth = 0 }) {
       <nav class="nav-desktop" aria-label="Main Navigation">
         <a href="${p}index.html" class="nav-link ${activeNav === 'home' ? 'active' : ''}">Home</a>
         <a href="${p}ai-prompt.html" class="nav-link ${activeNav === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
+        <a href="${p}ai-tools.html" class="nav-link ${activeNav === 'ai-tools' ? 'active' : ''}">AI Tools</a>
         <a href="${p}creator-tools.html" class="nav-link ${activeNav === 'creator-tools' ? 'active' : ''}">Creator Tools</a>
         <a href="${p}media-converter-tools.html" class="nav-link ${activeNav === 'media-converter-tools' ? 'active' : ''}">Converter Tools</a>
         <a href="${p}browser-utilities.html" class="nav-link ${activeNav === 'browser-utilities' ? 'active' : ''}">Browser Utilities</a>
@@ -134,6 +135,7 @@ function renderHeader({ activeNav = 'browser-utilities', depth = 0 }) {
   <div class="mobile-drawer" id="mobile-drawer">
     <a href="${p}index.html" class="mobile-nav-link ${activeNav === 'home' ? 'active' : ''}">Home</a>
     <a href="${p}ai-prompt.html" class="mobile-nav-link ${activeNav === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
+    <a href="${p}ai-tools.html" class="mobile-nav-link ${activeNav === 'ai-tools' ? 'active' : ''}">AI Tools</a>
     <a href="${p}creator-tools.html" class="mobile-nav-link ${activeNav === 'creator-tools' ? 'active' : ''}">Creator Tools</a>
     <a href="${p}media-converter-tools.html" class="mobile-nav-link ${activeNav === 'media-converter-tools' ? 'active' : ''}">Media Converter Tools</a>
     <a href="${p}browser-utilities.html" class="mobile-nav-link ${activeNav === 'browser-utilities' ? 'active' : ''}">Browser Utilities</a>
@@ -159,7 +161,7 @@ function renderFooter({ depth = 0 }) {
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 20 creator optimization tools, 15 browser media converters, 36 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 60+ AI tools, 20 creator optimization tools, 15 browser media converters, 36 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -177,6 +179,7 @@ function renderFooter({ depth = 0 }) {
           <h4>Company & Tools</h4>
           <ul class="footer-links">
             <li><a href="${p}ai-prompt.html">AI Prompts & Tools</a></li>
+            <li><a href="${p}ai-tools.html">AI Tools</a></li>
             <li><a href="${p}creator-tools.html">Creator Tools</a></li>
             <li><a href="${p}media-converter-tools.html">Media Converter Tools</a></li>
             <li><a href="${p}browser-utilities.html">Browser Utilities</a></li>

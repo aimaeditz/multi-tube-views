@@ -256,14 +256,31 @@
    Breakpoints: Mobile Devices & Phablets (<= 780px)
    ========================================================================== */
 @media (max-width: 780px) {
-  /* Disable Scroll-Reveal Animation Completely (Mobile Only — fully visible immediately) */
+  /* Disable Scroll-Reveal & Hero Entrance Animations Completely (Mobile Only — fully visible immediately) */
   .reveal,
   .reveal.in,
   .scroll-reveal,
-  .scroll-reveal.is-revealed {
+  .scroll-reveal.is-revealed,
+  .hero-section .hero-pill,
+  .prompt-header-section .hero-pill,
+  .hero-title,
+  .prompt-header-section h1,
+  .creator-tools-header h1,
+  .platform-page-header h1,
+  .hero-description,
+  .prompt-header-section p,
+  .creator-tools-header p,
+  .platform-page-header p,
+  .prompt-search-wrap,
+  .hero-search-wrap,
+  #category-filters-wrap,
+  .category-pills-wrap,
+  .category-filters-wrap,
+  .prompt-controls-bar {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    animation: none !important;
     will-change: auto !important;
   }
 
@@ -1121,23 +1138,34 @@
   }
 
   /* ==========================================================================
-     CREATOR TOOLS PAGE (creator-tools.html) — Mobile 2-Column Grid & Compact Cards
+     CREATOR TOOLS & AI TOOLS PAGES (creator-tools.html & ai-tools.html) — Mobile Grid & Compact Styling
      ========================================================================== */
-  .creator-tools-header {
-    padding: 1.5rem 0 1rem 0 !important;
-    margin-bottom: 0.5rem !important;
-  }
-
-  .creator-tools-header h1 {
-    font-size: 1.35rem !important;
-    line-height: 1.25 !important;
+  .creator-tools-header,
+  #tools-list-view .prompt-header-section {
+    padding: 1.25rem 0 0.85rem 0 !important;
     margin-bottom: 0.35rem !important;
   }
 
-  .creator-tools-header p {
-    font-size: 0.8rem !important;
-    line-height: 1.45 !important;
+  .creator-tools-header h1,
+  #tools-list-view .prompt-header-section h1 {
+    font-size: 1.3rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.3rem !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .creator-tools-header p,
+  #tools-list-view .prompt-header-section p {
+    font-size: 0.76rem !important;
+    line-height: 1.42 !important;
     margin-bottom: 0 !important;
+    max-width: 100% !important;
+  }
+
+  #tools-list-view .prompt-header-section .hero-pill {
+    font-size: 0.7rem !important;
+    padding: 0.18rem 0.5rem !important;
+    margin-bottom: 0.4rem !important;
   }
 
   .creator-tools-input-card {
@@ -1160,25 +1188,107 @@
     box-sizing: border-box !important;
   }
 
-  #tools-list-view .prompt-search-wrap {
-    margin-bottom: 1rem !important;
+  /* Search Bar (Mobile Compact) */
+  #tools-list-view .prompt-search-wrap,
+  .creator-tools-section .prompt-search-wrap {
+    margin-bottom: 0.75rem !important;
+    width: 100% !important;
   }
 
-  .creator-tools-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 0.55rem !important;
+  #tools-list-view .prompt-search-input,
+  #ai-tools-search-input {
+    font-size: 0.8rem !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0.35rem 2rem 0.35rem 2.15rem !important;
+    border-radius: var(--radius-full) !important;
+  }
+
+  #tools-list-view .prompt-search-icon {
+    left: 0.75rem !important;
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  #tools-list-view .prompt-search-clear {
+    right: 0.45rem !important;
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  /* Category Filter Pills (Mobile Horizontal Scrollable Row) */
+  #category-filters-wrap {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+    gap: 0.35rem !important;
+    padding: 0.2rem 0.1rem 0.55rem 0.1rem !important;
+    margin-bottom: 1rem !important;
+    scrollbar-width: none !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
-    margin-bottom: 2rem !important;
+    justify-content: flex-start !important;
+  }
+
+  #category-filters-wrap::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  #category-filters-wrap .filter-chip {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    padding: 0.2rem 0.65rem !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    border-radius: var(--radius-full) !important;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+  }
+
+  #category-filters-wrap .filter-chip .filter-count {
+    font-size: 0.66rem !important;
+    padding: 0.05rem 0.3rem !important;
+    line-height: 1 !important;
+  }
+
+  /* Empty State */
+  #ai-tools-empty-state {
+    padding: 1.5rem 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  #ai-tools-empty-state h3 {
+    font-size: 0.95rem !important;
+  }
+
+  #ai-tools-empty-state p {
+    font-size: 0.76rem !important;
+  }
+
+  /* Tool Cards 2-Column Grid */
+  .creator-tools-grid,
+  #ai-tools-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.45rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-bottom: 1.75rem !important;
   }
 
   .creator-tool-card {
     background-color: var(--bg-surface-elevated, var(--bg-surface)) !important;
     border: 1px solid var(--border-strong) !important;
     border-radius: var(--radius-md) !important;
-    padding: 0.75rem 0.65rem !important;
+    padding: 0.65rem 0.55rem !important;
     box-shadow: var(--shadow-sm) !important;
     display: flex !important;
     flex-direction: column !important;
@@ -1190,23 +1300,30 @@
     overflow: hidden !important;
   }
 
+  /* Robust Hidden State for Filtering */
+  .creator-tool-card.is-hidden,
+  .creator-tool-card[data-hidden="true"],
+  .creator-tool-card[hidden] {
+    display: none !important;
+  }
+
   .creator-tool-header {
     display: flex !important;
     align-items: center !important;
-    gap: 0.4rem !important;
-    margin-bottom: 0.35rem !important;
+    gap: 0.35rem !important;
+    margin-bottom: 0.25rem !important;
     min-width: 0 !important;
     width: 100% !important;
   }
 
   .creator-tool-icon {
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px !important;
-    min-height: 28px !important;
-    max-width: 28px !important;
-    max-height: 28px !important;
-    font-size: 0.95rem !important;
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
+    font-size: 0.85rem !important;
     border-radius: 6px !important;
     flex-shrink: 0 !important;
     display: inline-flex !important;
@@ -1215,7 +1332,7 @@
   }
 
   .creator-tool-title {
-    font-size: 0.82rem !important;
+    font-size: 0.76rem !important;
     font-weight: 700 !important;
     line-height: 1.2 !important;
     margin: 0 !important;
@@ -1226,9 +1343,9 @@
   }
 
   .creator-tool-desc {
-    font-size: 0.72rem !important;
-    line-height: 1.35 !important;
-    margin-bottom: 0.65rem !important;
+    font-size: 0.68rem !important;
+    line-height: 1.32 !important;
+    margin-bottom: 0.45rem !important;
     color: var(--text-secondary) !important;
     flex-grow: 1 !important;
     min-width: 0 !important;
@@ -1237,7 +1354,7 @@
 
   .creator-tool-actions {
     display: flex !important;
-    padding-top: 0.45rem !important;
+    padding-top: 0.35rem !important;
     border-top: 1px solid var(--border-subtle) !important;
     width: 100% !important;
     min-width: 0 !important;
@@ -1247,12 +1364,12 @@
   .btn-open-tool,
   .creator-tool-actions .btn {
     width: 100% !important;
-    padding: 0.35rem 0.4rem !important;
-    min-height: 32px !important;
-    height: 32px !important;
-    font-size: 0.74rem !important;
+    padding: 0.25rem 0.35rem !important;
+    min-height: 28px !important;
+    height: 28px !important;
+    font-size: 0.7rem !important;
     font-weight: 600 !important;
-    gap: 0.25rem !important;
+    gap: 0.2rem !important;
     border-radius: var(--radius-full) !important;
     justify-content: center !important;
     box-sizing: border-box !important;
@@ -1260,13 +1377,95 @@
   }
 
   .btn-open-tool span {
-    font-size: 0.74rem !important;
+    font-size: 0.7rem !important;
   }
 
   .btn-open-tool svg {
-    width: 11px !important;
-    height: 11px !important;
+    width: 10px !important;
+    height: 10px !important;
     flex-shrink: 0 !important;
+  }
+
+  /* Dedicated Tool Workspace (Mobile Refined Sizing) */
+  #dedicated-tool-workspace .page-header {
+    padding: 1rem 0 0.65rem 0 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  #dedicated-tool-title {
+    font-size: 1.2rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  #dedicated-tool-desc {
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
+  }
+
+  #dedicated-tool-workspace .card {
+    padding: 0.95rem 0.8rem !important;
+    border-radius: var(--radius-lg) !important;
+    margin-bottom: 1rem !important;
+  }
+
+  #dedicated-input-label {
+    font-size: 0.76rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  #dedicated-tool-input {
+    font-size: 0.82rem !important;
+    padding: 0.55rem 0.65rem !important;
+    min-height: 80px !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  #dedicated-platform-wrap,
+  #dedicated-tone-wrap {
+    margin-bottom: 0.5rem !important;
+  }
+
+  #dedicated-platform-wrap label,
+  #dedicated-tone-wrap label {
+    font-size: 0.74rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  #dedicated-platform-select,
+  #dedicated-tone-select {
+    font-size: 0.8rem !important;
+    padding: 0.4rem 0.6rem !important;
+    min-height: 34px !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  #btn-generate-dedicated {
+    font-size: 0.85rem !important;
+    padding: 0.55rem 0.75rem !important;
+    min-height: 38px !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  #dedicated-tool-output-wrap {
+    margin-top: 1rem !important;
+    padding-top: 0.85rem !important;
+  }
+
+  #btn-dedicated-copy-all,
+  #btn-dedicated-copy,
+  #btn-dedicated-clear {
+    font-size: 0.7rem !important;
+    padding: 0.2rem 0.45rem !important;
+    min-height: 26px !important;
+  }
+
+  #dedicated-tool-output {
+    font-size: 0.8rem !important;
+    line-height: 1.5 !important;
+    padding: 0.75rem 0.65rem !important;
+    max-height: 380px !important;
+    border-radius: var(--radius-md) !important;
   }
 
   /* ==========================================================================
@@ -1355,6 +1554,324 @@
     width: 11px !important;
     height: 11px !important;
     flex-shrink: 0 !important;
+  }
+
+  /* ==========================================================================
+     BROWSER UTILITIES PAGES — Mobile Grid, Hero & Category Responsive Styling
+     ========================================================================== */
+  .bu-hero {
+    margin: 1rem auto 1.5rem auto !important;
+  }
+
+  .bu-hero .bu-badge {
+    font-size: 0.7rem !important;
+    padding: 0.2rem 0.55rem !important;
+  }
+
+  .bu-hero h1.bu-title {
+    font-size: 1.35rem !important;
+    line-height: 1.25 !important;
+    margin: 0.35rem 0 0.5rem 0 !important;
+  }
+
+  .bu-hero p.bu-subtitle {
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  #bu-search-input {
+    padding: 0.55rem 3.5rem 0.55rem 0.85rem !important;
+    font-size: 0.82rem !important;
+    min-height: 38px !important;
+    height: 38px !important;
+    box-sizing: border-box !important;
+  }
+
+  #bu-search-count {
+    font-size: 0.72rem !important;
+    right: 12px !important;
+  }
+
+  /* Quick Category Nav Buttons — Mobile 2-Column Compact Grid */
+  .bu-category-nav-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.45rem !important;
+    margin-bottom: 1.5rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .bu-category-nav-grid .bu-btn {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 0.35rem 0.4rem !important;
+    font-size: 0.74rem !important;
+    font-weight: 600 !important;
+    border-radius: var(--radius-full) !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+    min-height: 32px !important;
+    height: 32px !important;
+  }
+
+  .bu-category-nav-grid .bu-btn span {
+    font-size: 0.74rem !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .bu-grid-3col,
+  .bu-tools-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.55rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-top: 1rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .bu-card,
+  .bu-tool-card {
+    background-color: var(--bg-surface-elevated, var(--bg-surface)) !important;
+    border: 1px solid var(--border-strong) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.75rem 0.65rem !important;
+    box-shadow: var(--shadow-sm) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .bu-card-icon,
+  .bu-tool-card-icon {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    font-size: 1rem !important;
+    border-radius: 6px !important;
+  }
+
+  .bu-card-title,
+  .bu-tool-card-title {
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    margin: 0 !important;
+  }
+
+  .bu-card-desc,
+  .bu-tool-card-desc {
+    font-size: 0.72rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  .bu-card-action,
+  .bu-tool-card-action {
+    font-size: 0.74rem !important;
+    padding-top: 0.45rem !important;
+  }
+
+  .bu-explore-btn {
+    font-size: 0.76rem !important;
+    padding: 0.35rem 0.75rem !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    gap: 0.3rem !important;
+    width: auto !important;
+  }
+
+  .bu-explore-btn svg {
+    width: 11px !important;
+    height: 11px !important;
+  }
+
+  /* ==========================================================================
+     INDIVIDUAL BROWSER UTILITIES TOOL WORKSPACE — Mobile Compact Sizing
+     ========================================================================== */
+  .bu-breadcrumbs {
+    margin-bottom: 0.75rem !important;
+    font-size: 0.74rem !important;
+    gap: 0.3rem !important;
+  }
+
+  .bu-header {
+    margin: 1rem 0 1.25rem 0 !important;
+  }
+
+  .bu-header .bu-title,
+  .bu-header h1 {
+    font-size: 1.25rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .bu-header .bu-subtitle,
+  .bu-header p {
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .bu-workspace {
+    padding: 0.85rem 0.8rem !important;
+    border-radius: var(--radius-md) !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1.25rem !important;
+    box-sizing: border-box !important;
+  }
+
+  .bu-workspace-header {
+    padding-bottom: 0.65rem !important;
+    margin-bottom: 0.85rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .bu-workspace-title {
+    font-size: 1.1rem !important;
+  }
+
+  .bu-workspace-icon {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    font-size: 1.1rem !important;
+    border-radius: var(--radius-sm) !important;
+  }
+
+  .bu-form-group {
+    margin-bottom: 0.75rem !important;
+  }
+
+  .bu-form-label {
+    font-size: 0.78rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .bu-form-label-hint {
+    font-size: 0.7rem !important;
+  }
+
+  .bu-textarea {
+    padding: 0.5rem 0.65rem !important;
+    font-size: 0.82rem !important;
+    border-radius: var(--radius-sm) !important;
+    min-height: 90px !important;
+    box-sizing: border-box !important;
+  }
+
+  .bu-textarea-mono {
+    font-size: 0.78rem !important;
+  }
+
+  .bu-input {
+    padding: 0.45rem 0.65rem !important;
+    font-size: 0.82rem !important;
+    min-height: 36px !important;
+    height: 36px !important;
+    border-radius: var(--radius-sm) !important;
+    box-sizing: border-box !important;
+  }
+
+  .bu-select {
+    padding: 0.4rem 0.65rem !important;
+    font-size: 0.82rem !important;
+    min-height: 36px !important;
+    height: 36px !important;
+    border-radius: var(--radius-sm) !important;
+    box-sizing: border-box !important;
+  }
+
+  .bu-actions-bar {
+    gap: 0.35rem !important;
+    margin-top: 0.65rem !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  .bu-actions-bar .bu-btn,
+  .bu-workspace .bu-btn {
+    padding: 0.35rem 0.6rem !important;
+    font-size: 0.74rem !important;
+    font-weight: 600 !important;
+    min-height: 32px !important;
+    height: 32px !important;
+    border-radius: var(--radius-full) !important;
+    box-sizing: border-box !important;
+  }
+
+  .bu-dropzone {
+    padding: 1.1rem 0.75rem !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .bu-options-wrap {
+    gap: 0.35rem !important;
+    margin-top: 0.45rem !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  .bu-checkbox-label {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.72rem !important;
+    border-radius: var(--radius-sm) !important;
+  }
+
+  .bu-output-box {
+    padding: 0.65rem 0.75rem !important;
+    font-size: 0.78rem !important;
+    min-height: 80px !important;
+    border-radius: var(--radius-sm) !important;
+  }
+
+  .bu-stats-strip {
+    padding: 0.5rem 0.65rem !important;
+    gap: 0.45rem !important;
+    font-size: 0.72rem !important;
+    border-radius: var(--radius-sm) !important;
+    margin-top: 0.55rem !important;
+  }
+
+  .bu-grid-2col {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .bu-grid-2col > div {
+    padding: 1rem 0.85rem !important;
+    border-radius: var(--radius-md) !important;
+  }
+
+  .bu-grid-2col > div h2 {
+    font-size: 1rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .bu-grid-2col > div p {
+    font-size: 0.78rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .bu-grid-2col > div strong {
+    font-size: 0.82rem !important;
   }
 
   /* ==========================================================================
@@ -1779,6 +2296,10 @@
     font-size: 0.8rem !important;
     height: 36px !important;
     min-height: 36px !important;
+  }
+
+  main:nth-of-type(1) > div:nth-of-type(1) > section#ai-tools:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(2) {
+    font-size: 12.5px !important;
   }
 }
 

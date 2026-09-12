@@ -985,7 +985,7 @@
   /* Live Stats Section */
   .stats-grid-desk {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 1.25rem;
     margin-bottom: 5.5rem;
     position: relative;
@@ -1758,12 +1758,33 @@
   /* Hero Typography & CTA Buttons */
   .hero-eyebrow,
   .eyebrow {
-    font-size: 11px !important;
+    font-size: 10px !important;
     padding: 4px 11px !important;
     margin-bottom: 10px !important;
     display: inline-flex !important;
     align-items: center !important;
     gap: 6px !important;
+    border-radius: 9999px !important;
+    background: var(--ref-surface) !important;
+    border: 1px solid var(--ref-line-strong) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    color: var(--ref-blue) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+
+  .hero-eyebrow .pulse-dot,
+  .eyebrow .pulse-dot {
+    width: 7px !important;
+    height: 7px !important;
+    border-radius: 50% !important;
+    background: #10b981 !important;
+    box-shadow: 0 0 10px #10b981 !important;
+    animation: pulseGlow 1.8s infinite !important;
+    display: inline-block !important;
+    flex-shrink: 0 !important;
   }
 
   .hero h1,
@@ -1782,8 +1803,8 @@
   .hero-desk p,
   .hero-subhead,
   .hero-description {
-    font-size: 13px !important;
-    line-height: 1.5 !important;
+    font-size: 11.5px !important;
+    line-height: 17.75px !important;
     max-width: 92% !important;
     width: 100% !important;
     margin-bottom: 18px !important;
@@ -2366,16 +2387,32 @@
     flex-shrink: 0 !important;
   }
 
-  /* 5. Statistics Counters: 2x2 Grid on Mobile with Fluid Auto Height */
+  /* 5. Statistics Counters: 3+2 Grid on Mobile with Fluid Auto Height */
   .stats,
   .stats-grid,
   .stats-grid-desk {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 8px !important;
     width: 100% !important;
     box-sizing: border-box !important;
     margin-bottom: 22px !important;
+  }
+
+  .stat:nth-child(1),
+  .stat:nth-child(2),
+  .stat:nth-child(3),
+  .stat-card-desk:nth-child(1),
+  .stat-card-desk:nth-child(2),
+  .stat-card-desk:nth-child(3) {
+    grid-column: span 2 !important;
+  }
+
+  .stat:nth-child(4),
+  .stat:nth-child(5),
+  .stat-card-desk:nth-child(4),
+  .stat-card-desk:nth-child(5) {
+    grid-column: span 3 !important;
   }
 
   .stat,
@@ -2797,8 +2834,7 @@
     max-width: calc(100% - 18px) !important;
   }
 
-  .pro,
-  .brand-badge {
+  .pro {
     display: none !important;
   }
 
@@ -2820,8 +2856,8 @@
   .hero p,
   .hero-desk p,
   .hero-subhead {
-    font-size: 12.5px !important;
-    line-height: 1.5 !important;
+    font-size: 11.5px !important;
+    line-height: 17.75px !important;
   }
 
   .hero-actions .primary,
@@ -3014,7 +3050,15 @@
   box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 12px 36px -8px var(--mtv-glow-a), 0 24px 60px -12px rgba(0, 0, 0, 0.32) !important;
 }
 
-/* Panel 4: Platform Workspaces (Color B) */
+/* Panel 4: 60 AI Generative Tools (Color B) */
+#ai-tools .story-panel,
+.desktop-ref-body #ai-tools .story-panel {
+  background: var(--mtv-color-b) !important;
+  border: 1px solid var(--mtv-border-color) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 12px 36px -8px var(--mtv-glow-b), 0 24px 60px -12px rgba(0, 0, 0, 0.32) !important;
+}
+
+/* Panel 5: Platform Workspaces (Color B) */
 .desktop-ref-body #platforms .story-panel {
   background: var(--mtv-color-b) !important;
   border: 1px solid var(--mtv-border-color) !important;
@@ -3210,6 +3254,8 @@
     box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5), 0 18px 48px -6px rgba(37, 99, 235, 0.52), 0 32px 80px -10px rgba(0, 0, 0, 0.38) !important;
   }
 
+  #ai-tools .story-panel:hover,
+  .desktop-ref-body #ai-tools .story-panel:hover,
   .desktop-ref-body #converter .story-panel:hover,
   .desktop-ref-body #platforms .story-panel:hover {
     transform: translateY(-4px) !important;
