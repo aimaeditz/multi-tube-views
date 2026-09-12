@@ -2975,3 +2975,264 @@
     transition: none !important;
   }
 }
+
+/* ===== MTV 2-COLOR PREMIUM UPGRADE ===== */
+:root {
+  --mtv-color-a: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  --mtv-color-b: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+  --mtv-glow-a: rgba(37, 99, 235, 0.38);
+  --mtv-glow-b: rgba(124, 58, 237, 0.38);
+  --mtv-border-color: rgba(255, 255, 255, 0.22);
+}
+
+[data-theme="dark"] {
+  --mtv-glow-a: rgba(37, 99, 235, 0.55);
+  --mtv-glow-b: rgba(124, 58, 237, 0.55);
+  --mtv-border-color: rgba(255, 255, 255, 0.32);
+}
+
+/* Base Panel Definitions — Alternating Colors Down Homepage */
+
+/* Panel 1: AI Prompt Library (Color A) */
+.desktop-ref-body #prompts .story-panel {
+  background: var(--mtv-color-a) !important;
+  border: 1px solid var(--mtv-border-color) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 12px 36px -8px var(--mtv-glow-a), 0 24px 60px -12px rgba(0, 0, 0, 0.32) !important;
+}
+
+/* Panel 2: Media Converter Tools (Color B) */
+.desktop-ref-body #converter .story-panel {
+  background: var(--mtv-color-b) !important;
+  border: 1px solid var(--mtv-border-color) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 12px 36px -8px var(--mtv-glow-b), 0 24px 60px -12px rgba(0, 0, 0, 0.32) !important;
+}
+
+/* Panel 3: Creator Tools (Color A) */
+.desktop-ref-body #creator .story-panel {
+  background: var(--mtv-color-a) !important;
+  border: 1px solid var(--mtv-border-color) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 12px 36px -8px var(--mtv-glow-a), 0 24px 60px -12px rgba(0, 0, 0, 0.32) !important;
+}
+
+/* Panel 4: Platform Workspaces (Color B) */
+.desktop-ref-body #platforms .story-panel {
+  background: var(--mtv-color-b) !important;
+  border: 1px solid var(--mtv-border-color) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 12px 36px -8px var(--mtv-glow-b), 0 24px 60px -12px rgba(0, 0, 0, 0.32) !important;
+}
+
+/* Panel 5: Feature Showcase Grid / Browser Utilities (Color A) */
+.desktop-ref-body #browser-utilities .story-panel,
+.desktop-ref-body #feature-showcase-section .feature-showcase-card {
+  background: var(--mtv-color-a) !important;
+  border: 1px solid var(--mtv-border-color) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 12px 36px -8px var(--mtv-glow-a), 0 24px 60px -12px rgba(0, 0, 0, 0.32) !important;
+}
+
+/* Panel 6: Stats Section (Color B) */
+.desktop-ref-body #stats-section .stat-card-desk,
+.desktop-ref-body #live-stats-section .live-stat-card {
+  background: var(--mtv-color-b) !important;
+  border: 1px solid var(--mtv-border-color) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 10px 30px -6px var(--mtv-glow-b), 0 20px 45px -10px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Panel 7: Closing CTA Banner (Color A) */
+.desktop-ref-body .cta-card-desk,
+.desktop-ref-body .glass-cta-card {
+  background: var(--mtv-color-a) !important;
+  border: 1px solid var(--mtv-border-color) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4), 0 16px 48px -10px var(--mtv-glow-a), 0 32px 72px -16px rgba(0, 0, 0, 0.38) !important;
+}
+
+/* ===== Mandatory Readability & Text Overrides ===== */
+
+/* Story Panels Typography & Elements */
+.desktop-ref-body .story-panel h2,
+.desktop-ref-body .story-panel h3,
+.desktop-ref-body .story-panel .story-title {
+  color: #ffffff !important;
+}
+
+.desktop-ref-body .story-panel p,
+.desktop-ref-body .story-panel .story-desc {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.desktop-ref-body .story-panel .story-kicker,
+.desktop-ref-body .story-panel .kicker {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.desktop-ref-body .story-panel .story-tag-pill {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Buttons inside story panels: Inverted white background, dark text */
+.desktop-ref-body .story-panel .story-cta-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.55rem !important;
+  padding: 0.7rem 1.5rem !important;
+  border-radius: 9999px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-size: 0.88rem !important;
+  font-weight: 750 !important;
+  text-decoration: none !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.desktop-ref-body .story-panel .story-cta-link span {
+  color: #0f172a !important;
+}
+
+.desktop-ref-body .story-panel .story-cta-link svg {
+  stroke: #0f172a !important;
+}
+
+/* Story Panel 3D Graphics/Floating Objects */
+.desktop-ref-body .story-panel .scene {
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.12) 0%, transparent 70%) !important;
+}
+
+.desktop-ref-body .story-panel .scene-ring,
+.desktop-ref-body .story-panel .scene-ring-2 {
+  border-color: rgba(255, 255, 255, 0.24) !important;
+}
+
+.desktop-ref-body .story-panel .scene-object {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22) !important;
+}
+
+.desktop-ref-body .story-panel .scene-object span {
+  color: #ffffff !important;
+}
+
+/* Stats Section Typography */
+.desktop-ref-body #stats-section .stat-card-desk .stat-num-desk,
+.desktop-ref-body #live-stats-section .live-stat-card .live-stat-number {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.desktop-ref-body #stats-section .stat-card-desk .stat-label-desk,
+.desktop-ref-body #live-stats-section .live-stat-card .live-stat-label {
+  color: #ffffff !important;
+}
+
+.desktop-ref-body #stats-section .stat-card-desk .stat-desc-desk,
+.desktop-ref-body #live-stats-section .live-stat-card .live-stat-desc {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.desktop-ref-body #stats-section .stat-card-desk::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent) !important;
+}
+
+/* Closing CTA Card Typography & Primary Button */
+.desktop-ref-body .cta-card-desk .cta-title-desk,
+.desktop-ref-body .glass-cta-card .glass-cta-title {
+  color: #ffffff !important;
+}
+
+.desktop-ref-body .cta-card-desk .cta-desc-desk,
+.desktop-ref-body .glass-cta-card .glass-cta-desc {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.desktop-ref-body .cta-card-desk .btn-ref-primary,
+.desktop-ref-body .glass-cta-card .glass-cta-btn {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28) !important;
+}
+
+.desktop-ref-body .cta-card-desk .btn-ref-primary span,
+.desktop-ref-body .glass-cta-card .glass-cta-btn span {
+  color: #0f172a !important;
+}
+
+.desktop-ref-body .cta-card-desk .btn-ref-primary svg,
+.desktop-ref-body .glass-cta-card .glass-cta-btn svg {
+  stroke: #0f172a !important;
+}
+
+.desktop-ref-body .cta-card-desk .cta-glow-ring {
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.22) 0%, transparent 70%) !important;
+}
+
+/* Feature Showcase Grid Cards (fallback elements) */
+.desktop-ref-body #feature-showcase-section .feature-showcase-title {
+  color: #ffffff !important;
+}
+
+.desktop-ref-body #feature-showcase-section .feature-showcase-tagline {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.desktop-ref-body #feature-showcase-section .glass-icon-tile {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  color: #ffffff !important;
+}
+
+.desktop-ref-body #feature-showcase-section .glass-icon-tile svg,
+.desktop-ref-body #feature-showcase-section .feature-showcase-arrow {
+  stroke: #ffffff !important;
+}
+
+/* ===== Desktop-Only Hover & 3D Depth Transitions ===== */
+/* Strictly scoped to desktop with hover pointer so mobile layout remains 100% unaffected */
+@media (hover: hover) and (min-width: 1024px) {
+  .desktop-ref-body .story-panel {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease !important;
+  }
+
+  .desktop-ref-body #prompts .story-panel:hover,
+  .desktop-ref-body #creator .story-panel:hover,
+  .desktop-ref-body #browser-utilities .story-panel:hover {
+    transform: translateY(-4px) !important;
+    border-color: rgba(255, 255, 255, 0.38) !important;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5), 0 18px 48px -6px rgba(37, 99, 235, 0.52), 0 32px 80px -10px rgba(0, 0, 0, 0.38) !important;
+  }
+
+  .desktop-ref-body #converter .story-panel:hover,
+  .desktop-ref-body #platforms .story-panel:hover {
+    transform: translateY(-4px) !important;
+    border-color: rgba(255, 255, 255, 0.38) !important;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5), 0 18px 48px -6px rgba(124, 58, 237, 0.52), 0 32px 80px -10px rgba(0, 0, 0, 0.38) !important;
+  }
+
+  .desktop-ref-body .story-panel .story-cta-link:hover {
+    background: rgba(255, 255, 255, 0.94) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .desktop-ref-body .cta-card-desk .btn-ref-primary:hover,
+  .desktop-ref-body .glass-cta-card .glass-cta-btn:hover {
+    background: rgba(255, 255, 255, 0.94) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .desktop-ref-body #stats-section .stat-card-desk:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5), 0 16px 40px -6px rgba(124, 58, 237, 0.5), 0 24px 60px -8px rgba(0, 0, 0, 0.35) !important;
+  }
+}
+/* ===== END MTV 2-COLOR PREMIUM UPGRADE ===== */
