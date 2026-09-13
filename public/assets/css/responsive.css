@@ -1464,13 +1464,54 @@
     font-size: 0.8rem !important;
     line-height: 1.5 !important;
     padding: 0.75rem 0.65rem !important;
-    max-height: 380px !important;
     border-radius: var(--radius-md) !important;
   }
 
   /* ==========================================================================
      MEDIA CONVERTER TOOLS PAGE (media-converter-tools.html) — Mobile Grid & Card Styling
      ========================================================================== */
+  /* Category Filter Pills (Mobile Horizontal Scrollable Row) */
+  #media-category-pills {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+    gap: 0.35rem !important;
+    padding: 0.2rem 0.1rem 0.55rem 0.1rem !important;
+    margin-bottom: 1.25rem !important;
+    scrollbar-width: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    justify-content: flex-start !important;
+  }
+
+  #media-category-pills::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  #media-category-pills .filter-chip {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    font-size: 0.74rem !important;
+    font-weight: 600 !important;
+    padding: 0.25rem 0.75rem !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    border-radius: var(--radius-full) !important;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+  }
+
+  #media-category-pills .filter-chip .filter-count {
+    font-size: 0.66rem !important;
+    padding: 0.05rem 0.3rem !important;
+    line-height: 1 !important;
+  }
+
   .media-tool-grid {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -1488,7 +1529,7 @@
     border-radius: var(--radius-md) !important;
     padding: 0.75rem 0.65rem !important;
     box-shadow: var(--shadow-sm) !important;
-    display: flex !important;
+    display: flex;
     flex-direction: column !important;
     justify-content: space-between !important;
     min-width: 0 !important;

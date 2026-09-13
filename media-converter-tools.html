@@ -63,12 +63,12 @@
           "MTV Audio & Video Converters"
         ],
         "url": "https://multitubeviews.com/media-converter-tools.html",
-        "description": "Suite of 15 high-performance client-side media converters. Process video to MP3, audio trimming, slowed & reverb audio effects, GIF generation, and speech transcription with zero server uploads.",
+        "description": "Suite of 60 high-performance client-side media converters. Process video to MP3, audio trimming, slowed & reverb audio effects, GIF generation, speech transcription, PDF manipulation, image editing, and document tools with zero server uploads.",
         "applicationCategory": "MultimediaApplication",
-        "applicationSubCategory": "Audio & Video Processing",
+        "applicationSubCategory": "Audio, Video & Document Processing",
         "operatingSystem": "All",
         "browserRequirements": "Requires JavaScript. Requires HTML5 Audio/Video & Web Audio API.",
-        "keywords": "video to mp3, extract audio from video, video trimmer, slowed and reverb maker, video to gif, speech to text, client side converter, mtv converter, aimaeditz mtv",
+        "keywords": "video to mp3, extract audio from video, video trimmer, slowed and reverb maker, video to gif, speech to text, client side converter, pdf merger, image compressor, mtv converter, aimaeditz mtv",
         "relatedLink": [
           "https://multitubeviews.com/creator-tools.html",
           "https://multitubeviews.com/ai-auto.html",
@@ -80,7 +80,7 @@
           "priceCurrency": "USD"
         },
         "featureList": [
-          "15 fast in-browser media converters and utilities",
+          "60 fast in-browser media converters and utilities",
           "High-speed video to MP3 / WAV audio extraction",
           "Lossless video cutter and audio trimmer with visual timeline",
           "Slowed & Reverb audio effect synthesizer with real-time preview",
@@ -366,6 +366,52 @@
       border-radius: var(--radius-sm);
       margin-bottom: 0.5rem;
     }
+
+    /* Category Filter Chips */
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: var(--radius-pill, 9999px);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+    .filter-chip:hover {
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+    .filter-chip.active {
+      background: var(--accent-primary);
+      color: #FFFFFF;
+      border-color: var(--accent-primary);
+      box-shadow: 0 2px 8px rgba(0, 102, 204, 0.25);
+    }
+    .filter-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: var(--radius-pill, 9999px);
+      background: rgba(0, 0, 0, 0.08);
+      font-weight: 700;
+    }
+    .filter-chip.active .filter-count {
+      background: rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+    }
+    [data-theme="dark"] .filter-count {
+      background: rgba(255, 255, 255, 0.12);
+    }
   </style>
 
   <script type="module" src="assets/js/storage.js"></script>
@@ -448,12 +494,12 @@
           <span class="hero-pill">🎬 100% Client-Side Browser Suite</span>
           <h1>Media Converter Tools</h1>
           <p>
-            Convert, trim, adjust, and edit video and audio files entirely in your browser. Zero file uploads, 100% client-side processing, maximum privacy.
+            Convert, compress, edit, and optimize media files entirely in your browser. 60 powerful tools across Image, Video, Audio, and PDF/Document categories — 100% client-side with zero server uploads.
           </p>
         </section>
 
         <!-- Search Bar -->
-        <div class="prompt-search-wrap" style="margin-bottom: 2rem;">
+        <div class="prompt-search-wrap" style="margin-bottom: 1.5rem;">
           <svg class="prompt-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -462,7 +508,7 @@
             type="text" 
             id="media-tools-search-input" 
             class="prompt-search-input" 
-            placeholder="Search converter tools..." 
+            placeholder="Search all 60 converter tools..." 
             aria-label="Search Media Converter Tools"
             autocomplete="off"
           />
@@ -474,18 +520,42 @@
           </button>
         </div>
 
+        <!-- Category Filter Pills -->
+        <div id="media-category-pills" class="category-filters" style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.25rem;">
+          <button type="button" class="filter-chip active" data-category="all" aria-label="Show All 60 Tools">
+            <span>All Tools</span>
+            <span class="filter-count">60</span>
+          </button>
+          <button type="button" class="filter-chip" data-category="image" aria-label="Show Image Tools">
+            <span>🖼️ Image Tools</span>
+            <span class="filter-count">19</span>
+          </button>
+          <button type="button" class="filter-chip" data-category="video" aria-label="Show Video Tools">
+            <span>🎥 Video Tools</span>
+            <span class="filter-count">15</span>
+          </button>
+          <button type="button" class="filter-chip" data-category="audio" aria-label="Show Audio Tools">
+            <span>🎵 Audio Tools</span>
+            <span class="filter-count">15</span>
+          </button>
+          <button type="button" class="filter-chip" data-category="pdf-document" aria-label="Show PDF and Document Tools">
+            <span>📄 PDF & Documents</span>
+            <span class="filter-count">11</span>
+          </button>
+        </div>
+
         <!-- Empty State -->
         <div id="media-tools-empty-state" class="prompt-empty-state" style="display: none;">
           <div class="prompt-empty-icon">🔍</div>
           <h3>No converter tools found</h3>
-          <p>No tools matched your search. Try searching for "audio", "video", "trimmer", or "converter".</p>
+          <p>No tools matched your search. Try searching for "compress", "video", "audio", "pdf", or "image".</p>
         </div>
 
-        <!-- Media Tools Grid (15 Tools) -->
+        <!-- Media Tools Grid (60 Tools Total) -->
         <section class="media-tool-grid" aria-label="Media Converter Tools Directory">
 
           <!-- 1. Video to Audio -->
-          <div class="media-tool-card" data-tool-id="video-to-audio">
+          <div class="media-tool-card" data-tool-id="video-to-audio" data-category="video">
             <div>
               <span class="media-tool-icon">🎵</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video to Audio Converter</h3>
@@ -500,7 +570,7 @@
           </div>
 
           <!-- 2. Video Trimmer -->
-          <div class="media-tool-card" data-tool-id="video-trimmer">
+          <div class="media-tool-card" data-tool-id="video-trimmer" data-category="video">
             <div>
               <span class="media-tool-icon">✂️</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Trimmer</h3>
@@ -515,7 +585,7 @@
           </div>
 
           <!-- 3. Slow + Reverb -->
-          <div class="media-tool-card" data-tool-id="slow-reverb">
+          <div class="media-tool-card" data-tool-id="slow-reverb" data-category="audio">
             <div>
               <span class="media-tool-icon">🌊</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Slow + Reverb Generator</h3>
@@ -530,7 +600,7 @@
           </div>
 
           <!-- 4. Audio Trimmer -->
-          <div class="media-tool-card" data-tool-id="audio-trimmer">
+          <div class="media-tool-card" data-tool-id="audio-trimmer" data-category="audio">
             <div>
               <span class="media-tool-icon">🎧</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Audio Trimmer</h3>
@@ -545,7 +615,7 @@
           </div>
 
           <!-- 5. Video Format Converter -->
-          <div class="media-tool-card" data-tool-id="video-converter">
+          <div class="media-tool-card" data-tool-id="video-converter" data-category="video">
             <div>
               <span class="media-tool-icon">🎥</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Format Converter</h3>
@@ -560,7 +630,7 @@
           </div>
 
           <!-- 6. Video to GIF -->
-          <div class="media-tool-card" data-tool-id="video-to-gif">
+          <div class="media-tool-card" data-tool-id="video-to-gif" data-category="video">
             <div>
               <span class="media-tool-icon">🖼️</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video to GIF Converter</h3>
@@ -575,7 +645,7 @@
           </div>
 
           <!-- 7. Audio Format Converter -->
-          <div class="media-tool-card" data-tool-id="audio-converter">
+          <div class="media-tool-card" data-tool-id="audio-converter" data-category="audio">
             <div>
               <span class="media-tool-icon">📻</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Audio Format Converter</h3>
@@ -590,7 +660,7 @@
           </div>
 
           <!-- 8. Video Speed Changer -->
-          <div class="media-tool-card" data-tool-id="video-speed">
+          <div class="media-tool-card" data-tool-id="video-speed" data-category="video">
             <div>
               <span class="media-tool-icon">⚡</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Speed Changer</h3>
@@ -605,7 +675,7 @@
           </div>
 
           <!-- 9. Voice-to-Text (Multi-language) -->
-          <div class="media-tool-card" data-tool-id="voice-to-text">
+          <div class="media-tool-card" data-tool-id="voice-to-text" data-category="audio">
             <div>
               <span class="media-tool-icon">🎙️</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Voice-to-Text (Multi-language)</h3>
@@ -620,7 +690,7 @@
           </div>
 
           <!-- 10. Text-to-Speech -->
-          <div class="media-tool-card" data-tool-id="text-to-speech">
+          <div class="media-tool-card" data-tool-id="text-to-speech" data-category="audio">
             <div>
               <span class="media-tool-icon">🔊</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Text-to-Speech</h3>
@@ -635,7 +705,7 @@
           </div>
 
           <!-- 11. QR Code Generator -->
-          <div class="media-tool-card" data-tool-id="qr-generator">
+          <div class="media-tool-card" data-tool-id="qr-generator" data-category="image">
             <div>
               <span class="media-tool-icon">🔲</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">QR Code Generator</h3>
@@ -650,7 +720,7 @@
           </div>
 
           <!-- 12. PDF ↔ Image Converter -->
-          <div class="media-tool-card" data-tool-id="pdf-image-converter">
+          <div class="media-tool-card" data-tool-id="pdf-image-converter" data-category="pdf-document">
             <div>
               <span class="media-tool-icon">📄</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">PDF ↔ Image Converter</h3>
@@ -665,7 +735,7 @@
           </div>
 
           <!-- 13. File Format Converter (Image formats) -->
-          <div class="media-tool-card" data-tool-id="image-format-converter">
+          <div class="media-tool-card" data-tool-id="image-format-converter" data-category="image">
             <div>
               <span class="media-tool-icon">🔄</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">File Format Converter</h3>
@@ -680,7 +750,7 @@
           </div>
 
           <!-- 14. Metadata / EXIF Remover -->
-          <div class="media-tool-card" data-tool-id="metadata-remover">
+          <div class="media-tool-card" data-tool-id="metadata-remover" data-category="image">
             <div>
               <span class="media-tool-icon">🛡️</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Metadata / EXIF Remover</h3>
@@ -695,7 +765,7 @@
           </div>
 
           <!-- 15. Image Cropper (Ratio Presets) -->
-          <div class="media-tool-card" data-tool-id="image-cropper">
+          <div class="media-tool-card" data-tool-id="image-cropper" data-category="image">
             <div>
               <span class="media-tool-icon">✂️🖼️</span>
               <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image Cropper (Ratio Presets)</h3>
@@ -704,6 +774,683 @@
             <div style="margin-top: 1.25rem;">
               <a href="?tool=image-cropper" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
                 <span>Open Image Cropper</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- ==================== 45 NEW EXPANDED MEDIA TOOLS ==================== -->
+
+          <!-- 16. Image Compressor -->
+          <div class="media-tool-card" data-tool-id="image-compressor" data-category="image">
+            <div>
+              <span class="media-tool-icon">🗜️</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image Compressor</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Reduce image file size dramatically without visible quality loss using client-side canvas re-encoding.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=image-compressor" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Compressor</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 17. Image Resizer -->
+          <div class="media-tool-card" data-tool-id="image-resizer" data-category="image">
+            <div>
+              <span class="media-tool-icon">📐</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image Resizer</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Resize images by exact pixels, percentage, or social media dimensions with aspect ratio lock.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=image-resizer" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Resizer</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 18. Image Watermark -->
+          <div class="media-tool-card" data-tool-id="image-watermark" data-category="image">
+            <div>
+              <span class="media-tool-icon">💧</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image Watermark</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Protect pictures by adding custom text watermarks with position, opacity, font size, and color controls.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=image-watermark" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Watermark</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 19. Color Inverter -->
+          <div class="media-tool-card" data-tool-id="color-inverter" data-category="image">
+            <div>
+              <span class="media-tool-icon">🌓</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image Color Inverter</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Invert pixel colors of any image for artistic negative photo effects or dark-mode conversion.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=color-inverter" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Inverter</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 20. Image Filters -->
+          <div class="media-tool-card" data-tool-id="image-filters" data-category="image">
+            <div>
+              <span class="media-tool-icon">🎨</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image Filter & Adjuster</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Adjust brightness, contrast, saturation, sepia tone, grayscale, and hue shift with live real-time preview.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=image-filters" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Filters</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 21. PNG to SVG -->
+          <div class="media-tool-card" data-tool-id="png-to-svg" data-category="image">
+            <div>
+              <span class="media-tool-icon">⚡</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Raster to SVG Vector</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Convert raster PNG/JPG artwork into scalable vector SVG markup completely in your browser.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=png-to-svg" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Vectorizer</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 22. Favicon Generator -->
+          <div class="media-tool-card" data-tool-id="favicon-generator" data-category="image">
+            <div>
+              <span class="media-tool-icon">🌐</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Favicon Generator</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Generate an entire multi-resolution favicon suite (16, 32, 48, 180, 192, 512px) from a single photo.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=favicon-generator" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Generator</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 23. Meme Generator -->
+          <div class="media-tool-card" data-tool-id="meme-generator" data-category="image">
+            <div>
+              <span class="media-tool-icon">🎭</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Meme Generator</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Create hilarious viral memes with classic top and bottom Impact bold font overlays with black outlines.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=meme-generator" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Meme Maker</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 24. Image to Base64 -->
+          <div class="media-tool-card" data-tool-id="base64-image" data-category="image">
+            <div>
+              <span class="media-tool-icon">📋</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image to Base64</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Encode any image into a Data URI Base64 string for direct inline embedding in HTML or CSS.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=base64-image" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Base64 Tool</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 25. Image Blur -->
+          <div class="media-tool-card" data-tool-id="image-blur" data-category="image">
+            <div>
+              <span class="media-tool-icon">🌫️</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image Blur Tool</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Apply smooth Gaussian-like blur to entire photos for privacy obfuscation or scenic backdrop textures.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=image-blur" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Blur Tool</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 26. Image Border & Frame -->
+          <div class="media-tool-card" data-tool-id="image-border" data-category="image">
+            <div>
+              <span class="media-tool-icon">🖼️</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image Border & Frame</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Frame photos with customized colored borders, rounded corners, and padding for gallery presentations.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=image-border" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Border Maker</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 27. Image Splitter -->
+          <div class="media-tool-card" data-tool-id="image-splitter" data-category="image">
+            <div>
+              <span class="media-tool-icon">🧩</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image Splitter</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Slice panoramic images into 3x1 swipeable carousel tiles or 3x3 photo grids for social media profiles.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=image-splitter" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Splitter</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 28. Color Palette from Image -->
+          <div class="media-tool-card" data-tool-id="color-palette-image" data-category="image">
+            <div>
+              <span class="media-tool-icon">🎨</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Color Palette from Image</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Extract dominant color palettes and vibrant accents directly from photos with one-click HEX copying.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=color-palette-image" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Palette Extractor</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 29. Pixel Art Converter -->
+          <div class="media-tool-card" data-tool-id="pixelate-image" data-category="image">
+            <div>
+              <span class="media-tool-icon">👾</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Pixel Art Converter</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Turn any modern photograph into retro 8-bit or 16-bit pixelated arcade game artwork.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=pixelate-image" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Pixelator</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 30. Image Rotate & Flip -->
+          <div class="media-tool-card" data-tool-id="image-rotate-flip" data-category="image">
+            <div>
+              <span class="media-tool-icon">🔄</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Image Rotate & Flip</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Rotate photos 90, 180, or 270 degrees and mirror-flip horizontally or vertically in seconds.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=image-rotate-flip" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Rotate & Flip</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 31. Video Compressor -->
+          <div class="media-tool-card" data-tool-id="video-compressor" data-category="video">
+            <div>
+              <span class="media-tool-icon">🗜️</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Compressor</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Compress video size client-side through hardware canvas downscaling and target bitrate selection.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=video-compressor" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Video Compressor</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 32. Video Reverser -->
+          <div class="media-tool-card" data-tool-id="video-reverse" data-category="video">
+            <div>
+              <span class="media-tool-icon">⏪</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Reverser</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Reverse playback of short video clips client-side for rewind visual effects and creative edits.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=video-reverse" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Video Reverser</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 33. Video Watermark -->
+          <div class="media-tool-card" data-tool-id="video-watermark" data-category="video">
+            <div>
+              <span class="media-tool-icon">💧🎥</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Watermark</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Stamp branded text watermarks onto video frames with corner placement options.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=video-watermark" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Video Watermark</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 34. Video Mute -->
+          <div class="media-tool-card" data-tool-id="video-mute" data-category="video">
+            <div>
+              <span class="media-tool-icon">🔇</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Mute / Remove Audio</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Strip unwanted noisy audio tracks completely from video clips in seconds.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=video-mute" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Video Muter</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 35. Video Rotator -->
+          <div class="media-tool-card" data-tool-id="video-rotate" data-category="video">
+            <div>
+              <span class="media-tool-icon">🔄🎥</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Rotator</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Fix sideways or upside-down smartphone footage by rotating video 90, 180, or 270 degrees.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=video-rotate" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Video Rotator</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 36. Video Looper & Boomerang -->
+          <div class="media-tool-card" data-tool-id="video-loop" data-category="video">
+            <div>
+              <span class="media-tool-icon">🔁</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Looper & Boomerang</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Repeat short video loops seamlessly or synthesize forward-backward boomerang animations.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=video-loop" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Video Looper</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 37. Video Frame Rate Changer -->
+          <div class="media-tool-card" data-tool-id="video-framerate" data-category="video">
+            <div>
+              <span class="media-tool-icon">⏱️</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Frame Rate Changer</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Resample video frame rates between cinematic 24fps, standard 30fps, or 60fps.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=video-framerate" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open FPS Changer</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 38. Video Snapshot / Thumbnail -->
+          <div class="media-tool-card" data-tool-id="video-snapshot" data-category="video">
+            <div>
+              <span class="media-tool-icon">📸</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Snapshot / Thumbnail</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Capture full-resolution lossless PNG snapshots from any exact second in a video clip.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=video-snapshot" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Frame Grabber</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 39. Video Aspect Ratio Changer -->
+          <div class="media-tool-card" data-tool-id="video-aspect-ratio" data-category="video">
+            <div>
+              <span class="media-tool-icon">📱</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Aspect Ratio Changer</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Convert horizontal videos to 9:16 Shorts/Reels, 1:1 square feeds, or 4:5 social posts.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=video-aspect-ratio" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Ratio Changer</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 40. Video Color Filter -->
+          <div class="media-tool-card" data-tool-id="video-color-filter" data-category="video">
+            <div>
+              <span class="media-tool-icon">🎞️</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Video Color Filter</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Apply vintage film, moody grayscale, warm sunset, or sepia color aesthetics to clips.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=video-color-filter" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Video Filters</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 41. Audio Compressor -->
+          <div class="media-tool-card" data-tool-id="audio-compressor" data-category="audio">
+            <div>
+              <span class="media-tool-icon">🗜️🎵</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Audio Compressor</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Reduce audio track file size by optimizing bitrates and sample rates client-side.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=audio-compressor" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Audio Compressor</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 42. Audio Joiner / Merger -->
+          <div class="media-tool-card" data-tool-id="audio-joiner" data-category="audio">
+            <div>
+              <span class="media-tool-icon">🔗</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Audio Joiner / Merger</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Merge multiple audio tracks sequentially into one continuous seamless soundtrack.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=audio-joiner" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Audio Joiner</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 43. Audio Normalizer -->
+          <div class="media-tool-card" data-tool-id="audio-normalizer" data-category="audio">
+            <div>
+              <span class="media-tool-icon">📊</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Audio Normalizer</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Level out erratic audio volume peaks so whisper-quiet and loud passages balance evenly.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=audio-normalizer" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Normalizer</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 44. Audio Reverser -->
+          <div class="media-tool-card" data-tool-id="audio-reverse" data-category="audio">
+            <div>
+              <span class="media-tool-icon">⏪🎵</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Audio Reverser</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Play songs and audio recordings backward client-side for eerie sound design and backmasking.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=audio-reverse" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Audio Reverser</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 45. Audio Pitch Shifter -->
+          <div class="media-tool-card" data-tool-id="audio-pitch" data-category="audio">
+            <div>
+              <span class="media-tool-icon">🎚️</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Audio Pitch Shifter</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Shift audio pitch up (nightcore/chipmunk) or down (deep/slowed) without changing file duration.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=audio-pitch" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Pitch Shifter</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 46. Audio Bass Booster & EQ -->
+          <div class="media-tool-card" data-tool-id="audio-bass-boost" data-category="audio">
+            <div>
+              <span class="media-tool-icon">🔊</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Audio Bass Booster & EQ</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Amplify low-end sub frequencies with an intuitive 3-band Bass, Mid, and Treble graphic equalizer.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=audio-bass-boost" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Bass Booster</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 47. Audio BPM & Tempo Finder -->
+          <div class="media-tool-card" data-tool-id="audio-bpm" data-category="audio">
+            <div>
+              <span class="media-tool-icon">🥁</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Audio BPM / Tempo Finder</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Detect beats per minute (BPM) from any audio track or measure tempo with an interactive tap pad.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=audio-bpm" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open BPM Finder</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 48. 8D & Stereo Panner -->
+          <div class="media-tool-card" data-tool-id="audio-stereo-panner" data-category="audio">
+            <div>
+              <span class="media-tool-icon">🎧</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">8D / Stereo Panner</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Synthesize revolving 8D binaural spatial audio or adjust left/right balance for headphone immersion.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=audio-stereo-panner" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Stereo Panner</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 49. Ambient Noise Generator -->
+          <div class="media-tool-card" data-tool-id="audio-noise-generator" data-category="audio">
+            <div>
+              <span class="media-tool-icon">🌊</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Ambient Noise Generator</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Generate pure White, Pink, or Brown noise soundscapes in your browser for study focus and sleep.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=audio-noise-generator" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Noise Generator</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 50. Ringtone Maker -->
+          <div class="media-tool-card" data-tool-id="audio-cutter-ringtone" data-category="audio">
+            <div>
+              <span class="media-tool-icon">🔔</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Ringtone Maker</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Quickly cut 30-second song hooks with automatic smooth fade envelopes ready for mobile ringtones.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=audio-cutter-ringtone" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Ringtone Maker</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 51. PDF Merger -->
+          <div class="media-tool-card" data-tool-id="pdf-merger" data-category="pdf-document">
+            <div>
+              <span class="media-tool-icon">📑</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">PDF Merger</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Merge multiple PDF documents together into a single organized file completely in your browser.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=pdf-merger" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open PDF Merger</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 52. PDF Splitter -->
+          <div class="media-tool-card" data-tool-id="pdf-splitter" data-category="pdf-document">
+            <div>
+              <span class="media-tool-icon">✂️📄</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">PDF Splitter</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Split multi-page PDF documents into custom page ranges or extract single chapters client-side.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=pdf-splitter" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open PDF Splitter</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 53. PDF Page Rotator -->
+          <div class="media-tool-card" data-tool-id="pdf-page-rotator" data-category="pdf-document">
+            <div>
+              <span class="media-tool-icon">🔄📄</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">PDF Page Rotator</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Permanently reorient upside-down or sideways PDF pages by 90, 180, or 270 degrees.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=pdf-page-rotator" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Page Rotator</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 54. PDF Watermark -->
+          <div class="media-tool-card" data-tool-id="pdf-watermark" data-category="pdf-document">
+            <div>
+              <span class="media-tool-icon">💧📄</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">PDF Watermark</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Stamp "CONFIDENTIAL" or custom copyright text across PDF pages with angled transparency.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=pdf-watermark" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open PDF Watermark</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 55. PDF Page Numberer -->
+          <div class="media-tool-card" data-tool-id="pdf-page-numberer" data-category="pdf-document">
+            <div>
+              <span class="media-tool-icon">🔢</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">PDF Page Numberer</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Insert sequential page numbers (e.g. "Page 1 of N") in the header or footer of any PDF.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=pdf-page-numberer" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Page Numberer</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 56. PDF Compressor -->
+          <div class="media-tool-card" data-tool-id="pdf-compressor" data-category="pdf-document">
+            <div>
+              <span class="media-tool-icon">🗜️📄</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">PDF Compressor</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Optimize document structures and raster imagery to reduce PDF megabytes for email attachment limits.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=pdf-compressor" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open PDF Compressor</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 57. Text to PDF -->
+          <div class="media-tool-card" data-tool-id="text-to-pdf" data-category="pdf-document">
+            <div>
+              <span class="media-tool-icon">📝</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Text to PDF</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Turn raw text, typed notes, or pasted clipboard content into a clean printable PDF document.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=text-to-pdf" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Text to PDF</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 58. PDF Password Protector -->
+          <div class="media-tool-card" data-tool-id="pdf-protect" data-category="pdf-document">
+            <div>
+              <span class="media-tool-icon">🔒</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">PDF Password Protector</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Encrypt and lock confidential PDF documents client-side with user password credentials.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=pdf-protect" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open PDF Protector</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 59. PDF Page Deleter -->
+          <div class="media-tool-card" data-tool-id="pdf-page-delete" data-category="pdf-document">
+            <div>
+              <span class="media-tool-icon">🗑️</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">PDF Page Deleter</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Select and delete redundant or blank pages from any PDF document before distribution.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=pdf-page-delete" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Page Deleter</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 60. Markdown to PDF -->
+          <div class="media-tool-card" data-tool-id="markdown-to-pdf" data-category="pdf-document">
+            <div>
+              <span class="media-tool-icon">📑</span>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--text-primary);">Markdown to PDF</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">Render Markdown headings, lists, tables, and bold formatting with real-time preview into PDF.</p>
+            </div>
+            <div style="margin-top: 1.25rem;">
+              <a href="?tool=markdown-to-pdf" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center;">
+                <span>Open Markdown to PDF</span>
                 <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
               </a>
             </div>
@@ -1117,6 +1864,9 @@
                   <button type="button" class="btn btn-primary" id="downloadQrBtn">
                     <span>📥 Download QR Code (PNG)</span>
                   </button>
+                  <button type="button" class="btn btn-secondary" id="downloadQrPdfBtn">
+                    <span>📄 Download QR Code (PDF)</span>
+                  </button>
                   <button type="button" class="btn btn-secondary" id="btn-qr-copy">
                     <span>📋 Copy Image</span>
                   </button>
@@ -1419,7 +2169,7 @@
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 20 creator optimization tools, 15 browser media converters, 36 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 60+ AI tools, 20 creator optimization tools, 60 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -1495,20 +2245,32 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    @media (max-width: 780px) {
+      .media-tool-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.55rem !important;
+        width: 100% !important;
+      }
+    }
   </style>
 
-  <!-- External Client-Side Libraries for New Tools -->
-  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- External Client-Side Libraries for 60 Tools -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     if (window.pdfjsLib) {
       window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     }
   </script>
-  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js"></script>
-  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
+  <script type="module" src="assets/js/media-tools-data.js"></script>
+  <script type="module" src="assets/js/media-tools-handlers.js"></script>
+  <script type="module" src="assets/js/media-tools-ui.js"></script>
   <script type="module" src="assets/js/navigation.js"></script>
   <script type="module" src="assets/js/media-converter.js"></script>
   <script>
@@ -1517,10 +2279,11 @@
       const searchClear = document.getElementById('media-tools-search-clear');
       const emptyState = document.getElementById('media-tools-empty-state');
       const toolCards = document.querySelectorAll('.media-tool-card');
+      const categoryPills = document.querySelectorAll('#media-category-pills .filter-chip');
+      let activeCategory = 'all';
 
       function filterMediaTools() {
-        if (!searchInput) return;
-        const query = (searchInput.value || '').toLowerCase().trim();
+        const query = (searchInput?.value || '').toLowerCase().trim();
         let visibleCount = 0;
 
         if (searchClear) {
@@ -1531,14 +2294,16 @@
           const title = (card.querySelector('h3')?.textContent || '').toLowerCase();
           const desc = (card.querySelector('p')?.textContent || '').toLowerCase();
           const toolId = (card.getAttribute('data-tool-id') || '').toLowerCase();
+          const cardCat = (card.getAttribute('data-category') || '').toLowerCase();
 
-          const matches = !query || title.includes(query) || desc.includes(query) || toolId.includes(query);
+          const matchesQuery = !query || title.includes(query) || desc.includes(query) || toolId.includes(query);
+          const matchesCategory = activeCategory === 'all' || cardCat === activeCategory;
 
-          if (matches) {
-            card.style.display = '';
+          if (matchesQuery && matchesCategory) {
+            card.style.removeProperty('display');
             visibleCount++;
           } else {
-            card.style.display = 'none';
+            card.style.setProperty('display', 'none', 'important');
           }
         });
 
@@ -1546,6 +2311,15 @@
           emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
         }
       }
+
+      categoryPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          categoryPills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          activeCategory = pill.getAttribute('data-category') || 'all';
+          filterMediaTools();
+        });
+      });
 
       if (searchInput) {
         searchInput.addEventListener('input', filterMediaTools);

@@ -125,9 +125,85 @@ window.StorageManager = StorageManager;
 
 // Global defensive initialization for third-party scripts (AdSense / Analytics in sandboxed preview environments)
 if (typeof window !== 'undefined') {
+  // Prevent TypeError: Cannot read properties of undefined (reading '_android')
+  // This happens when third-party scripts or host extensions check for window.chrome.webview._android in non-WebView2 chromium contexts
+  try {
+    let webviewProxy = (typeof window.Proxy !== 'undefined') ? new Proxy({}, {
+      get: function(target, prop) {
+        if (prop === '_android') {
+          return (typeof window.Proxy !== 'undefined') ? new Proxy({}, {
+            get: function(t, p) {
+              return function() {};
+            }
+          }) : {};
+        }
+        if (prop === 'postMessage') {
+          return function() {};
+        }
+        if (prop === 'addEventListener' || prop === 'removeEventListener') {
+          return function() {};
+        }
+        return undefined;
+      }
+    }) : { 
+      _android: {}, 
+      postMessage: function() {}, 
+      addEventListener: function() {}, 
+      removeEventListener: function() {} 
+    };
+
+    if (window.chrome) {
+      try {
+        if (!window.chrome.webview) {
+          Object.defineProperty(window.chrome, 'webview', {
+            configurable: true,
+            enumerable: true,
+            get: function() { return webviewProxy; },
+            set: function(val) { webviewProxy = val; }
+          });
+        }
+      } catch (e) {
+        try {
+          window.chrome.webview = webviewProxy;
+        } catch (e2) {}
+      }
+    } else {
+      let chromeProxy = (typeof window.Proxy !== 'undefined') ? new Proxy({}, {
+        get: function(target, prop) {
+          if (prop === 'webview') {
+            return webviewProxy;
+          }
+          return undefined;
+        }
+      }) : { webview: webviewProxy };
+
+      try {
+        Object.defineProperty(window, 'chrome', {
+          configurable: true,
+          enumerable: true,
+          get: function() { return chromeProxy; },
+          set: function(val) { chromeProxy = val; }
+        });
+      } catch (e) {
+        try {
+          window.chrome = chromeProxy;
+        } catch (e2) {}
+      }
+    }
+  } catch (err) {
+    console.warn('Defensive webview mocking failed:', err);
+  }
+
   window.adsbygoogle = window.adsbygoogle || [];
   window.addEventListener('error', function (e) {
     if (e && e.message && typeof e.message === 'string' && e.message.includes('_android')) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      return true;
+    }
+  }, true);
+
+  window.addEventListener('unhandledrejection', function (e) {
+    if (e && e.reason && e.reason.message && typeof e.reason.message === 'string' && e.reason.message.includes('_android')) {
       if (typeof e.preventDefault === 'function') e.preventDefault();
       return true;
     }

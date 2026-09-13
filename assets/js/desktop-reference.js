@@ -33,11 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Animated Stats Number Counters (Fast, Fluid & Continuous)
   const countElements = document.querySelectorAll('.stat-num-desk[data-count], .stat .num[data-count], .stat-num[data-count]');
   if (countElements.length > 0) {
+    const renderStatValue = (el, val, suffix) => {
+      if (suffix) {
+        el.innerHTML = val + '<span class="stat-plus">' + suffix + '</span>';
+      } else {
+        el.textContent = val;
+      }
+    };
+
     if (isReducedMotion) {
       countElements.forEach(el => {
         const target = el.getAttribute('data-count');
         const suffix = el.getAttribute('data-suffix') || '';
-        el.textContent = target + suffix;
+        renderStatValue(el, target, suffix);
       });
     } else {
       const animateCounter = (el) => {
@@ -56,14 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
           const currentVal = Math.floor(easeProgress * target);
 
           if (currentVal !== lastVal) {
-            el.textContent = currentVal + suffix;
+            renderStatValue(el, currentVal, suffix);
             lastVal = currentVal;
           }
 
           if (progress < 1) {
             requestAnimationFrame(updateCounter);
           } else {
-            el.textContent = target + suffix;
+            renderStatValue(el, target, suffix);
           }
         }
 
@@ -95,6 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
       // Ignore if element is an output result box
       if (card.id === 'dedicated-tool-output' || card.id === 'dedicated-tool-output-wrap' || card.classList.contains('inline-tool-output') || card.classList.contains('ai-rendered-content')) return;
 
+      let rect = null;
+
+      card.addEventListener('mouseenter', () => {
+        rect = card.getBoundingClientRect();
+      });
+
       card.addEventListener('mousemove', (e) => {
         // Prevent wobble/tilt if mouse is over tool output result box or controls inside card
         if (e.target.closest('#dedicated-tool-output-wrap, #dedicated-tool-output, .inline-tool-output, .ai-rendered-content')) {
@@ -102,7 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        const rect = card.getBoundingClientRect();
+        if (!rect) {
+          rect = card.getBoundingClientRect();
+        }
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         const centerX = rect.width / 2;
@@ -115,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       card.addEventListener('mouseleave', () => {
+        rect = null;
         card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
       });
     });

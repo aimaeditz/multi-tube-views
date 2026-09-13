@@ -51,6 +51,25 @@ function checkRateLimit(ip: string, limit = 60, windowMs = 60000): boolean {
   return true;
 }
 
+// Periodic pruning to prevent memory leaks / bloat under high traffic
+setInterval(() => {
+  const now = Date.now();
+  
+  // Prune expired cacheStore items
+  for (const [key, item] of cacheStore.entries()) {
+    if (now > item.expiry) {
+      cacheStore.delete(key);
+    }
+  }
+
+  // Prune expired rateLimitMap items
+  for (const [ip, record] of rateLimitMap.entries()) {
+    if (now > record.resetTime) {
+      rateLimitMap.delete(ip);
+    }
+  }
+}, 300000).unref(); // Run every 5 minutes, .unref() to not block event loop exit if server stops
+
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));

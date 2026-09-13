@@ -698,6 +698,16 @@
     max-width: 100% !important;
   }
 
+  main:nth-of-type(1) > div:nth-of-type(1) > section:nth-of-type(1) > h1:nth-of-type(1),
+  main:nth-of-type(1) > div:nth-of-type(1) > section#hero:nth-of-type(1) > h1:nth-of-type(1) {
+    font-size: 28px !important;
+  }
+
+  main:nth-of-type(1) > div:nth-of-type(1) > section:nth-of-type(1) > h1:nth-of-type(1) > span:nth-of-type(1),
+  main:nth-of-type(1) > div:nth-of-type(1) > section#hero:nth-of-type(1) > h1:nth-of-type(1) > span:nth-of-type(1) {
+    font-size: 25.32px !important;
+  }
+
   .desktop-ref-body .hero-description,
   main:nth-of-type(1) > section:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1) {
     font-size: 11.72px !important;
@@ -708,6 +718,14 @@
     max-width: 100% !important;
     padding: 0 0.25rem !important;
     color: var(--text-secondary) !important;
+  }
+
+  main:nth-of-type(1) > div:nth-of-type(1) > section:nth-of-type(1) > p:nth-of-type(1),
+  main:nth-of-type(1) > div:nth-of-type(1) > section#hero:nth-of-type(1) > p:nth-of-type(1) {
+    margin-bottom: 10px !important;
+    line-height: 20.75px !important;
+    font-weight: normal !important;
+    font-size: 14.8px !important;
   }
 
   .hero-actions {
@@ -1154,12 +1172,22 @@
     letter-spacing: -0.02em !important;
   }
 
+  main:nth-of-type(1) > div:nth-of-type(1) > div#tools-list-view:nth-of-type(2) > section:nth-of-type(1) > h1:nth-of-type(1) {
+    font-size: 21.8px !important;
+    line-height: 42px !important;
+  }
+
   .creator-tools-header p,
   #tools-list-view .prompt-header-section p {
     font-size: 0.76rem !important;
     line-height: 1.42 !important;
     margin-bottom: 0 !important;
     max-width: 100% !important;
+  }
+
+  main:nth-of-type(1) > div:nth-of-type(1) > div#tools-list-view:nth-of-type(2) > section:nth-of-type(1) > p:nth-of-type(1) {
+    font-size: 14.16px !important;
+    line-height: 18.2672px !important;
   }
 
   #tools-list-view .prompt-header-section .hero-pill {
@@ -1470,6 +1498,55 @@
   /* ==========================================================================
      MEDIA CONVERTER TOOLS PAGE (media-converter-tools.html) — Mobile Grid & Card Styling
      ========================================================================== */
+  main:nth-of-type(1) > div:nth-of-type(1) > div#media-tools-list-view:nth-of-type(2) > section:nth-of-type(1) > h1:nth-of-type(1) {
+    font-size: 26px !important;
+  }
+  main:nth-of-type(1) > div:nth-of-type(1) > div#media-tools-list-view:nth-of-type(2) > section:nth-of-type(1) > p:nth-of-type(1) {
+    font-size: 14px !important;
+  }
+
+  /* Category Filter Pills (Mobile Horizontal Scrollable Row) */
+  #media-category-pills {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+    gap: 0.35rem !important;
+    padding: 0.2rem 0.1rem 0.55rem 0.1rem !important;
+    margin-bottom: 1.25rem !important;
+    scrollbar-width: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    justify-content: flex-start !important;
+  }
+
+  #media-category-pills::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  #media-category-pills .filter-chip {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    font-size: 0.74rem !important;
+    font-weight: 600 !important;
+    padding: 0.25rem 0.75rem !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    border-radius: var(--radius-full) !important;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+  }
+
+  #media-category-pills .filter-chip .filter-count {
+    font-size: 0.66rem !important;
+    padding: 0.05rem 0.3rem !important;
+    line-height: 1 !important;
+  }
+
   .media-tool-grid {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -1487,7 +1564,7 @@
     border-radius: var(--radius-md) !important;
     padding: 0.75rem 0.65rem !important;
     box-shadow: var(--shadow-sm) !important;
-    display: flex !important;
+    display: flex;
     flex-direction: column !important;
     justify-content: space-between !important;
     min-width: 0 !important;
@@ -1562,6 +1639,25 @@
     margin: 1rem auto 1.5rem auto !important;
   }
 
+  main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > h1:nth-of-type(1) {
+    font-size: 18.6px !important;
+  }
+
+  main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(1) {
+    font-size: 12.8px !important;
+  }
+
+  main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1) {
+    font-size: 9.2px !important;
+    line-height: 15.36px !important;
+    padding-left: 8.8px !important;
+    padding-top: 2.2px !important;
+    padding-bottom: 0px !important;
+    margin-right: -4px !important;
+    margin-top: -7px !important;
+    margin-left: 0px !important;
+  }
+
   .bu-hero .bu-badge {
     font-size: 0.7rem !important;
     padding: 0.2rem 0.55rem !important;
@@ -1577,6 +1673,10 @@
     font-size: 0.8rem !important;
     line-height: 1.45 !important;
     margin-bottom: 1rem !important;
+  }
+
+  main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > input#bu-search-input:nth-of-type(1) {
+    font-size: 11.12px !important;
   }
 
   #bu-search-input {
@@ -1876,6 +1976,16 @@
   /* ==========================================================================
      PLATFORMS DIRECTORY PAGE (platforms.html) — Mobile Grid & Card Styling
      ========================================================================== */
+  main:nth-of-type(1) > div:nth-of-type(1) > section:nth-of-type(1) > h1:nth-of-type(1) {
+    font-size: 29px !important;
+  }
+  main:nth-of-type(1) > div:nth-of-type(1) > section:nth-of-type(1) > p:nth-of-type(1) {
+    font-size: 16.8px !important;
+  }
+  main:nth-of-type(1) > div:nth-of-type(1) > section:nth-of-type(1) > span:nth-of-type(1) {
+    font-size: 12.28px !important;
+  }
+
   .platform-page-header {
     padding: 1.5rem 0 1rem 0 !important;
     margin-bottom: 0.5rem !important;

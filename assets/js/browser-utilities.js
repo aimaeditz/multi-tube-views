@@ -142,25 +142,39 @@
     // 1. TEXT UTILITIES
     convertCase: function(text, mode) {
       if (!text) return '';
-      switch (mode) {
+      const m = String(mode || '').toLowerCase();
+      switch (m) {
         case 'uppercase':
+        case 'upper':
           return text.toUpperCase();
         case 'lowercase':
+        case 'lower':
           return text.toLowerCase();
         case 'title':
+        case 'titlecase':
           return text.toLowerCase().replace(/(?:^|\s|-|_)\S/g, char => char.toUpperCase());
         case 'sentence':
+        case 'sentencecase':
           return text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
-        case 'camel': {
+        case 'camel':
+        case 'camelcase': {
           const words = text.replace(/[-_]+/g, ' ').match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
           if (!words) return '';
           return words.map((w, i) => i === 0 ? w.toLowerCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('');
         }
-        case 'snake': {
+        case 'pascal':
+        case 'pascalcase': {
+          const words = text.replace(/[-_]+/g, ' ').match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
+          if (!words) return '';
+          return words.map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('');
+        }
+        case 'snake':
+        case 'snakecase': {
           const words = text.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
           return words ? words.map(x => x.toLowerCase()).join('_') : '';
         }
-        case 'kebab': {
+        case 'kebab':
+        case 'kebabcase': {
           const words = text.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
           return words ? words.map(x => x.toLowerCase()).join('-') : '';
         }
@@ -673,7 +687,8 @@
         search: urlObj.search,
         hash: urlObj.hash,
         params,
-        searchParams
+        searchParams,
+        queryParams: searchParams
       };
     },
 
@@ -1600,6 +1615,8 @@
     },
 
     // --- Function Naming Compatibility Aliases ---
+    analyzeText: function(text) { return this.analyzeWords(text); },
+    getWordCount: function(text) { return this.analyzeWords(text); },
     encodeBase64: function(text, urlSafe) { return this.base64Encode(text, urlSafe); },
     decodeBase64: function(b64, urlSafe) { return this.base64Decode(b64, urlSafe); },
     parseCSV: function(csvText, delimiter) { return this.parseCsv(csvText, delimiter); },

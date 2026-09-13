@@ -671,7 +671,7 @@
     50% { transform: translateY(-10px) rotate(2deg); }
   }
 
-  /* Tool Cloud System (20 Creator Tools, 15 Converter Tools) */
+  /* Tool Cloud System (20 Creator Tools, 60 Converter Tools) */
   .tool-cloud-header {
     margin-top: 2rem;
     margin-bottom: 1.25rem;
@@ -990,18 +990,19 @@
     margin-bottom: 5.5rem;
     position: relative;
     z-index: 1;
+    width: 100%;
   }
 
   .stat-card-desk {
     position: relative;
-    background: linear-gradient(145deg, var(--ref-surface), var(--ref-surface2));
+    background: linear-gradient(180deg, #8134f4 0%, #762cee 100%);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--ref-line-strong);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 22px;
-    padding: 2.2rem 1.25rem;
+    padding: 2.3rem 1.15rem 2.1rem 1.15rem;
     text-align: center;
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 34px -6px rgba(124, 45, 235, 0.48), 0 6px 14px -4px rgba(124, 45, 235, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
     transition: transform 0.28s var(--ref-soft), border-color 0.28s ease, box-shadow 0.28s ease;
     display: flex;
     flex-direction: column;
@@ -1012,69 +1013,68 @@
 
   [data-theme="light"] .stat-card-desk,
   :root:not([data-theme="dark"]) .stat-card-desk {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(246, 248, 252, 0.85));
-    box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.08), inset 0 1px 0 #ffffff;
-    border-color: rgba(15, 23, 42, 0.12);
-  }
-
-  .stat-card-desk::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 15%;
-    right: 15%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--ref-blue), var(--ref-cyan), transparent);
-    opacity: 0.6;
-    transition: opacity 0.3s ease, left 0.3s ease, right 0.3s ease;
+    background: linear-gradient(180deg, #8134f4 0%, #762cee 100%);
+    box-shadow: 0 14px 34px -6px rgba(124, 45, 235, 0.48), 0 6px 14px -4px rgba(124, 45, 235, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.16);
   }
 
   .stat-card-desk:hover {
     transform: translateY(-5px);
-    border-color: rgba(59, 130, 246, 0.45);
-    box-shadow: 0 18px 40px -12px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 20px 44px -8px rgba(124, 45, 235, 0.62), 0 8px 18px -4px rgba(124, 45, 235, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
   [data-theme="light"] .stat-card-desk:hover,
   :root:not([data-theme="dark"]) .stat-card-desk:hover {
-    border-color: rgba(37, 99, 235, 0.4);
-    box-shadow: 0 18px 40px -12px rgba(37, 99, 235, 0.15), inset 0 1px 0 #ffffff;
-  }
-
-  .stat-card-desk:hover::before {
-    opacity: 1;
-    left: 5%;
-    right: 5%;
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 20px 44px -8px rgba(124, 45, 235, 0.62), 0 8px 18px -4px rgba(124, 45, 235, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
   .stat-num-desk {
-    font-size: clamp(2.5rem, 3.2vw, 3.3rem);
+    font-size: clamp(2.5rem, 3.1vw, 3.15rem);
     font-weight: 850;
-    letter-spacing: -0.04em;
-    line-height: 1.05;
-    background: linear-gradient(135deg, var(--ref-blue) 0%, var(--ref-cyan) 60%, var(--ref-violet) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.45rem;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    margin-bottom: 0.55rem;
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum";
     will-change: transform;
   }
 
+  .stat-plus {
+    font-size: 0.72em;
+    font-weight: 800;
+    margin-left: 2px;
+    color: #ffffff !important;
+    line-height: 1;
+    display: inline-block;
+    position: relative;
+    top: -0.07em;
+  }
+
   .stat-label-desk {
-    font-size: 1.08rem;
+    font-size: 1.12rem;
     font-weight: 750;
-    color: var(--ref-text);
-    margin-bottom: 0.3rem;
+    color: #ffffff !important;
+    margin-bottom: 0.35rem;
     letter-spacing: -0.01em;
+    line-height: 1.25;
   }
 
   .stat-desc-desk {
-    font-size: 0.84rem;
+    font-size: 0.85rem;
     line-height: 1.4;
-    color: var(--ref-text-secondary);
+    color: rgba(255, 255, 255, 0.88) !important;
     margin: 0;
+    font-weight: 450;
   }
 
   /* How It Works Steps */
@@ -2272,13 +2272,81 @@
     gap: 4px !important;
   }
 
-  /* Platform Tool Cloud: Hidden on mobile matching reference demo */
-  .platform-tool-cloud {
-    display: none !important;
+  /* Platform Tool Cloud & Header: Mobile 2-column preview grid matching homepage sections */
+  #platforms .tool-cloud-header {
+    display: flex !important;
   }
 
-  #platforms .tool-cloud-header {
-    display: none !important;
+  .platform-tool-cloud {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    margin-top: 10px !important;
+    margin-bottom: 14px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .platform-tool-cloud > .platform-featured-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1 !important;
+  }
+
+  .platform-featured-card {
+    position: relative !important;
+    min-height: 96px !important;
+    padding: 13px !important;
+    border: 1px solid var(--ref-line-strong, rgba(255, 255, 255, 0.16)) !important;
+    border-radius: 15px !important;
+    background: var(--ref-surface, rgba(255, 255, 255, 0.04)) !important;
+    box-shadow: 0 6px 20px rgba(25, 35, 55, 0.05) !important;
+    overflow: hidden !important;
+    transition: transform 0.3s, box-shadow 0.3s !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    text-decoration: none !important;
+    color: var(--ref-text) !important;
+  }
+
+  .platform-featured-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .platform-featured-icon {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    font-size: 13px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 8px !important;
+    background: var(--ref-surface2, rgba(255, 255, 255, 0.07)) !important;
+    flex-shrink: 0 !important;
+  }
+
+  .platform-featured-name {
+    display: block !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    color: var(--ref-text) !important;
+  }
+
+  .platform-featured-desc {
+    margin: 2px 0 0 !important;
+    color: var(--ref-text-secondary, #94a3b8) !important;
+    font-size: 9.5px !important;
+    line-height: 1.35 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
   }
 
   /* 40+ Platform Workspaces Panel: Reduced bottom padding */
@@ -2419,13 +2487,13 @@
   .stat-card-desk {
     position: relative !important;
     text-align: center !important;
-    padding: 16px 12px 14px 12px !important;
+    padding: 16px 8px 14px 8px !important;
     min-height: auto !important;
     aspect-ratio: auto !important;
-    border: 1px solid var(--ref-line-strong, rgba(255, 255, 255, 0.16)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
     border-radius: 18px !important;
-    background: linear-gradient(145deg, var(--ref-surface, rgba(255, 255, 255, 0.04)), var(--ref-surface2, rgba(255, 255, 255, 0.07))) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+    background: linear-gradient(180deg, #8134f4 0%, #762cee 100%) !important;
+    box-shadow: 0 8px 22px -4px rgba(124, 45, 235, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     overflow: hidden !important;
     display: flex !important;
     flex-direction: column !important;
@@ -2438,47 +2506,61 @@
   [data-theme="light"] .stat-card-desk,
   :root:not([data-theme="dark"]) .stat,
   :root:not([data-theme="dark"]) .stat-card-desk {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(246, 248, 252, 0.9)) !important;
-    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06) !important;
-    border-color: rgba(15, 23, 42, 0.12) !important;
+    background: linear-gradient(180deg, #8134f4 0%, #762cee 100%) !important;
+    box-shadow: 0 8px 22px -4px rgba(124, 45, 235, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
   }
 
   .stat .num,
   .stat-num-desk {
     position: relative !important;
-    font-size: clamp(24px, 6.2vw, 30px) !important;
+    font-size: clamp(22px, 5.4vw, 28px) !important;
     font-weight: 850 !important;
     letter-spacing: -0.035em !important;
-    line-height: 1.1 !important;
+    line-height: 1 !important;
     margin-bottom: 4px !important;
-    background: linear-gradient(135deg, var(--ref-blue, #3b82f6), var(--ref-cyan, #06b6d4)) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    color: #ffffff !important;
+    display: inline-flex !important;
+    align-items: baseline !important;
+    justify-content: center !important;
     font-variant-numeric: tabular-nums !important;
     font-feature-settings: "tnum" !important;
   }
 
+  .stat-plus {
+    font-size: 0.72em !important;
+    font-weight: 800 !important;
+    margin-left: 1.5px !important;
+    color: #ffffff !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+    position: relative !important;
+    top: -0.06em !important;
+  }
+
   .stat-label-desk {
-    font-size: 12px !important;
+    font-size: clamp(11px, 2.8vw, 13px) !important;
     font-weight: 750 !important;
-    color: var(--ref-text) !important;
-    line-height: 1.25 !important;
+    color: #ffffff !important;
+    line-height: 1.2 !important;
     margin-bottom: 2px !important;
-    white-space: nowrap !important;
+    white-space: normal !important;
+    text-align: center !important;
   }
 
   .stat small,
   .stat-desc-desk {
-    font-size: 9.5px !important;
-    line-height: 1.3 !important;
-    color: var(--ref-text-secondary, #94a3b8) !important;
+    font-size: clamp(9px, 2.1vw, 10.5px) !important;
+    line-height: 1.25 !important;
+    color: rgba(255, 255, 255, 0.86) !important;
     margin: 0 !important;
     display: block !important;
-    opacity: 0.85 !important;
-    text-overflow: ellipsis !important;
-    overflow: hidden !important;
-    white-space: nowrap !important;
+    text-align: center !important;
+    white-space: normal !important;
     max-width: 100% !important;
   }
 
@@ -3073,12 +3155,12 @@
   box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 12px 36px -8px var(--mtv-glow-a), 0 24px 60px -12px rgba(0, 0, 0, 0.32) !important;
 }
 
-/* Panel 6: Stats Section (Color B) */
+/* Panel 6: Stats Section (Purple Reference Match) */
 .desktop-ref-body #stats-section .stat-card-desk,
 .desktop-ref-body #live-stats-section .live-stat-card {
-  background: var(--mtv-color-b) !important;
-  border: 1px solid var(--mtv-border-color) !important;
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 10px 30px -6px var(--mtv-glow-b), 0 20px 45px -10px rgba(0, 0, 0, 0.3) !important;
+  background: linear-gradient(180deg, #8134f4 0%, #762cee 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 14px 34px -6px rgba(124, 45, 235, 0.48), 0 6px 14px -4px rgba(124, 45, 235, 0.32), inset 0 1px 0 0 rgba(255, 255, 255, 0.22) !important;
 }
 
 /* Panel 7: Closing CTA Banner (Color A) */

@@ -10,11 +10,33 @@ import { IMG_TOOLS } from './build-tools-data-img.mjs';
 import { FILE_TOOLS } from './build-tools-data-file.mjs';
 import { EVERYDAY_TOOLS } from './build-tools-data-everyday.mjs';
 
+// 9 New Tool Suites (53 New Tools)
+import { TEXT_EXTRAS_TOOLS } from './build-tools-data-text-extras.mjs';
+import { UNIT_FORMAT_TOOLS } from './build-tools-data-unit-format.mjs';
+import { GENERATORS_TOOLS } from './build-tools-data-generators.mjs';
+import { COLOR_EXTRAS_TOOLS } from './build-tools-data-color-extras.mjs';
+import { DEV_EXTRAS_TOOLS } from './build-tools-data-dev-extras.mjs';
+import { CALC_PROD_TOOLS } from './build-tools-data-calc-prod.mjs';
+import { SOCIAL_EXTRAS_TOOLS } from './build-tools-data-social-extras.mjs';
+import { PRIVACY_EXTRAS_TOOLS } from './build-tools-data-privacy-extras.mjs';
+import { FUN_EXTRAS_TOOLS } from './build-tools-data-fun-extras.mjs';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
 export const ALL_TOOLS = [
+  // 9 New Suites First (ordered matching categories)
+  ...TEXT_EXTRAS_TOOLS,
+  ...UNIT_FORMAT_TOOLS,
+  ...GENERATORS_TOOLS,
+  ...COLOR_EXTRAS_TOOLS,
+  ...DEV_EXTRAS_TOOLS,
+  ...CALC_PROD_TOOLS,
+  ...SOCIAL_EXTRAS_TOOLS,
+  ...PRIVACY_EXTRAS_TOOLS,
+  ...FUN_EXTRAS_TOOLS,
+  // 6 Original Suites
   ...TEXT_TOOLS,
   ...DEV_TOOLS,
   ...SEO_TOOLS,
@@ -26,6 +48,15 @@ export const ALL_TOOLS = [
 console.log(`Loaded ${BU_CATEGORIES.length} categories and ${ALL_TOOLS.length} tools.`);
 
 // Shared HTML Snippets
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0 }) {
   const assetPrefix = depth === 0 ? '' : '../';
   return `<!DOCTYPE html>
@@ -53,7 +84,7 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0
   <link rel="apple-touch-icon" sizes="180x180" href="${assetPrefix}assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="${assetPrefix}manifest.json">
   <title>${title}</title>
-  <meta name="description" content="${description}">
+  <meta name="description" content="${escapeHtml(description)}">
   <meta name="keywords" content="${keywords}">
   <meta name="author" content="AiMAEditz">
   <meta name="theme-color" content="#FDFDFD">
@@ -63,7 +94,7 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0
   <meta property="og:type" content="website">
   <meta property="og:url" content="${canonical}">
   <meta property="og:title" content="${title}">
-  <meta property="og:description" content="${description}">
+  <meta property="og:description" content="${escapeHtml(description)}">
   <meta property="og:site_name" content="Multi Tube Views">
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
@@ -72,7 +103,7 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${title}">
-  <meta name="twitter:description" content="${description}">
+  <meta name="twitter:description" content="${escapeHtml(description)}">
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   ${jsonLd ? `<script type="application/ld+json">\n${JSON.stringify(jsonLd, null, 2)}\n  </script>` : ''}
@@ -81,8 +112,8 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0
   <link rel="stylesheet" href="${assetPrefix}assets/css/components.css">
   <link rel="stylesheet" href="${assetPrefix}assets/css/responsive.css">
 
-  <script src="${assetPrefix}assets/js/storage.js"></script>
-  <script src="${assetPrefix}assets/js/theme.js"></script>
+  <script type="module" src="${assetPrefix}assets/js/storage.js"></script>
+  <script type="module" src="${assetPrefix}assets/js/theme.js"></script>
 </head>`;
 }
 
@@ -161,7 +192,7 @@ function renderFooter({ depth = 0 }) {
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 60+ AI tools, 20 creator optimization tools, 15 browser media converters, 36 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 60+ AI tools, 20 creator optimization tools, 15 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -233,14 +264,14 @@ function renderFooter({ depth = 0 }) {
     </div>
   </footer>
 
-  <script src="${p}assets/js/navigation.js"></script>
-  <script src="${p}assets/js/browser-utilities.js"></script>`;
+  <script type="module" src="${p}assets/js/navigation.js"></script>
+  <script type="module" src="${p}assets/js/browser-utilities.js"></script>`;
 }
 
 // 1. Generate Main Hub Page: browser-utilities.html
 function generateHubPage() {
-  const title = "Browser Utilities — 36 Free Client-Side Tools for Developers & Creators";
-  const description = "Suite of 36 fast, 100% private in-browser utilities. Text manipulation, developer encoders, SEO analyzers, image helpers, file converters, and everyday calculators. Zero uploads, zero telemetry.";
+  const title = "Browser Utilities — 89 Free Client-Side Tools for Developers & Creators";
+  const description = "Suite of 89 fast, 100% private in-browser utilities. Text manipulation, unit converters, CSS & SVG generators, developer encoders, SEO analyzers, image helpers, file converters, calculators, and privacy tools. Zero uploads, zero telemetry.";
   const keywords = "browser utilities online, client side tools, dev tools online, json formatter, regex tester, word counter, password strength checker, color palette generator, csv to json, free web tools";
   const canonical = "https://multitubeviews.com/browser-utilities.html";
 
@@ -254,7 +285,7 @@ function generateHubPage() {
         "alternateName": [
           "Multi Tube Views Browser Utilities",
           "MTV Client-Side Tools",
-          "36 In-Browser Utilities by AiMAEditz"
+          "89 In-Browser Utilities by AiMAEditz"
         ],
         "url": "https://multitubeviews.com/browser-utilities.html",
         "description": description,
@@ -263,7 +294,7 @@ function generateHubPage() {
         "browserRequirements": "Requires JavaScript and HTML5 APIs",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "featureList": [
-          "36 high-speed client-side tools across 6 specialized categories",
+          "89 high-speed client-side tools across 15 specialized categories",
           "100% in-browser processing via Web Crypto, Canvas, and native DOM",
           "Zero server uploads: sensitive text, code, and photos never leave your device",
           "One-click copying, file downloading, and responsive mobile-first UI"
@@ -286,7 +317,7 @@ function generateHubPage() {
             "name": "Are my files or passwords uploaded to your servers?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. All 36 browser utilities run entirely client-side using JavaScript, Web Crypto, and Canvas. Nothing is ever sent to any backend server."
+              "text": "No. All 89 browser utilities run entirely client-side using JavaScript, Web Crypto, and Canvas. Nothing is ever sent to any backend server."
             }
           },
           {
@@ -313,7 +344,7 @@ function generateHubPage() {
   const categoriesHtml = BU_CATEGORIES.map(cat => {
     const catTools = ALL_TOOLS.filter(t => t.categoryId === cat.id);
     return `
-      <section class="bu-category-block" id="${cat.id}" style="margin-bottom: 3.5rem;">
+      <section class="bu-category-block" id="${cat.id}" data-category-section="${cat.id}" style="margin-bottom: 3.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
           <div>
             <div style="display: flex; align-items: center; gap: 0.65rem;">
@@ -328,7 +359,7 @@ function generateHubPage() {
 
         <div class="bu-grid-3col">
           ${catTools.map(tool => `
-            <a href="browser-utilities/${tool.id}.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="${tool.id}">
+            <a href="browser-utilities/${tool.id}.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="${tool.id}" data-tool-category="${cat.id}">
               <div>
                 <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
                   <span class="bu-card-icon" style="font-size: 1.6rem;">${tool.icon}</span>
@@ -365,7 +396,7 @@ ${renderHeader({ activeNav: 'browser-utilities', depth: 0 })}
       <!-- Hero Header -->
       <div class="bu-hero" style="text-align: center; max-width: 860px; margin: 1.5rem auto 2.5rem auto;">
         <span class="bu-badge" style="margin-bottom: 0.75rem; font-size: 0.82rem; padding: 0.35rem 0.85rem; background: var(--accent-blue-10, rgba(0,102,204,0.1)); color: var(--accent-blue);">
-          ⚡ 36 CLIENT-SIDE UTILITIES • 100% PRIVATE • ZERO UPLOADS
+          ⚡ 89 CLIENT-SIDE UTILITIES • 100% PRIVATE • ZERO UPLOADS
         </span>
         <h1 class="bu-title" style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; line-height: 1.2; margin: 0.5rem 0 1rem 0;">
           Instant In-Browser <span class="accent">Utilities &amp; Tools</span>
@@ -376,18 +407,24 @@ ${renderHeader({ activeNav: 'browser-utilities', depth: 0 })}
 
         <!-- Search Bar -->
         <div style="position: relative; max-width: 580px; margin: 0 auto;">
-          <input type="text" id="bu-search-input" class="bu-input" placeholder="Search 36 utilities (e.g. JSON, Regex, Password, Slug, Base64)..." style="padding: 0.85rem 1.2rem; font-size: 1rem; border-radius: 999px; box-shadow: var(--shadow-sm);">
-          <span id="bu-search-count" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; color: var(--text-muted); pointer-events: none;">36 Tools</span>
+          <input type="text" id="bu-search-input" class="bu-input" placeholder="Search 89 utilities (e.g. JSON, Regex, Password, Slug, Base64)..." style="padding: 0.85rem 1.2rem; font-size: 1rem; border-radius: 999px; box-shadow: var(--shadow-sm);">
+          <span id="bu-search-count" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; color: var(--text-muted); pointer-events: none;">89 Tools</span>
         </div>
       </div>
 
-      <!-- Quick Category Nav Chips -->
-      <div class="bu-category-nav-grid" style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
-        ${BU_CATEGORIES.map(c => `
-          <a href="#${c.id}" class="bu-btn" style="padding: 0.4rem 0.85rem; font-size: 0.85rem; border-radius: 999px; text-decoration: none;">
-            <span>${c.icon}</span> <span>${c.name}</span>
-          </a>
-        `).join('')}
+      <!-- Quick Category Nav Chips / Filter Pills -->
+      <div id="bu-category-filters-wrap" class="bu-category-nav-grid" style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
+        <button type="button" class="bu-btn bu-category-filter-btn bu-btn-primary" data-bu-filter="all" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; border-radius: 999px; cursor: pointer;">
+          <span>⚡ All Utilities</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">${ALL_TOOLS.length}</span>
+        </button>
+        ${BU_CATEGORIES.map(c => {
+          const count = ALL_TOOLS.filter(t => t.categoryId === c.id).length;
+          return `
+          <button type="button" class="bu-btn bu-category-filter-btn" data-bu-filter="${c.id}" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; border-radius: 999px; cursor: pointer;">
+            <span>${c.icon}</span> <span>${c.name}</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">${count}</span>
+          </button>
+        `;
+        }).join('')}
       </div>
 
       <!-- Categories & Tools Grid -->
@@ -431,28 +468,81 @@ ${renderFooter({ depth: 0 })}
       const search = document.getElementById('bu-search-input');
       const countEl = document.getElementById('bu-search-count');
       const emptyState = document.getElementById('bu-empty-state');
-      const cards = document.querySelectorAll('[data-tool-card]');
+      const filterBtns = document.querySelectorAll('.bu-category-filter-btn');
       const sections = document.querySelectorAll('.bu-category-block');
 
-      search.addEventListener('input', () => {
-        const q = search.value.toLowerCase().trim();
-        let matches = 0;
+      let activeCategory = 'all';
 
-        cards.forEach(card => {
-          const text = card.textContent.toLowerCase();
-          const match = !q || text.includes(q);
-          card.style.display = match ? 'flex' : 'none';
-          if (match) matches++;
-        });
+      function applyFilter() {
+        const q = search ? search.value.toLowerCase().trim() : '';
+        let totalMatches = 0;
 
         sections.forEach(sec => {
-          const visibleCards = sec.querySelectorAll('[data-tool-card]:not([style*="display: none"])');
-          sec.style.display = visibleCards.length > 0 ? 'block' : 'none';
+          const secCat = sec.getAttribute('data-category-section') || sec.id;
+          const catMatches = (activeCategory === 'all' || activeCategory === secCat);
+          
+          let visibleCardsInSec = 0;
+          const secCards = sec.querySelectorAll('[data-tool-card]');
+
+          secCards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            const textMatches = !q || text.includes(q);
+            const showCard = catMatches && textMatches;
+            card.style.display = showCard ? 'flex' : 'none';
+            if (showCard) {
+              visibleCardsInSec++;
+              totalMatches++;
+            }
+          });
+
+          sec.style.display = (catMatches && visibleCardsInSec > 0) ? 'block' : 'none';
         });
 
-        countEl.textContent = q ? \`\${matches} found\` : '36 Tools';
-        emptyState.style.display = matches === 0 ? 'block' : 'none';
+        if (countEl) {
+          if (q) {
+            countEl.textContent = \`\${totalMatches} found\`;
+          } else if (activeCategory !== 'all') {
+            countEl.textContent = \`\${totalMatches} in category\`;
+          } else {
+            countEl.textContent = '89 Tools';
+          }
+        }
+
+        if (emptyState) {
+          emptyState.style.display = totalMatches === 0 ? 'block' : 'none';
+        }
+      }
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetCat = btn.getAttribute('data-bu-filter');
+          activeCategory = targetCat;
+
+          filterBtns.forEach(b => {
+            if (b === btn) {
+              b.classList.add('bu-btn-primary');
+            } else {
+              b.classList.remove('bu-btn-primary');
+            }
+          });
+
+          applyFilter();
+        });
       });
+
+      if (search) {
+        search.addEventListener('input', applyFilter);
+      }
+
+      // If hash present in URL, select that category
+      if (window.location.hash) {
+        const hashId = window.location.hash.replace('#', '');
+        const matchingBtn = document.querySelector(\`.bu-category-filter-btn[data-bu-filter="\${hashId}"]\`);
+        if (matchingBtn) {
+          matchingBtn.click();
+        }
+      }
     });
   </script>
 </body>
@@ -659,7 +749,7 @@ ${renderHeader({ activeNav: 'browser-utilities', depth: 1 })}
                 </div>
                 <div>
                   <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">${step.title}</strong>
-                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">${step.desc}</p>
+                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">${escapeHtml(step.desc)}</p>
                 </div>
               </div>
             `).join('')}
@@ -673,7 +763,7 @@ ${renderHeader({ activeNav: 'browser-utilities', depth: 1 })}
             ${tool.features.map(f => `
               <div>
                 <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ ${f.title}</strong>
-                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">${f.desc}</p>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">${escapeHtml(f.desc)}</p>
               </div>
             `).join('')}
             <div>
@@ -730,6 +820,8 @@ ${renderFooter({ depth: 1 })}
 }
 
 // Run Generators
-generateHubPage();
-generateCategoryPages();
-generateToolPages();
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  generateHubPage();
+  generateCategoryPages();
+  generateToolPages();
+}

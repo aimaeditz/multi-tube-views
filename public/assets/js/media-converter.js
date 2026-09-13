@@ -200,7 +200,7 @@
         toolId = toolId.substring(5);
       }
 
-      const validTools = [
+      const validTools = window.MTV_VALID_TOOLS || [
         'video-to-audio',
         'video-trimmer',
         'slow-reverb',
@@ -363,7 +363,7 @@
         }
       };
 
-      const config = toolConfigs[toolId] || toolConfigs['video-to-audio'];
+      const config = (window.MTV_ALL_TOOL_CONFIGS && window.MTV_ALL_TOOL_CONFIGS[toolId]) || toolConfigs[toolId] || toolConfigs['video-to-audio'];
 
       // Update workspace Header
       if (this.dom.toolTitle) this.dom.toolTitle.textContent = config.title;
@@ -439,16 +439,19 @@
         this.dom.breadcrumbSubSeparator.style.display = 'inline';
       }
 
-      // Show relevant Option Panel
-      if (this.dom.optionsPanels) {
-        this.dom.optionsPanels.forEach(panel => {
-          if (panel.id === `panel-${toolId}`) {
-            panel.style.display = 'block';
-          } else {
-            panel.style.display = 'none';
-          }
-        });
+      // Ensure dynamic options panel exists if needed
+      if (window.MTVMediaUI && window.MTVMediaUI.hasHandler(toolId)) {
+        window.MTVMediaUI.ensurePanel(toolId, this);
       }
+
+      // Show relevant Option Panel
+      document.querySelectorAll('.media-options-panel').forEach(panel => {
+        if (panel.id === `panel-${toolId}`) {
+          panel.style.display = 'block';
+        } else {
+          panel.style.display = 'none';
+        }
+      });
 
       // Reset file / output if user switched tools
       this.clearFile();
@@ -557,7 +560,7 @@
 
       if (this.dom.fileInfoCard) this.dom.fileInfoCard.style.display = 'none';
       
-      const isStandalone = ['voice-to-text', 'text-to-speech', 'qr-generator', 'pdf-image-converter'].includes(this.activeToolId);
+      const isStandalone = ['voice-to-text', 'text-to-speech', 'qr-generator', 'pdf-image-converter'].includes(this.activeToolId) || (window.MTV_ALL_TOOL_CONFIGS && window.MTV_ALL_TOOL_CONFIGS[this.activeToolId]?.hideMainDropzone);
       if (this.dom.dropzone && !isStandalone) {
         this.dom.dropzone.style.display = 'block';
       }
@@ -601,7 +604,14 @@
         let mimeType = 'audio/wav';
         let extension = 'wav';
 
-        switch (this.activeToolId) {
+        if (window.MTVMediaUI && window.MTVMediaUI.hasHandler(this.activeToolId)) {
+          const res = await window.MTVMediaUI.execute(this.activeToolId, this.selectedFile, this);
+          resultBlob = res.blob;
+          extension = res.extension;
+          mimeType = res.mimeType;
+          resultMeta = res.meta;
+        } else {
+          switch (this.activeToolId) {
           case 'video-to-audio': {
             const formatSelect = document.getElementById('v2a-format');
             const format = formatSelect ? formatSelect.value : 'mp3';
@@ -744,6 +754,7 @@
           default:
             throw new Error('Unknown tool selected');
         }
+      }
 
         this.updateProgress(100, 'Processing complete!');
         this.renderOutputResult(resultBlob, extension, mimeType, resultMeta);
@@ -1974,9 +1985,9 @@
         const newDlBtn = downloadBtn.cloneNode(true);
         if (downloadBtn.parentNode) downloadBtn.parentNode.replaceChild(newDlBtn, downloadBtn);
         newDlBtn.addEventListener('click', () => {
-          const canvas = document.querySelector('#qrCodeOutput canvas');
           const img = document.querySelector('#qrCodeOutput img');
-          const dataUrl = canvas ? canvas.toDataURL('image/png') : (img ? img.src : '');
+          const canvas = document.querySelector('#qrCodeOutput canvas');
+          const dataUrl = (img && img.src && img.src.startsWith('data:image')) ? img.src : (canvas ? canvas.toDataURL('image/png') : '');
           if (!dataUrl) return;
           const a = document.createElement('a');
           a.href = dataUrl;
@@ -1988,32 +1999,70 @@
         });
       }
 
+      const downloadPdfBtn = document.getElementById('downloadQrPdfBtn');
+      if (downloadPdfBtn) {
+        const newPdfBtn = downloadPdfBtn.cloneNode(true);
+        if (downloadPdfBtn.parentNode) downloadPdfBtn.parentNode.replaceChild(newPdfBtn, downloadPdfBtn);
+        newPdfBtn.addEventListener('click', () => {
+          const img = document.querySelector('#qrCodeOutput img');
+          const canvas = document.querySelector('#qrCodeOutput canvas');
+          const dataUrl = (img && img.src && img.src.startsWith('data:image')) ? img.src : (canvas ? canvas.toDataURL('image/png') : '');
+          if (!dataUrl) {
+            this.showToast('QR code is not generated yet.', 'error');
+            return;
+          }
+
+          if (!window.jspdf || !window.jspdf.jsPDF) {
+            this.showToast('PDF library is not loaded', 'error');
+            return;
+          }
+          const { jsPDF } = window.jspdf;
+
+          // Create an A4 PDF document, and center the QR code inside it.
+          const doc = new jsPDF({
+            orientation: 'portrait',
+            unit: 'pt',
+            format: 'a4'
+          });
+
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const pageHeight = doc.internal.pageSize.getHeight();
+
+          // Fit QR code to PDF page nicely (e.g., 60% of page width)
+          const pdfQrSize = Math.min(pageWidth * 0.6, pageHeight * 0.6);
+          const x = (pageWidth - pdfQrSize) / 2;
+          const y = (pageHeight - pdfQrSize) / 2;
+
+          doc.addImage(dataUrl, 'PNG', x, y, pdfQrSize, pdfQrSize);
+          doc.save('mtv-qr-code.pdf');
+          this.showToast('✓ QR Code downloaded as PDF!');
+        });
+      }
+
       if (copyBtn) {
         copyBtn.onclick = () => {
-          const canvas = document.querySelector('#qrCodeOutput canvas');
           const img = document.querySelector('#qrCodeOutput img');
-          if (canvas) {
-            canvas.toBlob((blob) => {
-              if (blob && navigator.clipboard && navigator.clipboard.write) {
-                navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(() => {
-                  this.showToast('✓ QR Code image copied to clipboard!');
-                }).catch(() => {
-                  this.showToast('Clipboard image write not supported in this browser', 'error');
-                });
-              }
-            });
-          } else if (img && img.src) {
-            fetch(img.src)
+          const canvas = document.querySelector('#qrCodeOutput canvas');
+          const dataUrl = (img && img.src && img.src.startsWith('data:image')) ? img.src : (canvas ? canvas.toDataURL('image/png') : '');
+          
+          if (dataUrl) {
+            fetch(dataUrl)
               .then(res => res.blob())
               .then(blob => {
                 if (navigator.clipboard && navigator.clipboard.write) {
                   navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(() => {
                     this.showToast('✓ QR Code image copied to clipboard!');
+                  }).catch(() => {
+                    this.showToast('Clipboard image write not supported in this browser', 'error');
                   });
+                } else {
+                  this.showToast('Clipboard API not supported in this browser', 'error');
                 }
               }).catch(() => {
                 this.showToast('Clipboard image copy failed', 'error');
               });
+          } else {
+            this.showToast('QR code is not generated yet.', 'error');
           }
         };
       }

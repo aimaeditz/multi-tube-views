@@ -22,10 +22,10 @@ workspace for creators, researchers, and everyday users.
   video, live, short-form, social, and audio platforms
 - **20 free AI Creator Tools** — SEO titles, hashtags, keywords, meta
   descriptions, scripts, bios, content calendars, translation, and more
-- **15 in-browser Media Converter Tools** — video/audio conversion,
+- **60 in-browser Media Converter Tools** — video/audio conversion,
   trimming, speed change, voice-to-text, text-to-speech, QR generation,
-  PDF↔image, image cropping, and more — 100% client-side, no uploads
-- **36 Browser Utilities across 6 categories** — text, developer,
+  PDF manipulation, image editing, and more — 100% client-side, no uploads
+- **89 browser utilities across 6 categories** — text, developer,
   web/SEO, image/graphics, file/data, and everyday utilities — 100%
   client-side, zero uploads
 - **AI Prompts & Tools** — a curated, live-synced AI image prompt library
@@ -54,11 +54,11 @@ providers for speed and reliability — no AI provider or model is ever
 named on the site itself.
 
 ### Media Converter Tools
-15 tools for converting, trimming, and editing video/audio directly in
-the browser — no file ever leaves the user's device.
+60 tools for converting, trimming, and editing video, audio, images, and
+PDF documents directly in the browser — no file ever leaves the user's device.
 
 ### Browser Utilities
-36 zero-upload utilities (text, developer, SEO, image/color, file/data,
+89 zero-upload utilities (text, developer, SEO, image/color, file/data,
 and everyday tools), each with its own dedicated page — pure browser APIs,
 no server involved.
 
@@ -82,8 +82,8 @@ Main entry points:
 - **Home** — overview of all 5 sections
 - **AI Prompt** — prompt library + AI image tool directory
 - **Creator Tools** — 20 AI-powered creator utilities
-- **Converter Tools** — 15 in-browser media converters
-- **Browser Utilities** — 36 in-browser developer/text/SEO/image/file utilities
+- **Converter Tools** — 60 in-browser media converters
+- **Browser Utilities** — 89 in-browser developer/text/SEO/image/file utilities
 - **Platforms** — full directory of 40 platform workspaces
 - About / Settings / Legal pages
 
@@ -144,9 +144,9 @@ multi-tube-views/
 ├── index.html                    # Homepage
 ├── ai-prompt.html                 # AI Prompts & Tools (live-synced library)
 ├── creator-tools.html             # 20 AI Creator Tools
-├── media-converter-tools.html     # 15 client-side media converters
+├── media-converter-tools.html     # 60 client-side media converters
 ├── browser-utilities.html         # Browser Utilities landing page
-├── browser-utilities/             # 36 individual utility tool pages
+├── browser-utilities/             # 89 individual utility tool pages
 ├── platforms.html                 # Platform directory
 ├── platforms/                     # 40 platform workspace pages
 ├── about.html, settings.html, credits.html,

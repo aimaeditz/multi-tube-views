@@ -33,11 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Animated Stats Number Counters (Fast, Fluid & Continuous)
   const countElements = document.querySelectorAll('.stat-num-desk[data-count], .stat .num[data-count], .stat-num[data-count]');
   if (countElements.length > 0) {
+    const renderStatValue = (el, val, suffix) => {
+      if (suffix) {
+        el.innerHTML = val + '<span class="stat-plus">' + suffix + '</span>';
+      } else {
+        el.textContent = val;
+      }
+    };
+
     if (isReducedMotion) {
       countElements.forEach(el => {
         const target = el.getAttribute('data-count');
         const suffix = el.getAttribute('data-suffix') || '';
-        el.textContent = target + suffix;
+        renderStatValue(el, target, suffix);
       });
     } else {
       const animateCounter = (el) => {
@@ -56,14 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
           const currentVal = Math.floor(easeProgress * target);
 
           if (currentVal !== lastVal) {
-            el.textContent = currentVal + suffix;
+            renderStatValue(el, currentVal, suffix);
             lastVal = currentVal;
           }
 
           if (progress < 1) {
             requestAnimationFrame(updateCounter);
           } else {
-            el.textContent = target + suffix;
+            renderStatValue(el, target, suffix);
           }
         }
 
