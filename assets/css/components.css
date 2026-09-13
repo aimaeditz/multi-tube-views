@@ -5050,4 +5050,35 @@ section#live-stats-section.glass-section {
   border-bottom-color: #ffd60a;
 }
 
+/* Output Result Box Stability & Button Clickability Enforcer */
+#dedicated-tool-output-wrap,
+#dedicated-tool-output,
+.inline-tool-output,
+.ai-rendered-content {
+  transform: none !important;
+  perspective: none !important;
+  will-change: auto !important;
+}
+
+#dedicated-tool-output-wrap:hover,
+#dedicated-tool-output:hover,
+.inline-tool-output:hover,
+.ai-rendered-content:hover {
+  transform: none !important;
+  perspective: none !important;
+}
+
+#dedicated-tool-output-wrap button,
+#dedicated-tool-output button,
+.inline-tool-output button,
+#btn-dedicated-copy,
+#btn-dedicated-copy-all,
+#btn-dedicated-clear {
+  position: relative;
+  z-index: 20;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+
 

@@ -8,7 +8,72 @@
   'use strict';
 
   const MTV_BU = {
-    // UI Helpers
+    // UI & Persistence Helpers
+    runWorkerTask: function(workerFn, payload) {
+      return new Promise((resolve, reject) => {
+        try {
+          if (typeof Worker === 'undefined') {
+            throw new Error('Web Workers not supported in this environment');
+          }
+          const code = `
+            self.onmessage = async function(e) {
+              try {
+                const fn = ${workerFn.toString()};
+                const result = await fn(e.data);
+                self.postMessage({ success: true, result });
+              } catch (err) {
+                self.postMessage({ success: false, error: err.message || String(err) });
+              }
+            };
+          `;
+          const blob = new Blob([code], { type: 'application/javascript' });
+          const url = URL.createObjectURL(blob);
+          const worker = new Worker(url);
+          worker.onmessage = function(e) {
+            URL.revokeObjectURL(url);
+            worker.terminate();
+            if (e.data.success) {
+              resolve(e.data.result);
+            } else {
+              reject(new Error(e.data.error));
+            }
+          };
+          worker.onerror = function(err) {
+            URL.revokeObjectURL(url);
+            worker.terminate();
+            reject(err);
+          };
+          worker.postMessage(payload);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    },
+
+    saveToolInput: function(toolId, inputVal) {
+      if (!toolId) return;
+      try {
+        localStorage.setItem(`mtv_bu_input_${toolId}`, typeof inputVal === 'object' ? JSON.stringify(inputVal) : String(inputVal));
+      } catch (e) {
+        console.warn('Failed to save tool input to localStorage:', e);
+      }
+    },
+
+    getToolInput: function(toolId, defaultValue = null) {
+      if (!toolId) return defaultValue;
+      try {
+        const val = localStorage.getItem(`mtv_bu_input_${toolId}`);
+        if (val === null) return defaultValue;
+        try {
+          return JSON.parse(val);
+        } catch (e) {
+          return val;
+        }
+      } catch (e) {
+        return defaultValue;
+      }
+    },
+
     copyToClipboard: async function(text, buttonEl) {
       if (!text) return false;
       try {
@@ -142,21 +207,25 @@
     },
 
     analyzeCharacters: function(text) {
-      const chars = text.length;
-      const charsNoSpaces = text.replace(/\s/g, '').length;
-      const letters = (text.match(/[a-zA-Z]/g) || []).length;
-      const digits = (text.match(/[0-9]/g) || []).length;
-      const whitespace = (text.match(/\s/g) || []).length;
-      const punctuation = (text.match(/[.,\/#!$%\^&\*;:{}=\-_`~()?"'<>@\[\]\\|]/g) || []).length;
+      const chars = text ? text.length : 0;
+      const charsNoSpaces = text ? text.replace(/\s/g, '').length : 0;
+      const letters = text ? (text.match(/[a-zA-Z]/g) || []).length : 0;
+      const digits = text ? (text.match(/[0-9]/g) || []).length : 0;
+      const whitespace = text ? (text.match(/\s/g) || []).length : 0;
+      const punctuation = text ? (text.match(/[.,\/#!$%\^&\*;:{}=\-_`~()?"'<>@\[\]\\|]/g) || []).length : 0;
       const lines = text ? text.split(/\r\n|\r|\n/).length : 0;
-      const words = text.trim() ? (text.trim().match(/\S+/g) || []).length : 0;
+      const words = (text && text.trim()) ? (text.trim().match(/\S+/g) || []).length : 0;
 
       return { chars, charsNoSpaces, letters, digits, whitespace, punctuation, lines, words };
     },
 
     removeDuplicateLines: function(text, options = {}) {
-      if (!text) return { result: '', originalCount: 0, uniqueCount: 0, removedCount: 0 };
-      const { caseSensitive = false, trim = true, keepFirst = true, removeBlank = true } = options;
+      if (!text) return { result: '', cleanedText: '', originalCount: 0, uniqueCount: 0, removedCount: 0 };
+      const caseSensitive = options.caseSensitive !== undefined ? options.caseSensitive : (options.ignoreCase !== undefined ? !options.ignoreCase : false);
+      const trim = options.trim !== undefined ? options.trim : (options.trimLines !== undefined ? options.trimLines : true);
+      const removeBlank = options.removeBlank !== undefined ? options.removeBlank : (options.removeEmptyLines !== undefined ? options.removeEmptyLines : true);
+      const keepFirst = options.keepFirst !== undefined ? options.keepFirst : true;
+
       const rawLines = text.split(/\r\n|\r|\n/);
       const originalCount = rawLines.length;
 
@@ -178,8 +247,10 @@
 
       const finalLines = keepFirst ? output : output.reverse();
       const uniqueCount = finalLines.length;
+      const resStr = finalLines.join('\n');
       return {
-        result: finalLines.join('\n'),
+        result: resStr,
+        cleanedText: resStr,
         originalCount,
         uniqueCount,
         removedCount: originalCount - uniqueCount
@@ -188,15 +259,20 @@
 
     sortLines: function(text, mode, options = {}) {
       if (!text) return '';
-      const { caseSensitive = false, trim = true } = options;
+      const caseSensitive = options.caseSensitive !== undefined ? options.caseSensitive : (options.ignoreCase !== undefined ? !options.ignoreCase : false);
+      const trim = options.trim !== undefined ? options.trim : (options.trimLines !== undefined ? options.trimLines : true);
+      
       let lines = text.split(/\r\n|\r|\n/);
       if (trim) lines = lines.map(l => l.trim());
 
-      switch (mode) {
+      const normMode = String(mode || 'az').toLowerCase();
+      switch (normMode) {
         case 'az':
+        case 'alphabetical':
           lines.sort((a, b) => caseSensitive ? a.localeCompare(b) : a.toLowerCase().localeCompare(b.toLowerCase()));
           break;
         case 'za':
+        case 'reverse-alphabetical':
           lines.sort((a, b) => caseSensitive ? b.localeCompare(a) : b.toLowerCase().localeCompare(a.toLowerCase()));
           break;
         case 'num-asc':
@@ -214,19 +290,25 @@
           });
           break;
         case 'len-asc':
+        case 'length-asc':
           lines.sort((a, b) => a.length - b.length);
           break;
         case 'len-desc':
+        case 'length-desc':
           lines.sort((a, b) => b.length - a.length);
           break;
         case 'reverse':
           lines.reverse();
           break;
         case 'shuffle':
+        case 'random':
           for (let i = lines.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [lines[i], lines[j]] = [lines[j], lines[i]];
           }
+          break;
+        default:
+          lines.sort((a, b) => caseSensitive ? a.localeCompare(b) : a.toLowerCase().localeCompare(b.toLowerCase()));
           break;
       }
       return lines.join('\n');
@@ -241,16 +323,16 @@
       if (options.tabsToSpaces) {
         res = res.replace(/\t/g, '  ');
       }
-      if (options.stripHtml) {
+      if (options.stripHtml || options.removeHtml) {
         res = res.replace(/<[^>]*>?/gm, '');
       }
       if (options.trimLines) {
         res = res.split('\n').map(l => l.trim()).join('\n');
       }
-      if (options.singleSpaces) {
+      if (options.singleSpaces || options.collapseWhitespace) {
         res = res.replace(/[^\S\r\n]+/g, ' ');
       }
-      if (options.removeBlankLines) {
+      if (options.removeBlankLines || options.removeEmptyLines) {
         res = res.split('\n').filter(l => l.trim().length > 0).join('\n');
       }
       if (options.removeSpecialChars) {
@@ -265,13 +347,17 @@
     // 2. DEVELOPER UTILITIES
     formatJson: function(jsonString, indent = 2) {
       if (!jsonString || !jsonString.trim()) {
-        return { success: false, error: 'Input is empty' };
+        const errObj = new String('');
+        Object.assign(errObj, { valid: false, isValid: false, success: false, result: '', error: 'Input is empty' });
+        return errObj;
       }
       try {
         const parsed = JSON.parse(jsonString);
-        const spaces = indent === 0 ? 0 : indent;
-        const result = indent === 0 ? JSON.stringify(parsed) : JSON.stringify(parsed, null, spaces);
-        return { success: true, result, parsed };
+        const spaces = indent === 0 || indent === '0' ? 0 : (indent === 'tab' ? '\t' : (parseInt(indent, 10) || 2));
+        const result = spaces === 0 ? JSON.stringify(parsed) : JSON.stringify(parsed, null, spaces);
+        const resObj = new String(result);
+        Object.assign(resObj, { valid: true, isValid: true, success: true, result, parsed });
+        return resObj;
       } catch (err) {
         let line = null;
         let col = null;
@@ -282,18 +368,23 @@
           line = lines.length;
           col = lines[lines.length - 1].length + 1;
         }
-        return {
+        const errObj = new String('');
+        Object.assign(errObj, {
+          valid: false,
+          isValid: false,
           success: false,
+          result: '',
           error: err.message,
           line,
           col
-        };
+        });
+        return errObj;
       }
     },
 
     validateJson: function(jsonString) {
       if (!jsonString || !jsonString.trim()) {
-        return { isValid: false, message: 'Please enter JSON to validate.' };
+        return { valid: false, isValid: false, message: 'Please enter JSON to validate.', error: 'Input is empty' };
       }
       try {
         const parsed = JSON.parse(jsonString);
@@ -303,12 +394,16 @@
           keyCount = Array.isArray(parsed) ? parsed.length : Object.keys(parsed).length;
         }
         const sizeBytes = new Blob([jsonString]).size;
+        const sizeFormatted = this.formatBytes(sizeBytes);
         return {
+          valid: true,
           isValid: true,
           message: 'Valid JSON format! No syntax errors detected.',
           type,
           keyCount,
-          sizeBytes: this.formatBytes(sizeBytes)
+          sizeBytes,
+          sizeFormatted,
+          parsed
         };
       } catch (err) {
         let line = 1, col = 1;
@@ -320,8 +415,10 @@
           col = lines[lines.length - 1].length + 1;
         }
         return {
+          valid: false,
           isValid: false,
           message: err.message,
+          error: err.message,
           line,
           col
         };
@@ -329,9 +426,12 @@
     },
 
     base64Encode: function(text, urlSafe = false) {
-      if (!text) return '';
+      if (!text) {
+        const emptyObj = new String('');
+        Object.assign(emptyObj, { valid: true, result: '' });
+        return emptyObj;
+      }
       try {
-        // Safe Unicode handling
         const utf8Bytes = new TextEncoder().encode(text);
         let binary = '';
         const len = utf8Bytes.byteLength;
@@ -342,17 +442,25 @@
         if (urlSafe) {
           b64 = b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
         }
-        return b64;
+        const resObj = new String(b64);
+        Object.assign(resObj, { valid: true, result: b64 });
+        return resObj;
       } catch (e) {
-        throw new Error('Base64 encoding failed: ' + e.message);
+        const errObj = new String('');
+        Object.assign(errObj, { valid: false, result: '', error: 'Base64 encoding failed: ' + e.message });
+        return errObj;
       }
     },
 
     base64Decode: function(b64, urlSafe = false) {
-      if (!b64) return '';
+      if (!b64) {
+        const emptyObj = new String('');
+        Object.assign(emptyObj, { valid: true, result: '' });
+        return emptyObj;
+      }
       try {
         let str = b64.trim();
-        if (urlSafe) {
+        if (urlSafe || str.includes('-') || str.includes('_')) {
           str = str.replace(/-/g, '+').replace(/_/g, '/');
           while (str.length % 4) str += '=';
         }
@@ -361,9 +469,14 @@
         for (let i = 0; i < binary.length; i++) {
           bytes[i] = binary.charCodeAt(i);
         }
-        return new TextDecoder().decode(bytes);
+        const decoded = new TextDecoder().decode(bytes);
+        const resObj = new String(decoded);
+        Object.assign(resObj, { valid: true, result: decoded });
+        return resObj;
       } catch (e) {
-        throw new Error('Invalid Base64 string. Please verify input.');
+        const errObj = new String('');
+        Object.assign(errObj, { valid: false, result: '', error: 'Invalid Base64 string. Please verify input.' });
+        return errObj;
       }
     },
 
@@ -377,9 +490,9 @@
       return componentMode ? decodeURIComponent(text) : decodeURI(text);
     },
 
-    testRegex: function(pattern, flags, testString) {
+    testRegex: function(pattern, flags = 'g', testString = '') {
       if (!pattern) {
-        return { success: false, error: 'Pattern cannot be empty' };
+        return { valid: false, success: false, error: 'Pattern cannot be empty', matchCount: 0, count: 0, matches: [], highlightedHTML: '' };
       }
       try {
         const regex = new RegExp(pattern, flags);
@@ -393,6 +506,7 @@
             matches.push({
               index: match.index,
               text: match[0],
+              match: match[0],
               groups: match.slice(1)
             });
             if (match.index === regex.lastIndex) {
@@ -405,6 +519,7 @@
             matches.push({
               index: match.index,
               text: match[0],
+              match: match[0],
               groups: match.slice(1)
             });
           }
@@ -425,20 +540,40 @@
         }
 
         return {
+          valid: true,
           success: true,
           matchCount: matches.length,
+          count: matches.length,
           matches,
-          highlighted
+          highlighted,
+          highlightedHTML: highlighted
         };
       } catch (err) {
         return {
+          valid: false,
           success: false,
-          error: err.message
+          error: err.message,
+          matchCount: 0,
+          count: 0,
+          matches: [],
+          highlightedHTML: ''
         };
       }
     },
 
-    generateUUIDs: function(count = 1, uppercase = false, hyphens = true) {
+    generateUUIDs: function(count = 1, options = {}) {
+      let opts = {};
+      if (typeof options === 'boolean') {
+        opts = { uppercase: options, hyphens: arguments[2] !== undefined ? arguments[2] : true };
+      } else if (typeof options === 'object' && options !== null) {
+        opts = options;
+      }
+
+      const uppercase = !!opts.uppercase;
+      const hyphens = opts.hyphens !== undefined ? !!opts.hyphens : (opts.hyphenated !== undefined ? !!opts.hyphenated : true);
+      const quotes = !!opts.quotes;
+      const braces = !!opts.braces;
+
       const uuids = [];
       const num = Math.min(Math.max(parseInt(count, 10) || 1, 1), 100);
       
@@ -447,7 +582,6 @@
         if (typeof crypto !== 'undefined' && crypto.randomUUID) {
           u = crypto.randomUUID();
         } else {
-          // Fallback
           u = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
             const r = (Math.random() * 16) | 0;
             const v = c === 'x' ? r : (r & 0x3) | 0x8;
@@ -456,21 +590,23 @@
         }
         if (!hyphens) u = u.replace(/-/g, '');
         if (uppercase) u = u.toUpperCase();
+        if (braces) u = `{${u}}`;
+        if (quotes) u = `"${u}"`;
         uuids.push(u);
       }
       return uuids;
     },
 
     // 3. WEB & SEO UTILITIES
-    generateMetaTags: function(data) {
+    generateMetaTags: function(data = {}) {
       const {
         title = '',
         description = '',
         keywords = '',
         author = '',
-        canonicalUrl = '',
+        canonicalUrl = data.url || '',
         ogType = 'website',
-        ogImage = '',
+        ogImage = data.image || '',
         siteName = '',
         twitterCard = 'summary_large_image',
         robots = 'index, follow'
@@ -496,33 +632,37 @@
       tags += `\n<!-- Twitter / X -->\n`;
       tags += `<meta name="twitter:card" content="${this.escapeHtml(twitterCard)}">\n`;
       if (canonicalUrl) tags += `<meta name="twitter:url" content="${this.escapeHtml(canonicalUrl)}">\n`;
-      if (title) tags += `<meta name="twitter:title" content="${this.escapeHtml(title)}">\n`;
-      if (description) tags += `<meta name="twitter:description" content="${this.escapeHtml(description)}">\n`;
-      if (ogImage) tags += `<meta name="twitter:image" content="${this.escapeHtml(ogImage)}">\n`;
+      if (title) tags += `<meta property="twitter:title" content="${this.escapeHtml(title)}">\n`;
+      if (description) tags += `<meta property="twitter:description" content="${this.escapeHtml(description)}">\n`;
+      if (ogImage) tags += `<meta property="twitter:image" content="${this.escapeHtml(ogImage)}">\n`;
 
-      return tags;
+      const resObj = new String(tags);
+      Object.assign(resObj, { valid: true, result: tags });
+      return resObj;
     },
 
     parseUrl: function(urlString) {
-      if (!urlString) return null;
+      if (!urlString) return { valid: false, error: 'URL input is empty' };
       let urlObj;
       try {
         urlObj = new URL(urlString);
       } catch (e) {
-        // Try appending https://
         try {
           urlObj = new URL('https://' + urlString);
         } catch (err) {
-          return null;
+          return { valid: false, error: 'Invalid URL format' };
         }
       }
 
       const params = [];
+      const searchParams = {};
       urlObj.searchParams.forEach((value, key) => {
         params.push({ key, value });
+        searchParams[key] = value;
       });
 
       return {
+        valid: true,
         href: urlObj.href,
         protocol: urlObj.protocol,
         origin: urlObj.origin,
@@ -532,12 +672,17 @@
         pathname: urlObj.pathname,
         search: urlObj.search,
         hash: urlObj.hash,
-        params
+        params,
+        searchParams
       };
     },
 
-    buildUtmUrl: function(baseUrl, utm) {
-      if (!baseUrl) return '';
+    buildUtmUrl: function(baseUrl, utmOrSource = {}, mediumArg, campaignArg, termArg, contentArg) {
+      if (!baseUrl) {
+        const emptyObj = new String('');
+        Object.assign(emptyObj, { valid: false, result: '', error: 'Base URL is empty' });
+        return emptyObj;
+      }
       let url;
       try {
         url = new URL(baseUrl);
@@ -545,11 +690,27 @@
         try {
           url = new URL('https://' + baseUrl);
         } catch (err) {
-          return '';
+          const errObj = new String('');
+          Object.assign(errObj, { valid: false, result: '', error: 'Invalid base URL' });
+          return errObj;
         }
       }
 
-      const { source, medium, campaign, term, content } = utm;
+      let source = '', medium = '', campaign = '', term = '', content = '';
+      if (typeof utmOrSource === 'object' && utmOrSource !== null) {
+        source = utmOrSource.source || utmOrSource.utm_source || '';
+        medium = utmOrSource.medium || utmOrSource.utm_medium || '';
+        campaign = utmOrSource.campaign || utmOrSource.utm_campaign || '';
+        term = utmOrSource.term || utmOrSource.utm_term || '';
+        content = utmOrSource.content || utmOrSource.utm_content || '';
+      } else if (typeof utmOrSource === 'string') {
+        source = utmOrSource;
+        medium = mediumArg || '';
+        campaign = campaignArg || '';
+        term = termArg || '';
+        content = contentArg || '';
+      }
+
       if (source) url.searchParams.set('utm_source', source.trim());
       else url.searchParams.delete('utm_source');
 
@@ -565,17 +726,26 @@
       if (content) url.searchParams.set('utm_content', content.trim());
       else url.searchParams.delete('utm_content');
 
-      return url.toString();
+      const finalUrl = url.toString();
+      const resObj = new String(finalUrl);
+      Object.assign(resObj, { valid: true, result: finalUrl, url: finalUrl });
+      return resObj;
     },
 
-    generateRobotsTxt: function(options) {
-      const {
-        userAgent = '*',
-        allows = [],
-        disallows = [],
-        sitemapUrl = '',
-        crawlDelay = ''
-      } = options;
+    generateRobotsTxt: function(options = {}) {
+      const userAgent = options.userAgent || '*';
+      const crawlDelay = options.crawlDelay || '';
+      const sitemapUrl = options.sitemapUrl || options.sitemap || '';
+      
+      let allows = [];
+      if (Array.isArray(options.allows)) allows = options.allows;
+      else if (Array.isArray(options.allow)) allows = options.allow;
+      else if (typeof options.allow === 'string' && options.allow.trim()) allows = options.allow.split(/\r?\n/);
+
+      let disallows = [];
+      if (Array.isArray(options.disallows)) disallows = options.disallows;
+      else if (Array.isArray(options.disallow)) disallows = options.disallow;
+      else if (typeof options.disallow === 'string' && options.disallow.trim()) disallows = options.disallow.split(/\r?\n/);
 
       let out = `User-agent: ${userAgent}\n`;
       if (allows.length > 0) {
@@ -597,35 +767,51 @@
       if (sitemapUrl) {
         out += `\nSitemap: ${sitemapUrl.trim()}\n`;
       }
-      return out;
+
+      const resObj = new String(out);
+      Object.assign(resObj, { valid: true, result: out, content: out });
+      return resObj;
     },
 
     generateSitemapXml: function(urlList, options = {}) {
-      const { freq = 'weekly', priority = '0.8', lastmod = new Date().toISOString().split('T')[0] } = options;
-      const lines = urlList.split(/\r\n|\r|\n/).map(u => u.trim()).filter(Boolean);
+      const freq = options.freq || options.changefreq || 'weekly';
+      const priority = options.priority || '0.8';
+      const lastmod = options.lastmod || new Date().toISOString().split('T')[0];
+
+      let lines = [];
+      if (Array.isArray(urlList)) {
+        lines = urlList;
+      } else if (typeof urlList === 'string') {
+        lines = urlList.split(/\r\n|\r|\n/).map(u => u.trim()).filter(Boolean);
+      }
       
       let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
       xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
       
       lines.forEach(u => {
-        let validUrl = u;
-        if (!validUrl.startsWith('http://') && !validUrl.startsWith('https://')) {
-          validUrl = 'https://' + validUrl;
+        let validUrl = String(u).trim();
+        if (validUrl) {
+          if (!validUrl.startsWith('http://') && !validUrl.startsWith('https://')) {
+            validUrl = 'https://' + validUrl;
+          }
+          xml += `  <url>\n`;
+          xml += `    <loc>${this.escapeHtml(validUrl)}</loc>\n`;
+          xml += `    <lastmod>${lastmod}</lastmod>\n`;
+          xml += `    <changefreq>${freq}</changefreq>\n`;
+          xml += `    <priority>${priority}</priority>\n`;
+          xml += `  </url>\n`;
         }
-        xml += `  <url>\n`;
-        xml += `    <loc>${this.escapeHtml(validUrl)}</loc>\n`;
-        xml += `    <lastmod>${lastmod}</lastmod>\n`;
-        xml += `    <changefreq>${freq}</changefreq>\n`;
-        xml += `    <priority>${priority}</priority>\n`;
-        xml += `  </url>\n`;
       });
       
       xml += `</urlset>\n`;
-      return xml;
+      const resObj = new String(xml);
+      Object.assign(resObj, { valid: true, result: xml, xml: xml });
+      return resObj;
     },
 
     // 4. IMAGE & COLOR UTILITIES
     hexToRgb: function(hex) {
+      if (!hex) return null;
       let c = hex.replace('#', '').trim();
       if (c.length === 3) {
         c = c.split('').map(x => x + x).join('');
@@ -709,89 +895,143 @@
     },
 
     getContrastRatio: function(rgb1, rgb2) {
+      if (!rgb1 || !rgb2) return new Number(1);
       const lum1 = this.getLuminance(rgb1.r, rgb1.g, rgb1.b);
       const lum2 = this.getLuminance(rgb2.r, rgb2.g, rgb2.b);
       const brightest = Math.max(lum1, lum2);
       const darkest = Math.min(lum1, lum2);
-      return (brightest + 0.05) / (darkest + 0.05);
+      const ratio = (brightest + 0.05) / (darkest + 0.05);
+
+      const resObj = new Number(ratio);
+      Object.assign(resObj, {
+        ratio: ratio.toFixed(2),
+        normalAA: ratio >= 4.5,
+        largeAA: ratio >= 3.0,
+        normalAAA: ratio >= 7.0,
+        largeAAA: ratio >= 4.5
+      });
+      return resObj;
     },
 
-    generatePalette: function(baseHex) {
+    generatePalette: function(baseHex, harmonyMode = 'all') {
       const rgb = this.hexToRgb(baseHex);
       if (!rgb) return null;
       const hsl = this.rgbToHsl(rgb.r, rgb.g, rgb.b);
 
-      const makeHex = (h, s, l) => {
+      const makeColorObj = (h, s, l) => {
         const c = this.hslToRgb(h, s, l);
-        return this.rgbToHex(c.r, c.g, c.b);
+        const hex = this.rgbToHex(c.r, c.g, c.b);
+        return { hex, rgb: `rgb(${c.r}, ${c.g}, ${c.b})`, hsl: `hsl(${h}, ${s}%, ${l}%)` };
       };
 
-      return {
-        base: baseHex.toUpperCase(),
-        monochromatic: [
-          makeHex(hsl.h, hsl.s, Math.max(10, hsl.l - 30)),
-          makeHex(hsl.h, hsl.s, Math.max(15, hsl.l - 15)),
-          baseHex.toUpperCase(),
-          makeHex(hsl.h, hsl.s, Math.min(90, hsl.l + 15)),
-          makeHex(hsl.h, hsl.s, Math.min(95, hsl.l + 30))
-        ],
-        analogous: [
-          makeHex((hsl.h + 300) % 360, hsl.s, hsl.l),
-          makeHex((hsl.h + 330) % 360, hsl.s, hsl.l),
-          baseHex.toUpperCase(),
-          makeHex((hsl.h + 30) % 360, hsl.s, hsl.l),
-          makeHex((hsl.h + 60) % 360, hsl.s, hsl.l)
-        ],
-        complementary: [
-          baseHex.toUpperCase(),
-          makeHex((hsl.h + 180) % 360, hsl.s, hsl.l),
-          makeHex(hsl.h, Math.max(15, hsl.s - 25), Math.min(85, hsl.l + 20)),
-          makeHex((hsl.h + 180) % 360, Math.max(15, hsl.s - 25), Math.min(85, hsl.l + 20))
-        ],
-        triadic: [
-          baseHex.toUpperCase(),
-          makeHex((hsl.h + 120) % 360, hsl.s, hsl.l),
-          makeHex((hsl.h + 240) % 360, hsl.s, hsl.l)
-        ]
-      };
+      const baseColor = baseHex.toUpperCase();
+
+      const monoObj = [
+        makeColorObj(hsl.h, hsl.s, Math.max(10, hsl.l - 30)),
+        makeColorObj(hsl.h, hsl.s, Math.max(15, hsl.l - 15)),
+        makeColorObj(hsl.h, hsl.s, hsl.l),
+        makeColorObj(hsl.h, hsl.s, Math.min(90, hsl.l + 15)),
+        makeColorObj(hsl.h, hsl.s, Math.min(95, hsl.l + 30))
+      ];
+
+      const analogObj = [
+        makeColorObj((hsl.h + 300) % 360, hsl.s, hsl.l),
+        makeColorObj((hsl.h + 330) % 360, hsl.s, hsl.l),
+        makeColorObj(hsl.h, hsl.s, hsl.l),
+        makeColorObj((hsl.h + 30) % 360, hsl.s, hsl.l),
+        makeColorObj((hsl.h + 60) % 360, hsl.s, hsl.l)
+      ];
+
+      const compObj = [
+        makeColorObj(hsl.h, hsl.s, hsl.l),
+        makeColorObj((hsl.h + 180) % 360, hsl.s, hsl.l),
+        makeColorObj(hsl.h, Math.max(15, hsl.s - 25), Math.min(85, hsl.l + 20)),
+        makeColorObj((hsl.h + 180) % 360, Math.max(15, hsl.s - 25), Math.min(85, hsl.l + 20))
+      ];
+
+      const triadicObj = [
+        makeColorObj(hsl.h, hsl.s, hsl.l),
+        makeColorObj((hsl.h + 120) % 360, hsl.s, hsl.l),
+        makeColorObj((hsl.h + 240) % 360, hsl.s, hsl.l)
+      ];
+
+      let arr = monoObj;
+      if (harmonyMode === 'analogous') arr = analogObj;
+      else if (harmonyMode === 'complementary') arr = compObj;
+      else if (harmonyMode === 'triadic') arr = triadicObj;
+
+      const resArray = Array.from(arr);
+      Object.assign(resArray, {
+        base: baseColor,
+        monochromatic: monoObj.map(c => c.hex),
+        analogous: analogObj.map(c => c.hex),
+        complementary: compObj.map(c => c.hex),
+        triadic: triadicObj.map(c => c.hex),
+        monochromaticObj: monoObj,
+        analogousObj: analogObj,
+        complementaryObj: compObj,
+        triadicObj: triadicObj
+      });
+
+      return resArray;
     },
 
     sanitizeSvg: function(rawSvg) {
-      if (!rawSvg) return '';
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(rawSvg, 'image/svg+xml');
-      
-      const parserError = doc.querySelector('parsererror');
-      if (parserError) {
-        throw new Error('Invalid SVG XML syntax: ' + parserError.textContent);
+      if (!rawSvg) {
+        const errObj = new String('');
+        Object.assign(errObj, { valid: false, sanitized: '', error: 'Input is empty' });
+        return errObj;
       }
+      try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(rawSvg, 'image/svg+xml');
+        
+        const parserError = doc.querySelector('parsererror');
+        if (parserError) {
+          throw new Error('Invalid SVG XML syntax: ' + parserError.textContent);
+        }
 
-      const svgEl = doc.querySelector('svg');
-      if (!svgEl) {
-        throw new Error('No <svg> root element found.');
-      }
+        const svgEl = doc.querySelector('svg');
+        if (!svgEl) {
+          throw new Error('No <svg> root element found.');
+        }
 
-      // Strip dangerous elements
-      const scripts = svgEl.querySelectorAll('script, foreignObject, iframe, embed, object');
-      scripts.forEach(s => s.remove());
+        // Strip dangerous elements
+        const scripts = svgEl.querySelectorAll('script, foreignObject, iframe, embed, object');
+        scripts.forEach(s => s.remove());
 
-      // Strip dangerous attributes
-      const allElements = svgEl.querySelectorAll('*');
-      const cleanEl = el => {
-        const attrs = Array.from(el.attributes);
-        attrs.forEach(attr => {
-          const name = attr.name.toLowerCase();
-          const val = attr.value.toLowerCase().trim();
-          if (name.startsWith('on') || val.startsWith('javascript:') || val.startsWith('data:text/html')) {
-            el.removeAttribute(attr.name);
-          }
+        // Strip dangerous attributes
+        const allElements = svgEl.querySelectorAll('*');
+        const cleanEl = el => {
+          const attrs = Array.from(el.attributes);
+          attrs.forEach(attr => {
+            const name = attr.name.toLowerCase();
+            const val = attr.value.toLowerCase().trim();
+            if (name.startsWith('on') || val.startsWith('javascript:') || val.startsWith('data:text/html')) {
+              el.removeAttribute(attr.name);
+            }
+          });
+        };
+
+        cleanEl(svgEl);
+        allElements.forEach(cleanEl);
+
+        const sanitized = new XMLSerializer().serializeToString(svgEl);
+        const resObj = new String(sanitized);
+        Object.assign(resObj, {
+          valid: true,
+          sanitized,
+          viewBox: svgEl.getAttribute('viewBox') || 'None',
+          width: svgEl.getAttribute('width') || 'Auto',
+          height: svgEl.getAttribute('height') || 'Auto',
+          elementCount: svgEl.querySelectorAll('*').length
         });
-      };
-
-      cleanEl(svgEl);
-      allElements.forEach(cleanEl);
-
-      return new XMLSerializer().serializeToString(svgEl);
+        return resObj;
+      } catch (err) {
+        const errObj = new String('');
+        Object.assign(errObj, { valid: false, sanitized: '', error: err.message });
+        return errObj;
+      }
     },
 
     // 5. FILE & DATA UTILITIES
@@ -855,7 +1095,6 @@
         const obj = {};
         for (let j = 0; j < headers.length; j++) {
           const val = rows[i][j] !== undefined ? rows[i][j] : '';
-          // Try parse number/boolean
           if (val === 'true') obj[headers[j]] = true;
           else if (val === 'false') obj[headers[j]] = false;
           else if (!isNaN(Number(val)) && val !== '') obj[headers[j]] = Number(val);
@@ -866,40 +1105,65 @@
       return result;
     },
 
-    jsonToCsv: function(jsonData) {
-      let data = jsonData;
-      if (typeof jsonData === 'string') {
-        data = JSON.parse(jsonData);
-      }
-      if (!Array.isArray(data) || data.length === 0) {
-        return '';
+    jsonToCsv: function(jsonData, optionsOrDelimiter = ',') {
+      let delimiter = ',';
+      if (typeof optionsOrDelimiter === 'string') delimiter = optionsOrDelimiter;
+      else if (typeof optionsOrDelimiter === 'object' && optionsOrDelimiter !== null) {
+        if (optionsOrDelimiter.delimiter) delimiter = optionsOrDelimiter.delimiter;
       }
 
-      // Collect all keys
+      let data = jsonData;
+      if (typeof jsonData === 'string') {
+        try {
+          data = JSON.parse(jsonData);
+        } catch (e) {
+          const errObj = new String('');
+          Object.assign(errObj, { valid: false, result: '', error: 'Invalid JSON input' });
+          return errObj;
+        }
+      }
+      if (!Array.isArray(data) || data.length === 0) {
+        const emptyObj = new String('');
+        Object.assign(emptyObj, { valid: false, result: '', error: 'JSON must be a non-empty array of objects' });
+        return emptyObj;
+      }
+
       const keys = Array.from(new Set(data.flatMap(item => typeof item === 'object' && item !== null ? Object.keys(item) : [])));
       const escapeField = val => {
         if (val === null || val === undefined) return '';
         const str = typeof val === 'object' ? JSON.stringify(val) : String(val);
-        if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+        if (str.includes(delimiter) || str.includes('"') || str.includes('\n') || str.includes('\r')) {
           return `"${str.replace(/"/g, '""')}"`;
         }
         return str;
       };
 
-      const headerLine = keys.map(escapeField).join(',');
+      const headerLine = keys.map(escapeField).join(delimiter);
       const rows = data.map(item => {
-        return keys.map(k => escapeField(item[k])).join(',');
+        return keys.map(k => escapeField(item[k])).join(delimiter);
       });
 
-      return [headerLine, ...rows].join('\n');
+      const csvStr = [headerLine, ...rows].join('\n');
+      const resObj = new String(csvStr);
+      Object.assign(resObj, { valid: true, result: csvStr, csv: csvStr });
+      return resObj;
     },
 
     generateFileHash: async function(file, algorithm = 'SHA-256') {
-      const arrayBuffer = await file.arrayBuffer();
-      const hashBuffer = await crypto.subtle.digest(algorithm, arrayBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      return hex;
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        return await this.runWorkerTask(function({ buffer, algo }) {
+          return crypto.subtle.digest(algo, buffer).then(hashBuffer => {
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+          });
+        }, { buffer: arrayBuffer, algo: algorithm });
+      } catch (err) {
+        const arrayBuffer = await file.arrayBuffer();
+        const hashBuffer = await crypto.subtle.digest(algorithm, arrayBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
     },
 
     // 6. EVERYDAY UTILITIES
@@ -919,14 +1183,12 @@
       const suggestions = [];
       const len = password.length;
 
-      // Length checks
       if (len >= 8) score += 20;
       else suggestions.push('Use at least 8 characters (12+ recommended).');
 
       if (len >= 12) score += 15;
       if (len >= 16) score += 10;
 
-      // Character variety checks
       const hasLower = /[a-z]/.test(password);
       const hasUpper = /[A-Z]/.test(password);
       const hasDigit = /[0-9]/.test(password);
@@ -938,7 +1200,6 @@
       if (hasDigit) { score += 15; poolSize += 10; } else suggestions.push('Include at least one number (0-9).');
       if (hasSpecial) { score += 15; poolSize += 33; } else suggestions.push('Include special symbols (!@#$%^&*).');
 
-      // Common weakness deductions
       if (/^[0-9]+$/.test(password) || /^[a-zA-Z]+$/.test(password)) {
         score -= 20;
       }
@@ -953,7 +1214,6 @@
 
       score = Math.max(5, Math.min(100, score));
 
-      // Entropy calculation: E = L * log2(poolSize)
       const entropy = poolSize > 0 ? Math.round(len * (Math.log(poolSize) / Math.log(2))) : 0;
 
       let label = 'Very Weak';
@@ -1021,7 +1281,6 @@
       const totalWeeks = Math.floor(totalDays / 7);
       const remDays = totalDays % 7;
 
-      // Workdays count (Mon-Fri)
       let cur = new Date(Math.min(d1.getTime(), d2.getTime()));
       const end = new Date(Math.max(d1.getTime(), d2.getTime()));
       let workdays = 0;
@@ -1049,20 +1308,17 @@
       y = parseFloat(y) || 0;
       switch (type) {
         case 'percentOf':
-          // What is X% of Y?
           return {
             result: (x / 100) * y,
             formula: `(${x} ÷ 100) × ${y}`
           };
         case 'isWhatPercent':
-          // X is what percent of Y?
           if (y === 0) return { result: 0, formula: 'Division by zero is undefined' };
           return {
             result: (x / y) * 100,
             formula: `(${x} ÷ ${y}) × 100%`
           };
         case 'change':
-          // % increase/decrease from X to Y
           if (x === 0) return { result: 0, formula: 'Division by zero is undefined' };
           const diff = y - x;
           const pct = (diff / x) * 100;
@@ -1071,7 +1327,6 @@
             formula: `((${y} - ${x}) ÷ ${x}) × 100%`
           };
         case 'addPercent':
-          // Y + X%
           return {
             result: y + (y * (x / 100)),
             formula: `${y} + (${y} × ${x}%)`
@@ -1110,8 +1365,17 @@
       }
     },
 
-    generateRandomData: function(type, count = 5) {
-      const num = Math.min(Math.max(parseInt(count, 10) || 1, 1), 50);
+    generateRandomData: function(type, countOrOptions = 5) {
+      let count = 5;
+      let format = 'json';
+      if (typeof countOrOptions === 'number' || typeof countOrOptions === 'string') {
+        count = parseInt(countOrOptions, 10) || 5;
+      } else if (typeof countOrOptions === 'object' && countOrOptions !== null) {
+        count = parseInt(countOrOptions.count, 10) || 5;
+        format = countOrOptions.format || 'json';
+      }
+
+      const num = Math.min(Math.max(count, 1), 100);
       const items = [];
 
       const firstNames = ['Alex', 'Jordan', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Sam', 'Chris', 'Robin', 'Jamie', 'Avery', 'Cameron', 'Dakota', 'Logan'];
@@ -1119,33 +1383,238 @@
       const domains = ['example.com', 'testmail.org', 'demo.net', 'sample.io'];
 
       for (let i = 0; i < num; i++) {
-        if (type === 'number') {
+        if (type === 'number' || type === 'numbers') {
           items.push(Math.floor(Math.random() * 1000000));
-        } else if (type === 'string') {
+        } else if (type === 'string' || type === 'strings') {
           const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
           let str = '';
           for (let j = 0; j < 16; j++) {
             str += chars.charAt(Math.floor(Math.random() * chars.length));
           }
           items.push(str);
-        } else if (type === 'name') {
+        } else if (type === 'name' || type === 'names') {
           const fn = firstNames[Math.floor(Math.random() * firstNames.length)];
           const ln = lastNames[Math.floor(Math.random() * lastNames.length)];
           items.push(`${fn} ${ln}`);
-        } else if (type === 'email') {
+        } else if (type === 'email' || type === 'emails') {
           const fn = firstNames[Math.floor(Math.random() * firstNames.length)].toLowerCase();
           const ln = lastNames[Math.floor(Math.random() * lastNames.length)].toLowerCase();
           const rand = Math.floor(Math.random() * 900) + 100;
           const domain = domains[Math.floor(Math.random() * domains.length)];
           items.push(`${fn}.${ln}${rand}@${domain}`);
-        } else if (type === 'ip') {
+        } else if (type === 'ip' || type === 'ips') {
           items.push(`192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 254) + 1}`);
-        } else if (type === 'boolean') {
+        } else if (type === 'boolean' || type === 'booleans') {
           items.push(Math.random() > 0.5 ? 'true' : 'false');
+        } else {
+          const fn = firstNames[Math.floor(Math.random() * firstNames.length)];
+          const ln = lastNames[Math.floor(Math.random() * lastNames.length)];
+          const rand = Math.floor(Math.random() * 900) + 100;
+          const domain = domains[Math.floor(Math.random() * domains.length)];
+          items.push({
+            id: i + 1,
+            name: `${fn} ${ln}`,
+            email: `${fn.toLowerCase()}.${ln.toLowerCase()}${rand}@${domain}`,
+            role: Math.random() > 0.5 ? 'Admin' : 'User',
+            active: Math.random() > 0.3
+          });
         }
       }
+
+      if (format === 'csv') {
+        if (typeof items[0] === 'object') {
+          const keys = Object.keys(items[0]);
+          const header = keys.join(',');
+          const rows = items.map(it => keys.map(k => it[k]).join(','));
+          const csvText = [header, ...rows].join('\n');
+          const resObj = new String(csvText);
+          Object.assign(resObj, { valid: true, result: csvText, items });
+          resObj.join = function(sep = '\n') { return items.map(x => typeof x === 'object' ? JSON.stringify(x) : x).join(sep); };
+          return resObj;
+        } else {
+          const csvText = items.join('\n');
+          const resObj = new String(csvText);
+          Object.assign(resObj, { valid: true, result: csvText, items });
+          resObj.join = function(sep = '\n') { return items.join(sep); };
+          return resObj;
+        }
+      } else if (format === 'json') {
+        const jsonText = JSON.stringify(items, null, 2);
+        const resObj = new String(jsonText);
+        Object.assign(resObj, { valid: true, result: jsonText, items });
+        resObj.join = function(sep = '\n') { return items.map(x => typeof x === 'object' ? JSON.stringify(x) : x).join(sep); };
+        return resObj;
+      }
+
       return items;
-    }
+    },
+
+    // --- Image Utilities Support ---
+    extractImageColors: function(img, maxColors = 8) {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const sampleSize = 100;
+        canvas.width = sampleSize;
+        canvas.height = sampleSize;
+        ctx.drawImage(img, 0, 0, sampleSize, sampleSize);
+        const imgData = ctx.getImageData(0, 0, sampleSize, sampleSize).data;
+        
+        const colorCounts = {};
+        for (let i = 0; i < imgData.length; i += 16) {
+          const r = imgData[i];
+          const g = imgData[i + 1];
+          const b = imgData[i + 2];
+          const a = imgData[i + 3];
+          if (a < 128) continue;
+          
+          const qr = Math.round(r / 16) * 16;
+          const qg = Math.round(g / 16) * 16;
+          const qb = Math.round(b / 16) * 16;
+          const key = `${qr},${qg},${qb}`;
+          colorCounts[key] = (colorCounts[key] || 0) + 1;
+        }
+
+        const sorted = Object.entries(colorCounts).sort((a, b) => b[1] - a[1]);
+        if (sorted.length === 0) {
+          return {
+            dominant: { hex: '#000000', rgb: 'rgb(0, 0, 0)' },
+            palette: [{ hex: '#000000', rgb: 'rgb(0, 0, 0)' }]
+          };
+        }
+
+        const formatColor = (rgbStr) => {
+          const [r, g, b] = rgbStr.split(',').map(Number);
+          const hex = '#' + [r, g, b].map(x => Math.min(255, Math.max(0, x)).toString(16).padStart(2, '0')).join('');
+          return { hex, rgb: `rgb(${r}, ${g}, ${b})` };
+        };
+
+        const dominant = formatColor(sorted[0][0]);
+        const palette = [];
+        const seenHex = new Set();
+        for (const [rgbStr] of sorted) {
+          const item = formatColor(rgbStr);
+          if (!seenHex.has(item.hex)) {
+            seenHex.add(item.hex);
+            palette.push(item);
+            if (palette.length >= maxColors) break;
+          }
+        }
+
+        return { dominant, palette };
+      } catch (err) {
+        console.error('Color extraction failed:', err);
+        return {
+          dominant: { hex: '#0066cc', rgb: 'rgb(0, 102, 204)' },
+          palette: [{ hex: '#0066cc', rgb: 'rgb(0, 102, 204)' }]
+        };
+      }
+    },
+
+    // --- File Hash Utilities Support ---
+    hashBuffer: async function(bufferOrFile, algorithm = 'SHA-256') {
+      let arrayBuffer;
+      if (bufferOrFile instanceof ArrayBuffer) {
+        arrayBuffer = bufferOrFile;
+      } else if (bufferOrFile && typeof bufferOrFile.arrayBuffer === 'function') {
+        arrayBuffer = await bufferOrFile.arrayBuffer();
+      } else if (typeof bufferOrFile === 'string') {
+        arrayBuffer = new TextEncoder().encode(bufferOrFile).buffer;
+      } else {
+        throw new Error('Unsupported input for hash calculation');
+      }
+
+      try {
+        return await this.runWorkerTask(function({ buffer, algo }) {
+          return crypto.subtle.digest(algo, buffer).then(hashBuf => {
+            const hashArray = Array.from(new Uint8Array(hashBuf));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+          });
+        }, { buffer: arrayBuffer, algo: algorithm });
+      } catch (err) {
+        const hashBuf = await crypto.subtle.digest(algorithm, arrayBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuf));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+    },
+
+    // --- Date Difference Full Breakdown ---
+    calculateDateDifference: function(startStr, endStr) {
+      const d1 = new Date(startStr);
+      const d2 = new Date(endStr);
+      if (isNaN(d1.getTime()) || isNaN(d2.getTime())) {
+        return {
+          totalDays: 0, workingDays: 0, weeks: 0, years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0
+        };
+      }
+
+      const isReverse = d2 < d1;
+      const startDate = isReverse ? d2 : d1;
+      const endDate = isReverse ? d1 : d2;
+
+      const diffMs = endDate.getTime() - startDate.getTime();
+      const totalSeconds = Math.floor(diffMs / 1000);
+      const totalMinutes = Math.floor(totalSeconds / 60);
+      const totalHours = Math.floor(totalMinutes / 60);
+      const totalDays = Math.floor(totalHours / 24);
+      const weeks = Math.floor(totalDays / 7);
+
+      let cur = new Date(startDate.getTime());
+      let workingDays = 0;
+      while (cur < endDate) {
+        const day = cur.getDay();
+        if (day !== 0 && day !== 6) {
+          workingDays++;
+        }
+        cur.setDate(cur.getDate() + 1);
+      }
+
+      let y1 = startDate.getFullYear(), m1 = startDate.getMonth(), day1 = startDate.getDate();
+      let y2 = endDate.getFullYear(), m2 = endDate.getMonth(), day2 = endDate.getDate();
+
+      let years = y2 - y1;
+      let months = m2 - m1;
+      let days = day2 - day1;
+
+      if (days < 0) {
+        months -= 1;
+        const prevMonth = new Date(y2, m2, 0);
+        days += prevMonth.getDate();
+      }
+      if (months < 0) {
+        years -= 1;
+        months += 12;
+      }
+
+      return {
+        totalDays,
+        workingDays,
+        weeks,
+        years: Math.max(0, years),
+        months: Math.max(0, months),
+        days: Math.max(0, days),
+        hours: totalHours,
+        minutes: totalMinutes,
+        seconds: totalSeconds
+      };
+    },
+
+    // --- Function Naming Compatibility Aliases ---
+    encodeBase64: function(text, urlSafe) { return this.base64Encode(text, urlSafe); },
+    decodeBase64: function(b64, urlSafe) { return this.base64Decode(b64, urlSafe); },
+    parseCSV: function(csvText, delimiter) { return this.parseCsv(csvText, delimiter); },
+    formatJSON: function(jsonStr, indent) { return this.formatJson(jsonStr, indent); },
+    validateJSON: function(jsonStr) { return this.validateJson(jsonStr); },
+    generateSitemapXML: function(urls, options) { return this.generateSitemapXml(urls, options); },
+    sanitizeSVG: function(svg) { return this.sanitizeSvg(svg); },
+    encodeURL: function(url, component) { return this.encodeUrl(url, component); },
+    decodeURL: function(url, component) { return this.decodeUrl(url, component); },
+    parseURL: function(url) { return this.parseUrl(url); },
+    buildUTM: function(baseUrl, utm, m, c, t, co) { return this.buildUtmUrl(baseUrl, utm, m, c, t, co); },
+    jsonToCSV: function(data, opts) { return this.jsonToCsv(data, opts); },
+    generateUuid: function(count, opts) { return this.generateUUIDs(count, opts); },
+    generateUUID: function(count, opts) { return this.generateUUIDs(count, opts); },
+    generateTestData: function(type, countOrOpts) { return this.generateRandomData(type, countOrOpts); }
   };
 
   window.MTV_BU = MTV_BU;

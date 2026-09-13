@@ -16,6 +16,41 @@
   let isLoading = false;
   let hasMore = true;
 
+  const STARRED_STORAGE_KEY = 'mtv_starred_prompts';
+
+  function getStarredPrompts() {
+    try {
+      const raw = localStorage.getItem(STARRED_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function isPromptStarred(promptId) {
+    const starred = getStarredPrompts();
+    return starred.includes(promptId);
+  }
+
+  function toggleStarPrompt(promptId) {
+    let starred = getStarredPrompts();
+    const idx = starred.indexOf(promptId);
+    let newState = false;
+    if (idx >= 0) {
+      starred.splice(idx, 1);
+      newState = false;
+    } else {
+      starred.push(promptId);
+      newState = true;
+    }
+    try {
+      localStorage.setItem(STARRED_STORAGE_KEY, JSON.stringify(starred));
+    } catch (e) {
+      console.warn('Failed to save starred prompt to localStorage:', e);
+    }
+    return newState;
+  }
+
   // DOM Elements
   let gridContainer = null;
   let categoryPillsContainer = null;
@@ -102,8 +137,34 @@
       });
     }
 
-    // Global copy & view delegation for cards
+    // Global copy, star & view delegation for cards
     document.addEventListener('click', (e) => {
+      const starBtn = e.target.closest('.btn-star-prompt');
+      if (starBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const promptId = starBtn.getAttribute('data-prompt-id');
+        const isNowStarred = toggleStarPrompt(promptId);
+        showToast(isNowStarred ? 'Saved to Favorites ⭐' : 'Removed from Favorites');
+
+        categories = buildUniqueCategories(allPrompts);
+        renderCategoryFilters();
+
+        if (activeCategory === 'Favorites') {
+          renderLibrary();
+        } else {
+          const isStarred = isPromptStarred(promptId);
+          starBtn.classList.toggle('starred', isStarred);
+          starBtn.setAttribute('aria-label', isStarred ? 'Remove from favorites' : 'Add to favorites');
+          starBtn.setAttribute('title', isStarred ? 'Remove from favorites' : 'Add to favorites');
+          const svg = starBtn.querySelector('svg');
+          if (svg) {
+            svg.setAttribute('fill', isStarred ? '#f59e0b' : 'none');
+            svg.setAttribute('stroke', isStarred ? '#f59e0b' : 'currentColor');
+          }
+        }
+      }
+
       const copyBtn = e.target.closest('.btn-copy-prompt');
       if (copyBtn) {
         e.preventDefault();
@@ -190,7 +251,7 @@
   }
 
   /**
-   * Extract unique categories with accurate counts
+   * Extract unique categories with accurate counts and Favorites category
    */
   function buildUniqueCategories(prompts) {
     const map = new Map();
@@ -201,13 +262,19 @@
           : [p.category || 'AI Prompt'];
       cats.forEach((c) => {
         const clean = (c || '').trim();
-        if (clean) {
+        if (clean && clean !== 'Favorites') {
           map.set(clean, (map.get(clean) || 0) + 1);
         }
       });
     });
 
-    const list = [{ name: 'All', count: prompts.length }];
+    const starredIds = getStarredPrompts();
+    const starredCount = prompts.filter((p) => starredIds.includes(p.id)).length;
+
+    const list = [
+      { name: 'All', count: prompts.length },
+      { name: 'Favorites', count: starredCount }
+    ];
     for (const [name, count] of map.entries()) {
       list.push({ name, count });
     }
@@ -226,7 +293,7 @@
       btn.type = 'button';
       btn.className = `category-pill ${cat.name === activeCategory ? 'active' : ''}`;
       btn.setAttribute('data-category', cat.name);
-      btn.innerHTML = `<span>${escapeHtml(cat.name)}</span><span class="pill-count">${cat.count}</span>`;
+      btn.innerHTML = `<span>${cat.name === 'Favorites' ? '⭐ ' : ''}${escapeHtml(cat.name)}</span><span class="pill-count">${cat.count}</span>`;
 
       btn.addEventListener('click', () => {
         if (activeCategory === cat.name) return;
@@ -246,10 +313,12 @@
    * Filter prompts by active category and search keyword
    */
   function getFilteredPrompts() {
+    const starredIds = getStarredPrompts();
     return allPrompts.filter((p) => {
-      // Category match
       let matchCat = true;
-      if (activeCategory !== 'All') {
+      if (activeCategory === 'Favorites') {
+        matchCat = starredIds.includes(p.id);
+      } else if (activeCategory !== 'All') {
         const target = activeCategory.toLowerCase();
         const pCats = (Array.isArray(p.categories) ? p.categories : [p.category || '']).map((c) =>
           (c || '').toLowerCase()
@@ -358,6 +427,8 @@
       (record.promptText || '').slice(0, 160) +
       (record.promptText && record.promptText.length > 160 ? '...' : '');
 
+    const isStarred = isPromptStarred(record.id);
+
     card.innerHTML = `
       <div class="prompt-card-media">
         <img 
@@ -374,6 +445,11 @@
         <h3 class="prompt-card-title">${escapeHtml(cleanTitle)}</h3>
         <p class="prompt-card-preview">${escapeHtml(previewText)}</p>
         <div class="prompt-card-actions">
+          <button type="button" class="btn btn-outline btn-sm btn-star-prompt ${isStarred ? 'starred' : ''}" data-prompt-id="${escapeHtml(record.id)}" aria-label="${isStarred ? 'Remove from favorites' : 'Add to favorites'}" title="${isStarred ? 'Remove from favorites' : 'Add to favorites'}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="${isStarred ? '#f59e0b' : 'none'}" stroke="${isStarred ? '#f59e0b' : 'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </button>
           <button type="button" class="btn btn-primary btn-sm btn-copy-prompt" data-prompt-id="${escapeHtml(record.id)}" aria-label="Copy Full Prompt">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>

@@ -27,6 +27,66 @@ const STORAGE_KEYS = {
 };
 
 const StorageManager = {
+  dbPromise: null,
+
+  getDb() {
+    if (this.dbPromise) return this.dbPromise;
+    this.dbPromise = new Promise((resolve, reject) => {
+      if (typeof indexedDB === 'undefined') {
+        resolve(null);
+        return;
+      }
+      const req = indexedDB.open('mtv_app_db', 1);
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('app_store')) {
+          db.createObjectStore('app_store');
+        }
+      };
+      req.onsuccess = (e) => resolve(e.target.result);
+      req.onerror = () => resolve(null);
+    });
+    return this.dbPromise;
+  },
+
+  async getLargeItem(key, defaultValue = null) {
+    try {
+      const db = await this.getDb();
+      if (!db) return this.get(key, defaultValue);
+      return new Promise((resolve) => {
+        const tx = db.transaction('app_store', 'readonly');
+        const store = tx.objectStore('app_store');
+        const req = store.get(key);
+        req.onsuccess = () => resolve(req.result !== undefined ? req.result : defaultValue);
+        req.onerror = () => resolve(defaultValue);
+      });
+    } catch (e) {
+      return this.get(key, defaultValue);
+    }
+  },
+
+  async setLargeItem(key, value) {
+    try {
+      const db = await this.getDb();
+      if (!db) {
+        this.set(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+        return;
+      }
+      return new Promise((resolve) => {
+        const tx = db.transaction('app_store', 'readwrite');
+        const store = tx.objectStore('app_store');
+        const req = store.put(value, key);
+        req.onsuccess = () => resolve(true);
+        req.onerror = () => {
+          this.set(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+          resolve(false);
+        };
+      });
+    } catch (e) {
+      this.set(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+    }
+  },
+
   get(key, defaultValue = null) {
     try {
       const val = localStorage.getItem(key);

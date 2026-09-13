@@ -167,10 +167,16 @@ function bootAITools() {
 
   // 3D Tilt on Hover
   function attachTilt(el) {
+    if (!el) return;
+    if (el.id === 'dedicated-tool-output' || el.id === 'dedicated-tool-output-wrap' || el.classList.contains('inline-tool-output') || el.classList.contains('ai-rendered-content')) return;
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (window.innerWidth < 1024) return; // Desktop only
 
     el.onmousemove = (e) => {
+      if (e.target.closest('#dedicated-tool-output-wrap, #dedicated-tool-output, .inline-tool-output, .ai-rendered-content')) {
+        el.style.transform = 'none';
+        return;
+      }
       const rect = el.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -339,32 +345,61 @@ function bootAITools() {
 
   window.addEventListener('popstate', updateViewFromURL);
 
+  // Helper for reliable clipboard copy
+  function copyTextToClipboard(text, successMsg) {
+    if (!text) {
+      showToast('Nothing to copy');
+      return;
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(successMsg);
+      }).catch(() => {
+        fallbackCopyText(text, successMsg);
+      });
+    } else {
+      fallbackCopyText(text, successMsg);
+    }
+  }
+
+  function fallbackCopyText(text, successMsg) {
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      if (successful) {
+        showToast(successMsg);
+      } else {
+        showToast('Failed to copy');
+      }
+    } catch (err) {
+      showToast('Failed to copy');
+    }
+  }
+
   // Copy Buttons
   if (btnDedicatedCopyAll) {
     btnDedicatedCopyAll.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       const text = dedicatedToolOutput ? (dedicatedToolOutput.innerText || dedicatedToolOutput.textContent) : '';
-      if (text && navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-          showToast('✓ Complete output copied!');
-        }).catch(() => {
-          showToast('Failed to copy');
-        });
-      }
+      copyTextToClipboard(text, '✓ Complete output copied!');
     });
   }
 
   if (btnDedicatedCopy) {
     btnDedicatedCopy.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       const text = dedicatedToolOutput ? (dedicatedToolOutput.innerText || dedicatedToolOutput.textContent) : '';
-      if (text && navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-          showToast('Copied to clipboard!');
-        }).catch(() => {
-          showToast('Failed to copy');
-        });
-      }
+      copyTextToClipboard(text, 'Copied to clipboard!');
     });
   }
 
@@ -372,6 +407,7 @@ function bootAITools() {
   if (btnDedicatedClear) {
     btnDedicatedClear.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       const params = new URLSearchParams(window.location.search);
       let toolId = params.get('tool') || '';
       if (dedicatedToolInput) dedicatedToolInput.value = '';
@@ -382,6 +418,7 @@ function bootAITools() {
         sessionStorage.removeItem(`mtv_input_${toolId}`);
         sessionStorage.removeItem(`mtv_output_${toolId}`);
       }
+      showToast('Cleared output');
     });
   }
 

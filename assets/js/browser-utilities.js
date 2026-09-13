@@ -8,7 +8,72 @@
   'use strict';
 
   const MTV_BU = {
-    // UI Helpers
+    // UI & Persistence Helpers
+    runWorkerTask: function(workerFn, payload) {
+      return new Promise((resolve, reject) => {
+        try {
+          if (typeof Worker === 'undefined') {
+            throw new Error('Web Workers not supported in this environment');
+          }
+          const code = `
+            self.onmessage = async function(e) {
+              try {
+                const fn = ${workerFn.toString()};
+                const result = await fn(e.data);
+                self.postMessage({ success: true, result });
+              } catch (err) {
+                self.postMessage({ success: false, error: err.message || String(err) });
+              }
+            };
+          `;
+          const blob = new Blob([code], { type: 'application/javascript' });
+          const url = URL.createObjectURL(blob);
+          const worker = new Worker(url);
+          worker.onmessage = function(e) {
+            URL.revokeObjectURL(url);
+            worker.terminate();
+            if (e.data.success) {
+              resolve(e.data.result);
+            } else {
+              reject(new Error(e.data.error));
+            }
+          };
+          worker.onerror = function(err) {
+            URL.revokeObjectURL(url);
+            worker.terminate();
+            reject(err);
+          };
+          worker.postMessage(payload);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    },
+
+    saveToolInput: function(toolId, inputVal) {
+      if (!toolId) return;
+      try {
+        localStorage.setItem(`mtv_bu_input_${toolId}`, typeof inputVal === 'object' ? JSON.stringify(inputVal) : String(inputVal));
+      } catch (e) {
+        console.warn('Failed to save tool input to localStorage:', e);
+      }
+    },
+
+    getToolInput: function(toolId, defaultValue = null) {
+      if (!toolId) return defaultValue;
+      try {
+        const val = localStorage.getItem(`mtv_bu_input_${toolId}`);
+        if (val === null) return defaultValue;
+        try {
+          return JSON.parse(val);
+        } catch (e) {
+          return val;
+        }
+      } catch (e) {
+        return defaultValue;
+      }
+    },
+
     copyToClipboard: async function(text, buttonEl) {
       if (!text) return false;
       try {
@@ -1085,11 +1150,20 @@
     },
 
     generateFileHash: async function(file, algorithm = 'SHA-256') {
-      const arrayBuffer = await file.arrayBuffer();
-      const hashBuffer = await crypto.subtle.digest(algorithm, arrayBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      return hex;
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        return await this.runWorkerTask(function({ buffer, algo }) {
+          return crypto.subtle.digest(algo, buffer).then(hashBuffer => {
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+          });
+        }, { buffer: arrayBuffer, algo: algorithm });
+      } catch (err) {
+        const arrayBuffer = await file.arrayBuffer();
+        const hashBuffer = await crypto.subtle.digest(algorithm, arrayBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
     },
 
     // 6. EVERYDAY UTILITIES
@@ -1449,9 +1523,19 @@
       } else {
         throw new Error('Unsupported input for hash calculation');
       }
-      const hashBuf = await crypto.subtle.digest(algorithm, arrayBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuf));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+      try {
+        return await this.runWorkerTask(function({ buffer, algo }) {
+          return crypto.subtle.digest(algo, buffer).then(hashBuf => {
+            const hashArray = Array.from(new Uint8Array(hashBuf));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+          });
+        }, { buffer: arrayBuffer, algo: algorithm });
+      } catch (err) {
+        const hashBuf = await crypto.subtle.digest(algorithm, arrayBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuf));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
     },
 
     // --- Date Difference Full Breakdown ---

@@ -92,7 +92,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (supportsHover && !isReducedMotion && tiltCards.length > 0) {
     tiltCards.forEach(card => {
+      // Ignore if element is an output result box
+      if (card.id === 'dedicated-tool-output' || card.id === 'dedicated-tool-output-wrap' || card.classList.contains('inline-tool-output') || card.classList.contains('ai-rendered-content')) return;
+
       card.addEventListener('mousemove', (e) => {
+        // Prevent wobble/tilt if mouse is over tool output result box or controls inside card
+        if (e.target.closest('#dedicated-tool-output-wrap, #dedicated-tool-output, .inline-tool-output, .ai-rendered-content')) {
+          card.style.transform = 'none';
+          return;
+        }
+
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
