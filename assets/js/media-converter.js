@@ -82,6 +82,7 @@
         outputAudioPlayer: document.getElementById('media-output-audio-player'),
         outputGifPreview: document.getElementById('media-output-gif-preview'),
         outputImagePreview: document.getElementById('media-output-image-preview'),
+        outputDocPreview: document.getElementById('media-output-doc-preview'),
         outputMetaText: document.getElementById('media-output-meta'),
         downloadBtn: document.getElementById('btn-download-media'),
         processAnotherBtn: document.getElementById('btn-process-another'),
@@ -790,41 +791,85 @@
       const isVideo = mimeType.startsWith('video/');
       const isGif = mimeType === 'image/gif';
       const isImage = mimeType.startsWith('image/') && !isGif;
+      const isAudio = mimeType.startsWith('audio/');
+      const isPdf = mimeType === 'application/pdf' || extension === 'pdf';
+      const isZip = mimeType === 'application/zip' || extension === 'zip';
+      const isText = mimeType.startsWith('text/') || extension === 'txt' || extension === 'svg';
+
+      // Hide all by default
+      if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
+      if (this.dom.outputImagePreview) this.dom.outputImagePreview.style.display = 'none';
+      if (this.dom.outputVideoPlayer) this.dom.outputVideoPlayer.style.display = 'none';
+      if (this.dom.outputAudioPlayer) this.dom.outputAudioPlayer.style.display = 'none';
+      if (this.dom.outputDocPreview) this.dom.outputDocPreview.style.display = 'none';
 
       if (isGif) {
         if (this.dom.outputGifPreview) {
           this.dom.outputGifPreview.style.display = 'block';
           this.dom.outputGifPreview.src = outputUrl;
         }
-        if (this.dom.outputVideoPlayer) this.dom.outputVideoPlayer.style.display = 'none';
-        if (this.dom.outputAudioPlayer) this.dom.outputAudioPlayer.style.display = 'none';
-        if (this.dom.outputImagePreview) this.dom.outputImagePreview.style.display = 'none';
       } else if (isImage) {
         if (this.dom.outputImagePreview) {
           this.dom.outputImagePreview.style.display = 'block';
           this.dom.outputImagePreview.src = outputUrl;
         }
-        if (this.dom.outputVideoPlayer) this.dom.outputVideoPlayer.style.display = 'none';
-        if (this.dom.outputAudioPlayer) this.dom.outputAudioPlayer.style.display = 'none';
-        if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
       } else if (isVideo) {
         if (this.dom.outputVideoPlayer) {
           this.dom.outputVideoPlayer.style.display = 'block';
           this.dom.outputVideoPlayer.src = outputUrl;
           this.dom.outputVideoPlayer.load();
         }
-        if (this.dom.outputAudioPlayer) this.dom.outputAudioPlayer.style.display = 'none';
-        if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
-        if (this.dom.outputImagePreview) this.dom.outputImagePreview.style.display = 'none';
-      } else {
+      } else if (isAudio) {
         if (this.dom.outputAudioPlayer) {
           this.dom.outputAudioPlayer.style.display = 'block';
           this.dom.outputAudioPlayer.src = outputUrl;
           this.dom.outputAudioPlayer.load();
         }
-        if (this.dom.outputVideoPlayer) this.dom.outputVideoPlayer.style.display = 'none';
-        if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
-        if (this.dom.outputImagePreview) this.dom.outputImagePreview.style.display = 'none';
+      } else if (isPdf) {
+        if (this.dom.outputDocPreview) {
+          this.dom.outputDocPreview.style.display = 'block';
+          this.dom.outputDocPreview.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div style="font-size: 2rem;">📄</div>
+                <div>
+                  <div style="font-weight: bold; color: var(--text-color);">PDF Document Ready</div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted);">${(blob.size / 1024).toFixed(1)} KB • Local In-Browser Generation</div>
+                </div>
+              </div>
+              <a href="${outputUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                Open / View PDF in New Tab ↗
+              </a>
+            </div>
+          `;
+        }
+      } else if (isZip) {
+        if (this.dom.outputDocPreview) {
+          this.dom.outputDocPreview.style.display = 'block';
+          this.dom.outputDocPreview.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div style="font-size: 2rem;">📦</div>
+              <div>
+                <div style="font-weight: bold; color: var(--text-color);">ZIP Archive Package Ready</div>
+                <div style="font-size: 0.82rem; color: var(--text-muted);">${(blob.size / 1024).toFixed(1)} KB • Contains all exported files</div>
+              </div>
+            </div>
+          `;
+        }
+      } else {
+        // Text / generic report
+        if (this.dom.outputDocPreview) {
+          this.dom.outputDocPreview.style.display = 'block';
+          this.dom.outputDocPreview.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+              <div style="font-size: 2rem;">📝</div>
+              <div>
+                <div style="font-weight: bold; color: var(--text-color);">Export File Ready</div>
+                <div style="font-size: 0.82rem; color: var(--text-muted);">${extension.toUpperCase()} • ${(blob.size / 1024).toFixed(1)} KB</div>
+              </div>
+            </div>
+          `;
+        }
       }
 
       // Download button setup

@@ -411,24 +411,54 @@
     // 7. Favicon Generator
     async generateFaviconSuite(file) {
       const img = await loadImageFromFile(file);
-      const sizes = [16, 32, 48, 192, 512];
-      const blobs = [];
+      const sizes = [16, 32, 48, 180, 192, 512];
 
-      for (const size of sizes) {
-        const canvas = document.createElement('canvas');
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext('2d');
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-        ctx.drawImage(img, 0, 0, size, size);
+      if (typeof window.JSZip !== 'undefined') {
+        const zip = new window.JSZip();
+        for (const size of sizes) {
+          const canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(img, 0, 0, size, size);
 
-        const b = await new Promise(r => canvas.toBlob(r, 'image/png'));
-        blobs.push({ size, blob: b });
+          const b = await new Promise(r => canvas.toBlob(r, 'image/png'));
+          const arrayBuf = await b.arrayBuffer();
+          const filename = size === 180 ? 'apple-touch-icon.png' : `favicon-${size}x${size}.png`;
+          zip.file(filename, arrayBuf);
+          if (size === 32) {
+            zip.file('favicon.ico', arrayBuf);
+          }
+        }
+
+        const manifestJson = JSON.stringify({
+          name: "My App",
+          short_name: "App",
+          icons: [
+            { src: "favicon-192x192.png", sizes: "192x192", type: "image/png" },
+            { src: "favicon-512x512.png", sizes: "512x512", type: "image/png" }
+          ],
+          theme_color: "#1e1b4b",
+          background_color: "#0f172a",
+          display: "standalone"
+        }, null, 2);
+        zip.file('manifest.json', manifestJson);
+
+        const htmlSnippet = `<!-- Add to your HTML <head> -->\n<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">\n<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">\n<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">\n<link rel="manifest" href="manifest.json">`;
+        zip.file('html_instructions.txt', htmlSnippet);
+
+        return await zip.generateAsync({ type: 'blob' });
       }
 
-      // Return main 32x32 for primary output
-      return blobs;
+      // Fallback single 32x32 PNG blob
+      const canvas = document.createElement('canvas');
+      canvas.width = 32;
+      canvas.height = 32;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, 32, 32);
+      return new Promise(r => canvas.toBlob(r, 'image/png'));
     },
 
     // 8. Meme Generator
@@ -474,7 +504,11 @@
     async imageToBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
+        reader.onload = () => {
+          const dataUri = reader.result;
+          const base64 = (dataUri && typeof dataUri === 'string') ? dataUri.split(',')[1] || '' : '';
+          resolve({ dataUri, base64 });
+        };
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
@@ -536,21 +570,32 @@
       const img = await loadImageFromFile(file);
       const tileW = Math.floor(img.naturalWidth / cols);
       const tileH = Math.floor(img.naturalHeight / rows);
-      const tiles = [];
 
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const canvas = document.createElement('canvas');
-          canvas.width = tileW;
-          canvas.height = tileH;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, c * tileW, r * tileH, tileW, tileH, 0, 0, tileW, tileH);
-          const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95));
-          tiles.push({ row: r + 1, col: c + 1, index: r * cols + c + 1, blob });
+      if (typeof window.JSZip !== 'undefined') {
+        const zip = new window.JSZip();
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const canvas = document.createElement('canvas');
+            canvas.width = tileW;
+            canvas.height = tileH;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, c * tileW, r * tileH, tileW, tileH, 0, 0, tileW, tileH);
+            const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95));
+            const arr = await blob.arrayBuffer();
+            const tileIdx = r * cols + c + 1;
+            zip.file(`tile_r${r + 1}_c${c + 1}_#${tileIdx}.jpg`, arr);
+          }
         }
+        return await zip.generateAsync({ type: 'blob' });
       }
 
-      return tiles;
+      // Fallback first tile
+      const canvas = document.createElement('canvas');
+      canvas.width = tileW;
+      canvas.height = tileH;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, tileW, tileH, 0, 0, tileW, tileH);
+      return new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95));
     },
 
     // 13. Color Palette Extractor
@@ -573,14 +618,44 @@
         colorCounts[key] = (colorCounts[key] || 0) + 1;
       }
 
+      const totalSamples = imgData.length / 16;
       const sorted = Object.entries(colorCounts).sort((a, b) => b[1] - a[1]);
-      const palette = sorted.slice(0, maxColors).map(([rgb]) => {
+      const palette = sorted.slice(0, maxColors).map(([rgb, count]) => {
         const [r, g, b] = rgb.split(',').map(Number);
         const hex = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
-        return { r, g, b, hex };
+        const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+        const pct = Math.max(1, Math.round((count / totalSamples) * 100));
+        return { r, g, b, hex, isLight: lum > 140, pct };
       });
 
-      return palette;
+      // Render high-res color swatch palette image
+      const swatchCanvas = document.createElement('canvas');
+      const cardW = 600;
+      const cardH = 220;
+      swatchCanvas.width = cardW;
+      swatchCanvas.height = cardH;
+      const sCtx = swatchCanvas.getContext('2d');
+      sCtx.fillStyle = '#0f172a';
+      sCtx.fillRect(0, 0, cardW, cardH);
+
+      const numSwatches = palette.length || 1;
+      const swatchW = cardW / numSwatches;
+      palette.forEach((c, idx) => {
+        sCtx.fillStyle = c.hex;
+        sCtx.fillRect(idx * swatchW, 0, swatchW, cardH - 60);
+
+        sCtx.fillStyle = '#ffffff';
+        sCtx.font = 'bold 13px monospace';
+        sCtx.textAlign = 'center';
+        sCtx.fillText(c.hex.toUpperCase(), idx * swatchW + swatchW / 2, cardH - 34);
+
+        sCtx.fillStyle = '#94a3b8';
+        sCtx.font = '11px sans-serif';
+        sCtx.fillText(`${c.pct}% Dominance`, idx * swatchW + swatchW / 2, cardH - 16);
+      });
+
+      const blob = await new Promise(r => swatchCanvas.toBlob(r, 'image/png'));
+      return { palette, blob };
     },
 
     // 14. Image Pixelator
