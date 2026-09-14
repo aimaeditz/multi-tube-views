@@ -246,6 +246,30 @@
       margin-bottom: 0.75rem;
       display: inline-block;
     }
+
+    /* Media Converter — 60 Tools Output & Workspace Stability Fix (Zero hover jump/lift/shift) */
+    #media-tool-workspace .card,
+    #media-workspace-card,
+    .workspace-card,
+    #media-output-wrap,
+    #media-file-dropzone,
+    .media-dropzone {
+      transform: none !important;
+      will-change: auto !important;
+    }
+    #media-tool-workspace .card:hover,
+    #media-workspace-card:hover,
+    .workspace-card:hover,
+    #media-output-wrap:hover,
+    #media-file-dropzone:hover,
+    .media-dropzone:hover {
+      transform: none !important;
+    }
+    #media-tool-workspace .card:active,
+    #media-workspace-card:active,
+    .workspace-card:active {
+      transform: none !important;
+    }
     
     /* New Tools Custom Styles */
     .media-tabs-nav {
@@ -1485,7 +1509,7 @@
         </div>
 
         <!-- Workspace Processing Area -->
-        <div class="card" id="media-workspace-card">
+        <div class="card workspace-card" id="media-workspace-card">
           <div id="media-file-upload-section">
             <h2 id="media-step-1-heading" style="font-size: 1.15rem; margin-bottom: 1rem;">1. Select Input File</h2>
 

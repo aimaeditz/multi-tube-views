@@ -248,7 +248,6 @@
 .step-block,
 .legal-card,
 .doc-card,
-.workspace-card,
 .stat-card,
 .creator-tool-card,
 .ai-image-tool-card,
@@ -315,7 +314,6 @@
 .step-block:hover,
 .legal-card:hover,
 .doc-card:hover,
-.workspace-card:hover,
 .stat-card:hover,
 .metric-card:hover,
 .title-variation-card:hover,
@@ -378,7 +376,6 @@
 [data-theme="dark"] .step-block:hover,
 [data-theme="dark"] .legal-card:hover,
 [data-theme="dark"] .doc-card:hover,
-[data-theme="dark"] .workspace-card:hover,
 [data-theme="dark"] .stat-card:hover,
 [data-theme="dark"] .metric-card:hover,
 [data-theme="dark"] .title-variation-card:hover,
@@ -438,10 +435,35 @@
 .step-block:active,
 .legal-card:active,
 .doc-card:active,
-.workspace-card:active,
 .stat-card:active {
   transform: scale(0.985) translateY(0);
   transition: transform 120ms ease;
+}
+
+/* Media Converter — 60 Tools Workspace & Output Stability (No hover jump/lift/shift) */
+#media-tool-workspace .card,
+#media-workspace-card,
+.workspace-card,
+#media-output-wrap,
+#media-file-dropzone,
+.media-dropzone {
+  transform: none !important;
+  will-change: auto !important;
+}
+
+#media-tool-workspace .card:hover,
+#media-workspace-card:hover,
+.workspace-card:hover,
+#media-output-wrap:hover,
+#media-file-dropzone:hover,
+.media-dropzone:hover {
+  transform: none !important;
+}
+
+#media-tool-workspace .card:active,
+#media-workspace-card:active,
+.workspace-card:active {
+  transform: none !important;
 }
 
 /* Icon Containers Soft Glow & Two-Layer Elevation */
