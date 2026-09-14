@@ -3001,8 +3001,8 @@
     const errorLevelMap = {
       Low: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.L : 1,
       Medium: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.M : 0,
-      High: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.Q : 2,
-      Highest: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.H : 3
+      High: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.Q : 3,
+      Highest: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.H : 2
     };
     const label = getSelectedErrorCorrectionLabel();
     const errorLevel = errorLevelMap[label] !== undefined
