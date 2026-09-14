@@ -422,7 +422,7 @@ export default function App() {
                 <div className="flex items-center space-x-3">
                   <div>
                     <h2 className="text-base font-bold text-slate-900 flex items-center space-x-2">
-                      <span>AI Assistant Chat</span>
+                      <span className="md:text-[34.6px]">AI Assistant Chat</span>
                       <span className="px-2 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-700 rounded-md">Server Proxy</span>
                     </h2>
                     <p className="text-xs text-slate-500">Real-time response directly from Express backend via @google/genai</p>
