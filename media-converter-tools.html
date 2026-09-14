@@ -1499,12 +1499,17 @@
         
         <!-- Tool Title & Description Header -->
         <div class="card" style="margin-bottom: 1.5rem;">
-          <div style="display: flex; align-items: center; gap: 1rem;">
-            <span id="media-tool-icon" style="font-size: 2.5rem;">🎵</span>
-            <div>
-              <h1 id="media-tool-title" style="font-size: 1.6rem; margin-bottom: 0.25rem;">Video to Audio Converter</h1>
-              <p id="media-tool-desc" style="color: var(--text-muted); font-size: 0.95rem;">Extract MP3 audio directly from video files.</p>
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <span id="media-tool-icon" style="font-size: 2.5rem;">🎵</span>
+              <div>
+                <h1 id="media-tool-title" style="font-size: 1.6rem; margin-bottom: 0.25rem;">Video to Audio Converter</h1>
+                <p id="media-tool-desc" style="color: var(--text-muted); font-size: 0.95rem;">Extract MP3 audio directly from video files.</p>
+              </div>
             </div>
+            <button type="button" class="btn btn-secondary" id="btn-back-to-media-tools" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+              ← Back to All Tools
+            </button>
           </div>
         </div>
 
@@ -2290,18 +2295,18 @@
   <!-- External Client-Side Libraries for 60 Tools -->
   <script src="assets/js/qrcode.min.js"></script>
   <script>if (!window.QRCode) document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>');</script>
-  <script src="/assets/js/pdf.min.js"></script>
+  <script src="assets/js/pdf.min.js"></script>
   <script>if (!window.pdfjsLib) document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"><\/script>');</script>
   <script>
     if (window.pdfjsLib) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/js/pdf.worker.min.js';
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/js/pdf.worker.min.js';
     }
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js"></script>
-  <script src="/assets/js/lame.min.js"></script>
+  <script src="assets/js/lame.min.js"></script>
   <script>if (!window.lamejs) document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"><\/script>');</script>
   <script type="module" src="assets/js/media-tools-data.js"></script>
   <script type="module" src="assets/js/media-tools-handlers.js"></script>

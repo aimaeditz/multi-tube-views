@@ -145,7 +145,7 @@ export default async function handler(req, res) {
     const cerebrasKeys = collectKeys('CEREBRAS_API_KEY');
     const mistralKeys = collectKeys('MISTRAL_API_KEY');
 
-    const geminiModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+    const geminiModels = ['gemini-3.6-flash', 'gemini-3.7-flash', 'gemini-3.1-flash-lite', 'gemini-flash-latest'];
     const groqModel = 'openai/gpt-oss-120b';
     const openrouterModel = 'meta-llama/llama-3.3-70b-instruct:free';
     const deepseekModel = 'deepseek-chat';

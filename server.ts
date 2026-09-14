@@ -178,7 +178,7 @@ function isTransientOrQuotaError(err: any): boolean {
 }
 
 function getPrioritizedModels(requestedModel?: string): string[] {
-  const baseCandidates = ['gemini-3.7-flash', 'gemini-3.1-flash-lite', 'gemini-flash-latest'];
+  const baseCandidates = ['gemini-3.6-flash', 'gemini-3.7-flash', 'gemini-3.1-flash-lite', 'gemini-flash-latest'];
   let candidates: string[] = [];
 
   if (requestedModel && requestedModel !== 'gemini-3.1-pro-preview') {

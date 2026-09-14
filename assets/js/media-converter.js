@@ -2182,10 +2182,10 @@
           throw new Error('jsPDF library is not loaded');
         }
         const { jsPDF } = window.jspdf;
-        const orient = document.getElementById('img2pdf-orientation')?.value || 'portrait';
-        const pageFmt = document.getElementById('img2pdf-format')?.value || 'a4';
-        const marginOpt = document.getElementById('img2pdf-margin')?.value || 'small';
-        const marginPx = marginOpt === 'none' ? 0 : (marginOpt === 'large' ? 40 : 20);
+        const orient = document.getElementById('img-pdf-orientation')?.value || document.getElementById('img2pdf-orientation')?.value || 'portrait';
+        const pageFmt = document.getElementById('img-pdf-page-format')?.value || document.getElementById('img2pdf-format')?.value || 'a4';
+        const marginOpt = document.getElementById('img-pdf-margin')?.value || document.getElementById('img2pdf-margin')?.value || '10';
+        const marginPx = marginOpt === '0' || marginOpt === 'none' ? 0 : (marginOpt === '10' || marginOpt === 'standard' ? 28 : (marginOpt === '5' || marginOpt === 'small' ? 14 : 20));
 
         const doc = new jsPDF({
           orientation: orient === 'landscape' ? 'landscape' : 'portrait',
