@@ -2004,6 +2004,7 @@
       const qrEcc = document.getElementById('qrEcc') || document.getElementById('qr-ecc');
       const qrFgColor = document.getElementById('qrForegroundColor') || document.getElementById('qr-color-dark');
       const qrBgColor = document.getElementById('qrBackgroundColor') || document.getElementById('qr-color-light');
+      const generateBtn = document.getElementById('btn-generate-qr');
       const downloadBtn = document.getElementById('downloadQrBtn') || document.getElementById('btn-qr-download');
       const copyBtn = document.getElementById('btn-qr-copy');
 
@@ -2011,9 +2012,18 @@
         window.renderQrCode();
       }
 
+      if (generateBtn) {
+        generateBtn.addEventListener('click', () => {
+          if (typeof window.renderQrCode === 'function') {
+            window.renderQrCode();
+          }
+        });
+      }
+
       if (qrTextInput) {
         qrTextInput.addEventListener('input', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
         qrTextInput.addEventListener('change', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
+        qrTextInput.addEventListener('keyup', (e) => { if (e.key === 'Enter' && typeof window.renderQrCode === 'function') window.renderQrCode(); });
       }
       if (qrResolution) qrResolution.addEventListener('change', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
       if (qrEcc) qrEcc.addEventListener('change', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
@@ -2973,12 +2983,20 @@
 
   function renderQrCode() {
     const textInput = document.getElementById('qrTextInput') || document.getElementById('qr-input-text');
-    const text = textInput ? (textInput.value || 'https://multitubeviews.com') : 'https://multitubeviews.com';
+    const text = textInput ? (textInput.value.trim() || 'https://multitubeviews.com') : 'https://multitubeviews.com';
     const size = getSelectedResolutionValue();
     const fgInput = document.getElementById('qrForegroundColor') || document.getElementById('qr-color-dark');
     const fgColor = fgInput ? (fgInput.value || '#000000') : '#000000';
     const bgInput = document.getElementById('qrBackgroundColor') || document.getElementById('qr-color-light');
     const bgColor = bgInput ? (bgInput.value || '#ffffff') : '#ffffff';
+
+    const container = document.getElementById('qrCodeOutput');
+    if (!container) return;
+
+    if (!window.QRCode) {
+      setTimeout(renderQrCode, 150);
+      return;
+    }
 
     const errorLevelMap = {
       Low: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.L : 1,
@@ -2991,11 +3009,9 @@
       ? errorLevelMap[label]
       : ((window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.M : 0);
 
-    const container = document.getElementById('qrCodeOutput');
-    if (!container) return;
     container.innerHTML = '';
 
-    if (window.QRCode) {
+    try {
       qrInstance = new window.QRCode(container, {
         text: text,
         width: size,
@@ -3004,6 +3020,21 @@
         colorLight: bgColor,
         correctLevel: errorLevel
       });
+    } catch (e) {
+      console.warn("QR generation retry with level L due to data length:", e);
+      try {
+        container.innerHTML = '';
+        qrInstance = new window.QRCode(container, {
+          text: text,
+          width: size,
+          height: size,
+          colorDark: fgColor,
+          colorLight: bgColor,
+          correctLevel: window.QRCode.CorrectLevel ? window.QRCode.CorrectLevel.L : 1
+        });
+      } catch (err) {
+        console.error("QR Code generation failed:", err);
+      }
     }
   }
 
