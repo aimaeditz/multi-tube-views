@@ -268,12 +268,8 @@
       });
     });
 
-    const starredIds = getStarredPrompts();
-    const starredCount = prompts.filter((p) => starredIds.includes(p.id)).length;
-
     const list = [
-      { name: 'All', count: prompts.length },
-      { name: 'Favorites', count: starredCount }
+      { name: 'All', count: prompts.length }
     ];
     for (const [name, count] of map.entries()) {
       list.push({ name, count });
@@ -445,11 +441,6 @@
         <h3 class="prompt-card-title">${escapeHtml(cleanTitle)}</h3>
         <p class="prompt-card-preview">${escapeHtml(previewText)}</p>
         <div class="prompt-card-actions">
-          <button type="button" class="btn btn-outline btn-sm btn-star-prompt ${isStarred ? 'starred' : ''}" data-prompt-id="${escapeHtml(record.id)}" aria-label="${isStarred ? 'Remove from favorites' : 'Add to favorites'}" title="${isStarred ? 'Remove from favorites' : 'Add to favorites'}">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="${isStarred ? '#f59e0b' : 'none'}" stroke="${isStarred ? '#f59e0b' : 'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-          </button>
           <button type="button" class="btn btn-primary btn-sm btn-copy-prompt" data-prompt-id="${escapeHtml(record.id)}" aria-label="Copy Full Prompt">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
