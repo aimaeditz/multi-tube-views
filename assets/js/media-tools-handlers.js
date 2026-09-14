@@ -146,24 +146,106 @@
     });
   }
 
-  // Helper: Read Video metadata from File
+  // Helper: Guarantee PDF.js workerSrc points to the local same-origin worker
+  function ensurePdfJsWorker() {
+    if (window.pdfjsLib && (!window.pdfjsLib.GlobalWorkerOptions || !window.pdfjsLib.GlobalWorkerOptions.workerSrc)) {
+      if (!window.pdfjsLib.GlobalWorkerOptions) window.pdfjsLib.GlobalWorkerOptions = {};
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/js/pdf.worker.min.js';
+    }
+  }
+
+  // Helper: Read Video metadata and frames reliably from File
   function loadVideoFromFile(file) {
     return new Promise((resolve, reject) => {
       const video = document.createElement('video');
-      video.preload = 'metadata';
+      video.style.position = 'fixed';
+      video.style.top = '-9999px';
+      video.style.left = '-9999px';
+      video.style.width = '160px';
+      video.style.height = '90px';
+      video.style.opacity = '0';
+      video.style.pointerEvents = 'none';
       video.muted = true;
       video.playsInline = true;
-      video.src = URL.createObjectURL(file);
-      video.onloadedmetadata = () => resolve(video);
-      video.onerror = (err) => reject(new Error('Failed to load video file: ' + err));
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.preload = 'auto';
+
+      document.body.appendChild(video);
+
+      const objectUrl = URL.createObjectURL(file);
+      video.src = objectUrl;
+
+      let resolved = false;
+      const onReady = () => {
+        if (!resolved) {
+          resolved = true;
+          cleanup();
+          resolve(video);
+        }
+      };
+
+      const onError = (e) => {
+        if (!resolved) {
+          resolved = true;
+          cleanup();
+          if (video.parentNode) video.parentNode.removeChild(video);
+          URL.revokeObjectURL(objectUrl);
+          reject(new Error('Failed to load video: ' + (e?.message || 'Unsupported format')));
+        }
+      };
+
+      const cleanup = () => {
+        video.removeEventListener('loadeddata', onReady);
+        video.removeEventListener('loadedmetadata', onReady);
+        video.removeEventListener('canplay', onReady);
+        video.removeEventListener('error', onError);
+      };
+
+      video.addEventListener('loadeddata', onReady);
+      video.addEventListener('loadedmetadata', onReady);
+      video.addEventListener('canplay', onReady);
+      video.addEventListener('error', onError);
+
+      // Timeout safety fallback
+      setTimeout(() => {
+        if (!resolved && (video.readyState >= 1 || video.duration > 0)) {
+          onReady();
+        }
+      }, 3000);
+    });
+  }
+
+  // Helper: Seek video with guaranteed resolution
+  function seekVideo(video, time) {
+    return new Promise(resolve => {
+      let resolved = false;
+      const finish = () => {
+        if (!resolved) {
+          resolved = true;
+          video.removeEventListener('seeked', finish);
+          resolve();
+        }
+      };
+      video.addEventListener('seeked', finish);
+      const target = Math.max(0, Math.min(time, (video.duration || time) - 0.05));
+      if (Math.abs(video.currentTime - target) < 0.01) {
+        setTimeout(finish, 20);
+      } else {
+        video.currentTime = target;
+        setTimeout(finish, 800); // 800ms fallback so frame operations never hang
+      }
     });
   }
 
   // Define Handlers Namespace
   window.MTVMediaHandlers = {
     audioBufferToWavBlob,
+    audioBufferToMp3Blob,
+    ensurePdfJsWorker,
     loadImageFromFile,
     loadVideoFromFile,
+    seekVideo,
 
     // ==========================================
     // 15 IMAGE TOOLS IMPLEMENTATIONS
@@ -374,35 +456,50 @@
     async rasterToSvg(file) {
       const img = await loadImageFromFile(file);
       const canvas = document.createElement('canvas');
-      const maxW = 320;
-      const scale = Math.min(1, maxW / img.naturalWidth);
-      canvas.width = Math.round(img.naturalWidth * scale);
-      canvas.height = Math.round(img.naturalHeight * scale);
+      const maxDim = 240;
+      const scale = Math.min(1, maxDim / Math.max(img.naturalWidth, img.naturalHeight));
+      canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
       const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const data = imgData.data;
 
-      // Scan rows into SVG rect paths for pixel/contour vector representation
-      let rects = '';
+      // Group consecutive horizontal pixels with identical color into spans for 95% SVG optimization
+      const rectPaths = [];
+      const quant = (c) => Math.round(c / 16) * 16;
+
       for (let y = 0; y < canvas.height; y++) {
-        for (let x = 0; x < canvas.width; x++) {
+        let x = 0;
+        while (x < canvas.width) {
           const idx = (y * canvas.width + x) * 4;
           const a = data[idx + 3];
-          if (a > 32) {
-            const r = data[idx];
-            const g = data[idx + 1];
-            const b = data[idx + 2];
-            const hex = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
-            rects += `<rect x="${x}" y="${y}" width="1" height="1" fill="${hex}" />`;
+          if (a < 32) {
+            x++;
+            continue;
           }
+          const r = quant(data[idx]);
+          const g = quant(data[idx + 1]);
+          const b = quant(data[idx + 2]);
+
+          let spanW = 1;
+          while (x + spanW < canvas.width) {
+            const nextIdx = (y * canvas.width + (x + spanW)) * 4;
+            if (data[nextIdx + 3] < 32) break;
+            if (quant(data[nextIdx]) !== r || quant(data[nextIdx + 1]) !== g || quant(data[nextIdx + 2]) !== b) break;
+            spanW++;
+          }
+
+          const hex = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+          rectPaths.push(`<rect x="${x}" y="${y}" width="${spanW}" height="1" fill="${hex}" />`);
+          x += spanW;
         }
       }
 
       const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${canvas.width} ${canvas.height}" width="${img.naturalWidth}" height="${img.naturalHeight}" shape-rendering="crispEdges">
-  ${rects}
+  ${rectPaths.join('\n  ')}
 </svg>`;
 
       return new Blob([svgContent], { type: 'image/svg+xml' });
@@ -719,8 +816,8 @@
     // 16. Video Compressor
     async compressVideo(file, targetRes, progressCb) {
       const video = await loadVideoFromFile(file);
-      let targetW = video.videoWidth;
-      let targetH = video.videoHeight;
+      let targetW = video.videoWidth || 640;
+      let targetH = video.videoHeight || 360;
 
       if (targetRes === '480p') {
         targetW = 854; targetH = 480;
@@ -728,7 +825,12 @@
         targetW = 1280; targetH = 720;
       } else if (targetRes === '360p') {
         targetW = 640; targetH = 360;
+      } else {
+        targetW = Math.round(targetW * 0.8);
+        targetH = Math.round(targetH * 0.8);
       }
+      if (targetW % 2 !== 0) targetW--;
+      if (targetH % 2 !== 0) targetH--;
 
       const canvas = document.createElement('canvas');
       canvas.width = targetW;
@@ -736,31 +838,51 @@
       const ctx = canvas.getContext('2d');
 
       const stream = canvas.captureStream(24);
+      const mimeTypes = ['video/webm;codecs=vp8', 'video/webm;codecs=vp9', 'video/webm', 'video/mp4'];
+      const chosenMime = mimeTypes.find(t => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(t)) || 'video/webm';
+      const bps = targetRes === '360p' ? 500000 : (targetRes === '480p' ? 900000 : (targetRes === '720p' ? 1600000 : 1000000));
       const recorder = new MediaRecorder(stream, {
-        mimeType: MediaRecorder.isTypeSupported('video/webm;codecs=vp8') ? 'video/webm;codecs=vp8' : 'video/webm',
-        videoBitsPerSecond: 1000000 // 1 Mbps
+        mimeType: chosenMime,
+        videoBitsPerSecond: bps
       });
 
       const chunks = [];
-      recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+      recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
 
       return new Promise((resolve, reject) => {
-        recorder.onstop = () => resolve(new Blob(chunks, { type: 'video/webm' }));
-        recorder.onerror = reject;
+        let isDone = false;
+        const cleanup = () => {
+          if (!isDone) {
+            isDone = true;
+            if (video.parentNode) video.parentNode.removeChild(video);
+            URL.revokeObjectURL(video.src);
+          }
+        };
+
+        recorder.onstop = () => {
+          cleanup();
+          resolve(new Blob(chunks, { type: chosenMime }));
+        };
+        recorder.onerror = err => {
+          cleanup();
+          reject(err);
+        };
 
         recorder.start(100);
         video.currentTime = 0;
-        video.play();
+        const playPromise = video.play();
+        if (playPromise) playPromise.catch(e => console.warn('Video play warning:', e));
 
-        const duration = Math.min(30, video.duration || 10);
+        const duration = Math.min(60, video.duration || 10);
         const renderFrame = () => {
+          if (isDone) return;
           if (video.currentTime >= duration || video.ended) {
-            recorder.stop();
             video.pause();
+            if (recorder.state === 'recording') recorder.stop();
             return;
           }
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          if (progressCb) progressCb(Math.round((video.currentTime / duration) * 100));
+          if (progressCb) progressCb(Math.min(99, Math.round((video.currentTime / duration) * 100)));
           requestAnimationFrame(renderFrame);
         };
         requestAnimationFrame(renderFrame);
@@ -771,19 +893,23 @@
     async reverseVideo(file, progressCb) {
       const video = await loadVideoFromFile(file);
       const canvas = document.createElement('canvas');
-      canvas.width = Math.min(640, video.videoWidth);
-      canvas.height = Math.round(canvas.width * (video.videoHeight / video.videoWidth));
+      let targetW = Math.min(640, video.videoWidth || 640);
+      let targetH = Math.round(targetW * ((video.videoHeight || 360) / (video.videoWidth || 640)));
+      if (targetW % 2 !== 0) targetW--;
+      if (targetH % 2 !== 0) targetH--;
+      canvas.width = targetW;
+      canvas.height = targetH;
       const ctx = canvas.getContext('2d');
 
-      // Capture frames into array (capped at 6 seconds for browser memory safety)
-      const maxDuration = Math.min(6, video.duration || 4);
+      // Capture frames into array (capped at 8 seconds for browser memory safety)
+      const maxDuration = Math.min(8, video.duration || 4);
       const fps = 15;
       const totalFrames = Math.floor(maxDuration * fps);
       const frameBitmaps = [];
 
       for (let i = 0; i < totalFrames; i++) {
-        video.currentTime = (i / fps);
-        await new Promise(r => { video.onseeked = r; });
+        const time = (i / fps);
+        await seekVideo(video, time);
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const bitmap = await createImageBitmap(canvas);
         frameBitmaps.push(bitmap);
@@ -792,19 +918,39 @@
 
       // Record in reverse order
       const stream = canvas.captureStream(fps);
-      const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+      const mimeTypes = ['video/webm;codecs=vp8', 'video/webm', 'video/mp4'];
+      const chosenMime = mimeTypes.find(t => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(t)) || 'video/webm';
+      const recorder = new MediaRecorder(stream, { mimeType: chosenMime });
       const chunks = [];
-      recorder.ondataavailable = e => chunks.push(e.data);
+      recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
 
-      return new Promise(resolve => {
-        recorder.onstop = () => resolve(new Blob(chunks, { type: 'video/webm' }));
+      return new Promise((resolve, reject) => {
+        let isDone = false;
+        const cleanup = () => {
+          if (!isDone) {
+            isDone = true;
+            if (video.parentNode) video.parentNode.removeChild(video);
+            URL.revokeObjectURL(video.src);
+            frameBitmaps.forEach(b => b.close && b.close());
+          }
+        };
+
+        recorder.onstop = () => {
+          cleanup();
+          resolve(new Blob(chunks, { type: chosenMime }));
+        };
+        recorder.onerror = err => {
+          cleanup();
+          reject(err);
+        };
+
         recorder.start();
 
         let frameIdx = frameBitmaps.length - 1;
         const interval = setInterval(() => {
           if (frameIdx < 0) {
             clearInterval(interval);
-            recorder.stop();
+            if (recorder.state === 'recording') recorder.stop();
             return;
           }
           ctx.drawImage(frameBitmaps[frameIdx], 0, 0);
@@ -952,18 +1098,22 @@
     async loopVideo(file, loopCount, isBoomerang, progressCb) {
       const video = await loadVideoFromFile(file);
       const canvas = document.createElement('canvas');
-      canvas.width = Math.min(720, video.videoWidth);
-      canvas.height = Math.round(canvas.width * (video.videoHeight / video.videoWidth));
+      let targetW = Math.min(640, video.videoWidth || 640);
+      let targetH = Math.round(targetW * ((video.videoHeight || 360) / (video.videoWidth || 640)));
+      if (targetW % 2 !== 0) targetW--;
+      if (targetH % 2 !== 0) targetH--;
+      canvas.width = targetW;
+      canvas.height = targetH;
       const ctx = canvas.getContext('2d');
 
-      const fps = 18;
-      const clipDuration = Math.min(4, video.duration || 3);
+      const fps = 15;
+      const clipDuration = Math.min(5, video.duration || 3);
       const totalFrames = Math.floor(clipDuration * fps);
       const frames = [];
 
       for (let i = 0; i < totalFrames; i++) {
-        video.currentTime = (i / fps);
-        await new Promise(r => { video.onseeked = r; });
+        const time = (i / fps);
+        await seekVideo(video, time);
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         frames.push(await createImageBitmap(canvas));
         if (progressCb) progressCb(Math.round((i / totalFrames) * 40));
@@ -980,19 +1130,39 @@
       }
 
       const stream = canvas.captureStream(fps);
-      const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+      const mimeTypes = ['video/webm;codecs=vp8', 'video/webm', 'video/mp4'];
+      const chosenMime = mimeTypes.find(t => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(t)) || 'video/webm';
+      const recorder = new MediaRecorder(stream, { mimeType: chosenMime });
       const chunks = [];
-      recorder.ondataavailable = e => chunks.push(e.data);
+      recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
 
-      return new Promise(resolve => {
-        recorder.onstop = () => resolve(new Blob(chunks, { type: 'video/webm' }));
+      return new Promise((resolve, reject) => {
+        let isDone = false;
+        const cleanup = () => {
+          if (!isDone) {
+            isDone = true;
+            if (video.parentNode) video.parentNode.removeChild(video);
+            URL.revokeObjectURL(video.src);
+            frames.forEach(b => b.close && b.close());
+          }
+        };
+
+        recorder.onstop = () => {
+          cleanup();
+          resolve(new Blob(chunks, { type: chosenMime }));
+        };
+        recorder.onerror = err => {
+          cleanup();
+          reject(err);
+        };
+
         recorder.start();
 
         let idx = 0;
         const interval = setInterval(() => {
           if (idx >= playSequence.length) {
             clearInterval(interval);
-            recorder.stop();
+            if (recorder.state === 'recording') recorder.stop();
             return;
           }
           ctx.drawImage(playSequence[idx], 0, 0);
@@ -1039,14 +1209,17 @@
     // 23. Video Frame Snapshot Extractor
     async extractVideoSnapshot(file, timestamp) {
       const video = await loadVideoFromFile(file);
-      video.currentTime = Math.min(timestamp, video.duration || 0);
-      await new Promise(r => { video.onseeked = r; });
+      const targetTime = Math.min(Math.max(0, timestamp), (video.duration || timestamp) - 0.05);
+      await seekVideo(video, targetTime);
 
       const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      canvas.width = video.videoWidth || 1280;
+      canvas.height = video.videoHeight || 720;
       const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      if (video.parentNode) video.parentNode.removeChild(video);
+      URL.revokeObjectURL(video.src);
 
       return new Promise((resolve, reject) => {
         canvas.toBlob(blob => {
@@ -1118,8 +1291,12 @@
     async applyVideoColorFilter(file, filterPreset, progressCb) {
       const video = await loadVideoFromFile(file);
       const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      let targetW = video.videoWidth || 640;
+      let targetH = video.videoHeight || 360;
+      if (targetW % 2 !== 0) targetW--;
+      if (targetH % 2 !== 0) targetH--;
+      canvas.width = targetW;
+      canvas.height = targetH;
       const ctx = canvas.getContext('2d');
 
       let cssFilter = 'none';
@@ -1130,26 +1307,47 @@
       else if (filterPreset === 'vibrant') cssFilter = 'saturate(160%) contrast(115%)';
 
       const stream = canvas.captureStream(24);
-      const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+      const mimeTypes = ['video/webm;codecs=vp8', 'video/webm', 'video/mp4'];
+      const chosenMime = mimeTypes.find(t => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(t)) || 'video/webm';
+      const recorder = new MediaRecorder(stream, { mimeType: chosenMime });
       const chunks = [];
-      recorder.ondataavailable = e => chunks.push(e.data);
+      recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
 
-      return new Promise(resolve => {
-        recorder.onstop = () => resolve(new Blob(chunks, { type: 'video/webm' }));
+      return new Promise((resolve, reject) => {
+        let isDone = false;
+        const cleanup = () => {
+          if (!isDone) {
+            isDone = true;
+            if (video.parentNode) video.parentNode.removeChild(video);
+            URL.revokeObjectURL(video.src);
+          }
+        };
+
+        recorder.onstop = () => {
+          cleanup();
+          resolve(new Blob(chunks, { type: chosenMime }));
+        };
+        recorder.onerror = err => {
+          cleanup();
+          reject(err);
+        };
+
         recorder.start(100);
         video.currentTime = 0;
-        video.play();
+        const playPromise = video.play();
+        if (playPromise) playPromise.catch(e => console.warn('Video play warning:', e));
 
-        const duration = Math.min(30, video.duration || 10);
+        const duration = Math.min(60, video.duration || 10);
         const render = () => {
+          if (isDone) return;
           if (video.currentTime >= duration || video.ended) {
-            recorder.stop();
             video.pause();
+            if (recorder.state === 'recording') recorder.stop();
             return;
           }
           ctx.filter = cssFilter;
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          if (progressCb) progressCb(Math.round((video.currentTime / duration) * 100));
+          if (progressCb) progressCb(Math.min(99, Math.round((video.currentTime / duration) * 100)));
           requestAnimationFrame(render);
         };
         requestAnimationFrame(render);
@@ -1161,15 +1359,15 @@
     // ==========================================
 
     // 26. Audio Compressor
-    async compressAudio(file, targetBitrate) {
+    async compressAudio(file, targetBitrate = 128) {
       const arrayBuffer = await file.arrayBuffer();
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const decodedBuffer = await audioCtx.decodeAudioData(arrayBuffer);
 
-      // Downsample to 22.05kHz if lower bitrate
+      const channels = Math.min(2, Math.max(1, decodedBuffer.numberOfChannels));
       const targetSampleRate = targetBitrate <= 96 ? 22050 : 44100;
       const offlineCtx = new OfflineAudioContext(
-        decodedBuffer.numberOfChannels,
+        channels,
         Math.ceil(decodedBuffer.duration * targetSampleRate),
         targetSampleRate
       );
@@ -1214,13 +1412,28 @@
     },
 
     // 28. Audio Normalizer & Booster
-    async normalizeAudio(file, gainMultiplier = 1.5) {
+    async normalizeAudio(file, gainMultiplier = 1.0) {
       const arrayBuffer = await file.arrayBuffer();
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const decodedBuffer = await audioCtx.decodeAudioData(arrayBuffer);
 
+      // Find true peak across all channels
+      let maxPeak = 0.001;
+      const numChannels = decodedBuffer.numberOfChannels;
+      for (let ch = 0; ch < numChannels; ch++) {
+        const d = decodedBuffer.getChannelData(ch);
+        for (let i = 0; i < d.length; i += 10) {
+          const v = Math.abs(d[i]);
+          if (v > maxPeak) maxPeak = v;
+        }
+      }
+
+      // Target peak: -0.5 dB (~0.94)
+      const normRatio = 0.94 / maxPeak;
+      const finalGain = Math.min(6.0, normRatio * (gainMultiplier || 1.0));
+
       const offlineCtx = new OfflineAudioContext(
-        decodedBuffer.numberOfChannels,
+        numChannels,
         decodedBuffer.length,
         decodedBuffer.sampleRate
       );
@@ -1228,16 +1441,15 @@
       const source = offlineCtx.createBufferSource();
       source.buffer = decodedBuffer;
 
-      // Dynamic Gain + Soft Limiter
       const gainNode = offlineCtx.createGain();
-      gainNode.gain.value = gainMultiplier;
+      gainNode.gain.value = finalGain;
 
       const compressor = offlineCtx.createDynamicsCompressor();
-      compressor.threshold.value = -1;
+      compressor.threshold.value = -0.5;
       compressor.knee.value = 40;
-      compressor.ratio.value = 12;
+      compressor.ratio.value = 16;
       compressor.attack.value = 0.003;
-      compressor.release.value = 0.25;
+      compressor.release.value = 0.2;
 
       source.connect(gainNode);
       gainNode.connect(compressor);
@@ -1245,7 +1457,7 @@
       source.start(0);
 
       const rendered = await offlineCtx.startRendering();
-      return audioBufferToWavBlob(rendered);
+      return audioBufferToMp3Blob(rendered, 192);
     },
 
     // 29. Audio Reverser
@@ -1342,32 +1554,33 @@
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const decodedBuffer = await audioCtx.decodeAudioData(arrayBuffer);
 
-      // Low-pass filter to isolate kick/bass transients
       const data = decodedBuffer.getChannelData(0);
       const sampleRate = decodedBuffer.sampleRate;
       
-      // Calculate energy peaks
+      const maxSamples = Math.min(data.length, sampleRate * 60);
       const step = Math.floor(sampleRate / 100);
       const peaks = [];
-      for (let i = 0; i < data.length; i += step) {
+      let totalEnergy = 0;
+      for (let i = 0; i < maxSamples; i += step) {
         let max = 0;
-        for (let j = 0; j < step && (i + j) < data.length; j++) {
+        for (let j = 0; j < step && (i + j) < maxSamples; j++) {
           const val = Math.abs(data[i + j]);
           if (val > max) max = val;
         }
         peaks.push(max);
+        totalEnergy += max;
       }
 
-      // Autocorrelation over BPM range 70 - 180
-      const minInterval = Math.floor((60 / 180) * 100);
-      const maxInterval = Math.floor((60 / 70) * 100);
+      const mean = peaks.length > 0 ? totalEnergy / peaks.length : 0;
+      const minInterval = Math.floor((60 / 180) * 100); // 180 BPM
+      const maxInterval = Math.floor((60 / 70) * 100);  // 70 BPM
       let bestInterval = minInterval;
-      let maxCorr = 0;
+      let maxCorr = -Infinity;
 
       for (let interval = minInterval; interval <= maxInterval; interval++) {
         let corr = 0;
         for (let i = 0; i < peaks.length - interval; i++) {
-          corr += peaks[i] * peaks[i + interval];
+          corr += (peaks[i] - mean) * (peaks[i + interval] - mean);
         }
         if (corr > maxCorr) {
           maxCorr = corr;
@@ -1375,8 +1588,17 @@
         }
       }
 
-      const bpm = Math.max(60, Math.min(200, Math.round((60 * 100) / bestInterval)));
-      return { bpm, confidence: 'Detected Rhythm' };
+      let bpm = Math.max(60, Math.min(200, Math.round((60 * 100) / bestInterval)));
+      if (bpm < 75) bpm *= 2;
+
+      let tempoClass = 'Moderato';
+      if (bpm < 80) tempoClass = 'Andante / Slow Groove';
+      else if (bpm < 108) tempoClass = 'Moderato / Hip-Hop & Lo-Fi';
+      else if (bpm < 128) tempoClass = 'Allegretto / Pop & House';
+      else if (bpm < 145) tempoClass = 'Allegro / Dance & EDM';
+      else tempoClass = 'Vivace / Drum & Bass / Techno';
+
+      return { bpm, tempoClass, confidence: 'High' };
     },
 
     // 33. Audio Stereo Panner & 8D Audio
@@ -1394,22 +1616,41 @@
       const source = offlineCtx.createBufferSource();
       source.buffer = decodedBuffer;
 
-      const panner = offlineCtx.createStereoPanner();
-      // Animate pan across time
       const totalSeconds = decodedBuffer.duration;
-      const steps = Math.floor(totalSeconds * 20);
-      for (let i = 0; i < steps; i++) {
-        const t = (i / steps) * totalSeconds;
-        const panValue = Math.sin(2 * Math.PI * rotationSpeedHz * t);
-        panner.pan.setValueAtTime(panValue, t);
+      const steps = Math.min(2000, Math.floor(totalSeconds * 20));
+
+      if (offlineCtx.createStereoPanner) {
+        const panner = offlineCtx.createStereoPanner();
+        for (let i = 0; i < steps; i++) {
+          const t = (i / steps) * totalSeconds;
+          const panValue = Math.sin(2 * Math.PI * rotationSpeedHz * t);
+          panner.pan.setValueAtTime(panValue, t);
+        }
+        source.connect(panner);
+        panner.connect(offlineCtx.destination);
+      } else {
+        const splitter = offlineCtx.createChannelSplitter(2);
+        const merger = offlineCtx.createChannelMerger(2);
+        const gainL = offlineCtx.createGain();
+        const gainR = offlineCtx.createGain();
+        source.connect(splitter);
+        splitter.connect(gainL, 0);
+        splitter.connect(gainR, 1 < decodedBuffer.numberOfChannels ? 1 : 0);
+        gainL.connect(merger, 0, 0);
+        gainR.connect(merger, 0, 1);
+        merger.connect(offlineCtx.destination);
+
+        for (let i = 0; i < steps; i++) {
+          const t = (i / steps) * totalSeconds;
+          const pan = Math.sin(2 * Math.PI * rotationSpeedHz * t);
+          gainL.gain.setValueAtTime((1 - pan) * 0.5, t);
+          gainR.gain.setValueAtTime((1 + pan) * 0.5, t);
+        }
       }
 
-      source.connect(panner);
-      panner.connect(offlineCtx.destination);
       source.start(0);
-
       const rendered = await offlineCtx.startRendering();
-      return audioBufferToWavBlob(rendered);
+      return audioBufferToMp3Blob(rendered, 192);
     },
 
     // 34. Ambient Noise Generator
@@ -1428,7 +1669,6 @@
           const white = Math.random() * 2 - 1;
 
           if (type === 'pink') {
-            // Paul Kellet's filtered pink noise algorithm
             b0 = 0.99886 * b0 + white * 0.0555179;
             b1 = 0.99332 * b1 + white * 0.0750759;
             b2 = 0.96900 * b2 + white * 0.1538520;
@@ -1438,11 +1678,9 @@
             data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
             b6 = white * 0.115926;
           } else if (type === 'brown') {
-            // Brownian / Red 1/f^2 noise
             lastOut = (lastOut + (0.02 * white)) / 1.02;
-            data[i] = lastOut * 3.5;
+            data[i] = Math.max(-1, Math.min(1, lastOut * 3.0));
           } else {
-            // Pure White Noise
             data[i] = white * 0.25;
           }
         }
@@ -1628,6 +1866,7 @@
       if (!window.pdfjsLib || !window.jspdf) {
         throw new Error('PDF rendering engines initializing');
       }
+      ensurePdfJsWorker();
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       const numPages = pdf.numPages;
@@ -1697,20 +1936,36 @@
       let metaInfo = {};
 
       if (window.pdfjsLib) {
+        ensurePdfJsWorker();
         const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
         const meta = await pdf.getMetadata().catch(() => ({}));
+        const info = meta.info || {};
+        const title = info.Title || 'Untitled / Cleared';
+        const author = info.Author || 'Not specified / Anonymous';
+        const creator = info.Creator || 'Unknown application';
+        const producer = info.Producer || 'Unknown engine';
+        const creationDate = info.CreationDate || 'Unknown date';
+        const isEncrypted = pdf.isEncrypted || false;
+
         metaInfo = {
           fileName: file.name,
           fileSizeBytes: file.size,
           pages: pdf.numPages,
           pageCount: pdf.numPages,
-          title: meta.info?.Title || 'Untitled',
-          author: meta.info?.Author || 'Not specified',
-          creator: meta.info?.Creator || 'Unknown application',
-          producer: meta.info?.Producer || 'Unknown engine',
-          creationDate: meta.info?.CreationDate || 'Unknown date',
-          encrypted: pdf.isEncrypted || false,
-          isEncrypted: pdf.isEncrypted || false
+          title,
+          author,
+          creator,
+          producer,
+          creationDate,
+          encrypted: isEncrypted,
+          isEncrypted,
+          metadata: {
+            title,
+            author,
+            creator,
+            producer,
+            creationDate
+          }
         };
       } else {
         metaInfo = {
@@ -1724,7 +1979,14 @@
           producer: 'PDF.js Reader',
           creationDate: new Date(file.lastModified || Date.now()).toLocaleDateString(),
           encrypted: false,
-          isEncrypted: false
+          isEncrypted: false,
+          metadata: {
+            title: file.name,
+            author: 'Not specified',
+            creator: 'Unknown application',
+            producer: 'PDF.js Reader',
+            creationDate: new Date(file.lastModified || Date.now()).toLocaleDateString()
+          }
         };
       }
 
