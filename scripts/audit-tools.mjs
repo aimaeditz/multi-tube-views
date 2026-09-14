@@ -30,9 +30,9 @@ const buJsContent = fs.readFileSync(path.join(ROOT, 'assets/js/browser-utilities
 console.log('\n--- VERIFYING BROWSER UTILITIES FILES ---');
 let missingBuHtml = 0;
 ALL_TOOLS.forEach(tool => {
-  const pagePath = path.join(ROOT, 'browser-utilities', `${tool.slug}.html`);
+  const pagePath = path.join(ROOT, 'browser-utilities', `${tool.id}.html`);
   if (!fs.existsSync(pagePath)) {
-    console.error(`MISSING HTML: browser-utilities/${tool.slug}.html`);
+    console.error(`MISSING HTML: browser-utilities/${tool.id}.html`);
     missingBuHtml++;
   }
 });
@@ -49,8 +49,10 @@ mediaToolIds.forEach(toolId => {
   const inConverterSwitch = mediaConverterContent.includes(`case '${toolId}':`);
   const inUiKnown = mediaUiContent.includes(`'${toolId}'`);
   const inHandlers = mediaHandlersContent.includes(toolId);
+  const camelCase = 'init' + toolId.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('');
+  const inConverterInit = mediaConverterContent.includes(camelCase);
 
-  const isHandled = inConverterSwitch || inUiKnown || inHandlers;
+  const isHandled = inConverterSwitch || inUiKnown || inHandlers || inConverterInit;
   if (!isHandled) {
     console.warn(`WARNING: Media tool ${toolId} has no direct handler found!`);
   }
