@@ -24,8 +24,8 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="../manifest.json">
   <title>Sound Effects & Chime Synthesizer — Free In-Browser Tool | Multi Tube Views</title>
-  <meta name="description" content="Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, and UI click audio using the browser Web Audio API oscillator with zero external sound files.">
-  <meta name="keywords" content="sound effects generator, web audio synthesizer, 8 bit sound maker, bleeps and chimes generator, ui audio maker">
+  <meta name="description" content="Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, powerups, and UI clicks with live Web Audio oscillators and client-side .WAV audio export.">
+  <meta name="keywords" content="sound effects generator, web audio synthesizer, 8 bit sound maker, bleeps and chimes generator, download sound effects wav">
   <meta name="author" content="AiMAEditz">
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities/sound-effects-generator.html">
@@ -34,7 +34,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/sound-effects-generator.html">
   <meta property="og:title" content="Sound Effects & Chime Synthesizer — Free In-Browser Tool | Multi Tube Views">
-  <meta property="og:description" content="Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, and UI click audio using the browser Web Audio API oscillator with zero external sound files.">
+  <meta property="og:description" content="Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, powerups, and UI clicks with live Web Audio oscillators and client-side .WAV audio export.">
   <meta property="og:site_name" content="Multi Tube Views">
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
@@ -43,7 +43,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Sound Effects & Chime Synthesizer — Free In-Browser Tool | Multi Tube Views">
-  <meta name="twitter:description" content="Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, and UI click audio using the browser Web Audio API oscillator with zero external sound files.">
+  <meta name="twitter:description" content="Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, powerups, and UI clicks with live Web Audio oscillators and client-side .WAV audio export.">
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   <script type="application/ld+json">
@@ -55,7 +55,7 @@
       "@id": "https://multitubeviews.com/browser-utilities/sound-effects-generator.html#webapp",
       "name": "Sound Effects & Chime Synthesizer",
       "url": "https://multitubeviews.com/browser-utilities/sound-effects-generator.html",
-      "description": "Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, and UI click audio using the browser Web Audio API oscillator with zero external sound files.",
+      "description": "Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, powerups, and UI clicks with live Web Audio oscillators and client-side .WAV audio export.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "All",
       "browserRequirements": "Requires JavaScript",
@@ -65,9 +65,9 @@
         "priceCurrency": "USD"
       },
       "featureList": [
-        "Zero External MP3/WAV Files: Generates pure acoustic frequencies in real time using Web Audio oscillators.",
-        "6 Preset Sound Archetypes: Pre-configured envelopes for Success, Laser, Coin Pickup, UI Pop, and Alert.",
-        "Frequency Envelope Controls: Fine-tune pitch slides and decay durations."
+        "10 Preset Sound Archetypes: Pre-configured sound models for Coin, Laser, Jump, Powerup, Fanfare, Sparkle, Zap, Alert, and Explosion.",
+        "Client-Side .WAV Audio Export: Directly converts audio buffer into downloadable 16-bit PCM .WAV sound files.",
+        "Custom Oscillator Synthesis: Adjust Sine, Square, Sawtooth, and Triangle waves with pitch slide ramps."
       ]
     },
     {
@@ -193,30 +193,33 @@
           <span class="bu-badge" style="background: var(--success-bg, rgba(34,197,94,0.1)); color: var(--success-text, #16a34a);">100% Client-Side</span>
         </div>
         <p class="bu-subtitle" style="font-size: 1rem; color: var(--text-muted); max-width: 780px; line-height: 1.6; margin: 0;">
-          Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, and UI click audio using the browser Web Audio API oscillator with zero external sound files.
+          Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, powerups, and UI clicks with live Web Audio oscillators and client-side .WAV audio export.
         </p>
       </div>
 
       <!-- Main Workspace -->
       <section class="bu-workspace" aria-label="Sound Effects & Chime Synthesizer Workspace">
         
-      <div class="bu-actions-bar" style="justify-content: center; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+      <div class="bu-actions-bar" style="justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
         <button type="button" class="bu-btn bu-btn-primary" data-sfx-preset="coin">🪙 Coin Pickup</button>
-        <button type="button" class="bu-btn" data-sfx-preset="laser">🔫 Sci-Fi Laser</button>
+        <button type="button" class="bu-btn" data-sfx-preset="laser">🔫 Retro Laser</button>
         <button type="button" class="bu-btn" data-sfx-preset="powerup">⚡ Power Up</button>
         <button type="button" class="bu-btn" data-sfx-preset="jump">🦘 Game Jump</button>
-        <button type="button" class="bu-btn" data-sfx-preset="chime">🔔 UI Notification</button>
+        <button type="button" class="bu-btn" data-sfx-preset="chime">🔔 UI Chime</button>
+        <button type="button" class="bu-btn" data-sfx-preset="sparkle">✨ Magic Sparkle</button>
+        <button type="button" class="bu-btn" data-sfx-preset="zap">🤖 Cyber Zap</button>
+        <button type="button" class="bu-btn" data-sfx-preset="fanfare">🎺 Victory Fanfare</button>
         <button type="button" class="bu-btn" data-sfx-preset="error">⚠️ Warning Buzzer</button>
       </div>
 
       <div class="bu-grid-3col" style="gap: 1rem; margin-bottom: 1.5rem;">
         <div class="bu-form-group" style="margin: 0;">
-          <label class="bu-form-label" for="sfx-wave">Oscillator Waveform</label>
+          <label class="bu-form-label" for="sfx-wave">Waveform</label>
           <select id="sfx-wave" class="bu-input">
-            <option value="sine" selected>Sine (Smooth / Clean)</option>
-            <option value="square">Square (8-Bit Retro)</option>
-            <option value="sawtooth">Sawtooth (Sharp / Buzzer)</option>
-            <option value="triangle">Triangle (Soft Warm)</option>
+            <option value="sine" selected>Sine (Pure / Chime)</option>
+            <option value="square">Square (8-Bit NES / Arcade)</option>
+            <option value="sawtooth">Sawtooth (Buzzy / Laser)</option>
+            <option value="triangle">Triangle (Soft Warm Retro)</option>
           </select>
         </div>
         <div class="bu-form-group" style="margin: 0;">
@@ -225,12 +228,13 @@
         </div>
         <div class="bu-form-group" style="margin: 0;">
           <label class="bu-form-label" for="sfx-dur">Duration (Seconds)</label>
-          <input type="number" id="sfx-dur" class="bu-input" value="0.25" step="0.05" min="0.05" max="2">
+          <input type="number" id="sfx-dur" class="bu-input" value="0.25" step="0.05" min="0.05" max="3">
         </div>
       </div>
 
-      <div class="bu-actions-bar" style="justify-content: center;">
-        <button type="button" id="btn-sfx-play" class="bu-btn bu-btn-primary" style="font-size: 1.2rem; padding: 0.85rem 3rem;">▶️ Play Sound</button>
+      <div class="bu-actions-bar" style="justify-content: center; gap: 1rem;">
+        <button type="button" id="btn-sfx-play" class="bu-btn bu-btn-primary" style="font-size: 1.15rem; padding: 0.85rem 2.5rem;">▶️ Play Sound</button>
+        <button type="button" id="btn-sfx-download" class="bu-btn" style="font-size: 1.05rem; padding: 0.85rem 2rem;">⬇️ Download .WAV</button>
       </div>
     
       </section>
@@ -247,8 +251,8 @@
                   1
                 </div>
                 <div>
-                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Choose Sound Type</strong>
-                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Select Coin, Jump, Laser, Power Up, Notification, or Error tone.</p>
+                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Choose Sound Preset</strong>
+                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Select Coin, Laser, Powerup, Jump, Chime, Zap, Sparkle, or Fanfare.</p>
                 </div>
               </div>
             
@@ -258,7 +262,7 @@
                 </div>
                 <div>
                   <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Tune Waveform & Frequency</strong>
-                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Pick Sine, Square, Sawtooth, or Triangle waves.</p>
+                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Adjust start/end pitch frequencies, duration, and waveform envelope.</p>
                 </div>
               </div>
             
@@ -267,8 +271,8 @@
                   3
                 </div>
                 <div>
-                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Play & Export Audio</strong>
-                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Trigger instant live playback directly through your computer speakers.</p>
+                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Play & Export WAV</strong>
+                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Listen live or download genuine uncompressed .WAV audio files 100% in-browser.</p>
                 </div>
               </div>
             
@@ -281,18 +285,18 @@
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             
               <div>
-                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Zero External MP3/WAV Files</strong>
-                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Generates pure acoustic frequencies in real time using Web Audio oscillators.</p>
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ 10 Preset Sound Archetypes</strong>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Pre-configured sound models for Coin, Laser, Jump, Powerup, Fanfare, Sparkle, Zap, Alert, and Explosion.</p>
               </div>
             
               <div>
-                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ 6 Preset Sound Archetypes</strong>
-                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Pre-configured envelopes for Success, Laser, Coin Pickup, UI Pop, and Alert.</p>
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Client-Side .WAV Audio Export</strong>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Directly converts audio buffer into downloadable 16-bit PCM .WAV sound files.</p>
               </div>
             
               <div>
-                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Frequency Envelope Controls</strong>
-                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Fine-tune pitch slides and decay durations.</p>
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Custom Oscillator Synthesis</strong>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Adjust Sine, Square, Sawtooth, and Triangle waves with pitch slide ramps.</p>
               </div>
             
             <div>
@@ -451,15 +455,17 @@
       const freqInput = document.getElementById('sfx-freq');
       const durInput = document.getElementById('sfx-dur');
       const playBtn = document.getElementById('btn-sfx-play');
+      const downloadBtn = document.getElementById('btn-sfx-download');
 
       let audioCtx = null;
+      let currentPreset = 'coin';
 
       function getAudioContext() {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         return audioCtx;
       }
 
-      function playTone(wave, startFreq, endFreq, dur) {
+      function playSoundConfig(wave, startFreq, endFreq, dur) {
         const ctx = getAudioContext();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -480,39 +486,122 @@
         osc.stop(ctx.currentTime + dur);
       }
 
-      playBtn.addEventListener('click', () => {
-        const wave = waveSelect.value;
-        const freq = parseFloat(freqInput.value) || 440;
-        const dur = parseFloat(durInput.value) || 0.25;
-        playTone(wave, freq, null, dur);
-      });
+      // Generate offline PCM 16-bit WAV file
+      function generateWavBlob(wave, startFreq, endFreq, dur) {
+        const sampleRate = 44100;
+        const totalSamples = Math.floor(sampleRate * dur);
+        const buffer = new Float32Array(totalSamples);
+
+        let phase = 0;
+        for (let i = 0; i < totalSamples; i++) {
+          const t = i / totalSamples;
+          const currentFreq = endFreq ? startFreq * Math.pow(endFreq / startFreq, t) : startFreq;
+          const deltaPhase = (2 * Math.PI * currentFreq) / sampleRate;
+          phase += deltaPhase;
+
+          let sample = 0;
+          if (wave === 'sine') sample = Math.sin(phase);
+          else if (wave === 'square') sample = Math.sin(phase) >= 0 ? 0.7 : -0.7;
+          else if (wave === 'sawtooth') sample = 2 * ((phase / (2 * Math.PI)) % 1) - 1;
+          else if (wave === 'triangle') sample = 2 * Math.abs(2 * ((phase / (2 * Math.PI)) % 1) - 1) - 1;
+
+          // Envelope decay
+          const gain = Math.exp(-3 * t);
+          buffer[i] = sample * gain * 0.5;
+        }
+
+        // Convert to 16-bit PCM WAV
+        const wavBuffer = new ArrayBuffer(44 + totalSamples * 2);
+        const view = new DataView(wavBuffer);
+
+        const writeString = (offset, string) => {
+          for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
+        };
+
+        writeString(0, 'RIFF');
+        view.setUint32(4, 36 + totalSamples * 2, true);
+        writeString(8, 'WAVE');
+        writeString(12, 'fmt ');
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true); // PCM format
+        view.setUint16(22, 1, true); // Mono
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * 2, true); // Byte rate
+        view.setUint16(32, 2, true); // Block align
+        view.setUint16(34, 16, true); // Bits per sample
+        writeString(36, 'data');
+        view.setUint32(40, totalSamples * 2, true);
+
+        let offset = 44;
+        for (let i = 0; i < totalSamples; i++) {
+          const s = Math.max(-1, Math.min(1, buffer[i]));
+          view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+          offset += 2;
+        }
+
+        return new Blob([wavBuffer], { type: 'audio/wav' });
+      }
+
+      function triggerPreset(preset) {
+        currentPreset = preset;
+        if (preset === 'coin') {
+          waveSelect.value = 'sine'; freqInput.value = '987'; durInput.value = '0.25';
+          playSoundConfig('sine', 987, 1318, 0.25);
+        } else if (preset === 'laser') {
+          waveSelect.value = 'sawtooth'; freqInput.value = '1200'; durInput.value = '0.2';
+          playSoundConfig('sawtooth', 1200, 100, 0.2);
+        } else if (preset === 'powerup') {
+          waveSelect.value = 'square'; freqInput.value = '300'; durInput.value = '0.35';
+          playSoundConfig('square', 300, 1200, 0.35);
+        } else if (preset === 'jump') {
+          waveSelect.value = 'square'; freqInput.value = '150'; durInput.value = '0.15';
+          playSoundConfig('square', 150, 600, 0.15);
+        } else if (preset === 'chime') {
+          waveSelect.value = 'sine'; freqInput.value = '587'; durInput.value = '0.5';
+          playSoundConfig('sine', 587, 880, 0.5);
+        } else if (preset === 'sparkle') {
+          waveSelect.value = 'sine'; freqInput.value = '1200'; durInput.value = '0.4';
+          playSoundConfig('sine', 1200, 2400, 0.4);
+        } else if (preset === 'zap') {
+          waveSelect.value = 'sawtooth'; freqInput.value = '800'; durInput.value = '0.18';
+          playSoundConfig('sawtooth', 800, 80, 0.18);
+        } else if (preset === 'fanfare') {
+          waveSelect.value = 'triangle'; freqInput.value = '440'; durInput.value = '0.6';
+          playSoundConfig('triangle', 440, 880, 0.6);
+        } else if (preset === 'error') {
+          waveSelect.value = 'sawtooth'; freqInput.value = '150'; durInput.value = '0.3';
+          playSoundConfig('sawtooth', 150, 100, 0.3);
+        }
+      }
 
       document.querySelectorAll('[data-sfx-preset]').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelectorAll('[data-sfx-preset]').forEach(b => b.classList.remove('bu-btn-primary'));
           btn.classList.add('bu-btn-primary');
-
-          const preset = btn.getAttribute('data-sfx-preset');
-          if (preset === 'coin') {
-            waveSelect.value = 'sine'; freqInput.value = '987'; durInput.value = '0.25';
-            playTone('sine', 987, 1318, 0.25);
-          } else if (preset === 'laser') {
-            waveSelect.value = 'sawtooth'; freqInput.value = '1200'; durInput.value = '0.2';
-            playTone('sawtooth', 1200, 100, 0.2);
-          } else if (preset === 'powerup') {
-            waveSelect.value = 'square'; freqInput.value = '300'; durInput.value = '0.35';
-            playTone('square', 300, 1200, 0.35);
-          } else if (preset === 'jump') {
-            waveSelect.value = 'square'; freqInput.value = '150'; durInput.value = '0.15';
-            playTone('square', 150, 600, 0.15);
-          } else if (preset === 'chime') {
-            waveSelect.value = 'sine'; freqInput.value = '587'; durInput.value = '0.5';
-            playTone('sine', 587, 880, 0.5);
-          } else if (preset === 'error') {
-            waveSelect.value = 'sawtooth'; freqInput.value = '150'; durInput.value = '0.3';
-            playTone('sawtooth', 150, 100, 0.3);
-          }
+          triggerPreset(btn.getAttribute('data-sfx-preset'));
         });
+      });
+
+      playBtn.addEventListener('click', () => {
+        const wave = waveSelect.value;
+        const freq = parseFloat(freqInput.value) || 440;
+        const dur = parseFloat(durInput.value) || 0.25;
+        playSoundConfig(wave, freq, null, dur);
+      });
+
+      downloadBtn.addEventListener('click', () => {
+        const wave = waveSelect.value;
+        const freq = parseFloat(freqInput.value) || 440;
+        const dur = parseFloat(durInput.value) || 0.25;
+        const blob = generateWavBlob(wave, freq, null, dur);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${currentPreset || 'sfx'}-sound.wav`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
       });
     
     });

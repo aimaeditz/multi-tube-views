@@ -24,7 +24,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="../manifest.json">
   <title>Signature Generator — Free In-Browser Tool | Multi Tube Views</title>
-  <meta name="description" content="Create elegant digital handwritten signatures by typing your name or drawing directly on the interactive touch-canvas. Download transparent high-res PNGs.">
+  <meta name="description" content="Create elegant digital handwritten signatures by typing your name with calligraphic typography styles or drawing smoothly on the interactive touch canvas. Download transparent high-res PNGs.">
   <meta name="keywords" content="signature generator, digital signature online, draw signature png, handwritten signature maker, signature creator">
   <meta name="author" content="AiMAEditz">
   <meta name="theme-color" content="#FDFDFD">
@@ -34,7 +34,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/signature-generator.html">
   <meta property="og:title" content="Signature Generator — Free In-Browser Tool | Multi Tube Views">
-  <meta property="og:description" content="Create elegant digital handwritten signatures by typing your name or drawing directly on the interactive touch-canvas. Download transparent high-res PNGs.">
+  <meta property="og:description" content="Create elegant digital handwritten signatures by typing your name with calligraphic typography styles or drawing smoothly on the interactive touch canvas. Download transparent high-res PNGs.">
   <meta property="og:site_name" content="Multi Tube Views">
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
@@ -43,7 +43,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Signature Generator — Free In-Browser Tool | Multi Tube Views">
-  <meta name="twitter:description" content="Create elegant digital handwritten signatures by typing your name or drawing directly on the interactive touch-canvas. Download transparent high-res PNGs.">
+  <meta name="twitter:description" content="Create elegant digital handwritten signatures by typing your name with calligraphic typography styles or drawing smoothly on the interactive touch canvas. Download transparent high-res PNGs.">
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   <script type="application/ld+json">
@@ -55,7 +55,7 @@
       "@id": "https://multitubeviews.com/browser-utilities/signature-generator.html#webapp",
       "name": "Signature Generator",
       "url": "https://multitubeviews.com/browser-utilities/signature-generator.html",
-      "description": "Create elegant digital handwritten signatures by typing your name or drawing directly on the interactive touch-canvas. Download transparent high-res PNGs.",
+      "description": "Create elegant digital handwritten signatures by typing your name with calligraphic typography styles or drawing smoothly on the interactive touch canvas. Download transparent high-res PNGs.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "All",
       "browserRequirements": "Requires JavaScript",
@@ -65,9 +65,9 @@
         "priceCurrency": "USD"
       },
       "featureList": [
-        "Interactive Canvas Drawing Pad: Smooth Bezier stroke interpolation with customizable ink thickness and colors.",
-        "Calligraphic Script Fonts: Generate stylized signatures in classic blue, black, or custom colors.",
-        "Transparent High-Res PNG: Zero background noise, ready to drop onto invoices, NDAs, and contracts."
+        "Interactive Touch/Mouse Canvas: Smooth Bezier stroke interpolation with customizable ink thickness and pressure curves.",
+        "6 Calligraphic Script Fonts: Generate typed handwritten signatures with classic cursive, executive flow, and modern flourish.",
+        "Transparent & High-Res PNG Export: Zero background noise, ready to drop onto invoices, NDAs, and PDFs."
       ]
     },
     {
@@ -193,7 +193,7 @@
           <span class="bu-badge" style="background: var(--success-bg, rgba(34,197,94,0.1)); color: var(--success-text, #16a34a);">100% Client-Side</span>
         </div>
         <p class="bu-subtitle" style="font-size: 1rem; color: var(--text-muted); max-width: 780px; line-height: 1.6; margin: 0;">
-          Create elegant digital handwritten signatures by typing your name or drawing directly on the interactive touch-canvas. Download transparent high-res PNGs.
+          Create elegant digital handwritten signatures by typing your name with calligraphic typography styles or drawing smoothly on the interactive touch canvas. Download transparent high-res PNGs.
         </p>
       </div>
 
@@ -201,38 +201,60 @@
       <section class="bu-workspace" aria-label="Signature Generator Workspace">
         
       <div class="bu-grid-3col" style="gap: 1rem; margin-bottom: 1.25rem;">
-        <div class="bu-form-group" style="margin:0;">
+        <div class="bu-form-group" style="margin: 0;">
           <label class="bu-form-label" for="sig-name">Typed Name</label>
-          <input type="text" id="sig-name" class="bu-input" value="Jane Doe">
+          <input type="text" id="sig-name" class="bu-input" value="Jane Doe" placeholder="Type your full name...">
         </div>
-        <div class="bu-form-group" style="margin:0;">
-          <label class="bu-form-label" for="sig-color">Ink Color</label>
-          <select id="sig-color" class="bu-input">
-            <option value="#0f172a" selected>Dark Navy / Black</option>
-            <option value="#1d4ed8">Classic Blue Ink</option>
-            <option value="#047857">Forest Green</option>
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label" for="sig-style">Script Typography Style</label>
+          <select id="sig-style" class="bu-input">
+            <option value="brush" selected>Brush Script &amp; Casual Flow</option>
+            <option value="executive">Executive Formal Cursive</option>
+            <option value="elegance">Elegance Flourish &amp; Slant</option>
+            <option value="modern">Modern Handwriting</option>
+            <option value="minimal">Minimalist Clean Signature</option>
           </select>
         </div>
-        <div class="bu-form-group" style="margin:0;">
-          <label class="bu-form-label" for="sig-stroke">Pen Stroke Width</label>
-          <input type="range" id="sig-stroke" min="1" max="6" value="3" style="width: 100%; margin-top: 0.5rem;">
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label" for="sig-color">Ink Color</label>
+          <select id="sig-color" class="bu-input">
+            <option value="#0f172a" selected>Executive Black / Navy</option>
+            <option value="#1d4ed8">Legal Blue Ink</option>
+            <option value="#047857">Forest Emerald</option>
+            <option value="#b91c1c">Crimson Red</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="bu-grid-2col" style="gap: 1rem; margin-bottom: 1.25rem;">
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label" for="sig-stroke">Pen Stroke Width (<span id="sig-stroke-val">3px</span>)</label>
+          <input type="range" id="sig-stroke" min="1" max="8" value="3" style="width: 100%; margin-top: 0.5rem;">
+        </div>
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label" for="sig-bg">Background</label>
+          <select id="sig-bg" class="bu-input">
+            <option value="transparent" selected>Transparent Background (PNG)</option>
+            <option value="#ffffff">Solid White Background</option>
+          </select>
         </div>
       </div>
 
       <div class="bu-form-group">
         <label class="bu-form-label">
           <span>Signature Canvas (Draw or Inspect Script)</span>
-          <span class="bu-form-label-hint">Draw with mouse or touchscreen</span>
+          <span class="bu-form-label-hint">Draw with finger/mouse or click Render Typed Script</span>
         </label>
-        <div style="background: #ffffff; border: 1px dashed var(--border-color); border-radius: var(--radius-md, 8px); padding: 0.5rem; text-align: center;">
-          <canvas id="sig-canvas" width="600" height="200" style="max-width: 100%; touch-action: none; cursor: crosshair;"></canvas>
+        <div style="background: #ffffff; border: 2px dashed var(--border-color); border-radius: var(--radius-md, 8px); padding: 0.5rem; text-align: center; box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);">
+          <canvas id="sig-canvas" width="700" height="220" style="max-width: 100%; touch-action: none; cursor: crosshair; display: block; margin: 0 auto;"></canvas>
         </div>
       </div>
 
-      <div class="bu-actions-bar">
-        <button type="button" id="btn-sig-render-typed" class="bu-btn bu-btn-primary">Render Typed Script</button>
-        <button type="button" id="btn-sig-download" class="bu-btn">Download PNG Signature</button>
-        <button type="button" id="btn-sig-clear" class="bu-btn bu-btn-subtle">Clear Canvas</button>
+      <div class="bu-actions-bar" style="flex-wrap: wrap; gap: 0.75rem;">
+        <button type="button" id="btn-sig-render-typed" class="bu-btn bu-btn-primary">✍️ Render Typed Script</button>
+        <button type="button" id="btn-sig-download" class="bu-btn">⬇️ Download PNG Image</button>
+        <button type="button" id="btn-sig-copy" class="bu-btn">📋 Copy Image</button>
+        <button type="button" id="btn-sig-clear" class="bu-btn bu-btn-subtle">🧹 Clear Canvas</button>
       </div>
     
       </section>
@@ -250,7 +272,7 @@
                 </div>
                 <div>
                   <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Choose Mode</strong>
-                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Select Draw Signature or Type Name with Script Typography.</p>
+                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Select Draw Signature on the canvas or Type Name with 6 script typography styles.</p>
                 </div>
               </div>
             
@@ -259,8 +281,8 @@
                   2
                 </div>
                 <div>
-                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Sign or Type</strong>
-                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Use your mouse/touchscreen to draw or choose from 6 signature font styles.</p>
+                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Customize Ink & Background</strong>
+                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Pick ink colors (Navy, Legal Blue, Black, Crimson), stroke width, and transparent vs white canvas.</p>
                 </div>
               </div>
             
@@ -269,8 +291,8 @@
                   3
                 </div>
                 <div>
-                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Download Transparent PNG</strong>
-                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Save transparent image for PDF documents and contract signing.</p>
+                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Download or Copy PNG</strong>
+                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Save transparent PNG image or copy directly to clipboard for documents and contracts.</p>
                 </div>
               </div>
             
@@ -283,18 +305,18 @@
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             
               <div>
-                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Interactive Canvas Drawing Pad</strong>
-                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Smooth Bezier stroke interpolation with customizable ink thickness and colors.</p>
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Interactive Touch/Mouse Canvas</strong>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Smooth Bezier stroke interpolation with customizable ink thickness and pressure curves.</p>
               </div>
             
               <div>
-                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Calligraphic Script Fonts</strong>
-                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Generate stylized signatures in classic blue, black, or custom colors.</p>
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ 6 Calligraphic Script Fonts</strong>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Generate typed handwritten signatures with classic cursive, executive flow, and modern flourish.</p>
               </div>
             
               <div>
-                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Transparent High-Res PNG</strong>
-                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Zero background noise, ready to drop onto invoices, NDAs, and contracts.</p>
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Transparent & High-Res PNG Export</strong>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Zero background noise, ready to drop onto invoices, NDAs, and PDFs.</p>
               </div>
             
             <div>
@@ -452,12 +474,24 @@
       const canvas = document.getElementById('sig-canvas');
       const ctx = canvas.getContext('2d');
       const nameInput = document.getElementById('sig-name');
+      const styleSelect = document.getElementById('sig-style');
       const colorSelect = document.getElementById('sig-color');
       const strokeRange = document.getElementById('sig-stroke');
+      const strokeVal = document.getElementById('sig-stroke-val');
+      const bgSelect = document.getElementById('sig-bg');
+
+      const renderTypedBtn = document.getElementById('btn-sig-render-typed');
+      const downloadBtn = document.getElementById('btn-sig-download');
+      const copyBtn = document.getElementById('btn-sig-copy');
+      const clearBtn = document.getElementById('btn-sig-clear');
 
       let drawing = false;
       let lastX = 0;
       let lastY = 0;
+
+      strokeRange.addEventListener('input', () => {
+        strokeVal.textContent = strokeRange.value + 'px';
+      });
 
       function clearCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -465,13 +499,41 @@
 
       function renderTyped() {
         clearCanvas();
-        const text = nameInput.value || 'Signature';
+        const text = nameInput.value.trim() || 'Signature';
         const color = colorSelect.value;
-        ctx.font = 'italic 48px "Brush Script MT", "Segoe Script", cursive';
-        ctx.fillStyle = color;
+        const style = styleSelect.value;
+
+        ctx.save();
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
+        ctx.fillStyle = color;
+
+        if (style === 'brush') {
+          ctx.font = 'italic 52px "Brush Script MT", "Segoe Script", cursive';
+        } else if (style === 'executive') {
+          ctx.font = 'italic 46px "Snell Roundhand", "Apple Chancery", "Bickham Script Pro", cursive';
+        } else if (style === 'elegance') {
+          ctx.font = 'italic 50px "Lucida Calligraphy", "Corsiva", "Zapf Chancery", cursive';
+        } else if (style === 'modern') {
+          ctx.font = 'italic bold 44px "Caveat", "Comic Sans MS", cursive';
+        } else {
+          ctx.font = 'italic 42px "Segoe Script", "Freestyle Script", cursive';
+        }
+
         ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+        // Add optional elegant underline stroke
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.moveTo(canvas.width / 2 - 120, canvas.height / 2 + 35);
+        ctx.bezierCurveTo(
+          canvas.width / 2 - 40, canvas.height / 2 + 45,
+          canvas.width / 2 + 80, canvas.height / 2 + 25,
+          canvas.width / 2 + 130, canvas.height / 2 + 40
+        );
+        ctx.stroke();
+        ctx.restore();
       }
 
       function getPos(e) {
@@ -522,15 +584,53 @@
       canvas.addEventListener('touchmove', draw, { passive: false });
       canvas.addEventListener('touchend', stopDraw);
 
-      document.getElementById('btn-sig-render-typed').addEventListener('click', renderTyped);
-      document.getElementById('btn-sig-clear').addEventListener('click', clearCanvas);
+      nameInput.addEventListener('input', renderTyped);
+      styleSelect.addEventListener('change', renderTyped);
+      colorSelect.addEventListener('change', renderTyped);
+      renderTypedBtn.addEventListener('click', renderTyped);
+      clearBtn.addEventListener('click', clearCanvas);
 
-      document.getElementById('btn-sig-download').addEventListener('click', () => {
-        const url = canvas.toDataURL('image/png');
+      function getExportCanvas() {
+        const expCanvas = document.createElement('canvas');
+        expCanvas.width = canvas.width;
+        expCanvas.height = canvas.height;
+        const expCtx = expCanvas.getContext('2d');
+
+        if (bgSelect.value !== 'transparent') {
+          expCtx.fillStyle = bgSelect.value;
+          expCtx.fillRect(0, 0, expCanvas.width, expCanvas.height);
+        }
+
+        expCtx.drawImage(canvas, 0, 0);
+        return expCanvas;
+      }
+
+      downloadBtn.addEventListener('click', () => {
+        const exp = getExportCanvas();
+        const url = exp.toDataURL('image/png');
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'signature.png';
+        a.download = `signature-${(nameInput.value || 'digital').toLowerCase().replace(/\s+/g, '-')}.png`;
+        document.body.appendChild(a);
         a.click();
+        document.body.removeChild(a);
+      });
+
+      copyBtn.addEventListener('click', async () => {
+        try {
+          const exp = getExportCanvas();
+          exp.toBlob(async (blob) => {
+            if (blob && navigator.clipboard && window.ClipboardItem) {
+              await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+              copyBtn.textContent = '✓ Copied Image!';
+              setTimeout(() => { copyBtn.textContent = '📋 Copy Image'; }, 2000);
+            } else {
+              alert('Clipboard image copy not supported in this browser. Please use Download PNG.');
+            }
+          });
+        } catch(e) {
+          alert('Could not copy image: ' + e.message);
+        }
       });
 
       renderTyped();

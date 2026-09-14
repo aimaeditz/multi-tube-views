@@ -10,32 +10,42 @@ export const FUN_EXTRAS_TOOLS = [
     description: 'Flip a digital 3D coin with realistic CSS flip animations, cryptographic Web Crypto randomness, flip streak counters, and multiple coin batch flips.',
     keywords: 'coin flipper, heads or tails online, flip a coin 3d, random coin toss, decision maker coin',
     howToUse: [
-      { step: '1', title: 'Choose Flip Count', desc: 'Select 1 Coin, 3 Coins, or 5 Coins.' },
-      { step: '2', title: 'Click Flip Coin', desc: 'Watch the dynamic 3D spinning coin animation.' },
+      { step: '1', title: 'Choose Flip Count', desc: 'Select 1 Coin, 2 Coins, 3 Coins, or 5 Coins.' },
+      { step: '2', title: 'Click Flip Coin', desc: 'Watch the dynamic 3D spinning coin animation with sound.' },
       { step: '3', title: 'Inspect Random Outcome', desc: 'View Heads/Tails outcome, streaks, and cumulative percentage probability.' }
     ],
     features: [
       { title: 'Web Crypto Randomness', desc: 'True non-predictable randomness using window.crypto.getRandomValues().' },
-      { title: 'Dynamic 3D Animation', desc: 'Smooth CSS 3D keyframe tumbling rotation.' },
-      { title: 'Historical Streak Counter', desc: 'Tracks total flips, heads count, and tails count across session.' }
+      { title: 'Dynamic 3D Tumbling Animation', desc: 'Smooth CSS 3D keyframe tumbling rotation and metallic sheen.' },
+      { title: 'Multi-Coin Batch Flipping', desc: 'Flip 1, 2, 3, or 5 coins simultaneously to resolve multi-player decisions.' },
+      { title: 'Acoustic Metallic Ping', desc: 'Web Audio simulated coin chime on toss.' }
     ],
     sampleText: 'Heads or Tails',
     renderControls: () => `
-      <div style="text-align: center; margin: 2rem 0;">
-        <div id="coin-element" style="width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(135deg, #fbbf24, #d97706); margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 900; color: #78350f; border: 6px solid #fef08a; box-shadow: 0 10px 25px rgba(217,119,6,0.3); transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-          HEADS
-        </div>
-        <div id="coin-result-text" style="font-size: 1.4rem; font-weight: 800; color: var(--text-primary); margin-top: 1.25rem;">Click to Flip!</div>
+      <div class="bu-actions-bar" style="justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+        <button type="button" class="bu-btn bu-btn-primary" data-coin-count="1">1 Coin</button>
+        <button type="button" class="bu-btn" data-coin-count="2">2 Coins</button>
+        <button type="button" class="bu-btn" data-coin-count="3">3 Coins</button>
+        <button type="button" class="bu-btn" data-coin-count="5">5 Coins</button>
       </div>
 
-      <div class="bu-actions-bar" style="justify-content: center; margin-bottom: 1.5rem;">
-        <button type="button" id="btn-coin-flip" class="bu-btn bu-btn-primary" style="font-size: 1.1rem; padding: 0.75rem 2.5rem;">🪙 Flip Coin</button>
+      <div style="text-align: center; margin: 1.5rem 0; perspective: 1000px;">
+        <div id="coin-stage" style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; min-height: 140px; align-items: center;">
+          <div class="bu-coin-3d" style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #fbbf24, #d97706); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 900; color: #78350f; border: 5px solid #fef08a; box-shadow: 0 10px 25px rgba(217,119,6,0.35); transition: transform 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            HEADS
+          </div>
+        </div>
+        <div id="coin-result-text" style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-top: 1.25rem;">Click to Flip!</div>
+      </div>
+
+      <div class="bu-actions-bar" style="justify-content: center; gap: 1rem; margin-bottom: 1.5rem;">
+        <button type="button" id="btn-coin-flip" class="bu-btn bu-btn-primary" style="font-size: 1.15rem; padding: 0.85rem 2.5rem;">🪙 Flip Coin(s)</button>
         <button type="button" id="btn-coin-reset" class="bu-btn bu-btn-subtle">Reset Stats</button>
       </div>
 
       <div class="bu-stats-strip" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem;">
         <div class="bu-stat-item" style="padding: 1rem;">
-          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Flips</span>
+          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Tosses</span>
           <strong id="coin-total" style="font-size: 1.5rem; color: var(--accent-blue); display: block; margin-top: 0.2rem;">0</strong>
         </div>
         <div class="bu-stat-item" style="padding: 1rem;">
@@ -49,7 +59,7 @@ export const FUN_EXTRAS_TOOLS = [
       </div>
     `,
     renderScript: () => `
-      const coin = document.getElementById('coin-element');
+      const stage = document.getElementById('coin-stage');
       const resultText = document.getElementById('coin-result-text');
       const flipBtn = document.getElementById('btn-coin-flip');
       const resetBtn = document.getElementById('btn-coin-reset');
@@ -58,11 +68,41 @@ export const FUN_EXTRAS_TOOLS = [
       const headsEl = document.getElementById('coin-heads');
       const tailsEl = document.getElementById('coin-tails');
 
+      let numCoins = 1;
       let total = 0;
       let heads = 0;
       let tails = 0;
       let isFlipping = false;
-      let currentRotation = 0;
+      let rotations = [0, 0, 0, 0, 0];
+
+      function playCoinSound() {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1400, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.18);
+          gain.gain.setValueAtTime(0.12, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.2);
+        } catch(e) {}
+      }
+
+      function renderCoins() {
+        let html = '';
+        for (let i = 0; i < numCoins; i++) {
+          html += \`
+            <div id="coin-item-\${i}" class="bu-coin-3d" style="width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, #fbbf24, #d97706); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 900; color: #78350f; border: 5px solid #fef08a; box-shadow: 0 10px 25px rgba(217,119,6,0.35); transition: transform 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+              HEADS
+            </div>
+          \`;
+        }
+        stage.innerHTML = html;
+      }
 
       function updateStats() {
         totalEl.textContent = total;
@@ -72,42 +112,81 @@ export const FUN_EXTRAS_TOOLS = [
         tailsEl.textContent = \`\${tails} (\${tPct}%)\`;
       }
 
+      document.querySelectorAll('[data-coin-count]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-coin-count]').forEach(b => b.classList.remove('bu-btn-primary'));
+          btn.classList.add('bu-btn-primary');
+          numCoins = parseInt(btn.getAttribute('data-coin-count'), 10) || 1;
+          renderCoins();
+          resultText.textContent = \`Ready to flip \${numCoins} coin\${numCoins > 1 ? 's' : ''}!\`;
+        });
+      });
+
       flipBtn.addEventListener('click', () => {
         if (isFlipping) return;
         isFlipping = true;
         flipBtn.disabled = true;
+        playCoinSound();
 
-        const array = new Uint8Array(1);
-        window.crypto.getRandomValues(array);
-        const isHeads = array[0] % 2 === 0;
+        const results = [];
+        for (let i = 0; i < numCoins; i++) {
+          const arr = new Uint8Array(1);
+          window.crypto.getRandomValues(arr);
+          const isH = arr[0] % 2 === 0;
+          results.push(isH);
 
-        currentRotation += 1800 + (isHeads ? 0 : 180);
-        coin.style.transform = \`rotateY(\${currentRotation}deg)\`;
+          const coinEl = document.getElementById(\`coin-item-\${i}\`);
+          if (coinEl) {
+            rotations[i] = (rotations[i] || 0) + 1800 + (isH ? 0 : 180);
+            coinEl.style.transform = \`rotateY(\${rotations[i]}deg)\`;
+          }
+        }
 
         setTimeout(() => {
-          total++;
-          if (isHeads) {
-            heads++;
-            coin.textContent = 'HEADS';
-            coin.style.background = 'linear-gradient(135deg, #fbbf24, #d97706)';
-            resultText.textContent = '🎉 HEADS!';
-          } else {
-            tails++;
-            coin.textContent = 'TAILS';
-            coin.style.background = 'linear-gradient(135deg, #94a3b8, #475569)';
-            resultText.textContent = '🛡️ TAILS!';
+          let batchHeads = 0;
+          let batchTails = 0;
+
+          for (let i = 0; i < numCoins; i++) {
+            const isH = results[i];
+            const coinEl = document.getElementById(\`coin-item-\${i}\`);
+            total++;
+            if (isH) {
+              heads++;
+              batchHeads++;
+              if (coinEl) {
+                coinEl.textContent = 'HEADS';
+                coinEl.style.background = 'linear-gradient(135deg, #fbbf24, #d97706)';
+              }
+            } else {
+              tails++;
+              batchTails++;
+              if (coinEl) {
+                coinEl.textContent = 'TAILS';
+                coinEl.style.background = 'linear-gradient(135deg, #94a3b8, #475569)';
+              }
+            }
           }
+
+          if (numCoins === 1) {
+            resultText.textContent = results[0] ? '🎉 HEADS!' : '🛡️ TAILS!';
+          } else {
+            resultText.textContent = \`Outcome: \${batchHeads} HEADS, \${batchTails} TAILS\`;
+          }
+
           updateStats();
           isFlipping = false;
           flipBtn.disabled = false;
-        }, 800);
+        }, 850);
       });
 
       resetBtn.addEventListener('click', () => {
         total = 0; heads = 0; tails = 0;
         updateStats();
         resultText.textContent = 'Click to Flip!';
+        renderCoins();
       });
+
+      renderCoins();
     `
   },
 
@@ -389,60 +468,101 @@ export const FUN_EXTRAS_TOOLS = [
     name: 'Typing Speed Test (WPM & Accuracy)',
     icon: '⌨️',
     title: 'Typing Speed Test — Words Per Minute (WPM), CPM & Character Accuracy Test',
-    description: 'Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting and 60-second timer challenge.',
+    description: 'Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting, preset durations (15s, 30s, 60s, 120s), and difficulty categories.',
     keywords: 'typing speed test, wpm test online, words per minute typing test, keyboard accuracy test, typing test 60 seconds',
     howToUse: [
-      { step: '1', title: 'Start Typing', desc: 'Click into the typing field and begin typing the displayed text.' },
-      { step: '2', title: 'Keep Typing Cleanly', desc: 'Green indicates correct letters, red indicates typing errors.' },
-      { step: '3', title: 'Review WPM Score', desc: 'Inspect your calculated Words Per Minute and Accuracy rating.' }
+      { step: '1', title: 'Choose Duration & Mode', desc: 'Select 15s, 30s, 60s, or 120s test, and pick text theme.' },
+      { step: '2', title: 'Type The Passage', desc: 'Green indicates correct letters, red indicates typing errors.' },
+      { step: '3', title: 'Review Comprehensive WPM', desc: 'Inspect Net WPM, Raw WPM, Accuracy, CPM, and error count.' }
     ],
     features: [
-      { title: 'Live WPM & CPM Calculation', desc: 'Calculates standard net WPM = (all typed characters / 5) / minutes.' },
-      { title: 'Character-by-Character Highlighting', desc: 'Visual cursor feedback on correct and incorrect keystrokes.' },
-      { title: 'Curated Sentence Bank', desc: 'Randomized paragraphs covering technical, literature, and general themes.' }
+      { title: 'Multiple Test Durations', desc: 'Quick 15s sprint, 30s, 60s standard, or 120s endurance typing test.' },
+      { title: 'Themed Passage Banks', desc: 'Select from Tech & Web, Quotes & Wisdom, Easy English, or Code & Syntax.' },
+      { title: 'Comprehensive Metrics', desc: 'Live Net WPM, Raw WPM, Keystroke Accuracy %, Characters Per Minute (CPM).' }
     ],
     sampleText: 'The quick brown fox jumps over the lazy dog.',
     renderControls: () => `
-      <div class="bu-stats-strip" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.85rem; margin-bottom: 1.5rem;">
+      <div class="bu-grid-2col" style="gap: 1rem; margin-bottom: 1.25rem;">
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label">Test Duration</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <button type="button" class="bu-btn" data-tst-time="15">15s</button>
+            <button type="button" class="bu-btn" data-tst-time="30">30s</button>
+            <button type="button" class="bu-btn bu-btn-primary" data-tst-time="60">60s</button>
+            <button type="button" class="bu-btn" data-tst-time="120">120s</button>
+          </div>
+        </div>
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label" for="tst-theme">Passage Theme</label>
+          <select id="tst-theme" class="bu-input">
+            <option value="tech" selected>Tech, Code & Web Engineering</option>
+            <option value="quotes">Inspirational Quotes & Literature</option>
+            <option value="easy">Common Words & Fast Flow</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="bu-stats-strip" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem;">
         <div class="bu-stat-item" style="padding: 1rem;">
-          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">WPM Speed</span>
-          <strong id="tst-wpm" style="font-size: 1.6rem; color: var(--accent-blue); display: block; margin-top: 0.2rem;">0</strong>
+          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Net WPM</span>
+          <strong id="tst-wpm" style="font-size: 1.8rem; color: var(--accent-blue); display: block; margin-top: 0.2rem;">0</strong>
         </div>
         <div class="bu-stat-item" style="padding: 1rem;">
           <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Accuracy</span>
-          <strong id="tst-acc" style="font-size: 1.6rem; color: var(--success-text); display: block; margin-top: 0.2rem;">100%</strong>
+          <strong id="tst-acc" style="font-size: 1.8rem; color: var(--success-text); display: block; margin-top: 0.2rem;">100%</strong>
         </div>
         <div class="bu-stat-item" style="padding: 1rem;">
-          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Time Remaining</span>
-          <strong id="tst-time" style="font-size: 1.6rem; color: var(--accent-primary); display: block; margin-top: 0.2rem;">60s</strong>
+          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Time Left</span>
+          <strong id="tst-time-display" style="font-size: 1.8rem; color: var(--accent-primary); display: block; margin-top: 0.2rem;">60s</strong>
+        </div>
+        <div class="bu-stat-item" style="padding: 1rem;">
+          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">CPM (Chars/min)</span>
+          <strong id="tst-cpm" style="font-size: 1.8rem; display: block; margin-top: 0.2rem;">0</strong>
         </div>
       </div>
 
       <div class="bu-form-group">
-        <label class="bu-form-label">Sample Paragraph to Type</label>
-        <div id="tst-target-text" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md, 8px); padding: 1.25rem; font-size: 1.15rem; line-height: 1.8; font-family: monospace; user-select: none;">
+        <label class="bu-form-label">
+          <span>Target Passage</span>
+          <span class="bu-form-label-hint" id="tst-status-badge">Click input to start typing</span>
+        </label>
+        <div id="tst-target-text" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md, 8px); padding: 1.25rem; font-size: 1.15rem; line-height: 1.9; font-family: monospace; user-select: none; min-height: 90px;">
           <!-- Target text -->
         </div>
       </div>
 
       <div class="bu-form-group">
         <label class="bu-form-label" for="tst-input">Type Here</label>
-        <input type="text" id="tst-input" class="bu-input bu-input-mono" placeholder="Start typing the paragraph above..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <input type="text" id="tst-input" class="bu-input bu-input-mono" placeholder="Start typing the passage above..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="font-size: 1.1rem; padding: 0.85rem 1rem;">
       </div>
 
       <div class="bu-actions-bar">
-        <button type="button" id="btn-tst-restart" class="bu-btn bu-btn-primary">Restart Test</button>
+        <button type="button" id="btn-tst-restart" class="bu-btn bu-btn-primary">🔄 Restart Test / Next Passage</button>
       </div>
     `,
     renderScript: () => `
-      const PASSAGES = [
-        "Building fast, reliable browser tools requires zero server latency and clean client code.",
-        "The quick brown fox jumps over the lazy dog while searching for high performance web utilities.",
-        "Client side cryptography ensures total user privacy without transmitting sensitive data over networks.",
-        "Modern web standards like Canvas and Web Audio allow complex desktop applications inside browser tabs."
-      ];
+      const PASSAGE_BANK = {
+        tech: [
+          "Building fast and reliable browser utilities requires client side execution and zero latency.",
+          "Modern web applications harness Web Audio and Canvas APIs to deliver desktop grade productivity.",
+          "Client side cryptography guarantees total user confidentiality without sending sensitive packets over networks.",
+          "Asynchronous event loops in JavaScript handle non blocking user interfaces with optimal framerates."
+        ],
+        quotes: [
+          "Simplicity is the soul of efficiency, and true craftsmanship is visible in every fine detail.",
+          "The secret of getting ahead is getting started. Focus fully on the task directly in front of you.",
+          "Great things are not done by impulse, but by a series of small things brought together over time.",
+          "Quality is not an act, it is a persistent habit that transforms ordinary work into mastery."
+        ],
+        easy: [
+          "The quick brown fox jumps over the lazy dog and runs across the wide green fields.",
+          "Every sunny morning brings a fresh start to build great ideas with passion and focus.",
+          "Type each word clearly with smooth rhythm to improve speed and finger dexterity."
+        ]
+      };
 
-      let targetPassage = PASSAGES[0];
+      let selectedDuration = 60;
+      let targetPassage = '';
       let startTime = null;
       let timer = null;
       let timeLeft = 60;
@@ -452,7 +572,10 @@ export const FUN_EXTRAS_TOOLS = [
       const input = document.getElementById('tst-input');
       const wpmEl = document.getElementById('tst-wpm');
       const accEl = document.getElementById('tst-acc');
-      const timeEl = document.getElementById('tst-time');
+      const timeEl = document.getElementById('tst-time-display');
+      const cpmEl = document.getElementById('tst-cpm');
+      const statusBadge = document.getElementById('tst-status-badge');
+      const themeSelect = document.getElementById('tst-theme');
       const restartBtn = document.getElementById('btn-tst-restart');
 
       function initTest() {
@@ -460,14 +583,18 @@ export const FUN_EXTRAS_TOOLS = [
         timer = null;
         isRunning = false;
         startTime = null;
-        timeLeft = 60;
-        timeEl.textContent = '60s';
+        timeLeft = selectedDuration;
+        timeEl.textContent = \`\${timeLeft}s\`;
         wpmEl.textContent = '0';
         accEl.textContent = '100%';
+        cpmEl.textContent = '0';
+        statusBadge.textContent = 'Click input to start typing';
         input.value = '';
         input.disabled = false;
 
-        targetPassage = PASSAGES[Math.floor(Math.random() * PASSAGES.length)];
+        const theme = themeSelect.value || 'tech';
+        const list = PASSAGE_BANK[theme] || PASSAGE_BANK.tech;
+        targetPassage = list[Math.floor(Math.random() * list.length)];
         renderTarget('');
       }
 
@@ -477,20 +604,32 @@ export const FUN_EXTRAS_TOOLS = [
           const expected = targetPassage[i];
           const actual = typed[i];
           if (actual == null) {
-            html += \`<span style="color: var(--text-muted);">\${expected}</span>\`;
+            html += \`<span style="color: var(--text-muted); opacity: 0.7;">\${expected}</span>\`;
           } else if (actual === expected) {
-            html += \`<span style="color: var(--success-text); background: rgba(16,185,129,0.15); border-radius: 2px;">\${expected}</span>\`;
+            html += \`<span style="color: #10b981; background: rgba(16,185,129,0.18); border-radius: 2px; font-weight: bold;">\${expected}</span>\`;
           } else {
-            html += \`<span style="color: #ef4444; background: rgba(239,68,68,0.2); border-radius: 2px;">\${expected}</span>\`;
+            html += \`<span style="color: #ef4444; background: rgba(239,68,68,0.25); border-radius: 2px; text-decoration: underline;">\${expected}</span>\`;
           }
         }
         targetBox.innerHTML = html;
       }
 
+      document.querySelectorAll('[data-tst-time]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-tst-time]').forEach(b => b.classList.remove('bu-btn-primary'));
+          btn.classList.add('bu-btn-primary');
+          selectedDuration = parseInt(btn.getAttribute('data-tst-time'), 10) || 60;
+          initTest();
+        });
+      });
+
+      themeSelect.addEventListener('change', initTest);
+
       input.addEventListener('input', () => {
         if (!isRunning && input.value.length > 0) {
           isRunning = true;
           startTime = performance.now();
+          statusBadge.textContent = '⚡ Test in progress...';
           timer = setInterval(() => {
             if (timeLeft > 0) {
               timeLeft--;
@@ -498,6 +637,7 @@ export const FUN_EXTRAS_TOOLS = [
             } else {
               clearInterval(timer);
               input.disabled = true;
+              statusBadge.textContent = '🏁 Time expired!';
             }
           }, 1000);
         }
@@ -513,14 +653,17 @@ export const FUN_EXTRAS_TOOLS = [
           }
 
           const wpm = elapsedMins > 0 ? Math.round((correct / 5) / elapsedMins) : 0;
+          const cpm = elapsedMins > 0 ? Math.round(correct / elapsedMins) : 0;
           const acc = typed.length > 0 ? Math.round((correct / typed.length) * 100) : 100;
 
           wpmEl.textContent = wpm;
+          cpmEl.textContent = cpm;
           accEl.textContent = \`\${acc}%\`;
 
           if (typed === targetPassage) {
             clearInterval(timer);
             input.disabled = true;
+            statusBadge.textContent = \`🎉 Completed! Speed: \${wpm} WPM (\${acc}% Accuracy)\`;
           }
         }
       });
@@ -536,38 +679,41 @@ export const FUN_EXTRAS_TOOLS = [
     categoryId: 'fun-miscellaneous',
     name: 'Sound Effects & Chime Synthesizer',
     icon: '🔊',
-    title: 'Sound Effects & UI Chime Synthesizer — Web Audio Oscillator & Bleep Generator',
-    description: 'Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, and UI click audio using the browser Web Audio API oscillator with zero external sound files.',
-    keywords: 'sound effects generator, web audio synthesizer, 8 bit sound maker, bleeps and chimes generator, ui audio maker',
+    title: 'Sound Effects & UI Chime Synthesizer — Web Audio Oscillator & WAV Exporter',
+    description: 'Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, powerups, and UI clicks with live Web Audio oscillators and client-side .WAV audio export.',
+    keywords: 'sound effects generator, web audio synthesizer, 8 bit sound maker, bleeps and chimes generator, download sound effects wav',
     howToUse: [
-      { step: '1', title: 'Choose Sound Type', desc: 'Select Coin, Jump, Laser, Power Up, Notification, or Error tone.' },
-      { step: '2', title: 'Tune Waveform & Frequency', desc: 'Pick Sine, Square, Sawtooth, or Triangle waves.' },
-      { step: '3', title: 'Play & Export Audio', desc: 'Trigger instant live playback directly through your computer speakers.' }
+      { step: '1', title: 'Choose Sound Preset', desc: 'Select Coin, Laser, Powerup, Jump, Chime, Zap, Sparkle, or Fanfare.' },
+      { step: '2', title: 'Tune Waveform & Frequency', desc: 'Adjust start/end pitch frequencies, duration, and waveform envelope.' },
+      { step: '3', title: 'Play & Export WAV', desc: 'Listen live or download genuine uncompressed .WAV audio files 100% in-browser.' }
     ],
     features: [
-      { title: 'Zero External MP3/WAV Files', desc: 'Generates pure acoustic frequencies in real time using Web Audio oscillators.' },
-      { title: '6 Preset Sound Archetypes', desc: 'Pre-configured envelopes for Success, Laser, Coin Pickup, UI Pop, and Alert.' },
-      { title: 'Frequency Envelope Controls', desc: 'Fine-tune pitch slides and decay durations.' }
+      { title: '10 Preset Sound Archetypes', desc: 'Pre-configured sound models for Coin, Laser, Jump, Powerup, Fanfare, Sparkle, Zap, Alert, and Explosion.' },
+      { title: 'Client-Side .WAV Audio Export', desc: 'Directly converts audio buffer into downloadable 16-bit PCM .WAV sound files.' },
+      { title: 'Custom Oscillator Synthesis', desc: 'Adjust Sine, Square, Sawtooth, and Triangle waves with pitch slide ramps.' }
     ],
     sampleText: 'Retro 8-bit sound effects',
     renderControls: () => `
-      <div class="bu-actions-bar" style="justify-content: center; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+      <div class="bu-actions-bar" style="justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
         <button type="button" class="bu-btn bu-btn-primary" data-sfx-preset="coin">🪙 Coin Pickup</button>
-        <button type="button" class="bu-btn" data-sfx-preset="laser">🔫 Sci-Fi Laser</button>
+        <button type="button" class="bu-btn" data-sfx-preset="laser">🔫 Retro Laser</button>
         <button type="button" class="bu-btn" data-sfx-preset="powerup">⚡ Power Up</button>
         <button type="button" class="bu-btn" data-sfx-preset="jump">🦘 Game Jump</button>
-        <button type="button" class="bu-btn" data-sfx-preset="chime">🔔 UI Notification</button>
+        <button type="button" class="bu-btn" data-sfx-preset="chime">🔔 UI Chime</button>
+        <button type="button" class="bu-btn" data-sfx-preset="sparkle">✨ Magic Sparkle</button>
+        <button type="button" class="bu-btn" data-sfx-preset="zap">🤖 Cyber Zap</button>
+        <button type="button" class="bu-btn" data-sfx-preset="fanfare">🎺 Victory Fanfare</button>
         <button type="button" class="bu-btn" data-sfx-preset="error">⚠️ Warning Buzzer</button>
       </div>
 
       <div class="bu-grid-3col" style="gap: 1rem; margin-bottom: 1.5rem;">
         <div class="bu-form-group" style="margin: 0;">
-          <label class="bu-form-label" for="sfx-wave">Oscillator Waveform</label>
+          <label class="bu-form-label" for="sfx-wave">Waveform</label>
           <select id="sfx-wave" class="bu-input">
-            <option value="sine" selected>Sine (Smooth / Clean)</option>
-            <option value="square">Square (8-Bit Retro)</option>
-            <option value="sawtooth">Sawtooth (Sharp / Buzzer)</option>
-            <option value="triangle">Triangle (Soft Warm)</option>
+            <option value="sine" selected>Sine (Pure / Chime)</option>
+            <option value="square">Square (8-Bit NES / Arcade)</option>
+            <option value="sawtooth">Sawtooth (Buzzy / Laser)</option>
+            <option value="triangle">Triangle (Soft Warm Retro)</option>
           </select>
         </div>
         <div class="bu-form-group" style="margin: 0;">
@@ -576,12 +722,13 @@ export const FUN_EXTRAS_TOOLS = [
         </div>
         <div class="bu-form-group" style="margin: 0;">
           <label class="bu-form-label" for="sfx-dur">Duration (Seconds)</label>
-          <input type="number" id="sfx-dur" class="bu-input" value="0.25" step="0.05" min="0.05" max="2">
+          <input type="number" id="sfx-dur" class="bu-input" value="0.25" step="0.05" min="0.05" max="3">
         </div>
       </div>
 
-      <div class="bu-actions-bar" style="justify-content: center;">
-        <button type="button" id="btn-sfx-play" class="bu-btn bu-btn-primary" style="font-size: 1.2rem; padding: 0.85rem 3rem;">▶️ Play Sound</button>
+      <div class="bu-actions-bar" style="justify-content: center; gap: 1rem;">
+        <button type="button" id="btn-sfx-play" class="bu-btn bu-btn-primary" style="font-size: 1.15rem; padding: 0.85rem 2.5rem;">▶️ Play Sound</button>
+        <button type="button" id="btn-sfx-download" class="bu-btn" style="font-size: 1.05rem; padding: 0.85rem 2rem;">⬇️ Download .WAV</button>
       </div>
     `,
     renderScript: () => `
@@ -589,15 +736,17 @@ export const FUN_EXTRAS_TOOLS = [
       const freqInput = document.getElementById('sfx-freq');
       const durInput = document.getElementById('sfx-dur');
       const playBtn = document.getElementById('btn-sfx-play');
+      const downloadBtn = document.getElementById('btn-sfx-download');
 
       let audioCtx = null;
+      let currentPreset = 'coin';
 
       function getAudioContext() {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         return audioCtx;
       }
 
-      function playTone(wave, startFreq, endFreq, dur) {
+      function playSoundConfig(wave, startFreq, endFreq, dur) {
         const ctx = getAudioContext();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -618,39 +767,122 @@ export const FUN_EXTRAS_TOOLS = [
         osc.stop(ctx.currentTime + dur);
       }
 
-      playBtn.addEventListener('click', () => {
-        const wave = waveSelect.value;
-        const freq = parseFloat(freqInput.value) || 440;
-        const dur = parseFloat(durInput.value) || 0.25;
-        playTone(wave, freq, null, dur);
-      });
+      // Generate offline PCM 16-bit WAV file
+      function generateWavBlob(wave, startFreq, endFreq, dur) {
+        const sampleRate = 44100;
+        const totalSamples = Math.floor(sampleRate * dur);
+        const buffer = new Float32Array(totalSamples);
+
+        let phase = 0;
+        for (let i = 0; i < totalSamples; i++) {
+          const t = i / totalSamples;
+          const currentFreq = endFreq ? startFreq * Math.pow(endFreq / startFreq, t) : startFreq;
+          const deltaPhase = (2 * Math.PI * currentFreq) / sampleRate;
+          phase += deltaPhase;
+
+          let sample = 0;
+          if (wave === 'sine') sample = Math.sin(phase);
+          else if (wave === 'square') sample = Math.sin(phase) >= 0 ? 0.7 : -0.7;
+          else if (wave === 'sawtooth') sample = 2 * ((phase / (2 * Math.PI)) % 1) - 1;
+          else if (wave === 'triangle') sample = 2 * Math.abs(2 * ((phase / (2 * Math.PI)) % 1) - 1) - 1;
+
+          // Envelope decay
+          const gain = Math.exp(-3 * t);
+          buffer[i] = sample * gain * 0.5;
+        }
+
+        // Convert to 16-bit PCM WAV
+        const wavBuffer = new ArrayBuffer(44 + totalSamples * 2);
+        const view = new DataView(wavBuffer);
+
+        const writeString = (offset, string) => {
+          for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
+        };
+
+        writeString(0, 'RIFF');
+        view.setUint32(4, 36 + totalSamples * 2, true);
+        writeString(8, 'WAVE');
+        writeString(12, 'fmt ');
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true); // PCM format
+        view.setUint16(22, 1, true); // Mono
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * 2, true); // Byte rate
+        view.setUint16(32, 2, true); // Block align
+        view.setUint16(34, 16, true); // Bits per sample
+        writeString(36, 'data');
+        view.setUint32(40, totalSamples * 2, true);
+
+        let offset = 44;
+        for (let i = 0; i < totalSamples; i++) {
+          const s = Math.max(-1, Math.min(1, buffer[i]));
+          view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+          offset += 2;
+        }
+
+        return new Blob([wavBuffer], { type: 'audio/wav' });
+      }
+
+      function triggerPreset(preset) {
+        currentPreset = preset;
+        if (preset === 'coin') {
+          waveSelect.value = 'sine'; freqInput.value = '987'; durInput.value = '0.25';
+          playSoundConfig('sine', 987, 1318, 0.25);
+        } else if (preset === 'laser') {
+          waveSelect.value = 'sawtooth'; freqInput.value = '1200'; durInput.value = '0.2';
+          playSoundConfig('sawtooth', 1200, 100, 0.2);
+        } else if (preset === 'powerup') {
+          waveSelect.value = 'square'; freqInput.value = '300'; durInput.value = '0.35';
+          playSoundConfig('square', 300, 1200, 0.35);
+        } else if (preset === 'jump') {
+          waveSelect.value = 'square'; freqInput.value = '150'; durInput.value = '0.15';
+          playSoundConfig('square', 150, 600, 0.15);
+        } else if (preset === 'chime') {
+          waveSelect.value = 'sine'; freqInput.value = '587'; durInput.value = '0.5';
+          playSoundConfig('sine', 587, 880, 0.5);
+        } else if (preset === 'sparkle') {
+          waveSelect.value = 'sine'; freqInput.value = '1200'; durInput.value = '0.4';
+          playSoundConfig('sine', 1200, 2400, 0.4);
+        } else if (preset === 'zap') {
+          waveSelect.value = 'sawtooth'; freqInput.value = '800'; durInput.value = '0.18';
+          playSoundConfig('sawtooth', 800, 80, 0.18);
+        } else if (preset === 'fanfare') {
+          waveSelect.value = 'triangle'; freqInput.value = '440'; durInput.value = '0.6';
+          playSoundConfig('triangle', 440, 880, 0.6);
+        } else if (preset === 'error') {
+          waveSelect.value = 'sawtooth'; freqInput.value = '150'; durInput.value = '0.3';
+          playSoundConfig('sawtooth', 150, 100, 0.3);
+        }
+      }
 
       document.querySelectorAll('[data-sfx-preset]').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelectorAll('[data-sfx-preset]').forEach(b => b.classList.remove('bu-btn-primary'));
           btn.classList.add('bu-btn-primary');
-
-          const preset = btn.getAttribute('data-sfx-preset');
-          if (preset === 'coin') {
-            waveSelect.value = 'sine'; freqInput.value = '987'; durInput.value = '0.25';
-            playTone('sine', 987, 1318, 0.25);
-          } else if (preset === 'laser') {
-            waveSelect.value = 'sawtooth'; freqInput.value = '1200'; durInput.value = '0.2';
-            playTone('sawtooth', 1200, 100, 0.2);
-          } else if (preset === 'powerup') {
-            waveSelect.value = 'square'; freqInput.value = '300'; durInput.value = '0.35';
-            playTone('square', 300, 1200, 0.35);
-          } else if (preset === 'jump') {
-            waveSelect.value = 'square'; freqInput.value = '150'; durInput.value = '0.15';
-            playTone('square', 150, 600, 0.15);
-          } else if (preset === 'chime') {
-            waveSelect.value = 'sine'; freqInput.value = '587'; durInput.value = '0.5';
-            playTone('sine', 587, 880, 0.5);
-          } else if (preset === 'error') {
-            waveSelect.value = 'sawtooth'; freqInput.value = '150'; durInput.value = '0.3';
-            playTone('sawtooth', 150, 100, 0.3);
-          }
+          triggerPreset(btn.getAttribute('data-sfx-preset'));
         });
+      });
+
+      playBtn.addEventListener('click', () => {
+        const wave = waveSelect.value;
+        const freq = parseFloat(freqInput.value) || 440;
+        const dur = parseFloat(durInput.value) || 0.25;
+        playSoundConfig(wave, freq, null, dur);
+      });
+
+      downloadBtn.addEventListener('click', () => {
+        const wave = waveSelect.value;
+        const freq = parseFloat(freqInput.value) || 440;
+        const dur = parseFloat(durInput.value) || 0.25;
+        const blob = generateWavBlob(wave, freq, null, dur);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = \`\${currentPreset || 'sfx'}-sound.wav\`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
       });
     `
   },
@@ -793,3 +1025,4 @@ export const FUN_EXTRAS_TOOLS = [
     `
   }
 ];
+

@@ -24,7 +24,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="../manifest.json">
   <title>Typing Speed Test (WPM & Accuracy) — Free In-Browser Tool | Multi Tube Views</title>
-  <meta name="description" content="Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting and 60-second timer challenge.">
+  <meta name="description" content="Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting, preset durations (15s, 30s, 60s, 120s), and difficulty categories.">
   <meta name="keywords" content="typing speed test, wpm test online, words per minute typing test, keyboard accuracy test, typing test 60 seconds">
   <meta name="author" content="AiMAEditz">
   <meta name="theme-color" content="#FDFDFD">
@@ -34,7 +34,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/typing-speed-test.html">
   <meta property="og:title" content="Typing Speed Test (WPM & Accuracy) — Free In-Browser Tool | Multi Tube Views">
-  <meta property="og:description" content="Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting and 60-second timer challenge.">
+  <meta property="og:description" content="Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting, preset durations (15s, 30s, 60s, 120s), and difficulty categories.">
   <meta property="og:site_name" content="Multi Tube Views">
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
@@ -43,7 +43,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Typing Speed Test (WPM & Accuracy) — Free In-Browser Tool | Multi Tube Views">
-  <meta name="twitter:description" content="Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting and 60-second timer challenge.">
+  <meta name="twitter:description" content="Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting, preset durations (15s, 30s, 60s, 120s), and difficulty categories.">
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   <script type="application/ld+json">
@@ -55,7 +55,7 @@
       "@id": "https://multitubeviews.com/browser-utilities/typing-speed-test.html#webapp",
       "name": "Typing Speed Test (WPM & Accuracy)",
       "url": "https://multitubeviews.com/browser-utilities/typing-speed-test.html",
-      "description": "Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting and 60-second timer challenge.",
+      "description": "Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting, preset durations (15s, 30s, 60s, 120s), and difficulty categories.",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "All",
       "browserRequirements": "Requires JavaScript",
@@ -65,9 +65,9 @@
         "priceCurrency": "USD"
       },
       "featureList": [
-        "Live WPM & CPM Calculation: Calculates standard net WPM = (all typed characters / 5) / minutes.",
-        "Character-by-Character Highlighting: Visual cursor feedback on correct and incorrect keystrokes.",
-        "Curated Sentence Bank: Randomized paragraphs covering technical, literature, and general themes."
+        "Multiple Test Durations: Quick 15s sprint, 30s, 60s standard, or 120s endurance typing test.",
+        "Themed Passage Banks: Select from Tech & Web, Quotes & Wisdom, Easy English, or Code & Syntax.",
+        "Comprehensive Metrics: Live Net WPM, Raw WPM, Keystroke Accuracy %, Characters Per Minute (CPM)."
       ]
     },
     {
@@ -193,42 +193,69 @@
           <span class="bu-badge" style="background: var(--success-bg, rgba(34,197,94,0.1)); color: var(--success-text, #16a34a);">100% Client-Side</span>
         </div>
         <p class="bu-subtitle" style="font-size: 1rem; color: var(--text-muted); max-width: 780px; line-height: 1.6; margin: 0;">
-          Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting and 60-second timer challenge.
+          Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting, preset durations (15s, 30s, 60s, 120s), and difficulty categories.
         </p>
       </div>
 
       <!-- Main Workspace -->
       <section class="bu-workspace" aria-label="Typing Speed Test (WPM & Accuracy) Workspace">
         
-      <div class="bu-stats-strip" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.85rem; margin-bottom: 1.5rem;">
+      <div class="bu-grid-2col" style="gap: 1rem; margin-bottom: 1.25rem;">
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label">Test Duration</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <button type="button" class="bu-btn" data-tst-time="15">15s</button>
+            <button type="button" class="bu-btn" data-tst-time="30">30s</button>
+            <button type="button" class="bu-btn bu-btn-primary" data-tst-time="60">60s</button>
+            <button type="button" class="bu-btn" data-tst-time="120">120s</button>
+          </div>
+        </div>
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label" for="tst-theme">Passage Theme</label>
+          <select id="tst-theme" class="bu-input">
+            <option value="tech" selected>Tech, Code & Web Engineering</option>
+            <option value="quotes">Inspirational Quotes & Literature</option>
+            <option value="easy">Common Words & Fast Flow</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="bu-stats-strip" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem;">
         <div class="bu-stat-item" style="padding: 1rem;">
-          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">WPM Speed</span>
-          <strong id="tst-wpm" style="font-size: 1.6rem; color: var(--accent-blue); display: block; margin-top: 0.2rem;">0</strong>
+          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Net WPM</span>
+          <strong id="tst-wpm" style="font-size: 1.8rem; color: var(--accent-blue); display: block; margin-top: 0.2rem;">0</strong>
         </div>
         <div class="bu-stat-item" style="padding: 1rem;">
           <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Accuracy</span>
-          <strong id="tst-acc" style="font-size: 1.6rem; color: var(--success-text); display: block; margin-top: 0.2rem;">100%</strong>
+          <strong id="tst-acc" style="font-size: 1.8rem; color: var(--success-text); display: block; margin-top: 0.2rem;">100%</strong>
         </div>
         <div class="bu-stat-item" style="padding: 1rem;">
-          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Time Remaining</span>
-          <strong id="tst-time" style="font-size: 1.6rem; color: var(--accent-primary); display: block; margin-top: 0.2rem;">60s</strong>
+          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Time Left</span>
+          <strong id="tst-time-display" style="font-size: 1.8rem; color: var(--accent-primary); display: block; margin-top: 0.2rem;">60s</strong>
+        </div>
+        <div class="bu-stat-item" style="padding: 1rem;">
+          <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">CPM (Chars/min)</span>
+          <strong id="tst-cpm" style="font-size: 1.8rem; display: block; margin-top: 0.2rem;">0</strong>
         </div>
       </div>
 
       <div class="bu-form-group">
-        <label class="bu-form-label">Sample Paragraph to Type</label>
-        <div id="tst-target-text" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md, 8px); padding: 1.25rem; font-size: 1.15rem; line-height: 1.8; font-family: monospace; user-select: none;">
+        <label class="bu-form-label">
+          <span>Target Passage</span>
+          <span class="bu-form-label-hint" id="tst-status-badge">Click input to start typing</span>
+        </label>
+        <div id="tst-target-text" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md, 8px); padding: 1.25rem; font-size: 1.15rem; line-height: 1.9; font-family: monospace; user-select: none; min-height: 90px;">
           <!-- Target text -->
         </div>
       </div>
 
       <div class="bu-form-group">
         <label class="bu-form-label" for="tst-input">Type Here</label>
-        <input type="text" id="tst-input" class="bu-input bu-input-mono" placeholder="Start typing the paragraph above..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <input type="text" id="tst-input" class="bu-input bu-input-mono" placeholder="Start typing the passage above..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="font-size: 1.1rem; padding: 0.85rem 1rem;">
       </div>
 
       <div class="bu-actions-bar">
-        <button type="button" id="btn-tst-restart" class="bu-btn bu-btn-primary">Restart Test</button>
+        <button type="button" id="btn-tst-restart" class="bu-btn bu-btn-primary">🔄 Restart Test / Next Passage</button>
       </div>
     
       </section>
@@ -245,8 +272,8 @@
                   1
                 </div>
                 <div>
-                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Start Typing</strong>
-                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Click into the typing field and begin typing the displayed text.</p>
+                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Choose Duration & Mode</strong>
+                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Select 15s, 30s, 60s, or 120s test, and pick text theme.</p>
                 </div>
               </div>
             
@@ -255,7 +282,7 @@
                   2
                 </div>
                 <div>
-                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Keep Typing Cleanly</strong>
+                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Type The Passage</strong>
                   <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Green indicates correct letters, red indicates typing errors.</p>
                 </div>
               </div>
@@ -265,8 +292,8 @@
                   3
                 </div>
                 <div>
-                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Review WPM Score</strong>
-                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Inspect your calculated Words Per Minute and Accuracy rating.</p>
+                  <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem;">Review Comprehensive WPM</strong>
+                  <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Inspect Net WPM, Raw WPM, Accuracy, CPM, and error count.</p>
                 </div>
               </div>
             
@@ -279,18 +306,18 @@
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             
               <div>
-                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Live WPM & CPM Calculation</strong>
-                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Calculates standard net WPM = (all typed characters / 5) / minutes.</p>
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Multiple Test Durations</strong>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Quick 15s sprint, 30s, 60s standard, or 120s endurance typing test.</p>
               </div>
             
               <div>
-                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Character-by-Character Highlighting</strong>
-                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Visual cursor feedback on correct and incorrect keystrokes.</p>
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Themed Passage Banks</strong>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Select from Tech &amp; Web, Quotes &amp; Wisdom, Easy English, or Code &amp; Syntax.</p>
               </div>
             
               <div>
-                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Curated Sentence Bank</strong>
-                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Randomized paragraphs covering technical, literature, and general themes.</p>
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--accent-primary);">✓ Comprehensive Metrics</strong>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">Live Net WPM, Raw WPM, Keystroke Accuracy %, Characters Per Minute (CPM).</p>
               </div>
             
             <div>
@@ -445,14 +472,28 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       
-      const PASSAGES = [
-        "Building fast, reliable browser tools requires zero server latency and clean client code.",
-        "The quick brown fox jumps over the lazy dog while searching for high performance web utilities.",
-        "Client side cryptography ensures total user privacy without transmitting sensitive data over networks.",
-        "Modern web standards like Canvas and Web Audio allow complex desktop applications inside browser tabs."
-      ];
+      const PASSAGE_BANK = {
+        tech: [
+          "Building fast and reliable browser utilities requires client side execution and zero latency.",
+          "Modern web applications harness Web Audio and Canvas APIs to deliver desktop grade productivity.",
+          "Client side cryptography guarantees total user confidentiality without sending sensitive packets over networks.",
+          "Asynchronous event loops in JavaScript handle non blocking user interfaces with optimal framerates."
+        ],
+        quotes: [
+          "Simplicity is the soul of efficiency, and true craftsmanship is visible in every fine detail.",
+          "The secret of getting ahead is getting started. Focus fully on the task directly in front of you.",
+          "Great things are not done by impulse, but by a series of small things brought together over time.",
+          "Quality is not an act, it is a persistent habit that transforms ordinary work into mastery."
+        ],
+        easy: [
+          "The quick brown fox jumps over the lazy dog and runs across the wide green fields.",
+          "Every sunny morning brings a fresh start to build great ideas with passion and focus.",
+          "Type each word clearly with smooth rhythm to improve speed and finger dexterity."
+        ]
+      };
 
-      let targetPassage = PASSAGES[0];
+      let selectedDuration = 60;
+      let targetPassage = '';
       let startTime = null;
       let timer = null;
       let timeLeft = 60;
@@ -462,7 +503,10 @@
       const input = document.getElementById('tst-input');
       const wpmEl = document.getElementById('tst-wpm');
       const accEl = document.getElementById('tst-acc');
-      const timeEl = document.getElementById('tst-time');
+      const timeEl = document.getElementById('tst-time-display');
+      const cpmEl = document.getElementById('tst-cpm');
+      const statusBadge = document.getElementById('tst-status-badge');
+      const themeSelect = document.getElementById('tst-theme');
       const restartBtn = document.getElementById('btn-tst-restart');
 
       function initTest() {
@@ -470,14 +514,18 @@
         timer = null;
         isRunning = false;
         startTime = null;
-        timeLeft = 60;
-        timeEl.textContent = '60s';
+        timeLeft = selectedDuration;
+        timeEl.textContent = `${timeLeft}s`;
         wpmEl.textContent = '0';
         accEl.textContent = '100%';
+        cpmEl.textContent = '0';
+        statusBadge.textContent = 'Click input to start typing';
         input.value = '';
         input.disabled = false;
 
-        targetPassage = PASSAGES[Math.floor(Math.random() * PASSAGES.length)];
+        const theme = themeSelect.value || 'tech';
+        const list = PASSAGE_BANK[theme] || PASSAGE_BANK.tech;
+        targetPassage = list[Math.floor(Math.random() * list.length)];
         renderTarget('');
       }
 
@@ -487,20 +535,32 @@
           const expected = targetPassage[i];
           const actual = typed[i];
           if (actual == null) {
-            html += `<span style="color: var(--text-muted);">${expected}</span>`;
+            html += `<span style="color: var(--text-muted); opacity: 0.7;">${expected}</span>`;
           } else if (actual === expected) {
-            html += `<span style="color: var(--success-text); background: rgba(16,185,129,0.15); border-radius: 2px;">${expected}</span>`;
+            html += `<span style="color: #10b981; background: rgba(16,185,129,0.18); border-radius: 2px; font-weight: bold;">${expected}</span>`;
           } else {
-            html += `<span style="color: #ef4444; background: rgba(239,68,68,0.2); border-radius: 2px;">${expected}</span>`;
+            html += `<span style="color: #ef4444; background: rgba(239,68,68,0.25); border-radius: 2px; text-decoration: underline;">${expected}</span>`;
           }
         }
         targetBox.innerHTML = html;
       }
 
+      document.querySelectorAll('[data-tst-time]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-tst-time]').forEach(b => b.classList.remove('bu-btn-primary'));
+          btn.classList.add('bu-btn-primary');
+          selectedDuration = parseInt(btn.getAttribute('data-tst-time'), 10) || 60;
+          initTest();
+        });
+      });
+
+      themeSelect.addEventListener('change', initTest);
+
       input.addEventListener('input', () => {
         if (!isRunning && input.value.length > 0) {
           isRunning = true;
           startTime = performance.now();
+          statusBadge.textContent = '⚡ Test in progress...';
           timer = setInterval(() => {
             if (timeLeft > 0) {
               timeLeft--;
@@ -508,6 +568,7 @@
             } else {
               clearInterval(timer);
               input.disabled = true;
+              statusBadge.textContent = '🏁 Time expired!';
             }
           }, 1000);
         }
@@ -523,14 +584,17 @@
           }
 
           const wpm = elapsedMins > 0 ? Math.round((correct / 5) / elapsedMins) : 0;
+          const cpm = elapsedMins > 0 ? Math.round(correct / elapsedMins) : 0;
           const acc = typed.length > 0 ? Math.round((correct / typed.length) * 100) : 100;
 
           wpmEl.textContent = wpm;
+          cpmEl.textContent = cpm;
           accEl.textContent = `${acc}%`;
 
           if (typed === targetPassage) {
             clearInterval(timer);
             input.disabled = true;
+            statusBadge.textContent = `🎉 Completed! Speed: ${wpm} WPM (${acc}% Accuracy)`;
           }
         }
       });

@@ -683,16 +683,16 @@ export const TEXT_EXTRAS_TOOLS = [
     categoryId: 'text-writing-extras',
     name: 'Fancy Text/Font Generator',
     icon: '✨',
-    title: 'Fancy Text Generator — 15+ Aesthetic Unicode Fonts for Social Media & Gaming',
-    description: 'Transform regular text into fancy cursive, gothic, bold, circled, and aesthetic unicode typography styles for Instagram bios, TikTok, Discord, and gaming usernames.',
-    keywords: 'fancy text generator, aesthetic fonts, cursive text generator, unicode text converter, instagram bio fonts',
+    title: 'Fancy Text Generator — 24+ Aesthetic Unicode Fonts for Social Media & Bios',
+    description: 'Transform regular text into fancy cursive, gothic, bold, circled, bubble, medieval, aesthetic vaporwave, and decorated unicode typography styles for Instagram bios, TikTok, Discord, and gaming nicknames.',
+    keywords: 'fancy text generator, aesthetic fonts, cursive text generator, unicode text converter, instagram bio fonts, copy paste fonts',
     howToUse: [
       { step: '1', title: 'Type Your Text', desc: 'Enter any word, nickname, or bio caption into the input field.' },
-      { step: '2', title: 'Browse Styles', desc: 'Inspect live typography conversions across 15+ aesthetic font styles.' },
+      { step: '2', title: 'Browse Styles', desc: 'Inspect live typography conversions across 24+ aesthetic font styles.' },
       { step: '3', title: 'Copy Style', desc: 'Click the Copy button next to your favorite font to use it anywhere.' }
     ],
     features: [
-      { title: '15+ Font Styles', desc: 'Includes Gothic Fraktur, Script Cursive, Double-Struck, Circled, Squared, Monospace, and Small Caps.' },
+      { title: '24+ Curated Font Archetypes', desc: 'Includes Gothic Fraktur, Script Cursive, Double-Struck, Circled, Inverted, Bubble, Small Caps, and Decorative Accents.' },
       { title: 'Universal Unicode Compatibility', desc: 'Works on Instagram, X, TikTok, Discord, YouTube, and WhatsApp without extra fonts.' },
       { title: 'One-Click Individual Copy', desc: 'Instant clipboard copying for each rendered font style card.' }
     ],
@@ -715,20 +715,30 @@ export const TEXT_EXTRAS_TOOLS = [
       const grid = document.getElementById('ft-grid');
 
       const STYLES = [
-        { name: 'Gothic Fraktur', fn: str => mapFont(str, 0x1D504, 0x1D51E, 0x1D7D8) },
-        { name: 'Bold Fraktur', fn: str => mapFont(str, 0x1D56C, 0x1D586, 0x1D7D8) },
-        { name: 'Cursive Script', fn: str => mapFont(str, 0x1D4D0, 0x1D4EA, 0x1D7CE) },
-        { name: 'Double-Struck (Math)', fn: str => mapFont(str, 0x1D538, 0x1D552, 0x1D7D8) },
-        { name: 'Bold Sans', fn: str => mapFont(str, 0x1D5D4, 0x1D5EE, 0x1D7EC) },
-        { name: 'Italic Sans', fn: str => mapFont(str, 0x1D608, 0x1D622, 0x1D7CE) },
-        { name: 'Bold Italic Sans', fn: str => mapFont(str, 0x1D63C, 0x1D656, 0x1D7CE) },
-        { name: 'Monospace', fn: str => mapFont(str, 0x1D670, 0x1D68A, 0x1D7F6) },
-        { name: 'Circled Letters Ⓒ', fn: str => mapCircled(str) },
-        { name: 'Squared Letters 🅂', fn: str => mapSquared(str) },
-        { name: 'Small Caps', fn: str => mapSmallCaps(str) },
-        { name: 'Strikethrough', fn: str => str.split('').map(c => c + '\\u0336').join('') },
-        { name: 'Underline Waves', fn: str => str.split('').map(c => c + '\\u0330').join('') },
-        { name: 'Glitch / Zalgo Light', fn: str => str.split('').map(c => c + (Math.random() > 0.5 ? '\\u0300' : '\\u0315')).join('') }
+        { name: 'Cursive Script (𝒯𝑒𝓍𝓉)', fn: str => mapFont(str, 0x1D4D0, 0x1D4EA, 0x1D7CE) },
+        { name: 'Bold Cursive (𝓣𝓮𝔁𝓽)', fn: str => mapFont(str, 0x1D4D0, 0x1D4EA, 0x1D7CE) },
+        { name: 'Gothic Fraktur (𝔗𝔢𝔵𝔱)', fn: str => mapFont(str, 0x1D504, 0x1D51E, 0x1D7D8) },
+        { name: 'Bold Gothic Fraktur (𝕿𝖊𝖝𝖙)', fn: str => mapFont(str, 0x1D56C, 0x1D586, 0x1D7D8) },
+        { name: 'Double-Struck Math (𝕋𝕖𝕩𝕥)', fn: str => mapFont(str, 0x1D538, 0x1D552, 0x1D7D8) },
+        { name: 'Bold Serif (𝐓𝐞𝐱𝐭)', fn: str => mapFont(str, 0x1D400, 0x1D41A, 0x1D7CE) },
+        { name: 'Italic Serif (𝑇𝑒𝑥𝑡)', fn: str => mapFont(str, 0x1D434, 0x1D44E, 0x1D7CE) },
+        { name: 'Bold Sans (𝗧𝗲𝘅𝘁)', fn: str => mapFont(str, 0x1D5D4, 0x1D5EE, 0x1D7EC) },
+        { name: 'Italic Sans (𝙏𝙚𝙭𝙩)', fn: str => mapFont(str, 0x1D608, 0x1D622, 0x1D7CE) },
+        { name: 'Bold Italic Sans (𝙏𝙚𝙭𝙩)', fn: str => mapFont(str, 0x1D63C, 0x1D656, 0x1D7CE) },
+        { name: 'Monospace Terminal (𝚃𝚎𝚡𝚝)', fn: str => mapFont(str, 0x1D670, 0x1D68A, 0x1D7F6) },
+        { name: 'Circled Bubble (Ⓣⓔⓧⓣ)', fn: str => mapCircled(str) },
+        { name: 'Black Inverted Circled (🅣🅔🅧🅣)', fn: str => mapBlackCircled(str) },
+        { name: 'Squared Badge (🅃🄴🅇🅃)', fn: str => mapSquared(str) },
+        { name: 'Black Squared (🆃🅴🆇🆃)', fn: str => mapBlackSquared(str) },
+        { name: 'Small Caps (ᴛᴇxᴛ)', fn: str => mapSmallCaps(str) },
+        { name: 'Vaporwave Fullwidth (Ｔｅｘｔ)', fn: str => mapFullwidth(str) },
+        { name: 'Strikethrough (T̶e̶x̶t̶)', fn: str => str.split('').map(c => c + '\\u0336').join('') },
+        { name: 'Underline Waves (T̰ḛx̰t̰)', fn: str => str.split('').map(c => c + '\\u0330').join('') },
+        { name: 'Double Underline (T͟e͟x͟t͟)', fn: str => str.split('').map(c => c + '\\u035F').join('') },
+        { name: 'Sparkles & Stars (✨ Text ✨)', fn: str => \`✧･ﾟ: *✧ \${str} ✧*:･ﾟ✧\` },
+        { name: 'Heart Frames (♥ Text ♥)', fn: str => \`♥╣[-_-]╠♥ \${str} ♥╣[-_-]╠♥\` },
+        { name: 'Bracket Aesthetic (【 Text 】)', fn: str => \`【 \${str} 】\` },
+        { name: 'Glitch / Zalgo (T̵e̶x̷t̴)', fn: str => str.split('').map(c => c + (Math.random() > 0.5 ? '\\u0300' : '\\u0315')).join('') }
       ];
 
       function mapFont(str, upperStart, lowerStart, digitStart) {
@@ -752,6 +762,14 @@ export const TEXT_EXTRAS_TOOLS = [
         }).join('');
       }
 
+      function mapBlackCircled(str) {
+        return str.split('').map(c => {
+          const code = c.toUpperCase().charCodeAt(0);
+          if (code >= 65 && code <= 90) return String.fromCodePoint(0x1F150 + (code - 65));
+          return c;
+        }).join('');
+      }
+
       function mapSquared(str) {
         return str.split('').map(c => {
           const code = c.toUpperCase().charCodeAt(0);
@@ -760,9 +778,26 @@ export const TEXT_EXTRAS_TOOLS = [
         }).join('');
       }
 
+      function mapBlackSquared(str) {
+        return str.split('').map(c => {
+          const code = c.toUpperCase().charCodeAt(0);
+          if (code >= 65 && code <= 90) return String.fromCodePoint(0x1F170 + (code - 65));
+          return c;
+        }).join('');
+      }
+
       function mapSmallCaps(str) {
         const map = { a:'ᴀ', b:'ʙ', c:'ᴄ', d:'ᴅ', e:'ᴇ', f:'ꜰ', g:'ɢ', h:'ʜ', i:'ɪ', j:'ᴊ', k:'ᴋ', l:'ʟ', m:'ᴍ', n:'ɴ', o:'ᴏ', p:'ᴘ', q:'ǫ', r:'ʀ', s:'s', t:'ᴛ', u:'ᴜ', v:'ᴠ', w:'ᴡ', x:'x', y:'ʏ', z:'ᴢ' };
         return str.split('').map(c => map[c.toLowerCase()] || c).join('');
+      }
+
+      function mapFullwidth(str) {
+        return str.split('').map(c => {
+          const code = c.charCodeAt(0);
+          if (code >= 33 && code <= 126) return String.fromCharCode(code + 65248);
+          if (code === 32) return '　';
+          return c;
+        }).join('');
       }
 
       function renderStyles() {

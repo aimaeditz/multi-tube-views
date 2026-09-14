@@ -427,8 +427,10 @@ export const DEV_EXTRAS_TOOLS = [
         </div>
       </div>
 
-      <div class="bu-actions-bar">
-        <button type="button" id="btn-bic-copy" class="bu-btn bu-btn-primary">Copy Diagnostic Report</button>
+      <div class="bu-actions-bar" style="flex-wrap: wrap; gap: 0.75rem;">
+        <button type="button" id="btn-bic-refresh" class="bu-btn bu-btn-primary">🔄 Refresh Diagnostics</button>
+        <button type="button" id="btn-bic-copy" class="bu-btn">📋 Copy Diagnostic Report</button>
+        <button type="button" id="btn-bic-clear" class="bu-btn bu-btn-subtle">🧹 Clear / Reset View</button>
       </div>
     `,
     renderScript: () => `
@@ -483,11 +485,14 @@ export const DEV_EXTRAS_TOOLS = [
           { label: 'Browser & Version', val: browser },
           { label: 'Operating System', val: os },
           { label: 'Device Form Factor', val: isMobile ? 'Mobile / Tablet' : 'Desktop' },
+          { label: 'Screen Resolution', val: \`\${window.screen.width} x \${window.screen.height} (DPR: \${window.devicePixelRatio || 1}x)\` },
+          { label: 'Viewport Inner Size', val: \`\${window.innerWidth} x \${window.innerHeight} px\` },
           { label: 'Hardware Cores (Threads)', val: navigator.hardwareConcurrency ? \`\${navigator.hardwareConcurrency} Cores\` : 'Unavailable' },
           { label: 'Device Memory RAM', val: navigator.deviceMemory ? \`~\${navigator.deviceMemory} GB\` : 'Standard' },
           { label: 'Graphics Renderer (GPU)', val: gpu },
           { label: 'Preferred Language', val: navigator.language || 'en-US' },
           { label: 'Local Timezone', val: Intl.DateTimeFormat().resolvedOptions().timeZone },
+          { label: 'Touch Screen Support', val: ('ontouchstart' in window || navigator.maxTouchPoints > 0) ? 'Yes' : 'No' },
           { label: 'Cookies Enabled', val: navigator.cookieEnabled ? 'Yes' : 'No' },
           { label: 'Web Crypto API Support', val: window.crypto && window.crypto.subtle ? 'Yes (Hardware Ready)' : 'No' },
           { label: 'LocalStorage & IndexedDB', val: ('localStorage' in window) && ('indexedDB' in window) ? 'Yes (Supported)' : 'Partial' }
@@ -501,10 +506,22 @@ export const DEV_EXTRAS_TOOLS = [
         \`).join('');
       }
 
+      function clearDiagnostics() {
+        browserEl.textContent = '—';
+        osEl.textContent = '—';
+        deviceEl.textContent = '—';
+        onlineEl.textContent = '—';
+        uaInput.value = '';
+        specsList.innerHTML = '<div style="padding: 1.5rem; text-align: center; color: var(--text-muted); font-style: italic;">Diagnostics cleared. Click "Refresh Diagnostics" to re-scan.</div>';
+      }
+
       detectDiagnostics();
 
+      document.getElementById('btn-bic-refresh').addEventListener('click', detectDiagnostics);
+      document.getElementById('btn-bic-clear').addEventListener('click', clearDiagnostics);
+
       document.getElementById('btn-bic-copy').addEventListener('click', () => {
-        const text = \`🌐 Browser Diagnostic Log:\\n• Browser: \${browserEl.textContent}\\n• OS: \${osEl.textContent}\\n• User-Agent: \${uaInput.value}\`;
+        const text = \`🌐 Browser Diagnostic Log:\\n• Browser: \${browserEl.textContent}\\n• OS: \${osEl.textContent}\\n• Resolution: \${window.screen.width}x\${window.screen.height}\\n• User-Agent: \${uaInput.value}\`;
         window.MTV_BU.copyToClipboard(text, document.getElementById('btn-bic-copy'));
       });
     `

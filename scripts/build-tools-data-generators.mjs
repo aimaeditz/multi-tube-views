@@ -392,42 +392,57 @@ export const GENERATORS_TOOLS = [
     categoryId: 'generators-creators',
     name: 'Business Name Generator',
     icon: '🏢',
-    title: 'Business Name Generator — Startup, Brand & SaaS Company Names',
-    description: 'Brainstorm creative, modern brand names and startup company ideas based on your core industry keywords, naming styles, and suffixes.',
+    title: 'Business Name Generator — Startup, Brand, Domain & Company Names',
+    description: 'Brainstorm creative, modern brand names and startup company ideas based on your core industry keywords, niche sector, and naming styles with instant 1-click clipboard copy.',
     keywords: 'business name generator, startup name generator, brand name maker, company name ideas, saas name creator',
     howToUse: [
-      { step: '1', title: 'Enter Keyword', desc: 'Type your core seed concept (e.g. Media, Cloud, Flow, Pixel).' },
-      { step: '2', title: 'Select Naming Style', desc: 'Choose Modern Tech, Compound, Catchy Short, or Minimalist.' },
-      { step: '3', title: 'Browse Ideas', desc: 'Review generated names with one-click copy.' }
+      { step: '1', title: 'Enter Seed Keyword', desc: 'Type your core seed concept (e.g. Media, Cloud, Flow, Pixel, Nova).' },
+      { step: '2', title: 'Select Industry & Style', desc: 'Choose Tech/AI, FinTech, Creative, E-commerce, or Consulting, plus naming archetypes.' },
+      { step: '3', title: 'Browse & Copy Ideas', desc: 'Review curated business name suggestions with one-click individual or batch copy.' }
     ],
     features: [
-      { title: '5 Branding Archetypes', desc: 'Generates SaaS -ly/-ify suffixes, blended portmanteaus, and executive brands.' },
-      { title: 'Industry Tailored', desc: 'Works across Tech, E-commerce, Marketing, Agency, and Content Creation niches.' },
-      { title: 'Instant Clipboard Copy', desc: 'Quickly save promising candidates for domain registry lookup.' }
+      { title: '7 Industry Archetypes', desc: 'Custom tailored algorithms for Tech/AI, FinTech, Creative Studio, E-commerce, Health, and Consulting.' },
+      { title: '5 Naming Structures', desc: 'Generates SaaS modern suffixes (-ly/-ify/.io), compounds, executive corporate, and 2-word brandings.' },
+      { title: 'Batch Copy & Registry Check', desc: 'Quickly export candidate lists to clipboard.' }
     ],
     sampleText: 'Media',
     renderControls: () => `
       <div class="bu-grid-3col" style="gap: 1rem; margin-bottom: 1.25rem;">
         <div class="bu-form-group" style="margin: 0;">
           <label class="bu-form-label" for="bng-seed">Seed Keyword</label>
-          <input type="text" id="bng-seed" class="bu-input" value="Media" placeholder="e.g. Cloud, Stream, Code">
+          <input type="text" id="bng-seed" class="bu-input" value="Media" placeholder="e.g. Cloud, Stream, Code, Nova">
+        </div>
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label" for="bng-industry">Industry / Sector</label>
+          <select id="bng-industry" class="bu-input">
+            <option value="tech" selected>Tech, AI &amp; Software</option>
+            <option value="fintech">FinTech &amp; Web3</option>
+            <option value="creative">Creative Studio &amp; Agency</option>
+            <option value="ecommerce">E-Commerce &amp; Retail</option>
+            <option value="consulting">Executive &amp; Consulting</option>
+          </select>
         </div>
         <div class="bu-form-group" style="margin: 0;">
           <label class="bu-form-label" for="bng-style">Naming Style</label>
           <select id="bng-style" class="bu-input">
-            <option value="modern" selected>Modern Tech (-ify, -ly, .io)</option>
-            <option value="compound">Compound Words (Seed + Noun)</option>
-            <option value="executive">Executive &amp; Premium</option>
-            <option value="abstract">Abstract &amp; Futuristic</option>
+            <option value="modern" selected>Modern Tech (-ify, -ly, .io, -hq)</option>
+            <option value="compound">Compound Words (Seed + Power Word)</option>
+            <option value="executive">Corporate &amp; Executive (Prefix + Seed)</option>
+            <option value="all">All Styles Mixed</option>
           </select>
-        </div>
-        <div class="bu-form-group" style="margin: 0; display:flex; align-items:flex-end;">
-          <button type="button" id="btn-bng-generate" class="bu-btn bu-btn-primary" style="width: 100%; height: 42px;">Generate Ideas</button>
         </div>
       </div>
 
+      <div class="bu-actions-bar" style="margin-bottom: 1.5rem; justify-content: flex-start; gap: 0.75rem;">
+        <button type="button" id="btn-bng-generate" class="bu-btn bu-btn-primary">⚡ Generate New Ideas</button>
+        <button type="button" id="btn-bng-copy-all" class="bu-btn">📋 Copy All Names</button>
+      </div>
+
       <div class="bu-form-group">
-        <label class="bu-form-label">Brand Name Suggestions</label>
+        <label class="bu-form-label">
+          <span>Brand Name Suggestions</span>
+          <span class="bu-form-label-hint">Click any card to copy</span>
+        </label>
         <div id="bng-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;">
           <!-- Populated by script -->
         </div>
@@ -435,39 +450,72 @@ export const GENERATORS_TOOLS = [
     `,
     renderScript: () => `
       const seedInput = document.getElementById('bng-seed');
+      const indSelect = document.getElementById('bng-industry');
       const styleSelect = document.getElementById('bng-style');
+      const genBtn = document.getElementById('btn-bng-generate');
+      const copyAllBtn = document.getElementById('btn-bng-copy-all');
       const grid = document.getElementById('bng-grid');
 
-      const SUFFIXES = ['ify', 'ly', 'io', 'hub', 'flow', 'stack', 'lab', 'verse', 'wave', 'nexus', 'pulse', 'sync'];
-      const WORDS = ['Forge', 'Scale', 'Matrix', 'Vanguard', 'Sphere', 'Craft', 'Bridge', 'Peak', 'Loop', 'Horizon', 'Logic'];
-      const PRE = ['Omni', 'Hyper', 'Nova', 'Ultra', 'Meta', 'Apex', 'Strata', 'Aero'];
+      const SUFFIXES = ['ify', 'ly', 'io', 'hub', 'flow', 'stack', 'lab', 'verse', 'wave', 'nexus', 'pulse', 'sync', 'hq', 'base', 'loop', 'kit'];
+      const INDUSTRY_WORDS = {
+        tech: ['Forge', 'Scale', 'Matrix', 'Logic', 'Cloud', 'Byte', 'Kernel', 'Grid', 'Engine', 'Neural', 'Stack', 'Protocol'],
+        fintech: ['Capital', 'Vault', 'Ledger', 'Trust', 'Pay', 'Yield', 'Reserve', 'Asset', 'Mint', 'Alpha', 'Coin', 'Prime'],
+        creative: ['Studio', 'Craft', 'Canvas', 'Pixel', 'Motion', 'Design', 'Palette', 'Form', 'Bloom', 'Sparks', 'Arc', 'Vision'],
+        ecommerce: ['Mart', 'Cart', 'Direct', 'Express', 'Shop', 'Crate', 'Boutique', 'Depot', 'Hive', 'Market', 'Goods', 'Drop'],
+        consulting: ['Partners', 'Group', 'Advisors', 'Global', 'Vanguard', 'Stratum', 'Summit', 'Alliance', 'Apex', 'Consulting', 'Point', 'Insight']
+      };
+      const PREFIXES = ['Omni', 'Hyper', 'Nova', 'Ultra', 'Meta', 'Apex', 'Strata', 'Aero', 'Syn', 'Velo', 'Axiom', 'Proto'];
+
+      let currentNames = [];
 
       function generate() {
-        const seed = seedInput.value.trim() || 'Brand';
+        const raw = seedInput.value.trim() || 'Brand';
+        const seed = raw.charAt(0).toUpperCase() + raw.slice(1);
+        const ind = indSelect.value || 'tech';
         const style = styleSelect.value;
-        const names = [];
+        const words = INDUSTRY_WORDS[ind] || INDUSTRY_WORDS.tech;
 
-        for (let i = 0; i < 12; i++) {
-          if (style === 'modern') {
-            const sfx = SUFFIXES[i % SUFFIXES.length];
-            names.push(\`\${seed}\${sfx}\`);
-          } else if (style === 'compound') {
-            const w = WORDS[i % WORDS.length];
-            names.push(\`\${seed} \${w}\`);
-          } else if (style === 'executive') {
-            const p = PRE[i % PRE.length];
-            names.push(\`\${p}\${seed}\`);
-          } else {
-            const sfx = SUFFIXES[Math.floor(Math.random()*SUFFIXES.length)];
-            const p = PRE[Math.floor(Math.random()*PRE.length)];
-            names.push(\`\${p}\${seed}\${sfx}\`);
+        const results = new Set();
+
+        // 1. Suffix combinations
+        if (style === 'modern' || style === 'all') {
+          for (const sfx of SUFFIXES) {
+            results.add(\`\${seed}\${sfx}\`);
+            results.add(\`\${seed}.\${sfx === 'io' ? 'ai' : sfx}\`);
           }
         }
 
-        grid.innerHTML = names.map(n => \`
-          <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md, 8px); padding: 0.85rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" data-bng-val="\${n}">
-            <span style="font-weight: 700; font-size: 1rem; color: var(--text-primary);">\${n}</span>
-            <span style="font-size: 0.75rem; color: var(--accent-blue); font-weight: 600;">Copy</span>
+        // 2. Compound words
+        if (style === 'compound' || style === 'all') {
+          for (const w of words) {
+            results.add(\`\${seed} \${w}\`);
+            results.add(\`\${seed}\${w}\`);
+            results.add(\`\${w} \${seed}\`);
+          }
+        }
+
+        // 3. Executive prefixes
+        if (style === 'executive' || style === 'all') {
+          for (const p of PREFIXES) {
+            results.add(\`\${p} \${seed}\`);
+            results.add(\`\${p}\${seed}\`);
+            results.add(\`\${p} \${seed} Global\`);
+          }
+        }
+
+        // Shuffle & take 24
+        const arr = Array.from(results);
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+
+        currentNames = arr.slice(0, 24);
+
+        grid.innerHTML = currentNames.map(n => \`
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md, 8px); padding: 0.85rem 1rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: border-color 0.15s ease;" data-bng-val="\${n}">
+            <span style="font-weight: 700; font-size: 1.05rem; color: var(--text-primary);">\${n}</span>
+            <span style="font-size: 0.8rem; color: var(--accent-blue); font-weight: 600; padding: 0.2rem 0.5rem; background: rgba(59,130,246,0.1); border-radius: 4px;">Copy</span>
           </div>
         \`).join('');
 
@@ -479,9 +527,15 @@ export const GENERATORS_TOOLS = [
         });
       }
 
-      document.getElementById('btn-bng-generate').addEventListener('click', generate);
-      seedInput.addEventListener('input', generate);
+      genBtn.addEventListener('click', generate);
+      indSelect.addEventListener('change', generate);
       styleSelect.addEventListener('change', generate);
+      seedInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') generate(); });
+
+      copyAllBtn.addEventListener('click', () => {
+        if (currentNames.length === 0) return;
+        window.MTV_BU.copyToClipboard(currentNames.join('\\n'), copyAllBtn);
+      });
 
       generate();
     `
@@ -770,65 +824,99 @@ export const GENERATORS_TOOLS = [
     name: 'Signature Generator',
     icon: '✍️',
     title: 'Digital Signature Generator — Type or Draw Transparent PNG Signatures',
-    description: 'Create elegant digital handwritten signatures by typing your name or drawing directly on the interactive touch-canvas. Download transparent high-res PNGs.',
+    description: 'Create elegant digital handwritten signatures by typing your name with calligraphic typography styles or drawing smoothly on the interactive touch canvas. Download transparent high-res PNGs.',
     keywords: 'signature generator, digital signature online, draw signature png, handwritten signature maker, signature creator',
     howToUse: [
-      { step: '1', title: 'Choose Mode', desc: 'Select Draw Signature or Type Name with Script Typography.' },
-      { step: '2', title: 'Sign or Type', desc: 'Use your mouse/touchscreen to draw or choose from 6 signature font styles.' },
-      { step: '3', title: 'Download Transparent PNG', desc: 'Save transparent image for PDF documents and contract signing.' }
+      { step: '1', title: 'Choose Mode', desc: 'Select Draw Signature on the canvas or Type Name with 6 script typography styles.' },
+      { step: '2', title: 'Customize Ink & Background', desc: 'Pick ink colors (Navy, Legal Blue, Black, Crimson), stroke width, and transparent vs white canvas.' },
+      { step: '3', title: 'Download or Copy PNG', desc: 'Save transparent PNG image or copy directly to clipboard for documents and contracts.' }
     ],
     features: [
-      { title: 'Interactive Canvas Drawing Pad', desc: 'Smooth Bezier stroke interpolation with customizable ink thickness and colors.' },
-      { title: 'Calligraphic Script Fonts', desc: 'Generate stylized signatures in classic blue, black, or custom colors.' },
-      { title: 'Transparent High-Res PNG', desc: 'Zero background noise, ready to drop onto invoices, NDAs, and contracts.' }
+      { title: 'Interactive Touch/Mouse Canvas', desc: 'Smooth Bezier stroke interpolation with customizable ink thickness and pressure curves.' },
+      { title: '6 Calligraphic Script Fonts', desc: 'Generate typed handwritten signatures with classic cursive, executive flow, and modern flourish.' },
+      { title: 'Transparent & High-Res PNG Export', desc: 'Zero background noise, ready to drop onto invoices, NDAs, and PDFs.' }
     ],
     sampleText: 'Jane Doe',
     renderControls: () => `
       <div class="bu-grid-3col" style="gap: 1rem; margin-bottom: 1.25rem;">
-        <div class="bu-form-group" style="margin:0;">
+        <div class="bu-form-group" style="margin: 0;">
           <label class="bu-form-label" for="sig-name">Typed Name</label>
-          <input type="text" id="sig-name" class="bu-input" value="Jane Doe">
+          <input type="text" id="sig-name" class="bu-input" value="Jane Doe" placeholder="Type your full name...">
         </div>
-        <div class="bu-form-group" style="margin:0;">
-          <label class="bu-form-label" for="sig-color">Ink Color</label>
-          <select id="sig-color" class="bu-input">
-            <option value="#0f172a" selected>Dark Navy / Black</option>
-            <option value="#1d4ed8">Classic Blue Ink</option>
-            <option value="#047857">Forest Green</option>
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label" for="sig-style">Script Typography Style</label>
+          <select id="sig-style" class="bu-input">
+            <option value="brush" selected>Brush Script &amp; Casual Flow</option>
+            <option value="executive">Executive Formal Cursive</option>
+            <option value="elegance">Elegance Flourish &amp; Slant</option>
+            <option value="modern">Modern Handwriting</option>
+            <option value="minimal">Minimalist Clean Signature</option>
           </select>
         </div>
-        <div class="bu-form-group" style="margin:0;">
-          <label class="bu-form-label" for="sig-stroke">Pen Stroke Width</label>
-          <input type="range" id="sig-stroke" min="1" max="6" value="3" style="width: 100%; margin-top: 0.5rem;">
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label" for="sig-color">Ink Color</label>
+          <select id="sig-color" class="bu-input">
+            <option value="#0f172a" selected>Executive Black / Navy</option>
+            <option value="#1d4ed8">Legal Blue Ink</option>
+            <option value="#047857">Forest Emerald</option>
+            <option value="#b91c1c">Crimson Red</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="bu-grid-2col" style="gap: 1rem; margin-bottom: 1.25rem;">
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label" for="sig-stroke">Pen Stroke Width (<span id="sig-stroke-val">3px</span>)</label>
+          <input type="range" id="sig-stroke" min="1" max="8" value="3" style="width: 100%; margin-top: 0.5rem;">
+        </div>
+        <div class="bu-form-group" style="margin: 0;">
+          <label class="bu-form-label" for="sig-bg">Background</label>
+          <select id="sig-bg" class="bu-input">
+            <option value="transparent" selected>Transparent Background (PNG)</option>
+            <option value="#ffffff">Solid White Background</option>
+          </select>
         </div>
       </div>
 
       <div class="bu-form-group">
         <label class="bu-form-label">
           <span>Signature Canvas (Draw or Inspect Script)</span>
-          <span class="bu-form-label-hint">Draw with mouse or touchscreen</span>
+          <span class="bu-form-label-hint">Draw with finger/mouse or click Render Typed Script</span>
         </label>
-        <div style="background: #ffffff; border: 1px dashed var(--border-color); border-radius: var(--radius-md, 8px); padding: 0.5rem; text-align: center;">
-          <canvas id="sig-canvas" width="600" height="200" style="max-width: 100%; touch-action: none; cursor: crosshair;"></canvas>
+        <div style="background: #ffffff; border: 2px dashed var(--border-color); border-radius: var(--radius-md, 8px); padding: 0.5rem; text-align: center; box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);">
+          <canvas id="sig-canvas" width="700" height="220" style="max-width: 100%; touch-action: none; cursor: crosshair; display: block; margin: 0 auto;"></canvas>
         </div>
       </div>
 
-      <div class="bu-actions-bar">
-        <button type="button" id="btn-sig-render-typed" class="bu-btn bu-btn-primary">Render Typed Script</button>
-        <button type="button" id="btn-sig-download" class="bu-btn">Download PNG Signature</button>
-        <button type="button" id="btn-sig-clear" class="bu-btn bu-btn-subtle">Clear Canvas</button>
+      <div class="bu-actions-bar" style="flex-wrap: wrap; gap: 0.75rem;">
+        <button type="button" id="btn-sig-render-typed" class="bu-btn bu-btn-primary">✍️ Render Typed Script</button>
+        <button type="button" id="btn-sig-download" class="bu-btn">⬇️ Download PNG Image</button>
+        <button type="button" id="btn-sig-copy" class="bu-btn">📋 Copy Image</button>
+        <button type="button" id="btn-sig-clear" class="bu-btn bu-btn-subtle">🧹 Clear Canvas</button>
       </div>
     `,
     renderScript: () => `
       const canvas = document.getElementById('sig-canvas');
       const ctx = canvas.getContext('2d');
       const nameInput = document.getElementById('sig-name');
+      const styleSelect = document.getElementById('sig-style');
       const colorSelect = document.getElementById('sig-color');
       const strokeRange = document.getElementById('sig-stroke');
+      const strokeVal = document.getElementById('sig-stroke-val');
+      const bgSelect = document.getElementById('sig-bg');
+
+      const renderTypedBtn = document.getElementById('btn-sig-render-typed');
+      const downloadBtn = document.getElementById('btn-sig-download');
+      const copyBtn = document.getElementById('btn-sig-copy');
+      const clearBtn = document.getElementById('btn-sig-clear');
 
       let drawing = false;
       let lastX = 0;
       let lastY = 0;
+
+      strokeRange.addEventListener('input', () => {
+        strokeVal.textContent = strokeRange.value + 'px';
+      });
 
       function clearCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -836,13 +924,41 @@ export const GENERATORS_TOOLS = [
 
       function renderTyped() {
         clearCanvas();
-        const text = nameInput.value || 'Signature';
+        const text = nameInput.value.trim() || 'Signature';
         const color = colorSelect.value;
-        ctx.font = 'italic 48px "Brush Script MT", "Segoe Script", cursive';
-        ctx.fillStyle = color;
+        const style = styleSelect.value;
+
+        ctx.save();
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
+        ctx.fillStyle = color;
+
+        if (style === 'brush') {
+          ctx.font = 'italic 52px "Brush Script MT", "Segoe Script", cursive';
+        } else if (style === 'executive') {
+          ctx.font = 'italic 46px "Snell Roundhand", "Apple Chancery", "Bickham Script Pro", cursive';
+        } else if (style === 'elegance') {
+          ctx.font = 'italic 50px "Lucida Calligraphy", "Corsiva", "Zapf Chancery", cursive';
+        } else if (style === 'modern') {
+          ctx.font = 'italic bold 44px "Caveat", "Comic Sans MS", cursive';
+        } else {
+          ctx.font = 'italic 42px "Segoe Script", "Freestyle Script", cursive';
+        }
+
         ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+        // Add optional elegant underline stroke
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.moveTo(canvas.width / 2 - 120, canvas.height / 2 + 35);
+        ctx.bezierCurveTo(
+          canvas.width / 2 - 40, canvas.height / 2 + 45,
+          canvas.width / 2 + 80, canvas.height / 2 + 25,
+          canvas.width / 2 + 130, canvas.height / 2 + 40
+        );
+        ctx.stroke();
+        ctx.restore();
       }
 
       function getPos(e) {
@@ -893,15 +1009,53 @@ export const GENERATORS_TOOLS = [
       canvas.addEventListener('touchmove', draw, { passive: false });
       canvas.addEventListener('touchend', stopDraw);
 
-      document.getElementById('btn-sig-render-typed').addEventListener('click', renderTyped);
-      document.getElementById('btn-sig-clear').addEventListener('click', clearCanvas);
+      nameInput.addEventListener('input', renderTyped);
+      styleSelect.addEventListener('change', renderTyped);
+      colorSelect.addEventListener('change', renderTyped);
+      renderTypedBtn.addEventListener('click', renderTyped);
+      clearBtn.addEventListener('click', clearCanvas);
 
-      document.getElementById('btn-sig-download').addEventListener('click', () => {
-        const url = canvas.toDataURL('image/png');
+      function getExportCanvas() {
+        const expCanvas = document.createElement('canvas');
+        expCanvas.width = canvas.width;
+        expCanvas.height = canvas.height;
+        const expCtx = expCanvas.getContext('2d');
+
+        if (bgSelect.value !== 'transparent') {
+          expCtx.fillStyle = bgSelect.value;
+          expCtx.fillRect(0, 0, expCanvas.width, expCanvas.height);
+        }
+
+        expCtx.drawImage(canvas, 0, 0);
+        return expCanvas;
+      }
+
+      downloadBtn.addEventListener('click', () => {
+        const exp = getExportCanvas();
+        const url = exp.toDataURL('image/png');
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'signature.png';
+        a.download = \`signature-\${(nameInput.value || 'digital').toLowerCase().replace(/\\s+/g, '-')}.png\`;
+        document.body.appendChild(a);
         a.click();
+        document.body.removeChild(a);
+      });
+
+      copyBtn.addEventListener('click', async () => {
+        try {
+          const exp = getExportCanvas();
+          exp.toBlob(async (blob) => {
+            if (blob && navigator.clipboard && window.ClipboardItem) {
+              await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+              copyBtn.textContent = '✓ Copied Image!';
+              setTimeout(() => { copyBtn.textContent = '📋 Copy Image'; }, 2000);
+            } else {
+              alert('Clipboard image copy not supported in this browser. Please use Download PNG.');
+            }
+          });
+        } catch(e) {
+          alert('Could not copy image: ' + e.message);
+        }
       });
 
       renderTyped();
