@@ -1590,7 +1590,12 @@
   .marquee-shell,
   .marquee,
   .ticker-shell,
-  .ticker-wrap {
+  .ticker-wrap,
+  .category-window,
+  .features-strip,
+  .platform-ticker-wrap,
+  .category-track-wrap,
+  .features {
     overflow: hidden !important;
     height: auto !important;
     width: 100% !important;
@@ -1600,6 +1605,30 @@
     margin-top: 4px !important;
     margin-bottom: 16px !important;
     display: block !important;
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  [data-theme="dark"] .marquee-shell,
+  [data-theme="dark"] .marquee,
+  [data-theme="dark"] .ticker-shell,
+  [data-theme="dark"] .ticker-wrap,
+  [data-theme="dark"] .category-window,
+  [data-theme="dark"] .features-strip,
+  [data-theme="dark"] .platform-ticker-wrap,
+  [data-theme="dark"] .category-track-wrap,
+  [data-theme="dark"] .features {
+    background: rgba(20, 22, 28, 0.65) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), 0 1px 4px rgba(0, 0, 0, 0.4) !important;
   }
 
   .marquee,
