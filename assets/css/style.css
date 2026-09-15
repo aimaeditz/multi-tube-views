@@ -213,7 +213,7 @@ p:last-child {
 a {
   color: var(--accent-blue);
   text-decoration: none;
-  transition: color var(--transition-speed) ease, opacity var(--transition-speed) ease;
+  transition: color var(--transition-speed) ease, opacity var(--transition-speed) ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), box-shadow var(--transition-speed) ease;
   touch-action: manipulation;
 }
 
@@ -425,7 +425,7 @@ input, select, textarea, button {
   color: var(--text-secondary);
   padding: 0.4rem 0.15rem;
   position: relative;
-  transition: color var(--transition-speed) ease;
+  transition: color var(--transition-speed) ease, opacity var(--transition-speed) ease, transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
   user-select: none;
   -webkit-user-drag: none;
@@ -460,7 +460,7 @@ input, select, textarea, button {
   border: 1px solid transparent;
   cursor: pointer;
   white-space: nowrap;
-  transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
   user-select: none;
 }
 
@@ -475,6 +475,7 @@ input, select, textarea, button {
   border-color: var(--accent-primary-hover);
   color: var(--text-inverse);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.22);
 }
 
 .btn-secondary {
@@ -487,6 +488,8 @@ input, select, textarea, button {
   background-color: var(--bg-subtle);
   color: var(--text-primary);
   border-color: var(--text-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-subtle {
@@ -498,6 +501,7 @@ input, select, textarea, button {
 .btn-subtle:hover {
   background-color: var(--bg-hover);
   color: var(--text-primary);
+  transform: translateY(-1px);
 }
 
 .btn-danger {
@@ -508,6 +512,7 @@ input, select, textarea, button {
 
 .btn-danger:hover {
   background-color: #fee2e2;
+  transform: translateY(-1px);
 }
 
 .btn-icon-only {
@@ -518,12 +523,15 @@ input, select, textarea, button {
   color: var(--text-primary);
   background-color: var(--bg-subtle);
   border: 1px solid var(--border-strong);
+  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .btn-icon-only:hover {
   background-color: var(--bg-hover);
   color: var(--text-primary);
   border-color: var(--text-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-sm {

@@ -591,6 +591,13 @@
     background: var(--ref-surface2);
     border: 1px solid var(--ref-line);
     color: var(--ref-text);
+    transition: transform 0.2s var(--ref-soft), border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .story-tag-pill:hover {
+    border-color: var(--ref-line-strong);
+    transform: translateY(-1px);
+    background: var(--ref-surface);
   }
 
   .story-cta-link {

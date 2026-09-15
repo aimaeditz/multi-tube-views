@@ -210,13 +210,15 @@
   border: 1px solid var(--border-subtle);
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .growth-tab-btn:hover {
   background-color: var(--bg-hover);
   color: var(--text-primary);
   border-color: var(--border-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .growth-tab-btn.active {
@@ -272,13 +274,15 @@
   color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
   cursor: pointer;
-  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .btn-growth-sample:hover {
   background-color: var(--bg-hover);
   color: var(--text-primary);
   border-color: var(--border-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* ==========================================================================
@@ -586,12 +590,14 @@
   color: var(--text-primary);
   border: 1px solid var(--border-subtle);
   cursor: pointer;
-  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .keyword-pill:hover {
   background-color: var(--bg-hover);
   border-color: var(--accent-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .hashtag-pill {
@@ -606,11 +612,13 @@
   color: var(--accent-blue);
   border: 1px solid var(--accent-border);
   cursor: pointer;
-  transition: filter var(--transition-speed) ease;
+  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), filter var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .hashtag-pill:hover {
   filter: brightness(0.95);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* ==========================================================================

@@ -279,11 +279,89 @@ function renderFooter({ depth = 0 }) {
   <script type="module" src="${p}assets/js/browser-utilities.js"></script>`;
 }
 
+// Helper functions for scalable, high-CTR tool and category SEO titles and meta descriptions
+export function generateToolSeoMetadata(tool, cat) {
+  const toolName = tool.name.trim();
+
+  // Title target length: 50-60 chars
+  let brand = toolName.length > 25 ? 'MTV' : 'Multi Tube Views';
+  let title = `${toolName} — Free In-Browser Tool | ${brand}`;
+
+  if (toolName.toLowerCase().includes('generator')) {
+    title = `${toolName} — Free Online Generator | ${brand}`;
+  } else if (toolName.toLowerCase().includes('converter')) {
+    title = `${toolName} — Free Online Converter | ${brand}`;
+  } else if (toolName.toLowerCase().includes('calculator')) {
+    title = `${toolName} — Free Online Calculator | ${brand}`;
+  } else if (toolName.toLowerCase().includes('checker') || toolName.toLowerCase().includes('validator') || toolName.toLowerCase().includes('tester')) {
+    title = `${toolName} — Free Online Testing Tool | ${brand}`;
+  }
+
+  if (title.length < 50) {
+    title = `${toolName} — Free Online Tool & Utility | ${brand}`;
+  }
+  if (title.length > 60) {
+    title = `${toolName} — Free Online Tool | MTV`;
+  }
+  if (title.length > 60) {
+    title = `${toolName} — Free In-Browser Tool`;
+  }
+
+  // Meta description target length: 150-160 chars
+  let baseDesc = (tool.description || '').trim();
+  if (!baseDesc.endsWith('.')) baseDesc += '.';
+
+  let description = `${baseDesc} Fast, 100% private in-browser tool with zero server uploads by Multi Tube Views.`;
+  if (description.length > 160) {
+    description = `${baseDesc} 100% free, private client-side utility with zero server uploads by Multi Tube Views.`;
+  }
+  if (description.length > 160) {
+    description = `${baseDesc} Fast, 100% private client-side web tool by Multi Tube Views.`;
+  }
+  if (description.length < 145) {
+    description = `${baseDesc} Fast, free, 100% private client-side browser utility with zero server uploads by Multi Tube Views.`;
+  }
+  if (description.length > 160) {
+    const sub = description.substring(0, 155);
+    const lastSpace = sub.lastIndexOf(' ');
+    description = sub.substring(0, lastSpace) + '.';
+  }
+
+  return { title, description };
+}
+
+export function generateCategorySeoMetadata(cat, catToolsCount) {
+  const catName = cat.name.trim();
+  let title = `${catName} — Free In-Browser Tools | MTV`;
+  if (title.length < 50) {
+    title = `${catName} — Free In-Browser Utilities | Multi Tube Views`;
+  }
+  if (title.length > 60) {
+    title = `${catName} — Free In-Browser Tools | MTV`;
+  }
+
+  let baseDesc = (cat.description || '').trim();
+  if (!baseDesc.endsWith('.')) baseDesc += '.';
+
+  let description = `Explore ${catToolsCount} free client-side tools in ${catName}. ${baseDesc} 100% private in-browser tools by Multi Tube Views.`;
+  if (description.length > 160) {
+    description = `Explore ${catToolsCount} free tools in ${catName}. ${baseDesc} 100% private client-side tools by Multi Tube Views.`;
+  }
+  if (description.length > 160) {
+    description = `Explore ${catToolsCount} free client-side utilities in ${catName}. 100% private in-browser tools by Multi Tube Views.`;
+  }
+  if (description.length < 145) {
+    description = `Explore ${catToolsCount} free client-side web tools in ${catName}. ${baseDesc} 100% private in-browser utilities by Multi Tube Views.`;
+  }
+
+  return { title, description };
+}
+
 // 1. Generate Main Hub Page: browser-utilities.html
 function generateHubPage() {
-  const title = "Browser Utilities — 89 Free Client-Side Tools for Developers & Creators";
-  const description = "Suite of 89 fast, 100% private in-browser utilities. Text manipulation, unit converters, CSS & SVG generators, developer encoders, SEO analyzers, image helpers, file converters, calculators, and privacy tools. Zero uploads, zero telemetry.";
-  const keywords = "browser utilities online, client side tools, dev tools online, json formatter, regex tester, word counter, password strength checker, color palette generator, csv to json, free web tools";
+  const title = "Browser Utilities — 89 Free Client-Side Web Tools | MTV";
+  const description = "Suite of 89 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.";
+  const keywords = "browser utilities online, client side tools, dev tools online, json formatter, regex tester, word counter, password strength checker, color palette generator, csv to json, free web tools, mtv browser utilities, multitube views tools";
   const canonical = "https://multitubeviews.com/browser-utilities.html";
 
   const jsonLd = {
@@ -570,8 +648,7 @@ ${renderFooter({ depth: 0 })}
 function generateCategoryPages() {
   BU_CATEGORIES.forEach(cat => {
     const catTools = ALL_TOOLS.filter(t => t.categoryId === cat.id);
-    const title = `${cat.name} — Free In-Browser Utilities | Multi Tube Views`;
-    const description = `Explore ${catTools.length} free client-side tools in ${cat.name}. ${cat.description} 100% private, zero server uploads.`;
+    const { title, description } = generateCategorySeoMetadata(cat, catTools.length);
     const keywords = `${cat.name.toLowerCase()}, client side tools, online ${cat.name.toLowerCase()}, ${catTools.map(t => t.name.toLowerCase()).join(', ')}`;
     const canonical = `https://multitubeviews.com/browser-utilities/${cat.id}.html`;
 
@@ -682,8 +759,7 @@ function generateToolPages() {
   ALL_TOOLS.forEach(tool => {
     const cat = BU_CATEGORIES.find(c => c.id === tool.categoryId);
     const relatedTools = ALL_TOOLS.filter(t => t.categoryId === tool.categoryId && t.id !== tool.id).slice(0, 3);
-    const title = `${tool.name} — Free In-Browser Tool | Multi Tube Views`;
-    const description = tool.description;
+    const { title, description } = generateToolSeoMetadata(tool, cat);
     const keywords = tool.keywords;
     const canonical = `https://multitubeviews.com/browser-utilities/${tool.id}.html`;
 
