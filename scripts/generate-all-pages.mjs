@@ -271,6 +271,7 @@ function renderFooter({ depth = 0 }) {
           <a href="${p}disclaimer.html">Disclaimer</a>
           <a href="${p}terms.html">Terms</a>
           <a href="${p}credits.html">Credits</a>
+          <a href="${p}articles.html">Articles</a>
         </div>
       </div>
     </div>
