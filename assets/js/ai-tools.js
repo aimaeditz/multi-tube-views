@@ -320,6 +320,46 @@ function bootAITools() {
         breadcrumbSubSeparator.style.display = 'inline';
       }
 
+      // Render Related Tools (3 tools in same category)
+      const relatedGrid = document.getElementById('dedicated-related-tools-grid');
+      if (relatedGrid) {
+        relatedGrid.innerHTML = '';
+        const sameCatTools = Object.entries(AI_TOOLS_DATA)
+          .filter(([id, t]) => id !== toolId && t.category === tool.category);
+        
+        let relatedCandidates = sameCatTools;
+        if (relatedCandidates.length < 3) {
+          const otherCatTools = Object.entries(AI_TOOLS_DATA)
+            .filter(([id]) => id !== toolId && !sameCatTools.some(([sId]) => sId === id));
+          relatedCandidates = [...sameCatTools, ...otherCatTools];
+        }
+        
+        const selected = relatedCandidates.slice(0, 3);
+        selected.forEach(([relId, relTool]) => {
+          const card = document.createElement('div');
+          card.className = 'creator-tool-card tilt-card';
+          card.style.cursor = 'pointer';
+          card.innerHTML = `
+            <div>
+              <div class="creator-tool-header">
+                <span class="creator-tool-icon" aria-hidden="true">${relTool.icon}</span>
+                <h3 class="creator-tool-title">${relTool.title}</h3>
+              </div>
+              <p class="creator-tool-desc">${relTool.desc}</p>
+            </div>
+            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+              <a href="?tool=${relId}" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          `;
+
+          bindCardEvents(card, relId);
+          relatedGrid.appendChild(card);
+        });
+      }
+
       // Update page title
       document.title = `${tool.title} — AI Tools | Multi Tube Views`;
     } else {

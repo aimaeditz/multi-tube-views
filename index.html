@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Resource Hints & Preconnects for Performance Optimization -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
+
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
@@ -31,7 +38,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/index.html">
 
-        <!-- Open Graph -->
+          <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/index.html">
   <meta property="og:title" content="Multi Tube Views — Multi-Stream Video Player & Media Workspace">
@@ -170,7 +177,12 @@
   </script>
   
   <!-- Core Design System CSS -->
-  <link rel="stylesheet" href="assets/css/style.css?v=2.1">
+    <!-- Preload Critical CSS Assets -->
+  <link rel="preload" href="assets/css/style.css" as="style">
+  <link rel="preload" href="assets/css/components.css" as="style">
+  <link rel="preload" href="assets/css/responsive.css" as="style">
+
+<link rel="stylesheet" href="assets/css/style.css?v=2.1">
   <link rel="stylesheet" href="assets/css/components.css?v=2.1">
   <link rel="stylesheet" href="assets/css/responsive.css?v=2.1">
   <link rel="stylesheet" href="assets/css/desktop-reference.css?v=2.1">

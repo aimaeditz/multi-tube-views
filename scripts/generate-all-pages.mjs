@@ -62,6 +62,17 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Resource Hints & Preconnects for Performance Optimization -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
+  <!-- Preload Critical CSS Assets -->
+  <link rel="preload" href="${assetPrefix}assets/css/style.css" as="style">
+  <link rel="preload" href="${assetPrefix}assets/css/components.css" as="style">
+  <link rel="preload" href="${assetPrefix}assets/css/responsive.css" as="style">
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
   <script>
@@ -783,7 +794,7 @@ ${renderHeader({ activeNav: 'browser-utilities', depth: 1 })}
       ${relatedTools.length > 0 ? `
       <section style="margin-top: 3.5rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-          <h2 style="font-size: 1.2rem; font-weight: 700; margin: 0;">More in ${cat.name}</h2>
+          <h2 style="font-size: 1.2rem; font-weight: 700; margin: 0;">Related Tools</h2>
           <a href="${cat.id}.html" style="font-size: 0.85rem; color: var(--accent-primary); text-decoration: none; font-weight: 600;">View all ${cat.name} →</a>
         </div>
         <div class="bu-grid-3col">

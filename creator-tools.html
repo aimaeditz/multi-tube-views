@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Resource Hints & Preconnects for Performance Optimization -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
   <script>
@@ -30,7 +37,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/creator-tools.html">
 
-        <!-- Open Graph -->
+                  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/creator-tools.html">
   <meta property="og:title" content="Creator Tools Suite — Free Video SEO & Title Generators | MTV">
@@ -143,7 +150,12 @@
   }
   </script>
 
-  <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Preload Critical CSS Assets -->
+  <link rel="preload" href="assets/css/style.css" as="style">
+  <link rel="preload" href="assets/css/components.css" as="style">
+  <link rel="preload" href="assets/css/responsive.css" as="style">
+
+<link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
 
@@ -780,6 +792,14 @@
           </div>
         </div>
 
+        <!-- Related Tools Section -->
+        <div id="dedicated-related-tools-wrap" style="margin-top: 2.5rem; border-top: 1px solid var(--border-strong); padding-top: 2rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+            <span>Related Tools</span>
+          </h3>
+          <div id="dedicated-related-tools-grid" class="media-tool-grid"></div>
+        </div>
+
       </div>
 
     </div>
@@ -1171,6 +1191,63 @@
           breadcrumbSubPage.textContent = tool.title;
           breadcrumbSubPage.style.display = 'inline';
           breadcrumbSubSeparator.style.display = 'inline';
+
+          // Render Related Creator Tools (3 related tools)
+          const relatedGrid = document.getElementById('dedicated-related-tools-grid');
+          if (relatedGrid) {
+            relatedGrid.innerHTML = '';
+            const allToolKeys = Object.keys(toolsData);
+            const currentIndex = allToolKeys.indexOf(toolId);
+            const selectedKeys = [];
+            for (let i = 1; i <= allToolKeys.length && selectedKeys.length < 3; i++) {
+              const relKey = allToolKeys[(currentIndex + i) % allToolKeys.length];
+              if (relKey !== toolId) {
+                selectedKeys.push(relKey);
+              }
+            }
+
+            selectedKeys.forEach(relId => {
+              const relTool = toolsData[relId];
+              const card = document.createElement('div');
+              card.className = 'creator-tool-card';
+              card.style.cursor = 'pointer';
+              card.innerHTML = `
+                <div>
+                  <div class="creator-tool-header">
+                    <span class="creator-tool-icon" aria-hidden="true">${relTool.icon}</span>
+                    <h3 class="creator-tool-title">${relTool.title}</h3>
+                  </div>
+                  <p class="creator-tool-desc">${relTool.desc}</p>
+                </div>
+                <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+                  <a href="?tool=${relId}" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                    <span>Open Tool</span>
+                    <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                  </a>
+                </div>
+              `;
+
+              card.addEventListener('click', (e) => {
+                if (!e.target.closest('a')) {
+                  history.pushState(null, '', `?tool=${relId}`);
+                  updateViewFromURL();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              });
+
+              const openBtn = card.querySelector('.btn-open-tool');
+              if (openBtn) {
+                openBtn.addEventListener('click', (e) => {
+                  e.preventDefault();
+                  history.pushState(null, '', `?tool=${relId}`);
+                  updateViewFromURL();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+              }
+
+              relatedGrid.appendChild(card);
+            });
+          }
         } else {
           toolsListView.style.display = 'block';
           dedicatedToolWorkspace.style.display = 'none';

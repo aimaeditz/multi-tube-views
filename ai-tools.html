@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Resource Hints & Preconnects for Performance Optimization -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
   <script>
@@ -30,7 +37,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/ai-tools.html">
 
-      <!-- Open Graph -->
+                  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/ai-tools.html">
   <meta property="og:title" content="AI Tools Suite — 60 Free Generative Tools | Multi Tube Views">
@@ -145,7 +152,12 @@
   }
   </script>
 
-  <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Preload Critical CSS Assets -->
+  <link rel="preload" href="assets/css/style.css" as="style">
+  <link rel="preload" href="assets/css/components.css" as="style">
+  <link rel="preload" href="assets/css/responsive.css" as="style">
+
+<link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
 
@@ -1430,6 +1442,14 @@
               </p>
             </div>
           </div>
+        </div>
+
+        <!-- Related Tools Section -->
+        <div id="dedicated-related-tools-wrap" style="margin-top: 2.5rem; border-top: 1px solid var(--border-strong); padding-top: 2rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+            <span>Related Tools</span>
+          </h3>
+          <div id="dedicated-related-tools-grid" class="media-tool-grid"></div>
         </div>
 
       </div>
