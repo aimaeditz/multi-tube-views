@@ -121,6 +121,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://multitubeviews.com/browser-utilities/fun-miscellaneous.html</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://multitubeviews.com/browser-utilities/generators-creators.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -566,12 +572,6 @@
   </url>
   <url>
     <loc>https://multitubeviews.com/browser-utilities/find-replace.html</loc>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://multitubeviews.com/browser-utilities/fun-miscellaneous.html</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>

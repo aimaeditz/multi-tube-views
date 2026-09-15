@@ -915,10 +915,13 @@ ${renderFooter({ depth: 1 })}
   console.log(`✓ Generated ${ALL_TOOLS.length} individual tool pages in browser-utilities/`);
 }
 
-// Run Generators
-console.log('Starting Browser Utilities static page generation...');
-generateHubPage();
-generateCategoryPages();
-generateToolPages();
-console.log('✓ Finished all page generation successfully.');
+// Run Generators if called directly
+if (process.argv[1] && process.argv[1].endsWith('generate-all-pages.mjs')) {
+  console.log('Starting Browser Utilities static page generation...');
+  generateHubPage();
+  generateCategoryPages();
+  generateToolPages();
+  console.log('✓ Finished all page generation successfully.');
+}
+
 
