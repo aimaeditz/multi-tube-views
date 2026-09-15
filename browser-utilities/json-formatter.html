@@ -30,7 +30,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities/json-formatter.html">
 
-  <!-- Open Graph -->
+          <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/json-formatter.html">
   <meta property="og:title" content="JSON Formatter — Free In-Browser Tool | Multi Tube Views">
@@ -39,7 +39,6 @@
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="JSON Formatter — Free In-Browser Tool | Multi Tube Views">
@@ -51,7 +50,10 @@
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "WebApplication",
+      "@type": [
+        "SoftwareApplication",
+        "WebApplication"
+      ],
       "@id": "https://multitubeviews.com/browser-utilities/json-formatter.html#webapp",
       "name": "JSON Formatter",
       "url": "https://multitubeviews.com/browser-utilities/json-formatter.html",
@@ -59,6 +61,7 @@
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "All",
       "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -374,7 +377,7 @@
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 60+ AI tools, 20 creator optimization tools, 15 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 60+ AI tools, 20 creator optimization tools, 60 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -498,7 +501,7 @@
       });
 
       sampleBtn.addEventListener('click', () => {
-        input.value = '{"appName":"Multi Tube Views","version":2.5,"features":["40+ Platforms","20 Creator Tools","15 Converters","36 Utilities"],"author":{"name":"AiMAEditz","active":true}}';
+        input.value = '{"appName":"Multi Tube Views","version":2.5,"features":["40+ Platforms","20 Creator Tools","15 Converters","89 Utilities"],"author":{"name":"AiMAEditz","active":true}}';
         formatJSON(false);
       });
 

@@ -1885,67 +1885,8 @@ function updateHtmlFile(filePath, seoData) {
 
 // 4. Update Sitemap
 function updateSitemap() {
-  const rootDir = path.resolve(__dirname);
-  const sitemapPath = path.join(rootDir, 'sitemap.xml');
-  const publicSitemapPath = path.join(rootDir, 'public', 'sitemap.xml');
-
-  // Build complete sitemap list
-  const coreUrls = [
-    { loc: `${BASE_URL}/index.html`, priority: '1.0', changefreq: 'weekly', lastmod: TODAY },
-    { loc: `${BASE_URL}/creator-tools.html`, priority: '0.95', changefreq: 'weekly', lastmod: TODAY },
-    { loc: `${BASE_URL}/media-converter-tools.html`, priority: '0.95', changefreq: 'weekly', lastmod: TODAY },
-    { loc: `${BASE_URL}/ai-prompt.html`, priority: '0.95', changefreq: 'weekly', lastmod: TODAY },
-    { loc: `${BASE_URL}/ai-auto.html`, priority: '0.95', changefreq: 'weekly', lastmod: TODAY },
-    { loc: `${BASE_URL}/platforms.html`, priority: '0.95', changefreq: 'weekly', lastmod: TODAY },
-    { loc: `${BASE_URL}/articles.html`, priority: '0.90', changefreq: 'weekly', lastmod: TODAY },
-    { loc: `${BASE_URL}/about.html`, priority: '0.80', changefreq: 'monthly', lastmod: TODAY },
-    { loc: `${BASE_URL}/settings.html`, priority: '0.60', changefreq: 'monthly', lastmod: TODAY },
-    { loc: `${BASE_URL}/privacy.html`, priority: '0.50', changefreq: 'monthly', lastmod: TODAY },
-    { loc: `${BASE_URL}/disclaimer.html`, priority: '0.50', changefreq: 'monthly', lastmod: TODAY },
-    { loc: `${BASE_URL}/terms.html`, priority: '0.50', changefreq: 'monthly', lastmod: TODAY },
-    { loc: `${BASE_URL}/credits.html`, priority: '0.50', changefreq: 'monthly', lastmod: TODAY },
-  ];
-
-  const platformKeys = Object.keys(PLATFORMS_SEO);
-  const platformUrls = platformKeys.map(key => {
-    let priority = '0.80';
-    if (['youtube', 'twitch', 'spotify', 'tiktok'].includes(key)) priority = '0.90';
-    if (['anchor', 'mastodon', 'caffeine', 'moj', 'josh', 'chingari', 'douyin', 'kuaishou', 'triller', 'nimotv', 'tumblr', 'snapchat', 'reddit', 'pinterest', 'linkedin', 'telegram', 'odysee', 'threads'].includes(key)) {
-      priority = '0.75';
-    }
-    return {
-      loc: `${BASE_URL}/platforms/${key}.html`,
-      priority,
-      changefreq: 'weekly',
-      lastmod: TODAY
-    };
-  });
-
-  const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Core Workspace & Tool Pages -->
-${coreUrls.map(entry => `  <url>
-    <loc>${entry.loc}</loc>
-    <lastmod>${entry.lastmod}</lastmod>
-    <changefreq>${entry.changefreq}</changefreq>
-    <priority>${entry.priority}</priority>
-  </url>`).join('\n')}
-
-  <!-- 40 Dedicated Platform Workspaces -->
-${platformUrls.map(entry => `  <url>
-    <loc>${entry.loc}</loc>
-    <lastmod>${entry.lastmod}</lastmod>
-    <changefreq>${entry.changefreq}</changefreq>
-    <priority>${entry.priority}</priority>
-  </url>`).join('\n')}
-</urlset>
-`;
-
-  fs.writeFileSync(sitemapPath, sitemapXml, 'utf-8');
-  if (fs.existsSync(path.dirname(publicSitemapPath))) {
-    fs.writeFileSync(publicSitemapPath, sitemapXml, 'utf-8');
-  }
-  console.log(`Updated sitemap.xml with ${coreUrls.length + platformUrls.length} verified URLs.`);
+  const { execSync } = require('child_process');
+  execSync('node scripts/generate-sitemap.mjs', { stdio: 'inherit' });
 }
 
 // 5. Main Execution

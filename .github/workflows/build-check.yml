@@ -1,0 +1,50 @@
+name: Automated Build Check
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-check:
+    name: Build & Verify Pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Vite production build
+        run: npm run build
+
+      - name: Verify key build output pages
+        run: |
+          echo "Verifying key HTML pages in dist directory..."
+          KEY_PAGES=(
+            "dist/index.html"
+            "dist/creator-tools.html"
+            "dist/media-converter-tools.html"
+            "dist/browser-utilities.html"
+            "dist/platforms.html"
+            "dist/ai-prompt.html"
+          )
+
+          for page in "${KEY_PAGES[@]}"; do
+            if [ -f "$page" ]; then
+              echo "✓ Found: $page"
+            else
+              echo "✗ Missing: $page"
+              exit 1
+            fi
+          done
+
+          echo "All key pages verified successfully!"

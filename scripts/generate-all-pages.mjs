@@ -192,7 +192,7 @@ function renderFooter({ depth = 0 }) {
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 60+ AI tools, 20 creator optimization tools, 15 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 60+ AI tools, 20 creator optimization tools, 60 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -680,7 +680,7 @@ function generateToolPages() {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "WebApplication",
+          "@type": ["SoftwareApplication", "WebApplication"],
           "@id": `${canonical}#webapp`,
           "name": tool.name,
           "url": canonical,
@@ -688,6 +688,7 @@ function generateToolPages() {
           "applicationCategory": "UtilitiesApplication",
           "operatingSystem": "All",
           "browserRequirements": "Requires JavaScript",
+          "isAccessibleForFree": true,
           "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
           "featureList": tool.features.map(f => `${f.title}: ${f.desc}`)
         },
