@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!statElements.length) return;
 
     const animationFrames = [];
-    const duration = 1200; // ms
+    const duration = 2000; // ms: natural, smooth 2.0s duration (1.5-2.5s)
 
     const cancelAllFrames = () => {
       animationFrames.forEach(id => cancelAnimationFrame(id));
@@ -189,8 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const step = (currentTime) => {
           const elapsed = currentTime - startTime;
           const progress = Math.min(elapsed / duration, 1);
-          // Ease-out cubic curve
-          const ease = 1 - Math.pow(1 - progress, 3);
+          // Eased animation: smooth ease-out (starts with momentum and gently decelerates near the end)
+          const ease = Math.sin((progress * Math.PI) / 2);
           const currentVal = Math.round(ease * target);
           el.textContent = currentVal + suffix;
 

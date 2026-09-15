@@ -89,17 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const animateCounter = (el) => {
         const target = parseInt(el.getAttribute('data-count'), 10) || 0;
         const suffix = el.getAttribute('data-suffix') || '';
-        const duration = 1000; // Snappy, fluid 1.0s timing
+        const duration = 2000; // Natural, gradual 2.0s duration (roughly 1.5-2.5s)
         let startTime = null;
-        let lastVal = -1;
+        let lastVal = 0;
 
         function updateCounter(currentTime) {
           if (!startTime) startTime = currentTime;
           const elapsed = currentTime - startTime;
           const progress = Math.min(elapsed / duration, 1);
-          // Smooth Quartic Out: fast responsive ramp with seamless continuous landing
-          const easeProgress = 1 - Math.pow(1 - progress, 4);
-          const currentVal = Math.floor(easeProgress * target);
+          // Eased animation: smooth ease-out (starts with momentum and gently decelerates near the end)
+          const easeProgress = Math.sin((progress * Math.PI) / 2);
+          const currentVal = Math.round(easeProgress * target);
 
           if (currentVal !== lastVal) {
             renderStatValue(el, currentVal, suffix);
@@ -116,19 +116,29 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(updateCounter);
       };
 
-      const countObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            animateCounter(entry.target);
-            observer.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px 40px 0px'
+      // Initialize counter elements to 0 smoothly before scroll-into-view triggers
+      countElements.forEach(el => {
+        const suffix = el.getAttribute('data-suffix') || '';
+        renderStatValue(el, 0, suffix);
       });
 
-      countElements.forEach(el => countObserver.observe(el));
+      if (!('IntersectionObserver' in window)) {
+        countElements.forEach(el => animateCounter(el));
+      } else {
+        const countObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              animateCounter(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px 40px 0px'
+        });
+
+        countElements.forEach(el => countObserver.observe(el));
+      }
     }
   }
 
