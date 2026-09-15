@@ -166,6 +166,14 @@
   transform: translateY(0) !important;
 }
 
+/* Ensure Hero Section is always immediately visible on load without waiting for JS or scroll */
+.hero-desk,
+.hero-desk.reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
 @media (min-width: 781px) {
 
 
@@ -1689,7 +1697,7 @@
   .hero,
   .hero-desk {
     min-height: auto !important;
-    padding: 18px 0 28px !important;
+    padding: 12px 0 16px !important;
     position: relative !important;
     overflow: hidden !important;
     display: flex !important;
@@ -1702,8 +1710,8 @@
   }
 
   .hero-orbit {
-    width: min(86vw, 340px) !important;
-    height: min(86vw, 340px) !important;
+    width: min(72vw, 260px) !important;
+    height: min(72vw, 260px) !important;
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
@@ -1736,18 +1744,18 @@
 
   /* Floating Chips: Scaled and repositioned to outer corners to avoid overlapping content */
   .float-chip {
-    width: 34px !important;
-    height: 34px !important;
-    min-width: 34px !important;
-    min-height: 34px !important;
-    border-radius: 10px !important;
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    border-radius: 8px !important;
     border: 1px solid var(--ref-line-strong, rgba(255, 255, 255, 0.16)) !important;
     background: color-mix(in srgb, var(--ref-surface, rgba(255, 255, 255, 0.04)) 91%, transparent) !important;
     box-shadow: 0 8px 24px rgba(30, 45, 75, 0.12) !important;
     display: grid !important;
     place-items: center !important;
     color: var(--ref-blue, #3b82f6) !important;
-    font-size: 13px !important;
+    font-size: 11px !important;
     font-weight: 800 !important;
     animation: float 8s ease-in-out infinite !important;
     will-change: transform !important;
@@ -1755,6 +1763,7 @@
     padding: 0 !important;
     overflow: hidden !important;
     pointer-events: none !important;
+    opacity: 0.65 !important;
     z-index: 1 !important;
   }
 
@@ -1795,17 +1804,17 @@
   /* Hero Typography & CTA Buttons */
   .hero-eyebrow,
   .eyebrow {
-    font-size: 10px !important;
-    padding: 4px 11px !important;
-    margin-bottom: 10px !important;
+    font-size: 9px !important;
+    padding: 3px 9px !important;
+    margin-bottom: 6px !important;
     display: inline-flex !important;
     align-items: center !important;
-    gap: 6px !important;
+    gap: 4px !important;
     border-radius: 9999px !important;
     background: var(--ref-surface) !important;
     border: 1px solid var(--ref-line-strong) !important;
     font-weight: 700 !important;
-    letter-spacing: 0.08em !important;
+    letter-spacing: 0.05em !important;
     text-transform: uppercase !important;
     color: var(--ref-blue) !important;
     backdrop-filter: blur(12px) !important;
@@ -1814,11 +1823,11 @@
 
   .hero-eyebrow .pulse-dot,
   .eyebrow .pulse-dot {
-    width: 7px !important;
-    height: 7px !important;
+    width: 5px !important;
+    height: 5px !important;
     border-radius: 50% !important;
     background: #10b981 !important;
-    box-shadow: 0 0 10px #10b981 !important;
+    box-shadow: 0 0 8px #10b981 !important;
     animation: pulseGlow 1.8s infinite !important;
     display: inline-block !important;
     flex-shrink: 0 !important;
@@ -1828,11 +1837,11 @@
   .hero-desk h1,
   .hero-headline,
   .hero-title {
-    font-size: clamp(24px, 6.8vw, 31px) !important;
-    line-height: 1.12 !important;
-    letter-spacing: -0.03em !important;
-    margin-bottom: 10px !important;
-    max-width: 92% !important;
+    font-size: clamp(19px, 5vw, 23px) !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.025em !important;
+    margin-bottom: 6px !important;
+    max-width: 88% !important;
     width: 100% !important;
   }
 
@@ -1840,12 +1849,13 @@
   .hero-desk p,
   .hero-subhead,
   .hero-description {
-    font-size: 11.5px !important;
-    line-height: 17.75px !important;
-    max-width: 92% !important;
+    font-size: 10.5px !important;
+    line-height: 15.5px !important;
+    max-width: min(88%, 340px) !important;
     width: 100% !important;
-    margin-bottom: 18px !important;
+    margin-bottom: 12px !important;
     color: var(--ref-text-secondary, #94a3b8) !important;
+    opacity: 0.9 !important;
   }
 
   /* Aligned CTA buttons on a single row */
@@ -1857,7 +1867,7 @@
     justify-content: center !important;
     width: 100% !important;
     max-width: 380px !important;
-    gap: 8px !important;
+    gap: 6px !important;
     margin: 0 auto !important;
   }
 
@@ -1869,7 +1879,7 @@
     justify-content: center !important;
     width: auto !important;
     max-width: 100% !important;
-    gap: 8px !important;
+    gap: 6px !important;
     margin: 0 auto !important;
   }
 
@@ -1878,11 +1888,11 @@
     flex: 1 1 0 !important;
     width: auto !important;
     min-width: 0 !important;
-    min-height: 40px !important;
-    height: 40px !important;
+    min-height: 34px !important;
+    height: 34px !important;
     justify-content: center !important;
-    padding: 8px 12px !important;
-    font-size: 11.5px !important;
+    padding: 6px 11px !important;
+    font-size: 10.5px !important;
     font-weight: 700 !important;
     border-radius: 9999px !important;
     box-sizing: border-box !important;
@@ -1899,11 +1909,11 @@
     flex: 0 0 auto !important;
     width: auto !important;
     min-width: 0 !important;
-    min-height: 40px !important;
-    height: 40px !important;
+    min-height: 33px !important;
+    height: 33px !important;
     justify-content: center !important;
-    padding: 8px 12px !important;
-    font-size: 11.5px !important;
+    padding: 4px 11px !important;
+    font-size: 10px !important;
     font-weight: 700 !important;
     border-radius: 9999px !important;
     box-sizing: border-box !important;
@@ -1911,6 +1921,13 @@
     display: inline-flex !important;
     align-items: center !important;
     white-space: nowrap !important;
+    gap: 4px !important;
+  }
+
+  .hero-buttons-row .btn-ref-primary svg,
+  .hero-buttons-row .btn-ref-secondary svg {
+    width: 12px !important;
+    height: 12px !important;
   }
 
   /* Section Spacing & Headers */
@@ -2960,23 +2977,36 @@
   .hero,
   .hero-desk {
     min-height: auto !important;
-    padding-top: 16px !important;
-    padding-bottom: 24px !important;
+    padding-top: 10px !important;
+    padding-bottom: 14px !important;
+  }
+
+  .float-chip {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    border-radius: 6px !important;
+    font-size: 9.5px !important;
+    opacity: 0.55 !important;
   }
 
   .hero h1,
   .hero-desk h1,
   .hero-headline {
-    font-size: clamp(23px, 6.5vw, 27px) !important;
-    line-height: 1.12 !important;
-    letter-spacing: -0.03em !important;
+    font-size: clamp(17px, 4.8vw, 20px) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.025em !important;
+    margin-bottom: 6px !important;
   }
 
   .hero p,
   .hero-desk p,
   .hero-subhead {
-    font-size: 11.5px !important;
-    line-height: 17.75px !important;
+    font-size: 10px !important;
+    line-height: 14.5px !important;
+    max-width: min(86%, 310px) !important;
+    margin-bottom: 10px !important;
   }
 
   .hero-actions .primary,
@@ -2984,10 +3014,10 @@
     flex: 1 1 0 !important;
     width: auto !important;
     justify-content: center !important;
-    min-height: 38px !important;
-    height: 38px !important;
-    font-size: 11px !important;
-    padding: 6px 10px !important;
+    min-height: 32px !important;
+    height: 32px !important;
+    font-size: 9.5px !important;
+    padding: 4px 10px !important;
   }
 
   .hero-buttons-row .btn-ref-primary,
@@ -2995,10 +3025,17 @@
     flex: 0 0 auto !important;
     width: auto !important;
     justify-content: center !important;
-    min-height: 38px !important;
-    height: 38px !important;
-    font-size: 11px !important;
-    padding: 6px 10px !important;
+    min-height: 32px !important;
+    height: 32px !important;
+    font-size: 9.5px !important;
+    padding: 4px 10px !important;
+    gap: 4px !important;
+  }
+
+  .hero-buttons-row .btn-ref-primary svg,
+  .hero-buttons-row .btn-ref-secondary svg {
+    width: 11px !important;
+    height: 11px !important;
   }
 
   .marquee-item {

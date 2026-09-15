@@ -1225,6 +1225,10 @@ const PlatformEngine = {
   }
 };
 
-window.PLATFORM_CONFIG = PLATFORM_CONFIG;
-window.PlatformEngine = PlatformEngine;
+if (typeof window !== 'undefined') {
+  window.PLATFORM_CONFIG = PLATFORM_CONFIG;
+  window.PlatformEngine = PlatformEngine;
+}
+
+export { PLATFORM_CONFIG, PlatformEngine };
 

@@ -9,10 +9,8 @@
  * 100% Client-Side — Zero Server Uploads — Maximum Privacy
  */
 
-(function() {
-  'use strict';
-
-  const ALL_TOOL_CONFIGS = {
+// Multi Tube Views (MTV) — Media Converter Tools Registry
+const ALL_TOOL_CONFIGS = {
     // ==========================================
     // CORE CONVERTER TOOLS
     // ==========================================
@@ -574,8 +572,10 @@
     }
   };
 
-  // Attach to window
-  window.MTV_ALL_TOOL_CONFIGS = ALL_TOOL_CONFIGS;
-  window.MTV_VALID_TOOLS = Object.keys(ALL_TOOL_CONFIGS);
+  // Attach to window if available
+  if (typeof window !== 'undefined') {
+    window.MTV_ALL_TOOL_CONFIGS = ALL_TOOL_CONFIGS;
+    window.MTV_VALID_TOOLS = Object.keys(ALL_TOOL_CONFIGS);
+  }
 
-})();
+  export { ALL_TOOL_CONFIGS };

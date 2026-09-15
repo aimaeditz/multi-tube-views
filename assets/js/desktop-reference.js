@@ -39,7 +39,7 @@ export function updateHeroTotalBadge() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initDesktopReference() {
   updateHeroTotalBadge();
 
   const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -51,6 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isReducedMotion || isMobile) {
       revealElements.forEach(el => el.classList.add('in'));
     } else {
+      // Immediately reveal any elements currently inside or near viewport on load
+      revealElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 80 && rect.bottom > -80) {
+          el.classList.add('in');
+        }
+      });
+
       const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -64,7 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
         threshold: 0.08
       });
 
-      revealElements.forEach(el => revealObserver.observe(el));
+      revealElements.forEach(el => {
+        if (!el.classList.contains('in')) {
+          revealObserver.observe(el);
+        }
+      });
     }
   }
 
@@ -184,4 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initDesktopReference);
+} else {
+  initDesktopReference();
+}

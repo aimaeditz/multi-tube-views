@@ -27,6 +27,8 @@ const STATIC_ASSETS = [
   '/assets/js/navigation.js',
   '/assets/js/theme.js',
   '/assets/js/validators.js',
+  '/assets/js/site-search.js',
+  '/assets/js/vendor/fuse.min.mjs',
   '/assets/icons/favicon.svg',
 ];
 

@@ -39,7 +39,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/index.html">
 
-                                  <!-- Open Graph -->
+                                                  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/index.html">
   <meta property="og:title" content="Multi Tube Views — Multi-Stream Video Player & Grid Viewer">
@@ -188,6 +188,7 @@
   <link rel="preload" href="assets/css/style.css" as="style">
   <link rel="preload" href="assets/css/components.css" as="style">
   <link rel="preload" href="assets/css/responsive.css" as="style">
+  <link rel="preload" href="assets/css/desktop-reference.css" as="style">
 
 <link rel="stylesheet" href="assets/css/style.css?v=2.1">
   <link rel="stylesheet" href="assets/css/components.css?v=2.1">
@@ -320,7 +321,7 @@
     <div class="desktop-ref-container">
 
       <!-- 1. Hero Section -->
-      <section class="hero-desk reveal" id="hero">
+      <section class="hero-desk" id="hero">
         <div class="hero-orbit" aria-hidden="true"></div>
         
         <!-- Floating Interactive Chips -->
@@ -353,6 +354,22 @@
         <p class="hero-subhead">
           A unified, professional workspace engineered to organize, research, and monitor public media streams side-by-side across multiple major streaming and content networks. Built for creators and analysts with responsive layouts, automated link validation, and zero account friction.
         </p>
+
+        <!-- Site-Wide Search Bar Trigger -->
+        <div class="hero-search-wrapper" id="hero-search-container">
+          <div class="hero-search-bar" id="hero-search-trigger" role="button" tabindex="0" aria-label="Search all tools, converters, and platforms" aria-haspopup="dialog" aria-expanded="false">
+            <div class="hero-search-icon-wrap" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <span class="hero-search-placeholder">Search 269+ tools, media converters, utilities &amp; platforms...</span>
+            <div class="hero-search-badges" aria-hidden="true">
+              <kbd class="hero-search-kbd">⌘K</kbd>
+            </div>
+          </div>
+        </div>
 
         <div class="hero-buttons-row">
           <a href="#platforms" class="btn-ref-primary">
@@ -2210,12 +2227,117 @@
     </div>
   </footer>
 
+  <!-- Universal Site-Wide Search Overlay -->
+  <div class="mtv-search-overlay" id="mtv-search-overlay" role="dialog" aria-modal="true" aria-label="Site-Wide Search" aria-hidden="true">
+    <div class="mtv-search-backdrop" id="mtv-search-backdrop"></div>
+    <div class="mtv-search-palette" id="mtv-search-palette">
+      <!-- Search Input Header -->
+      <div class="mtv-search-header">
+        <div class="mtv-search-input-prefix" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </div>
+        <input 
+          type="text" 
+          id="mtv-search-input" 
+          class="mtv-search-input" 
+          placeholder="Search 269+ tools, converters, utilities &amp; platforms..." 
+          autocomplete="off" 
+          spellcheck="false" 
+          aria-autocomplete="list"
+          aria-controls="mtv-search-results"
+        />
+        <div class="mtv-search-actions">
+          <span class="mtv-search-count-pill" id="mtv-search-count-pill" style="display: none;">0 results</span>
+          <button type="button" class="mtv-search-clear-btn" id="mtv-search-clear-btn" aria-label="Clear search query" style="display: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          <button type="button" class="mtv-search-close-btn" id="mtv-search-close-btn" aria-label="Close search overlay">
+            <span>Close</span>
+            <span class="mtv-search-esc-hint" aria-hidden="true">[esc]</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Scrollable Content -->
+      <div class="mtv-search-scroll-area">
+        <!-- Empty State: Strictly NOTHING pre-listed! -->
+        <div class="mtv-search-empty-state" id="mtv-search-empty-state">
+          <div class="mtv-search-empty-content">
+            <div class="mtv-search-empty-icon" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <h3 class="mtv-search-empty-title">Instant Spotlight Search</h3>
+            <p class="mtv-search-empty-subtitle">Type anything to find tools, converters, utilities, and streaming platforms in real-time.</p>
+          </div>
+        </div>
+
+        <!-- No Results Found State -->
+        <div class="mtv-search-no-results" id="mtv-search-no-results" style="display: none;">
+          <div class="mtv-no-results-icon">🔍</div>
+          <div class="mtv-no-results-title">No tools or platforms found</div>
+          <p class="mtv-no-results-desc">Try checking for typos or searching by broad keywords like: 
+            <span class="mtv-suggestion-chip">mp3</span>
+            <span class="mtv-suggestion-chip">youtube</span>
+            <span class="mtv-suggestion-chip">seo</span>
+            <span class="mtv-suggestion-chip">pdf</span>
+            <span class="mtv-suggestion-chip">trim</span>
+            <span class="mtv-suggestion-chip">hash</span>
+          </p>
+        </div>
+
+        <!-- Dynamic Results Container -->
+        <div id="mtv-search-results" style="display: none;">
+          <!-- Direct Matches Section -->
+          <div class="mtv-search-section">
+            <div class="mtv-search-section-header">
+              <span class="mtv-section-badge">Direct Matches</span>
+              <span class="mtv-section-count" id="mtv-matches-count">0 shown</span>
+            </div>
+            <div class="mtv-results-grid" id="mtv-matches-grid" role="listbox"></div>
+          </div>
+
+          <!-- Category-Aware Related Suggestions Section -->
+          <div class="mtv-related-section" id="mtv-section-related" style="display: none;">
+            <div class="mtv-search-section-header">
+              <div class="mtv-related-header-left">
+                <span class="mtv-related-badge">More in Category</span>
+                <span class="mtv-related-category-name" id="mtv-related-category-name">Category</span>
+              </div>
+              <span class="mtv-related-category-desc">Related tools you might also need</span>
+            </div>
+            <div class="mtv-related-grid" id="mtv-related-grid" role="listbox"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Keyboard Navigation Footer -->
+      <div class="mtv-search-footer" aria-hidden="true">
+        <div class="mtv-footer-hints">
+          <span class="mtv-hint-item"><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+          <span class="mtv-hint-item"><kbd>↵</kbd> Select</span>
+          <span class="mtv-hint-item"><kbd>esc</kbd> Dismiss</span>
+        </div>
+        <span class="mtv-footer-brand">269+ Tools &amp; Platforms Indexed</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script type="module" src="assets/js/validators.js"></script>
   <script type="module" src="assets/js/platform-engine.js"></script>
   <script type="module" src="assets/js/growth-engine.js"></script>
   <script type="module" src="assets/js/navigation.js"></script>
   <script type="module" src="assets/js/desktop-reference.js"></script>
+  <script type="module" src="assets/js/site-search.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Platform Directory Search Filter
