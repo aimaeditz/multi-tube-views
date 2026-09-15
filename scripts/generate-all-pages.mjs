@@ -83,6 +83,7 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0
   </script>
 
   <meta charset="UTF-8">
+  <meta name="google-adsense-account" content="ca-pub-5279550123869703">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279550123869703" crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="${assetPrefix}assets/icons/favicon.ico" sizes="any">
