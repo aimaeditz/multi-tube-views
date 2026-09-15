@@ -1,9 +1,47 @@
 /**
  * Multi Tube Views (MTV) — Desktop Reference Design System Interactivity
- * Handles scroll reveals, number counting, and 3D card tilt effects (Desktop only).
+ * Handles scroll reveals, number counting, 3D card tilt effects, and dynamic tool badge metrics.
  */
 
+import { AI_TOOLS_DATA } from '../data/ai-tools-data.js';
+import { BU_CATEGORIES } from '../data/browser-utilities-data.js';
+import { CREATOR_TOOLS_DATA } from '../data/creator-tools-data.js';
+import './media-tools-data.js';
+
+export function getLiveWebsiteTotalTools() {
+  const aiToolsCount = (typeof AI_TOOLS_DATA === 'object' && AI_TOOLS_DATA !== null)
+    ? Object.keys(AI_TOOLS_DATA).length
+    : 60;
+
+  const creatorToolsCount = (typeof CREATOR_TOOLS_DATA === 'object' && CREATOR_TOOLS_DATA !== null)
+    ? Object.keys(CREATOR_TOOLS_DATA).length
+    : 20;
+
+  let buToolsCount = 89;
+  if (Array.isArray(BU_CATEGORIES) && BU_CATEGORIES.length > 0) {
+    buToolsCount = BU_CATEGORIES.reduce((acc, cat) => acc + (cat.tools ? cat.tools.length : (cat.toolCount || 0)), 0);
+  }
+
+  let mediaToolsCount = 60;
+  if (typeof window !== 'undefined' && window.MTV_ALL_TOOL_CONFIGS) {
+    mediaToolsCount = Object.keys(window.MTV_ALL_TOOL_CONFIGS).length;
+  }
+
+  return aiToolsCount + creatorToolsCount + buToolsCount + mediaToolsCount;
+}
+
+export function updateHeroTotalBadge() {
+  const badgeTextEl = document.getElementById('hero-total-tools-text') ||
+                      document.querySelector('.float-chip.float-chip-4 span:last-child');
+  if (badgeTextEl) {
+    const total = getLiveWebsiteTotalTools();
+    badgeTextEl.textContent = `${total} Instant Tools`;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  updateHeroTotalBadge();
+
   const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobile = window.innerWidth <= 780 || window.matchMedia('(max-width: 780px)').matches;
 
@@ -103,6 +141,12 @@ document.addEventListener('DOMContentLoaded', () => {
       // Ignore if element is an output result box
       if (card.id === 'dedicated-tool-output' || card.id === 'dedicated-tool-output-wrap' || card.classList.contains('inline-tool-output') || card.classList.contains('ai-rendered-content')) return;
 
+      let rect = null;
+
+      card.addEventListener('mouseenter', () => {
+        rect = card.getBoundingClientRect();
+      });
+
       card.addEventListener('mousemove', (e) => {
         // Prevent wobble/tilt if mouse is over tool output result box or controls inside card
         if (e.target.closest('#dedicated-tool-output-wrap, #dedicated-tool-output, .inline-tool-output, .ai-rendered-content')) {
@@ -110,7 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        const rect = card.getBoundingClientRect();
+        if (!rect) {
+          rect = card.getBoundingClientRect();
+        }
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         const centerX = rect.width / 2;
@@ -123,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       card.addEventListener('mouseleave', () => {
+        rect = null;
         card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
       });
     });

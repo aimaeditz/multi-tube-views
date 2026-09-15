@@ -82,6 +82,7 @@
         outputAudioPlayer: document.getElementById('media-output-audio-player'),
         outputGifPreview: document.getElementById('media-output-gif-preview'),
         outputImagePreview: document.getElementById('media-output-image-preview'),
+        outputDocPreview: document.getElementById('media-output-doc-preview'),
         outputMetaText: document.getElementById('media-output-meta'),
         downloadBtn: document.getElementById('btn-download-media'),
         processAnotherBtn: document.getElementById('btn-process-another'),
@@ -239,7 +240,7 @@
       if (this.dom.toolsListView) this.dom.toolsListView.style.display = 'none';
       if (this.dom.workspace) this.dom.workspace.style.display = 'block';
 
-      // Tool Metadata configuration for all 15 tools
+      // Tool Metadata configuration for converter tools
       const toolConfigs = {
         'video-to-audio': {
           title: 'Video to Audio Converter',
@@ -790,41 +791,85 @@
       const isVideo = mimeType.startsWith('video/');
       const isGif = mimeType === 'image/gif';
       const isImage = mimeType.startsWith('image/') && !isGif;
+      const isAudio = mimeType.startsWith('audio/');
+      const isPdf = mimeType === 'application/pdf' || extension === 'pdf';
+      const isZip = mimeType === 'application/zip' || extension === 'zip';
+      const isText = mimeType.startsWith('text/') || extension === 'txt' || extension === 'svg';
+
+      // Hide all by default
+      if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
+      if (this.dom.outputImagePreview) this.dom.outputImagePreview.style.display = 'none';
+      if (this.dom.outputVideoPlayer) this.dom.outputVideoPlayer.style.display = 'none';
+      if (this.dom.outputAudioPlayer) this.dom.outputAudioPlayer.style.display = 'none';
+      if (this.dom.outputDocPreview) this.dom.outputDocPreview.style.display = 'none';
 
       if (isGif) {
         if (this.dom.outputGifPreview) {
           this.dom.outputGifPreview.style.display = 'block';
           this.dom.outputGifPreview.src = outputUrl;
         }
-        if (this.dom.outputVideoPlayer) this.dom.outputVideoPlayer.style.display = 'none';
-        if (this.dom.outputAudioPlayer) this.dom.outputAudioPlayer.style.display = 'none';
-        if (this.dom.outputImagePreview) this.dom.outputImagePreview.style.display = 'none';
       } else if (isImage) {
         if (this.dom.outputImagePreview) {
           this.dom.outputImagePreview.style.display = 'block';
           this.dom.outputImagePreview.src = outputUrl;
         }
-        if (this.dom.outputVideoPlayer) this.dom.outputVideoPlayer.style.display = 'none';
-        if (this.dom.outputAudioPlayer) this.dom.outputAudioPlayer.style.display = 'none';
-        if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
       } else if (isVideo) {
         if (this.dom.outputVideoPlayer) {
           this.dom.outputVideoPlayer.style.display = 'block';
           this.dom.outputVideoPlayer.src = outputUrl;
           this.dom.outputVideoPlayer.load();
         }
-        if (this.dom.outputAudioPlayer) this.dom.outputAudioPlayer.style.display = 'none';
-        if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
-        if (this.dom.outputImagePreview) this.dom.outputImagePreview.style.display = 'none';
-      } else {
+      } else if (isAudio) {
         if (this.dom.outputAudioPlayer) {
           this.dom.outputAudioPlayer.style.display = 'block';
           this.dom.outputAudioPlayer.src = outputUrl;
           this.dom.outputAudioPlayer.load();
         }
-        if (this.dom.outputVideoPlayer) this.dom.outputVideoPlayer.style.display = 'none';
-        if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
-        if (this.dom.outputImagePreview) this.dom.outputImagePreview.style.display = 'none';
+      } else if (isPdf) {
+        if (this.dom.outputDocPreview) {
+          this.dom.outputDocPreview.style.display = 'block';
+          this.dom.outputDocPreview.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div style="font-size: 2rem;">📄</div>
+                <div>
+                  <div style="font-weight: bold; color: var(--text-color);">PDF Document Ready</div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted);">${(blob.size / 1024).toFixed(1)} KB • Local In-Browser Generation</div>
+                </div>
+              </div>
+              <a href="${outputUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                Open / View PDF in New Tab ↗
+              </a>
+            </div>
+          `;
+        }
+      } else if (isZip) {
+        if (this.dom.outputDocPreview) {
+          this.dom.outputDocPreview.style.display = 'block';
+          this.dom.outputDocPreview.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div style="font-size: 2rem;">📦</div>
+              <div>
+                <div style="font-weight: bold; color: var(--text-color);">ZIP Archive Package Ready</div>
+                <div style="font-size: 0.82rem; color: var(--text-muted);">${(blob.size / 1024).toFixed(1)} KB • Contains all exported files</div>
+              </div>
+            </div>
+          `;
+        }
+      } else {
+        // Text / generic report
+        if (this.dom.outputDocPreview) {
+          this.dom.outputDocPreview.style.display = 'block';
+          this.dom.outputDocPreview.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+              <div style="font-size: 2rem;">📝</div>
+              <div>
+                <div style="font-weight: bold; color: var(--text-color);">Export File Ready</div>
+                <div style="font-size: 0.82rem; color: var(--text-muted);">${extension.toUpperCase()} • ${(blob.size / 1024).toFixed(1)} KB</div>
+              </div>
+            </div>
+          `;
+        }
       }
 
       // Download button setup
@@ -1959,6 +2004,7 @@
       const qrEcc = document.getElementById('qrEcc') || document.getElementById('qr-ecc');
       const qrFgColor = document.getElementById('qrForegroundColor') || document.getElementById('qr-color-dark');
       const qrBgColor = document.getElementById('qrBackgroundColor') || document.getElementById('qr-color-light');
+      const generateBtn = document.getElementById('btn-generate-qr');
       const downloadBtn = document.getElementById('downloadQrBtn') || document.getElementById('btn-qr-download');
       const copyBtn = document.getElementById('btn-qr-copy');
 
@@ -1966,9 +2012,18 @@
         window.renderQrCode();
       }
 
+      if (generateBtn) {
+        generateBtn.addEventListener('click', () => {
+          if (typeof window.renderQrCode === 'function') {
+            window.renderQrCode();
+          }
+        });
+      }
+
       if (qrTextInput) {
         qrTextInput.addEventListener('input', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
         qrTextInput.addEventListener('change', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
+        qrTextInput.addEventListener('keyup', (e) => { if (e.key === 'Enter' && typeof window.renderQrCode === 'function') window.renderQrCode(); });
       }
       if (qrResolution) qrResolution.addEventListener('change', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
       if (qrEcc) qrEcc.addEventListener('change', () => { if (typeof window.renderQrCode === 'function') window.renderQrCode(); });
@@ -2127,10 +2182,10 @@
           throw new Error('jsPDF library is not loaded');
         }
         const { jsPDF } = window.jspdf;
-        const orient = document.getElementById('img2pdf-orientation')?.value || 'portrait';
-        const pageFmt = document.getElementById('img2pdf-format')?.value || 'a4';
-        const marginOpt = document.getElementById('img2pdf-margin')?.value || 'small';
-        const marginPx = marginOpt === 'none' ? 0 : (marginOpt === 'large' ? 40 : 20);
+        const orient = document.getElementById('img-pdf-orientation')?.value || document.getElementById('img2pdf-orientation')?.value || 'portrait';
+        const pageFmt = document.getElementById('img-pdf-page-format')?.value || document.getElementById('img2pdf-format')?.value || 'a4';
+        const marginOpt = document.getElementById('img-pdf-margin')?.value || document.getElementById('img2pdf-margin')?.value || '10';
+        const marginPx = marginOpt === '0' || marginOpt === 'none' ? 0 : (marginOpt === '10' || marginOpt === 'standard' ? 28 : (marginOpt === '5' || marginOpt === 'small' ? 14 : 20));
 
         const doc = new jsPDF({
           orientation: orient === 'landscape' ? 'landscape' : 'portrait',
@@ -2928,29 +2983,35 @@
 
   function renderQrCode() {
     const textInput = document.getElementById('qrTextInput') || document.getElementById('qr-input-text');
-    const text = textInput ? (textInput.value || 'https://multitubeviews.com') : 'https://multitubeviews.com';
+    const text = textInput ? (textInput.value.trim() || 'https://multitubeviews.com') : 'https://multitubeviews.com';
     const size = getSelectedResolutionValue();
     const fgInput = document.getElementById('qrForegroundColor') || document.getElementById('qr-color-dark');
     const fgColor = fgInput ? (fgInput.value || '#000000') : '#000000';
     const bgInput = document.getElementById('qrBackgroundColor') || document.getElementById('qr-color-light');
     const bgColor = bgInput ? (bgInput.value || '#ffffff') : '#ffffff';
 
+    const container = document.getElementById('qrCodeOutput');
+    if (!container) return;
+
+    if (!window.QRCode) {
+      setTimeout(renderQrCode, 150);
+      return;
+    }
+
     const errorLevelMap = {
       Low: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.L : 1,
       Medium: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.M : 0,
-      High: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.Q : 2,
-      Highest: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.H : 3
+      High: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.Q : 3,
+      Highest: (window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.H : 2
     };
     const label = getSelectedErrorCorrectionLabel();
     const errorLevel = errorLevelMap[label] !== undefined
       ? errorLevelMap[label]
       : ((window.QRCode && window.QRCode.CorrectLevel) ? window.QRCode.CorrectLevel.M : 0);
 
-    const container = document.getElementById('qrCodeOutput');
-    if (!container) return;
     container.innerHTML = '';
 
-    if (window.QRCode) {
+    try {
       qrInstance = new window.QRCode(container, {
         text: text,
         width: size,
@@ -2959,6 +3020,21 @@
         colorLight: bgColor,
         correctLevel: errorLevel
       });
+    } catch (e) {
+      console.warn("QR generation retry with level L due to data length:", e);
+      try {
+        container.innerHTML = '';
+        qrInstance = new window.QRCode(container, {
+          text: text,
+          width: size,
+          height: size,
+          colorDark: fgColor,
+          colorLight: bgColor,
+          correctLevel: window.QRCode.CorrectLevel ? window.QRCode.CorrectLevel.L : 1
+        });
+      } catch (err) {
+        console.error("QR Code generation failed:", err);
+      }
     }
   }
 

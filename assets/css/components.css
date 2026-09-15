@@ -4531,15 +4531,51 @@ section#live-stats-section.glass-section {
   color: var(--accent-primary);
 }
 
+.bu-card-actions {
+  display: flex;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-subtle);
+  width: 100%;
+}
+
+.btn-open-utility {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  font-weight: 700;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent-primary);
+  color: var(--text-inverse);
+  border: 1px solid var(--accent-primary);
+  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.bu-card:hover .btn-open-utility,
+.bu-tool-card:hover .btn-open-utility {
+  background-color: var(--accent-primary-hover);
+  border-color: var(--accent-primary-hover);
+  color: var(--text-inverse);
+  transform: translateY(-1px);
+}
+
 /* Animated Arrow Nudge */
 .arrow-nudge,
 .bu-card .arrow-nudge,
 .bu-tool-card .arrow-nudge,
 .bu-card-action svg,
 .bu-tool-card-action svg,
+.btn-open-utility svg,
 .story-cta-link svg,
 .btn-open-creator-tool svg,
 .btn-open-media-tool svg,
+.btn-open-platform svg,
 .bu-explore-btn svg,
 .bu-card-action .arrow-char {
   transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -4550,14 +4586,18 @@ section#live-stats-section.glass-section {
 .bu-card:hover .arrow-nudge,
 .bu-card:hover .bu-card-action svg,
 .bu-card:hover .bu-card-action .arrow-char,
+.bu-card:hover .btn-open-utility svg,
 .bu-tool-card:hover .arrow-nudge,
 .bu-tool-card:hover .bu-tool-card-action svg,
 .bu-tool-card:hover .bu-tool-card-action .arrow-char,
+.bu-tool-card:hover .btn-open-utility svg,
+.btn-open-utility:hover svg,
 .bu-btn:hover .arrow-nudge,
 .bu-explore-btn:hover svg,
 .story-cta-link:hover svg,
 .btn-open-creator-tool:hover svg,
-.btn-open-media-tool:hover svg {
+.btn-open-media-tool:hover svg,
+.platform-card:hover .btn-open-platform svg {
   transform: translateX(4px) !important;
 }
 

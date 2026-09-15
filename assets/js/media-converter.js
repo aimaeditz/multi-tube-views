@@ -240,7 +240,7 @@
       if (this.dom.toolsListView) this.dom.toolsListView.style.display = 'none';
       if (this.dom.workspace) this.dom.workspace.style.display = 'block';
 
-      // Tool Metadata configuration for all 15 tools
+      // Tool Metadata configuration for converter tools
       const toolConfigs = {
         'video-to-audio': {
           title: 'Video to Audio Converter',

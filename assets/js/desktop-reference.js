@@ -1,9 +1,47 @@
 /**
  * Multi Tube Views (MTV) — Desktop Reference Design System Interactivity
- * Handles scroll reveals, number counting, and 3D card tilt effects (Desktop only).
+ * Handles scroll reveals, number counting, 3D card tilt effects, and dynamic tool badge metrics.
  */
 
+import { AI_TOOLS_DATA } from '../data/ai-tools-data.js';
+import { BU_CATEGORIES } from '../data/browser-utilities-data.js';
+import { CREATOR_TOOLS_DATA } from '../data/creator-tools-data.js';
+import './media-tools-data.js';
+
+export function getLiveWebsiteTotalTools() {
+  const aiToolsCount = (typeof AI_TOOLS_DATA === 'object' && AI_TOOLS_DATA !== null)
+    ? Object.keys(AI_TOOLS_DATA).length
+    : 60;
+
+  const creatorToolsCount = (typeof CREATOR_TOOLS_DATA === 'object' && CREATOR_TOOLS_DATA !== null)
+    ? Object.keys(CREATOR_TOOLS_DATA).length
+    : 20;
+
+  let buToolsCount = 89;
+  if (Array.isArray(BU_CATEGORIES) && BU_CATEGORIES.length > 0) {
+    buToolsCount = BU_CATEGORIES.reduce((acc, cat) => acc + (cat.tools ? cat.tools.length : (cat.toolCount || 0)), 0);
+  }
+
+  let mediaToolsCount = 60;
+  if (typeof window !== 'undefined' && window.MTV_ALL_TOOL_CONFIGS) {
+    mediaToolsCount = Object.keys(window.MTV_ALL_TOOL_CONFIGS).length;
+  }
+
+  return aiToolsCount + creatorToolsCount + buToolsCount + mediaToolsCount;
+}
+
+export function updateHeroTotalBadge() {
+  const badgeTextEl = document.getElementById('hero-total-tools-text') ||
+                      document.querySelector('.float-chip.float-chip-4 span:last-child');
+  if (badgeTextEl) {
+    const total = getLiveWebsiteTotalTools();
+    badgeTextEl.textContent = `${total} Instant Tools`;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  updateHeroTotalBadge();
+
   const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobile = window.innerWidth <= 780 || window.matchMedia('(max-width: 780px)').matches;
 

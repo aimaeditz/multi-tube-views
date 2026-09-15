@@ -1,6 +1,6 @@
 /**
  * Multi Tube Views (MTV) — Client AI Integration Engine
- * Flow: Frontend -> MTV Express Backend (/api/chat) -> Gemini API (@google/genai) -> Real AI Response -> Frontend UI
+ * Flow: Frontend -> MTV Express Backend (/api/chat) -> MTV AI -> Response -> Frontend UI
  */
 
 (function () {

@@ -263,13 +263,7 @@ app.get('/api/health', (req: Request, res: Response) => {
     service: 'Multi Tube Views AI Backend',
     timestamp: new Date().toISOString(),
     providers,
-    activeProvider: providers.gemini
-      ? 'gemini'
-      : providers.openrouter
-      ? 'openrouter'
-      : providers.openai
-      ? 'openai'
-      : 'none',
+    activeProvider: 'MTV AI',
     cacheEntries: cacheStore.size,
   });
 });
@@ -282,33 +276,33 @@ app.get('/api/models', (req: Request, res: Response) => {
   const models = [
     {
       id: 'gemini-3.7-flash',
-      name: 'Gemini 3.7 Flash',
-      provider: 'google',
-      description: 'Default high-performance model for reasoning, content & coding',
+      name: 'Standard (Fast)',
+      provider: 'MTV AI',
+      description: 'Default high-performance engine for reasoning, content & coding',
       badge: 'Recommended',
       isDefault: !envDefaultModel || envDefaultModel === 'gemini-3.7-flash',
     },
     {
       id: 'gemini-3.1-pro-preview',
-      name: 'Gemini 3.1 Pro',
-      provider: 'google',
+      name: 'Pro Intelligence',
+      provider: 'MTV AI',
       description: 'Advanced reasoning & complex problem solving',
       badge: 'Pro',
       isDefault: envDefaultModel === 'gemini-3.1-pro-preview',
     },
     {
       id: 'gemini-3.1-flash-lite',
-      name: 'Gemini 3.1 Flash Lite',
-      provider: 'google',
-      description: 'Ultra-fast lightweight model for quick tasks',
+      name: 'Compact & Light',
+      provider: 'MTV AI',
+      description: 'Ultra-fast lightweight engine for quick tasks',
       badge: 'Lite',
       isDefault: envDefaultModel === 'gemini-3.1-flash-lite',
     },
     {
       id: 'gemini-flash-latest',
-      name: 'Gemini Flash Latest',
-      provider: 'google',
-      description: 'Latest Gemini Flash production release',
+      name: 'Latest Optimization',
+      provider: 'MTV AI',
+      description: 'Latest production release',
       badge: 'Latest',
       isDefault: envDefaultModel === 'gemini-flash-latest',
     },
@@ -374,19 +368,19 @@ app.get('/api/architecture', (req: Request, res: Response) => {
       frontend: {
         framework: 'React 19 + Vite 6 + Tailwind CSS',
         container: 'Single Page Application / Classical HTML Hybrid Workspace',
-        clientSecurity: 'Strict Content Security Policy & Safe Direct Gateway Fallbacks',
+        clientSecurity: 'Strict Content Security Policy & Safe Client Isolation',
       },
       backend: {
         framework: 'Express.js on Node.js (Port 3000)',
         middleware: ['Request Tracing (X-Request-ID)', 'Rate Limiting', 'Security Headers', 'TTL In-Memory Caching'],
-        proxyPattern: 'Server-Side API Proxy (Hides API Secrets from Client Browsers)',
+        proxyPattern: 'Server-Side Gateway (Hides API Secrets from Client Browsers)',
       },
       aiLayer: {
-        primarySdk: '@google/genai (TypeScript SDK)',
-        recommendedModel: 'gemini-3.7-flash',
-        proModel: 'gemini-3.1-pro-preview',
-        liteModel: 'gemini-3.1-flash-lite',
-        retryStrategy: 'Exponential Backoff with Jitter (3 Attempts)',
+        engine: 'MTV AI Core Engine',
+        recommendedModel: 'Standard (Fast)',
+        proModel: 'Pro Intelligence',
+        liteModel: 'Compact & Light',
+        retryStrategy: 'High Reliability Cascade',
       },
     },
     securityControls: {
@@ -2210,9 +2204,9 @@ app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
       return;
     }
 
-    // Attempt Gemini first using prioritized model cascade
+    // Attempt AI generation first
     const gemini = getGeminiClient();
-    if (gemini && (provider === 'auto' || provider === 'gemini' || provider === 'google')) {
+    if (gemini && (provider === 'auto' || provider === 'gemini' || provider === 'google' || provider === 'mtv-ai' || !provider)) {
       const candidateModels = getPrioritizedModels(model);
 
       for (const m of candidateModels) {

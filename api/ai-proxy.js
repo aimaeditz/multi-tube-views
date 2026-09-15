@@ -1,5 +1,5 @@
 // ============================================================
-// MTV AI SYSTEM — Multi-Provider Proxy (Final Merged Version)
+// MTV AI SYSTEM — MTV AI Engine
 // ============================================================
 import { GoogleGenAI } from '@google/genai';
 

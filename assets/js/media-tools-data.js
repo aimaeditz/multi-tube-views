@@ -14,7 +14,7 @@
 
   const ALL_TOOL_CONFIGS = {
     // ==========================================
-    // EXISTING 15 TOOLS
+    // CORE CONVERTER TOOLS
     // ==========================================
     'video-to-audio': {
       title: 'Video to Audio Converter',

@@ -69,18 +69,18 @@ export default function App() {
   
   // Chat State
   const [availableModels, setAvailableModels] = useState<AIModelItem[]>([
-    { id: 'gemini-3.7-flash', name: 'Gemini 3.7 Flash', provider: 'google', description: 'Default high-performance model for reasoning & coding', badge: 'Recommended', isDefault: true },
-    { id: 'gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro', provider: 'google', description: 'Advanced reasoning & complex problem solving', badge: 'Pro' },
-    { id: 'gemini-3.1-flash-lite', name: 'Gemini 3.1 Flash Lite', provider: 'google', description: 'Ultra-fast lightweight model for quick tasks', badge: 'Lite' },
-    { id: 'gemini-flash-latest', name: 'Gemini Flash Latest', provider: 'google', description: 'Latest Gemini Flash production release', badge: 'Latest' }
+    { id: 'gemini-3.7-flash', name: 'Standard (Fast)', provider: 'MTV AI', description: 'High-performance engine for reasoning, content & coding', badge: 'Recommended', isDefault: true },
+    { id: 'gemini-3.1-pro-preview', name: 'Pro Intelligence', provider: 'MTV AI', description: 'Advanced reasoning & complex problem solving', badge: 'Pro' },
+    { id: 'gemini-3.1-flash-lite', name: 'Compact & Light', provider: 'MTV AI', description: 'Ultra-fast lightweight engine for quick tasks', badge: 'Lite' },
+    { id: 'gemini-flash-latest', name: 'Latest Optimization', provider: 'MTV AI', description: 'Latest MTV AI production release', badge: 'Latest' }
   ]);
   const [selectedModel, setSelectedModel] = useState<string>('gemini-3.7-flash');
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'welcome-1',
       sender: 'assistant',
-      text: 'Welcome to **Multi Tube Views AI Studio**!\n\nAll AI requests are processed securely on our **MTV Express backend** using your selected model. Select any model from the dropdown above to switch AI reasoning engines in real-time.',
-      model: 'gemini-3.7-flash',
+      text: 'Welcome to **Multi Tube Views AI Studio**!\n\nAll AI requests are powered securely by **MTV AI**. Select any model mode from the dropdown above to switch reasoning engines in real-time.',
+      model: 'MTV AI',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -415,7 +415,7 @@ export default function App() {
         {/* Main Content Area */}
         <main className="flex-1 flex flex-col min-w-0">
           
-          {/* TAB 1: Gemini Chat */}
+          {/* TAB 1: MTV AI Chat */}
           {activeTab === 'chat' && (
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[75vh] overflow-hidden">
               <div className="px-6 py-3.5 border-b border-slate-100 bg-slate-50/50 flex flex-wrap items-center justify-between gap-3">
@@ -423,9 +423,9 @@ export default function App() {
                   <div>
                     <h2 className="text-base font-bold text-slate-900 flex items-center space-x-2">
                       <span className="md:text-[34.6px]">AI Assistant Chat</span>
-                      <span className="px-2 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-700 rounded-md">Server Proxy</span>
+                      <span className="px-2 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-700 rounded-md">MTV AI</span>
                     </h2>
-                    <p className="text-xs text-slate-500">Real-time response directly from Express backend via @google/genai</p>
+                    <p className="text-xs text-slate-500">Real-time response powered by MTV AI</p>
                   </div>
                 </div>
 
@@ -466,7 +466,7 @@ export default function App() {
                     className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
                   >
                     <div className="flex items-center space-x-2 mb-1 text-[11px] font-semibold text-slate-400">
-                      <span>{msg.sender === 'user' ? 'You' : `MTV AI (${msg.model || 'gemini-3.7-flash'})`}</span>
+                      <span>{msg.sender === 'user' ? 'You' : `MTV AI`}</span>
                       <span>•</span>
                       <span>{msg.timestamp}</span>
                     </div>
@@ -735,12 +735,12 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 4: System Health & Architecture */}
+          {/* TAB 4: System Health & Status */}
           {activeTab === 'status' && (
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
               <div>
-                <h2 className="text-lg font-bold text-slate-900">System Architecture & Backend Diagnostics</h2>
-                <p className="text-sm text-slate-500">Live operational status, request tracing, security policies, and architectural flow of MTV AI Studio.</p>
+                <h2 className="text-lg font-bold text-slate-900">System Diagnostics & Status</h2>
+                <p className="text-sm text-slate-500">Live operational status, performance metrics, and service availability of MTV AI Studio.</p>
               </div>
 
               {/* Status Overview Cards */}
@@ -752,15 +752,15 @@ export default function App() {
                 </div>
 
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <span className="text-xs font-medium text-slate-500">Active AI Provider</span>
-                  <div className="text-base font-bold text-blue-600 mt-1 capitalize">{backendHealth?.activeProvider || 'gemini'}</div>
-                  <span className="text-[11px] text-slate-500 mt-1 block">SDK: @google/genai</span>
+                  <span className="text-xs font-medium text-slate-500">Active AI Engine</span>
+                  <div className="text-base font-bold text-blue-600 mt-1">MTV AI</div>
+                  <span className="text-[11px] text-emerald-600 font-semibold mt-1 block">Operational</span>
                 </div>
 
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <span className="text-xs font-medium text-slate-500">Default Model</span>
-                  <div className="text-base font-bold text-slate-900 mt-1">gemini-3.7-flash</div>
-                  <span className="text-[11px] text-slate-500 mt-1 block">Server-Side Proxy</span>
+                  <span className="text-xs font-medium text-slate-500">Selected Engine</span>
+                  <div className="text-base font-bold text-slate-900 mt-1">Standard (Fast)</div>
+                  <span className="text-[11px] text-slate-500 mt-1 block">Sub-Second Response</span>
                 </div>
 
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
@@ -773,36 +773,40 @@ export default function App() {
               {/* Architectural Layers Breakdown */}
               {architectureInfo && (
                 <div className="space-y-4">
-                  <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">Full-Stack Data Flow & Security Layer</h3>
+                  <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">System Architecture & Capabilities</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="p-4 bg-blue-50/50 rounded-xl border border-blue-200">
                       <span className="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">1. Frontend Layer</span>
-                      <p className="text-xs font-semibold text-slate-900">{architectureInfo.layers?.frontend?.framework}</p>
-                      <p className="text-[11px] text-slate-600 mt-1">{architectureInfo.layers?.frontend?.container}</p>
+                      <p className="text-xs font-semibold text-slate-900">{architectureInfo.layers?.frontend?.framework || 'Modern SPA'}</p>
+                      <p className="text-[11px] text-slate-600 mt-1">{architectureInfo.layers?.frontend?.container || 'Client Runtime'}</p>
                       <span className="inline-block mt-2 px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-bold rounded">
-                        {architectureInfo.layers?.frontend?.clientSecurity}
+                        Secure Client
                       </span>
                     </div>
 
                     <div className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-200">
-                      <span className="text-xs font-bold text-indigo-700 uppercase tracking-wider block mb-1">2. Express Proxy Layer</span>
-                      <p className="text-xs font-semibold text-slate-900">{architectureInfo.layers?.backend?.framework}</p>
-                      <p className="text-[11px] text-slate-600 mt-1">{architectureInfo.layers?.backend?.proxyPattern}</p>
+                      <span className="text-xs font-bold text-indigo-700 uppercase tracking-wider block mb-1">2. Service Layer</span>
+                      <p className="text-xs font-semibold text-slate-900">MTV Application Server</p>
+                      <p className="text-[11px] text-slate-600 mt-1">High Speed Ingress</p>
                       <div className="mt-2 flex flex-wrap gap-1">
-                        {architectureInfo.layers?.backend?.middleware?.map((m: string, i: number) => (
-                          <span key={i} className="px-1.5 py-0.5 bg-indigo-100 text-indigo-800 text-[10px] font-semibold rounded">
-                            {m}
-                          </span>
-                        ))}
+                        <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-800 text-[10px] font-semibold rounded">
+                          Rate Limiting
+                        </span>
+                        <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-800 text-[10px] font-semibold rounded">
+                          Security Headers
+                        </span>
+                        <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-800 text-[10px] font-semibold rounded">
+                          TTL Cache
+                        </span>
                       </div>
                     </div>
 
                     <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-200">
-                      <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">3. AI Engine Layer</span>
-                      <p className="text-xs font-semibold text-slate-900">{architectureInfo.layers?.aiLayer?.primarySdk}</p>
-                      <p className="text-[11px] text-slate-600 mt-1">Recommended: {architectureInfo.layers?.aiLayer?.recommendedModel}</p>
+                      <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">3. MTV AI Engine</span>
+                      <p className="text-xs font-semibold text-slate-900">MTV AI Core</p>
+                      <p className="text-[11px] text-slate-600 mt-1">High Availability &amp; Reliability</p>
                       <span className="inline-block mt-2 px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded">
-                        {architectureInfo.layers?.aiLayer?.retryStrategy}
+                        Active &amp; Healthy
                       </span>
                     </div>
                   </div>

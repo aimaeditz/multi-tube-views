@@ -103,7 +103,7 @@
     isDropdownSelected,
 
     /**
-     * Run an AI task through the proxy backend
+     * Run an AI task through MTV AI
      * @param {Object} options
      * @param {string} options.task - Task identifier (e.g. 'seo-title', 'hashtags', etc.)
      * @param {string} options.prompt - Prompt or topic text

@@ -543,11 +543,14 @@
 
         case 'audio-joiner':
           return `
-            <div class="media-options-grid">
-              <div class="media-option-group" style="grid-column: 1 / -1;">
-                <label for="opt-ajoin-files">Select Additional Audio Tracks to Merge</label>
+            <div class="card" style="padding: 1.5rem; margin-top: 1rem;">
+              <div class="media-option-group">
+                <label for="opt-ajoin-files">Select 2 or more Audio Tracks to Merge</label>
                 <input type="file" id="opt-ajoin-files" multiple accept="audio/*" style="display: block; margin-top: 0.5rem;" />
-                <div id="ajoin-file-list" style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-muted);">Selected primary audio file + choose more tracks above to combine sequentially.</div>
+                <div id="ajoin-file-list" style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-muted);">Choose 2 or more audio files above to combine sequentially in the exact selected order.</div>
+              </div>
+              <div style="margin-top: 1.25rem;">
+                <button type="button" class="btn btn-primary" id="btn-do-audio-join" style="width: 100%; justify-content: center;">Merge & Download Combined Audio Track</button>
               </div>
             </div>
           `;
@@ -981,6 +984,37 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
         });
       }
 
+      // Audio Joiner Multi-File Handlers
+      if (toolId === 'audio-joiner') {
+        const fileInput = panel.querySelector('#opt-ajoin-files');
+        const listDiv = panel.querySelector('#ajoin-file-list');
+        fileInput?.addEventListener('change', () => {
+          if (fileInput.files && fileInput.files.length > 0) {
+            const names = Array.from(fileInput.files).map((f, i) => `${i + 1}. ${f.name} (${(f.size / (1024 * 1024)).toFixed(2)} MB)`).join('<br/>');
+            if (listDiv) listDiv.innerHTML = `<strong>Selected ${fileInput.files.length} tracks:</strong><br/>${names}`;
+          }
+        });
+
+        panel.querySelector('#btn-do-audio-join')?.addEventListener('click', async () => {
+          const input = panel.querySelector('#opt-ajoin-files');
+          if (!input || !input.files || input.files.length < 2) {
+            engine.showToast('Please select at least 2 audio tracks to merge', 'warning');
+            return;
+          }
+          try {
+            engine.setProcessingUi(true, 'Merging audio tracks client-side...');
+            engine.updateProgress(30, `Combining ${input.files.length} audio files...`);
+            const blob = await window.MTVMediaHandlers.joinAudioFiles(Array.from(input.files));
+            engine.renderOutputResult(blob, 'wav', 'audio/wav', `Joined Audio (${input.files.length} Tracks)`);
+            engine.showToast('✓ Audio tracks joined successfully!');
+          } catch (e) {
+            engine.showToast(`Merge failed: ${e.message}`, 'error');
+          } finally {
+            engine.setProcessingUi(false);
+          }
+        });
+      }
+
       // Tap tempo button
       if (toolId === 'audio-bpm') {
         let tapTimes = [];
@@ -1304,9 +1338,10 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
       }
     },
 
-    // Main execution router for the 45 tools
+    // Main execution router for the 60 tools
     async execute(toolId, file, engine) {
       const panel = document.getElementById(`panel-${toolId}`);
+      const handlers = window.MTVMediaHandlers || {};
 
       switch (toolId) {
         // IMAGE TOOLS

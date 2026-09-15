@@ -367,9 +367,11 @@ function generateHubPage() {
                 </div>
                 <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">${tool.description}</p>
               </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.75rem; border-top: 1px solid var(--border-color); font-size: 0.8rem; font-weight: 600; color: var(--accent-primary);">
-                <span>Open Utility</span>
-                <span>→</span>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
               </div>
             </a>
           `).join('')}
@@ -629,9 +631,11 @@ ${renderHeader({ activeNav: 'browser-utilities', depth: 1 })}
               </div>
               <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">${tool.description}</p>
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.75rem; border-top: 1px solid var(--border-color); font-size: 0.8rem; font-weight: 600; color: var(--accent-primary);">
-              <span>Launch Tool</span>
-              <span>→</span>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
             </div>
           </a>
         `).join('')}
@@ -791,8 +795,11 @@ ${renderHeader({ activeNav: 'browser-utilities', depth: 1 })}
                 </div>
                 <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.4;">${rt.description}</p>
               </div>
-              <div style="padding-top: 0.75rem; border-top: 1px solid var(--border-color); font-size: 0.8rem; font-weight: 600; color: var(--accent-primary); margin-top: 0.75rem;">
-                Open Tool →
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
               </div>
             </a>
           `).join('')}
@@ -820,8 +827,9 @@ ${renderFooter({ depth: 1 })}
 }
 
 // Run Generators
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  generateHubPage();
-  generateCategoryPages();
-  generateToolPages();
-}
+console.log('Starting Browser Utilities static page generation...');
+generateHubPage();
+generateCategoryPages();
+generateToolPages();
+console.log('✓ Finished all page generation successfully.');
+

@@ -2,7 +2,7 @@
  * Multi Tube Views (MTV) — AI Auto Generator Engine
  * 
  * Dedicated in-app SEO, metadata, and creator content generation powered by
- * server-side Google Gemini 3.7 Flash API via MTV backend (/api/chat & /api/ai-auto).
+ * MTV AI via MTV backend (/api/chat & /api/ai-auto).
  */
 
 (function () {
