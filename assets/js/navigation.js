@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeKey = '';
     if (path.endsWith('/') || path.endsWith('/index.html') || path.includes('/index.html')) {
       activeKey = 'home';
+    } else if (path.includes('explore-hub.html')) {
+      activeKey = 'explore-hub';
     } else if (path.includes('ai-tools.html')) {
       activeKey = 'ai-tools';
     } else if (path.includes('ai-prompt.html') || path.includes('ai-auto.html')) {
@@ -42,7 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (navDesktop) {
       navDesktop.innerHTML = `
-        <a href="${p}index.html" class="nav-link ${activeKey === 'home' ? 'active' : ''}">Home</a>
+        <a href="${p}index.html" class="nav-link nav-link-home ${activeKey === 'home' ? 'active' : ''}">Home</a>
+        <a href="${p}explore-hub.html" class="nav-link ${activeKey === 'explore-hub' ? 'active' : ''}">Explore Hub</a>
         <a href="${p}ai-prompt.html" class="nav-link ${activeKey === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
         <a href="${p}ai-tools.html" class="nav-link ${activeKey === 'ai-tools' ? 'active' : ''}">AI Tools</a>
         <a href="${p}creator-tools.html" class="nav-link ${activeKey === 'creator-tools' ? 'active' : ''}">Creator Tools</a>
@@ -54,7 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mobileDrawer) {
       mobileDrawer.innerHTML = `
-        <a href="${p}index.html" class="mobile-nav-link ${activeKey === 'home' ? 'active' : ''}">Home</a>
+        <a href="${p}index.html" class="mobile-nav-link nav-link-home ${activeKey === 'home' ? 'active' : ''}">Home</a>
+        <a href="${p}explore-hub.html" class="mobile-nav-link ${activeKey === 'explore-hub' ? 'active' : ''}">Explore Hub</a>
         <a href="${p}ai-prompt.html" class="mobile-nav-link ${activeKey === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
         <a href="${p}ai-tools.html" class="mobile-nav-link ${activeKey === 'ai-tools' ? 'active' : ''}">AI Tools</a>
         <a href="${p}creator-tools.html" class="mobile-nav-link ${activeKey === 'creator-tools' ? 'active' : ''}">Creator Tools</a>

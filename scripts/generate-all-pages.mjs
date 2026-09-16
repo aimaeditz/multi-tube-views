@@ -151,7 +151,8 @@ function renderHeader({ activeNav = 'browser-utilities', depth = 0 }) {
 
       <!-- Desktop Navigation -->
       <nav class="nav-desktop" aria-label="Main Navigation">
-        <a href="${p}index.html" class="nav-link ${activeNav === 'home' ? 'active' : ''}">Home</a>
+        <a href="${p}index.html" class="nav-link nav-link-home ${activeNav === 'home' ? 'active' : ''}">Home</a>
+        <a href="${p}explore-hub.html" class="nav-link ${activeNav === 'explore-hub' ? 'active' : ''}">Explore Hub</a>
         <a href="${p}ai-prompt.html" class="nav-link ${activeNav === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
         <a href="${p}ai-tools.html" class="nav-link ${activeNav === 'ai-tools' ? 'active' : ''}">AI Tools</a>
         <a href="${p}creator-tools.html" class="nav-link ${activeNav === 'creator-tools' ? 'active' : ''}">Creator Tools</a>
@@ -176,7 +177,8 @@ function renderHeader({ activeNav = 'browser-utilities', depth = 0 }) {
 
   <!-- Mobile Drawer Menu -->
   <div class="mobile-drawer" id="mobile-drawer">
-    <a href="${p}index.html" class="mobile-nav-link ${activeNav === 'home' ? 'active' : ''}">Home</a>
+    <a href="${p}index.html" class="mobile-nav-link nav-link-home ${activeNav === 'home' ? 'active' : ''}">Home</a>
+    <a href="${p}explore-hub.html" class="mobile-nav-link ${activeNav === 'explore-hub' ? 'active' : ''}">Explore Hub</a>
     <a href="${p}ai-prompt.html" class="mobile-nav-link ${activeNav === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
     <a href="${p}ai-tools.html" class="mobile-nav-link ${activeNav === 'ai-tools' ? 'active' : ''}">AI Tools</a>
     <a href="${p}creator-tools.html" class="mobile-nav-link ${activeNav === 'creator-tools' ? 'active' : ''}">Creator Tools</a>

@@ -440,6 +440,51 @@ input, select, textarea, button {
   font-weight: 600;
 }
 
+/* Home label prominent styling */
+.nav-link-home {
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+}
+
+.nav-link-home:not(.active) {
+  opacity: 0.85;
+}
+
+.nav-link-home.active {
+  font-weight: 850 !important;
+  opacity: 1;
+}
+
+/* Responsive navigation scaling for narrow desktop / medium screen widths */
+@media (max-width: 1200px) and (min-width: 1025px) {
+  .nav-desktop {
+    gap: 0.5rem !important;
+    margin-right: 1rem !important;
+  }
+  .nav-link {
+    font-size: 0.84rem !important;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 781px) {
+  .brand-text span:first-child {
+    font-size: 0.82rem !important;
+  }
+  .brand-badge {
+    display: none !important;
+  }
+  .nav-desktop {
+    gap: 0.3rem !important;
+    margin-right: 0.4rem !important;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+  }
+  .nav-link {
+    font-size: 0.74rem !important;
+    letter-spacing: -0.02em !important;
+  }
+}
+
 .header-actions {
   display: flex;
   align-items: center;
