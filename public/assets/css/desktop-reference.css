@@ -511,20 +511,35 @@
     gap: 0.55rem;
     padding: 0.85rem 1.8rem;
     border-radius: 9999px;
-    background: linear-gradient(135deg, var(--ref-blue), var(--ref-violet));
-    color: #ffffff;
+    background: linear-gradient(135deg, var(--ref-blue), var(--ref-violet)) !important;
+    color: #ffffff !important;
     font-size: 0.92rem;
     font-weight: 700;
     text-decoration: none;
     box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
-    transition: all 0.25s var(--ref-soft);
-    border: none;
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    border: 1px solid transparent !important;
     cursor: pointer;
   }
 
-  .btn-ref-primary:hover {
+  .btn-ref-primary:hover,
+  .btn-ref-primary:active {
+    background: #ffffff !important;
+    color: var(--ref-blue) !important;
+    border-color: #ffffff !important;
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(59, 130, 246, 0.35);
+    box-shadow: 0 12px 28px rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .btn-ref-primary svg,
+  .btn-ref-secondary svg {
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .btn-ref-primary:hover svg,
+  .btn-ref-primary:active svg {
+    color: var(--ref-blue) !important;
+    stroke: var(--ref-blue) !important;
   }
 
   .btn-ref-secondary {
@@ -533,20 +548,37 @@
     gap: 0.55rem;
     padding: 0.85rem 1.8rem;
     border-radius: 9999px;
-    background: var(--ref-surface);
-    color: var(--ref-text);
+    background: var(--ref-surface) !important;
+    color: var(--ref-text) !important;
     font-size: 0.92rem;
     font-weight: 600;
     text-decoration: none;
-    border: 1px solid var(--ref-line-strong);
+    border: 1px solid var(--ref-line-strong) !important;
     backdrop-filter: blur(16px);
-    transition: all 0.25s var(--ref-soft);
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
-  .btn-ref-secondary:hover {
-    background: var(--ref-surface2);
-    border-color: var(--ref-blue);
+  .btn-ref-secondary:hover,
+  .btn-ref-secondary:active {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #000000 !important;
     transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  [data-theme="dark"] .btn-ref-secondary:hover,
+  [data-theme="dark"] .btn-ref-secondary:active {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 12px 28px rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .btn-ref-secondary:hover svg,
+  .btn-ref-secondary:active svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
   }
 
   /* Story Panels System */
@@ -1651,7 +1683,7 @@
     box-sizing: border-box !important;
     padding: 6px 0 !important;
     margin-top: 4px !important;
-    margin-bottom: 16px !important;
+    margin-bottom: 20px !important;
     display: block !important;
     background: rgba(255, 255, 255, 0.65) !important;
     backdrop-filter: blur(14px) !important;
@@ -1730,7 +1762,7 @@
   .hero,
   .hero-desk {
     min-height: auto !important;
-    padding: 12px 0 16px !important;
+    padding: 2.25rem 0 2.5rem 0 !important;
     position: relative !important;
     overflow: hidden !important;
     display: flex !important;
@@ -1739,7 +1771,7 @@
     justify-content: center !important;
     text-align: center !important;
     box-sizing: border-box !important;
-    margin-bottom: 0 !important;
+    margin-bottom: 1.75rem !important;
   }
 
   .hero-orbit {
@@ -1853,7 +1885,7 @@
   .eyebrow {
     font-size: 9px !important;
     padding: 3px 9px !important;
-    margin-bottom: 6px !important;
+    margin-bottom: 1.15rem !important;
     display: inline-flex !important;
     align-items: center !important;
     gap: 4px !important;
@@ -1887,7 +1919,7 @@
     font-size: clamp(19px, 5vw, 23px) !important;
     line-height: 1.18 !important;
     letter-spacing: -0.025em !important;
-    margin-bottom: 6px !important;
+    margin-bottom: 1rem !important;
     max-width: 88% !important;
     width: 100% !important;
   }
@@ -1900,9 +1932,17 @@
     line-height: 15.5px !important;
     max-width: min(88%, 340px) !important;
     width: 100% !important;
-    margin-bottom: 12px !important;
+    margin-bottom: 1.35rem !important;
     color: var(--ref-text-secondary, #94a3b8) !important;
     opacity: 0.9 !important;
+  }
+
+  /* Hero Search Bar Trigger */
+  .hero-search-wrapper,
+  #hero-search-container {
+    width: 100% !important;
+    max-width: 380px !important;
+    margin: 0 auto 1.35rem auto !important;
   }
 
   /* Aligned CTA buttons on a single row */
@@ -1914,7 +1954,7 @@
     justify-content: center !important;
     width: 100% !important;
     max-width: 380px !important;
-    gap: 6px !important;
+    gap: 8px !important;
     margin: 0 auto !important;
   }
 
@@ -1926,7 +1966,7 @@
     justify-content: center !important;
     width: auto !important;
     max-width: 100% !important;
-    gap: 6px !important;
+    gap: 8px !important;
     margin: 0 auto !important;
   }
 
@@ -3024,8 +3064,9 @@
   .hero,
   .hero-desk {
     min-height: auto !important;
-    padding-top: 10px !important;
-    padding-bottom: 14px !important;
+    padding-top: 1.75rem !important;
+    padding-bottom: 2rem !important;
+    margin-bottom: 1.5rem !important;
   }
 
   .float-chip {
@@ -3038,13 +3079,18 @@
     opacity: 0.55 !important;
   }
 
+  .hero-eyebrow,
+  .eyebrow {
+    margin-bottom: 1rem !important;
+  }
+
   .hero h1,
   .hero-desk h1,
   .hero-headline {
     font-size: clamp(17px, 4.8vw, 20px) !important;
     line-height: 1.2 !important;
     letter-spacing: -0.025em !important;
-    margin-bottom: 6px !important;
+    margin-bottom: 0.9rem !important;
   }
 
   .hero p,
@@ -3053,7 +3099,12 @@
     font-size: 10px !important;
     line-height: 14.5px !important;
     max-width: min(86%, 310px) !important;
-    margin-bottom: 10px !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .hero-search-wrapper,
+  #hero-search-container {
+    margin: 0 auto 1.25rem auto !important;
   }
 
   .hero-actions .primary,

@@ -511,20 +511,35 @@
     gap: 0.55rem;
     padding: 0.85rem 1.8rem;
     border-radius: 9999px;
-    background: linear-gradient(135deg, var(--ref-blue), var(--ref-violet));
-    color: #ffffff;
+    background: linear-gradient(135deg, var(--ref-blue), var(--ref-violet)) !important;
+    color: #ffffff !important;
     font-size: 0.92rem;
     font-weight: 700;
     text-decoration: none;
     box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
-    transition: all 0.25s var(--ref-soft);
-    border: none;
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    border: 1px solid transparent !important;
     cursor: pointer;
   }
 
-  .btn-ref-primary:hover {
+  .btn-ref-primary:hover,
+  .btn-ref-primary:active {
+    background: #ffffff !important;
+    color: var(--ref-blue) !important;
+    border-color: #ffffff !important;
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(59, 130, 246, 0.35);
+    box-shadow: 0 12px 28px rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .btn-ref-primary svg,
+  .btn-ref-secondary svg {
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .btn-ref-primary:hover svg,
+  .btn-ref-primary:active svg {
+    color: var(--ref-blue) !important;
+    stroke: var(--ref-blue) !important;
   }
 
   .btn-ref-secondary {
@@ -533,20 +548,37 @@
     gap: 0.55rem;
     padding: 0.85rem 1.8rem;
     border-radius: 9999px;
-    background: var(--ref-surface);
-    color: var(--ref-text);
+    background: var(--ref-surface) !important;
+    color: var(--ref-text) !important;
     font-size: 0.92rem;
     font-weight: 600;
     text-decoration: none;
-    border: 1px solid var(--ref-line-strong);
+    border: 1px solid var(--ref-line-strong) !important;
     backdrop-filter: blur(16px);
-    transition: all 0.25s var(--ref-soft);
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
-  .btn-ref-secondary:hover {
-    background: var(--ref-surface2);
-    border-color: var(--ref-blue);
+  .btn-ref-secondary:hover,
+  .btn-ref-secondary:active {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #000000 !important;
     transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  [data-theme="dark"] .btn-ref-secondary:hover,
+  [data-theme="dark"] .btn-ref-secondary:active {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 12px 28px rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .btn-ref-secondary:hover svg,
+  .btn-ref-secondary:active svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
   }
 
   /* Story Panels System */
