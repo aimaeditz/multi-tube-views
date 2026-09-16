@@ -711,6 +711,28 @@ input, select, textarea, button {
   margin-top: 0.45rem;
 }
 
+/* Platform specific variables */
+.footer-social-link[href*="instagram.com"] {
+  --social-hover-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  --social-hover-color: #ffffff;
+}
+.footer-social-link[href*="youtube.com"] {
+  --social-hover-bg: #ff0000;
+  --social-hover-color: #ffffff;
+}
+.footer-social-link[href*="tiktok.com"] {
+  --social-hover-bg: #000000;
+  --social-hover-color: #ffffff;
+}
+.footer-social-link[href*="facebook.com"] {
+  --social-hover-bg: #1877f2;
+  --social-hover-color: #ffffff;
+}
+.footer-social-link[href*="whatsapp.com"] {
+  --social-hover-bg: #25d366;
+  --social-hover-color: #ffffff;
+}
+
 .footer-social-link,
 .site-footer .footer-social-link {
   display: inline-flex !important;
@@ -727,8 +749,26 @@ input, select, textarea, button {
   background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  transition: color 180ms ease, transform 180ms cubic-bezier(0.16, 1, 0.3, 1), background-color 180ms ease !important;
   text-decoration: none !important;
+  position: relative !important;
+  overflow: hidden !important;
+  z-index: 1 !important;
+  transition: color 350ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms cubic-bezier(0.4, 0, 0.2, 1), border-radius 350ms cubic-bezier(0.4, 0, 0.2, 1), background-color 350ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.footer-social-link::before {
+  content: "" !important;
+  position: absolute !important;
+  bottom: -50% !important;
+  left: -25% !important;
+  width: 150% !important;
+  height: 150% !important;
+  background: var(--social-hover-bg, var(--accent-blue)) !important;
+  border-radius: 50% !important;
+  transform: scale(0) !important;
+  transform-origin: center bottom !important;
+  transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+  z-index: -1 !important;
 }
 
 .footer-social-link svg {
@@ -736,20 +776,43 @@ input, select, textarea, button {
   height: 15px;
   fill: currentColor;
   display: block;
-  transition: fill 180ms ease, color 180ms ease;
+  position: relative !important;
+  z-index: 2 !important;
+  transition: fill 350ms cubic-bezier(0.4, 0, 0.2, 1), color 350ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .footer-social-link:hover,
   .site-footer .footer-social-link:hover {
-    color: var(--accent-blue) !important;
-    background-color: var(--bg-subtle) !important;
+    color: var(--social-hover-color, #ffffff) !important;
+    border-radius: 50% !important;
     transform: translateY(-2px) !important;
+    background-color: transparent !important;
     box-shadow: none !important;
   }
-  .footer-social-link:hover svg {
-    fill: var(--accent-blue) !important;
+  .footer-social-link:hover::before {
+    transform: scale(1) !important;
   }
+  .footer-social-link:hover svg {
+    fill: var(--social-hover-color, #ffffff) !important;
+  }
+}
+
+/* Fallback active/tapped styles for touch screens */
+.footer-social-link:active,
+.footer-social-link.tapped {
+  color: var(--social-hover-color, #ffffff) !important;
+  border-radius: 50% !important;
+  transform: translateY(-2px) !important;
+  background-color: transparent !important;
+}
+.footer-social-link:active::before,
+.footer-social-link.tapped::before {
+  transform: scale(1) !important;
+}
+.footer-social-link:active svg,
+.footer-social-link.tapped svg {
+  fill: var(--social-hover-color, #ffffff) !important;
 }
 
 /* Universal Footer Clickable Item Hover-Lift & Soft Shadow System */
