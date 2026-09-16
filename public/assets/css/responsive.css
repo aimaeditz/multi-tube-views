@@ -701,14 +701,14 @@
 
   /* Homepage Hero Section */
   .hero-section {
-    padding: 2rem 0 1.5rem 0 !important;
+    padding: 2.25rem 0 2.5rem 0 !important;
   }
 
   .hero-pill {
     font-size: 0.62rem !important;
     font-weight: 700 !important;
     padding: 0.2rem 0.65rem !important;
-    margin-bottom: 0.75rem !important;
+    margin-bottom: 1.15rem !important;
     letter-spacing: 0.06em !important;
     white-space: nowrap !important;
     display: inline-flex !important;
@@ -721,7 +721,7 @@
     font-weight: 800 !important;
     line-height: 1.2 !important;
     letter-spacing: -0.025em !important;
-    margin-bottom: 0.55rem !important;
+    margin-bottom: 1rem !important;
     max-width: 100% !important;
   }
 
@@ -741,7 +741,7 @@
     line-height: 21.552px !important;
     letter-spacing: -0.01em !important;
     margin-top: -4px !important;
-    margin-bottom: 21px !important;
+    margin-bottom: 1.35rem !important;
     max-width: 100% !important;
     padding: 0 0.25rem !important;
     color: var(--text-secondary) !important;
@@ -749,10 +749,120 @@
 
   main:nth-of-type(1) > div:nth-of-type(1) > section:nth-of-type(1) > p:nth-of-type(1),
   main:nth-of-type(1) > div:nth-of-type(1) > section#hero:nth-of-type(1) > p:nth-of-type(1) {
-    margin-bottom: 10px !important;
+    margin-bottom: 1.35rem !important;
     line-height: 20.75px !important;
     font-weight: normal !important;
     font-size: 14.8px !important;
+  }
+
+  .hero-search-wrapper,
+  #hero-search-container {
+    width: 98% !important;
+    margin: 0 auto 1.35rem auto !important;
+  }
+
+  /* Homepage Hero Action Buttons (Mobile: compact pill buttons side-by-side) */
+  .hero-buttons-row {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 0.25rem !important;
+    box-sizing: border-box !important;
+  }
+
+  .btn-ref-primary {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.35rem !important;
+    padding: 0.42rem 0.72rem !important;
+    border-radius: 9999px !important;
+    background: linear-gradient(135deg, var(--ref-blue, #2563eb), var(--ref-violet, #7c3aed)) !important;
+    color: #ffffff !important;
+    font-size: 0.73rem !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.28) !important;
+    border: none !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+    line-height: 1.2 !important;
+    min-height: 32px !important;
+    box-sizing: border-box !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+  }
+
+  [data-theme="dark"] .btn-ref-primary {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.32) !important;
+  }
+
+  .btn-ref-primary svg {
+    width: 12px !important;
+    height: 12px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .btn-ref-primary:active {
+    transform: scale(0.96) !important;
+  }
+
+  .btn-ref-secondary {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.35rem !important;
+    padding: 0.42rem 0.72rem !important;
+    border-radius: 9999px !important;
+    background: var(--ref-surface, rgba(255, 255, 255, 0.85)) !important;
+    color: var(--ref-text, #0f172a) !important;
+    font-size: 0.73rem !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    border: 1px solid var(--ref-line-strong, rgba(15, 23, 42, 0.16)) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+    line-height: 1.2 !important;
+    min-height: 32px !important;
+    box-sizing: border-box !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease !important;
+  }
+
+  [data-theme="dark"] .btn-ref-secondary {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #f0f3fa !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  .btn-ref-secondary svg {
+    width: 12px !important;
+    height: 12px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .btn-ref-secondary:active {
+    transform: scale(0.96) !important;
+    background: var(--ref-surface2, rgba(255, 255, 255, 0.95)) !important;
+  }
+
+  [data-theme="dark"] .btn-ref-secondary:active {
+    background: rgba(255, 255, 255, 0.12) !important;
   }
 
   .hero-actions {
@@ -2492,6 +2602,23 @@
    Breakpoints: Standard Small Mobile (<= 480px)
    ========================================================================== */
 @media (max-width: 480px) {
+  .hero-buttons-row {
+    gap: 0.4rem !important;
+  }
+
+  .btn-ref-primary,
+  .btn-ref-secondary {
+    padding: 0.38rem 0.62rem !important;
+    font-size: 0.70rem !important;
+    min-height: 30px !important;
+  }
+
+  .btn-ref-primary svg,
+  .btn-ref-secondary svg {
+    width: 11px !important;
+    height: 11px !important;
+  }
+
   .hero-pill {
     font-size: 0.58rem !important;
     padding: 0.18rem 0.55rem !important;
@@ -2500,7 +2627,7 @@
   .desktop-ref-body .hero-description {
     font-size: 0.73rem !important;
     line-height: 1.42 !important;
-    margin-bottom: 0.95rem !important;
+    margin-bottom: 1.25rem !important;
     padding: 0 0.25rem !important;
     max-width: 400px !important;
   }
@@ -2529,6 +2656,25 @@
 @media (max-width: 360px) {
   :root {
     --header-height: 60px;
+  }
+
+  .hero-buttons-row {
+    gap: 0.3rem !important;
+    padding: 0 0.15rem !important;
+  }
+
+  .btn-ref-primary,
+  .btn-ref-secondary {
+    padding: 0.32rem 0.48rem !important;
+    font-size: 0.64rem !important;
+    min-height: 28px !important;
+    gap: 0.25rem !important;
+  }
+
+  .btn-ref-primary svg,
+  .btn-ref-secondary svg {
+    width: 10px !important;
+    height: 10px !important;
   }
 
   .brand-text span:first-child {
@@ -2570,7 +2716,7 @@
   .desktop-ref-body .hero-description {
     font-size: 0.69rem !important;
     line-height: 1.4 !important;
-    margin-bottom: 0.85rem !important;
+    margin-bottom: 1.15rem !important;
     max-width: 310px !important;
   }
 
