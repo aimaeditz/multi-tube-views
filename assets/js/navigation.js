@@ -562,4 +562,21 @@ document.addEventListener('DOMContentLoaded', () => {
       autoExpandOutputs();
     }
   });
+
+  // Touch handlers for footer social media icons to toggle 'tapped' class
+  const initFooterSocialTouch = () => {
+    const socialLinks = document.querySelectorAll('.footer-social-link');
+    socialLinks.forEach(link => {
+      link.addEventListener('touchstart', () => {
+        link.classList.add('tapped');
+      }, { passive: true });
+      link.addEventListener('touchend', () => {
+        link.classList.remove('tapped');
+      }, { passive: true });
+      link.addEventListener('touchcancel', () => {
+        link.classList.remove('tapped');
+      }, { passive: true });
+    });
+  };
+  initFooterSocialTouch();
 });
