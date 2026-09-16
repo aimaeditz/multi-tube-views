@@ -352,10 +352,23 @@
     transform: translate(-50%, -50%);
     width: 680px;
     height: 680px;
-    border: 1px dashed var(--ref-line-strong);
+    border: 1px dashed var(--ref-line);
     border-radius: 50%;
     pointer-events: none;
     animation: rotateOrbit 70s linear infinite;
+    opacity: 0.22;
+    transition: opacity 0.3s ease;
+  }
+
+  [data-theme="light"] .hero-orbit,
+  :root:not([data-theme="dark"]) .hero-orbit {
+    border-color: rgba(37, 99, 235, 0.12);
+    opacity: 0.18;
+  }
+
+  [data-theme="dark"] .hero-orbit {
+    border-color: rgba(255, 255, 255, 0.08);
+    opacity: 0.25;
   }
 
   .hero-orbit::before {
@@ -364,6 +377,16 @@
     inset: 60px;
     border: 1px solid var(--ref-line);
     border-radius: 50%;
+    opacity: 0.65;
+  }
+
+  [data-theme="light"] .hero-orbit::before,
+  :root:not([data-theme="dark"]) .hero-orbit::before {
+    border-color: rgba(124, 58, 237, 0.10);
+  }
+
+  [data-theme="dark"] .hero-orbit::before {
+    border-color: rgba(255, 255, 255, 0.06);
   }
 
   .hero-orbit::after {
@@ -372,6 +395,16 @@
     inset: 120px;
     border: 1px dashed var(--ref-line);
     border-radius: 50%;
+    opacity: 0.45;
+  }
+
+  [data-theme="light"] .hero-orbit::after,
+  :root:not([data-theme="dark"]) .hero-orbit::after {
+    border-color: rgba(6, 182, 212, 0.10);
+  }
+
+  [data-theme="dark"] .hero-orbit::after {
+    border-color: rgba(255, 255, 255, 0.04);
   }
 
   @keyframes rotateOrbit {
@@ -1718,12 +1751,24 @@
     aspect-ratio: 1 !important;
     border-radius: 50% !important;
     position: absolute !important;
-    border: 1px solid rgba(70, 115, 220, 0.08) !important;
-    background: radial-gradient(circle, rgba(80, 125, 245, 0.04), transparent 66%) !important;
-    box-shadow: 0 0 85px rgba(80, 120, 220, 0.03) !important;
+    border: 1px solid rgba(70, 115, 220, 0.05) !important;
+    background: radial-gradient(circle, rgba(80, 125, 245, 0.02), transparent 66%) !important;
+    box-shadow: 0 0 40px rgba(80, 120, 220, 0.015) !important;
     pointer-events: none !important;
     animation: slowspin 60s linear infinite !important;
     z-index: 0 !important;
+    opacity: 0.22 !important;
+  }
+
+  [data-theme="light"] .hero-orbit,
+  :root:not([data-theme="dark"]) .hero-orbit {
+    border-color: rgba(37, 99, 235, 0.08) !important;
+    opacity: 0.18 !important;
+  }
+
+  [data-theme="dark"] .hero-orbit {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+    opacity: 0.25 !important;
   }
 
   .hero-orbit::before {
@@ -1731,7 +1776,8 @@
     position: absolute !important;
     border-radius: 50% !important;
     inset: 12% !important;
-    border: 1px dashed rgba(110, 85, 255, 0.12) !important;
+    border: 1px dashed rgba(110, 85, 255, 0.06) !important;
+    opacity: 0.65 !important;
   }
 
   .hero-orbit::after {
@@ -1739,7 +1785,8 @@
     position: absolute !important;
     border-radius: 50% !important;
     inset: 24% !important;
-    border: 1px solid rgba(90, 184, 255, 0.11) !important;
+    border: 1px solid rgba(90, 184, 255, 0.05) !important;
+    opacity: 0.45 !important;
   }
 
   /* Floating Chips: Scaled and repositioned to outer corners to avoid overlapping content */

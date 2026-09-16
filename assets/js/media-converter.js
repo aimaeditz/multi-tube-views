@@ -477,19 +477,22 @@
         const selected = relatedCandidates.slice(0, 3);
         selected.forEach(([relId, relTool]) => {
           const card = document.createElement('div');
-          card.className = 'media-tool-card';
+          card.className = 'bu-card';
+          card.setAttribute('data-tool-id', relId);
           card.style.cursor = 'pointer';
           card.style.display = 'flex';
           card.style.flexDirection = 'column';
           card.style.justifyContent = 'space-between';
           card.innerHTML = `
             <div>
-              <span class="media-tool-icon">${relTool.icon || '🛠️'}</span>
-              <h3 style="font-size: 1.1rem; margin-bottom: 0.4rem; color: var(--text-primary);">${relTool.title}</h3>
-              <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin: 0;">${relTool.desc}</p>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.5rem;">
+                <span style="font-size: 1.4rem;">${relTool.icon || '🛠️'}</span>
+                <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: var(--text-primary);">${relTool.title}</h3>
+              </div>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.4;">${relTool.desc}</p>
             </div>
-            <div style="margin-top: 1.25rem;">
-              <a href="?tool=${relId}" class="btn btn-primary btn-open-media-tool" style="width: 100%; justify-content: center; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <a href="?tool=${relId}" class="btn btn-primary btn-open-media-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
                 <span>Open Tool</span>
                 <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
               </a>

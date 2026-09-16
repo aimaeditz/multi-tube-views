@@ -440,29 +440,73 @@
   transition: transform 120ms ease;
 }
 
-/* Media Converter — 60 Tools Workspace & Output Stability (No hover jump/lift/shift) */
+/* Universal Tool Workspace Stability (No hover jump/lift/shift/scaling across all tool output & workspace pages) */
+#dedicated-tool-workspace,
+#dedicated-tool-workspace .card,
+#dedicated-tool-workspace .tool-panel,
+#dedicated-tool-workspace .tool-header,
+#dedicated-tool-workspace .input-section,
+#dedicated-tool-workspace .tool-avatar,
+#dedicated-tool-workspace #dedicated-tool-output-wrap,
+#dedicated-tool-workspace #dedicated-tool-output,
+#dedicated-tool-workspace #dedicated-tool-input,
+#dedicated-tool-workspace .inline-tool-output,
+#dedicated-tool-workspace .ai-rendered-content,
+#media-tool-workspace,
 #media-tool-workspace .card,
 #media-workspace-card,
-.workspace-card,
+#media-tool-workspace .tool-panel,
 #media-output-wrap,
 #media-file-dropzone,
-.media-dropzone {
+.media-dropzone,
+.workspace-card,
+.tool-workspace,
+.ai-workspace,
+.creator-workspace,
+.bu-workspace,
+.media-workspace,
+.tool-panel,
+.tool-header,
+.prompt-modal .modal-dialog,
+.prompt-modal .modal-content,
+.prompt-modal .modal-prompt-box,
+main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-tool-card):not(.prompt-card):not(.platform-card),
+#ai-auto-output-section,
+#ai-auto-input {
   transform: none !important;
   will-change: auto !important;
 }
 
-#media-tool-workspace .card:hover,
-#media-workspace-card:hover,
+#dedicated-tool-workspace:hover,
+#dedicated-tool-workspace *:hover,
+#media-tool-workspace:hover,
+#media-tool-workspace *:hover,
 .workspace-card:hover,
+.tool-workspace:hover,
+.ai-workspace:hover,
+.creator-workspace:hover,
+.bu-workspace:hover,
+.media-workspace:hover,
+.tool-panel:hover,
+.tool-header:hover,
+#media-workspace-card:hover,
 #media-output-wrap:hover,
 #media-file-dropzone:hover,
-.media-dropzone:hover {
+.media-dropzone:hover,
+.prompt-modal .modal-dialog:hover,
+.prompt-modal .modal-prompt-box:hover,
+main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-tool-card):not(.prompt-card):not(.platform-card):hover,
+#ai-auto-output-section:hover {
   transform: none !important;
 }
 
-#media-tool-workspace .card:active,
-#media-workspace-card:active,
-.workspace-card:active {
+#dedicated-tool-workspace:active,
+#dedicated-tool-workspace *:active,
+#media-tool-workspace:active,
+#media-tool-workspace *:active,
+.workspace-card:active,
+.tool-panel:active,
+#media-workspace-card:active {
   transform: none !important;
 }
 
@@ -768,25 +812,173 @@
   width: 100%;
 }
 
-.btn-open-platform {
-  width: 100%;
-  text-align: center;
-  justify-content: center;
-  font-weight: 700;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.8rem;
-  padding: 0.45rem 0.75rem;
-  border-radius: var(--radius-sm);
-  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease;
+/* ==========================================================================
+   REDESIGNED "OPEN TOOL" / "OPEN PLATFORM" ACTION BUTTONS
+   Style: Fuzzy-Bullfrog-72 (White pill default, vibrant purple glow on hover, active press)
+   Scope: ai-prompt, ai-tools, creator-tools, media-converter-tools, browser-utilities, platforms
+   ========================================================================== */
+.btn-open-tool,
+.btn-open-platform,
+.btn-open-utility,
+.btn-open-media-tool,
+.btn-open-creator-tool {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+  gap: 0.35rem !important;
+
+  /* Default State: White background, fully rounded/pill shape, soft drop shadow, uppercase text, subtle letter spacing, clean border */
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.2px !important;
+  font-weight: 700 !important;
+  font-size: 0.78rem !important;
+  padding: 0.45rem 1rem !important;
+  min-height: 36px !important;
+  height: 36px !important;
+
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-.platform-card:hover .btn-open-platform {
-  background-color: var(--accent-primary-hover);
-  border-color: var(--accent-primary-hover);
-  color: var(--text-inverse);
+[data-theme="dark"] .btn-open-tool,
+[data-theme="dark"] .btn-open-platform,
+[data-theme="dark"] .btn-open-utility,
+[data-theme="dark"] .btn-open-media-tool,
+[data-theme="dark"] .btn-open-creator-tool {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Inner text and icon inherit */
+.btn-open-tool span,
+.btn-open-platform span,
+.btn-open-utility span,
+.btn-open-media-tool span,
+.btn-open-creator-tool span {
+  color: inherit !important;
+  letter-spacing: inherit !important;
+  text-transform: inherit !important;
+  font-weight: inherit !important;
+  font-size: inherit !important;
+  transition: letter-spacing 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  white-space: nowrap !important;
+}
+
+.btn-open-tool svg,
+.btn-open-platform svg,
+.btn-open-utility svg,
+.btn-open-media-tool svg,
+.btn-open-creator-tool svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+  flex-shrink: 0 !important;
+  width: 12px !important;
+  height: 12px !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.35s ease !important;
+}
+
+/* Hover State: Vibrant purple background (#6d28d9 / hsl(261, 80%, 48%)), white text, matching purple glow shadow, slightly expanded letter spacing, smooth transition */
+.btn-open-tool:hover,
+.btn-open-platform:hover,
+.btn-open-utility:hover,
+.btn-open-media-tool:hover,
+.btn-open-creator-tool:hover,
+.platform-card:hover .btn-open-platform,
+.bu-card:hover .btn-open-utility,
+.bu-tool-card:hover .btn-open-utility,
+.creator-tool-card:hover .btn-open-tool,
+.media-tool-card:hover .btn-open-media-tool,
+.ai-image-tool-card:hover .btn-open-tool {
+  background: hsl(261deg 80% 48%) !important;
+  background-color: hsl(261deg 80% 48%) !important;
+  color: #ffffff !important;
+  border-color: hsl(261deg 80% 48%) !important;
+  letter-spacing: 2.2px !important;
+  box-shadow: 0px 7px 29px 0px rgba(93, 24, 220, 0.65) !important;
+}
+
+[data-theme="dark"] .btn-open-tool:hover,
+[data-theme="dark"] .btn-open-platform:hover,
+[data-theme="dark"] .btn-open-utility:hover,
+[data-theme="dark"] .btn-open-media-tool:hover,
+[data-theme="dark"] .btn-open-creator-tool:hover,
+[data-theme="dark"] .platform-card:hover .btn-open-platform,
+[data-theme="dark"] .bu-card:hover .btn-open-utility,
+[data-theme="dark"] .bu-tool-card:hover .btn-open-utility,
+[data-theme="dark"] .creator-tool-card:hover .btn-open-tool,
+[data-theme="dark"] .media-tool-card:hover .btn-open-media-tool,
+[data-theme="dark"] .ai-image-tool-card:hover .btn-open-tool {
+  background: hsl(261deg 80% 48%) !important;
+  background-color: hsl(261deg 80% 48%) !important;
+  color: #ffffff !important;
+  border-color: hsl(261deg 80% 48%) !important;
+  box-shadow: 0px 7px 29px 0px rgba(109, 40, 217, 0.8) !important;
+}
+
+.btn-open-tool:hover span,
+.btn-open-platform:hover span,
+.btn-open-utility:hover span,
+.btn-open-media-tool:hover span,
+.btn-open-creator-tool:hover span,
+.platform-card:hover .btn-open-platform span,
+.bu-card:hover .btn-open-utility span,
+.bu-tool-card:hover .btn-open-utility span,
+.creator-tool-card:hover .btn-open-tool span,
+.media-tool-card:hover .btn-open-media-tool span,
+.ai-image-tool-card:hover .btn-open-tool span {
+  color: #ffffff !important;
+  letter-spacing: 2.2px !important;
+}
+
+.btn-open-tool:hover svg,
+.btn-open-platform:hover svg,
+.btn-open-utility:hover svg,
+.btn-open-media-tool:hover svg,
+.btn-open-creator-tool:hover svg,
+.platform-card:hover .btn-open-platform svg,
+.bu-card:hover .btn-open-utility svg,
+.bu-tool-card:hover .btn-open-utility svg,
+.creator-tool-card:hover .btn-open-tool svg,
+.media-tool-card:hover .btn-open-media-tool svg,
+.ai-image-tool-card:hover .btn-open-tool svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  transform: translateX(4px) !important;
+}
+
+/* Active / Click State: Subtle downward press feel (slight translateY and reduced shadow) */
+.btn-open-tool:active,
+.btn-open-platform:active,
+.btn-open-utility:active,
+.btn-open-media-tool:active,
+.btn-open-creator-tool:active,
+.platform-card:active .btn-open-platform,
+.bu-card:active .btn-open-utility,
+.bu-tool-card:active .btn-open-utility,
+.creator-tool-card:active .btn-open-tool,
+.media-tool-card:active .btn-open-media-tool,
+.ai-image-tool-card:active .btn-open-tool {
+  background: hsl(261deg 80% 48%) !important;
+  background-color: hsl(261deg 80% 48%) !important;
+  color: #ffffff !important;
+  border-color: hsl(261deg 80% 48%) !important;
+  letter-spacing: 2.2px !important;
+  transform: translateY(3px) !important;
+  box-shadow: 0px 2px 8px 0px rgba(93, 24, 220, 0.4) !important;
+  transition: all 0.1s ease !important;
 }
 
 .platform-card-footer {
@@ -4541,31 +4733,6 @@ section#live-stats-section.glass-section {
   width: 100%;
 }
 
-.btn-open-utility {
-  width: 100%;
-  text-align: center;
-  justify-content: center;
-  font-weight: 700;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.8rem;
-  padding: 0.45rem 0.75rem;
-  border-radius: var(--radius-sm);
-  background-color: var(--accent-primary);
-  color: var(--text-inverse);
-  border: 1px solid var(--accent-primary);
-  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease;
-}
-
-.bu-card:hover .btn-open-utility,
-.bu-tool-card:hover .btn-open-utility {
-  background-color: var(--accent-primary-hover);
-  border-color: var(--accent-primary-hover);
-  color: var(--text-inverse);
-  transform: translateY(-1px);
-}
 
 /* Animated Arrow Nudge */
 .arrow-nudge,

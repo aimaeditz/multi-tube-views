@@ -165,31 +165,9 @@ function bootAITools() {
     }
   }
 
-  // 3D Tilt on Hover
+  // 3D Tilt on Hover disabled for UI stability (matching Browser Utilities standard)
   function attachTilt(el) {
-    if (!el) return;
-    if (el.id === 'dedicated-tool-output' || el.id === 'dedicated-tool-output-wrap' || el.classList.contains('inline-tool-output') || el.classList.contains('ai-rendered-content')) return;
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (window.innerWidth < 1024) return; // Desktop only
-
-    el.onmousemove = (e) => {
-      if (e.target.closest('#dedicated-tool-output-wrap, #dedicated-tool-output, .inline-tool-output, .ai-rendered-content')) {
-        el.style.transform = 'none';
-        return;
-      }
-      const rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -5;
-      const rotateY = ((x - centerX) / centerX) * 5;
-      el.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-    };
-
-    el.onmouseleave = () => {
-      el.style.transform = '';
-    };
+    return;
   }
 
   // 3. Search & Category Filter logic
@@ -337,17 +315,21 @@ function bootAITools() {
         const selected = relatedCandidates.slice(0, 3);
         selected.forEach(([relId, relTool]) => {
           const card = document.createElement('div');
-          card.className = 'creator-tool-card tilt-card';
+          card.className = 'bu-card';
+          card.setAttribute('data-tool-id', relId);
           card.style.cursor = 'pointer';
+          card.style.display = 'flex';
+          card.style.flexDirection = 'column';
+          card.style.justifyContent = 'space-between';
           card.innerHTML = `
             <div>
-              <div class="creator-tool-header">
-                <span class="creator-tool-icon" aria-hidden="true">${relTool.icon}</span>
-                <h3 class="creator-tool-title">${relTool.title}</h3>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.5rem;">
+                <span style="font-size: 1.4rem;">${relTool.icon || '⚡'}</span>
+                <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: var(--text-primary);">${relTool.title}</h3>
               </div>
-              <p class="creator-tool-desc">${relTool.desc}</p>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.4;">${relTool.desc}</p>
             </div>
-            <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
               <a href="?tool=${relId}" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
                 <span>Open Tool</span>
                 <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
