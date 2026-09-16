@@ -292,6 +292,7 @@
   let overlay = null;
   let backdrop = null;
   let palette = null;
+  let dropdownPanel = null;
   let searchInput = null;
   let clearBtn = null;
   let closeBtn = null;
@@ -330,7 +331,7 @@
         searchInput.value = initialQuery;
         handleSearchInput(initialQuery);
       } else {
-        // Strict requirement: Empty state shows NOTHING pre-listed!
+        // Clean empty overlay state: show ONLY the search input bar itself (no dropdown panel)
         searchInput.value = '';
         renderEmptyState();
       }
@@ -363,8 +364,10 @@
   }
 
   function renderEmptyState() {
-    // In EMPTY state: show NOTHING pre-listed!
-    if (emptyState) emptyState.style.display = 'block';
+    // When overlay first opens (before typing), show ONLY the search input bar itself!
+    // No empty box, panel, or container below it.
+    if (dropdownPanel) dropdownPanel.style.display = 'none';
+    if (emptyState) emptyState.style.display = 'none';
     if (noResults) noResults.style.display = 'none';
     if (resultsContent) resultsContent.style.display = 'none';
     if (clearBtn) clearBtn.style.display = 'none';
@@ -439,6 +442,9 @@
 
     // Perform Fuzzy Search
     const fuseResults = searcher.search(query);
+
+    // Reveal dropdown results panel smoothly
+    if (dropdownPanel) dropdownPanel.style.display = 'flex';
 
     if (fuseResults.length === 0) {
       // No matches found
@@ -567,6 +573,7 @@
     overlay = document.getElementById('mtv-search-overlay');
     backdrop = document.getElementById('mtv-search-backdrop');
     palette = document.getElementById('mtv-search-palette');
+    dropdownPanel = document.getElementById('mtv-search-dropdown-panel');
     searchInput = document.getElementById('mtv-search-input');
     clearBtn = document.getElementById('mtv-search-clear-btn');
     closeBtn = document.getElementById('mtv-search-close-btn');
