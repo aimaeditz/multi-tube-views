@@ -352,6 +352,17 @@ function bootAITools() {
       if (breadcrumbSubSeparator) breadcrumbSubSeparator.style.display = 'none';
 
       document.title = 'AI Tools Suite — 60 Free Generative Tools | Multi Tube Views';
+
+      const catParam = params.get('category');
+      if (catParam && AI_CATEGORIES.some(c => c.id === catParam)) {
+        activeCategory = catParam;
+        if (categoryFiltersWrap) {
+          categoryFiltersWrap.querySelectorAll('.filter-chip').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-category') === catParam);
+          });
+        }
+        filterAndRenderCards();
+      }
     }
   }
 

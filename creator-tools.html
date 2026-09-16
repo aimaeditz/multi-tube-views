@@ -38,7 +38,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/creator-tools.html">
 
-                                                                <!-- Open Graph -->
+                                                                              <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/creator-tools.html">
   <meta property="og:title" content="Creator Tools Suite — Free Video SEO & Title Generator | MTV">
@@ -901,6 +901,7 @@
         <div class="footer-col">
           <h4>Company &amp; Tools</h4>
           <ul class="footer-links">
+            <li><a href="explore-hub.html">Explore Hub</a></li>
             <li><a href="ai-prompt.html">AI Prompts &amp; Tools</a></li>
             <li><a href="ai-tools.html">AI Tools</a></li>
             <li><a href="creator-tools.html">Creator Tools</a></li>
@@ -1486,6 +1487,19 @@
 
       // Initial View Trigger
       updateViewFromURL();
+
+      // Handle category query parameter from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialCat = urlParams.get('category');
+      if (initialCat) {
+        activeCategory = initialCat;
+        if (categoryFiltersWrap) {
+          categoryFiltersWrap.querySelectorAll('.filter-chip').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-category') === initialCat);
+          });
+        }
+        filterCreatorTools();
+      }
     });
   </script>
 </body>

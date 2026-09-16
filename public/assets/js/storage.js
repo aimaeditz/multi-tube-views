@@ -23,7 +23,8 @@ const STORAGE_KEYS = {
   LOOP_PREF: 'mtv_loop_pref',
   AUDIO_PREF: 'mtv_audio_pref',
   MAX_PLAYERS: 'mtv_max_players',
-  RATIO_PREF: 'mtv_ratio_pref'
+  RATIO_PREF: 'mtv_ratio_pref',
+  TOOL_CLICKS: 'mtv_tool_clicks'
 };
 
 const StorageManager = {
@@ -117,6 +118,27 @@ const StorageManager = {
     Object.values(STORAGE_KEYS).forEach(k => {
       this.remove(k);
     });
+  },
+
+  getToolClicks() {
+    try {
+      const raw = this.get(STORAGE_KEYS.TOOL_CLICKS, null);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      console.warn('Failed to parse tool clicks from localStorage:', e);
+      return {};
+    }
+  },
+
+  recordToolClick(toolId) {
+    if (!toolId || typeof toolId !== 'string') return;
+    try {
+      const clicks = this.getToolClicks();
+      clicks[toolId] = (clicks[toolId] || 0) + 1;
+      this.set(STORAGE_KEYS.TOOL_CLICKS, JSON.stringify(clicks));
+    } catch (e) {
+      console.warn('Failed to record tool click in localStorage:', e);
+    }
   }
 };
 

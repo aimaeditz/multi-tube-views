@@ -1,0 +1,1268 @@
+/**
+ * Multi Tube Views (MTV) — Explore Hub Stylesheet
+ * Responsive 3x2 Grid for the 6 Main Top-Level Sections (compact & sleek),
+ * Featured Tools Grid, Latest Additions Grid, Discover All Categories Directory,
+ * Clean Stats Row, and Full Light/Dark Theme Compatibility.
+ */
+
+/* ==========================================================================
+   1. HERO / HEADER SECTION
+   ========================================================================== */
+.explore-hero {
+  padding: 3rem 0 2rem 0;
+  text-align: center;
+  position: relative;
+}
+
+.explore-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.32rem 0.85rem;
+  background: rgba(225, 29, 72, 0.08);
+  border: 1px solid rgba(225, 29, 72, 0.2);
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-primary, #E11D48);
+  margin-bottom: 0.85rem;
+}
+
+.explore-eyebrow .pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-primary, #E11D48);
+  box-shadow: 0 0 8px var(--accent-primary, #E11D48);
+  animation: pulse-dot-glow 2s infinite;
+}
+
+@keyframes pulse-dot-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.explore-title {
+  font-size: clamp(2rem, 3.8vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin: 0 auto 0.75rem auto;
+  max-width: 840px;
+}
+
+.explore-title .highlight {
+  background: linear-gradient(135deg, #E11D48 0%, #F43F5E 50%, #FB7185 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.explore-subtitle {
+  font-size: clamp(0.92rem, 1.4vw, 1.08rem);
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.55;
+}
+
+/* ==========================================================================
+   2. SEARCH BAR SECTION
+   ========================================================================== */
+.explore-search-wrap {
+  max-width: 680px;
+  margin: 0 auto 2.5rem auto;
+  width: 100%;
+}
+
+/* ==========================================================================
+   3. 6 MAIN TOP-LEVEL SECTION CARDS (Compact, Well-Proportioned 3x2 Grid)
+   ========================================================================== */
+.explore-container {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 3.5vw, 2.5rem);
+  padding-right: clamp(1.25rem, 3.5vw, 2.5rem);
+}
+
+/* 3 Cards Top Row, 3 Cards Bottom Row on Desktop */
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.15rem;
+  width: 100%;
+  margin-bottom: 5rem;
+}
+
+/* Compact, Well-Proportioned Main Section Card */
+.explore-section-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg, linear-gradient(135deg, #1E293B 0%, #0F172A 100%));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  padding: 1.25rem 1.35rem;
+  text-decoration: none;
+  color: #FFFFFF !important;
+  overflow: hidden;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.14), 0 2px 6px -1px rgba(0, 0, 0, 0.06);
+  perspective: 800px;
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+  will-change: transform;
+  z-index: 2;
+  min-height: auto;
+}
+
+.explore-section-card:hover {
+  border-color: rgba(255, 255, 255, 0.36);
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.24);
+}
+
+.explore-section-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* 1. Icon Container */
+.explore-section-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #FFFFFF !important;
+  margin-bottom: 0.75rem;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease;
+}
+
+.explore-section-card:hover .explore-section-icon-wrap {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* 2. Prominent Real Tool/Platform Count */
+.explore-section-count-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+.explore-section-count-num {
+  font-size: clamp(1.5rem, 2.1vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #FFFFFF !important;
+  line-height: 1;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.explore-section-count-unit {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.88) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 3. Section Title */
+.explore-section-title {
+  font-size: 1.12rem;
+  font-weight: 750;
+  color: #FFFFFF !important;
+  margin: 0 0 0.35rem 0;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 4. One-Line Short Description */
+.explore-section-desc {
+  font-size: 0.84rem;
+  line-height: 1.42;
+  color: rgba(255, 255, 255, 0.9) !important;
+  margin: 0 0 0.85rem 0;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* 5. Explore Button / Action Link */
+.explore-section-action {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+}
+
+.explore-section-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.38rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #FFFFFF !important;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.explore-section-card:hover .explore-section-btn {
+  background: #FFFFFF !important;
+  color: var(--card-accent, #111827) !important;
+  border-color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.explore-section-card:hover .explore-section-btn .arrow-nudge {
+  transform: translateX(3px) !important;
+}
+
+.explore-section-btn .arrow-nudge {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform;
+}
+
+/* Explicit Overrides: Section Card Text Remains Crisp White in Both Themes */
+[data-theme="dark"] .explore-section-card,
+[data-theme="dark"] .explore-section-card .explore-section-title,
+[data-theme="dark"] .explore-section-card .explore-section-desc,
+[data-theme="dark"] .explore-section-card .explore-section-count-num,
+[data-theme="dark"] .explore-section-card .explore-section-count-unit,
+[data-theme="light"] .explore-section-card,
+[data-theme="light"] .explore-section-card .explore-section-title,
+[data-theme="light"] .explore-section-card .explore-section-desc,
+[data-theme="light"] .explore-section-card .explore-section-count-num,
+[data-theme="light"] .explore-section-card .explore-section-count-unit {
+  color: #FFFFFF !important;
+}
+
+/* ==========================================================================
+   4. STATS ROW (4 COLUMNS DESKTOP, 2x2 GRID ON MOBILE)
+   ========================================================================== */
+.explore-stats-section {
+  margin-bottom: 3.5rem;
+  width: 100%;
+}
+
+.explore-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.explore-stat-card {
+  position: relative;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 20px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.02);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .explore-stat-card {
+  background: #18181B;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4), 0 4px 12px -2px rgba(0, 0, 0, 0.2);
+}
+
+.explore-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -6px rgba(79, 70, 229, 0.12), 0 6px 16px -2px rgba(0, 0, 0, 0.04);
+  border-color: rgba(79, 70, 229, 0.2);
+}
+
+[data-theme="dark"] .explore-stat-card:hover {
+  border-color: rgba(129, 140, 248, 0.3);
+  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.6);
+}
+
+.explore-stat-val {
+  font-size: clamp(2.3rem, 3.5vw, 3.2rem);
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  color: #4F46E5;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+[data-theme="dark"] .explore-stat-val {
+  color: #818CF8;
+}
+
+.explore-stat-label {
+  font-size: clamp(0.88rem, 1.1vw, 1.02rem);
+  font-weight: 600;
+  color: #4B5563;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+[data-theme="dark"] .explore-stat-label {
+  color: #9CA3AF;
+}
+
+/* ==========================================================================
+   5. SHORT HEADING SECTION ("Tools That Work For You")
+   ========================================================================== */
+.explore-intro-heading-section {
+  text-align: center;
+  margin-bottom: 2.75rem;
+  padding: 0 1rem;
+}
+
+.explore-intro-heading-section .intro-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent-blue, #0066CC);
+  background: rgba(0, 102, 204, 0.08);
+  border: 1px solid rgba(0, 102, 204, 0.2);
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  margin-bottom: 0.65rem;
+}
+
+[data-theme="dark"] .explore-intro-heading-section .intro-badge {
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.25);
+}
+
+.explore-intro-heading-section h2 {
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  margin: 0 auto 0.5rem auto;
+}
+
+.explore-intro-heading-section p {
+  font-size: clamp(0.9rem, 1.3vw, 1rem);
+  color: var(--text-secondary);
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   6. SECTION HEADERS & "VIEW ALL" LINKS
+   ========================================================================== */
+.explore-content-section {
+  margin-bottom: 3.5rem;
+  width: 100%;
+}
+
+.explore-section-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.explore-section-heading-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.explore-section-heading-wrap h2 {
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.explore-section-pill-count {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: var(--bg-subtle, #F5F5F7);
+  color: var(--text-secondary, #86868B);
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+}
+
+[data-theme="dark"] .explore-section-pill-count {
+  background: #242428;
+  color: #A1A1A6;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.explore-view-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-primary, #E11D48);
+  text-decoration: none;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(225, 29, 72, 0.08);
+  border: 1px solid rgba(225, 29, 72, 0.18);
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.explore-view-all-link:hover {
+  background: rgba(225, 29, 72, 0.16);
+  border-color: rgba(225, 29, 72, 0.3);
+  transform: translateX(2px);
+}
+
+[data-theme="dark"] .explore-view-all-link {
+  color: #FB7185;
+  background: rgba(225, 29, 72, 0.15);
+  border-color: rgba(225, 29, 72, 0.3);
+}
+
+[data-theme="dark"] .explore-view-all-link:hover {
+  background: rgba(225, 29, 72, 0.25);
+  border-color: rgba(225, 29, 72, 0.45);
+}
+
+/* ==========================================================================
+   7. TOOL CARDS GRID (3-4 Desktop, 2 Mobile)
+   ========================================================================== */
+.explore-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+.explore-tool-card {
+  position: relative;
+  background: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+  border-radius: 12px;
+  padding: 1.1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 2px 8px -1px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .explore-tool-card {
+  background: var(--bg-surface, #18181B);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.explore-tool-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(225, 29, 72, 0.35);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(225, 29, 72, 0.06);
+}
+
+[data-theme="dark"] .explore-tool-card:hover {
+  border-color: rgba(251, 113, 133, 0.4);
+  box-shadow: 0 8px 26px -4px rgba(0, 0, 0, 0.45);
+}
+
+.explore-tool-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.explore-tool-icon-box {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-subtle, #F5F5F7);
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.06));
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+[data-theme="dark"] .explore-tool-icon-box {
+  background: #242428;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.explore-tool-category-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary, #86868B);
+  background: var(--bg-subtle, #F5F5F7);
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.04));
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .explore-tool-category-badge {
+  background: #242428;
+  color: #A1A1A6;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.explore-tool-card-title {
+  font-size: 0.95rem;
+  font-weight: 750;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin: 0 0 0.35rem 0;
+  line-height: 1.3;
+}
+
+.explore-tool-card-desc {
+  font-size: 0.8rem;
+  line-height: 1.42;
+  color: var(--text-secondary);
+  margin: 0 0 0.75rem 0;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.explore-tool-card-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.05));
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--accent-primary, #E11D48);
+}
+
+[data-theme="dark"] .explore-tool-card-footer {
+  border-top-color: rgba(255, 255, 255, 0.06);
+  color: #FB7185;
+}
+
+.explore-tool-card-footer svg {
+  transition: transform 0.18s ease;
+}
+
+.explore-tool-card:hover .explore-tool-card-footer svg {
+  transform: translateX(3px);
+}
+
+/* ==========================================================================
+   8. DISCOVER ALL TOOLS / CATEGORIES DIRECTORY SECTION
+   ========================================================================== */
+.explore-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+.explore-category-card {
+  position: relative;
+  background: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+  border-radius: 12px;
+  padding: 1.25rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 2px 8px -1px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+[data-theme="dark"] .explore-category-card {
+  background: var(--bg-surface, #18181B);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.explore-category-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--cat-accent, var(--accent-primary, #E11D48));
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .explore-category-card:hover {
+  box-shadow: 0 8px 26px -4px rgba(0, 0, 0, 0.45);
+}
+
+.explore-category-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.explore-category-icon-box {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cat-bg, rgba(225, 29, 72, 0.08));
+  border: 1px solid var(--cat-border, rgba(225, 29, 72, 0.18));
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.explore-category-count-badge {
+  font-size: 0.72rem;
+  font-weight: 750;
+  color: var(--cat-accent, var(--accent-primary, #E11D48));
+  background: var(--cat-bg, rgba(225, 29, 72, 0.08));
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--cat-border, rgba(225, 29, 72, 0.18));
+}
+
+.explore-category-card-title {
+  font-size: 1.05rem;
+  font-weight: 750;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin: 0 0 0.35rem 0;
+  line-height: 1.25;
+}
+
+.explore-category-card-desc {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  margin: 0 0 0.85rem 0;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.explore-category-card-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.05));
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--cat-accent, var(--accent-primary, #E11D48));
+}
+
+[data-theme="dark"] .explore-category-card-footer {
+  border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.explore-category-card-footer svg {
+  transition: transform 0.18s ease;
+}
+
+.explore-category-card:hover .explore-category-card-footer svg {
+  transform: translateX(3px);
+}
+
+/* ==========================================================================
+   9. MTV VOICE / DESCRIPTIVE MESSAGE & FOOTER LOGO
+   ========================================================================== */
+.explore-voice-section {
+  margin-bottom: 4rem;
+  width: 100%;
+}
+
+.explore-voice-card {
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.04) 0%, rgba(59, 130, 246, 0.04) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 1.6rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.35rem;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.explore-voice-badge {
+  width: 44px;
+  min-width: 44px;
+  max-width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  background: #1D1D1F !important;
+  color: #FFFFFF !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  padding: 0 4px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+}
+
+[data-theme="dark"] .explore-voice-badge,
+.desktop-ref-body[data-theme="dark"] .explore-voice-badge {
+  background: #FFFFFF !important;
+  color: #0A0A0C !important;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2) !important;
+}
+
+.explore-voice-text {
+  font-size: 0.94rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.explore-voice-text strong {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   10. EXPLICIT HIGH-CONTRAST FOOTER LOGO VISIBILITY (Light & Dark Themes)
+   ========================================================================== */
+.site-footer .footer-brand-link {
+  text-decoration: none;
+  color: var(--text-primary, #1D1D1F) !important;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.site-footer .footer-brand-link h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 1.15rem;
+  font-weight: 750;
+  margin: 0;
+  color: var(--text-primary, #1D1D1F) !important;
+}
+
+.site-footer .brand-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #1D1D1F !important;
+  color: #FFFFFF !important;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+  flex-shrink: 0;
+}
+
+.site-footer .brand-badge {
+  font-size: 0.65rem;
+  font-weight: 750;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  background-color: rgba(225, 29, 72, 0.12);
+  color: var(--accent-primary, #E11D48);
+  border: 1px solid rgba(225, 29, 72, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Dark Mode Footer Brand Overrides */
+[data-theme="dark"] .site-footer .footer-brand-link,
+.desktop-ref-body[data-theme="dark"] .site-footer .footer-brand-link,
+[data-theme="dark"] .site-footer .footer-brand-link h3,
+.desktop-ref-body[data-theme="dark"] .site-footer .footer-brand-link h3 {
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .site-footer .brand-icon,
+.desktop-ref-body[data-theme="dark"] .site-footer .brand-icon {
+  background: #FFFFFF !important;
+  color: #0A0A0C !important;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme="dark"] .site-footer .brand-badge,
+.desktop-ref-body[data-theme="dark"] .site-footer .brand-badge {
+  background-color: rgba(225, 29, 72, 0.25);
+  color: #FB7185;
+  border-color: rgba(225, 29, 72, 0.45);
+}
+
+/* ==========================================================================
+   11. RESPONSIVE BREAKPOINTS (Mobile & Tablet Polish)
+   ========================================================================== */
+@media (max-width: 1180px) {
+  .explore-tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .explore-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.15rem;
+    margin-bottom: 4.25rem;
+  }
+
+  .explore-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .explore-categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .explore-container {
+    padding-left: 1.15rem;
+    padding-right: 1.15rem;
+  }
+
+  .explore-hero {
+    padding: 2.25rem 0 1.5rem 0;
+  }
+
+  .explore-eyebrow {
+    margin-bottom: 0.65rem;
+  }
+
+  .explore-title {
+    font-size: 1.85rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .explore-subtitle {
+    font-size: 0.88rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .explore-search-wrap {
+    margin-bottom: 2rem;
+  }
+
+  /* 6 Main Section Cards: Keep 1fr, 3.25rem section spacing */
+  .explore-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 3.25rem;
+  }
+
+  .explore-section-card {
+    padding: 1.15rem 1.1rem;
+    border-radius: 13px;
+  }
+
+  .explore-section-icon-wrap {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    margin-bottom: 0.65rem;
+  }
+
+  .explore-section-count-num {
+    font-size: 1.6rem;
+  }
+
+  .explore-section-title {
+    font-size: 1.1rem;
+  }
+
+  .explore-section-desc {
+    font-size: 0.82rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .explore-stats-section {
+    margin-bottom: 3.25rem;
+  }
+
+  .explore-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .explore-stat-card {
+    padding: 1.85rem 1rem 1.6rem 1rem;
+    border-radius: 16px;
+  }
+
+  .explore-stat-val {
+    font-size: clamp(1.85rem, 5.5vw, 2.3rem);
+    margin-bottom: 0.35rem;
+  }
+
+  .explore-stat-label {
+    font-size: 0.88rem;
+    line-height: 1.35;
+  }
+
+  .explore-intro-heading-section {
+    margin-bottom: 3rem;
+    padding: 0 0.5rem;
+  }
+
+  .explore-intro-heading-section h2 {
+    font-size: 1.45rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .explore-intro-heading-section p {
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .explore-content-section {
+    margin-bottom: 3.25rem;
+  }
+
+  .explore-section-header-row {
+    margin-bottom: 1.1rem;
+    gap: 0.75rem;
+  }
+
+  .explore-section-heading-wrap h2 {
+    font-size: 1.25rem;
+  }
+
+  /* 2 per row on mobile for Featured Tools & Latest Additions - Compact & Proportioned */
+  .explore-tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .explore-tool-card {
+    padding: 0.75rem 0.75rem;
+    border-radius: 10px;
+  }
+
+  .explore-tool-card-top {
+    gap: 0.35rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .explore-tool-icon-box {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    font-size: 0.92rem;
+    border-radius: 6px;
+  }
+
+  .explore-tool-category-badge {
+    font-size: 0.6rem;
+    padding: 0.12rem 0.38rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .explore-tool-card-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .explore-tool-card-desc {
+    font-size: 0.73rem;
+    line-height: 1.35;
+    margin-bottom: 0.45rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .explore-tool-card-footer {
+    padding-top: 0.35rem;
+    font-size: 0.68rem;
+  }
+
+  .explore-tool-icon-wrap {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    font-size: 0.92rem;
+  }
+
+  .explore-tool-name {
+    font-size: 0.82rem;
+  }
+
+  .explore-tool-desc {
+    font-size: 0.73rem;
+  }
+
+  /* Categories Grid on Mobile (2 per row for balanced grid) */
+  .explore-categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .explore-category-card {
+    padding: 0.8rem 0.75rem;
+    border-radius: 10px;
+  }
+
+  .explore-category-card-top {
+    gap: 0.35rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .explore-category-icon-box {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    font-size: 0.92rem;
+    border-radius: 6px;
+  }
+
+  .explore-category-count-badge {
+    font-size: 0.6rem;
+    padding: 0.12rem 0.38rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .explore-category-card-title {
+    font-size: 0.84rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.2rem;
+  }
+
+  .explore-category-card-desc {
+    font-size: 0.73rem;
+    line-height: 1.35;
+    margin-bottom: 0.45rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .explore-category-card-footer {
+    padding-top: 0.35rem;
+    font-size: 0.68rem;
+  }
+
+  /* Bottom Voice Banner - Resized to fit properly and proportionally */
+  .explore-voice-section {
+    margin-bottom: 3.25rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .explore-voice-card {
+    width: 100%;
+    max-width: 560px;
+    padding: 0.85rem 1rem;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 0.85rem;
+    border-radius: 12px;
+  }
+
+  .explore-voice-badge {
+    width: 34px;
+    min-width: 34px;
+    max-width: 34px;
+    height: 34px;
+    font-size: 0.75rem;
+    border-radius: 8px;
+  }
+
+  .explore-voice-text {
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 480px) {
+  .explore-container {
+    padding-left: 0.95rem;
+    padding-right: 0.95rem;
+  }
+
+  .explore-grid {
+    margin-bottom: 3rem;
+  }
+
+  .explore-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+
+  .explore-stat-card {
+    padding: 1.5rem 0.85rem 1.35rem 0.85rem;
+    border-radius: 14px;
+  }
+
+  .explore-stat-val {
+    font-size: 1.7rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .explore-stat-label {
+    font-size: 0.84rem;
+  }
+
+  /* Keep 2 per row on small phones - neat & compact */
+  .explore-tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+
+  .explore-tool-card {
+    padding: 0.65rem 0.65rem;
+  }
+
+  .explore-tool-card-title {
+    font-size: 0.78rem;
+  }
+
+  .explore-tool-card-desc {
+    font-size: 0.7rem;
+  }
+
+  .explore-categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+
+  .explore-category-card {
+    padding: 0.65rem 0.65rem;
+  }
+
+  .explore-category-card-title {
+    font-size: 0.78rem;
+  }
+
+  .explore-category-card-desc {
+    font-size: 0.7rem;
+  }
+
+  .explore-section-header-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .explore-view-all-link {
+    font-size: 0.74rem;
+    padding: 0.22rem 0.6rem;
+  }
+
+  .explore-voice-card {
+    padding: 0.75rem 0.85rem;
+    gap: 0.75rem;
+  }
+
+  .explore-voice-badge {
+    width: 30px;
+    min-width: 30px;
+    max-width: 30px;
+    height: 30px;
+    font-size: 0.7rem;
+  }
+
+  .explore-voice-text {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+}
+
+/* ==========================================================================
+   12. SMOOTH SLIDE-IN ON SCROLL ANIMATIONS (Mobile & Desktop)
+   ========================================================================== */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+

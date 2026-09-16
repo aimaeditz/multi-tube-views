@@ -21,7 +21,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Extract Audio Track',
-      about: 'Converts any input video (MP4, WebM, MOV, AVI) into high-fidelity standalone audio. Processing is executed 100% locally inside your browser.'
+      about: 'Converts any input video (MP4, WebM, MOV, AVI) into high-fidelity standalone audio. Processing is executed 100% locally inside your browser.',
+      dateAdded: '2026-09-05'
     },
     'video-trimmer': {
       title: 'Video Trimmer',
@@ -30,7 +31,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Trim Video Clip',
-      about: 'Trim unwanted video intros/outros with precision timing. The trimmed video is generated directly in your browser.'
+      about: 'Trim unwanted video intros/outros with precision timing. The trimmed video is generated directly in your browser.',
+      dateAdded: '2026-08-29'
     },
     'slow-reverb': {
       title: 'Slow + Reverb Generator',
@@ -39,7 +41,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       accept: 'audio/*',
       actionText: 'Generate Slow + Reverb',
-      about: 'Slows down media playback and applies a multi-tap delay & acoustic convolution reverb filter for aesthetic viral audio tracks.'
+      about: 'Slows down media playback and applies a multi-tap delay & acoustic convolution reverb filter for aesthetic viral audio tracks.',
+      dateAdded: '2026-08-22'
     },
     'audio-trimmer': {
       title: 'Audio Trimmer',
@@ -48,7 +51,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       accept: 'audio/*',
       actionText: 'Trim Audio File',
-      about: 'Slice MP3, WAV, AAC, or OGG tracks down to specific timestamps with configurable fade-in and fade-out envelope curves.'
+      about: 'Slice MP3, WAV, AAC, or OGG tracks down to specific timestamps with configurable fade-in and fade-out envelope curves.',
+      dateAdded: '2026-06-15'
     },
     'video-converter': {
       title: 'Video Format Converter',
@@ -57,7 +61,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Convert Video Format',
-      about: 'Transcodes video streams locally using HTML5 canvas and browser codecs to change containers and scale resolutions.'
+      about: 'Transcodes video streams locally using HTML5 canvas and browser codecs to change containers and scale resolutions.',
+      dateAdded: '2026-06-15'
     },
     'video-to-gif': {
       title: 'Video to GIF Converter',
@@ -66,7 +71,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Generate Animated GIF',
-      about: 'Extracts video frames and packs them into a lightweight animated GIF file suitable for social media sharing.'
+      about: 'Extracts video frames and packs them into a lightweight animated GIF file suitable for social media sharing.',
+      dateAdded: '2026-06-15'
     },
     'audio-converter': {
       title: 'Audio Format Converter',
@@ -75,7 +81,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       accept: 'audio/*',
       actionText: 'Convert Audio Format',
-      about: 'Re-encodes audio tracks into different audio file formats with customizable bitrate quality settings.'
+      about: 'Re-encodes audio tracks into different audio file formats with customizable bitrate quality settings.',
+      dateAdded: '2026-06-15'
     },
     'video-speed': {
       title: 'Video Speed Changer',
@@ -84,7 +91,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Change Video Speed',
-      about: 'Adjusts video frame rate and audio sample rate to create time-lapse or slow-motion clips right inside your browser.'
+      about: 'Adjusts video frame rate and audio sample rate to create time-lapse or slow-motion clips right inside your browser.',
+      dateAdded: '2026-06-15'
     },
     'voice-to-text': {
       title: 'Voice-to-Text (Multi-language)',
@@ -93,7 +101,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Converts speech to text in real time using the browser SpeechRecognition Web API. Supports English, Hindi, Urdu, Spanish, French, Arabic, German, Japanese, and 10+ languages.'
+      about: 'Converts speech to text in real time using the browser SpeechRecognition Web API. Supports English, Hindi, Urdu, Spanish, French, Arabic, German, Japanese, and 10+ languages.',
+      dateAdded: '2026-06-15'
     },
     'text-to-speech': {
       title: 'Text-to-Speech',
@@ -102,7 +111,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Generates spoken speech from written text using the client-side Web SpeechSynthesis API. Choose from all available installed system voices and adjust playback speed and vocal pitch.'
+      about: 'Generates spoken speech from written text using the client-side Web SpeechSynthesis API. Choose from all available installed system voices and adjust playback speed and vocal pitch.',
+      dateAdded: '2026-06-15'
     },
     'qr-generator': {
       title: 'QR Code Generator',
@@ -111,7 +121,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Creates crisp, high-resolution QR codes completely inside your browser. Customize resolution, error correction level, foreground color, and background color.'
+      about: 'Creates crisp, high-resolution QR codes completely inside your browser. Customize resolution, error correction level, foreground color, and background color.',
+      dateAdded: '2026-06-15'
     },
     'pdf-image-converter': {
       title: 'PDF ↔ Image Converter',
@@ -120,7 +131,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'pdf-document',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Render PDF documents into high-DPI PNG or JPG image files page by page, or merge multiple photos into a formatted multi-page PDF document.'
+      about: 'Render PDF documents into high-DPI PNG or JPG image files page by page, or merge multiple photos into a formatted multi-page PDF document.',
+      dateAdded: '2026-06-15'
     },
     'image-format-converter': {
       title: 'File Format Converter',
@@ -129,7 +141,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Convert Image Format',
-      about: 'Converts image formats client-side using HTML5 Canvas. Supports WebP for maximum compression, PNG for transparency, and JPEG for universal compatibility.'
+      about: 'Converts image formats client-side using HTML5 Canvas. Supports WebP for maximum compression, PNG for transparency, and JPEG for universal compatibility.',
+      dateAdded: '2026-06-15'
     },
     'metadata-remover': {
       title: 'Metadata / EXIF Remover',
@@ -138,7 +151,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Clean & Download Image',
-      about: 'Inspects and strips all embedded EXIF tags, GPS location coordinates, camera models, lens details, and software tags to safeguard your personal privacy.'
+      about: 'Inspects and strips all embedded EXIF tags, GPS location coordinates, camera models, lens details, and software tags to safeguard your personal privacy.',
+      dateAdded: '2026-06-15'
     },
     'image-cropper': {
       title: 'Image Cropper (Ratio Presets)',
@@ -147,7 +161,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Crop & Export Image',
-      about: 'Interactive canvas cropper with standard aspect ratio presets for YouTube thumbnails, Instagram posts, TikTok shorts, and freeform bounding box.'
+      about: 'Interactive canvas cropper with standard aspect ratio presets for YouTube thumbnails, Instagram posts, TikTok shorts, and freeform bounding box.',
+      dateAdded: '2026-06-15'
     },
 
     // ==========================================
@@ -160,7 +175,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Compress Image',
-      about: 'Compresses JPEG, PNG, and WebP images by optimizing color tables and quantization matrices locally without uploading anything to a server.'
+      about: 'Compresses JPEG, PNG, and WebP images by optimizing color tables and quantization matrices locally without uploading anything to a server.',
+      dateAdded: '2026-06-15'
     },
     'image-resizer': {
       title: 'Image Resizer',
@@ -169,7 +185,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Resize Image',
-      about: 'Resizes any photo with high-quality bicubic interpolation. Maintain aspect ratio lock or specify custom width and height in pixels.'
+      about: 'Resizes any photo with high-quality bicubic interpolation. Maintain aspect ratio lock or specify custom width and height in pixels.',
+      dateAdded: '2026-06-15'
     },
     'image-watermark': {
       title: 'Image Watermark Adder',
@@ -178,7 +195,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Add Watermark',
-      about: 'Protects your creative photography and promotional graphics by burning customizable semi-transparent watermarks directly onto images.'
+      about: 'Protects your creative photography and promotional graphics by burning customizable semi-transparent watermarks directly onto images.',
+      dateAdded: '2026-06-15'
     },
     'color-inverter': {
       title: 'Image Color Inverter',
@@ -187,7 +205,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Invert Image Colors',
-      about: 'Flips RGB pixel color channels to create negative photographic prints, solarized effects, or inverted dark-mode visuals.'
+      about: 'Flips RGB pixel color channels to create negative photographic prints, solarized effects, or inverted dark-mode visuals.',
+      dateAdded: '2026-06-15'
     },
     'image-filters': {
       title: 'Photo Filters & Color Grading',
@@ -196,7 +215,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Apply Photo Filters',
-      about: 'Fine-tunes brightness, contrast, saturation, sepia, grayscale, and hue-rotation with real-time canvas pixel rendering.'
+      about: 'Fine-tunes brightness, contrast, saturation, sepia, grayscale, and hue-rotation with real-time canvas pixel rendering.',
+      dateAdded: '2026-06-15'
     },
     'png-to-svg': {
       title: 'Raster to SVG Vectorizer',
@@ -205,7 +225,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Convert to Vector SVG',
-      about: 'Scans high-contrast pixel boundaries, silhouettes, and color contours to generate resolution-independent scalable vector graphics (SVG).'
+      about: 'Scans high-contrast pixel boundaries, silhouettes, and color contours to generate resolution-independent scalable vector graphics (SVG).',
+      dateAdded: '2026-06-15'
     },
     'favicon-generator': {
       title: 'Favicon & App Icon Generator',
@@ -214,7 +235,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Generate Favicon Suite',
-      about: 'Creates a complete suite of browser icons: 16x16, 32x32, 48x48, 192x192, 512x512, and Apple Touch Icon with one-click download.'
+      about: 'Creates a complete suite of browser icons: 16x16, 32x32, 48x48, 192x192, 512x512, and Apple Touch Icon with one-click download.',
+      dateAdded: '2026-06-15'
     },
     'meme-generator': {
       title: 'Meme Generator',
@@ -223,7 +245,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Generate Meme',
-      about: 'Add bold top and bottom captions to any photo with classic black-outlined Impact typography for social media memes.'
+      about: 'Add bold top and bottom captions to any photo with classic black-outlined Impact typography for social media memes.',
+      dateAdded: '2026-06-15'
     },
     'base64-image': {
       title: 'Image to Base64 Data URI',
@@ -232,7 +255,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Encode to Base64',
-      about: 'Encodes images into Base64 strings, complete with Data URI headers, ready to paste directly into web markup or stylesheet backgrounds.'
+      about: 'Encodes images into Base64 strings, complete with Data URI headers, ready to paste directly into web markup or stylesheet backgrounds.',
+      dateAdded: '2026-06-15'
     },
     'image-blur': {
       title: 'Image Blur & Privacy Redactor',
@@ -241,7 +265,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Apply Blur Redaction',
-      about: 'Applies smooth Gaussian blur across images to redact faces, license plates, passwords, or background clutter.'
+      about: 'Applies smooth Gaussian blur across images to redact faces, license plates, passwords, or background clutter.',
+      dateAdded: '2026-06-15'
     },
     'image-border': {
       title: 'Image Border & Frame Adder',
@@ -250,7 +275,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Add Border Frame',
-      about: 'Styles screenshots with clean canvas padding, colored outlines, rounded corners, and soft drop shadows for professional mockups.'
+      about: 'Styles screenshots with clean canvas padding, colored outlines, rounded corners, and soft drop shadows for professional mockups.',
+      dateAdded: '2026-06-15'
     },
     'image-splitter': {
       title: 'Image Grid Splitter',
@@ -259,7 +285,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Split Image Grid',
-      about: 'Slices single images into 3x1 banners, 3x3 grids, or 2x2 multi-tile panels with instant individual tile downloads or ZIP export.'
+      about: 'Slices single images into 3x1 banners, 3x3 grids, or 2x2 multi-tile panels with instant individual tile downloads or ZIP export.',
+      dateAdded: '2026-06-15'
     },
     'color-palette-image': {
       title: 'Image Palette Extractor',
@@ -268,7 +295,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Extract Color Palette',
-      about: 'Analyzes color histograms across images to extract 5 to 10 dominant color swatches with one-click Hex and RGB copying.'
+      about: 'Analyzes color histograms across images to extract 5 to 10 dominant color swatches with one-click Hex and RGB copying.',
+      dateAdded: '2026-06-15'
     },
     'pixelate-image': {
       title: 'Image Pixelator (8-Bit & Censor)',
@@ -277,7 +305,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Pixelate Image',
-      about: 'Creates stylized retro arcade pixel art or mosaic censorship blocks with adjustable block sizes from 4px to 64px.'
+      about: 'Creates stylized retro arcade pixel art or mosaic censorship blocks with adjustable block sizes from 4px to 64px.',
+      dateAdded: '2026-06-15'
     },
     'image-rotate-flip': {
       title: 'Image Rotate & Flip',
@@ -286,7 +315,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'image',
       accept: 'image/*',
       actionText: 'Rotate & Flip Image',
-      about: 'Quickly reorients images with 90° clockwise, 90° counter-clockwise, 180° rotation, and horizontal/vertical mirroring.'
+      about: 'Quickly reorients images with 90° clockwise, 90° counter-clockwise, 180° rotation, and horizontal/vertical mirroring.',
+      dateAdded: '2026-06-15'
     },
 
     // ==========================================
@@ -299,7 +329,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Compress Video',
-      about: 'Downscales video dimensions and re-encodes frames locally through HTML5 Canvas and MediaRecorder to cut file weight.'
+      about: 'Downscales video dimensions and re-encodes frames locally through HTML5 Canvas and MediaRecorder to cut file weight.',
+      dateAdded: '2026-06-15'
     },
     'video-reverse': {
       title: 'Video Reverser',
@@ -308,7 +339,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Reverse Video',
-      about: 'Extracts video frames sequentially and records them in backwards order for mesmerizing rewind and reverse-motion video clips.'
+      about: 'Extracts video frames sequentially and records them in backwards order for mesmerizing rewind and reverse-motion video clips.',
+      dateAdded: '2026-06-15'
     },
     'video-watermark': {
       title: 'Video Watermark Adder',
@@ -317,7 +349,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Add Watermark to Video',
-      about: 'Overlays your custom logo or channel handle onto video streams with selectable corner placements, transparency, and typography.'
+      about: 'Overlays your custom logo or channel handle onto video streams with selectable corner placements, transparency, and typography.',
+      dateAdded: '2026-06-15'
     },
     'video-mute': {
       title: 'Video Audio Remover (Mute Video)',
@@ -326,7 +359,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Remove Audio from Video',
-      about: 'Removes the audio track from video files, rendering a clean, silent video stream for background loops or re-dubbing.'
+      about: 'Removes the audio track from video files, rendering a clean, silent video stream for background loops or re-dubbing.',
+      dateAdded: '2026-06-15'
     },
     'video-rotate': {
       title: 'Video Rotator',
@@ -335,7 +369,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Rotate Video',
-      about: 'Corrects orientation tags and rotates video frames 90° clockwise, 180°, or 270° with proper canvas aspect re-fitting.'
+      about: 'Corrects orientation tags and rotates video frames 90° clockwise, 180°, or 270° with proper canvas aspect re-fitting.',
+      dateAdded: '2026-06-15'
     },
     'video-loop': {
       title: 'Video Looper & Boomerang',
@@ -344,7 +379,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Create Looping Video',
-      about: 'Duplicates clip sequences 2x, 3x, or 4x, or compiles a forward-and-reverse boomerang bounce for dynamic social posts.'
+      about: 'Duplicates clip sequences 2x, 3x, or 4x, or compiles a forward-and-reverse boomerang bounce for dynamic social posts.',
+      dateAdded: '2026-06-15'
     },
     'video-framerate': {
       title: 'Video Frame Rate Changer (FPS)',
@@ -353,7 +389,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Convert Frame Rate',
-      about: 'Re-samples video streams at target frame rates (15, 24 cinematic, 30 standard, 60 smooth) directly in the browser.'
+      about: 'Re-samples video streams at target frame rates (15, 24 cinematic, 30 standard, 60 smooth) directly in the browser.',
+      dateAdded: '2026-06-15'
     },
     'video-snapshot': {
       title: 'Video Frame Snapshot Extractor',
@@ -362,7 +399,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Capture Snapshot Frame',
-      about: 'Grabs full-resolution still pictures from exact video timestamps and exports them as crystal-clear PNG or JPEG images.'
+      about: 'Grabs full-resolution still pictures from exact video timestamps and exports them as crystal-clear PNG or JPEG images.',
+      dateAdded: '2026-06-15'
     },
     'video-aspect-ratio': {
       title: 'Video Aspect Ratio Resizer',
@@ -371,7 +409,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Resize Video Aspect Ratio',
-      about: 'Converts 16:9 landscape videos to 9:16 TikTok/Reels, 1:1 Square, or 4:5 Instagram formats with clean letterboxing or blur fills.'
+      about: 'Converts 16:9 landscape videos to 9:16 TikTok/Reels, 1:1 Square, or 4:5 Instagram formats with clean letterboxing or blur fills.',
+      dateAdded: '2026-06-15'
     },
     'video-color-filter': {
       title: 'Video Color Filters & Grading',
@@ -380,7 +419,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'video',
       accept: 'video/*',
       actionText: 'Apply Video Color Filter',
-      about: 'Applies vintage film grain, high-contrast monochrome, cyberpunk neon, warm sepia, or saturated grades to video clips.'
+      about: 'Applies vintage film grain, high-contrast monochrome, cyberpunk neon, warm sepia, or saturated grades to video clips.',
+      dateAdded: '2026-06-15'
     },
 
     // ==========================================
@@ -393,7 +433,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       accept: 'audio/*',
       actionText: 'Compress Audio File',
-      about: 'Re-samples audio bitrates (64k, 96k, 128k, 192k) and sample frequencies locally to shrink voice notes and podcasts.'
+      about: 'Re-samples audio bitrates (64k, 96k, 128k, 192k) and sample frequencies locally to shrink voice notes and podcasts.',
+      dateAdded: '2026-06-15'
     },
     'audio-joiner': {
       title: 'Audio Merger & Joiner',
@@ -402,7 +443,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Combines multiple audio files sequentially with optional crossfade transitions into a single unified MP3 or WAV recording.'
+      about: 'Combines multiple audio files sequentially with optional crossfade transitions into a single unified MP3 or WAV recording.',
+      dateAdded: '2026-06-15'
     },
     'audio-normalizer': {
       title: 'Audio Volume Booster & Normalizer',
@@ -411,7 +453,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       accept: 'audio/*',
       actionText: 'Normalize & Boost Volume',
-      about: 'Analyzes peak amplitude and boosts gain up to 300% with a smart soft-knee peak limiter to eliminate audio clipping.'
+      about: 'Analyzes peak amplitude and boosts gain up to 300% with a smart soft-knee peak limiter to eliminate audio clipping.',
+      dateAdded: '2026-06-15'
     },
     'audio-reverse': {
       title: 'Audio Reverser (Backwards Audio)',
@@ -420,7 +463,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       accept: 'audio/*',
       actionText: 'Reverse Audio File',
-      about: 'Reverses audio sample buffers in memory with zero quality degradation, producing backwards speech and retro rewind sweeps.'
+      about: 'Reverses audio sample buffers in memory with zero quality degradation, producing backwards speech and retro rewind sweeps.',
+      dateAdded: '2026-06-15'
     },
     'audio-pitch': {
       title: 'Audio Pitch Shifter',
@@ -429,7 +473,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       accept: 'audio/*',
       actionText: 'Shift Audio Pitch',
-      about: 'Shifts pitch up or down across semitones and octaves, with fun chipmunk, deep radio-host, and musical key adjustments.'
+      about: 'Shifts pitch up or down across semitones and octaves, with fun chipmunk, deep radio-host, and musical key adjustments.',
+      dateAdded: '2026-06-15'
     },
     'audio-bass-boost': {
       title: 'Bass Booster & 3-Band EQ',
@@ -438,7 +483,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       accept: 'audio/*',
       actionText: 'Apply Bass Boost & EQ',
-      about: 'Employs 3-band parametric biquad filters (Low-shelf Bass, Peaking Mid, High-shelf Treble) to pump up sub-bass response.'
+      about: 'Employs 3-band parametric biquad filters (Low-shelf Bass, Peaking Mid, High-shelf Treble) to pump up sub-bass response.',
+      dateAdded: '2026-06-15'
     },
     'audio-bpm': {
       title: 'Audio BPM & Tempo Detector',
@@ -447,7 +493,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       accept: 'audio/*',
       actionText: 'Detect Audio BPM',
-      about: 'Executes rhythmic peak-energy analysis over audio tracks to calculate accurate tempo (BPM) with manual tap-tempo assist.'
+      about: 'Executes rhythmic peak-energy analysis over audio tracks to calculate accurate tempo (BPM) with manual tap-tempo assist.',
+      dateAdded: '2026-06-15'
     },
     'audio-stereo-panner': {
       title: 'Audio Stereo Panner & 8D Audio',
@@ -456,7 +503,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       accept: 'audio/*',
       actionText: 'Apply 8D Panning Effect',
-      about: 'Oscillates stereo soundstage in a continuous 360-degree rotation curve, creating viral 8D audio effects for headphones.'
+      about: 'Oscillates stereo soundstage in a continuous 360-degree rotation curve, creating viral 8D audio effects for headphones.',
+      dateAdded: '2026-06-15'
     },
     'audio-noise-generator': {
       title: 'Ambient Noise Generator (White, Pink, Brown)',
@@ -465,7 +513,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Synthesizes pure white noise, 1/f pink noise, and 1/f² brown noise waveforms in real time with custom length export.'
+      about: 'Synthesizes pure white noise, 1/f pink noise, and 1/f² brown noise waveforms in real time with custom length export.',
+      dateAdded: '2026-06-15'
     },
     'audio-cutter-ringtone': {
       title: 'Ringtone Maker (Custom Audio Cut)',
@@ -474,7 +523,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'audio',
       accept: 'audio/*',
       actionText: 'Export Ringtone',
-      about: 'Snips exact 30-second chorus or hook segments with seamless 1-second fade-in and 2-second fade-out for smartphone ringtones.'
+      about: 'Snips exact 30-second chorus or hook segments with seamless 1-second fade-in and 2-second fade-out for smartphone ringtones.',
+      dateAdded: '2026-06-15'
     },
 
     // ==========================================
@@ -487,7 +537,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'pdf-document',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Combines multiple PDF documents into one unified file directly in your browser. Reorder pages and files with total privacy.'
+      about: 'Combines multiple PDF documents into one unified file directly in your browser. Reorder pages and files with total privacy.',
+      dateAdded: '2026-06-15'
     },
     'pdf-splitter': {
       title: 'PDF Splitter',
@@ -496,7 +547,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'pdf-document',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Extract individual pages, page ranges (e.g. 1-3, 5, 8-10), or split a multi-chapter PDF into standalone files.'
+      about: 'Extract individual pages, page ranges (e.g. 1-3, 5, 8-10), or split a multi-chapter PDF into standalone files.',
+      dateAdded: '2026-06-15'
     },
     'pdf-page-rotator': {
       title: 'PDF Page Rotator',
@@ -505,7 +557,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'pdf-document',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Rotates all pages or specific pages by 90°, 180°, or 270° degrees, permanently correcting scanned paperwork.'
+      about: 'Rotates all pages or specific pages by 90°, 180°, or 270° degrees, permanently correcting scanned paperwork.',
+      dateAdded: '2026-06-15'
     },
     'pdf-watermark': {
       title: 'PDF Watermark Adder',
@@ -514,7 +567,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'pdf-document',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Applies prominent text watermarks (e.g. "CONFIDENTIAL", "DRAFT", "COPY") diagonally across PDF documents.'
+      about: 'Applies prominent text watermarks (e.g. "CONFIDENTIAL", "DRAFT", "COPY") diagonally across PDF documents.',
+      dateAdded: '2026-06-15'
     },
     'pdf-page-numberer': {
       title: 'PDF Page Numberer',
@@ -523,7 +577,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'pdf-document',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Adds sequential page numbers ("Page X of Y", "1, 2, 3") to headers or footers of PDF documents with custom font sizes.'
+      about: 'Adds sequential page numbers ("Page X of Y", "1, 2, 3") to headers or footers of PDF documents with custom font sizes.',
+      dateAdded: '2026-06-15'
     },
     'pdf-compressor': {
       title: 'PDF Compressor & Optimizer',
@@ -532,7 +587,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'pdf-document',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Optimizes embedded graphics and compresses visual layers to make large PDFs email-ready and web-friendly.'
+      about: 'Optimizes embedded graphics and compresses visual layers to make large PDFs email-ready and web-friendly.',
+      dateAdded: '2026-06-15'
     },
     'text-to-pdf': {
       title: 'Text to PDF Generator',
@@ -541,7 +597,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'pdf-document',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Converts typed or pasted text into a formatted PDF document with customizable margins, typography, and page sizing.'
+      about: 'Converts typed or pasted text into a formatted PDF document with customizable margins, typography, and page sizing.',
+      dateAdded: '2026-06-15'
     },
     'pdf-protect': {
       title: 'PDF Inspector & Security Checker',
@@ -550,7 +607,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'pdf-document',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Audits PDF documents for sensitive metadata (author, creation date, software generator) and security encryption settings.'
+      about: 'Audits PDF documents for sensitive metadata (author, creation date, software generator) and security encryption settings.',
+      dateAdded: '2026-06-15'
     },
     'pdf-page-delete': {
       title: 'PDF Page Remover',
@@ -559,7 +617,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'pdf-document',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Renders visual page thumbnails, allowing you to select and remove blank, redundant, or unwanted pages with one click.'
+      about: 'Renders visual page thumbnails, allowing you to select and remove blank, redundant, or unwanted pages with one click.',
+      dateAdded: '2026-06-15'
     },
     'markdown-to-pdf': {
       title: 'Markdown to PDF Exporter',
@@ -568,7 +627,8 @@ const ALL_TOOL_CONFIGS = {
       category: 'pdf-document',
       hideMainDropzone: true,
       hideActionBtn: true,
-      about: 'Parses Markdown text with headings, lists, blockquotes, and code blocks into beautifully styled, printable PDF documents.'
+      about: 'Parses Markdown text with headings, lists, blockquotes, and code blocks into beautifully styled, printable PDF documents.',
+      dateAdded: '2026-06-15'
     }
   };
 

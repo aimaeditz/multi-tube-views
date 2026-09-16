@@ -42,7 +42,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/media-converter-tools.html">
 
-                                            <!-- Open Graph -->
+                                                      <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/media-converter-tools.html">
   <meta property="og:title" content="In-Browser Media Converters — Video to MP3 & Audio Tools | MTV">
@@ -2249,6 +2249,7 @@
         <div class="footer-col">
           <h4>Company & Tools</h4>
           <ul class="footer-links">
+            <li><a href="explore-hub.html">Explore Hub</a></li>
             <li><a href="ai-prompt.html">AI Prompts & Tools</a></li>
             <li><a href="creator-tools.html">Creator Tools</a></li>
             <li><a href="media-converter-tools.html">Media Converter Tools</a></li>
@@ -2423,6 +2424,16 @@
             filterMediaTools();
           }
         });
+      }
+
+      // Handle category query parameter from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialCat = urlParams.get('category');
+      if (initialCat) {
+        const matchingPill = Array.from(categoryPills).find(p => p.getAttribute('data-category') === initialCat);
+        if (matchingPill) {
+          selectMediaCategory(matchingPill);
+        }
       }
     });
   </script>

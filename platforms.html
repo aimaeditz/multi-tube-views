@@ -28,7 +28,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/platforms.html">
 
-                                        <!-- Open Graph -->
+                                                  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/platforms.html">
   <meta property="og:title" content="Supported Media Platforms — Multi Tube Views Directory (40+ Sites)">
@@ -988,6 +988,7 @@
         <div class="footer-col">
           <h4>Company & Tools</h4>
           <ul class="footer-links">
+            <li><a href="explore-hub.html">Explore Hub</a></li>
             <li><a href="ai-prompt.html">AI Prompts & Tools</a></li>
             <li><a href="creator-tools.html">Creator Tools</a></li>
             <li><a href="media-converter-tools.html">Media Converter Tools</a></li>
@@ -1141,6 +1142,22 @@
             selectCategory(btn);
           }
         });
+      }
+
+      // Handle category query parameter from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialCat = urlParams.get('category');
+      if (initialCat) {
+        const matchingBtn = Array.from(categoryPills).find(b => {
+          const filter = b.getAttribute('data-filter');
+          if (!filter) return false;
+          const cleanFilter = filter.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]/g, '');
+          const cleanParam = initialCat.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]/g, '');
+          return cleanFilter === cleanParam || filter.toLowerCase() === initialCat.toLowerCase();
+        });
+        if (matchingBtn) {
+          selectCategory(matchingBtn);
+        }
       }
     });
   </script>

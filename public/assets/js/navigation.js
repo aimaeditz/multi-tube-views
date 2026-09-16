@@ -562,4 +562,106 @@ document.addEventListener('DOMContentLoaded', () => {
       autoExpandOutputs();
     }
   });
+
+  // Touch handlers for footer social media icons to toggle 'tapped' class
+  const initFooterSocialTouch = () => {
+    const socialLinks = document.querySelectorAll('.footer-social-link');
+    socialLinks.forEach(link => {
+      link.addEventListener('touchstart', () => {
+        link.classList.add('tapped');
+      }, { passive: true });
+      link.addEventListener('touchend', () => {
+        link.classList.remove('tapped');
+      }, { passive: true });
+      link.addEventListener('touchcancel', () => {
+        link.classList.remove('tapped');
+      }, { passive: true });
+    });
+  };
+  initFooterSocialTouch();
 });
+
+// Universal Site-Wide Click Tracking for Explore Hub "Featured Tools"
+(function initToolClickTracking() {
+  function parseToolIdFromUrl(urlStr) {
+    if (!urlStr || typeof urlStr !== 'string') return null;
+    try {
+      if (urlStr.includes('tool=')) {
+        const match = urlStr.match(/[?&]tool=([^&#]+)/);
+        if (match && match[1]) return decodeURIComponent(match[1]);
+      }
+      if (urlStr.includes('browser-utilities/') && urlStr.endsWith('.html')) {
+        const parts = urlStr.split('/');
+        const filename = parts[parts.length - 1];
+        const toolId = filename.replace('.html', '');
+        if (toolId && toolId !== 'index' && toolId !== 'browser-utilities') {
+          return toolId;
+        }
+      }
+      if (urlStr.includes('ai-auto.html')) return 'ai-auto';
+    } catch (e) {}
+    return null;
+  }
+
+  function recordToolClick(toolId) {
+    if (!toolId || typeof toolId !== 'string') return;
+    try {
+      if (window.StorageManager && typeof window.StorageManager.recordToolClick === 'function') {
+        window.StorageManager.recordToolClick(toolId);
+      } else {
+        const raw = localStorage.getItem('mtv_tool_clicks');
+        const clicks = raw ? JSON.parse(raw) : {};
+        clicks[toolId] = (clicks[toolId] || 0) + 1;
+        localStorage.setItem('mtv_tool_clicks', JSON.stringify(clicks));
+      }
+    } catch (e) {
+      console.warn('LocalStorage error while recording tool click:', e);
+    }
+  }
+
+  function getToolClickCounts() {
+    try {
+      if (window.StorageManager && typeof window.StorageManager.getToolClicks === 'function') {
+        return window.StorageManager.getToolClicks();
+      } else {
+        const raw = localStorage.getItem('mtv_tool_clicks');
+        return raw ? JSON.parse(raw) : {};
+      }
+    } catch (e) {
+      console.warn('LocalStorage error while reading tool clicks:', e);
+      return {};
+    }
+  }
+
+  window.mtvRecordToolClick = recordToolClick;
+  window.mtvGetToolClickCounts = getToolClickCounts;
+  window.mtvParseToolIdFromUrl = parseToolIdFromUrl;
+
+  document.addEventListener('click', (e) => {
+    let target = e.target;
+    while (target && target !== document) {
+      const dataId = target.getAttribute && (target.getAttribute('data-tool-id') || target.getAttribute('data-tool'));
+      if (dataId) {
+        recordToolClick(dataId);
+        break;
+      }
+      const href = target.getAttribute && target.getAttribute('href');
+      if (href) {
+        const toolId = parseToolIdFromUrl(href);
+        if (toolId) {
+          recordToolClick(toolId);
+          break;
+        }
+      }
+      target = target.parentElement;
+    }
+  }, { capture: true, passive: true });
+
+  if (typeof window !== 'undefined' && window.location) {
+    const pageToolId = parseToolIdFromUrl(window.location.href);
+    if (pageToolId) {
+      recordToolClick(pageToolId);
+    }
+  }
+})();
+

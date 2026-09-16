@@ -21,6 +21,7 @@ function getHtmlInputs() {
     settings: path.resolve(__dirname, 'settings.html'),
     terms: path.resolve(__dirname, 'terms.html'),
     browserUtilities: path.resolve(__dirname, 'browser-utilities.html'),
+    exploreHub: path.resolve(__dirname, 'explore-hub.html'),
   };
 
   // Add all platform pages

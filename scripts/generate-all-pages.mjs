@@ -221,6 +221,7 @@ function renderFooter({ depth = 0 }) {
         <div class="footer-col">
           <h4>Company & Tools</h4>
           <ul class="footer-links">
+            <li><a href="${p}explore-hub.html">Explore Hub</a></li>
             <li><a href="${p}ai-prompt.html">AI Prompts & Tools</a></li>
             <li><a href="${p}ai-tools.html">AI Tools</a></li>
             <li><a href="${p}creator-tools.html">Creator Tools</a></li>
