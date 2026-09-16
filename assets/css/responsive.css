@@ -701,14 +701,14 @@
 
   /* Homepage Hero Section */
   .hero-section {
-    padding: 2rem 0 1.5rem 0 !important;
+    padding: 2.25rem 0 2.5rem 0 !important;
   }
 
   .hero-pill {
     font-size: 0.62rem !important;
     font-weight: 700 !important;
     padding: 0.2rem 0.65rem !important;
-    margin-bottom: 0.75rem !important;
+    margin-bottom: 1.15rem !important;
     letter-spacing: 0.06em !important;
     white-space: nowrap !important;
     display: inline-flex !important;
@@ -721,7 +721,7 @@
     font-weight: 800 !important;
     line-height: 1.2 !important;
     letter-spacing: -0.025em !important;
-    margin-bottom: 0.55rem !important;
+    margin-bottom: 1rem !important;
     max-width: 100% !important;
   }
 
@@ -741,7 +741,7 @@
     line-height: 21.552px !important;
     letter-spacing: -0.01em !important;
     margin-top: -4px !important;
-    margin-bottom: 21px !important;
+    margin-bottom: 1.35rem !important;
     max-width: 100% !important;
     padding: 0 0.25rem !important;
     color: var(--text-secondary) !important;
@@ -749,10 +749,15 @@
 
   main:nth-of-type(1) > div:nth-of-type(1) > section:nth-of-type(1) > p:nth-of-type(1),
   main:nth-of-type(1) > div:nth-of-type(1) > section#hero:nth-of-type(1) > p:nth-of-type(1) {
-    margin-bottom: 10px !important;
+    margin-bottom: 1.35rem !important;
     line-height: 20.75px !important;
     font-weight: normal !important;
     font-size: 14.8px !important;
+  }
+
+  .hero-search-wrapper,
+  #hero-search-container {
+    margin: 0 auto 1.35rem auto !important;
   }
 
   .hero-actions {
@@ -2500,7 +2505,7 @@
   .desktop-ref-body .hero-description {
     font-size: 0.73rem !important;
     line-height: 1.42 !important;
-    margin-bottom: 0.95rem !important;
+    margin-bottom: 1.25rem !important;
     padding: 0 0.25rem !important;
     max-width: 400px !important;
   }
@@ -2570,7 +2575,7 @@
   .desktop-ref-body .hero-description {
     font-size: 0.69rem !important;
     line-height: 1.4 !important;
-    margin-bottom: 0.85rem !important;
+    margin-bottom: 1.15rem !important;
     max-width: 310px !important;
   }
 
