@@ -39,7 +39,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/index.html">
 
-                                                            <!-- Open Graph -->
+                                                                <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/index.html">
   <meta property="og:title" content="Multi Tube Views — Multi-Stream Video Player & Grid Viewer">
@@ -2347,10 +2347,16 @@
             const tags = Array.from(card.querySelectorAll('.support-tag')).map(t => t.textContent.toLowerCase()).join(' ');
 
             if (!query || title.includes(query) || desc.includes(query) || category.includes(query) || tags.includes(query)) {
-              card.style.display = 'flex';
+              card.style.removeProperty('display');
+              card.removeAttribute('data-hidden');
+              card.removeAttribute('hidden');
+              card.classList.remove('is-hidden');
               visibleCount++;
             } else {
-              card.style.display = 'none';
+              card.style.setProperty('display', 'none', 'important');
+              card.setAttribute('data-hidden', 'true');
+              card.setAttribute('hidden', '');
+              card.classList.add('is-hidden');
             }
           });
 

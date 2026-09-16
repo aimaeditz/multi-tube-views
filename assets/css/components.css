@@ -3088,7 +3088,25 @@ textarea.form-control {
 
 .creator-tool-card.is-hidden,
 .creator-tool-card[data-hidden="true"],
-.creator-tool-card[hidden] {
+.creator-tool-card[hidden],
+.platform-card.is-hidden,
+.platform-card[data-hidden="true"],
+.platform-card[hidden],
+.media-tool-card.is-hidden,
+.media-tool-card[data-hidden="true"],
+.media-tool-card[hidden],
+.bu-card.is-hidden,
+.bu-card[data-hidden="true"],
+.bu-card[hidden],
+.bu-tool-card.is-hidden,
+.bu-tool-card[data-hidden="true"],
+.bu-tool-card[hidden],
+.bu-category-block.is-hidden,
+.bu-category-block[data-hidden="true"],
+.bu-category-block[hidden],
+.prompt-card.is-hidden,
+.prompt-card[data-hidden="true"],
+.prompt-card[hidden] {
   display: none !important;
 }
 

@@ -422,6 +422,13 @@
     box-sizing: border-box !important;
   }
 
+  /* Robust Hidden State for Prompt Filtering */
+  body:not(.desktop-ref-body) .prompt-card.is-hidden,
+  body:not(.desktop-ref-body) .prompt-card[data-hidden="true"],
+  body:not(.desktop-ref-body) .prompt-card[hidden] {
+    display: none !important;
+  }
+
   /* Issue 2 Fix Part 1: Reduced preview image height / balanced aspect ratio */
   body:not(.desktop-ref-body) .prompt-card-media {
     width: 100% !important;
@@ -1729,6 +1736,13 @@
     overflow: hidden !important;
   }
 
+  /* Robust Hidden State for Media Converter Tools Filtering */
+  .media-tool-card.is-hidden,
+  .media-tool-card[data-hidden="true"],
+  .media-tool-card[hidden] {
+    display: none !important;
+  }
+
   .media-tool-icon {
     font-size: 1.35rem !important;
     margin-bottom: 0.35rem !important;
@@ -1915,6 +1929,19 @@
     box-sizing: border-box !important;
     height: 100% !important;
     overflow: hidden !important;
+  }
+
+  /* Robust Hidden State for Browser Utilities Filtering on Mobile */
+  .bu-card.is-hidden,
+  .bu-card[data-hidden="true"],
+  .bu-card[hidden],
+  .bu-tool-card.is-hidden,
+  .bu-tool-card[data-hidden="true"],
+  .bu-tool-card[hidden],
+  .bu-category-block.is-hidden,
+  .bu-category-block[data-hidden="true"],
+  .bu-category-block[hidden] {
+    display: none !important;
   }
 
   .bu-card-icon,
@@ -2224,6 +2251,13 @@
     height: 100% !important;
     overflow: hidden !important;
     box-shadow: var(--shadow-sm) !important;
+  }
+
+  /* Robust Hidden State for Platform Filtering on Mobile */
+  .platform-card.is-hidden,
+  .platform-card[data-hidden="true"],
+  .platform-card[hidden] {
+    display: none !important;
   }
 
   .platform-card-body {

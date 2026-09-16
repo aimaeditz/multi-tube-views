@@ -42,7 +42,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/media-converter-tools.html">
 
-                                        <!-- Open Graph -->
+                                            <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/media-converter-tools.html">
   <meta property="og:title" content="In-Browser Media Converters — Video to MP3 & Audio Tools | MTV">
@@ -2367,9 +2367,15 @@
 
           if (matchesQuery && matchesCategory) {
             card.style.removeProperty('display');
+            card.removeAttribute('data-hidden');
+            card.removeAttribute('hidden');
+            card.classList.remove('is-hidden');
             visibleCount++;
           } else {
             card.style.setProperty('display', 'none', 'important');
+            card.setAttribute('data-hidden', 'true');
+            card.setAttribute('hidden', '');
+            card.classList.add('is-hidden');
           }
         });
 
@@ -2378,14 +2384,31 @@
         }
       }
 
+      function selectMediaCategory(pill) {
+        if (!pill) return;
+        categoryPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeCategory = pill.getAttribute('data-category') || 'all';
+        filterMediaTools();
+      }
+
       categoryPills.forEach(pill => {
-        pill.addEventListener('click', () => {
-          categoryPills.forEach(p => p.classList.remove('active'));
-          pill.classList.add('active');
-          activeCategory = pill.getAttribute('data-category') || 'all';
-          filterMediaTools();
+        pill.addEventListener('click', (e) => {
+          e.preventDefault();
+          selectMediaCategory(pill);
         });
       });
+
+      const mediaPillsWrap = document.getElementById('media-category-pills');
+      if (mediaPillsWrap) {
+        mediaPillsWrap.addEventListener('click', (e) => {
+          const pill = e.target.closest('.filter-chip');
+          if (pill) {
+            e.preventDefault();
+            selectMediaCategory(pill);
+          }
+        });
+      }
 
       if (searchInput) {
         searchInput.addEventListener('input', filterMediaTools);

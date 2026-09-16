@@ -28,7 +28,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/platforms.html">
 
-                                    <!-- Open Graph -->
+                                        <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/platforms.html">
   <meta property="og:title" content="Supported Media Platforms — Multi Tube Views Directory (40+ Sites)">
@@ -1051,6 +1051,7 @@
       const cardsContainer = document.getElementById('platform-cards-container');
       const noResults = document.getElementById('directory-no-results');
       const categoryPills = document.querySelectorAll('.category-filter-btn');
+      const pillsContainer = document.getElementById('platform-category-pills');
 
       let currentCategory = 'all';
       let currentQuery = '';
@@ -1064,30 +1065,46 @@
           searchClear.style.display = currentQuery ? 'flex' : 'none';
         }
 
+        const catFilter = currentCategory.trim().toLowerCase();
+
         cards.forEach(card => {
           const title = (card.querySelector('.platform-card-title')?.textContent || '').toLowerCase();
           const desc = (card.querySelector('.platform-card-desc')?.textContent || '').toLowerCase();
-          const category = (card.getAttribute('data-category') || '').toLowerCase();
+          const category = (card.getAttribute('data-category') || '').trim().toLowerCase();
           const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
 
-          const matchesCat = currentCategory === 'all' || category === currentCategory.toLowerCase();
+          const matchesCat = catFilter === 'all' || category === catFilter;
           const matchesQuery = !currentQuery || title.includes(currentQuery) || desc.includes(currentQuery) || category.includes(currentQuery) || keywords.includes(currentQuery);
 
           if (matchesCat && matchesQuery) {
-            card.style.display = 'flex';
-            card.classList.remove('is-hidden');
+            card.style.removeProperty('display');
+            card.removeAttribute('data-hidden');
             card.removeAttribute('hidden');
+            card.classList.remove('is-hidden');
             visibleCount++;
           } else {
-            card.style.display = 'none';
-            card.classList.add('is-hidden');
+            card.style.setProperty('display', 'none', 'important');
+            card.setAttribute('data-hidden', 'true');
             card.setAttribute('hidden', '');
+            card.classList.add('is-hidden');
           }
         });
 
         if (noResults) {
           noResults.style.display = visibleCount === 0 ? 'block' : 'none';
         }
+      }
+
+      function selectCategory(btn) {
+        if (!btn) return;
+        categoryPills.forEach(b => {
+          b.classList.remove('btn-primary', 'active');
+          b.classList.add('btn-secondary');
+        });
+        btn.classList.add('btn-primary', 'active');
+        btn.classList.remove('btn-secondary');
+        currentCategory = btn.getAttribute('data-filter') || 'all';
+        filterCards();
       }
 
       if (searchInput) {
@@ -1110,17 +1127,21 @@
       }
 
       categoryPills.forEach(btn => {
-        btn.addEventListener('click', () => {
-          categoryPills.forEach(b => {
-            b.classList.remove('btn-primary', 'active');
-            b.classList.add('btn-secondary');
-          });
-          btn.classList.add('btn-primary', 'active');
-          btn.classList.remove('btn-secondary');
-          currentCategory = btn.getAttribute('data-filter') || 'all';
-          filterCards();
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          selectCategory(btn);
         });
       });
+
+      if (pillsContainer) {
+        pillsContainer.addEventListener('click', (e) => {
+          const btn = e.target.closest('.category-filter-btn');
+          if (btn) {
+            e.preventDefault();
+            selectCategory(btn);
+          }
+        });
+      }
     });
   </script>
 </body>

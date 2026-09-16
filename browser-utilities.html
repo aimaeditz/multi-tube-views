@@ -42,7 +42,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities.html">
 
-  <!-- Open Graph -->
+    <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities.html">
   <meta property="og:title" content="Browser Utilities — 89 Free Client-Side Web Tools | MTV">
@@ -51,7 +51,6 @@
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Browser Utilities — 89 Free Client-Side Web Tools | MTV">
@@ -2110,6 +2109,7 @@
           <a href="disclaimer.html">Disclaimer</a>
           <a href="terms.html">Terms</a>
           <a href="credits.html">Credits</a>
+          <a href="articles.html">Articles</a>
         </div>
       </div>
     </div>
@@ -2143,14 +2143,32 @@
             const text = card.textContent.toLowerCase();
             const textMatches = !q || text.includes(q);
             const showCard = catMatches && textMatches;
-            card.style.display = showCard ? 'flex' : 'none';
             if (showCard) {
+              card.style.removeProperty('display');
+              card.removeAttribute('data-hidden');
+              card.removeAttribute('hidden');
+              card.classList.remove('is-hidden');
               visibleCardsInSec++;
               totalMatches++;
+            } else {
+              card.style.setProperty('display', 'none', 'important');
+              card.setAttribute('data-hidden', 'true');
+              card.setAttribute('hidden', '');
+              card.classList.add('is-hidden');
             }
           });
 
-          sec.style.display = (catMatches && visibleCardsInSec > 0) ? 'block' : 'none';
+          if (catMatches && visibleCardsInSec > 0) {
+            sec.style.removeProperty('display');
+            sec.removeAttribute('data-hidden');
+            sec.removeAttribute('hidden');
+            sec.classList.remove('is-hidden');
+          } else {
+            sec.style.setProperty('display', 'none', 'important');
+            sec.setAttribute('data-hidden', 'true');
+            sec.setAttribute('hidden', '');
+            sec.classList.add('is-hidden');
+          }
         });
 
         if (countEl) {
@@ -2168,23 +2186,40 @@
         }
       }
 
+      function selectBUCategory(targetCat) {
+        if (!targetCat) return;
+        activeCategory = targetCat;
+
+        filterBtns.forEach(b => {
+          if (b.getAttribute('data-bu-filter') === targetCat) {
+            b.classList.add('bu-btn-primary');
+          } else {
+            b.classList.remove('bu-btn-primary');
+          }
+        });
+
+        applyFilter();
+      }
+
       filterBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
           const targetCat = btn.getAttribute('data-bu-filter');
-          activeCategory = targetCat;
-
-          filterBtns.forEach(b => {
-            if (b === btn) {
-              b.classList.add('bu-btn-primary');
-            } else {
-              b.classList.remove('bu-btn-primary');
-            }
-          });
-
-          applyFilter();
+          selectBUCategory(targetCat);
         });
       });
+
+      const navGrid = document.querySelector('.bu-category-nav-grid') || document.querySelector('.bu-category-filter-wrap');
+      if (navGrid) {
+        navGrid.addEventListener('click', (e) => {
+          const btn = e.target.closest('.bu-category-filter-btn');
+          if (btn) {
+            e.preventDefault();
+            const targetCat = btn.getAttribute('data-bu-filter');
+            selectBUCategory(targetCat);
+          }
+        });
+      }
 
       if (search) {
         search.addEventListener('input', applyFilter);
