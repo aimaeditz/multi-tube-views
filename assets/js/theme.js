@@ -9,34 +9,60 @@
   let unlockTimer = null;
 
   function disableTransitionsTemporarily() {
-    const head = document.head || document.getElementsByTagName('head')[0];
+    const head = document.head || document.getElementsByTagName('head')[0] || document.documentElement;
     if (!head) return () => {};
+
+    // Immediately tag root with theme-switching class
+    root.classList.add('theme-switching');
 
     let style = document.getElementById('mtv-theme-transition-lock');
     if (!style) {
       style = document.createElement('style');
       style.id = 'mtv-theme-transition-lock';
-      style.textContent = '*, *::before, *::after { -webkit-transition: none !important; -moz-transition: none !important; -o-transition: none !important; -ms-transition: none !important; transition: none !important; }';
+      style.textContent = `
+        html.theme-switching,
+        html.theme-switching body,
+        html.theme-switching *,
+        html.theme-switching *::before,
+        html.theme-switching *::after,
+        html[data-theme].theme-switching,
+        html[data-theme].theme-switching body,
+        html[data-theme].theme-switching *,
+        html[data-theme].theme-switching *::before,
+        html[data-theme].theme-switching *::after,
+        html.theme-switching [id],
+        html.theme-switching [id] *,
+        html.theme-switching [class],
+        html.theme-switching [class] * {
+          -webkit-transition: none !important;
+          -moz-transition: none !important;
+          -o-transition: none !important;
+          -ms-transition: none !important;
+          transition: none !important;
+        }
+      `;
       head.appendChild(style);
     }
 
     return () => {
+      // Synchronously flush layout so all color/variable changes apply immediately
       if (document.body) {
-        // Read property to flush computed styles synchronously
         void document.body.offsetHeight;
+      } else {
+        void root.offsetHeight;
       }
+
       if (unlockTimer) {
-        cancelAnimationFrame(unlockTimer);
+        clearTimeout(unlockTimer);
       }
-      unlockTimer = requestAnimationFrame(() => {
-        unlockTimer = requestAnimationFrame(() => {
-          const lock = document.getElementById('mtv-theme-transition-lock');
-          if (lock && lock.parentNode) {
-            lock.parentNode.removeChild(lock);
-          }
-          unlockTimer = null;
-        });
-      });
+      unlockTimer = setTimeout(() => {
+        root.classList.remove('theme-switching');
+        const lock = document.getElementById('mtv-theme-transition-lock');
+        if (lock && lock.parentNode) {
+          lock.parentNode.removeChild(lock);
+        }
+        unlockTimer = null;
+      }, 50);
     };
   }
 

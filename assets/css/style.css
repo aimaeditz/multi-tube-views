@@ -1107,5 +1107,24 @@ input, select, textarea, button {
   }
 }
 
-
-
+/* Instantaneous, Uniform Theme Switch Guard */
+html.theme-switching,
+html.theme-switching body,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after,
+html[data-theme].theme-switching,
+html[data-theme].theme-switching body,
+html[data-theme].theme-switching *,
+html[data-theme].theme-switching *::before,
+html[data-theme].theme-switching *::after,
+html.theme-switching [id],
+html.theme-switching [id] *,
+html.theme-switching [class],
+html.theme-switching [class] * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  -ms-transition: none !important;
+  transition: none !important;
+}
