@@ -28,9 +28,8 @@ workspace for creators, researchers, and everyday users.
 - **89 browser utilities across 15 categories** — text, developer,
   web/SEO, image/graphics, file/data, and everyday utilities — 100%
   client-side, zero uploads
-- **60 AI Tools across 7 categories** — Voice & Speech (Neural Voice Generator),
-  Video & Scripting, Social & Growth, Copywriting & Sales, Creative & Narrative,
-  SEO & Discovery, and Technical & Code
+- **60 AI Tools across 6 categories** — Video & Scripting, Social & Growth,
+  Copywriting & Sales, Creative & Narrative, SEO & Discovery, and Technical & Code
 - **AI Prompts & Tools** — a curated, live-synced AI image prompt library
   plus a directory of free external AI image generators
 - **Single + batch URL input**, platform-specific validation, embed
