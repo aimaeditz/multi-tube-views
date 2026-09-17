@@ -20,6 +20,7 @@ function getHtmlInputs() {
     privacy: path.resolve(__dirname, 'privacy.html'),
     settings: path.resolve(__dirname, 'settings.html'),
     terms: path.resolve(__dirname, 'terms.html'),
+    contact: path.resolve(__dirname, 'contact.html'),
     browserUtilities: path.resolve(__dirname, 'browser-utilities.html'),
     exploreHub: path.resolve(__dirname, 'explore-hub.html'),
   };

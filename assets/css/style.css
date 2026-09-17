@@ -259,6 +259,21 @@ input, select, textarea, button {
   padding-bottom: 4rem;
 }
 
+/* Breadcrumb Trails — Universally Left-Aligned (Desktop & Mobile) */
+.breadcrumb-nav,
+.bu-breadcrumbs,
+.contact-breadcrumb {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
 /* Header & Navigation */
 .site-header {
   position: sticky !important;

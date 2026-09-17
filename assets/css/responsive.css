@@ -780,7 +780,7 @@
     flex-wrap: nowrap !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.5rem !important;
+    gap: 0.6rem !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 auto !important;
@@ -792,12 +792,12 @@
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.35rem !important;
-    padding: 0.42rem 0.72rem !important;
+    gap: 0.4rem !important;
+    padding: 0.5rem 1.15rem !important;
     border-radius: 9999px !important;
     background: linear-gradient(135deg, var(--ref-blue, #2563eb), var(--ref-violet, #7c3aed)) !important;
     color: #ffffff !important;
-    font-size: 0.73rem !important;
+    font-size: 0.78rem !important;
     font-weight: 700 !important;
     text-decoration: none !important;
     white-space: nowrap !important;
@@ -807,7 +807,7 @@
     cursor: pointer !important;
     touch-action: manipulation !important;
     line-height: 1.2 !important;
-    min-height: 32px !important;
+    min-height: 38px !important;
     box-sizing: border-box !important;
     -webkit-tap-highlight-color: transparent !important;
     transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -819,8 +819,8 @@
   }
 
   .btn-ref-primary svg {
-    width: 12px !important;
-    height: 12px !important;
+    width: 13px !important;
+    height: 13px !important;
     flex-shrink: 0 !important;
   }
 
@@ -832,12 +832,12 @@
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.35rem !important;
-    padding: 0.42rem 0.72rem !important;
+    gap: 0.4rem !important;
+    padding: 0.5rem 1.15rem !important;
     border-radius: 9999px !important;
     background: var(--ref-surface, rgba(255, 255, 255, 0.85)) !important;
     color: var(--ref-text, #0f172a) !important;
-    font-size: 0.73rem !important;
+    font-size: 0.78rem !important;
     font-weight: 600 !important;
     text-decoration: none !important;
     white-space: nowrap !important;
@@ -849,7 +849,7 @@
     cursor: pointer !important;
     touch-action: manipulation !important;
     line-height: 1.2 !important;
-    min-height: 32px !important;
+    min-height: 38px !important;
     box-sizing: border-box !important;
     -webkit-tap-highlight-color: transparent !important;
     transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -863,8 +863,8 @@
   }
 
   .btn-ref-secondary svg {
-    width: 12px !important;
-    height: 12px !important;
+    width: 13px !important;
+    height: 13px !important;
     flex-shrink: 0 !important;
   }
 
@@ -2027,8 +2027,22 @@
   }
 
   /* ==========================================================================
-     INDIVIDUAL BROWSER UTILITIES TOOL WORKSPACE — Mobile Compact Sizing
+     BREADCRUMB TRAILS & WORKSPACES — Mobile Left-Aligned Precision
      ========================================================================== */
+  .breadcrumb-nav,
+  .bu-breadcrumbs,
+  .contact-breadcrumb {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
   .bu-breadcrumbs {
     margin-bottom: 0.75rem !important;
     font-size: 0.74rem !important;
@@ -2688,20 +2702,20 @@
    ========================================================================== */
 @media (max-width: 480px) {
   .hero-buttons-row {
-    gap: 0.4rem !important;
+    gap: 0.5rem !important;
   }
 
   .btn-ref-primary,
   .btn-ref-secondary {
-    padding: 0.38rem 0.62rem !important;
-    font-size: 0.70rem !important;
-    min-height: 30px !important;
+    padding: 0.44rem 1rem !important;
+    font-size: 0.74rem !important;
+    min-height: 36px !important;
   }
 
   .btn-ref-primary svg,
   .btn-ref-secondary svg {
-    width: 11px !important;
-    height: 11px !important;
+    width: 12px !important;
+    height: 12px !important;
   }
 
   .hero-pill {
@@ -2744,22 +2758,22 @@
   }
 
   .hero-buttons-row {
-    gap: 0.3rem !important;
+    gap: 0.35rem !important;
     padding: 0 0.15rem !important;
   }
 
   .btn-ref-primary,
   .btn-ref-secondary {
-    padding: 0.32rem 0.48rem !important;
-    font-size: 0.64rem !important;
-    min-height: 28px !important;
-    gap: 0.25rem !important;
+    padding: 0.36rem 0.75rem !important;
+    font-size: 0.68rem !important;
+    min-height: 33px !important;
+    gap: 0.3rem !important;
   }
 
   .btn-ref-primary svg,
   .btn-ref-secondary svg {
-    width: 10px !important;
-    height: 10px !important;
+    width: 11px !important;
+    height: 11px !important;
   }
 
   .brand-text span:first-child {

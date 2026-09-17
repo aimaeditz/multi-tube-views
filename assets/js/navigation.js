@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
       activeKey = 'disclaimer';
     } else if (path.includes('terms.html')) {
       activeKey = 'terms';
+    } else if (path.includes('contact.html')) {
+      activeKey = 'contact';
     }
 
     if (navDesktop) {
@@ -70,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <a href="${p}privacy.html" class="mobile-nav-link ${activeKey === 'privacy' ? 'active' : ''}">Privacy Policy</a>
         <a href="${p}disclaimer.html" class="mobile-nav-link ${activeKey === 'disclaimer' ? 'active' : ''}">Disclaimer</a>
         <a href="${p}terms.html" class="mobile-nav-link ${activeKey === 'terms' ? 'active' : ''}">Terms of Service</a>
+        <a href="${p}contact.html" class="mobile-nav-link ${activeKey === 'contact' ? 'active' : ''}">Contact</a>
       `;
     }
   };
