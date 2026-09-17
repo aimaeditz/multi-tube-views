@@ -744,24 +744,8 @@
             ></textarea>
           </div>
 
-          <!-- Tool Modifiers (Platform, Language, Tone selectors) -->
+          <!-- Tool Modifiers (Language, Tone selectors) -->
           <div id="dedicated-tool-selectors-row" class="media-options-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 1.25rem; margin-bottom: 1.5rem;">
-            
-            <!-- Platform Selector -->
-            <div id="dedicated-platform-wrap" class="media-option-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-              <label for="dedicated-tool-platform-select" style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Target Platform</label>
-              <select id="dedicated-tool-platform-select" class="setting-select" style="padding: 0.65rem 0.85rem; background: var(--bg-primary); border: 1px solid var(--border-strong); border-radius: var(--radius-md); color: var(--text-primary); font-size: 0.95rem; font-weight: 500; cursor: pointer;">
-                <option value="all" selected>All Platforms (Universal)</option>
-                <option value="YouTube">YouTube</option>
-                <option value="TikTok">TikTok</option>
-                <option value="Instagram">Instagram</option>
-                <option value="Facebook">Facebook</option>
-                <option value="X / Twitter">X / Twitter</option>
-                <option value="LinkedIn">LinkedIn</option>
-                <option value="Pinterest">Pinterest</option>
-                <option value="Reddit">Reddit</option>
-              </select>
-            </div>
 
             <!-- Target Language Selector (for Translate tool) -->
             <div id="dedicated-language-wrap" class="media-option-group" style="display: none; flex-direction: column; gap: 0.4rem;">
@@ -1215,21 +1199,17 @@
             dedicatedToolOutputWrap.style.display = 'none';
           }
 
-          // Modifiers selector visibility based on active tool
-          const platformWrap = document.getElementById('dedicated-platform-wrap');
+          // Modifiers selector visibility based on active tool (Language for Translate, Tone for Grammar Polish)
           const languageWrap = document.getElementById('dedicated-language-wrap');
           const toneWrap = document.getElementById('dedicated-tone-wrap');
 
           if (toolId === 'translate') {
-            if (platformWrap) platformWrap.style.display = 'none';
-            if (languageWrap) languageWrap.style.display = 'block';
+            if (languageWrap) languageWrap.style.display = 'flex';
             if (toneWrap) toneWrap.style.display = 'none';
           } else if (toolId === 'grammar-polish') {
-            if (platformWrap) platformWrap.style.display = 'none';
             if (languageWrap) languageWrap.style.display = 'none';
-            if (toneWrap) toneWrap.style.display = 'block';
+            if (toneWrap) toneWrap.style.display = 'flex';
           } else {
-            if (platformWrap) platformWrap.style.display = 'block';
             if (languageWrap) languageWrap.style.display = 'none';
             if (toneWrap) toneWrap.style.display = 'none';
           }

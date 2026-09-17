@@ -242,8 +242,8 @@
 
         // Gather modifier dropdown values securely
         const langSelect = document.getElementById('dedicated-tool-language-select');
-        const platSelect = document.getElementById('dedicated-tool-platform-select');
-        const toneSelect = document.getElementById('dedicated-tool-tone-select');
+        const platSelect = document.getElementById('dedicated-tool-platform-select') || document.getElementById('dedicated-platform-select');
+        const toneSelect = document.getElementById('dedicated-tool-tone-select') || document.getElementById('dedicated-tone-select');
 
         let languageVal = '';
         let platformVal = '';
@@ -260,6 +260,9 @@
         } else {
           if (platSelect && isDropdownSelected(platSelect)) {
             platformVal = platSelect.value;
+          }
+          if (toneSelect && isDropdownSelected(toneSelect)) {
+            toneVal = toneSelect.value;
           }
         }
 
