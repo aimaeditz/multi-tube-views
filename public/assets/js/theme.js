@@ -6,39 +6,6 @@
 
 (function () {
   const root = document.documentElement;
-  let unlockTimer = null;
-
-  function disableTransitionsTemporarily() {
-    const head = document.head || document.getElementsByTagName('head')[0];
-    if (!head) return () => {};
-
-    let style = document.getElementById('mtv-theme-transition-lock');
-    if (!style) {
-      style = document.createElement('style');
-      style.id = 'mtv-theme-transition-lock';
-      style.textContent = '*, *::before, *::after { -webkit-transition: none !important; -moz-transition: none !important; -o-transition: none !important; -ms-transition: none !important; transition: none !important; }';
-      head.appendChild(style);
-    }
-
-    return () => {
-      if (document.body) {
-        // Read property to flush computed styles synchronously
-        void document.body.offsetHeight;
-      }
-      if (unlockTimer) {
-        cancelAnimationFrame(unlockTimer);
-      }
-      unlockTimer = requestAnimationFrame(() => {
-        unlockTimer = requestAnimationFrame(() => {
-          const lock = document.getElementById('mtv-theme-transition-lock');
-          if (lock && lock.parentNode) {
-            lock.parentNode.removeChild(lock);
-          }
-          unlockTimer = null;
-        });
-      });
-    };
-  }
 
   function getEffectiveTheme(savedTheme) {
     if (savedTheme === 'light') {
@@ -55,8 +22,10 @@
   }
 
   function applyTheme(themeName) {
-    const unlock = disableTransitionsTemporarily();
     const effective = getEffectiveTheme(themeName);
+    
+    // Use theme-switching class to suppress unneeded transition flicker
+    root.classList.add('theme-switching');
     root.setAttribute('data-theme', effective);
     root.style.colorScheme = effective;
     
@@ -71,7 +40,12 @@
         : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
     }
 
-    unlock();
+    // Re-enable smooth transitions on next frame without blocking main thread
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        root.classList.remove('theme-switching');
+      });
+    });
   }
 
   function applyPreferences() {

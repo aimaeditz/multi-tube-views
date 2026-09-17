@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 1. Calculate live counts directly from existing platform registries
   const buToolsCount = Object.keys(BU_TOOLS_CATALOG || {}).length || 89;
-  const aiToolsCount = Object.keys(AI_TOOLS_DATA || {}).length || 60;
+  const aiToolsCount = Object.keys(AI_TOOLS_DATA || {}).length || 61;
   const mediaToolsCount = Object.keys(ALL_TOOL_CONFIGS || {}).length || 60;
   const creatorToolsCount = Object.keys(CREATOR_TOOLS_DATA || {}).length || 20;
   const platformsCount = Object.keys(PLATFORM_CONFIG || {}).length || 40;
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const unified = [];
     const todayStr = new Date().toISOString().slice(0, 10);
 
-    // 1. AI Tools (60)
+    // 1. AI Tools (61)
     if (typeof AI_TOOLS_DATA !== 'undefined' && AI_TOOLS_DATA) {
       Object.entries(AI_TOOLS_DATA).forEach(([id, t]) => {
         unified.push({
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
           desc: t.desc || '',
           icon: t.icon || '🎬',
           category: 'AI Tools',
-          url: `ai-tools.html?tool=${encodeURIComponent(id)}`,
+          url: id === 'ai-voice-generator' ? 'ai-voice-generator.html' : `ai-tools.html?tool=${encodeURIComponent(id)}`,
           dateAdded: t.dateAdded || t.date_added || '2026-05-01'
         });
       });
@@ -674,7 +674,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const revealElements = document.querySelectorAll('.scroll-reveal');
     if (!revealElements.length) return;
 
-    if (!('IntersectionObserver' in window)) {
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       revealElements.forEach(el => el.classList.add('is-visible'));
       return;
     }
@@ -687,13 +687,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     }, {
-      threshold: 0.08,
-      rootMargin: '0px 0px -30px 0px'
+      threshold: 0.01,
+      rootMargin: '60px 0px 60px 0px'
     });
 
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
     revealElements.forEach(el => {
       const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight) {
+      if (rect.top <= windowHeight + 100) {
         el.classList.add('is-visible');
       } else {
         observer.observe(el);

@@ -15,7 +15,7 @@ export function getWebsiteToolMetrics() {
   // 1. AI Tools Count
   const aiToolsCount = (typeof AI_TOOLS_DATA === 'object' && AI_TOOLS_DATA !== null)
     ? Object.keys(AI_TOOLS_DATA).length
-    : (window.MTV_AI_TOOLS_DATA ? Object.keys(window.MTV_AI_TOOLS_DATA).length : 60);
+    : (window.MTV_AI_TOOLS_DATA ? Object.keys(window.MTV_AI_TOOLS_DATA).length : 61);
 
   // 2. Media Converter Tools Count
   let mediaToolsCount = 60;

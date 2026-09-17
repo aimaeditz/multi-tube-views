@@ -1,5 +1,5 @@
 /**
- * Multi Tube Views (MTV) — 60 AI Generative Tools Engine
+ * Multi Tube Views (MTV) — 61 AI Generative Tools Engine
  * Handles rendering, category filtering, search, routing, and MTVAI tool binding.
  */
 
@@ -104,6 +104,10 @@ function bootAITools() {
   function bindCardEvents(card, id) {
     card.style.cursor = 'pointer';
     card.onclick = (e) => {
+      if (id === 'ai-voice-generator') {
+        window.location.href = 'ai-voice-generator.html';
+        return;
+      }
       if (!e.target.closest('a')) {
         history.pushState(null, '', `?tool=${id}`);
         updateViewFromURL();
@@ -113,7 +117,13 @@ function bootAITools() {
 
     const link = card.querySelector('.btn-open-tool');
     if (link) {
+      if (id === 'ai-voice-generator') {
+        link.href = 'ai-voice-generator.html';
+      }
       link.onclick = (e) => {
+        if (id === 'ai-voice-generator') {
+          return;
+        }
         e.preventDefault();
         history.pushState(null, '', `?tool=${id}`);
         updateViewFromURL();
@@ -165,31 +175,9 @@ function bootAITools() {
     }
   }
 
-  // 3D Tilt on Hover
+  // 3D Tilt on Hover disabled for UI stability (matching Browser Utilities standard)
   function attachTilt(el) {
-    if (!el) return;
-    if (el.id === 'dedicated-tool-output' || el.id === 'dedicated-tool-output-wrap' || el.classList.contains('inline-tool-output') || el.classList.contains('ai-rendered-content')) return;
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (window.innerWidth < 1024) return; // Desktop only
-
-    el.onmousemove = (e) => {
-      if (e.target.closest('#dedicated-tool-output-wrap, #dedicated-tool-output, .inline-tool-output, .ai-rendered-content')) {
-        el.style.transform = 'none';
-        return;
-      }
-      const rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -5;
-      const rotateY = ((x - centerX) / centerX) * 5;
-      el.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-    };
-
-    el.onmouseleave = () => {
-      el.style.transform = '';
-    };
+    return;
   }
 
   // 3. Search & Category Filter logic
@@ -256,6 +244,11 @@ function bootAITools() {
       toolId = toolId.substring(5);
     }
 
+    if (toolId === 'ai-voice-generator') {
+      window.location.replace('ai-voice-generator.html');
+      return;
+    }
+
     if (toolId && AI_TOOLS_DATA[toolId]) {
       const tool = AI_TOOLS_DATA[toolId];
       if (toolsListView) toolsListView.style.display = 'none';
@@ -320,6 +313,50 @@ function bootAITools() {
         breadcrumbSubSeparator.style.display = 'inline';
       }
 
+      // Render Related Tools (3 tools in same category)
+      const relatedGrid = document.getElementById('dedicated-related-tools-grid');
+      if (relatedGrid) {
+        relatedGrid.innerHTML = '';
+        const sameCatTools = Object.entries(AI_TOOLS_DATA)
+          .filter(([id, t]) => id !== toolId && t.category === tool.category);
+        
+        let relatedCandidates = sameCatTools;
+        if (relatedCandidates.length < 3) {
+          const otherCatTools = Object.entries(AI_TOOLS_DATA)
+            .filter(([id]) => id !== toolId && !sameCatTools.some(([sId]) => sId === id));
+          relatedCandidates = [...sameCatTools, ...otherCatTools];
+        }
+        
+        const selected = relatedCandidates.slice(0, 3);
+        selected.forEach(([relId, relTool]) => {
+          const card = document.createElement('div');
+          card.className = 'bu-card';
+          card.setAttribute('data-tool-id', relId);
+          card.style.cursor = 'pointer';
+          card.style.display = 'flex';
+          card.style.flexDirection = 'column';
+          card.style.justifyContent = 'space-between';
+          card.innerHTML = `
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.5rem;">
+                <span style="font-size: 1.4rem;">${relTool.icon || '⚡'}</span>
+                <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: var(--text-primary);">${relTool.title}</h3>
+              </div>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.4;">${relTool.desc}</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <a href="?tool=${relId}" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          `;
+
+          bindCardEvents(card, relId);
+          relatedGrid.appendChild(card);
+        });
+      }
+
       // Update page title
       document.title = `${tool.title} — AI Tools | Multi Tube Views`;
     } else {
@@ -330,6 +367,17 @@ function bootAITools() {
       if (breadcrumbSubSeparator) breadcrumbSubSeparator.style.display = 'none';
 
       document.title = 'AI Tools Suite — 60 Free Generative Tools | Multi Tube Views';
+
+      const catParam = params.get('category');
+      if (catParam && AI_CATEGORIES.some(c => c.id === catParam)) {
+        activeCategory = catParam;
+        if (categoryFiltersWrap) {
+          categoryFiltersWrap.querySelectorAll('.filter-chip').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-category') === catParam);
+          });
+        }
+        filterAndRenderCards();
+      }
     }
   }
 

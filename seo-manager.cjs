@@ -342,9 +342,10 @@ const CORE_PAGES_SEO = {
           'applicationSubCategory': 'AIContentGeneration',
           'operatingSystem': 'All',
           'browserRequirements': 'Requires JavaScript. Requires HTML5.',
-          'keywords': 'ai tools, free ai script generator, ai hook generator, ai copywriting tools, mtv ai tools, multitube views, aimaeditz mtv',
+          'keywords': 'ai tools, ai voice generator, free ai script generator, ai hook generator, ai copywriting tools, mtv ai tools, multitube views, aimaeditz mtv',
           'relatedLink': [
             `${BASE_URL}/creator-tools.html`,
+            `${BASE_URL}/ai-voice-generator.html`,
             `${BASE_URL}/ai-auto.html`,
             `${BASE_URL}/ai-prompt.html`
           ],
@@ -354,8 +355,8 @@ const CORE_PAGES_SEO = {
             'priceCurrency': 'USD'
           },
           'featureList': [
-            '60 dedicated generative AI writing and scripting tools',
-            'Video & Scripting, Social & Growth, Copywriting & Sales categories',
+            '61 dedicated generative AI tools including AI Voice Generator',
+            'Voice & Speech, Video & Scripting, Social & Growth, Copywriting & Sales categories',
             'Creative & Narrative, SEO & Discovery, Technical & Code tools',
             '100% free client-side workspace powered by MTV AI'
           ]

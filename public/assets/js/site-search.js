@@ -1,6 +1,6 @@
 /**
  * Multi Tube Views (MTV) — Ultimate Premium Site-Wide Search Engine
- * 100% Client-Side Fuzzy Search across 269+ Tools, Converters & Platforms.
+ * 100% Client-Side Fuzzy Search across 270+ Tools, Converters & Platforms.
  * Powered by Fuse.js with category-aware related suggestions.
  * Non-blocking, deferred initialization prevents render delay on page load.
  */
@@ -10,6 +10,7 @@
 
   // --- Category Display Mapping & Helpers ---
   const AI_CATEGORY_NAMES = {
+    'voice': 'Voice & Speech',
     'video': 'Video & Scripting',
     'social': 'Social & Growth',
     'copywriting': 'Copywriting & Sales',
@@ -54,7 +55,7 @@
       });
     }
 
-    // 2. AI Tools (60 tools)
+    // 2. AI Tools (61 tools)
     if (AI_TOOLS_DATA && typeof AI_TOOLS_DATA === 'object') {
       Object.entries(AI_TOOLS_DATA).forEach(([id, tool]) => {
         const catKey = tool.category || 'video';
@@ -70,8 +71,8 @@
           categoryId: `ai-${catKey}`,
           categoryLabel: 'AI Tool',
           badgeClass: 'badge-ai',
-          url: `ai-tools.html?tool=${encodeURIComponent(id)}`,
-          keywords: `${tool.title || ''} ${tool.desc || ''} ${id} ${catKey} ai generator gemini gpt prompt`.toLowerCase()
+          url: id === 'ai-voice-generator' ? 'ai-voice-generator.html' : `ai-tools.html?tool=${encodeURIComponent(id)}`,
+          keywords: `${tool.title || ''} ${tool.desc || ''} ${id} ${catKey} ai generator gemini gpt prompt voice speech audio`.toLowerCase()
         });
       });
     }

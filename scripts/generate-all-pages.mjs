@@ -124,6 +124,22 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0
   <link rel="stylesheet" href="${assetPrefix}assets/css/components.css">
   <link rel="stylesheet" href="${assetPrefix}assets/css/responsive.css">
 
+  <!-- Instant Theme Boot Script to prevent flash or lag -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          t = 'dark';
+        }
+        if (t === 'dark' || t === 'light') {
+          document.documentElement.setAttribute('data-theme', t);
+          document.documentElement.style.colorScheme = t;
+        }
+      } catch(e){}
+    })();
+  </script>
+
   <script type="module" src="${assetPrefix}assets/js/storage.js"></script>
   <script type="module" src="${assetPrefix}assets/js/theme.js"></script>
 </head>`;
@@ -206,7 +222,7 @@ function renderFooter({ depth = 0 }) {
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 60+ AI tools, 20 creator optimization tools, 60 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 61 AI tools, 20 creator optimization tools, 60 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -225,7 +241,8 @@ function renderFooter({ depth = 0 }) {
           <ul class="footer-links">
             <li><a href="${p}explore-hub.html">Explore Hub</a></li>
             <li><a href="${p}ai-prompt.html">AI Prompts & Tools</a></li>
-            <li><a href="${p}ai-tools.html">AI Tools</a></li>
+            <li><a href="${p}ai-tools.html">AI Tools Suite (61)</a></li>
+            <li><a href="${p}ai-voice-generator.html">AI Voice Generator</a></li>
             <li><a href="${p}creator-tools.html">Creator Tools</a></li>
             <li><a href="${p}media-converter-tools.html">Media Converter Tools</a></li>
             <li><a href="${p}browser-utilities.html">Browser Utilities</a></li>

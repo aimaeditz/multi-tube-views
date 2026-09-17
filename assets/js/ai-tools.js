@@ -1,5 +1,5 @@
 /**
- * Multi Tube Views (MTV) — 60 AI Generative Tools Engine
+ * Multi Tube Views (MTV) — 61 AI Generative Tools Engine
  * Handles rendering, category filtering, search, routing, and MTVAI tool binding.
  */
 
@@ -104,6 +104,10 @@ function bootAITools() {
   function bindCardEvents(card, id) {
     card.style.cursor = 'pointer';
     card.onclick = (e) => {
+      if (id === 'ai-voice-generator') {
+        window.location.href = 'ai-voice-generator.html';
+        return;
+      }
       if (!e.target.closest('a')) {
         history.pushState(null, '', `?tool=${id}`);
         updateViewFromURL();
@@ -113,7 +117,13 @@ function bootAITools() {
 
     const link = card.querySelector('.btn-open-tool');
     if (link) {
+      if (id === 'ai-voice-generator') {
+        link.href = 'ai-voice-generator.html';
+      }
       link.onclick = (e) => {
+        if (id === 'ai-voice-generator') {
+          return;
+        }
         e.preventDefault();
         history.pushState(null, '', `?tool=${id}`);
         updateViewFromURL();
@@ -232,6 +242,11 @@ function bootAITools() {
 
     if (toolId.startsWith('tool=')) {
       toolId = toolId.substring(5);
+    }
+
+    if (toolId === 'ai-voice-generator') {
+      window.location.replace('ai-voice-generator.html');
+      return;
     }
 
     if (toolId && AI_TOOLS_DATA[toolId]) {

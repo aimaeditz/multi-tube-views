@@ -28,9 +28,9 @@ workspace for creators, researchers, and everyday users.
 - **89 browser utilities across 15 categories** — text, developer,
   web/SEO, image/graphics, file/data, and everyday utilities — 100%
   client-side, zero uploads
-- **60 AI Tools across 6 categories** — Video & Scripting, Social &
-  Growth, Copywriting & Sales, Creative & Narrative, SEO & Discovery,
-  and Technical & Code
+- **61 AI Tools across 7 categories** — Voice & Speech (Neural Voice Generator),
+  Video & Scripting, Social & Growth, Copywriting & Sales, Creative & Narrative,
+  SEO & Discovery, and Technical & Code
 - **AI Prompts & Tools** — a curated, live-synced AI image prompt library
   plus a directory of free external AI image generators
 - **Single + batch URL input**, platform-specific validation, embed
@@ -55,9 +55,9 @@ translation, grammar polish, and more — powered by **MTV AI**, the
 site's own in-house AI system.
 
 ### AI Tools
-A separate directory of 60 dedicated generative tools spanning video
-scripting, social growth, copywriting, creative writing, SEO, and
-technical/code use cases — also powered by **MTV AI**.
+A separate directory of 61 dedicated generative tools spanning voice
+synthesis, video scripting, social growth, copywriting, creative
+writing, SEO, and technical/code use cases — also powered by **MTV AI**.
 
 ### Media Converter Tools
 60 tools for converting, trimming, and editing video, audio, images, and
@@ -90,7 +90,7 @@ Open: [https://multitubeviews.com](https://multitubeviews.com)
 Main entry points:
 - **Home** — overview of all sections
 - **AI Prompt** — prompt library + AI image tool directory
-- **AI Tools** — 60 AI-powered generative tools
+- **AI Tools** — 61 AI-powered generative tools
 - **Creator Tools** — 20 AI-powered creator utilities
 - **Converter Tools** — 60 in-browser media converters
 - **Browser Utilities** — 89 in-browser developer/text/SEO/image/file
@@ -145,7 +145,8 @@ repository's `main` branch — every push triggers an automatic redeploy.
 multi-tube-views/
 ├── index.html                    # Homepage
 ├── ai-prompt.html                 # AI Prompts & Tools (live-synced library)
-├── ai-tools.html                  # 60 AI Tools
+├── ai-tools.html                  # 61 AI Tools Suite
+├── ai-voice-generator.html        # AI Voice Generator (TTS)
 ├── creator-tools.html             # 20 Creator Tools
 ├── media-converter-tools.html     # 60 client-side media converters
 ├── browser-utilities.html         # Browser Utilities landing page

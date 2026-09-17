@@ -422,6 +422,13 @@
     box-sizing: border-box !important;
   }
 
+  /* Robust Hidden State for Prompt Filtering */
+  body:not(.desktop-ref-body) .prompt-card.is-hidden,
+  body:not(.desktop-ref-body) .prompt-card[data-hidden="true"],
+  body:not(.desktop-ref-body) .prompt-card[hidden] {
+    display: none !important;
+  }
+
   /* Issue 2 Fix Part 1: Reduced preview image height / balanced aspect ratio */
   body:not(.desktop-ref-body) .prompt-card-media {
     width: 100% !important;
@@ -617,6 +624,11 @@
   .features {
     width: 100% !important;
     max-width: 100% !important;
+    position: relative !important;
+    left: 0 !important;
+    right: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     overflow: hidden !important;
     overflow-x: hidden !important;
     padding: 0.5rem 0 !important;
@@ -630,7 +642,7 @@
     border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
     border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
-    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   [data-theme="dark"] .marquee-shell,
@@ -768,7 +780,7 @@
     flex-wrap: nowrap !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.5rem !important;
+    gap: 0.6rem !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 auto !important;
@@ -780,12 +792,12 @@
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.35rem !important;
-    padding: 0.42rem 0.72rem !important;
+    gap: 0.4rem !important;
+    padding: 0.5rem 1.15rem !important;
     border-radius: 9999px !important;
     background: linear-gradient(135deg, var(--ref-blue, #2563eb), var(--ref-violet, #7c3aed)) !important;
     color: #ffffff !important;
-    font-size: 0.73rem !important;
+    font-size: 0.78rem !important;
     font-weight: 700 !important;
     text-decoration: none !important;
     white-space: nowrap !important;
@@ -795,7 +807,7 @@
     cursor: pointer !important;
     touch-action: manipulation !important;
     line-height: 1.2 !important;
-    min-height: 32px !important;
+    min-height: 38px !important;
     box-sizing: border-box !important;
     -webkit-tap-highlight-color: transparent !important;
     transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -807,8 +819,8 @@
   }
 
   .btn-ref-primary svg {
-    width: 12px !important;
-    height: 12px !important;
+    width: 13px !important;
+    height: 13px !important;
     flex-shrink: 0 !important;
   }
 
@@ -820,12 +832,12 @@
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.35rem !important;
-    padding: 0.42rem 0.72rem !important;
+    gap: 0.4rem !important;
+    padding: 0.5rem 1.15rem !important;
     border-radius: 9999px !important;
     background: var(--ref-surface, rgba(255, 255, 255, 0.85)) !important;
     color: var(--ref-text, #0f172a) !important;
-    font-size: 0.73rem !important;
+    font-size: 0.78rem !important;
     font-weight: 600 !important;
     text-decoration: none !important;
     white-space: nowrap !important;
@@ -837,7 +849,7 @@
     cursor: pointer !important;
     touch-action: manipulation !important;
     line-height: 1.2 !important;
-    min-height: 32px !important;
+    min-height: 38px !important;
     box-sizing: border-box !important;
     -webkit-tap-highlight-color: transparent !important;
     transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -851,8 +863,8 @@
   }
 
   .btn-ref-secondary svg {
-    width: 12px !important;
-    height: 12px !important;
+    width: 13px !important;
+    height: 13px !important;
     flex-shrink: 0 !important;
   }
 
@@ -1724,6 +1736,13 @@
     overflow: hidden !important;
   }
 
+  /* Robust Hidden State for Media Converter Tools Filtering */
+  .media-tool-card.is-hidden,
+  .media-tool-card[data-hidden="true"],
+  .media-tool-card[hidden] {
+    display: none !important;
+  }
+
   .media-tool-icon {
     font-size: 1.35rem !important;
     margin-bottom: 0.35rem !important;
@@ -1912,6 +1931,19 @@
     overflow: hidden !important;
   }
 
+  /* Robust Hidden State for Browser Utilities Filtering on Mobile */
+  .bu-card.is-hidden,
+  .bu-card[data-hidden="true"],
+  .bu-card[hidden],
+  .bu-tool-card.is-hidden,
+  .bu-tool-card[data-hidden="true"],
+  .bu-tool-card[hidden],
+  .bu-category-block.is-hidden,
+  .bu-category-block[data-hidden="true"],
+  .bu-category-block[hidden] {
+    display: none !important;
+  }
+
   .bu-card-icon,
   .bu-tool-card-icon {
     width: 28px !important;
@@ -1995,8 +2027,22 @@
   }
 
   /* ==========================================================================
-     INDIVIDUAL BROWSER UTILITIES TOOL WORKSPACE — Mobile Compact Sizing
+     BREADCRUMB TRAILS & WORKSPACES — Mobile Left-Aligned Precision
      ========================================================================== */
+  .breadcrumb-nav,
+  .bu-breadcrumbs,
+  .contact-breadcrumb {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
   .bu-breadcrumbs {
     margin-bottom: 0.75rem !important;
     font-size: 0.74rem !important;
@@ -2219,6 +2265,13 @@
     height: 100% !important;
     overflow: hidden !important;
     box-shadow: var(--shadow-sm) !important;
+  }
+
+  /* Robust Hidden State for Platform Filtering on Mobile */
+  .platform-card.is-hidden,
+  .platform-card[data-hidden="true"],
+  .platform-card[hidden] {
+    display: none !important;
   }
 
   .platform-card-body {
@@ -2602,6 +2655,43 @@
     min-height: 36px !important;
   }
 
+  /* Multi-Platform Player Grid Mobile Containment */
+  .player-grid,
+  .player-grid[data-cols="1"],
+  .player-grid[data-cols="2"],
+  .player-grid[data-cols="3"],
+  .player-grid[data-cols="4"],
+  .player-grid[data-cols="5"],
+  .player-grid[data-cols="auto"] {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 0.85rem !important;
+    box-sizing: border-box !important;
+  }
+
+  .player-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Media Tabs Navigation Mobile Safety */
+  .media-tabs-nav {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    gap: 0.4rem !important;
+    padding-bottom: 0.35rem !important;
+  }
+  .media-tab-btn {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+
   main:nth-of-type(1) > div:nth-of-type(1) > section#ai-tools:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(1) > span:nth-of-type(2) {
     font-size: 12.5px !important;
   }
@@ -2612,20 +2702,20 @@
    ========================================================================== */
 @media (max-width: 480px) {
   .hero-buttons-row {
-    gap: 0.4rem !important;
+    gap: 0.5rem !important;
   }
 
   .btn-ref-primary,
   .btn-ref-secondary {
-    padding: 0.38rem 0.62rem !important;
-    font-size: 0.70rem !important;
-    min-height: 30px !important;
+    padding: 0.44rem 1rem !important;
+    font-size: 0.74rem !important;
+    min-height: 36px !important;
   }
 
   .btn-ref-primary svg,
   .btn-ref-secondary svg {
-    width: 11px !important;
-    height: 11px !important;
+    width: 12px !important;
+    height: 12px !important;
   }
 
   .hero-pill {
@@ -2668,22 +2758,22 @@
   }
 
   .hero-buttons-row {
-    gap: 0.3rem !important;
+    gap: 0.35rem !important;
     padding: 0 0.15rem !important;
   }
 
   .btn-ref-primary,
   .btn-ref-secondary {
-    padding: 0.32rem 0.48rem !important;
-    font-size: 0.64rem !important;
-    min-height: 28px !important;
-    gap: 0.25rem !important;
+    padding: 0.36rem 0.75rem !important;
+    font-size: 0.68rem !important;
+    min-height: 33px !important;
+    gap: 0.3rem !important;
   }
 
   .btn-ref-primary svg,
   .btn-ref-secondary svg {
-    width: 10px !important;
-    height: 10px !important;
+    width: 11px !important;
+    height: 11px !important;
   }
 
   .brand-text span:first-child {

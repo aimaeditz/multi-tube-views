@@ -106,6 +106,27 @@ function optimizeHtmlFile(filePath) {
     }
   }
 
+  // 2.5 Add Instant Theme Boot Script if missing
+  if (!content.includes('mtv_theme') && content.includes('</head>')) {
+    const themeBoot = `  <!-- Instant Theme Boot Script to prevent flash or lag -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          t = 'dark';
+        }
+        if (t === 'dark' || t === 'light') {
+          document.documentElement.setAttribute('data-theme', t);
+          document.documentElement.style.colorScheme = t;
+        }
+      } catch(e){}
+    })();
+  </script>\n`;
+    content = content.replace('</head>', `${themeBoot}</head>`);
+    modified = true;
+  }
+
   // 3. Defer non-critical scripts missing async / defer / type="module"
   content = content.replace(/<script\s+([^>]*src=["'][^"']+["'][^>]*)>/gi, (match, attrs) => {
     if (!attrs.includes('async') && !attrs.includes('defer') && !attrs.includes('type="module"') && !attrs.includes("type='module'")) {

@@ -457,6 +457,70 @@
       // Reset file / output if user switched tools
       this.clearFile();
 
+      // Render Related Media Tools (3 tools in same category)
+      const relatedGrid = document.getElementById('media-related-tools-grid');
+      if (relatedGrid) {
+        relatedGrid.innerHTML = '';
+        const allConfigs = window.MTV_ALL_TOOL_CONFIGS || {};
+        const activeCategory = config.category || 'video';
+        
+        const sameCatTools = Object.entries(allConfigs)
+          .filter(([id, t]) => id !== toolId && t.category === activeCategory);
+        
+        let relatedCandidates = sameCatTools;
+        if (relatedCandidates.length < 3) {
+          const otherCatTools = Object.entries(allConfigs)
+            .filter(([id]) => id !== toolId && !sameCatTools.some(([sId]) => sId === id));
+          relatedCandidates = [...sameCatTools, ...otherCatTools];
+        }
+        
+        const selected = relatedCandidates.slice(0, 3);
+        selected.forEach(([relId, relTool]) => {
+          const card = document.createElement('div');
+          card.className = 'bu-card';
+          card.setAttribute('data-tool-id', relId);
+          card.style.cursor = 'pointer';
+          card.style.display = 'flex';
+          card.style.flexDirection = 'column';
+          card.style.justifyContent = 'space-between';
+          card.innerHTML = `
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.5rem;">
+                <span style="font-size: 1.4rem;">${relTool.icon || '🛠️'}</span>
+                <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: var(--text-primary);">${relTool.title}</h3>
+              </div>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.4;">${relTool.desc}</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <a href="?tool=${relId}" class="btn btn-primary btn-open-media-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Tool</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </a>
+            </div>
+          `;
+
+          card.addEventListener('click', (e) => {
+            if (!e.target.closest('a')) {
+              history.pushState(null, '', `?tool=${relId}`);
+              this.checkUrlState();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          });
+
+          const openBtn = card.querySelector('.btn-open-media-tool');
+          if (openBtn) {
+            openBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              history.pushState(null, '', `?tool=${relId}`);
+              this.checkUrlState();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+          }
+
+          relatedGrid.appendChild(card);
+        });
+      }
+
       // Tool-specific initializations
       if (toolId === 'voice-to-text') this.initVoiceToText();
       if (toolId === 'text-to-speech') this.initTextToSpeech();

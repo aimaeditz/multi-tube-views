@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
       activeKey = 'home';
     } else if (path.includes('explore-hub.html')) {
       activeKey = 'explore-hub';
-    } else if (path.includes('ai-tools.html')) {
+    } else if (path.includes('ai-tools.html') || path.includes('ai-voice-generator.html')) {
       activeKey = 'ai-tools';
     } else if (path.includes('ai-prompt.html') || path.includes('ai-auto.html')) {
       activeKey = 'ai-prompt';
@@ -316,9 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!elements.length) return;
 
-    const isMobile = window.innerWidth <= 780 || window.matchMedia('(max-width: 780px)').matches;
-
-    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches || isMobile) {
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       elements.forEach(el => el.classList.add('is-revealed'));
       return;
     }
@@ -332,16 +330,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, {
       root: null,
-      rootMargin: '0px 0px -20px 0px',
-      threshold: 0.05
+      rootMargin: '60px 0px 60px 0px',
+      threshold: 0.01
     });
 
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
     elements.forEach(el => {
       const rect = el.getBoundingClientRect();
-      // If already in initial viewport, reveal immediately without observing
-      if (rect.top <= windowHeight) {
+      // If already in or near initial viewport, reveal immediately without delay
+      if (rect.top <= windowHeight + 100) {
         el.classList.add('is-revealed');
       } else {
         el.classList.add('scroll-reveal');
@@ -441,134 +439,74 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
-
-    // 2. Walk text nodes to wrap raw arrow characters (→, ↗, ←, ➔, ➜, ➡) in animated spans
-    const walkTextNodes = (node) => {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const text = node.nodeValue;
-        if (text && (text.includes('→') || text.includes('←') || text.includes('↗') || text.includes('➔') || text.includes('➜') || text.includes('➡'))) {
-          const parent = node.parentNode;
-          if (parent && !parent.closest('.arrow-nudge-container') && !parent.classList.contains('arrow-nudge') && !parent.classList.contains('arrow-nudge-left') && !parent.classList.contains('arrow-nudge-up-right')) {
-            if (['SCRIPT', 'STYLE', 'TEXTAREA', 'INPUT'].includes(parent.tagName)) return;
-            
-            const fragment = document.createDocumentFragment();
-            const regex = /(→|←|↗|➔|➜|➡)/g;
-            let lastIdx = 0;
-            let match;
-
-            while ((match = regex.exec(text)) !== null) {
-              if (match.index > lastIdx) {
-                fragment.appendChild(document.createTextNode(text.substring(lastIdx, match.index)));
-              }
-              const span = document.createElement('span');
-              const char = match[1];
-              span.className = (char === '←' ? 'arrow-nudge-left' : (char === '↗' ? 'arrow-nudge-up-right' : 'arrow-nudge')) + ' inline-block';
-              span.textContent = char;
-              fragment.appendChild(span);
-
-              lastIdx = regex.lastIndex;
-            }
-            if (lastIdx < text.length) {
-              fragment.appendChild(document.createTextNode(text.substring(lastIdx)));
-            }
-            parent.replaceChild(fragment, node);
-          }
-        }
-      } else if (node.nodeType === Node.ELEMENT_NODE) {
-        if (['SCRIPT', 'STYLE', 'TEXTAREA', 'INPUT', 'CODE', 'PRE'].includes(node.tagName)) return;
-        if (node.classList && (node.classList.contains('arrow-nudge') || node.classList.contains('arrow-nudge-left') || node.classList.contains('arrow-nudge-up-right'))) return;
-        
-        const children = Array.from(node.childNodes);
-        children.forEach(child => walkTextNodes(child));
-      }
-    };
-
-    walkTextNodes(root);
   };
 
   applyArrowNudges();
 
-  const mutationObserver = new MutationObserver((mutations) => {
-    mutations.forEach(mut => {
-      mut.addedNodes.forEach(node => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          applyArrowNudges(node);
+  // Consistently auto-expand all output boxes (textareas, divs, and table wraps) site-wide
+  let expandRafId = null;
+  const autoExpandOutputs = () => {
+    if (expandRafId) cancelAnimationFrame(expandRafId);
+    expandRafId = requestAnimationFrame(() => {
+      // 1. Handle #dedicated-tool-output div and other inline-tool-output elements
+      const dedicatedOutputs = document.querySelectorAll('#dedicated-tool-output, .inline-tool-output');
+      dedicatedOutputs.forEach(el => {
+        if (el.style.maxHeight !== 'none' || el.style.overflowY !== 'visible') {
+          el.style.maxHeight = 'none';
+          el.style.overflowY = 'visible';
+          el.style.setProperty('max-height', 'none', 'important');
+          el.style.setProperty('overflow-y', 'visible', 'important');
+        }
+      });
+
+      // 2. Handle output table wrappers like .bu-table-wrap
+      const tableWraps = document.querySelectorAll('.bu-table-wrap');
+      tableWraps.forEach(wrap => {
+        if (wrap.style.maxHeight !== 'none' || wrap.style.overflowY !== 'visible') {
+          wrap.style.maxHeight = 'none';
+          wrap.style.overflowY = 'visible';
+          wrap.style.setProperty('max-height', 'none', 'important');
+          wrap.style.setProperty('overflow-y', 'visible', 'important');
+        }
+      });
+
+      // 3. Handle output textareas (any readonly textarea or textarea matching output/result IDs)
+      const textareas = document.querySelectorAll('textarea');
+      textareas.forEach(textarea => {
+        const isOutput = textarea.hasAttribute('readonly') || 
+                         textarea.id.includes('output') || 
+                         textarea.id.includes('result') ||
+                         textarea.readOnly;
+        
+        if (isOutput) {
+          const currentVal = textarea.value;
+          if (textarea._prevVal !== currentVal || textarea._prevWidth !== textarea.offsetWidth) {
+            textarea.style.overflowY = 'hidden';
+            textarea.style.setProperty('overflow-y', 'hidden', 'important');
+            textarea.style.resize = 'none';
+            
+            textarea.style.height = 'auto';
+            const newHeight = textarea.scrollHeight;
+            textarea.style.height = (newHeight > 0 ? (newHeight + 4) : 150) + 'px';
+            
+            textarea._prevVal = currentVal;
+            textarea._prevWidth = textarea.offsetWidth;
+          }
         }
       });
     });
-  });
-
-  mutationObserver.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
-
-  // Consistently auto-expand all output boxes (textareas, divs, and table wraps) site-wide
-  const autoExpandOutputs = () => {
-    // 1. Handle #dedicated-tool-output div and other inline-tool-output elements
-    const dedicatedOutputs = document.querySelectorAll('#dedicated-tool-output, .inline-tool-output');
-    dedicatedOutputs.forEach(el => {
-      if (el.style.maxHeight !== 'none' || el.style.overflowY !== 'visible') {
-        el.style.maxHeight = 'none';
-        el.style.overflowY = 'visible';
-        el.style.setProperty('max-height', 'none', 'important');
-        el.style.setProperty('overflow-y', 'visible', 'important');
-      }
-    });
-
-    // 2. Handle output table wrappers like .bu-table-wrap
-    const tableWraps = document.querySelectorAll('.bu-table-wrap');
-    tableWraps.forEach(wrap => {
-      if (wrap.style.maxHeight !== 'none' || wrap.style.overflowY !== 'visible') {
-        wrap.style.maxHeight = 'none';
-        wrap.style.overflowY = 'visible';
-        wrap.style.setProperty('max-height', 'none', 'important');
-        wrap.style.setProperty('overflow-y', 'visible', 'important');
-      }
-    });
-
-    // 3. Handle output textareas (any readonly textarea or textarea matching output/result IDs)
-    const textareas = document.querySelectorAll('textarea');
-    textareas.forEach(textarea => {
-      const isOutput = textarea.hasAttribute('readonly') || 
-                       textarea.id.includes('output') || 
-                       textarea.id.includes('result') ||
-                       textarea.readOnly;
-      
-      if (isOutput) {
-        const currentVal = textarea.value;
-        if (textarea._prevVal !== currentVal || textarea._prevWidth !== textarea.offsetWidth) {
-          // Force layout properties to prevent scrolling and allow auto-expansion
-          textarea.style.overflowY = 'hidden';
-          textarea.style.setProperty('overflow-y', 'hidden', 'important');
-          textarea.style.resize = 'none';
-          
-          textarea.style.height = 'auto';
-          const newHeight = textarea.scrollHeight;
-          // Add 4px padding safety to avoid any potential sub-pixel layout oscillation
-          textarea.style.height = (newHeight > 0 ? (newHeight + 4) : 150) + 'px';
-          
-          textarea._prevVal = currentVal;
-          textarea._prevWidth = textarea.offsetWidth;
-        }
-      }
-    });
   };
 
-  // Run autoExpandOutputs immediately and register triggers
+  // Run autoExpandOutputs on load, resize, input, and custom update event
   autoExpandOutputs();
-  window.addEventListener('load', autoExpandOutputs);
-  window.addEventListener('resize', autoExpandOutputs);
-  
-  // High-frequency polling to immediately catch programmatic updates or model streamings
-  setInterval(autoExpandOutputs, 100);
-
-  // Fallback observer for textarea modifications or dynamic content loading
+  window.addEventListener('load', autoExpandOutputs, { passive: true });
+  window.addEventListener('resize', autoExpandOutputs, { passive: true });
   document.body.addEventListener('input', (e) => {
     if (e.target.tagName === 'TEXTAREA') {
       autoExpandOutputs();
     }
-  });
+  }, { passive: true });
+  document.addEventListener('mtv-tool-output-updated', autoExpandOutputs);
 
   // Touch handlers for footer social media icons to toggle 'tapped' class
   const initFooterSocialTouch = () => {
