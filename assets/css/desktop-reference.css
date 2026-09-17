@@ -3313,7 +3313,7 @@
   box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.35), 0 12px 36px -8px var(--mtv-glow-a), 0 24px 60px -12px rgba(0, 0, 0, 0.32) !important;
 }
 
-/* Panel 4: 61 AI Generative Tools (Color B) */
+/* Panel 4: 60 AI Generative Tools (Color B) */
 #ai-tools .story-panel,
 .desktop-ref-body #ai-tools .story-panel {
   background: var(--mtv-color-b) !important;

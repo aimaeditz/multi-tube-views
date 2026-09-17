@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
       activeKey = 'home';
     } else if (path.includes('explore-hub.html')) {
       activeKey = 'explore-hub';
-    } else if (path.includes('ai-tools.html') || path.includes('ai-voice-generator.html')) {
+    } else if (path.includes('ai-tools.html')) {
       activeKey = 'ai-tools';
     } else if (path.includes('ai-prompt.html') || path.includes('ai-auto.html')) {
       activeKey = 'ai-prompt';

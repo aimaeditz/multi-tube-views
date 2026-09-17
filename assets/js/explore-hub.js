@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const unified = [];
     const todayStr = new Date().toISOString().slice(0, 10);
 
-    // 1. AI Tools (61)
+    // 1. AI Tools (60)
     if (typeof AI_TOOLS_DATA !== 'undefined' && AI_TOOLS_DATA) {
       Object.entries(AI_TOOLS_DATA).forEach(([id, t]) => {
         unified.push({
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
           desc: t.desc || '',
           icon: t.icon || '🎬',
           category: 'AI Tools',
-          url: id === 'ai-voice-generator' ? 'ai-voice-generator.html' : `ai-tools.html?tool=${encodeURIComponent(id)}`,
+          url: `ai-tools.html?tool=${encodeURIComponent(id)}`,
           dateAdded: t.dateAdded || t.date_added || '2026-05-01'
         });
       });

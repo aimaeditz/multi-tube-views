@@ -55,7 +55,7 @@
       });
     }
 
-    // 2. AI Tools (61 tools)
+    // 2. AI Tools (60 tools)
     if (AI_TOOLS_DATA && typeof AI_TOOLS_DATA === 'object') {
       Object.entries(AI_TOOLS_DATA).forEach(([id, tool]) => {
         const catKey = tool.category || 'video';
@@ -71,8 +71,8 @@
           categoryId: `ai-${catKey}`,
           categoryLabel: 'AI Tool',
           badgeClass: 'badge-ai',
-          url: id === 'ai-voice-generator' ? 'ai-voice-generator.html' : `ai-tools.html?tool=${encodeURIComponent(id)}`,
-          keywords: `${tool.title || ''} ${tool.desc || ''} ${id} ${catKey} ai generator gemini gpt prompt voice speech audio`.toLowerCase()
+          url: `ai-tools.html?tool=${encodeURIComponent(id)}`,
+          keywords: `${tool.title || ''} ${tool.desc || ''} ${id} ${catKey} ai generator gemini gpt prompt`.toLowerCase()
         });
       });
     }

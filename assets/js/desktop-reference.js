@@ -11,7 +11,7 @@ import { ALL_TOOL_CONFIGS } from './media-tools-data.js';
 export function getLiveWebsiteTotalTools() {
   const aiToolsCount = (typeof AI_TOOLS_DATA === 'object' && AI_TOOLS_DATA !== null)
     ? Object.keys(AI_TOOLS_DATA).length
-    : 61;
+    : 60;
 
   const creatorToolsCount = (typeof CREATOR_TOOLS_DATA === 'object' && CREATOR_TOOLS_DATA !== null)
     ? Object.keys(CREATOR_TOOLS_DATA).length

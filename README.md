@@ -28,7 +28,7 @@ workspace for creators, researchers, and everyday users.
 - **89 browser utilities across 15 categories** — text, developer,
   web/SEO, image/graphics, file/data, and everyday utilities — 100%
   client-side, zero uploads
-- **61 AI Tools across 7 categories** — Voice & Speech (Neural Voice Generator),
+- **60 AI Tools across 7 categories** — Voice & Speech (Neural Voice Generator),
   Video & Scripting, Social & Growth, Copywriting & Sales, Creative & Narrative,
   SEO & Discovery, and Technical & Code
 - **AI Prompts & Tools** — a curated, live-synced AI image prompt library
@@ -145,7 +145,7 @@ repository's `main` branch — every push triggers an automatic redeploy.
 multi-tube-views/
 ├── index.html                    # Homepage
 ├── ai-prompt.html                 # AI Prompts & Tools (live-synced library)
-├── ai-tools.html                  # 61 AI Tools Suite
+├── ai-tools.html                  # 60 AI Tools Suite
 ├── ai-voice-generator.html        # AI Voice Generator (TTS)
 ├── creator-tools.html             # 20 Creator Tools
 ├── media-converter-tools.html     # 60 client-side media converters

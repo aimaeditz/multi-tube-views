@@ -6,7 +6,7 @@
 import { AI_TOOLS_DATA } from '../data/ai-tools-data.js';
 import { BU_CATEGORIES } from '../data/browser-utilities-data.js';
 import { CREATOR_TOOLS_DATA } from '../data/creator-tools-data.js';
-import './media-tools-data.js';
+import { ALL_TOOL_CONFIGS } from './media-tools-data.js';
 
 export function getLiveWebsiteTotalTools() {
   const aiToolsCount = (typeof AI_TOOLS_DATA === 'object' && AI_TOOLS_DATA !== null)
@@ -23,7 +23,9 @@ export function getLiveWebsiteTotalTools() {
   }
 
   let mediaToolsCount = 60;
-  if (typeof window !== 'undefined' && window.MTV_ALL_TOOL_CONFIGS) {
+  if (typeof ALL_TOOL_CONFIGS === 'object' && ALL_TOOL_CONFIGS !== null) {
+    mediaToolsCount = Object.keys(ALL_TOOL_CONFIGS).length;
+  } else if (typeof window !== 'undefined' && window.MTV_ALL_TOOL_CONFIGS) {
     mediaToolsCount = Object.keys(window.MTV_ALL_TOOL_CONFIGS).length;
   }
 

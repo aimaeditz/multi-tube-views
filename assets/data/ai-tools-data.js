@@ -1,11 +1,10 @@
 /**
- * Multi Tube Views (MTV) — 61 AI Tools Data Directory
- * Structured metadata for 61 dedicated AI generative tools across 7 core categories.
+ * Multi Tube Views (MTV) — 60 AI Tools Data Directory
+ * Structured metadata for 60 dedicated AI generative tools across 6 core categories.
  */
 
 export const AI_CATEGORIES = [
-  { id: 'all', name: 'All Tools', count: 61 },
-  { id: 'voice', name: 'Voice & Speech', count: 1 },
+  { id: 'all', name: 'All Tools', count: 60 },
   { id: 'video', name: 'Video & Scripting', count: 10 },
   { id: 'social', name: 'Social & Growth', count: 10 },
   { id: 'copywriting', name: 'Copywriting & Sales', count: 10 },
@@ -15,19 +14,6 @@ export const AI_CATEGORIES = [
 ];
 
 export const AI_TOOLS_DATA = {
-  // Category 0: Voice & Speech (1)
-  'ai-voice-generator': {
-    title: 'AI Voice Generator',
-    desc: 'Neural speech synthesis with 30 studio voices & multi-language auto-detect',
-    icon: '🎙️',
-    category: 'voice',
-    placeholder: 'Enter or paste your script, narration, or dialogue to generate speech (up to 5,000 characters)...',
-    label: 'Voice Script / Dialogue',
-    isVoiceTool: true,
-    promptTemplate: '',
-    dateAdded: '2026-09-17'
-  },
-
   // Category 1: Video & Scripting (10)
   'youtube-script-writer': {
     title: 'YouTube Script Writer',
