@@ -38,7 +38,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/ai-tools.html">
 
-                                                                          <!-- Open Graph -->
+                                                                            <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/ai-tools.html">
   <meta property="og:title" content="AI Tools Suite — 61 Free Generative AI Writing Tools | MTV">
@@ -244,13 +244,18 @@
     (function(){
       try {
         var t = localStorage.getItem('mtv_theme');
-        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          t = 'dark';
+        var eff = 'light';
+        if (t === 'dark') {
+          eff = 'dark';
+        } else if (t === 'light') {
+          eff = 'light';
+        } else if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
         }
-        if (t === 'dark' || t === 'light') {
-          document.documentElement.setAttribute('data-theme', t);
-          document.documentElement.style.colorScheme = t;
-        }
+        var doc = document.documentElement;
+        doc.setAttribute('data-theme', eff);
+        doc.style.colorScheme = eff;
+        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
       } catch(e){}
     })();
   </script>

@@ -62,10 +62,28 @@ export default defineConfig(() => {
         transformIndexHtml(html) {
           const apiBaseUrl = process.env.VITE_API_BASE_URL || '';
           
-          // Inject defensive webview script as the absolute first child of <head> to prevent early-executing third-party scripts from throwing TypeError
+          // Inject defensive webview script and instant theme script as the absolute first children of <head> to prevent errors and eliminate flash of unstyled theme
           let transformed = html.replace(
             '<head>',
             `<head>\n  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('mtv_theme');
+        var theme = 'light';
+        if (saved === 'dark') {
+          theme = 'dark';
+        } else if (saved === 'light') {
+          theme = 'light';
+        } else if (saved === 'system') {
+          theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        var docEl = document.documentElement;
+        docEl.setAttribute('data-theme', theme);
+        docEl.style.colorScheme = theme;
+        docEl.style.backgroundColor = (theme === 'dark' ? '#0A0A0C' : '#FDFDFD');
+      } catch(e) {}
+    })();
+  </script>\n  <script>
     try {
       if (typeof window !== 'undefined') {
         let webviewProxy = (typeof window.Proxy !== 'undefined') ? new Proxy({}, {

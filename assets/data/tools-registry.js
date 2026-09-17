@@ -10,16 +10,19 @@
 import { AI_TOOLS_DATA } from './ai-tools-data.js';
 import { BU_CATEGORIES, BU_ALL_TOOLS_LIST } from './browser-utilities-data.js';
 import { CREATOR_TOOLS_DATA } from './creator-tools-data.js';
+import { ALL_TOOL_CONFIGS } from '../js/media-tools-data.js';
 
 export function getWebsiteToolMetrics() {
   // 1. AI Tools Count
   const aiToolsCount = (typeof AI_TOOLS_DATA === 'object' && AI_TOOLS_DATA !== null)
     ? Object.keys(AI_TOOLS_DATA).length
-    : (window.MTV_AI_TOOLS_DATA ? Object.keys(window.MTV_AI_TOOLS_DATA).length : 61);
+    : (typeof window !== 'undefined' && window.MTV_AI_TOOLS_DATA ? Object.keys(window.MTV_AI_TOOLS_DATA).length : 61);
 
   // 2. Media Converter Tools Count
   let mediaToolsCount = 60;
-  if (typeof window !== 'undefined' && window.MTV_ALL_TOOL_CONFIGS) {
+  if (typeof ALL_TOOL_CONFIGS === 'object' && ALL_TOOL_CONFIGS !== null) {
+    mediaToolsCount = Object.keys(ALL_TOOL_CONFIGS).length;
+  } else if (typeof window !== 'undefined' && window.MTV_ALL_TOOL_CONFIGS) {
     mediaToolsCount = Object.keys(window.MTV_ALL_TOOL_CONFIGS).length;
   } else if (typeof window !== 'undefined' && window.MTV_VALID_TOOLS && Array.isArray(window.MTV_VALID_TOOLS)) {
     mediaToolsCount = window.MTV_VALID_TOOLS.length;
@@ -38,7 +41,7 @@ export function getWebsiteToolMetrics() {
   // 4. Creator Tools Count
   const creatorToolsCount = (typeof CREATOR_TOOLS_DATA === 'object' && CREATOR_TOOLS_DATA !== null)
     ? Object.keys(CREATOR_TOOLS_DATA).length
-    : (window.MTV_CREATOR_TOOLS ? Object.keys(window.MTV_CREATOR_TOOLS).length : 20);
+    : (typeof window !== 'undefined' && window.MTV_CREATOR_TOOLS ? Object.keys(window.MTV_CREATOR_TOOLS).length : 20);
 
   const total = aiToolsCount + mediaToolsCount + browserUtilitiesCount + creatorToolsCount;
 
@@ -55,7 +58,8 @@ export function updateHeroToolBadge() {
   const metrics = getWebsiteToolMetrics();
   
   // Target badge element by ID or class selector
-  const heroBadge = document.getElementById('hero-total-tools-badge');
+  const heroBadge = document.getElementById('hero-total-tools-badge') || 
+                    document.getElementById('hero-total-tools-text');
   if (heroBadge) {
     heroBadge.textContent = `${metrics.total} Instant Tools`;
   } else {
