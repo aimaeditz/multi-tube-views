@@ -55,7 +55,7 @@
       });
     }
 
-    // 2. AI Tools (160 tools)
+    // 2. AI Tools (211 tools)
     if (AI_TOOLS_DATA && typeof AI_TOOLS_DATA === 'object') {
       Object.entries(AI_TOOLS_DATA).forEach(([id, tool]) => {
         const catKey = tool.category || 'video';
