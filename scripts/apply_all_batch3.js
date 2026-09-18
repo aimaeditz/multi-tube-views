@@ -10,7 +10,7 @@ function updateAiToolsData(filePath) {
   // Update header comment
   content = content.replace(
     /Multi Tube Views \(MTV\) — \d+ AI Tools Data Directory/g,
-    'Multi Tube Views (MTV) — 210 AI Tools Data Directory'
+    'Multi Tube Views (MTV) — 211 AI Tools Data Directory'
   );
   content = content.replace(
     /Structured metadata for \d+ dedicated AI generative tools/g,
@@ -96,10 +96,10 @@ function updateAiToolsHtml() {
   html = html.replace(/160 dedicated generative AI tools/g, '211 dedicated generative AI tools');
   html = html.replace(/160 Free AI Generative Tools/g, '211 Free AI Generative Tools');
   html = html.replace(/160 dedicated AI generative tools/g, '211 dedicated AI generative tools');
-  html = html.replace(/Search all 160 AI tools/g, 'Search all 211 AI tools');
+  html = html.replace(/Search all 1211 AI tools/g, 'Search all 211 AI tools');
   html = html.replace(/160 specialized generative AI tools/g, '211 specialized generative AI tools');
   html = html.replace(/← Back to All 160 Tools/g, '← Back to All 211 Tools');
-  html = html.replace(/160 AI tools,/g, '211 AI tools,');
+  html = html.replace(/1211 AI tools,/g, '211 AI tools,');
   html = html.replace(/AI Tools Suite \(160\)/g, 'AI Tools Suite (211)');
 
   // Update Category Filter counts
@@ -221,7 +221,7 @@ updateAiProxy();
 // 5. Update metadata.json
 function updateMetadata() {
   let content = fs.readFileSync('metadata.json', 'utf8');
-  content = content.replace('160 AI tools suite', '211 AI tools suite');
+  content = content.replace('1211 AI tools suite', '211 AI tools suite');
   fs.writeFileSync('metadata.json', content, 'utf8');
   console.log('Updated metadata.json');
 }
@@ -248,19 +248,19 @@ function updateSitewideHtml() {
     let changed = false;
 
     // Marquee & badges
-    if (html.includes('160 AI Tools')) {
-      html = html.replace(/160 AI Tools/g, '211 AI Tools');
+    if (html.includes('1211 AI Tools')) {
+      html = html.replace(/1211 AI Tools/g, '211 AI Tools');
       changed = true;
     }
-    if (html.includes('160 AI tools')) {
-      html = html.replace(/160 AI tools/g, '211 AI tools');
+    if (html.includes('1211 AI tools')) {
+      html = html.replace(/1211 AI tools/g, '211 AI tools');
       changed = true;
     }
-    if (html.includes('AI Tools Suite (160)')) {
+    if (html.includes('AI Tools Suite (211)')) {
       html = html.replace(/AI Tools Suite \(160\)/g, 'AI Tools Suite (211)');
       changed = true;
     }
-    if (html.includes('160 AI Generative Tools')) {
+    if (html.includes('211 AI Generative Tools')) {
       html = html.replace(/160 AI Generative Tools/g, '211 AI Generative Tools');
       changed = true;
     }
@@ -273,20 +273,20 @@ function updateSitewideHtml() {
       html = html.replace(/data-target="160"/g, 'data-target="211"');
       changed = true;
     }
-    if (html.includes('Explore All 160 AI Tools')) {
-      html = html.replace(/Explore All 160 AI Tools/g, 'Explore All 211 AI Tools');
+    if (html.includes('Explore All 1211 AI Tools')) {
+      html = html.replace(/Explore All 1211 AI Tools/g, 'Explore All 211 AI Tools');
       changed = true;
     }
-    if (html.includes('View All 160 AI Tools →')) {
-      html = html.replace(/View All 160 AI Tools →/g, 'View All 211 AI Tools →');
+    if (html.includes('View All 1211 AI Tools →')) {
+      html = html.replace(/View All 1211 AI Tools →/g, 'View All 211 AI Tools →');
       changed = true;
     }
-    if (html.includes('160 AI Tools Cloud')) {
-      html = html.replace(/160 AI Tools Cloud/g, '211 AI Tools Cloud');
+    if (html.includes('1211 AI Tools Cloud')) {
+      html = html.replace(/1211 AI Tools Cloud/g, '211 AI Tools Cloud');
       changed = true;
     }
-    if (html.includes('160 AI Tools.')) {
-      html = html.replace(/160 AI Tools\./g, '211 AI Tools.');
+    if (html.includes('1211 AI Tools.')) {
+      html = html.replace(/1211 AI Tools\./g, '211 AI Tools.');
       changed = true;
     }
 

@@ -1,6 +1,6 @@
 /**
- * Multi Tube Views (MTV) — 210 AI Tools Data Directory
- * Structured metadata for 210 dedicated AI generative tools across 6 core categories.
+ * Multi Tube Views (MTV) — 211 AI Tools Data Directory
+ * Structured metadata for 211 dedicated AI generative tools across 6 core categories.
  */
 
 export const AI_CATEGORIES = [
@@ -12,7 +12,7 @@ export const AI_CATEGORIES = [
   {
     "id": "video",
     "name": "Video & Scripting",
-    "count": 33
+    "count": 34
   },
   {
     "id": "social",
@@ -2169,6 +2169,14 @@ export const AI_TOOLS_DATA = {
     "placeholder": "e.g., Real-time collaborative whiteboard app with 10k concurrent users, solo developer proficient in React...",
     "label": "Project Idea, Scale & Team Skillset",
     "promptTemplate": "Deliver an architectural tech stack recommendation for: {topic}. Provide: 1) Recommended Frontend framework & state strategy, 2) Backend language, framework & API protocol (REST vs GraphQL vs WebSocket), 3) Database engine & caching layer, 4) Hosting & Deployment infrastructure, and 5) Key trade-off analysis comparing development speed vs long-term maintenance costs.",
-    "dateAdded": "2026-09-18"
-  }
+    "dateAdded": "2026-09-18"},
+  "youtube-shorts-hook-rewriter": {
+    id: "youtube-shorts-hook-rewriter",
+    title: "YouTube Shorts Hook Rewriter",
+    category: "video",
+    icon: "⚡",
+    desc: "High-retention 3-second visual and spoken hook variations for vertical short-form video",
+    prompt: "Generate 5 viral, high-retention 3-second hook variations (both spoken line and on-screen text caption) for a YouTube Short / TikTok / Reel about: ",
+    placeholder: "e.g. 5 AI tools that save 10 hours a week"
+  },
 };

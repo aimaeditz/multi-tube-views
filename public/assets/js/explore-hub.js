@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const unified = [];
     const todayStr = new Date().toISOString().slice(0, 10);
 
-    // 1. AI Tools (60)
+    // 1. AI Tools (211)
     if (typeof AI_TOOLS_DATA !== 'undefined' && AI_TOOLS_DATA) {
       Object.entries(AI_TOOLS_DATA).forEach(([id, t]) => {
         unified.push({
