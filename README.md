@@ -146,7 +146,7 @@ multi-tube-views/
 ├── ai-prompt.html                 # AI Prompts & Tools (live-synced library)
 ├── ai-tools.html                  # 211 AI Tools Suite
 ├── ai-voice-generator.html        # AI Voice Generator (TTS)
-├── creator-tools.html             # 20 Creator Tools
+├── creator-tools.html             # 70 Creator Tools
 ├── media-converter-tools.html     # 60 client-side media converters
 ├── browser-utilities.html         # Browser Utilities landing page
 ├── browser-utilities/             # 89 individual utility tool pages

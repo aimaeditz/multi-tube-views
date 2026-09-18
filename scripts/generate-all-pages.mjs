@@ -222,7 +222,7 @@ function renderFooter({ depth = 0 }) {
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 60 AI tools, 20 creator optimization tools, 60 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 211 AI tools, 70 creator optimization tools, 60 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -241,7 +241,7 @@ function renderFooter({ depth = 0 }) {
           <ul class="footer-links">
             <li><a href="${p}explore-hub.html">Explore Hub</a></li>
             <li><a href="${p}ai-prompt.html">AI Prompts & Tools</a></li>
-            <li><a href="${p}ai-tools.html">AI Tools Suite (60)</a></li>
+            <li><a href="${p}ai-tools.html">AI Tools Suite (211)</a></li>
             <li><a href="${p}creator-tools.html">Creator Tools</a></li>
             <li><a href="${p}media-converter-tools.html">Media Converter Tools</a></li>
             <li><a href="${p}browser-utilities.html">Browser Utilities</a></li>

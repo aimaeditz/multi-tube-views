@@ -19,7 +19,7 @@ export const DEV_TOOLS = [
       { title: 'Syntax Error Pinpointing', desc: 'Shows exact line, column, and token message when JSON is invalid.' },
       { title: 'Client-Side Privacy', desc: 'Sensitive API payloads and database dumps never leave your device.' }
     ],
-    sampleText: '{"appName":"Multi Tube Views","version":2.5,"features":["40+ Platforms","20 Creator Tools","15 Converters","36 Utilities"],"author":{"name":"AiMAEditz","active":true}}',
+    sampleText: '{"appName":"Multi Tube Views","version":2.5,"features":["40+ Platforms","70 Creator Tools","15 Converters","36 Utilities"],"author":{"name":"AiMAEditz","active":true}}',
     renderControls: () => `
       <div class="bu-form-group">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
@@ -97,7 +97,7 @@ export const DEV_TOOLS = [
       });
 
       sampleBtn.addEventListener('click', () => {
-        input.value = '{"appName":"Multi Tube Views","version":2.5,"features":["40+ Platforms","20 Creator Tools","15 Converters","36 Utilities"],"author":{"name":"AiMAEditz","active":true}}';
+        input.value = '{"appName":"Multi Tube Views","version":2.5,"features":["40+ Platforms","70 Creator Tools","15 Converters","36 Utilities"],"author":{"name":"AiMAEditz","active":true}}';
         formatJSON(false);
       });
 

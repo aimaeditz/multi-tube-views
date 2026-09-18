@@ -29,7 +29,7 @@ export const SEO_TOOLS = [
           </div>
           <div class="bu-form-group">
             <label class="bu-form-label" for="meta-desc">Meta Description <span class="bu-form-label-hint" id="meta-desc-cnt">0 / 160</span></label>
-            <textarea id="meta-desc" class="bu-textarea" style="min-height: 85px;" placeholder="Brief summary for Google search snippets...">Watch multiple live video streams side-by-side across 40+ platforms with 20 creator tools, 15 media converters, and 36 browser utilities. 100% private and free.</textarea>
+            <textarea id="meta-desc" class="bu-textarea" style="min-height: 85px;" placeholder="Brief summary for Google search snippets...">Watch multiple live video streams side-by-side across 40+ platforms with 70 creator tools, 15 media converters, and 36 browser utilities. 100% private and free.</textarea>
           </div>
           <div class="bu-form-group">
             <label class="bu-form-label" for="meta-url">Canonical URL</label>
@@ -149,7 +149,7 @@ export const SEO_TOOLS = [
           </div>
           <div class="bu-form-group">
             <label class="bu-form-label" for="og-desc">Card Description</label>
-            <textarea id="og-desc" class="bu-textarea" style="min-height: 80px;">Stream multiple videos concurrently with 40+ platform adapters, 20 creator tools, 15 media converters, and 36 browser utilities. Fast, responsive, and private.</textarea>
+            <textarea id="og-desc" class="bu-textarea" style="min-height: 80px;">Stream multiple videos concurrently with 40+ platform adapters, 70 creator tools, 15 media converters, and 36 browser utilities. Fast, responsive, and private.</textarea>
           </div>
           <div class="bu-form-group">
             <label class="bu-form-label" for="og-domain">Display Domain / Site Name</label>
@@ -177,7 +177,7 @@ export const SEO_TOOLS = [
             <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; background: var(--bg-card);">
               <div id="serp-url" style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.2rem;">https://multitubeviews.com › index.html</div>
               <div id="serp-title" style="font-size: 1.05rem; color: var(--accent-blue); font-weight: 600; text-decoration: underline; margin-bottom: 0.25rem;">Multi Tube Views (MTV) — Multi-Screen Video Workspace</div>
-              <div id="serp-desc" style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.4;">Stream multiple videos concurrently with 40+ platform adapters, 20 creator tools, 15 media converters, and 36 browser utilities. Fast, responsive, and private.</div>
+              <div id="serp-desc" style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.4;">Stream multiple videos concurrently with 40+ platform adapters, 70 creator tools, 15 media converters, and 36 browser utilities. Fast, responsive, and private.</div>
             </div>
           </div>
         </div>

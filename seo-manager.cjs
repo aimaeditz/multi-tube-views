@@ -150,7 +150,7 @@ const CORE_PAGES_SEO = {
           'name': 'MTV Creator Optimization Suite',
           'alternateName': ['MTV Creator Tools', 'Multi Tube Views Creator Suite', 'AiMAEditz MTV Creator Tools', 'MTV Video SEO Pack'],
           'url': `${BASE_URL}/creator-tools.html`,
-          'description': 'Comprehensive 20-tool video SEO suite for content creators, featuring automated title scoring, tag clusters, hook generators, and timestamped descriptions.',
+          'description': 'Comprehensive 70-tool video SEO suite for content creators, featuring automated title scoring, tag clusters, hook generators, and timestamped descriptions.',
           'applicationCategory': 'BusinessApplication',
           'applicationSubCategory': 'SearchEngineOptimization',
           'operatingSystem': 'All',
