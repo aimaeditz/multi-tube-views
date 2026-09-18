@@ -1,16 +1,44 @@
 /**
- * Multi Tube Views (MTV) — 60 AI Tools Data Directory
- * Structured metadata for 60 dedicated AI generative tools across 6 core categories.
+ * Multi Tube Views (MTV) — 160 AI Tools Data Directory
+ * Structured metadata for 160 dedicated AI generative tools across 6 core categories.
  */
 
 export const AI_CATEGORIES = [
-  { id: 'all', name: 'All Tools', count: 60 },
-  { id: 'video', name: 'Video & Scripting', count: 10 },
-  { id: 'social', name: 'Social & Growth', count: 10 },
-  { id: 'copywriting', name: 'Copywriting & Sales', count: 10 },
-  { id: 'creative', name: 'Creative & Narrative', count: 10 },
-  { id: 'seo', name: 'SEO & Discovery', count: 10 },
-  { id: 'technical', name: 'Technical & Code', count: 10 }
+  {
+    "id": "all",
+    "name": "All Tools",
+    "count": 160
+  },
+  {
+    "id": "video",
+    "name": "Video & Scripting",
+    "count": 25
+  },
+  {
+    "id": "social",
+    "name": "Social & Growth",
+    "count": 26
+  },
+  {
+    "id": "copywriting",
+    "name": "Copywriting & Sales",
+    "count": 28
+  },
+  {
+    "id": "creative",
+    "name": "Creative & Narrative",
+    "count": 27
+  },
+  {
+    "id": "seo",
+    "name": "SEO & Discovery",
+    "count": 27
+  },
+  {
+    "id": "technical",
+    "name": "Technical & Code",
+    "count": 27
+  }
 ];
 
 export const AI_TOOLS_DATA = {
@@ -624,5 +652,1019 @@ export const AI_TOOLS_DATA = {
     label: 'Project Name, Tech Stack & Purpose',
     promptTemplate: 'Generate a professional GitHub README.md for: {topic}. Include Project Title, Badges placeholders, Feature Highlights bullet list, Architecture overview, Installation & Quickstart commands, and License section.',
     dateAdded: '2026-05-10'
+  },
+
+  // Category 3 (continued): Copywriting & Sales (9 new tools)
+  'elevator-pitch-generator': {
+    title: 'Elevator Pitch Generator',
+    desc: 'High-impact 30-second and 60-second verbal pitches for investors or prospects',
+    icon: '⏱️',
+    category: 'copywriting',
+    placeholder: 'Enter product concept, target audience, and core problem solved (e.g. AI-powered inventory management for boutique coffee shops)',
+    label: 'Product / Service Concept & Audience',
+    promptTemplate: 'Generate 4 distinct elevator pitches (a 10-second soundbite, a 30-second investor pitch, a 60-second conversational pitch, and a problem-solution hook) for: {topic}.',
+    dateAdded: '2026-09-17'
+  },
+  'product-description-writer': {
+    title: 'Product Description Writer',
+    desc: 'Compelling eCommerce and marketplace product listings that convert browsers into buyers',
+    icon: '🛍️',
+    category: 'copywriting',
+    placeholder: 'Enter product name, materials/specs, key benefits, and target shopper (e.g. Ergonomic Merino Wool Travel Pillow)',
+    label: 'Product Name & Key Features',
+    promptTemplate: 'Write 3 compelling, high-converting product descriptions (Sensory/Emotional, Feature-Benefit Bulleted, and Minimalist/Punchy) with SEO-friendly copy for: {topic}.',
+    dateAdded: '2026-09-17'
+  },
+  'upsell-cross-sell-copy': {
+    title: 'Upsell & Cross-Sell Copy Generator',
+    desc: 'Frictionless post-purchase and checkout bump offers that maximize average order value',
+    icon: '📈',
+    category: 'copywriting',
+    placeholder: 'Enter primary purchase and the complementary upsell or add-on product (e.g. Buying a DSLR Camera -> Upsell: Masterclass + Lens Bundle at 40% off)',
+    label: 'Core Product & Add-On Offer',
+    promptTemplate: 'Generate 4 high-converting upsell and cross-sell copy variations (One-Click Post-Purchase Modal, Cart Drawer Bump, Order Confirmation Email Recommendation, and Scarcity Bundle Offer) for: {topic}.',
+    dateAdded: '2026-09-17'
+  },
+  'abandoned-cart-email-writer': {
+    title: 'Abandoned Cart Email Writer',
+    desc: 'High-recovery 3-part abandoned cart email sequences that recover lost revenue',
+    icon: '🛒',
+    category: 'copywriting',
+    placeholder: 'Enter product/store niche and any discount or guarantee offered (e.g. Premium leather messenger bag, offering 10% coupon code or free shipping)',
+    label: 'Store Niche, Product & Incentive',
+    promptTemplate: 'Write a high-converting 3-part abandoned cart recovery email sequence for: {topic}. Email 1 (Gentle reminder & social proof after 1 hour), Email 2 (Customer objection handling & FAQ after 24 hours), and Email 3 (Urgency, scarcity & exclusive discount code after 48 hours). Include catchy subject lines.',
+    dateAdded: '2026-09-17'
+  },
+  'discount-promo-announcement': {
+    title: 'Discount & Promo Announcement Writer',
+    desc: 'High-urgency promotional banners, emails, and social blasts for flash sales',
+    icon: '🏷️',
+    category: 'copywriting',
+    placeholder: 'Enter promotional offer, discount percentage, promo code, and expiration deadline (e.g. Summer Flash Sale 35% off all presets with code SUMMER35 ends Sunday midnight)',
+    label: 'Offer Details, Discount % & Deadline',
+    promptTemplate: 'Write a multi-channel flash sale promotional package for: {topic}. Include: 1) 3 Punchy Email Subject Lines, 2) Hero Email Announcement Copy, 3) Website Header Notification Banner, 4) Instagram/Twitter Promo Caption with emojis, and 5) SMS/Push Notification blast.',
+    dateAdded: '2026-09-17'
+  },
+  'customer-onboarding-sequence': {
+    title: 'Customer Onboarding Email Sequence',
+    desc: 'Welcoming, value-driven email drips that activate users and reduce churn',
+    icon: '👋',
+    category: 'copywriting',
+    placeholder: 'Enter SaaS app or membership type and the primary "Aha!" action users should take (e.g. Design tool where first action is creating their first custom template)',
+    label: 'Product / Service & Key First Action',
+    promptTemplate: 'Generate a 4-part customer onboarding email drip sequence for: {topic}. Email 1 (Warm Welcome & Instant Quick Win), Email 2 (Core Feature Walkthrough & Pro Tip), Email 3 (Case Study / Community Inspiration), and Email 4 (Feedback check-in & Personal Support Offer). Include engaging subject lines.',
+    dateAdded: '2026-09-17'
+  },
+  'press-release-generator': {
+    title: 'Press Release Generator',
+    desc: 'AP-style media releases formatted with headlines, dateline, quotes, and boilerplate',
+    icon: '📰',
+    category: 'copywriting',
+    placeholder: 'Enter company name, city, major announcement, key milestones, and spokesperson quote topic (e.g. NexaHealth launches AI diagnostic assistant after $10M Series A)',
+    label: 'Announcement Details & Company Info',
+    promptTemplate: 'Write a professional, AP-style press release for: {topic}. Include: FOR IMMEDIATE RELEASE header, compelling Headline & Subheadline, City/Date Dateline, Strong Opening Lead paragraph, Supporting Details & Metrics, Executive/Founder Quote, and About Company Boilerplate.',
+    dateAdded: '2026-09-17'
+  },
+  'affiliate-promo-copy': {
+    title: 'Affiliate Promo Copy Generator',
+    desc: 'Authentic, FTC-compliant endorsement reviews, swipe emails, and social pitches',
+    icon: '🤝',
+    category: 'copywriting',
+    placeholder: 'Enter affiliate product name, why you love it, target audience, and your unique affiliate bonus (e.g. Web hosting service with free WordPress migration guide bonus)',
+    label: 'Affiliate Product, Target Niche & Special Bonus',
+    promptTemplate: 'Create an authentic, FTC-compliant affiliate promotional copy toolkit for: {topic}. Include: 1) Short Honest Review Tweet/Thread, 2) Dedicated Affiliate Newsletter Email with soft CTA, 3) Instagram/TikTok Story Script mentioning disclosure, and 4) 3 Natural Callout Boxes for blog insertion.',
+    dateAdded: '2026-09-17'
+  },
+  'pricing-page-copy': {
+    title: 'Pricing Page Copy Generator',
+    desc: 'Tiered plan descriptions, feature comparisons, and objection-busting microcopy',
+    icon: '💳',
+    category: 'copywriting',
+    placeholder: 'Enter 3 pricing tier names, price points, and target user for each (e.g. Starter $19/mo for solo creators, Pro $49/mo for small teams, Enterprise custom for agencies)',
+    label: 'Tiers, Pricing & Target Personas',
+    promptTemplate: 'Write complete, conversion-optimized pricing page copy for: {topic}. For 3 tiers (Starter, Pro, Enterprise): provide a Catchy Tier Name, 1-Line Target Audience Hook, Ideal For, 5 Key Feature Bullets with benefit emphasis, CTA Button Text, and a "Most Popular" highlight badge snippet.',
+    dateAdded: '2026-09-17'
+  },
+
+  // Category 4 (continued): Creative & Narrative (9 new tools)
+  'fairy-tale-generator': {
+    title: 'Fairy Tale Generator',
+    desc: 'Whimsical, enchanting folklore tales featuring moral lessons and magical realms',
+    icon: '🧚',
+    category: 'creative',
+    placeholder: 'Enter main character, enchanted setting, and central theme (e.g. A young clockmaker who discovers a pocket watch that pauses moonlight in an ancient forest)',
+    label: 'Characters, Setting & Moral Lesson',
+    promptTemplate: 'Write a rich, imaginative, and enchanting modern fairy tale about: {topic}. Include an evocative classic opening ("Once upon a time..."), an unexpected magical obstacle, playful whimsical dialogue, an emotional turning point, and a timeless moral resolution.',
+    dateAdded: '2026-09-17'
+  },
+  'fan-fiction-starter': {
+    title: 'Fan Fiction Starter',
+    desc: 'Immersive chapter-one opening hooks and alternate universe premises for favorite fandoms',
+    icon: '✨',
+    category: 'creative',
+    placeholder: 'Enter universe/fandom, featured characters, and Alternate Universe (AU) twist (e.g. Harry Potter universe where Neville Longbottom was the Chosen One)',
+    label: 'Fandom, Characters & "What If?" Premise',
+    promptTemplate: 'Generate 3 captivating fan fiction story starters for: {topic}. For each option provide: 1) Catchy Fanfic Title & Tropes/Tags, 2) The "What If?" Premise synopsis, and 3) A gripping opening Chapter One scene establishing the new reality.',
+    dateAdded: '2026-09-17'
+  },
+  'horror-story-prompt': {
+    title: 'Horror Story Prompt Generator',
+    desc: 'Bone-chilling psychological, supernatural, and cosmic horror writing prompts',
+    icon: '🕯️',
+    category: 'creative',
+    placeholder: 'Enter setting, subgenre, or fear trigger (e.g. Abandoned deep-sea research station, cosmic horror, isolation)',
+    label: 'Horror Subgenre, Setting or Phobia',
+    promptTemplate: 'Generate 6 spine-tingling, original horror story concepts for: {topic}. Group into: 2 Psychological Thriller scenarios, 2 Supernatural / Ghostly premises, and 2 Cosmic / Eldritch Dread premises. For each, give the Haunting Hook, The Escalation, and The Unsettling Twist.',
+    dateAdded: '2026-09-17'
+  },
+  'plot-twist-generator': {
+    title: 'Plot Twist Generator',
+    desc: 'Shocking mid-story twists and climax reveals that redefine the entire narrative',
+    icon: '🌪️',
+    category: 'creative',
+    placeholder: 'Enter story genre, current plot summary, and protagonist\'s goal (e.g. Detective investigating an art heist in Paris discovers clues left in their own handwriting)',
+    label: 'Current Story Premise, Protagonist & Genre',
+    promptTemplate: 'Brainstorm 5 mind-bending, unforgettable narrative plot twists for: {topic}. Provide: 1) The Unreliable Narrator Twist, 2) The Hidden Ally / Betrayal Twist, 3) The Temporal / Reality Shift Twist, 4) The Moral Reversal Twist, and 5) The Ultimate Climax Subversion.',
+    dateAdded: '2026-09-17'
+  },
+  'myth-legend-creator': {
+    title: 'Myth & Legend Creator',
+    desc: 'Grand creation myths, heroic epics, and mythical deities complete with folklore traditions',
+    icon: '🏛️',
+    category: 'creative',
+    placeholder: 'Enter natural phenomenon, hero, or cultural archetype to explain (e.g. Why the ocean glows with bioluminescence at night, guardian spirit of constellations)',
+    label: 'Natural Phenomenon, Hero, or Pantheon Concept',
+    promptTemplate: 'Craft an ancient, mythic legend explaining: {topic}. Structure with: 1) The Age of Gods / Primordial Origin, 2) The Tragic Flaw or Epic Quest of the Hero/Deity, 3) The Great Confrontation or Divine Curse, and 4) The Eternal Folklore Legacy and cultural ritual passed down to humans.',
+    dateAdded: '2026-09-17'
+  },
+  'superhero-villain-origin': {
+    title: 'Superhero & Villain Origin Generator',
+    desc: 'Compelling hero and villain dossiers with power dynamics, tragedy, and costume aesthetics',
+    icon: '🦸',
+    category: 'creative',
+    placeholder: 'Enter character alignment, core power concept, and city setting (e.g. Vigilante with soundwave manipulation in a rainy cyberpunk metropolis)',
+    label: 'Core Power, Setting & Alignment (Hero or Villain)',
+    promptTemplate: 'Create a fully developed comic-book style character origin dossier for: {topic}. Include: 1) Hero/Villain Alias & Real Name, 2) Inciting Traumatic Event / Origin Moment, 3) Unique Power Set & Severe Limitation/Vulnerability, 4) Signature Costume & Weaponry aesthetic, and 5) Core Philosophy / Arch-Nemesis dynamic.',
+    dateAdded: '2026-09-17'
+  },
+  'fable-parable-writer': {
+    title: 'Fable & Parable Writer',
+    desc: 'Aesop-style short animal fables and allegorical parables that teach practical wisdom',
+    icon: '🦊',
+    category: 'creative',
+    placeholder: 'Enter moral lesson or dilemma to illustrate (e.g. Greed leads to losing what you already cherish, featuring a crow and a river fox)',
+    label: 'Core Moral / Lesson & Animal / Character Types',
+    promptTemplate: 'Write an engaging, memorable Aesop-style fable or philosophical parable teaching: {topic}. Include memorable anthropomorphic characters, crisp symbolic dialogue, a clever narrative test of character, and end with the definitive bold moral aphorism ("Moral: ...").',
+    dateAdded: '2026-09-17'
+  },
+  'dystopian-scenario-builder': {
+    title: 'Dystopian Scenario Builder',
+    desc: 'Fleshed-out dystopian regimes, oppressive societal rules, and underground rebellion sparks',
+    icon: '🏙️',
+    category: 'creative',
+    placeholder: 'Enter societal restriction, mega-corporation, or technological mandate (e.g. Memories are taxed annually and deleted if subscription fees lapse)',
+    label: 'Central Control Mechanism or Ecological Catastrophe',
+    promptTemplate: 'Build a chilling, immersive dystopian world briefing based on: {topic}. Include: 1) The Ruling Regime & Official Propaganda Slogan, 2) The Surveillance & Enforcement Apparatus, 3) The Illusion of Peace / Everyday Citizen Life, 4) The Forbidden Luxury / Taboo, and 5) The Sparks of the Underground Resistance.',
+    dateAdded: '2026-09-17'
+  },
+  'scifi-tech-describer': {
+    title: 'Sci-Fi Tech & Gadget Describer',
+    desc: 'Plausible speculative blueprints, quantum gizmos, and hard science-fiction device dossiers',
+    icon: '🛰️',
+    category: 'creative',
+    placeholder: 'Enter technological concept or gadget function (e.g. Handheld gravitational lensing scanner used to detect cloaked starships)',
+    label: 'Device Purpose, Theoretical Physics or Alien Element',
+    promptTemplate: 'Generate a detailed speculative science fiction technical dossier for: {topic}. Include: 1) Technical Designation & Colloquial Nickname, 2) Underlying Theoretical Science, 3) Operating Instructions & Interface, 4) Hazardous Side Effects & Safety Failures, and 5) Black Market / Military applications.',
+    dateAdded: '2026-09-17'
+  },
+
+  // Category 5 (continued): SEO & Discovery (9 new tools)
+  'schema-markup-generator': {
+    title: 'Schema Markup (JSON-LD) Generator',
+    desc: 'Valid Google-compliant JSON-LD structured data for Articles, FAQs, Products & Local Biz',
+    icon: '🧬',
+    category: 'seo',
+    placeholder: 'Enter schema type (e.g. Article, HowTo, Product, LocalBusiness, SoftwareApplication) and key fields (title, author, price, rating)',
+    label: 'Schema Type, Entity Name & Page Details',
+    promptTemplate: 'Generate a 100% valid, copy-pasteable Schema.org JSON-LD script block for: {topic}. Ensure full Google Rich Results compliance with all required and recommended fields, clean formatting, and instructions on how to insert in the HTML <head>.',
+    dateAdded: '2026-09-17'
+  },
+  'breadcrumb-schema-helper': {
+    title: 'Breadcrumb Schema Helper',
+    desc: 'Hierarchical BreadcrumbList structured data for clean SERP navigation trails',
+    icon: '🍞',
+    category: 'seo',
+    placeholder: 'Enter site navigation trail and URLs (e.g. Home > Tech Blog > Laptops > Best MacBook Accessories 2026)',
+    label: 'Site URL Structure & Navigation Hierarchy',
+    promptTemplate: 'Generate clean, valid Schema.org BreadcrumbList JSON-LD structured data for: {topic}. Include the ordered itemListElement array with proper positions, names, and item URLs, and provide the semantic HTML <nav aria-label="Breadcrumb"> fallback snippet.',
+    dateAdded: '2026-09-17'
+  },
+  'voice-search-optimizer': {
+    title: 'Voice Search Optimization Copywriter',
+    desc: 'Conversational, natural-language Q&A snippets tailored for Siri, Alexa, and Google Assistant',
+    icon: '🎙️',
+    category: 'seo',
+    placeholder: 'Enter user question or service query (e.g. What is the fastest way to defrost chicken safely without a microwave?)',
+    label: 'Target Topic, Question or Local Service',
+    promptTemplate: 'Optimize content for conversational voice search queries for: {topic}. Generate: 1) 5 Natural Spoken Question variations, 2) A 29-word direct "Golden Snippet" answer designed to be read aloud by voice assistants, 3) 3 Conversational Follow-up Q&As, and 4) Phonetic keyword integration tips.',
+    dateAdded: '2026-09-17'
+  },
+  'related-searches-expander': {
+    title: 'Related Searches Topic Expander',
+    desc: 'Semantic search lateral associations and "Searches Related To" query webs',
+    icon: '🌐',
+    category: 'seo',
+    placeholder: 'Enter primary seed keyword (e.g. Podcasting Equipment for Beginners)',
+    label: 'Core Keyword / Search Entity',
+    promptTemplate: 'Generate a comprehensive semantic topic map and related search query web for: {topic}. Group into: 1) Adjacent Concepts & Prerequisites (8 queries), 2) Alternative Solutions & Competitors (8 queries), 3) Cost & Budget Considerations (6 queries), and 4) Advanced / Pro Next Steps (6 queries).',
+    dateAdded: '2026-09-17'
+  },
+  'anchor-text-variety-builder': {
+    title: 'Anchor Text Variety Builder',
+    desc: 'Natural, penalty-safe internal and backlink anchor text distribution profiles',
+    icon: '⚓',
+    category: 'seo',
+    placeholder: 'Enter target URL topic and brand name (e.g. Target: Comprehensive Guide to Sourdough Bread, Brand: ArtisanBake)',
+    label: 'Target Page Topic, URL & Brand Name',
+    promptTemplate: 'Create a natural, algorithmic-penalty-safe anchor text distribution plan for: {topic}. Provide 30 anchor texts grouped into: Exact Match (4), Partial / Broad Match (8), Branded & Domain (6), Topical Synonyms (8), and Natural Conversational (4).',
+    dateAdded: '2026-09-17'
+  },
+  'content-refresh-suggestor': {
+    title: 'Content Refresh & Update Suggestor',
+    desc: 'Actionable audit checklists to revitalize stale articles and recover lost organic rankings',
+    icon: '🔄',
+    category: 'seo',
+    placeholder: 'Enter existing blog post title and topic (e.g. Best SEO Strategies from 2023 that have lost traffic)',
+    label: 'Existing Article Title, Topic & Current Year',
+    promptTemplate: 'Generate a high-impact Content Refresh & Historical SEO Optimization plan for: {topic}. Include: 1) Outdated Concepts & Stats to Replace, 2) 4 Fresh Trending Subtopics to Add, 3) Title & Meta Tag Modernization for the current year, 4) Visual Media & Schema upgrades, and 5) Internal Linking opportunities.',
+    dateAdded: '2026-09-17'
+  },
+  'search-engine-snippet-optimizer': {
+    title: 'Search Engine Snippet Optimizer',
+    desc: 'Snippets engineered to capture Position Zero across definition, table, and list formats',
+    icon: '🎯',
+    category: 'seo',
+    placeholder: 'Enter target Google query (e.g. How to change a car battery safely)',
+    label: 'Target Search Query / Intent',
+    promptTemplate: 'Format content to win Google\'s Position Zero (Featured Snippet) for: {topic}. Output the 3 highest-probability snippet layouts: 1) The 42-word Crisp Definition Paragraph, 2) The 6-step Numbered Action Process, and 3) A Clean 4x3 Markdown Comparison Table with bold headers.',
+    dateAdded: '2026-09-17'
+  },
+  'tofu-topic-finder': {
+    title: 'Top-of-Funnel (TOFU) Topic Finder',
+    desc: 'High-volume, broad educational awareness queries that attract massive new audiences',
+    icon: '📢',
+    category: 'seo',
+    placeholder: 'Enter niche or product (e.g. Specialty Matcha Tea and Accessories)',
+    label: 'Industry, Niche or Core Product',
+    promptTemplate: 'Brainstorm 15 high-volume Top-of-Funnel (TOFU) educational content topics for: {topic}. Group by content format: 1) "What is..." / Beginner Guides (5), 2) "Common Myths & Mistakes" (5), and 3) "Curiosity & Trend Explanations" (5). Include search intent notes for each.',
+    dateAdded: '2026-09-17'
+  },
+  'bofu-comparison-copywriter': {
+    title: 'Bottom-of-Funnel (BOFU) Comparison Copy',
+    desc: 'High-conversion "X vs Y" comparison pages and alternative reviews that close deals',
+    icon: '⚖️',
+    category: 'seo',
+    placeholder: 'Enter your solution vs main competitor (e.g. Notion vs Obsidian for personal knowledge management)',
+    label: 'Your Product vs Competitor / Alternative',
+    promptTemplate: 'Write high-converting, objective Bottom-of-Funnel (BOFU) comparison copy for: {topic}. Include: 1) Neutral "At a Glance" Executive Summary, 2) Feature-by-Feature Comparison Matrix Breakdown, 3) "Choose [Option A] if you need..." vs "Choose [Option B] if you need...", and 4) Final Objective Buying Verdict with low-friction CTA.',
+    dateAdded: '2026-09-17'
+  },
+
+  // Category 6 (continued): Technical & Code (8 new tools)
+  'dockerfile-generator': {
+    title: 'Dockerfile Generator',
+    desc: 'Production-ready, multi-stage Dockerfiles with security hardening and caching layers',
+    icon: '🐳',
+    category: 'technical',
+    placeholder: 'Enter runtime, framework, Node/Python/Go version, build step, and port (e.g. Node.js 20, Vite React build + Express server, port 3000)',
+    label: 'Tech Stack, Framework, Version & Port',
+    promptTemplate: 'Generate an optimized, production-grade, multi-stage Dockerfile and companion .dockerignore file for: {topic}. Include security best practices (non-root user, slim base image, layer caching, NODE_ENV=production, and healthcheck directive) with line-by-line comments.',
+    dateAdded: '2026-09-17'
+  },
+  'crontab-builder-ai': {
+    title: 'Crontab Expression Explainer & Builder',
+    desc: 'Plain-English translation of cron schedules and custom recurring syntax generation',
+    icon: '⏰',
+    category: 'technical',
+    placeholder: 'Enter frequency in plain English or a cron string (e.g. Every Monday, Wednesday, and Friday at 4:30 AM or 0 22 * * 1-5)',
+    label: 'Desired Schedule or Existing Cron Expression',
+    promptTemplate: 'Explain or generate the exact Crontab syntax for: {topic}. Output: 1) The 5-field Cron Expression (Minute, Hour, Day of Month, Month, Day of Week), 2) Plain-English Schedule Breakdown, 3) Human-readable Next 5 execution times, and 4) Example terminal command line with logging redirect.',
+    dateAdded: '2026-09-17'
+  },
+  'git-commit-formatter': {
+    title: 'Git Commit Message Formatter',
+    desc: 'Conventional Commits messages (feat, fix, chore, refactor) based on diff descriptions',
+    icon: '🌿',
+    category: 'technical',
+    placeholder: 'Enter summary of changes made (e.g. Added JWT refresh token rotation, fixed token expiry bug in auth middleware, updated unit tests)',
+    label: 'Code Changes, Bug Fixed or Feature Added',
+    promptTemplate: 'Generate 3 Conventional Commits-compliant commit message options for: {topic}. Include: 1) Short 50-character Subject Line with proper type prefix (feat:, fix:, refactor:, chore:, docs:), 2) Detailed bulleted body explaining "why" not just "what", and 3) BREAKING CHANGE or closes issue footer if applicable.',
+    dateAdded: '2026-09-17'
+  },
+  'markdown-doc-formatter': {
+    title: 'Markdown Table & Doc Formatter',
+    desc: 'Clean GitHub-flavored Markdown tables, callout blocks, and documentation layouts',
+    icon: '📝',
+    category: 'technical',
+    placeholder: 'Enter raw data, list of items with properties, or unstructured notes to convert into clean Markdown',
+    label: 'Data / Outline to Format as Markdown',
+    promptTemplate: 'Format the provided data or technical notes into clean, professional GitHub-flavored Markdown for: {topic}. Include an aligned Markdown Table with bold headers, styled blockquote callouts (> [!NOTE] or > [!TIP]), code blocks with language syntax highlighting, and nested task list checklists.',
+    dateAdded: '2026-09-17'
+  },
+  'http-status-code-fixer': {
+    title: 'HTTP Status Code Explainer & Fixer',
+    desc: 'Root causes, debugging checklists, and client/server solutions for HTTP errors',
+    icon: '🚦',
+    category: 'technical',
+    placeholder: 'Enter HTTP code and situation (e.g. 403 Forbidden on S3 upload, 502 Bad Gateway behind Nginx proxy, or 429 Too Many Requests)',
+    label: 'HTTP Status Code & API / Web Context',
+    promptTemplate: 'Provide an exhaustive technical diagnosis and resolution guide for HTTP Status: {topic}. Include: 1) Official RFC Definition, 2) Top 4 Real-World Root Causes, 3) Client-Side Debugging Steps & Headers, 4) Server-Side / Proxy Fixes, and 5) Best-practice error handling code snippet.',
+    dateAdded: '2026-09-17'
+  },
+  'semantic-versioning-helper': {
+    title: 'Semantic Versioning (SemVer) Helper',
+    desc: 'Determine proper Major.Minor.Patch increments and release changelog highlights',
+    icon: '🏷️',
+    category: 'technical',
+    placeholder: 'Enter current version and what changed (e.g. Current v1.4.2, removed deprecated API parameter and added optional dark mode setting)',
+    label: 'Current Version & List of Changes',
+    promptTemplate: 'Analyze the changes for: {topic} according to SemVer 2.0.0 rules (MAJOR.MINOR.PATCH). Output: 1) Exact Recommended New Version Number, 2) Technical Justification (why Major, Minor, or Patch), 3) Migration Warning for users (if breaking), and 4) Clean Keep-a-Changelog Markdown snippet.',
+    dateAdded: '2026-09-17'
+  },
+  'env-template-builder': {
+    title: 'Environment Variable (.env) Builder',
+    desc: 'Safe, well-documented .env.example templates with validation schemas and dummy defaults',
+    icon: '🔐',
+    category: 'technical',
+    placeholder: 'Enter stack components needing secrets (e.g. PostgreSQL, Redis, Stripe, AWS S3, SendGrid, Port 3000)',
+    label: 'Services, Databases & APIs Used',
+    promptTemplate: 'Create a comprehensive, production-ready .env.example file and companion validation guide for: {topic}. Include: Clean logical grouping comments, variable names in UPPER_SNAKE_CASE with explanatory comments, safe placeholder values (NO actual secrets), and a Zod/TypeScript runtime validation schema snippet.',
+    dateAdded: '2026-09-17'
+  },
+  'jsdoc-typedoc-generator': {
+    title: 'JSDoc & TypeDoc Comment Generator',
+    desc: 'Exhaustive documentation comments with @param, @returns, @throws, and @example',
+    icon: '📚',
+    category: 'technical',
+    placeholder: 'Paste function signature or code snippet (e.g. async function fetchUserOrders(userId: string, options?: PaginationOptions): Promise<Order[]>)',
+    label: 'JavaScript / TypeScript Function or Class',
+    promptTemplate: 'Generate complete, professional JSDoc / TypeDoc comments for: {topic}. Include: 1-sentence function overview, detailed description, @param tags with types and descriptions, @returns explanation, @throws error conditions, @example code block, and @see / @deprecated tags where appropriate.',
+    dateAdded: '2026-09-17'
+  },
+
+  // Category 2 (continued): Social & Growth (8 new tools)
+  'quote-card-text-generator': {
+    title: 'Quote Card Text Generator',
+    desc: 'High-impact, shareable micro-quotes paired with design aesthetic direction',
+    icon: '💬',
+    category: 'social',
+    placeholder: 'Enter topic or theme (e.g. Overcoming imposter syndrome for junior developers, grit in entrepreneurship)',
+    label: 'Topic, Philosophy or Niche',
+    promptTemplate: 'Generate 8 punchy, highly shareable visual quote card lines on: {topic}. For each quote provide: 1) The memorable quote text (under 20 words), 2) Suggested visual typography vibe, and 3) Recommended background color palette & icon accent.',
+    dateAdded: '2026-09-17'
+  },
+  'question-of-the-day': {
+    title: 'Question of the Day Generator',
+    desc: 'Thought-provoking, low-friction community questions that trigger massive comment sections',
+    icon: '❓',
+    category: 'social',
+    placeholder: 'Enter community niche (e.g. Remote software engineers, indie game creators, fitness enthusiasts)',
+    label: 'Community Niche or Industry Topic',
+    promptTemplate: 'Generate 10 irresistible "Question of the Day" discussion starters for: {topic}. Group into: 3 "This or That / Battle" choices, 3 "Hot Takes / Unpopular Opinions", 2 "Share Your Win / Progress", and 2 "Vulnerable Advice / Lesson Learned". Provide an engaging follow-up comment for each.',
+    dateAdded: '2026-09-17'
+  },
+  'meme-caption-writer': {
+    title: 'Meme Caption & Format Writer',
+    desc: 'Relatable, culturally attuned meme captions paired with trending meme template pairings',
+    icon: '😂',
+    category: 'social',
+    placeholder: 'Enter creator/workplace struggle or funny reality (e.g. Fixing a bug at 4:59 PM on a Friday only to break production)',
+    label: 'Relatable Situation, Frustration or Niche',
+    promptTemplate: 'Generate 5 hilarious, hyper-relatable meme concepts for: {topic}. For each concept provide: 1) Best Meme Template Match, 2) Top Text / Setup, 3) Bottom Text / Punchline, and 4) Short-form social caption with emojis.',
+    dateAdded: '2026-09-17'
+  },
+  'event-webinar-promo': {
+    title: 'Event & Webinar Promo Copywriter',
+    desc: 'Multi-stage event invitations, speaker spotlight posts, and "Last Chance" reminders',
+    icon: '🎟️',
+    category: 'social',
+    placeholder: 'Enter event name, host/guest, date/time, and core promise (e.g. Live Masterclass: Scaling YouTube to $10k/mo with Jane Doe, Thursday 2 PM EST)',
+    label: 'Event Title, Speaker, Date & Key Takeaway',
+    promptTemplate: 'Write a high-converting promotional campaign package for this event/webinar: {topic}. Include: 1) Initial LinkedIn/Twitter Announcement Post with registration link, 2) Speaker Spotlight & Core Takeaways Post, 3) "24 Hours Left / Seats Filling" Urgency Post, and 4) 1-Hour Countdown Reminder blast.',
+    dateAdded: '2026-09-17'
+  },
+  'case-study-hook-generator': {
+    title: 'Case Study Hook & Teaser Generator',
+    desc: 'Metric-driven transformation hooks and teaser threads that showcase client results',
+    icon: '📊',
+    category: 'social',
+    placeholder: 'Enter client context and key metrics (e.g. B2B SaaS went from $10k to $85k MRR in 6 months using cold email outbound)',
+    label: 'Client Niche, Starting Point & Measurable Result',
+    promptTemplate: 'Generate 4 compelling case study hook variations on: {topic}: 1) The "Before vs After" Contrast Post, 2) The "Step-by-Step Breakdown" Thread Hook, 3) The Metric-Shock One-Liner, and 4) The Key Lesson Learned Carousel Cover Headline.',
+    dateAdded: '2026-09-17'
+  },
+  'social-media-challenge-creator': {
+    title: 'Social Media Challenge Creator',
+    desc: 'Viral 7-day, 14-day, or 30-day community challenge frameworks with daily prompts',
+    icon: '🏆',
+    category: 'social',
+    placeholder: 'Enter challenge concept and target duration (e.g. 7-Day Creative Writing Sprint: Write 250 words daily)',
+    label: 'Challenge Theme, Duration & Transformation',
+    promptTemplate: 'Design an addictive, community-building social media challenge for: {topic}. Provide: 1) Catchy Challenge Name & Branded Hashtag, 2) Rules & How to Participate, 3) Daily Prompt Schedule for each day with clear action tasks, and 4) Milestone celebration badge idea for finishers.',
+    dateAdded: '2026-09-17'
+  },
+  'milestone-celebration-post': {
+    title: 'Milestone & Celebration Post Writer',
+    desc: 'Humble, authentic celebration posts for subscriber goals, revenue marks, or anniversaries',
+    icon: '🎉',
+    category: 'social',
+    placeholder: 'Enter milestone reached (e.g. Just hit 100,000 YouTube subscribers after 3 years of weekly uploads)',
+    label: 'Milestone Achieved, Journey Highlights & Gratitude',
+    promptTemplate: 'Write 3 authentic milestone celebration posts for: {topic}: 1) Storytelling & Vulnerable Journey (highlighting early struggles, doubts, and breakthroughs), 2) Data & Lessons Learned (3 biggest takeaways to help the reader), and 3) Gratitude & Community Celebration (thanking audience with a giveaway or celebration AMA).',
+    dateAdded: '2026-09-17'
+  },
+  'ama-question-generator': {
+    title: 'AMA (Ask Me Anything) Question Generator',
+    desc: 'High-value starter prompts and audience icebreakers for Reddit, Instagram & Discord AMAs',
+    icon: '🎙️',
+    category: 'social',
+    placeholder: 'Enter host background and AMA theme (e.g. Former Netflix Senior Engineer answering questions about system design and career growth)',
+    label: 'Host Expertise, Background & Topic',
+    promptTemplate: 'Generate 15 engaging, insightful AMA (Ask Me Anything) starter questions for: {topic}. Group into: 1) Industry Insider & Technical Realities (5), 2) Career Struggles, Failures & Lessons (5), and 3) Fun, Unconventional & Rapid-Fire Personal Questions (5).',
+    dateAdded: '2026-09-17'
+  },
+
+  // Category 1 (continued): Video & Scripting (7 new tools)
+  'video-intro-rewriter': {
+    title: 'Video Intro & Hook Rewriter',
+    desc: 'Transform slow, rambling video openings into instant 5-second retention hooks',
+    icon: '🎣',
+    category: 'video',
+    placeholder: 'Paste your current video opening or summarize how you usually start the video (e.g. "Hey guys, welcome back to my channel, today we are going to talk about...")',
+    label: 'Current Video Intro or Rough Opening Script',
+    promptTemplate: 'Analyze and rewrite the following video opening for: {topic}. Provide 4 punchy, high-retention alternatives: 1) The Visual Cold Open with immediate payoff, 2) The High-Stakes Question, 3) The Bold Contrarian Claim, and 4) The "If-You-Want-X" Direct Benefit Hook. Cut all generic fluff.',
+    dateAdded: '2026-09-17'
+  },
+  'youtube-chapter-timestamps': {
+    title: 'YouTube Chapter Timestamps Generator',
+    desc: 'Search-optimized video chapter titles with realistic timestamps for key moments',
+    icon: '⏱️',
+    category: 'video',
+    placeholder: 'Enter total video length and outline or bullet points (e.g. 15-minute complete guide to building a mechanical keyboard)',
+    label: 'Video Topic, Duration & Section Summary',
+    promptTemplate: 'Generate search-optimized, high-CTR YouTube chapter timestamps for: {topic}. Output clean timestamps starting at 00:00 through the full duration. Write descriptive, curiosity-sparking chapter titles that incorporate SEO search terms rather than generic labels.',
+    dateAdded: '2026-09-17'
+  },
+  'video-pacing-retention-doctor': {
+    title: 'Video Pacing & Retention Script Doctor',
+    desc: 'Identify retention drop-off zones and inject pattern interrupts, visual resets, and b-roll',
+    icon: '🩺',
+    category: 'video',
+    placeholder: 'Paste script section or describe the flow where viewers might get bored (e.g. Middle 5 minutes explaining dry technical architecture)',
+    label: 'Video Draft Script or Detailed Section Outline',
+    promptTemplate: 'Diagnose and inject high-retention pacing into this video concept: {topic}. Provide: 1) 4 Specific Retention Leak Points to watch for, 2) 5 Pattern Interrupt ideas, 3) Strategic open-loop cliffhangers to insert every 2 minutes, and 4) Revised dynamic script snippet.',
+    dateAdded: '2026-09-17'
+  },
+  'b-roll-concept-planner': {
+    title: 'B-Roll Concept Planner',
+    desc: 'Categorized cutaway shot list with camera movement, lighting, and visual metaphor ideas',
+    icon: '🎥',
+    category: 'video',
+    placeholder: 'Enter video topic and visual aesthetic (e.g. Minimalist desk setup tour, cinematic mood with moody neon and warm desk lamps)',
+    label: 'Video Scene Topic & Aesthetic Style',
+    promptTemplate: 'Create a comprehensive, cinematic B-Roll shot list for: {topic}. Group into: 1) Close-Up Macro Shots, 2) Dynamic Camera Movement Shots, 3) Environmental / Establishing Shots, and 4) Abstract Visual Metaphors.',
+    dateAdded: '2026-09-17'
+  },
+  'livestream-agenda-planner': {
+    title: 'Livestream Agenda & Run-of-Show Planner',
+    desc: 'Structured broadcast rundowns with countdowns, engagement breaks, and technical buffers',
+    icon: '📡',
+    category: 'video',
+    placeholder: 'Enter livestream theme and duration (e.g. 2-Hour Live Q&A and Project Roast with audience chat)',
+    label: 'Stream Topic, Target Duration & Special Segments',
+    promptTemplate: 'Generate a minute-by-minute Livestream Run-of-Show Agenda for: {topic}. Include: 1) Pre-Stream Countdown, 2) Welcoming & Chat Shoutouts, 3) Core Content Segment blocks with interactive poll cues, 4) Mid-Stream Engagement Check-in, 5) Rapid-Fire Q&A, and 6) Outro, Raid/Reroute, and Next Stream announcement.',
+    dateAdded: '2026-09-17'
+  },
+  'sponsor-segment-transition': {
+    title: 'Sponsor Segment Transition Writer',
+    desc: 'Natural, non-cringe bridges from video content into paid brand integrations',
+    icon: '🤝',
+    category: 'video',
+    placeholder: 'Enter video subject and sponsor product (e.g. Video about digital security, sponsor is password manager 1Password)',
+    label: 'Video Topic & Sponsor Brand / Product',
+    promptTemplate: 'Write 3 seamless, entertaining, and natural sponsor integration scripts connecting: {topic}. Include: 1) The Natural Thematic Bridge, 2) The 45-second Core Ad Read with personal endorsement, and 3) The Smooth Re-entry Transition back into the video without breaking viewer retention.',
+    dateAdded: '2026-09-17'
+  },
+  'video-endscreen-annotation': {
+    title: 'Video End-Screen Annotation Copywriter',
+    desc: 'High-converting spoken sign-offs and on-screen cards that drive next-video clicks',
+    icon: '📺',
+    category: 'video',
+    placeholder: 'Enter current video topic and the exact next video you want viewers to watch (e.g. Finished video on beginner Python, next video is building 5 real Python projects)',
+    label: 'Current Video Topic & Recommended Next Video',
+    promptTemplate: 'Write 4 high-converting YouTube End-Screen outro spoken scripts and card layouts for: {topic}. Focus on maximizing session watch time by pitching the recommended next video with an urgent curiosity hook, natural subscribe button trigger, and playlist link.',
+    dateAdded: '2026-09-17'
+  },
+
+  // --- 50 NEW TOOLS (Batch 2 of 3) ---
+  'video-outro-script': {
+    "title": "Video Outro Script Generator",
+    "desc": "High-retention outro scripts with subscribe CTAs, playlist recommendations, and end-screen cues",
+    "icon": "🎬",
+    "category": "video",
+    "placeholder": "Enter video topic, next video recommendation & primary CTA (e.g. Full-stack React tutorial, recommend Next.js deep dive, CTA to star GitHub repo)",
+    "label": "Video Topic, Recommended Next Video & Primary CTA",
+    "promptTemplate": "Write 3 high-converting video outro scripts for: {topic}. Include precise spoken dialogue, end-screen visual cue timing [END-SCREEN CARD], natural subscribe hook, and an urgent reason to click the recommended next video.",
+    "dateAdded": "2026-09-18"
+  },
+  'product-demo-script': {
+    "title": "Product Demo Script Generator",
+    "desc": "Structured walkthrough scripts highlighting pain points, key features, and user benefits",
+    "icon": "📱",
+    "category": "video",
+    "placeholder": "Enter product name, target user, core problem & key features (e.g. TaskFlow AI project management for freelance designers)",
+    "label": "Product Name, Target User, Problem & Key Features",
+    "promptTemplate": "Write a compelling product demo video script for: {topic}. Structure with: 1) The 10-second relatable pain point hook, 2) The \"Aha!\" moment feature walkthrough, 3) 3 core benefit highlights with screen recording prompts, and 4) A frictionless call-to-action.",
+    "dateAdded": "2026-09-18"
+  },
+  'webinar-script-generator': {
+    "title": "Webinar Script Generator",
+    "desc": "End-to-end presentation scripts with hook, teaching segments, audience engagement, and pitch",
+    "icon": "🎙️",
+    "category": "video",
+    "placeholder": "Enter webinar topic, audience, 3 teaching pillars & offer details (e.g. Zero to 10k Newsletter Subscribers for creators, offer is cohort coaching)",
+    "label": "Webinar Topic, Audience, Core Lessons & Offer Pitch",
+    "promptTemplate": "Create an engaging webinar presentation script outline for: {topic}. Include: 1) High-energy welcome & expectation setting, 2) Story of transformation, 3) 3 actionable teaching frameworks with chat interaction prompts, 4) Natural transition into the offer, and 5) Q&A objection-handling rundown.",
+    "dateAdded": "2026-09-18"
+  },
+  'explainer-video-script': {
+    "title": "Explainer Video Script Generator",
+    "desc": "60-to-90 second animated or live-action explainer scripts with visual stage directions",
+    "icon": "💡",
+    "category": "video",
+    "placeholder": "Enter product/service, core problem, unique mechanism & visual aesthetic (e.g. EcoBox zero-waste grocery refills, 2D motion graphics)",
+    "label": "Product/Service, Problem, Mechanism & Visual Style",
+    "promptTemplate": "Write a 60-to-90 second explainer video script for: {topic}. Format with dual columns: [AUDIO / SPOKEN VOICE] and [VISUAL STAGE DIRECTIONS]. Emphasize problem, solution, unique mechanism, and final CTA.",
+    "dateAdded": "2026-09-18"
+  },
+  'video-ad-script-generator': {
+    "title": "Video Ad Script Generator",
+    "desc": "High-converting direct response video ad scripts with hook variations and problem-agitate-solve structure",
+    "icon": "📣",
+    "category": "video",
+    "placeholder": "Enter product/service, target audience, primary pain point & special offer (e.g. Ergonomic lumbar cushion for remote workers, 30% off launch)",
+    "label": "Product/Service, Target Audience, Problem & Offer",
+    "promptTemplate": "Write 3 high-converting direct response video ad scripts for: {topic}. For each ad provide: 3 hook variations (visual + verbal), Problem Agitation, Solution Introduction, Social Proof prompt, and Clear Urgency CTA.",
+    "dateAdded": "2026-09-18"
+  },
+  'course-lecture-script': {
+    "title": "Course Lecture Script Generator",
+    "desc": "Structured educational lecture scripts with learning objectives, analogies, and student exercises",
+    "icon": "🎓",
+    "category": "video",
+    "placeholder": "Enter lecture topic, module title, learning objective & target skill level (e.g. Understanding Async/Await in JavaScript, for intermediate students)",
+    "label": "Lecture Topic, Learning Objective & Skill Level",
+    "promptTemplate": "Write a structured online course lecture script for: {topic}. Include: 1) What we are building today & why it matters, 2) Core concept explanation using a vivid real-world analogy, 3) Step-by-step code/concept walkthrough, 4) Common beginner pitfalls to avoid, and 5) Student action challenge.",
+    "dateAdded": "2026-09-18"
+  },
+  'livestream-talking-points': {
+    "title": "Live Stream Talking Points Generator",
+    "desc": "Bulleted speaking notes, transition prompts, and chat-interaction cues for confident streaming",
+    "icon": "🔴",
+    "category": "video",
+    "placeholder": "Enter stream theme, key news/milestones & community discussion topics (e.g. Celebrating 50k subs, discussing channel roadmap, Q&A)",
+    "label": "Stream Topic, Main Discussion Pillars & Chat Cues",
+    "promptTemplate": "Generate a clean, bulleted Live Stream Talking Points card for: {topic}. Group by: 1) Stream Warmup & Sound Check, 2) Key Talking Point Pillars with chat conversation starters, 3) Seamless segment transitions, 4) Mid-stream poll idea, and 5) Sign-off announcements.",
+    "dateAdded": "2026-09-18"
+  },
+  'video-chapter-timestamp-generator': {
+    "title": "Video Chapter/Timestamp Generator",
+    "desc": "Precise, SEO-optimized timestamp markers and descriptive chapter titles for long-form video",
+    "icon": "⏱️",
+    "category": "video",
+    "placeholder": "Enter video transcript, outline, or milestone notes (e.g. 45-min podcast on SaaS pricing, MVP launch, churn reduction, Q&A)",
+    "label": "Video Outline, Transcript or Key Topic Timings",
+    "promptTemplate": "Create an SEO-optimized YouTube Chapter and Timestamp list based on: {topic}. Format strictly with 00:00 start, clear benefit-driven chapter titles that rank in search, and a formatted block ready to paste into YouTube descriptions.",
+    "dateAdded": "2026-09-18"
+  },
+  'hashtag-research-assistant': {
+    "title": "Hashtag Research Assistant",
+    "desc": "Categorized hashtag clusters balancing broad reach, niche community, and high-relevance tags",
+    "icon": "#️⃣",
+    "category": "social",
+    "placeholder": "Enter content topic, target platform (Instagram/TikTok/LinkedIn) & niche audience (e.g. Minimalist desk setups, Instagram Reels)",
+    "label": "Topic, Target Platform & Specific Niche",
+    "promptTemplate": "Generate 4 strategic hashtag clusters for: {topic}. Categorize into: 1) High-Volume Broad Tags (1M+ reach), 2) Mid-Volume Niche Community Tags (100k-500k), 3) Hyper-Targeted Micro Tags (<50k), and 4) Branded/Campaign Tags. Include best-practice placement advice.",
+    "dateAdded": "2026-09-18"
+  },
+  'social-content-batch-planner': {
+    "title": "Social Media Content Batch Planner",
+    "desc": "7-day to 30-day multi-format content calendars with content pillars, hooks, and format cues",
+    "icon": "📅",
+    "category": "social",
+    "placeholder": "Enter your niche, target platform, posting frequency & primary goal (e.g. B2B SaaS growth consultant on LinkedIn, 5 posts/week, inbound leads)",
+    "label": "Niche, Platform, Frequency & Growth Goal",
+    "promptTemplate": "Create a comprehensive 7-day social media content batch plan for: {topic}. For each day specify: Content Pillar (Authority, Empathy, Education, Proof, Conversion), Hook line, Recommended Format (Carousel, Text, Video), Core Takeaway, and Engagement Question.",
+    "dateAdded": "2026-09-18"
+  },
+  'engagement-bait-question': {
+    "title": "Engagement Bait Question Generator",
+    "desc": "Irresistible debate questions, hot takes, and fill-in-the-blanks to trigger massive comment activity",
+    "icon": "🎣",
+    "category": "social",
+    "placeholder": "Enter industry or topic & target audience (e.g. Remote work vs return to office, software engineers and managers)",
+    "label": "Topic / Industry & Audience Dynamic",
+    "promptTemplate": "Generate 15 irresistible comment-triggering engagement questions for: {topic}. Categorize by style: 1) The Unpopular Opinion / Hot Take, 2) The \"This or That\" Dilemma, 3) The Fill-in-the-Blank, 4) The Relatable Confession, and 5) The Career Dilemma.",
+    "dateAdded": "2026-09-18"
+  },
+  'trend-jacking-post': {
+    "title": "Trend-Jacking Post Generator",
+    "desc": "Culturally timely social media posts that cleverly connect trending news or memes to your brand",
+    "icon": "⚡",
+    "category": "social",
+    "placeholder": "Enter trending news/meme & your brand or industry niche (e.g. New viral Apple feature announcement, applied to freelance productivity)",
+    "label": "Trending Topic/Meme & Your Brand Niche",
+    "promptTemplate": "Write 4 clever, authentic trend-jacking social posts connecting: {topic}. Include options for X/Twitter, LinkedIn, and Instagram. Ensure the connection to the niche feels natural, insightful, and entertaining rather than forced.",
+    "dateAdded": "2026-09-18"
+  },
+  'follower-growth-strategy': {
+    "title": "Follower Growth Strategy Outline",
+    "desc": "Comprehensive organic growth roadmaps covering profile optimization, posting cadence, and collab tactics",
+    "icon": "📈",
+    "category": "social",
+    "placeholder": "Enter current follower count, target platform, niche & 90-day growth goal (e.g. 2,500 followers on X, AI automation niche, goal 25k)",
+    "label": "Current Status, Platform, Niche & 90-Day Goal",
+    "promptTemplate": "Develop an actionable 90-day organic follower growth blueprint for: {topic}. Structure into: 1) Profile & Bio Conversion Audit, 2) High-Leverage Content Strategy (daily cadence & formats), 3) Outbound Engagement & Networking protocol, and 4) Weekly milestone targets.",
+    "dateAdded": "2026-09-18"
+  },
+  'cross-platform-repost-adapter': {
+    "title": "Cross-Platform Repost Adapter",
+    "desc": "Repurpose a single winning post across X, LinkedIn, Instagram captions, and short video scripts",
+    "icon": "🔄",
+    "category": "social",
+    "placeholder": "Paste your original post, article excerpt, or core insight (e.g. Thread about why building in public creates loyal customers)",
+    "label": "Original Post / Core Insight to Repurpose",
+    "promptTemplate": "Adapt this piece of content into 4 platform-native variations for: {topic}. Provide: 1) Punchy X/Twitter Post or Thread Hook, 2) Polished LinkedIn Post with line breaks and professional framing, 3) Engaging Instagram Caption with carousel slide cues, and 4) 30-second Short/Reel spoken script.",
+    "dateAdded": "2026-09-18"
+  },
+  'live-qa-question-generator': {
+    "title": "Live Q&A Question Generator",
+    "desc": "Thought-provoking seed questions and audience prompts to keep live streams and webinars engaging",
+    "icon": "💬",
+    "category": "social",
+    "placeholder": "Enter event topic, speaker/guest background & audience type (e.g. Ask-Me-Anything with seed stage venture capitalist for SaaS founders)",
+    "label": "Event Topic, Speaker Background & Audience",
+    "promptTemplate": "Generate 15 engaging, insightful Q&A questions for: {topic}. Group into: 1) Warmup / Icebreaker Questions, 2) Deep-Dive Technical / Strategic Questions, 3) Contrarian / Challenge Questions, and 4) Practical \"How-To\" Questions.",
+    "dateAdded": "2026-09-18"
+  },
+  'community-challenge-idea-generator': {
+    "title": "Community Challenge Idea Generator",
+    "desc": "7-day, 14-day, or 30-day interactive challenges with daily prompts, gamification, and hashtag ideas",
+    "icon": "🏆",
+    "category": "social",
+    "placeholder": "Enter community niche, challenge duration & desired participant goal (e.g. Daily writing habit challenge for fiction writers, 14 days, Discord group)",
+    "label": "Niche, Duration & Participant Transformation",
+    "promptTemplate": "Design a viral, high-completion community challenge blueprint for: {topic}. Include: Catchy Challenge Name, Hashtag, Rules of Engagement, Daily prompt schedule with quick-win milestones, Accountability mechanics, and Celebration finale.",
+    "dateAdded": "2026-09-18"
+  },
+  'subscription-cancellation-save-offer': {
+    "title": "Subscription Cancellation Save-Offer Writer",
+    "desc": "Empathetic churn-reduction exit flows with discount pauses, feature re-education, and win-back angles",
+    "icon": "🛡️",
+    "category": "copywriting",
+    "placeholder": "Enter product name, monthly price, common churn reason & potential incentives (e.g. SaaS tool $29/mo, leaving due to cost, offer 50% off for 3 months)",
+    "label": "Product, Pricing, Churn Reason & Concessions",
+    "promptTemplate": "Write 3 empathetic, high-converting cancellation flow save screens for: {topic}. For each option provide: 1) Empathetic acknowledgement headline, 2) Alternative offer (e.g. Account pause, downgraded tier, temporary discount, or 1-on-1 concierge onboarding), and 3) Frictionless button copy.",
+    "dateAdded": "2026-09-18"
+  },
+  'free-trial-signup-copy': {
+    "title": "Free Trial Signup Copy Generator",
+    "desc": "Frictionless CTA banners, headline pairs, and risk-reversal microcopy for trial conversions",
+    "icon": "🎁",
+    "category": "copywriting",
+    "placeholder": "Enter app/service name, trial length, credit card requirement & primary value prop (e.g. AI video editor, 14-day trial, no credit card required)",
+    "label": "Product Name, Trial Terms & Main Value Prop",
+    "promptTemplate": "Write 4 high-converting Free Trial signup hero sections and CTA blocks for: {topic}. For each variation include: 1) High-impact value headline, 2) Supporting benefit subheadline, 3) Primary CTA button copy, and 4) Friction-removing reassurance microcopy (e.g. no credit card, cancel anytime).",
+    "dateAdded": "2026-09-18"
+  },
+  'webinar-registration-copy': {
+    "title": "Webinar Registration Copy Generator",
+    "desc": "High-converting landing page headlines, bulleted takeaways, speaker bios, and countdown urgency",
+    "icon": "🎟️",
+    "category": "copywriting",
+    "placeholder": "Enter webinar title, speaker credentials, 3 main takeaways & target attendee (e.g. Scale SEO to 100k visits with Sarah Lin for founders)",
+    "label": "Webinar Topic, Host Credentials & Key Takeaways",
+    "promptTemplate": "Write complete, high-converting landing page copy for a webinar on: {topic}. Include: 1) Curiosity-driven headline and subheadline, 2) \"What you will discover in 45 minutes\" bullet points, 3) Speaker authority bio snippet, 4) Scarcity/urgency seat limit callout, and 5) One-click registration CTA.",
+    "dateAdded": "2026-09-18"
+  },
+  'case-study-writer': {
+    "title": "Case Study Writer",
+    "desc": "Comprehensive customer success stories formatted into Challenge, Solution, and Measurable Results",
+    "icon": "📑",
+    "category": "copywriting",
+    "placeholder": "Enter client name/industry, original problem, implemented solution & metrics (e.g. Acme Logistics, manual dispatching errors, automated routing, saved 12 hrs/week)",
+    "label": "Client, Problem Faced, Solution & Concrete Metrics",
+    "promptTemplate": "Write a persuasive B2B Customer Case Study for: {topic}. Structure using the gold-standard framework: 1) Executive Summary & Key Metric Callout Box, 2) The Client & Initial Challenge, 3) Why Alternative Solutions Failed, 4) The Implementation, 5) Concrete Measurable Results, and 6) Pull-quote testimonial.",
+    "dateAdded": "2026-09-18"
+  },
+  'b2b-cold-outreach-message': {
+    "title": "B2B Cold Outreach Message Generator",
+    "desc": "Personalized, non-spammy LinkedIn and email outreach with sharp observation hooks and low-friction asks",
+    "icon": "💼",
+    "category": "copywriting",
+    "placeholder": "Enter prospect title/company, trigger event, value proposition & low-friction ask (e.g. VP of Sales at Series B SaaS, hiring 10 SDRs, AI objection training)",
+    "label": "Target Role, Company Trigger, Value & Soft Ask",
+    "promptTemplate": "Write 3 personalized, non-salesy B2B cold outreach messages for: {topic}. Include: 1) LinkedIn InMail format (<100 words), 2) Short 3-sentence Cold Email, and 3) Value-first Follow-Up. Ensure each opens with a specific observation and closes with a low-friction interest ask.",
+    "dateAdded": "2026-09-18"
+  },
+  'product-comparison-copy-gen': {
+    "title": "Product Comparison Copy Generator",
+    "desc": "Fair, persuasive \"Us vs Them\" feature comparison tables, verdict summaries, and switcher testimonials",
+    "icon": "⚖️",
+    "category": "copywriting",
+    "placeholder": "Enter your product, top competitor, key advantages & pricing edge (e.g. Our modern CRM vs Salesforce, 10x faster setup, transparent pricing)",
+    "label": "Your Product, Competitor Name & Key Differentiators",
+    "promptTemplate": "Write a balanced, persuasive \"Us vs Competitor\" comparison landing page section for: {topic}. Include: 1) Objective positioning headline, 2) Side-by-side feature & philosophy comparison matrix, 3) 3 reasons customers switch, and 4) Final verdict summary with risk-free CTA.",
+    "dateAdded": "2026-09-18"
+  },
+  'limited-time-offer-copy': {
+    "title": "Limited-Time Offer Copy Generator",
+    "desc": "Urgent flash-sale promotional copy with authentic scarcity, value stacking, and countdown prompts",
+    "icon": "⏳",
+    "category": "copywriting",
+    "placeholder": "Enter offer details, discount, deadline & bonuses (e.g. 40% off annual plan + free design template bundle, expires Friday midnight)",
+    "label": "Special Offer, Discount %, Deadline & Bonuses",
+    "promptTemplate": "Write urgent, high-converting limited-time promotional copy for: {topic}. Provide: 1) High-urgency announcement banner, 2) Email blast copy with countdown reminder, 3) Value-stack breakdown demonstrating price anchoring, and 4) Final-hours last chance reminder.",
+    "dateAdded": "2026-09-18"
+  },
+  'customer-win-back-email': {
+    "title": "Customer Win-Back Email Generator",
+    "desc": "Re-engagement email sequences for dormant users featuring \"We miss you\" hooks and fresh updates",
+    "icon": "💌",
+    "category": "copywriting",
+    "placeholder": "Enter product name, inactive duration, recent improvements & re-activation incentive (e.g. Project tracker, dormant 6 months, 5 new speed updates, 1 mo free)",
+    "label": "Product, Inactive Time, New Features & Win-Back Gift",
+    "promptTemplate": "Write a 3-part customer win-back email sequence for dormant users of: {topic}. Include: Email 1: \"We noticed you have been away\" (Curiosity + what has improved), Email 2: Exclusive incentive / free credit, and Email 3: Polite sunset notice asking if we should close their account.",
+    "dateAdded": "2026-09-18"
+  },
+  'short-film-concept-generator': {
+    "title": "Short Film Concept Generator",
+    "desc": "Festival-worthy short film premises complete with logline, protagonist flaw, inciting incident, and twist",
+    "icon": "🎥",
+    "category": "creative",
+    "placeholder": "Enter genre, budget/location scope & core thematic question (e.g. Sci-fi psychological thriller, single apartment, theme of artificial memories)",
+    "label": "Genre, Location Scope & Core Theme",
+    "promptTemplate": "Develop 3 festival-worthy short film concepts based on: {topic}. For each concept include: 1) One-sentence Logline, 2) Protagonist & Core Flaw, 3) The Inciting Incident, 4) Escalating Midpoint Obstacle, and 5) The Climactic Twist Ending.",
+    "dateAdded": "2026-09-18"
+  },
+  'song-chorus-idea-generator': {
+    "title": "Song Chorus Idea Generator",
+    "desc": "Catchy vocal hooks, rhythmically matched lyrics, and emotional payoff lines for any music genre",
+    "icon": "🎵",
+    "category": "creative",
+    "placeholder": "Enter music genre, emotional mood & lyrical story (e.g. Indie synth-pop, bittersweet nostalgia, driving through city streets after a breakup)",
+    "label": "Music Genre, Mood & Song Story",
+    "promptTemplate": "Write 4 catchy, emotionally resonant song chorus options for: {topic}. Include: Rhyme scheme notes, vocal cadence/rhythm suggestions, and chord progression ideas to complement the melody.",
+    "dateAdded": "2026-09-18"
+  },
+  'poem-title-generator': {
+    "title": "Poem Title Generator",
+    "desc": "Evocative, lyrical, and metaphoric titles categorized by emotional resonance and poetic style",
+    "icon": "📜",
+    "category": "creative",
+    "placeholder": "Enter poem imagery, themes & emotional arc (e.g. Autumn rain on abandoned piers, free-verse melancholy, unspoken goodbyes)",
+    "label": "Poem Themes, Imagery & Emotional Tone",
+    "promptTemplate": "Generate 20 evocative, literary poem titles for: {topic}. Categorize by poetic aesthetic: 1) Nature & Metaphoric, 2) Modernist & Minimalist, 3) Melancholy & Elegiac, and 4) Abstract & Surreal.",
+    "dateAdded": "2026-09-18"
+  },
+  'villain-backstory-generator': {
+    "title": "Villain Backstory Generator",
+    "desc": "Complex, sympathetic antagonist origin stories highlighting core trauma, moral philosophy, and breaking point",
+    "icon": "🦹",
+    "category": "creative",
+    "placeholder": "Enter villain archetype, story setting & hero they oppose (e.g. Former royal physician turned plague cult leader in steampunk empire)",
+    "label": "Villain Archetype, Setting & The Hero",
+    "promptTemplate": "Write a deep, psychologically rich villain backstory for: {topic}. Detail: 1) The Early Idealism, 2) The Formative Betrayal / Trauma, 3) The Distorted Moral Philosophy (why they believe they are the hero), 4) The Point of No Return, and 5) Their fatal flaw.",
+    "dateAdded": "2026-09-18"
+  },
+  'fantasy-world-map-describer': {
+    "title": "Fantasy World Map Description Generator",
+    "desc": "Rich geographical lore, trade routes, treacherous borders, and environmental anomalies for fantasy realms",
+    "icon": "🗺️",
+    "category": "creative",
+    "placeholder": "Enter realm name, major biomes, magic system influence & key factions (e.g. The Sunken Caldera of Vael, floating volcanic archipelagos)",
+    "label": "Realm Name, Biomes, Magic & Factions",
+    "promptTemplate": "Generate a rich, immersive geographical world map description for: {topic}. Include: 1) Overview of Major Landmasses & Natural Borders, 2) 3 Distinct Regions with climate and wildlife, 3) Key Settlements & Trade Corridors, and 4) Mythical Anomalies or Forbidden Zones.",
+    "dateAdded": "2026-09-18"
+  },
+  'comic-strip-dialogue-generator': {
+    "title": "Comic Strip Dialogue Generator",
+    "desc": "Snappy 3-to-4 panel dialogue scripts with visual panel descriptions, character expressions, and punchlines",
+    "icon": "💭",
+    "category": "creative",
+    "placeholder": "Enter characters, setting & comedic premise (e.g. Cynical cat and optimistic robot dog debating human habits over spilled coffee)",
+    "label": "Characters, Premise & Humor Style",
+    "promptTemplate": "Write a complete 4-panel comic strip script based on: {topic}. For Panels 1 through 4 specify: [PANEL VISUAL / ACTION / EXPRESSION] and [CHARACTER DIALOGUE / SOUND EFFECTS]. Deliver a sharp, punchy visual or verbal comedic payoff in panel 4.",
+    "dateAdded": "2026-09-18"
+  },
+  'bedtime-story-generator': {
+    "title": "Bedtime Story Generator",
+    "desc": "Gentle, soothing bedtime tales with lovable characters, whimsical adventures, and calming sleep conclusions",
+    "icon": "🌙",
+    "category": "creative",
+    "placeholder": "Enter character name, animal/setting & calming moral (e.g. Barnaby the little bear who was nervous about the dark forest, meets a glowing moth)",
+    "label": "Main Character, Setting & Soothing Theme",
+    "promptTemplate": "Write a gentle, comforting bedtime story for children about: {topic}. Keep the tone warm, rhythmic, and reassuring. Build a whimsical adventure that slows down in pacing toward the end, culminating in cozy sleep and sweet dreams.",
+    "dateAdded": "2026-09-18"
+  },
+  'alternate-ending-generator': {
+    "title": "Alternate Ending Generator",
+    "desc": "Dramatic \"What If\" alternate conclusions, plot diverges, and shocking third-act resolutions for any story",
+    "icon": "🔀",
+    "category": "creative",
+    "placeholder": "Enter story premise, original ending & key turning point to diverge (e.g. Classic tragedy, but the warning letter arrives 1 hour early)",
+    "label": "Story Premise, Original Ending & The Divergence Point",
+    "promptTemplate": "Create 3 captivating alternate endings for: {topic}. For each provide: 1) The Divergence Point (the single change), 2) Ripple effects on character arcs, 3) Climactic showdown or resolution, and 4) Final thematic lingering question.",
+    "dateAdded": "2026-09-18"
+  },
+  'image-alt-text-generator': {
+    "title": "Image Alt Text Generator",
+    "desc": "Accessibility-compliant, keyword-conscious alt text descriptions for web images and illustrations",
+    "icon": "🖼️",
+    "category": "seo",
+    "placeholder": "Describe image visuals, article context & target SEO keyword (e.g. Barista pouring latte art in sunlit cafe, article on specialty coffee beans)",
+    "label": "Image Visuals, Article Context & Target Keyword",
+    "promptTemplate": "Generate 4 optimized Image Alt Text options for: {topic}. Provide: 1) Strict Accessibility Focus (screen-reader friendly, objective), 2) SEO-Enhanced Alt Text (natural keyword inclusion), 3) Detailed E-commerce Product Alt Text, and 4) Social / Pinterest descriptive text.",
+    "dateAdded": "2026-09-18"
+  },
+  'url-slug-seo-optimizer': {
+    "title": "URL Slug SEO Optimizer",
+    "desc": "Clean, keyword-rich, hyphenated permalinks stripped of stop words and optimized for crawlability",
+    "icon": "🔗",
+    "category": "seo",
+    "placeholder": "Enter article title or target keyword topic (e.g. The 15 Best Noise-Cancelling Headphones You Can Buy for Under $100 in 2026)",
+    "label": "Article Title or Target Keyword Phrase",
+    "promptTemplate": "Generate 6 clean, high-ranking SEO URL slug options for: {topic}. Categorize by: 1) Ultra-Short & Concise, 2) Exact-Match Keyword, 3) High-CTR Descriptive, and 4) Category Sub-Folder Structure (e.g. /category/slug).",
+    "dateAdded": "2026-09-18"
+  },
+  'meta-keywords-suggestion': {
+    "title": "Meta Keywords Suggestion Tool",
+    "desc": "Semantic keyword tags, secondary intent phrases, and LSI terms to enrich metadata and on-page topical depth",
+    "icon": "🏷️",
+    "category": "seo",
+    "placeholder": "Enter primary keyword & page content summary (e.g. Beginner Guide to Solar Panel Installation, costs and roof requirements)",
+    "label": "Primary Keyword & Page Topic Summary",
+    "promptTemplate": "Generate a rich semantic keyword profile for: {topic}. Group into: 1) Primary Head Terms, 2) Long-Tail Intent Phrases, 3) LSI (Latent Semantic Indexing) Synonyms, and 4) User Problem Questions to answer in the text.",
+    "dateAdded": "2026-09-18"
+  },
+  'content-freshness-checklist': {
+    "title": "Content Freshness Checklist Generator",
+    "desc": "Actionable audit checklists to update outdated blog posts, refresh stats, fix dead intent, and reclaim rankings",
+    "icon": "🔄",
+    "category": "seo",
+    "placeholder": "Enter article topic, original publish year & current search ranking drop (e.g. Best Graphic Design Tools, published 2022, lost top 3 spot)",
+    "label": "Article Topic, Original Date & Ranking Drop",
+    "promptTemplate": "Generate a comprehensive Content Freshness & Decay Audit Checklist for: {topic}. Include steps for: 1) Outdated Data & Broken Links Audit, 2) Modern Search Intent Gap Analysis, 3) New Competitor Angle Insertion, 4) On-page UX & Media Upgrades, and 5) Re-indexing & Promotion plan.",
+    "dateAdded": "2026-09-18"
+  },
+  'question-based-keyword-finder': {
+    "title": "Question-Based Keyword Finder",
+    "desc": "Who, What, Where, When, Why, and How query variations mapped directly to user search intent",
+    "icon": "❓",
+    "category": "seo",
+    "placeholder": "Enter core seed topic or product (e.g. Cold plunge therapy, ice baths, mental clarity and recovery)",
+    "label": "Core Seed Keyword or Niche Topic",
+    "promptTemplate": "Generate 24 high-intent question-based search queries for: {topic}. Organize under the 6 interrogative pillars: Who, What, When, Where, Why, and How. Add practical search intent notes (informational, transactional, or troubleshooting).",
+    "dateAdded": "2026-09-18"
+  },
+  'eeat-content-checklist': {
+    "title": "E-E-A-T Content Checklist Generator",
+    "desc": "Experience, Expertise, Authoritativeness, and Trustworthiness guidelines tailored to your niche",
+    "icon": "🏅",
+    "category": "seo",
+    "placeholder": "Enter niche (e.g. YMYL, Personal Finance, Healthcare, Tech) & content piece topic (e.g. Cryptocurrency Tax Obligations Guide)",
+    "label": "Niche, Content Topic & Target Audience",
+    "promptTemplate": "Create an actionable Google E-E-A-T Quality Checklist for: {topic}. Detail specific requirements across: 1) First-Hand Experience signals, 2) Technical Expertise proof, 3) Site & Author Authoritativeness markers, and 4) Core Trustworthiness & Transparency audits.",
+    "dateAdded": "2026-09-18"
+  },
+  'google-business-profile-writer': {
+    "title": "Google Business Profile Description Writer",
+    "desc": "Localized 750-character business descriptions packed with neighborhood keywords, service offerings, and trust signals",
+    "icon": "🏬",
+    "category": "seo",
+    "placeholder": "Enter business name, industry, neighborhood/city & top specialties (e.g. Artisan Sourdough Bakery, Austin TX, organic flours, vegan pastries)",
+    "label": "Business Name, Industry, City & Key Specialties",
+    "promptTemplate": "Write 3 optimized 750-character Google Business Profile descriptions for: {topic}. Balance local geographic neighborhood keywords, unique service offerings, credentials/awards, and a friendly community call-to-action.",
+    "dateAdded": "2026-09-18"
+  },
+  'site-search-query-suggester': {
+    "title": "Site Search Query Suggestion Generator",
+    "desc": "Predictive search terms, zero-result fallbacks, and typo-tolerant query expansions for internal site search",
+    "icon": "🔍",
+    "category": "seo",
+    "placeholder": "Enter website type, content catalog & common user objectives (e.g. Streaming media portal with video creator tools and audio converters)",
+    "label": "Website Type, Catalog Scope & User Intent",
+    "promptTemplate": "Generate an internal site search taxonomy and query expansion list for: {topic}. Provide: 1) 15 Top High-Frequency Search Queries, 2) Common Typo & Synonym Mappings, 3) Related Search Suggestions, and 4) Zero-Results Fallback Recommendations.",
+    "dateAdded": "2026-09-18"
+  },
+  'yaml-config-generator': {
+    "title": "YAML Config Generator",
+    "desc": "Valid, syntactically clean YAML configurations for Docker, Kubernetes, GitHub Actions, or OpenAPI specs",
+    "icon": "📄",
+    "category": "technical",
+    "placeholder": "Enter configuration type & requirements (e.g. GitHub Action workflow to build Node 22 app, run linter, and deploy to Cloud Run on main push)",
+    "label": "Configuration Type & Infrastructure Requirements",
+    "promptTemplate": "Generate a production-ready, fully commented YAML configuration file for: {topic}. Ensure valid indentation, security best practices, environment variable handling, and detailed inline explanation of all config keys.",
+    "dateAdded": "2026-09-18"
+  },
+  'api-endpoint-doc-writer': {
+    "title": "API Endpoint Documentation Writer",
+    "desc": "Clear, developer-friendly REST/GraphQL endpoint docs with parameters, headers, request bodies, and responses",
+    "icon": "📖",
+    "category": "technical",
+    "placeholder": "Enter endpoint URL, HTTP method, parameters & payload (e.g. POST /api/v1/subscriptions/checkout, accepts customerId and planTier)",
+    "label": "Endpoint Path, HTTP Method & Request/Response Schema",
+    "promptTemplate": "Write complete, developer-friendly API endpoint documentation for: {topic}. Include: 1) Summary & Use Case, 2) Authentication & Headers, 3) Path & Query Parameters, 4) JSON Request Body Schema with types, 5) Success Response (200/201) sample, and 6) Common Error Responses (400, 401, 429).",
+    "dateAdded": "2026-09-18"
+  },
+  'terraform-snippet-generator': {
+    "title": "Terraform Snippet Generator",
+    "desc": "Production-grade HCL Terraform resource blocks with variables, outputs, tags, and best-practice security defaults",
+    "icon": "🏗️",
+    "category": "technical",
+    "placeholder": "Enter cloud provider (AWS/GCP/Azure), resource & specs (e.g. GCP Cloud Run service running container on port 3000 with custom domain)",
+    "label": "Cloud Provider, Resource Type & Architecture",
+    "promptTemplate": "Write clean, modular Terraform (HCL) configuration code for: {topic}. Include: 1) Resource definition with production security defaults, 2) Required input variables with descriptions, 3) Helpful outputs, and 4) State management comments.",
+    "dateAdded": "2026-09-18"
+  },
+  'package-json-desc-generator': {
+    "title": "package.json Description Generator",
+    "desc": "Concise, npm-search-optimized project descriptions, keywords, and repository metadata for open source packages",
+    "icon": "📦",
+    "category": "technical",
+    "placeholder": "Enter package name, core utility & target developers (e.g. fast-fuzzy-matcher: lightweight client-side fuzzy search for Vite and React)",
+    "label": "Package Name, Core Utility & Key Benefits",
+    "promptTemplate": "Write optimized npm package metadata for: {topic}. Provide: 1) 3 Concise package.json \"description\" options (<120 characters), 2) 15 high-ranking npm \"keywords\" array, 3) Clean GitHub README one-liner, and 4) Recommended badge list.",
+    "dateAdded": "2026-09-18"
+  },
+  'changelog-generator': {
+    "title": "Changelog Generator",
+    "desc": "Keep-a-Changelog compliant release notes categorized into Added, Changed, Deprecated, Removed, Fixed, and Security",
+    "icon": "📋",
+    "category": "technical",
+    "placeholder": "Enter version number, release date & raw commit notes or feature list (e.g. v2.4.0: Dark mode, fixed audio converter bug, upgraded express to 5.0)",
+    "label": "Version Number, Date & Feature Updates",
+    "promptTemplate": "Generate a professional, markdown-formatted release changelog based on: {topic}. Format strictly according to \"Keep a Changelog\" standards with sections: Added, Changed, Fixed, and Security where relevant.",
+    "dateAdded": "2026-09-18"
+  },
+  'code-refactor-suggestion': {
+    "title": "Code Refactor Suggestion Tool",
+    "desc": "Actionable architectural refactoring advice for code cleanliness, type safety, performance, and DRY principles",
+    "icon": "🧹",
+    "category": "technical",
+    "placeholder": "Enter programming language, code snippet & pain point (e.g. TypeScript: 120-line switch statement handling 15 event types, hard to maintain)",
+    "label": "Language, Code Snippet & Refactoring Goal",
+    "promptTemplate": "Analyze and provide a complete refactoring solution for: {topic}. Deliver: 1) Diagnosis of Code Smells & Bottlenecks, 2) Step-by-Step Refactoring Strategy (e.g. Strategy pattern, Map lookup, immutability), 3) Clean Refactored Code with types, and 4) Trade-off analysis.",
+    "dateAdded": "2026-09-18"
+  },
+  'pseudocode-generator': {
+    "title": "Pseudocode Generator",
+    "desc": "Language-agnostic, structured pseudocode breaking complex algorithms into clear logical steps",
+    "icon": "📝",
+    "category": "technical",
+    "placeholder": "Enter algorithm goal, expected inputs & outputs (e.g. Breadth-First Search on a directed graph to find shortest path with cycle detection)",
+    "label": "Algorithm Objective, Inputs & Expected Outputs",
+    "promptTemplate": "Write clear, standardized pseudocode for: {topic}. Format with clean indentation, defined variable initialization, explicit conditional/loop boundaries (IF/ELSE, WHILE, FOR EACH), and Time/Space Complexity analysis.",
+    "dateAdded": "2026-09-18"
+  },
+  'algorithm-explainer': {
+    "title": "Algorithm Explainer",
+    "desc": "Intuitive, plain-English conceptual breakdowns of complex computer science algorithms with visual mental models",
+    "icon": "🧠",
+    "category": "technical",
+    "placeholder": "Enter algorithm or concept (e.g. Raft Consensus protocol, Dijkstra Shortest Path, LRU Cache eviction)",
+    "label": "Algorithm Name or Computer Science Concept",
+    "promptTemplate": "Explain this computer science algorithm in a crystal-clear, intuitive way: {topic}. Structure with: 1) The Real-World Mental Model Analogy, 2) Step-by-Step Execution Walkthrough, 3) Key Trade-offs (Time vs Space), and 4) When to use vs when to avoid in production.",
+    "dateAdded": "2026-09-18"
+  },
+  'job-interview-answer-generator': {
+    "title": "Job Interview Answer Generator",
+    "desc": "High-impact interview responses structured with the STAR framework (Situation, Task, Action, Result)",
+    "icon": "🎯",
+    "category": "copywriting",
+    "placeholder": "Enter interview question, your role & project background (e.g. \"Tell me about a time you handled a tight deadline with shifting specs\" as Lead Dev)",
+    "label": "Interview Question, Your Role & Project Context",
+    "promptTemplate": "Generate a compelling, executive-level job interview response for: {topic}. Structure using the STAR method: 1) Situation (the context), 2) Task (your specific challenge), 3) Action (proactive leadership steps you took), and 4) Result (quantified business impact and key learning).",
+    "dateAdded": "2026-09-18"
+  },
+  'performance-review-comment-generator': {
+    "title": "Performance Review Comment Generator",
+    "desc": "Constructive, balanced, professional performance feedback for self-evaluations, peer reviews, and manager appraisals",
+    "icon": "⭐",
+    "category": "technical",
+    "placeholder": "Enter review type (Self, Peer, Manager), key accomplishments & growth areas (e.g. Senior dev peer review, great mentorship, encourage speaking up in arch reviews)",
+    "label": "Review Type, Key Achievements & Areas for Growth",
+    "promptTemplate": "Write balanced, professional, constructive performance appraisal comments for: {topic}. Provide: 1) Key Strengths & Concrete Contributions, 2) Growth & Development Opportunities with actionable coaching advice, and 3) Overall Impact Summary.",
+    "dateAdded": "2026-09-18"
   }
 };

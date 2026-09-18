@@ -55,7 +55,7 @@
       });
     }
 
-    // 2. AI Tools (60 tools)
+    // 2. AI Tools (160 tools)
     if (AI_TOOLS_DATA && typeof AI_TOOLS_DATA === 'object') {
       Object.entries(AI_TOOLS_DATA).forEach(([id, tool]) => {
         const catKey = tool.category || 'video';
@@ -72,7 +72,7 @@
           categoryLabel: 'AI Tool',
           badgeClass: 'badge-ai',
           url: `ai-tools.html?tool=${encodeURIComponent(id)}`,
-          keywords: `${tool.title || ''} ${tool.desc || ''} ${id} ${catKey} ai generator gemini gpt prompt`.toLowerCase()
+          keywords: `${tool.title || ''} ${tool.desc || ''} ${id} ${catKey} ai generator mtv writing creator prompt`.toLowerCase()
         });
       });
     }
