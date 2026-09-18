@@ -41,7 +41,7 @@ export function getWebsiteToolMetrics() {
   // 4. Creator Tools Count
   const creatorToolsCount = (typeof CREATOR_TOOLS_DATA === 'object' && CREATOR_TOOLS_DATA !== null)
     ? Object.keys(CREATOR_TOOLS_DATA).length
-    : (typeof window !== 'undefined' && window.MTV_CREATOR_TOOLS ? Object.keys(window.MTV_CREATOR_TOOLS).length : 20);
+    : (typeof window !== 'undefined' && window.MTV_CREATOR_TOOLS ? Object.keys(window.MTV_CREATOR_TOOLS).length : 70);
 
   const total = aiToolsCount + mediaToolsCount + browserUtilitiesCount + creatorToolsCount;
 
