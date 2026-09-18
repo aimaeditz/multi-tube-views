@@ -2,6 +2,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        var eff = 'light';
+        if (t === 'dark') {
+          eff = 'dark';
+        } else if (t === 'light') {
+          eff = 'light';
+        } else if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        var doc = document.documentElement;
+        doc.setAttribute('data-theme', eff);
+        doc.style.colorScheme = eff;
+        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+      } catch(e){}
+    })();
+  </script>
+
   <!-- Resource Hints & Preconnects for Performance Optimization -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
@@ -13,6 +37,10 @@
   <link rel="preload" href="../assets/css/components.css" as="style">
   <link rel="preload" href="../assets/css/responsive.css" as="style">
 
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
   <script>
@@ -22,10 +50,9 @@
     gtag('config', 'G-RFC10HKCM1');
   </script>
 
-  <meta charset="UTF-8">
   <meta name="google-adsense-account" content="ca-pub-5279550123869703">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279550123869703" crossorigin="anonymous"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16.png">
@@ -36,8 +63,8 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="../manifest.json">
   <title>Unit & Format Converters — Free In-Browser Tools | MTV</title>
-  <meta name="description" content="Explore 6 free client-side web tools in Unit &amp; Format Converters. Convert measurement units, format multi-country currencies, compare global time zones, convert Markdown to HTML, transform date formats, and calculate exact age. 100% private in-browser utilities by Multi Tube Views.">
-  <meta name="keywords" content="unit & format converters, client side tools, online unit & format converters, length, weight & temp converter, currency format formatter, time zone converter, markdown to html converter, date format converter, age calculator">
+  <meta name="description" content="Explore 16 free client-side web tools in Unit &amp; Format Converters. Convert measurement units across length, weight, area, volume, speed, pressure, energy, power, angle, fuel economy, digital storage, data transfer rate, currencies, time zones, Markdown, and dates. 100% private in-browser utilities by Multi Tube Views.">
+  <meta name="keywords" content="unit & format converters, client side tools, online unit & format converters, length, weight & temp converter, currency format formatter, time zone converter, markdown to html converter, date format converter, age calculator, area unit converter, volume unit converter, speed unit converter, pressure unit converter, energy unit converter, power unit converter, angle unit converter, fuel economy converter, digital storage converter, data transfer rate converter">
   <meta name="author" content="AiMAEditz">
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities/unit-format-converters.html">
@@ -46,7 +73,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/unit-format-converters.html">
   <meta property="og:title" content="Unit & Format Converters — Free In-Browser Tools | MTV">
-  <meta property="og:description" content="Explore 6 free client-side web tools in Unit &amp; Format Converters. Convert measurement units, format multi-country currencies, compare global time zones, convert Markdown to HTML, transform date formats, and calculate exact age. 100% private in-browser utilities by Multi Tube Views.">
+  <meta property="og:description" content="Explore 16 free client-side web tools in Unit &amp; Format Converters. Convert measurement units across length, weight, area, volume, speed, pressure, energy, power, angle, fuel economy, digital storage, data transfer rate, currencies, time zones, Markdown, and dates. 100% private in-browser utilities by Multi Tube Views.">
   <meta property="og:site_name" content="Multi Tube Views">
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
@@ -54,7 +81,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Unit & Format Converters — Free In-Browser Tools | MTV">
-  <meta name="twitter:description" content="Explore 6 free client-side web tools in Unit &amp; Format Converters. Convert measurement units, format multi-country currencies, compare global time zones, convert Markdown to HTML, transform date formats, and calculate exact age. 100% private in-browser utilities by Multi Tube Views.">
+  <meta name="twitter:description" content="Explore 16 free client-side web tools in Unit &amp; Format Converters. Convert measurement units across length, weight, area, volume, speed, pressure, energy, power, angle, fuel economy, digital storage, data transfer rate, currencies, time zones, Markdown, and dates. 100% private in-browser utilities by Multi Tube Views.">
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   <script type="application/ld+json">
@@ -66,7 +93,7 @@
       "@id": "https://multitubeviews.com/browser-utilities/unit-format-converters.html#collection",
       "name": "Unit & Format Converters — MTV Browser Utilities",
       "url": "https://multitubeviews.com/browser-utilities/unit-format-converters.html",
-      "description": "Explore 6 free client-side web tools in Unit & Format Converters. Convert measurement units, format multi-country currencies, compare global time zones, convert Markdown to HTML, transform date formats, and calculate exact age. 100% private in-browser utilities by Multi Tube Views.",
+      "description": "Explore 16 free client-side web tools in Unit & Format Converters. Convert measurement units across length, weight, area, volume, speed, pressure, energy, power, angle, fuel economy, digital storage, data transfer rate, currencies, time zones, Markdown, and dates. 100% private in-browser utilities by Multi Tube Views.",
       "hasPart": [
         {
           "@type": "WebApplication",
@@ -97,6 +124,56 @@
           "@type": "WebApplication",
           "name": "Age Calculator",
           "url": "https://multitubeviews.com/browser-utilities/age-calculator.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Area Unit Converter",
+          "url": "https://multitubeviews.com/browser-utilities/area-unit-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Volume Unit Converter",
+          "url": "https://multitubeviews.com/browser-utilities/volume-unit-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Speed Unit Converter",
+          "url": "https://multitubeviews.com/browser-utilities/speed-unit-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Pressure Unit Converter",
+          "url": "https://multitubeviews.com/browser-utilities/pressure-unit-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Energy Unit Converter",
+          "url": "https://multitubeviews.com/browser-utilities/energy-unit-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Power Unit Converter",
+          "url": "https://multitubeviews.com/browser-utilities/power-unit-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Angle Unit Converter",
+          "url": "https://multitubeviews.com/browser-utilities/angle-unit-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Fuel Economy Converter",
+          "url": "https://multitubeviews.com/browser-utilities/fuel-economy-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Digital Storage Converter",
+          "url": "https://multitubeviews.com/browser-utilities/digital-storage-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Data Transfer Rate Converter",
+          "url": "https://multitubeviews.com/browser-utilities/data-transfer-rate-converter.html"
         }
       ]
     },
@@ -126,26 +203,6 @@
     }
   ]
 }
-  </script>
-
-  <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/components.css">
-  <link rel="stylesheet" href="../assets/css/responsive.css">
-
-  <!-- Instant Theme Boot Script to prevent flash or lag -->
-  <script>
-    (function(){
-      try {
-        var t = localStorage.getItem('mtv_theme');
-        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          t = 'dark';
-        }
-        if (t === 'dark' || t === 'light') {
-          document.documentElement.setAttribute('data-theme', t);
-          document.documentElement.style.colorScheme = t;
-        }
-      } catch(e){}
-    })();
   </script>
 
   <script type="module" src="../assets/js/storage.js"></script>
@@ -230,10 +287,10 @@
         <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 0.5rem;">
           <span style="font-size: 2.2rem;">🔄</span>
           <h1 class="bu-title" style="font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; margin: 0;">Unit & Format Converters</h1>
-          <span class="bu-badge">6 Utilities</span>
+          <span class="bu-badge">16 Utilities</span>
         </div>
         <p class="bu-subtitle" style="font-size: 1.05rem; color: var(--text-muted); max-width: 750px; line-height: 1.6; margin: 0.5rem 0 1.5rem 0;">
-          Convert measurement units, format multi-country currencies, compare global time zones, convert Markdown to HTML, transform date formats, and calculate exact age. All tools run 100% client-side with zero data transmitted to any external server.
+          Convert measurement units across length, weight, area, volume, speed, pressure, energy, power, angle, fuel economy, digital storage, data transfer rate, currencies, time zones, Markdown, and dates. All tools run 100% client-side with zero data transmitted to any external server.
         </p>
       </div>
 
@@ -336,6 +393,166 @@
             </div>
           </a>
         
+          <a href="area-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">📐</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Area Unit Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert surface area and land measurements instantly across Square Meters (m²), Square Kilometers (km²), Square Feet (ft²), Square Inches (in²), Square Yards (yd²), Acres, Hectares (ha), and Square Miles (mi²).</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="volume-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">🧪</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Volume Unit Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert liquid and dry volume measurements across Liters (L), Milliliters (mL), Cubic Meters (m³), US Gallons (gal), US Quarts (qt), US Pints (pt), US Cups, US Fluid Ounces (fl oz), Tablespoons, Teaspoons, Cubic Feet (ft³), and Imperial Gallons.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="speed-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">⚡</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Speed Unit Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert velocity and speed measurements across Kilometers per Hour (km/h), Miles per Hour (mph), Meters per Second (m/s), Knots (kn), Feet per Second (ft/s), and Mach (speed of sound).</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="pressure-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">🌪️</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Pressure Unit Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert industrial and scientific pressure measurements between Pascals (Pa), Kilopascals (kPa), Megapascals (MPa), Bar, Millibar (mbar), PSI (Pounds per Square Inch), Standard Atmospheres (atm), Torr, and Millimeters of Mercury (mmHg).</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="energy-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">🔋</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Energy Unit Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert energy and work measurements across Joules (J), Kilojoules (kJ), Kilowatt-Hours (kWh), Watt-Hours (Wh), Calories (cal), Kilocalories / Food Calories (kcal), British Thermal Units (BTU), Electron-Volts (eV), and Foot-Pounds (ft-lb).</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="power-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">💡</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Power Unit Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert power, electricity flow, and mechanical engine output across Watts (W), Kilowatts (kW), Megawatts (MW), Mechanical Horsepower (hp), Metric Horsepower (PS), BTU per Hour (BTU/h), and Foot-Pounds per minute.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="angle-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">🔄</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Angle Unit Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert angle and angular rotation units across Degrees (°), Radians (rad), Gradians (grad), Milliradians (mrad), Arcminutes (′), Arcseconds (″), and Revolutions / Turns with an interactive live visual protractor canvas and trigonometry calculation (sin, cos, tan).</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="fuel-economy-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">⛽</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Fuel Economy Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert automobile fuel consumption and efficiency ratings between US Miles per Gallon (US MPG), Imperial UK MPG, Liters per 100 Kilometers (L/100km), and Kilometers per Liter (km/L) with an integrated trip fuel cost and distance calculator.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="digital-storage-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">💾</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Digital Storage Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert data capacity and storage size across Bits (b), Bytes (B), Kilobytes (KB), Megabytes (MB), Gigabytes (GB), Terabytes (TB), Petabytes (PB), as well as binary standards (KiB, MiB, GiB, TiB) with Decimal (1000) and Binary (1024) calculation modes.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="data-transfer-rate-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">🚀</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Data Transfer Rate Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert internet bandwidth and network throughput speeds across Bits per second (bps), Kbps, Mbps, Gbps, Tbps, Bytes per second (B/s), KB/s, MB/s, and GB/s with an integrated file download time calculator.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
       </div>
 
       <!-- Other Categories -->
@@ -416,7 +633,7 @@
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 73 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 60 browser media converters, 111 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">

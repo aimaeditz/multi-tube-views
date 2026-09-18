@@ -72,6 +72,30 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        var eff = 'light';
+        if (t === 'dark') {
+          eff = 'dark';
+        } else if (t === 'light') {
+          eff = 'light';
+        } else if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        var doc = document.documentElement;
+        doc.setAttribute('data-theme', eff);
+        doc.style.colorScheme = eff;
+        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+      } catch(e){}
+    })();
+  </script>
+
   <!-- Resource Hints & Preconnects for Performance Optimization -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
@@ -83,6 +107,10 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0
   <link rel="preload" href="${assetPrefix}assets/css/components.css" as="style">
   <link rel="preload" href="${assetPrefix}assets/css/responsive.css" as="style">
 
+  <link rel="stylesheet" href="${assetPrefix}assets/css/style.css">
+  <link rel="stylesheet" href="${assetPrefix}assets/css/components.css">
+  <link rel="stylesheet" href="${assetPrefix}assets/css/responsive.css">
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
   <script>
@@ -92,10 +120,9 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0
     gtag('config', 'G-RFC10HKCM1');
   </script>
 
-  <meta charset="UTF-8">
   <meta name="google-adsense-account" content="ca-pub-5279550123869703">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279550123869703" crossorigin="anonymous"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="icon" href="${assetPrefix}assets/icons/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="${assetPrefix}assets/icons/favicon.svg">
   <link rel="icon" type="image/png" sizes="16x16" href="${assetPrefix}assets/icons/favicon-16.png">
@@ -129,26 +156,6 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   ${jsonLd ? `<script type="application/ld+json">\n${JSON.stringify(jsonLd, null, 2)}\n  </script>` : ''}
-
-  <link rel="stylesheet" href="${assetPrefix}assets/css/style.css">
-  <link rel="stylesheet" href="${assetPrefix}assets/css/components.css">
-  <link rel="stylesheet" href="${assetPrefix}assets/css/responsive.css">
-
-  <!-- Instant Theme Boot Script to prevent flash or lag -->
-  <script>
-    (function(){
-      try {
-        var t = localStorage.getItem('mtv_theme');
-        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          t = 'dark';
-        }
-        if (t === 'dark' || t === 'light') {
-          document.documentElement.setAttribute('data-theme', t);
-          document.documentElement.style.colorScheme = t;
-        }
-      } catch(e){}
-    })();
-  </script>
 
   <script type="module" src="${assetPrefix}assets/js/storage.js"></script>
   <script type="module" src="${assetPrefix}assets/js/theme.js"></script>
@@ -232,7 +239,7 @@ function renderFooter({ depth = 0 }) {
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 60 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 60 browser media converters, 111 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -390,8 +397,8 @@ export function generateCategorySeoMetadata(cat, catToolsCount) {
 
 // 1. Generate Main Hub Page: browser-utilities.html
 function generateHubPage() {
-  const title = "Browser Utilities — 89 Free Client-Side Web Tools | MTV";
-  const description = "Suite of 89 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.";
+  const title = "Browser Utilities — 111 Free Client-Side Web Tools | MTV";
+  const description = "Suite of 111 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.";
   const keywords = "browser utilities online, client side tools, dev tools online, json formatter, regex tester, word counter, password strength checker, color palette generator, csv to json, free web tools, mtv browser utilities, multitube views tools";
   const canonical = "https://multitubeviews.com/browser-utilities.html";
 
@@ -405,7 +412,7 @@ function generateHubPage() {
         "alternateName": [
           "Multi Tube Views Browser Utilities",
           "MTV Client-Side Tools",
-          "89 In-Browser Utilities by AiMAEditz"
+          "111 In-Browser Utilities by AiMAEditz"
         ],
         "url": "https://multitubeviews.com/browser-utilities.html",
         "description": description,
@@ -414,7 +421,7 @@ function generateHubPage() {
         "browserRequirements": "Requires JavaScript and HTML5 APIs",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "featureList": [
-          "89 high-speed client-side tools across 15 specialized categories",
+          "111 high-speed client-side tools across 15 specialized categories",
           "100% in-browser processing via Web Crypto, Canvas, and native DOM",
           "Zero server uploads: sensitive text, code, and photos never leave your device",
           "One-click copying, file downloading, and responsive mobile-first UI"
@@ -437,7 +444,7 @@ function generateHubPage() {
             "name": "Are my files or passwords uploaded to your servers?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. All 89 browser utilities run entirely client-side using JavaScript, Web Crypto, and Canvas. Nothing is ever sent to any backend server."
+              "text": "No. All 111 browser utilities run entirely client-side using JavaScript, Web Crypto, and Canvas. Nothing is ever sent to any backend server."
             }
           },
           {
@@ -518,7 +525,7 @@ ${renderHeader({ activeNav: 'browser-utilities', depth: 0 })}
       <!-- Hero Header -->
       <div class="bu-hero" style="text-align: center; max-width: 860px; margin: 1.5rem auto 2.5rem auto;">
         <span class="bu-badge" style="margin-bottom: 0.75rem; font-size: 0.82rem; padding: 0.35rem 0.85rem; background: var(--accent-blue-10, rgba(0,102,204,0.1)); color: var(--accent-blue);">
-          ⚡ 89 CLIENT-SIDE UTILITIES • 100% PRIVATE • ZERO UPLOADS
+          ⚡ 111 CLIENT-SIDE UTILITIES • 100% PRIVATE • ZERO UPLOADS
         </span>
         <h1 class="bu-title" style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; line-height: 1.2; margin: 0.5rem 0 1rem 0;">
           Instant In-Browser <span class="accent">Utilities &amp; Tools</span>
@@ -529,8 +536,8 @@ ${renderHeader({ activeNav: 'browser-utilities', depth: 0 })}
 
         <!-- Search Bar -->
         <div style="position: relative; max-width: 580px; margin: 0 auto;">
-          <input type="text" id="bu-search-input" class="bu-input" placeholder="Search 89 utilities (e.g. JSON, Regex, Password, Slug, Base64)..." style="padding: 0.85rem 1.2rem; font-size: 1rem; border-radius: 999px; box-shadow: var(--shadow-sm);">
-          <span id="bu-search-count" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; color: var(--text-muted); pointer-events: none;">89 Tools</span>
+          <input type="text" id="bu-search-input" class="bu-input" placeholder="Search 111 utilities (e.g. JSON, Regex, Password, Slug, Base64)..." style="padding: 0.85rem 1.2rem; font-size: 1rem; border-radius: 999px; box-shadow: var(--shadow-sm);">
+          <span id="bu-search-count" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; color: var(--text-muted); pointer-events: none;">111 Tools</span>
         </div>
       </div>
 
@@ -644,7 +651,7 @@ ${renderFooter({ depth: 0 })}
           } else if (activeCategory !== 'all') {
             countEl.textContent = \`\${totalMatches} in category\`;
           } else {
-            countEl.textContent = '89 Tools';
+            countEl.textContent = '111 Tools';
           }
         }
 

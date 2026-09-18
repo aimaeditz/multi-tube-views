@@ -2,6 +2,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        var eff = 'light';
+        if (t === 'dark') {
+          eff = 'dark';
+        } else if (t === 'light') {
+          eff = 'light';
+        } else if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        var doc = document.documentElement;
+        doc.setAttribute('data-theme', eff);
+        doc.style.colorScheme = eff;
+        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+      } catch(e){}
+    })();
+  </script>
+
   <!-- Resource Hints & Preconnects for Performance Optimization -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
@@ -13,6 +37,10 @@
   <link rel="preload" href="assets/css/components.css" as="style">
   <link rel="preload" href="assets/css/responsive.css" as="style">
 
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
   <script>
@@ -22,10 +50,9 @@
     gtag('config', 'G-RFC10HKCM1');
   </script>
 
-  <meta charset="UTF-8">
   <meta name="google-adsense-account" content="ca-pub-5279550123869703">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279550123869703" crossorigin="anonymous"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="icon" href="assets/icons/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
@@ -35,8 +62,8 @@
   <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/favicon-512.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
-  <title>Browser Utilities — 89 Free Client-Side Web Tools | MTV</title>
-  <meta name="description" content="Suite of 89 fast, 100% private in-browser utilities for developers &amp; creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.">
+  <title>Browser Utilities — 111 Free Client-Side Web Tools | MTV</title>
+  <meta name="description" content="Suite of 111 fast, 100% private in-browser utilities for developers &amp; creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.">
   <meta name="keywords" content="browser utilities online, client side tools, dev tools online, json formatter, regex tester, word counter, password strength checker, color palette generator, csv to json, free web tools, mtv browser utilities, multitube views tools">
   <meta name="author" content="AiMAEditz">
   <meta name="theme-color" content="#FDFDFD">
@@ -45,16 +72,16 @@
     <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities.html">
-  <meta property="og:title" content="Browser Utilities — 89 Free Client-Side Web Tools | MTV">
-  <meta property="og:description" content="Suite of 89 fast, 100% private in-browser utilities for developers &amp; creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.">
+  <meta property="og:title" content="Browser Utilities — 111 Free Client-Side Web Tools | MTV">
+  <meta property="og:description" content="Suite of 111 fast, 100% private in-browser utilities for developers &amp; creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.">
   <meta property="og:site_name" content="Multi Tube Views">
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Browser Utilities — 89 Free Client-Side Web Tools | MTV">
-  <meta name="twitter:description" content="Suite of 89 fast, 100% private in-browser utilities for developers &amp; creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.">
+  <meta name="twitter:title" content="Browser Utilities — 111 Free Client-Side Web Tools | MTV">
+  <meta name="twitter:description" content="Suite of 111 fast, 100% private in-browser utilities for developers &amp; creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.">
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   <script type="application/ld+json">
@@ -68,10 +95,10 @@
       "alternateName": [
         "Multi Tube Views Browser Utilities",
         "MTV Client-Side Tools",
-        "89 In-Browser Utilities by AiMAEditz"
+        "111 In-Browser Utilities by AiMAEditz"
       ],
       "url": "https://multitubeviews.com/browser-utilities.html",
-      "description": "Suite of 89 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.",
+      "description": "Suite of 111 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "All",
       "browserRequirements": "Requires JavaScript and HTML5 APIs",
@@ -81,7 +108,7 @@
         "priceCurrency": "USD"
       },
       "featureList": [
-        "89 high-speed client-side tools across 15 specialized categories",
+        "111 high-speed client-side tools across 15 specialized categories",
         "100% in-browser processing via Web Crypto, Canvas, and native DOM",
         "Zero server uploads: sensitive text, code, and photos never leave your device",
         "One-click copying, file downloading, and responsive mobile-first UI"
@@ -114,7 +141,7 @@
           "name": "Are my files or passwords uploaded to your servers?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. All 89 browser utilities run entirely client-side using JavaScript, Web Crypto, and Canvas. Nothing is ever sent to any backend server."
+            "text": "No. All 111 browser utilities run entirely client-side using JavaScript, Web Crypto, and Canvas. Nothing is ever sent to any backend server."
           }
         },
         {
@@ -137,26 +164,6 @@
     }
   ]
 }
-  </script>
-
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
-
-  <!-- Instant Theme Boot Script to prevent flash or lag -->
-  <script>
-    (function(){
-      try {
-        var t = localStorage.getItem('mtv_theme');
-        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          t = 'dark';
-        }
-        if (t === 'dark' || t === 'light') {
-          document.documentElement.setAttribute('data-theme', t);
-          document.documentElement.style.colorScheme = t;
-        }
-      } catch(e){}
-    })();
   </script>
 
   <script type="module" src="assets/js/storage.js"></script>
@@ -237,7 +244,7 @@
       <!-- Hero Header -->
       <div class="bu-hero" style="text-align: center; max-width: 860px; margin: 1.5rem auto 2.5rem auto;">
         <span class="bu-badge" style="margin-bottom: 0.75rem; font-size: 0.82rem; padding: 0.35rem 0.85rem; background: var(--accent-blue-10, rgba(0,102,204,0.1)); color: var(--accent-blue);">
-          ⚡ 89 CLIENT-SIDE UTILITIES • 100% PRIVATE • ZERO UPLOADS
+          ⚡ 111 CLIENT-SIDE UTILITIES • 100% PRIVATE • ZERO UPLOADS
         </span>
         <h1 class="bu-title" style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; line-height: 1.2; margin: 0.5rem 0 1rem 0;">
           Instant In-Browser <span class="accent">Utilities &amp; Tools</span>
@@ -248,15 +255,15 @@
 
         <!-- Search Bar -->
         <div style="position: relative; max-width: 580px; margin: 0 auto;">
-          <input type="text" id="bu-search-input" class="bu-input" placeholder="Search 89 utilities (e.g. JSON, Regex, Password, Slug, Base64)..." style="padding: 0.85rem 1.2rem; font-size: 1rem; border-radius: 999px; box-shadow: var(--shadow-sm);">
-          <span id="bu-search-count" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; color: var(--text-muted); pointer-events: none;">89 Tools</span>
+          <input type="text" id="bu-search-input" class="bu-input" placeholder="Search 111 utilities (e.g. JSON, Regex, Password, Slug, Base64)..." style="padding: 0.85rem 1.2rem; font-size: 1rem; border-radius: 999px; box-shadow: var(--shadow-sm);">
+          <span id="bu-search-count" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; color: var(--text-muted); pointer-events: none;">111 Tools</span>
         </div>
       </div>
 
       <!-- Quick Category Nav Chips / Filter Pills -->
       <div id="bu-category-filters-wrap" class="bu-category-nav-grid" style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
         <button type="button" class="bu-btn bu-category-filter-btn bu-btn-primary" data-bu-filter="all" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; border-radius: 999px; cursor: pointer;">
-          <span>⚡ All Utilities</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">89</span>
+          <span>⚡ All Utilities</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">111</span>
         </button>
         
           <button type="button" class="bu-btn bu-category-filter-btn" data-bu-filter="text-writing-extras" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; border-radius: 999px; cursor: pointer;">
@@ -264,7 +271,7 @@
           </button>
         
           <button type="button" class="bu-btn bu-category-filter-btn" data-bu-filter="unit-format-converters" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; border-radius: 999px; cursor: pointer;">
-            <span>🔄</span> <span>Unit & Format Converters</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">6</span>
+            <span>🔄</span> <span>Unit & Format Converters</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">16</span>
           </button>
         
           <button type="button" class="bu-btn bu-category-filter-btn" data-bu-filter="generators-creators" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; border-radius: 999px; cursor: pointer;">
@@ -272,7 +279,7 @@
           </button>
         
           <button type="button" class="bu-btn bu-category-filter-btn" data-bu-filter="color-design-extras" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; border-radius: 999px; cursor: pointer;">
-            <span>🎨</span> <span>Color & Design Extras</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">5</span>
+            <span>🎨</span> <span>Color & Design Extras</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">6</span>
           </button>
         
           <button type="button" class="bu-btn bu-category-filter-btn" data-bu-filter="developer-web-extras" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; border-radius: 999px; cursor: pointer;">
@@ -308,7 +315,7 @@
           </button>
         
           <button type="button" class="bu-btn bu-category-filter-btn" data-bu-filter="file-data-utilities" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; border-radius: 999px; cursor: pointer;">
-            <span>📁</span> <span>File & Data Utilities</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">6</span>
+            <span>📁</span> <span>File & Data Utilities</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">8</span>
           </button>
         
           <button type="button" class="bu-btn bu-category-filter-btn" data-bu-filter="everyday-utilities" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; border-radius: 999px; cursor: pointer;">
@@ -316,7 +323,7 @@
           </button>
         
           <button type="button" class="bu-btn bu-category-filter-btn" data-bu-filter="developer-utilities" style="padding: 0.45rem 0.95rem; font-size: 0.85rem; border-radius: 999px; cursor: pointer;">
-            <span>⚡</span> <span>Developer Utilities</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">6</span>
+            <span>⚡</span> <span>Developer Utilities</span> <span class="bu-badge" style="margin-left: 0.35rem; font-size: 0.75rem; padding: 0.15rem 0.45rem;">15</span>
           </button>
         
       </div>
@@ -476,9 +483,9 @@
             <div style="display: flex; align-items: center; gap: 0.65rem;">
               <span style="font-size: 1.8rem;">🔄</span>
               <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0; color: var(--text-primary);">Unit & Format Converters</h2>
-              <span class="bu-badge">6 Tools</span>
+              <span class="bu-badge">16 Tools</span>
             </div>
-            <p style="margin: 0.35rem 0 0 0; color: var(--text-muted); font-size: 0.95rem; max-width: 650px;">Convert measurement units, format multi-country currencies, compare global time zones, convert Markdown to HTML, transform date formats, and calculate exact age.</p>
+            <p style="margin: 0.35rem 0 0 0; color: var(--text-muted); font-size: 0.95rem; max-width: 650px;">Convert measurement units across length, weight, area, volume, speed, pressure, energy, power, angle, fuel economy, digital storage, data transfer rate, currencies, time zones, Markdown, and dates.</p>
           </div>
           <a href="browser-utilities/unit-format-converters.html" class="bu-btn" style="padding: 0.45rem 0.9rem; font-size: 0.85rem;">View Category Hub →</a>
         </div>
@@ -572,6 +579,166 @@
                   <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Age Calculator</h3>
                 </div>
                 <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Calculate your exact age in years, months, days, total hours, minutes, seconds, next birthday countdown, and birth day of the week.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/area-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="area-unit-converter" data-tool-category="unit-format-converters">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">📐</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Area Unit Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert surface area and land measurements instantly across Square Meters (m²), Square Kilometers (km²), Square Feet (ft²), Square Inches (in²), Square Yards (yd²), Acres, Hectares (ha), and Square Miles (mi²).</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/volume-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="volume-unit-converter" data-tool-category="unit-format-converters">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">🧪</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Volume Unit Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert liquid and dry volume measurements across Liters (L), Milliliters (mL), Cubic Meters (m³), US Gallons (gal), US Quarts (qt), US Pints (pt), US Cups, US Fluid Ounces (fl oz), Tablespoons, Teaspoons, Cubic Feet (ft³), and Imperial Gallons.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/speed-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="speed-unit-converter" data-tool-category="unit-format-converters">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">⚡</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Speed Unit Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert velocity and speed measurements across Kilometers per Hour (km/h), Miles per Hour (mph), Meters per Second (m/s), Knots (kn), Feet per Second (ft/s), and Mach (speed of sound).</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/pressure-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="pressure-unit-converter" data-tool-category="unit-format-converters">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">🌪️</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Pressure Unit Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert industrial and scientific pressure measurements between Pascals (Pa), Kilopascals (kPa), Megapascals (MPa), Bar, Millibar (mbar), PSI (Pounds per Square Inch), Standard Atmospheres (atm), Torr, and Millimeters of Mercury (mmHg).</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/energy-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="energy-unit-converter" data-tool-category="unit-format-converters">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">🔋</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Energy Unit Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert energy and work measurements across Joules (J), Kilojoules (kJ), Kilowatt-Hours (kWh), Watt-Hours (Wh), Calories (cal), Kilocalories / Food Calories (kcal), British Thermal Units (BTU), Electron-Volts (eV), and Foot-Pounds (ft-lb).</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/power-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="power-unit-converter" data-tool-category="unit-format-converters">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">💡</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Power Unit Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert power, electricity flow, and mechanical engine output across Watts (W), Kilowatts (kW), Megawatts (MW), Mechanical Horsepower (hp), Metric Horsepower (PS), BTU per Hour (BTU/h), and Foot-Pounds per minute.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/angle-unit-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="angle-unit-converter" data-tool-category="unit-format-converters">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">🔄</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Angle Unit Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert angle and angular rotation units across Degrees (°), Radians (rad), Gradians (grad), Milliradians (mrad), Arcminutes (′), Arcseconds (″), and Revolutions / Turns with an interactive live visual protractor canvas and trigonometry calculation (sin, cos, tan).</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/fuel-economy-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="fuel-economy-converter" data-tool-category="unit-format-converters">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">⛽</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Fuel Economy Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert automobile fuel consumption and efficiency ratings between US Miles per Gallon (US MPG), Imperial UK MPG, Liters per 100 Kilometers (L/100km), and Kilometers per Liter (km/L) with an integrated trip fuel cost and distance calculator.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/digital-storage-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="digital-storage-converter" data-tool-category="unit-format-converters">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">💾</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Digital Storage Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert data capacity and storage size across Bits (b), Bytes (B), Kilobytes (KB), Megabytes (MB), Gigabytes (GB), Terabytes (TB), Petabytes (PB), as well as binary standards (KiB, MiB, GiB, TiB) with Decimal (1000) and Binary (1024) calculation modes.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/data-transfer-rate-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="data-transfer-rate-converter" data-tool-category="unit-format-converters">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">🚀</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Data Transfer Rate Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert internet bandwidth and network throughput speeds across Bits per second (bps), Kbps, Mbps, Gbps, Tbps, Bytes per second (B/s), KB/s, MB/s, and GB/s with an integrated file download time calculator.</p>
               </div>
               <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
                 <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
@@ -752,9 +919,9 @@
             <div style="display: flex; align-items: center; gap: 0.65rem;">
               <span style="font-size: 1.8rem;">🎨</span>
               <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0; color: var(--text-primary);">Color & Design Extras</h2>
-              <span class="bu-badge">5 Tools</span>
+              <span class="bu-badge">6 Tools</span>
             </div>
-            <p style="margin: 0.35rem 0 0 0; color: var(--text-muted); font-size: 0.95rem; max-width: 650px;">Create multi-stop CSS gradients, verify WCAG color contrast ratios, build box-shadow layers, design organic border radii, and preview app icon mockups.</p>
+            <p style="margin: 0.35rem 0 0 0; color: var(--text-muted); font-size: 0.95rem; max-width: 650px;">Create multi-stop CSS gradients, verify WCAG color contrast ratios, build box-shadow layers, design organic border radii, preview app icon mockups, and convert HEX/RGB/HSL/HSV/CMYK codes.</p>
           </div>
           <a href="browser-utilities/color-design-extras.html" class="bu-btn" style="padding: 0.45rem 0.9rem; font-size: 0.85rem;">View Category Hub →</a>
         </div>
@@ -832,6 +999,22 @@
                   <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Favicon & App Icon Mockup Generator</h3>
                 </div>
                 <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Preview how your brand icon, logo, or favicon will look in real browser tabs, iOS squircle home screens, macOS dock, and Google mobile search results.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/hex-rgb-hsl-color-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="hex-rgb-hsl-color-converter" data-tool-category="color-design-extras">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">🎨</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">HEX/RGB/HSL Color Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert color codes seamlessly between HEX (#RRGGBB, #RRGGBBAA), RGB (rgb / rgba), HSL (hsl / hsla), HSV / HSB, and CMYK with a live interactive color picker, alpha transparency slider, tints & shades generator, and color harmony palettes.</p>
               </div>
               <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
                 <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
@@ -1682,9 +1865,9 @@
             <div style="display: flex; align-items: center; gap: 0.65rem;">
               <span style="font-size: 1.8rem;">📁</span>
               <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0; color: var(--text-primary);">File & Data Utilities</h2>
-              <span class="bu-badge">6 Tools</span>
+              <span class="bu-badge">8 Tools</span>
             </div>
-            <p style="margin: 0.35rem 0 0 0; color: var(--text-muted); font-size: 0.95rem; max-width: 650px;">View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, and merge text files.</p>
+            <p style="margin: 0.35rem 0 0 0; color: var(--text-muted); font-size: 0.95rem; max-width: 650px;">View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, merge text files, and decode Base64 to Image or PDF.</p>
           </div>
           <a href="browser-utilities/file-data-utilities.html" class="bu-btn" style="padding: 0.45rem 0.9rem; font-size: 0.85rem;">View Category Hub →</a>
         </div>
@@ -1778,6 +1961,38 @@
                   <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Text File Merger</h3>
                 </div>
                 <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Merge multiple text, markdown, CSV, or code files into a single consolidated document with customizable separators and file headers.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/base64-to-image-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="base64-to-image-converter" data-tool-category="file-data-utilities">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">🖼️</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Base64 to Image Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Decode Base64 strings (with or without Data URI prefix) into high-resolution PNG, JPEG, SVG, WebP, and GIF images with instant visual preview, dimensions analysis, file size inspector, and one-click image download.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/base64-to-pdf-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="base64-to-pdf-converter" data-tool-category="file-data-utilities">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">📕</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Base64 to PDF Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert Base64-encoded PDF documents into viewable and downloadable PDF files with real-time browser preview, page size calculation, and instant PDF export.</p>
               </div>
               <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
                 <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
@@ -1910,9 +2125,9 @@
             <div style="display: flex; align-items: center; gap: 0.65rem;">
               <span style="font-size: 1.8rem;">⚡</span>
               <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0; color: var(--text-primary);">Developer Utilities</h2>
-              <span class="bu-badge">6 Tools</span>
+              <span class="bu-badge">15 Tools</span>
             </div>
-            <p style="margin: 0.35rem 0 0 0; color: var(--text-muted); font-size: 0.95rem; max-width: 650px;">Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, and generate v4 UUIDs.</p>
+            <p style="margin: 0.35rem 0 0 0; color: var(--text-muted); font-size: 0.95rem; max-width: 650px;">Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, generate v4 UUIDs, convert JSON/CSV/YAML/XML, convert Hex/Text, and decode JWT tokens.</p>
           </div>
           <a href="browser-utilities/developer-utilities.html" class="bu-btn" style="padding: 0.45rem 0.9rem; font-size: 0.85rem;">View Category Hub →</a>
         </div>
@@ -2015,6 +2230,150 @@
               </div>
             </a>
           
+            <a href="browser-utilities/csv-json-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="csv-json-converter" data-tool-category="developer-utilities">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">📊</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">CSV to JSON Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert CSV (comma-separated), TSV (tab-separated), or custom delimited spreadsheet data into structured JSON objects or 2D arrays with automatic number/boolean type parsing, custom delimiters, and minify options.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/json-csv-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="json-csv-converter" data-tool-category="developer-utilities">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">📑</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">JSON to CSV Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Transform structured JSON objects or nested arrays into standard CSV or TSV spreadsheet format with custom delimiters, automatic quote escaping, and nested key flattening.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/json-to-yaml-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="json-to-yaml-converter" data-tool-category="developer-utilities">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">📜</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">JSON to YAML Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert JSON configurations, Swagger API specs, and package manifests into clean, human-readable YAML with proper indentation, arrays, nested maps, and scalar type formatting.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/yaml-to-json-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="yaml-to-json-converter" data-tool-category="developer-utilities">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">⚙️</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">YAML to JSON Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Parse YAML specifications, Kubernetes manifests, GitHub Actions workflows, and CI/CD configs into clean, valid, formatted JSON with customizable indentation and minification.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/json-to-xml-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="json-to-xml-converter" data-tool-category="developer-utilities">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">🌐</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">JSON to XML Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert JSON documents, API payloads, and objects into valid, well-formed XML with customizable root tags, array item tags, XML declarations, and indentation formatting.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/xml-to-json-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="xml-to-json-converter" data-tool-category="developer-utilities">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">📦</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">XML to JSON Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Parse XML documents, RSS news feeds, SVG structures, and SOAP payloads into clean JSON objects with automatic type conversion and attribute preservation.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/hex-to-text-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="hex-to-text-converter" data-tool-category="developer-utilities">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">🔤</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Hex to Text Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Decode hexadecimal byte strings into readable UTF-8, ASCII, or Unicode plain text with automatic delimiter detection (spaces, colons, 0x prefixes, and \x escape codes).</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/text-to-hex-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="text-to-hex-converter" data-tool-category="developer-utilities">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">🔢</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Text to Hex Converter</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Encode plain text, strings, symbols, and emojis into hexadecimal byte sequences with customizable delimiters (space, comma, 0x prefix, \x escape, or continuous hex).</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
+            <a href="browser-utilities/jwt-decoder.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;" data-tool-card="jwt-decoder" data-tool-category="developer-utilities">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                  <span class="bu-card-icon" style="font-size: 1.6rem;">🔑</span>
+                  <h3 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">JWT Decoder</h3>
+                </div>
+                <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Decode and inspect JSON Web Tokens (JWT) safely in your browser. View header algorithms, payload claims, expiration timestamps, issued-at dates, and signature components with zero server transmission.</p>
+              </div>
+              <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+                <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>Open Utility</span>
+                  <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </span>
+              </div>
+            </a>
+          
         </div>
       </section>
     
@@ -2060,7 +2419,7 @@
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 73 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 60 browser media converters, 111 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -2196,7 +2555,7 @@
           } else if (activeCategory !== 'all') {
             countEl.textContent = `${totalMatches} in category`;
           } else {
-            countEl.textContent = '89 Tools';
+            countEl.textContent = '111 Tools';
           }
         }
 

@@ -2,6 +2,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        var eff = 'light';
+        if (t === 'dark') {
+          eff = 'dark';
+        } else if (t === 'light') {
+          eff = 'light';
+        } else if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        var doc = document.documentElement;
+        doc.setAttribute('data-theme', eff);
+        doc.style.colorScheme = eff;
+        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+      } catch(e){}
+    })();
+  </script>
+
   <!-- Resource Hints & Preconnects for Performance Optimization -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
@@ -13,6 +37,10 @@
   <link rel="preload" href="../assets/css/components.css" as="style">
   <link rel="preload" href="../assets/css/responsive.css" as="style">
 
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
   <script>
@@ -22,10 +50,9 @@
     gtag('config', 'G-RFC10HKCM1');
   </script>
 
-  <meta charset="UTF-8">
   <meta name="google-adsense-account" content="ca-pub-5279550123869703">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279550123869703" crossorigin="anonymous"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16.png">
@@ -42,7 +69,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities/favicon-app-icon-mockup.html">
 
-  <!-- Open Graph -->
+    <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/favicon-app-icon-mockup.html">
   <meta property="og:title" content="Favicon & App Icon Mockup Generator — Free Online Tool | MTV">
@@ -51,7 +78,6 @@
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Favicon & App Icon Mockup Generator — Free Online Tool | MTV">
@@ -118,26 +144,6 @@
     }
   ]
 }
-  </script>
-
-  <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/components.css">
-  <link rel="stylesheet" href="../assets/css/responsive.css">
-
-  <!-- Instant Theme Boot Script to prevent flash or lag -->
-  <script>
-    (function(){
-      try {
-        var t = localStorage.getItem('mtv_theme');
-        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          t = 'dark';
-        }
-        if (t === 'dark' || t === 'light') {
-          document.documentElement.setAttribute('data-theme', t);
-          document.documentElement.style.colorScheme = t;
-        }
-      } catch(e){}
-    })();
   </script>
 
   <script type="module" src="../assets/js/storage.js"></script>
@@ -252,7 +258,7 @@
           <!-- Chrome Tab Mockup -->
           <div style="background: #e2e8f0; border-radius: 8px 8px 0 0; padding: 0.5rem 0.75rem 0; border: 1px solid var(--border-color);">
             <div style="background: #ffffff; color: #0f172a; border-radius: 8px 8px 0 0; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.65rem; max-width: 240px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-              <img id="mock-tab-img" src="/assets/icons/favicon-32.png" style="width: 16px; height: 16px; border-radius: 2px;">
+              <img id="mock-tab-img" src="/assets/icons/favicon-32.png" style="width: 16px; height: 16px; border-radius: 2px;" decoding="async" loading="lazy" />
               <span id="mock-tab-title" style="font-size: 0.82rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Multi Tube Views 2026</span>
               <span style="font-size: 0.75rem; color: #94a3b8; margin-left: auto;">✕</span>
             </div>
@@ -264,7 +270,7 @@
             <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md, 8px); padding: 1.25rem; text-align: center;">
               <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">iOS Home Screen (Squircle)</span>
               <div style="margin: 1rem auto 0.5rem; width: 72px; height: 72px; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,0.15);">
-                <img id="mock-ios-img" src="/assets/icons/favicon-192.png" style="width: 100%; height: 100%; object-fit: cover;">
+                <img id="mock-ios-img" src="/assets/icons/favicon-192.png" style="width: 100%; height: 100%; object-fit: cover;" decoding="async" loading="lazy" />
               </div>
               <div id="mock-ios-title" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary); margin-top: 0.25rem;">Multi Tube Views</div>
             </div>
@@ -274,7 +280,7 @@
               <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Google Search Result</span>
               <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 0.75rem;">
                 <div style="width: 28px; height: 28px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                  <img id="mock-serp-img" src="/assets/icons/favicon-32.png" style="width: 18px; height: 18px;">
+                  <img id="mock-serp-img" src="/assets/icons/favicon-32.png" style="width: 18px; height: 18px;" decoding="async" loading="lazy" />
                 </div>
                 <div>
                   <div id="mock-serp-site" style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">multitubeviews.com</div>
@@ -437,7 +443,7 @@
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 60 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 60 browser media converters, 111 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
