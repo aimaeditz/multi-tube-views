@@ -1,10 +1,10 @@
 /**
  * Multi Tube Views (MTV) — Media Converter Tools Registry
- * 60 In-Browser Client-Side Media Tools across 4 Categories:
- * - Image Tools (19 tools)
+ * 73 In-Browser Client-Side Media Tools across 4 Categories:
+ * - Image Tools (26 tools)
  * - Video Tools (15 tools)
  * - Audio Tools (15 tools)
- * - PDF & Document Tools (11 tools)
+ * - PDF & Document Tools (17 tools)
  *
  * 100% Client-Side — Zero Server Uploads — Maximum Privacy
  */
@@ -629,6 +629,144 @@ const ALL_TOOL_CONFIGS = {
       hideActionBtn: true,
       about: 'Parses Markdown text with headings, lists, blockquotes, and code blocks into beautifully styled, printable PDF documents.',
       dateAdded: '2026-06-15'
+    },
+
+    // ==========================================
+    // 13 NEW CONVERTER TOOLS (BATCH EXPANSION)
+    // ==========================================
+
+    // --- Image Tools (7 New) ---
+    'heic-to-jpg': {
+      title: 'HEIC to JPG Converter',
+      desc: 'Convert Apple HEIC and HEIF photos into universally compatible JPG images.',
+      icon: '📷',
+      category: 'image',
+      accept: '.heic,.heif,image/heic,image/heif',
+      actionText: 'Convert HEIC to JPG',
+      about: 'Converts high-efficiency HEIC and HEIF photos taken on iPhone and iPad into standard JPEG format. Processing is performed 100% client-side without uploading to any cloud server.',
+      dateAdded: '2026-06-18'
+    },
+    'heic-to-png': {
+      title: 'HEIC to PNG Converter',
+      desc: 'Convert high-efficiency HEIC and HEIF images into lossless, high-quality PNG format.',
+      icon: '🖼️',
+      category: 'image',
+      accept: '.heic,.heif,image/heic,image/heif',
+      actionText: 'Convert HEIC to PNG',
+      about: 'Decodes Apple HEIC/HEIF photo streams and converts them into lossless PNG files with full 24-bit color fidelity directly inside your browser.',
+      dateAdded: '2026-06-18'
+    },
+    'webp-to-jpg': {
+      title: 'WEBP to JPG Converter',
+      desc: 'Convert modern WebP images to standard JPG format with adjustable compression quality.',
+      icon: '🔄',
+      category: 'image',
+      accept: 'image/webp,.webp',
+      actionText: 'Convert WEBP to JPG',
+      about: 'Converts WebP images into universally supported JPEG files with customizable compression quality and background color handling for transparent areas.',
+      dateAdded: '2026-06-18'
+    },
+    'webp-to-png': {
+      title: 'WEBP to PNG Converter',
+      desc: 'Convert WebP images to transparent, lossless PNG format with zero quality degradation.',
+      icon: '💎',
+      category: 'image',
+      accept: 'image/webp,.webp',
+      actionText: 'Convert WEBP to PNG',
+      about: 'Decodes WebP files and rasterizes them into lossless PNG format while preserving full alpha transparency and crisp edge details.',
+      dateAdded: '2026-06-18'
+    },
+    'avif-to-jpg': {
+      title: 'AVIF to JPG Converter',
+      desc: 'Convert next-gen AVIF images into standard JPG files compatible with all devices and editors.',
+      icon: '⚡',
+      category: 'image',
+      accept: 'image/avif,.avif',
+      actionText: 'Convert AVIF to JPG',
+      about: 'Converts AV1 Image File Format (AVIF) files into universal JPEG format directly in your browser with adjustable compression quality.',
+      dateAdded: '2026-06-18'
+    },
+    'avif-to-png': {
+      title: 'AVIF to PNG Converter',
+      desc: 'Convert AVIF images into lossless PNG format with transparent alpha channel support.',
+      icon: '🌟',
+      category: 'image',
+      accept: 'image/avif,.avif',
+      actionText: 'Convert AVIF to PNG',
+      about: 'Converts AVIF graphics into lossless PNG files while preserving transparency, ideal for design software, older browsers, and editing tools.',
+      dateAdded: '2026-06-18'
+    },
+    'svg-to-png': {
+      title: 'SVG to PNG Converter',
+      desc: 'Rasterize scalable vector graphics (SVG) into crisp, high-resolution PNG images.',
+      icon: '📐',
+      category: 'image',
+      accept: '.svg,image/svg+xml',
+      actionText: 'Rasterize SVG to PNG',
+      about: 'Converts vector SVG files into high-resolution raster PNG images with custom scaling multipliers (1x, 2x, 4x, 8x for ultra-sharp 4K/print exports) and transparent backgrounds.',
+      dateAdded: '2026-06-18'
+    },
+
+    // --- PDF & Document Tools (6 New) ---
+    'pdf-password-protect': {
+      title: 'PDF Password Protect',
+      desc: 'Encrypt and lock any PDF document with secure user and owner passwords and granular permissions.',
+      icon: '🔐',
+      category: 'pdf-document',
+      accept: '.pdf,application/pdf',
+      actionText: 'Encrypt & Lock PDF',
+      about: 'Adds client-side encryption (AES-256 / RC4) to PDF documents with a required viewing password and optional permissions password. All cryptographic processing occurs directly in your browser.',
+      dateAdded: '2026-06-18'
+    },
+    'pdf-password-remover': {
+      title: 'PDF Password Remover (Unlock)',
+      desc: 'Remove passwords and restrictions from secured PDF documents to create unlocked, editable copies.',
+      icon: '🔓',
+      category: 'pdf-document',
+      accept: '.pdf,application/pdf',
+      actionText: 'Unlock & Save PDF',
+      about: 'Decrypts password-protected PDF documents using your authorized password, stripping encryption locks to produce a permanently unlocked, shareable PDF file.',
+      dateAdded: '2026-06-18'
+    },
+    'pdf-image-extractor': {
+      title: 'PDF Image Extractor',
+      desc: 'Extract and download all embedded images, figures, and photos from PDF pages as PNG or JPG files.',
+      icon: '🖼️',
+      category: 'pdf-document',
+      accept: '.pdf,application/pdf',
+      actionText: 'Extract Images from PDF',
+      about: 'Scans PDF page operator streams and extracts all raster photos, logos, charts, and embedded graphics into standalone image files or a bundled ZIP archive.',
+      dateAdded: '2026-06-18'
+    },
+    'pdf-page-reorganizer': {
+      title: 'PDF Page Reorganizer',
+      desc: 'Visually reorder, move, and rearrange pages in any PDF document with drag-and-drop.',
+      icon: '📑',
+      category: 'pdf-document',
+      accept: '.pdf,application/pdf',
+      actionText: 'Save Reorganized PDF',
+      about: 'Renders visual thumbnails of every page in your PDF document. Drag and drop or use arrow buttons to rearrange pages into any desired sequence, then compile a new PDF with vector fidelity.',
+      dateAdded: '2026-06-18'
+    },
+    'pdf-to-text': {
+      title: 'PDF to Text Extractor',
+      desc: 'Extract clean, selectable plain text from all pages of a PDF document with one-click copy and export.',
+      icon: '📄',
+      category: 'pdf-document',
+      accept: '.pdf,application/pdf',
+      actionText: 'Extract Text from PDF',
+      about: 'Parses text content streams across all PDF document pages, preserving paragraph breaks, line breaks, and page markers. Output can be copied immediately or saved as a .TXT file.',
+      dateAdded: '2026-06-18'
+    },
+    'images-to-pdf': {
+      title: 'Images to PDF Converter',
+      desc: 'Combine multiple JPG, PNG, and WebP images into a single, beautifully formatted PDF document.',
+      icon: '📚',
+      category: 'pdf-document',
+      accept: 'image/*,.jpg,.jpeg,.png,.webp,.gif,.bmp',
+      actionText: 'Compile & Download PDF',
+      about: 'Merges multiple photos and graphic files into a single multi-page PDF document. Supports custom page sizes (A4, US Letter, Fit to Image), page orientations, and margin settings.',
+      dateAdded: '2026-06-18'
     }
   };
 

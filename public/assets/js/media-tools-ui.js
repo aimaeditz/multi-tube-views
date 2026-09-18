@@ -10,13 +10,15 @@
   const handlers = window.MTVMediaHandlers || {};
 
   const MTVMediaUI = {
-    // Check if tool has a dedicated handler in the 45 expanded tools
+    // Check if tool has a dedicated handler in the expanded tools
     hasHandler(toolId) {
       const known = [
         'image-compressor', 'image-resizer', 'image-watermark', 'color-inverter',
         'image-filters', 'png-to-svg', 'favicon-generator', 'meme-generator',
         'base64-image', 'image-blur', 'image-border', 'image-splitter',
         'color-palette-image', 'pixelate-image', 'image-rotate-flip',
+        'heic-to-jpg', 'heic-to-png', 'webp-to-jpg', 'webp-to-png',
+        'avif-to-jpg', 'avif-to-png', 'svg-to-png',
         'video-compressor', 'video-reverse', 'video-watermark', 'video-mute',
         'video-rotate', 'video-loop', 'video-framerate', 'video-snapshot',
         'video-aspect-ratio', 'video-color-filter',
@@ -25,7 +27,9 @@
         'audio-noise-generator', 'audio-cutter-ringtone',
         'pdf-merger', 'pdf-splitter', 'pdf-page-rotator', 'pdf-watermark',
         'pdf-page-numberer', 'pdf-compressor', 'text-to-pdf', 'pdf-protect',
-        'pdf-page-delete', 'markdown-to-pdf'
+        'pdf-page-delete', 'markdown-to-pdf',
+        'pdf-password-protect', 'pdf-password-remover', 'pdf-image-extractor',
+        'pdf-page-reorganizer', 'pdf-to-text', 'images-to-pdf'
       ];
       return known.includes(toolId);
     },
@@ -899,6 +903,266 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
             </div>
           `;
 
+        // ========== 13 NEW CONVERTER TOOLS PANELS ==========
+
+        case 'heic-to-jpg':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label for="opt-heic-jpg-quality">JPEG Output Quality: <span id="val-heic-jpg-quality" class="slider-value-badge">92%</span></label>
+                <input type="range" id="opt-heic-jpg-quality" min="40" max="100" value="92" class="media-range" />
+                <span class="media-option-hint">High quality preserves crisp detail while optimizing file size.</span>
+              </div>
+              <div class="media-option-group">
+                <label for="opt-heic-jpg-bg">Background Fill (for transparent areas)</label>
+                <select id="opt-heic-jpg-bg" class="media-select">
+                  <option value="#FFFFFF" selected>White (Standard)</option>
+                  <option value="#000000">Black</option>
+                  <option value="#F3F4F6">Light Gray</option>
+                </select>
+                <span class="media-option-hint">JPEGs do not support transparency; transparent pixels fill with this color.</span>
+              </div>
+            </div>
+          `;
+
+        case 'heic-to-png':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label for="opt-heic-png-scale">Resolution Scale</label>
+                <select id="opt-heic-png-scale" class="media-select">
+                  <option value="1.0" selected>100% (Original Full Resolution)</option>
+                  <option value="0.75">75% Scaled</option>
+                  <option value="0.5">50% Half Resolution</option>
+                </select>
+                <span class="media-option-hint">Converts to lossless 24-bit PNG with maximum photographic fidelity.</span>
+              </div>
+            </div>
+          `;
+
+        case 'webp-to-jpg':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label for="opt-webp-jpg-quality">JPEG Quality: <span id="val-webp-jpg-quality" class="slider-value-badge">90%</span></label>
+                <input type="range" id="opt-webp-jpg-quality" min="40" max="100" value="90" class="media-range" />
+                <span class="media-option-hint">Adjust JPG compression balance between clarity and file size.</span>
+              </div>
+              <div class="media-option-group">
+                <label for="opt-webp-jpg-bg">Background Fill Color</label>
+                <select id="opt-webp-jpg-bg" class="media-select">
+                  <option value="#FFFFFF" selected>White (Standard)</option>
+                  <option value="#000000">Black</option>
+                  <option value="#F3F4F6">Light Gray</option>
+                </select>
+                <span class="media-option-hint">Fills transparent regions of the WebP image.</span>
+              </div>
+            </div>
+          `;
+
+        case 'webp-to-png':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label>Alpha Transparency Preservation</label>
+                <p class="media-option-hint" style="margin-top: 0.5rem; color: var(--text-primary); font-weight: 500;">
+                  ✓ Full alpha transparency channel will be preserved with pixel-perfect accuracy.
+                </p>
+              </div>
+            </div>
+          `;
+
+        case 'avif-to-jpg':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label for="opt-avif-jpg-quality">Output JPEG Quality: <span id="val-avif-jpg-quality" class="slider-value-badge">90%</span></label>
+                <input type="range" id="opt-avif-jpg-quality" min="40" max="100" value="90" class="media-range" />
+                <span class="media-option-hint">Controls the output compression for the standard JPG file.</span>
+              </div>
+              <div class="media-option-group">
+                <label for="opt-avif-jpg-bg">Background Fill</label>
+                <select id="opt-avif-jpg-bg" class="media-select">
+                  <option value="#FFFFFF" selected>White (Default)</option>
+                  <option value="#000000">Black</option>
+                  <option value="#E5E7EB">Gray</option>
+                </select>
+                <span class="media-option-hint">Used for transparent regions in the AVIF file.</span>
+              </div>
+            </div>
+          `;
+
+        case 'avif-to-png':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label>Lossless PNG Output</label>
+                <p class="media-option-hint" style="margin-top: 0.5rem; color: var(--text-primary); font-weight: 500;">
+                  ✓ Preserves full color spectrum and transparent background.
+                </p>
+              </div>
+            </div>
+          `;
+
+        case 'svg-to-png':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label for="opt-svg-scale">Resolution Multiplier (Sharpness)</label>
+                <select id="opt-svg-scale" class="media-select">
+                  <option value="1">1x Standard Screen Resolution</option>
+                  <option value="2" selected>2x High-DPI (Retina / 2K)</option>
+                  <option value="4">4x Ultra HD 4K (Design & Print)</option>
+                  <option value="8">8x Maximum 8K (Large Print / Vector Fidelity)</option>
+                </select>
+                <span class="media-option-hint">Scales the vector artwork before rasterizing to prevent pixelation.</span>
+              </div>
+              <div class="media-option-group">
+                <label for="opt-svg-bg">Background Canvas</label>
+                <select id="opt-svg-bg" class="media-select">
+                  <option value="transparent" selected>Transparent (Default)</option>
+                  <option value="#FFFFFF">Solid White</option>
+                  <option value="#000000">Solid Black</option>
+                </select>
+                <span class="media-option-hint">Choose transparent or a solid background fill.</span>
+              </div>
+            </div>
+          `;
+
+        case 'pdf-password-protect':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label for="opt-pdf-user-pass">User Password (Required to open & view PDF)</label>
+                <div style="position: relative;">
+                  <input type="password" id="opt-pdf-user-pass" class="media-input" placeholder="Enter viewing password..." style="width: 100%; padding-right: 2.5rem;" />
+                  <button type="button" class="btn-toggle-pass" data-target="opt-pdf-user-pass" style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem;">👁️</button>
+                </div>
+                <span class="media-option-hint">Recipients must enter this password to view the document.</span>
+              </div>
+              <div class="media-option-group">
+                <label for="opt-pdf-owner-pass">Owner / Master Password (Optional)</label>
+                <div style="position: relative;">
+                  <input type="password" id="opt-pdf-owner-pass" class="media-input" placeholder="Enter owner password (optional)..." style="width: 100%; padding-right: 2.5rem;" />
+                  <button type="button" class="btn-toggle-pass" data-target="opt-pdf-owner-pass" style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem;">👁️</button>
+                </div>
+                <span class="media-option-hint">Required to change permissions or security settings.</span>
+              </div>
+              <div class="media-option-group">
+                <label for="opt-pdf-enc-algo">Encryption Algorithm</label>
+                <select id="opt-pdf-enc-algo" class="media-select">
+                  <option value="AES-256" selected>AES-256 (Highest Security - Recommended)</option>
+                  <option value="RC4-128">RC4-128 (Legacy Compatibility)</option>
+                </select>
+              </div>
+              <div class="media-option-group">
+                <label>Document Permissions Restrictions</label>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.35rem;">
+                  <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: normal; font-size: 0.9rem; cursor: pointer;">
+                    <input type="checkbox" id="opt-pdf-perm-print" checked /> Allow Printing
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: normal; font-size: 0.9rem; cursor: pointer;">
+                    <input type="checkbox" id="opt-pdf-perm-copy" checked /> Allow Copying Text and Content
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: normal; font-size: 0.9rem; cursor: pointer;">
+                    <input type="checkbox" id="opt-pdf-perm-mod" /> Allow Modifying Document
+                  </label>
+                </div>
+              </div>
+            </div>
+          `;
+
+        case 'pdf-password-remover':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label for="opt-pdf-unlock-pass">Enter Document Password</label>
+                <div style="position: relative;">
+                  <input type="password" id="opt-pdf-unlock-pass" class="media-input" placeholder="Enter the current password..." style="width: 100%; padding-right: 2.5rem;" />
+                  <button type="button" class="btn-toggle-pass" data-target="opt-pdf-unlock-pass" style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem;">👁️</button>
+                </div>
+                <span class="media-option-hint">Enter the password used to open this PDF. The password lock will be permanently removed.</span>
+              </div>
+            </div>
+          `;
+
+        case 'pdf-image-extractor':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label>Extraction Engine</label>
+                <p class="media-option-hint" style="margin-top: 0.5rem; color: var(--text-primary); font-weight: 500;">
+                  ✓ Scans all embedded photos, diagrams, and figures across every page and packages them into a single ZIP archive.
+                </p>
+              </div>
+            </div>
+          `;
+
+        case 'pdf-page-reorganizer':
+          return `
+            <div class="media-options-grid" style="grid-template-columns: 1fr;">
+              <div class="media-option-group">
+                <label>Reorder PDF Pages</label>
+                <span class="media-option-hint">Enter the new page sequence as comma-separated page numbers, or click reverse to invert.</span>
+                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                  <input type="text" id="opt-reorg-sequence" class="media-input" placeholder="e.g. 3, 1, 2, 4..." style="flex: 1; min-width: 200px;" />
+                  <button type="button" class="btn btn-secondary" id="btn-reorg-reverse">Reverse Order</button>
+                  <button type="button" class="btn btn-secondary" id="btn-reorg-reset">Reset Order</button>
+                </div>
+              </div>
+            </div>
+          `;
+
+        case 'pdf-to-text':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                  <input type="checkbox" id="opt-p2t-dividers" checked /> Include Page Markers (--- Page X of Y ---)
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-top: 0.5rem;">
+                  <input type="checkbox" id="opt-p2t-normalize" checked /> Clean and normalize whitespace
+                </label>
+              </div>
+            </div>
+          `;
+
+        case 'images-to-pdf':
+          return `
+            <div class="media-options-grid">
+              <div class="media-option-group">
+                <label for="opt-img2pdf-pagesize">Page Dimensions</label>
+                <select id="opt-img2pdf-pagesize" class="media-select">
+                  <option value="fit" selected>Fit to Image Size (Full Bleed)</option>
+                  <option value="a4">A4 (Standard Document)</option>
+                  <option value="letter">US Letter (8.5 x 11 in)</option>
+                </select>
+                <span class="media-option-hint">Match image aspect ratio or use standard printable paper sizes.</span>
+              </div>
+              <div class="media-option-group">
+                <label for="opt-img2pdf-orientation">Page Orientation</label>
+                <select id="opt-img2pdf-orientation" class="media-select">
+                  <option value="auto" selected>Automatic (Match Image)</option>
+                  <option value="portrait">Portrait</option>
+                  <option value="landscape">Landscape</option>
+                </select>
+              </div>
+              <div class="media-option-group">
+                <label for="opt-img2pdf-margin">Page Margins</label>
+                <select id="opt-img2pdf-margin" class="media-select">
+                  <option value="0" selected>0px (Full Bleed)</option>
+                  <option value="15">15px Margin</option>
+                  <option value="30">30px Standard Margin</option>
+                </select>
+              </div>
+              <div class="media-option-group">
+                <label for="opt-img2pdf-files">Add Multiple Images (Optional)</label>
+                <input type="file" id="opt-img2pdf-files" multiple accept="image/*" class="media-input" style="padding: 0.5rem;" />
+                <span class="media-option-hint">Select multiple images to bundle them into a single multi-page PDF.</span>
+              </div>
+            </div>
+          `;
+
         default:
           return ``;
       }
@@ -1333,6 +1597,42 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
             engine.showToast(`Delete error: ${e.message}`, 'error');
           } finally {
             engine.setProcessingUi(false);
+          }
+        });
+      }
+
+      // Password visibility togglers
+      panel.querySelectorAll('.btn-toggle-pass').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-target');
+          const input = panel.querySelector(`#${targetId}`);
+          if (input) {
+            if (input.type === 'password') {
+              input.type = 'text';
+              btn.textContent = '🙈';
+            } else {
+              input.type = 'password';
+              btn.textContent = '👁️';
+            }
+          }
+        });
+      });
+
+      // PDF Page Reorganizer quick buttons
+      if (toolId === 'pdf-page-reorganizer') {
+        const seqInput = panel.querySelector('#opt-reorg-sequence');
+        panel.querySelector('#btn-reorg-reverse')?.addEventListener('click', () => {
+          if (!seqInput) return;
+          const parts = seqInput.value.split(',').map(s => s.trim()).filter(Boolean);
+          if (parts.length > 0) {
+            seqInput.value = parts.reverse().join(', ');
+          }
+        });
+        panel.querySelector('#btn-reorg-reset')?.addEventListener('click', () => {
+          if (!seqInput) return;
+          const parts = seqInput.value.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
+          if (parts.length > 0) {
+            seqInput.value = parts.sort((a, b) => a - b).join(', ');
           }
         });
       }
@@ -1984,6 +2284,206 @@ Audit Status: Safe (100% Client-Side In-Memory Inspection)`;
             extension: 'pdf',
             mimeType: 'application/pdf',
             meta: `Markdown PDF Document • ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        // ========== 13 NEW CONVERTER TOOLS EXECUTION ==========
+
+        case 'heic-to-jpg': {
+          const targetFile = file || panel?.querySelector('#opt-heic-file')?.files?.[0];
+          if (!targetFile) throw new Error('Please select a HEIC or HEIF image file.');
+          const quality = parseInt(panel?.querySelector('#opt-heic-jpg-quality')?.value || '92', 10) / 100;
+          const bg = panel?.querySelector('#opt-heic-jpg-bg')?.value || '#FFFFFF';
+          engine.updateProgress(30, 'Decoding Apple HEIC image stream...');
+          const blob = await handlers.convertHeicToJpg(targetFile, quality, bg);
+          engine.updateProgress(90, 'Finalizing JPEG output...');
+          const origKB = (targetFile.size / 1024).toFixed(1);
+          const newKB = (blob.size / 1024).toFixed(1);
+          return {
+            blob,
+            extension: 'jpg',
+            mimeType: 'image/jpeg',
+            meta: `Converted JPG • ${origKB} KB → ${newKB} KB`
+          };
+        }
+
+        case 'heic-to-png': {
+          const targetFile = file || panel?.querySelector('#opt-heic-file')?.files?.[0];
+          if (!targetFile) throw new Error('Please select a HEIC or HEIF image file.');
+          const scale = parseFloat(panel?.querySelector('#opt-heic-png-scale')?.value || '1.0');
+          engine.updateProgress(30, 'Decoding HEIC photo to lossless PNG...');
+          const blob = await handlers.convertHeicToPng(targetFile, scale);
+          const origKB = (targetFile.size / 1024).toFixed(1);
+          const newKB = (blob.size / 1024).toFixed(1);
+          return {
+            blob,
+            extension: 'png',
+            mimeType: 'image/png',
+            meta: `Lossless PNG • ${origKB} KB → ${newKB} KB`
+          };
+        }
+
+        case 'webp-to-jpg': {
+          if (!file) throw new Error('Please select a WebP image.');
+          const quality = parseInt(panel?.querySelector('#opt-webp-jpg-quality')?.value || '90', 10) / 100;
+          const bg = panel?.querySelector('#opt-webp-jpg-bg')?.value || '#FFFFFF';
+          engine.updateProgress(35, 'Converting WebP to universal JPEG format...');
+          const blob = await handlers.convertWebpToJpg(file, quality, bg);
+          return {
+            blob,
+            extension: 'jpg',
+            mimeType: 'image/jpeg',
+            meta: `Converted JPG • ${(file.size / 1024).toFixed(1)} KB → ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'webp-to-png': {
+          if (!file) throw new Error('Please select a WebP image.');
+          engine.updateProgress(35, 'Rasterizing WebP to lossless PNG with alpha channel...');
+          const blob = await handlers.convertWebpToPng(file);
+          return {
+            blob,
+            extension: 'png',
+            mimeType: 'image/png',
+            meta: `Lossless PNG • ${(file.size / 1024).toFixed(1)} KB → ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'avif-to-jpg': {
+          if (!file) throw new Error('Please select an AVIF image.');
+          const quality = parseInt(panel?.querySelector('#opt-avif-jpg-quality')?.value || '90', 10) / 100;
+          const bg = panel?.querySelector('#opt-avif-jpg-bg')?.value || '#FFFFFF';
+          engine.updateProgress(35, 'Converting AVIF to JPEG format...');
+          const blob = await handlers.convertAvifToJpg(file, quality, bg);
+          return {
+            blob,
+            extension: 'jpg',
+            mimeType: 'image/jpeg',
+            meta: `Converted JPG • ${(file.size / 1024).toFixed(1)} KB → ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'avif-to-png': {
+          if (!file) throw new Error('Please select an AVIF image.');
+          engine.updateProgress(35, 'Converting AVIF to lossless PNG format...');
+          const blob = await handlers.convertAvifToPng(file);
+          return {
+            blob,
+            extension: 'png',
+            mimeType: 'image/png',
+            meta: `Lossless PNG • ${(file.size / 1024).toFixed(1)} KB → ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'svg-to-png': {
+          if (!file) throw new Error('Please select an SVG vector file.');
+          const scale = parseFloat(panel?.querySelector('#opt-svg-scale')?.value || '2');
+          const bg = panel?.querySelector('#opt-svg-bg')?.value || 'transparent';
+          engine.updateProgress(35, `Rasterizing SVG vector at ${scale}x resolution...`);
+          const blob = await handlers.rasterizeSvgToPng(file, scale, bg);
+          return {
+            blob,
+            extension: 'png',
+            mimeType: 'image/png',
+            meta: `Rasterized PNG (${scale}x scale) • ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'pdf-password-protect': {
+          if (!file) throw new Error('Please select a PDF document to protect.');
+          const userPass = panel?.querySelector('#opt-pdf-user-pass')?.value || '';
+          const ownerPass = panel?.querySelector('#opt-pdf-owner-pass')?.value || '';
+          if (!userPass) throw new Error('Please enter a user password to lock the PDF.');
+          const algo = panel?.querySelector('#opt-pdf-enc-algo')?.value || 'AES-256';
+          const perms = {
+            printing: panel?.querySelector('#opt-pdf-perm-print')?.checked ?? true,
+            copying: panel?.querySelector('#opt-pdf-perm-copy')?.checked ?? true,
+            modifying: panel?.querySelector('#opt-pdf-perm-mod')?.checked ?? false
+          };
+          engine.updateProgress(35, `Encrypting PDF document with ${algo}...`);
+          const blob = await handlers.passwordProtectPdf(file, userPass, ownerPass, perms, algo);
+          return {
+            blob,
+            extension: 'pdf',
+            mimeType: 'application/pdf',
+            meta: `Encrypted Locked PDF • ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'pdf-password-remover': {
+          if (!file) throw new Error('Please select a password-protected PDF document.');
+          const pass = panel?.querySelector('#opt-pdf-unlock-pass')?.value || '';
+          engine.updateProgress(35, 'Authenticating and stripping PDF encryption...');
+          const blob = await handlers.removePdfPassword(file, pass);
+          return {
+            blob,
+            extension: 'pdf',
+            mimeType: 'application/pdf',
+            meta: `Unlocked Clean PDF • ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'pdf-image-extractor': {
+          if (!file) throw new Error('Please select a PDF document to extract images from.');
+          engine.updateProgress(30, 'Scanning PDF object streams for embedded images...');
+          const res = await handlers.extractPdfImages(file);
+          if (!res || res.count === 0) {
+            throw new Error('No embedded images found in this PDF document.');
+          }
+          engine.updateProgress(90, `Extracted ${res.count} images from PDF!`);
+          const isZip = !!res.zipBlob;
+          return {
+            blob: isZip ? res.zipBlob : res.images[0].blob,
+            extension: isZip ? 'zip' : 'png',
+            mimeType: isZip ? 'application/zip' : 'image/png',
+            meta: `Extracted ${res.count} Images • ${isZip ? 'Packaged as ZIP' : 'Single Image'} (${((res.zipBlob?.size || res.images[0]?.blob?.size || 0) / 1024).toFixed(1)} KB)`
+          };
+        }
+
+        case 'pdf-page-reorganizer': {
+          if (!file) throw new Error('Please select a PDF document.');
+          const raw = panel?.querySelector('#opt-reorg-sequence')?.value || '';
+          const parts = raw.split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n) && n > 0);
+          if (parts.length === 0) throw new Error('Please enter a valid page sequence (e.g. 2, 1, 3).');
+          const zeroIndexed = parts.map(n => n - 1);
+          engine.updateProgress(35, 'Reorganizing and compiling new PDF structure...');
+          const blob = await handlers.reorganizePdfPages(file, zeroIndexed);
+          return {
+            blob,
+            extension: 'pdf',
+            mimeType: 'application/pdf',
+            meta: `Reorganized PDF (${parts.length} pages in new order) • ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'pdf-to-text': {
+          if (!file) throw new Error('Please select a PDF document.');
+          const incDiv = panel?.querySelector('#opt-p2t-dividers')?.checked ?? true;
+          const norm = panel?.querySelector('#opt-p2t-normalize')?.checked ?? true;
+          engine.updateProgress(35, 'Extracting text streams from all PDF pages...');
+          const res = await handlers.extractPdfText(file, { includeDividers: incDiv, normalizeSpaces: norm });
+          return {
+            blob: res.blob,
+            extension: 'txt',
+            mimeType: 'text/plain',
+            meta: `Extracted Text • ${res.pageCount} Pages • ${res.wordCount.toLocaleString()} Words • ${(res.blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'images-to-pdf': {
+          const multiFiles = panel?.querySelector('#opt-img2pdf-files')?.files;
+          const files = (multiFiles && multiFiles.length > 0) ? Array.from(multiFiles) : (file ? [file] : []);
+          if (files.length === 0) throw new Error('Please select at least one image to convert to PDF.');
+          const pageSize = panel?.querySelector('#opt-img2pdf-pagesize')?.value || 'fit';
+          const orientation = panel?.querySelector('#opt-img2pdf-orientation')?.value || 'auto';
+          const margin = parseInt(panel?.querySelector('#opt-img2pdf-margin')?.value || '0', 10);
+          engine.updateProgress(35, `Assembling ${files.length} image(s) into PDF document...`);
+          const blob = await handlers.convertImagesToPdf(files, { pageSize, orientation, margin });
+          return {
+            blob,
+            extension: 'pdf',
+            mimeType: 'application/pdf',
+            meta: `Compiled PDF (${files.length} pages) • ${(blob.size / 1024).toFixed(1)} KB`
           };
         }
 

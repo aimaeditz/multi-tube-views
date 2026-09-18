@@ -77,7 +77,7 @@
       });
     }
 
-    // 3. Media Converter Tools (60 tools)
+    // 3. Media Converter Tools (73 tools)
     if (ALL_TOOL_CONFIGS && typeof ALL_TOOL_CONFIGS === 'object') {
       Object.entries(ALL_TOOL_CONFIGS).forEach(([id, tool]) => {
         const catKey = tool.category || 'video';

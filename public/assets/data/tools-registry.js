@@ -19,7 +19,7 @@ export function getWebsiteToolMetrics() {
     : (typeof window !== 'undefined' && window.MTV_AI_TOOLS_DATA ? Object.keys(window.MTV_AI_TOOLS_DATA).length : 210);
 
   // 2. Media Converter Tools Count
-  let mediaToolsCount = 60;
+  let mediaToolsCount = 73;
   if (typeof ALL_TOOL_CONFIGS === 'object' && ALL_TOOL_CONFIGS !== null) {
     mediaToolsCount = Object.keys(ALL_TOOL_CONFIGS).length;
   } else if (typeof window !== 'undefined' && window.MTV_ALL_TOOL_CONFIGS) {

@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 1. Calculate live counts directly from existing platform registries
   const buToolsCount = Object.keys(BU_TOOLS_CATALOG || {}).length || 89;
-  const aiToolsCount = Object.keys(AI_TOOLS_DATA || {}).length || 60;
-  const mediaToolsCount = Object.keys(ALL_TOOL_CONFIGS || {}).length || 60;
-  const creatorToolsCount = Object.keys(CREATOR_TOOLS_DATA || {}).length || 20;
+  const aiToolsCount = Object.keys(AI_TOOLS_DATA || {}).length || 210;
+  const mediaToolsCount = Object.keys(ALL_TOOL_CONFIGS || {}).length || 73;
+  const creatorToolsCount = Object.keys(CREATOR_TOOLS_DATA || {}).length || 70;
   const platformsCount = Object.keys(PLATFORM_CONFIG || {}).length || 40;
   let promptsCount = '370+';
 
@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 3. Media Converter Tools (60)
+    // 3. Media Converter Tools (73)
     if (typeof ALL_TOOL_CONFIGS !== 'undefined' && ALL_TOOL_CONFIGS) {
       Object.entries(ALL_TOOL_CONFIGS).forEach(([id, t]) => {
         unified.push({
@@ -521,10 +521,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Section 4: Media Converter Tools (Image, Video, Audio, PDF & Documents) ---
     const mediaCategoriesMeta = [
-      { id: 'image', title: 'Image Converters', desc: 'Convert WebP, PNG, JPG, SVG, AVIF, compress image files, crop, resize, and remove EXIF.', icon: '🖼️', accent: '#2563EB', bg: 'rgba(37, 99, 235, 0.08)', border: 'rgba(37, 99, 235, 0.2)', fallbackCount: 19 },
+      { id: 'image', title: 'Image Converters', desc: 'Convert WebP, PNG, JPG, SVG, AVIF, compress image files, crop, resize, and remove EXIF.', icon: '🖼️', accent: '#2563EB', bg: 'rgba(37, 99, 235, 0.08)', border: 'rgba(37, 99, 235, 0.2)', fallbackCount: 26 },
       { id: 'video', title: 'Video Converters', desc: 'Convert MP4, WebM, MOV, extract audio, create GIFs, trim clips, and compress video.', icon: '🎥', accent: '#4F46E5', bg: 'rgba(79, 70, 229, 0.08)', border: 'rgba(79, 70, 229, 0.2)', fallbackCount: 15 },
       { id: 'audio', title: 'Audio Converters', desc: 'Convert MP3, WAV, OGG, AAC, FLAC, trim audio, adjust bitrate, and normalize volume.', icon: '🎵', accent: '#7C3AED', bg: 'rgba(124, 58, 237, 0.08)', border: 'rgba(124, 58, 237, 0.2)', fallbackCount: 15 },
-      { id: 'pdf-document', title: 'PDF & Documents', desc: 'Merge PDFs, split pages, convert PDF to images, compress files, and extract clean text.', icon: '📄', accent: '#0284C7', bg: 'rgba(2, 132, 199, 0.08)', border: 'rgba(2, 132, 199, 0.2)', fallbackCount: 11 }
+      { id: 'pdf-document', title: 'PDF & Documents', desc: 'Merge PDFs, split pages, convert PDF to images, compress files, and extract clean text.', icon: '📄', accent: '#0284C7', bg: 'rgba(2, 132, 199, 0.08)', border: 'rgba(2, 132, 199, 0.2)', fallbackCount: 17 }
     ];
 
     mediaCategoriesMeta.forEach(cat => {

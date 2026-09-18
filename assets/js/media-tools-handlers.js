@@ -2084,6 +2084,589 @@
         return doc.output('blob');
       }
       throw new Error('PDF generator not ready');
+    },
+
+    // ==========================================
+    // 13 NEW CONVERTER TOOLS HANDLERS (BATCH EXPANSION)
+    // ==========================================
+
+    // 1. HEIC to JPG Converter
+    async convertHeicToJpg(file, quality = 0.92, bgColor = '#FFFFFF') {
+      if (typeof window.heic2any === 'function') {
+        try {
+          const res = await window.heic2any({
+            blob: file,
+            toType: 'image/jpeg',
+            quality: Math.max(0.1, Math.min(1.0, quality))
+          });
+          const blob = Array.isArray(res) ? res[0] : res;
+          if (blob && blob.size > 0) return blob;
+        } catch (e) {
+          console.warn('heic2any decoding attempt failed, trying canvas fallback:', e);
+        }
+      }
+
+      try {
+        const img = await loadImageFromFile(file);
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth || img.width;
+        canvas.height = img.naturalHeight || img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        return await new Promise((resolve, reject) => {
+          canvas.toBlob((b) => b ? resolve(b) : reject(new Error('Canvas export failed')), 'image/jpeg', quality);
+        });
+      } catch (err) {
+        throw new Error('Unable to decode HEIC image. Please verify file format or use Safari/modern browser.');
+      }
+    },
+
+    // 2. HEIC to PNG Converter
+    async convertHeicToPng(file, scale = 1.0) {
+      if (typeof window.heic2any === 'function') {
+        try {
+          const res = await window.heic2any({
+            blob: file,
+            toType: 'image/png'
+          });
+          const blob = Array.isArray(res) ? res[0] : res;
+          if (scale < 1.0 && blob) {
+            const img = await loadImageFromFile(blob);
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.max(1, Math.round((img.naturalWidth || img.width) * scale));
+            canvas.height = Math.max(1, Math.round((img.naturalHeight || img.height) * scale));
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            return await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+          }
+          if (blob && blob.size > 0) return blob;
+        } catch (e) {
+          console.warn('heic2any decoding attempt failed, trying canvas fallback:', e);
+        }
+      }
+
+      try {
+        const img = await loadImageFromFile(file);
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round((img.naturalWidth || img.width) * scale));
+        canvas.height = Math.max(1, Math.round((img.naturalHeight || img.height) * scale));
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        return await new Promise((resolve, reject) => {
+          canvas.toBlob((b) => b ? resolve(b) : reject(new Error('Canvas export failed')), 'image/png');
+        });
+      } catch (err) {
+        throw new Error('Unable to decode HEIC image. Please verify file format.');
+      }
+    },
+
+    // 3. WEBP to JPG Converter
+    async convertWebpToJpg(file, quality = 0.9, bgColor = '#FFFFFF') {
+      const img = await loadImageFromFile(file);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth || img.width;
+      canvas.height = img.naturalHeight || img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      return new Promise((resolve, reject) => {
+        canvas.toBlob((b) => b ? resolve(b) : reject(new Error('Failed to convert WebP to JPG')), 'image/jpeg', quality);
+      });
+    },
+
+    // 4. WEBP to PNG Converter
+    async convertWebpToPng(file) {
+      const img = await loadImageFromFile(file);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth || img.width;
+      canvas.height = img.naturalHeight || img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      return new Promise((resolve, reject) => {
+        canvas.toBlob((b) => b ? resolve(b) : reject(new Error('Failed to convert WebP to PNG')), 'image/png');
+      });
+    },
+
+    // 5. AVIF to JPG Converter
+    async convertAvifToJpg(file, quality = 0.9, bgColor = '#FFFFFF') {
+      const img = await loadImageFromFile(file);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth || img.width;
+      canvas.height = img.naturalHeight || img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      return new Promise((resolve, reject) => {
+        canvas.toBlob((b) => b ? resolve(b) : reject(new Error('Failed to convert AVIF to JPG')), 'image/jpeg', quality);
+      });
+    },
+
+    // 6. AVIF to PNG Converter
+    async convertAvifToPng(file) {
+      const img = await loadImageFromFile(file);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth || img.width;
+      canvas.height = img.naturalHeight || img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      return new Promise((resolve, reject) => {
+        canvas.toBlob((b) => b ? resolve(b) : reject(new Error('Failed to convert AVIF to PNG')), 'image/png');
+      });
+    },
+
+    // 7. SVG to PNG Converter (rasterize vector)
+    async rasterizeSvgToPng(file, scale = 2, bgColor = 'transparent') {
+      const svgText = await file.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(svgText, 'image/svg+xml');
+      const svgEl = doc.querySelector('svg');
+      
+      let baseW = 800;
+      let baseH = 600;
+      if (svgEl) {
+        const vb = svgEl.getAttribute('viewBox');
+        if (vb) {
+          const parts = vb.trim().split(/[\s,]+/).map(Number);
+          if (parts.length === 4 && parts[2] > 0 && parts[3] > 0) {
+            baseW = parts[2];
+            baseH = parts[3];
+          }
+        } else {
+          const wAttr = parseFloat(svgEl.getAttribute('width'));
+          const hAttr = parseFloat(svgEl.getAttribute('height'));
+          if (!isNaN(wAttr) && wAttr > 0) baseW = wAttr;
+          if (!isNaN(hAttr) && hAttr > 0) baseH = hAttr;
+        }
+      }
+
+      const outW = Math.max(1, Math.round(baseW * scale));
+      const outH = Math.max(1, Math.round(baseH * scale));
+
+      const blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+      const blobUrl = URL.createObjectURL(blob);
+
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          URL.revokeObjectURL(blobUrl);
+          const canvas = document.createElement('canvas');
+          canvas.width = outW;
+          canvas.height = outH;
+          const ctx = canvas.getContext('2d');
+          if (bgColor && bgColor !== 'transparent') {
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, outW, outH);
+          }
+          ctx.drawImage(img, 0, 0, outW, outH);
+          canvas.toBlob((pngBlob) => {
+            if (pngBlob) resolve(pngBlob);
+            else reject(new Error('Failed to export rasterized PNG'));
+          }, 'image/png');
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(blobUrl);
+          reject(new Error('Unable to render vector SVG. Please verify syntax.'));
+        };
+        img.src = blobUrl;
+      });
+    },
+
+    // 8. PDF Password Protect
+    async passwordProtectPdf(file, userPassword, ownerPassword = '', permissions = {}, algorithm = 'AES-256') {
+      if (!userPassword) {
+        throw new Error('Please enter a user password to lock the PDF.');
+      }
+
+      const arrayBuffer = await file.arrayBuffer();
+
+      // If PDFEncrypt (from @pdfsmaller/pdf-encrypt) is available:
+      if (window.PDFEncrypt && typeof window.PDFEncrypt.encryptPDF === 'function') {
+        const uint8 = new Uint8Array(arrayBuffer);
+        const encryptedBytes = await window.PDFEncrypt.encryptPDF(uint8, {
+          userPassword: userPassword,
+          ownerPassword: ownerPassword || userPassword,
+          permissions: {
+            printing: permissions.printing !== false ? 'highResolution' : 'none',
+            modifying: permissions.modifying === true,
+            copying: permissions.copying !== false,
+            annotating: permissions.annotating !== false,
+            fillingForms: permissions.fillingForms !== false,
+            contentAccessibility: true,
+            documentAssembly: permissions.assembly === true
+          },
+          algorithm: algorithm || 'AES-256'
+        });
+        return new Blob([encryptedBytes], { type: 'application/pdf' });
+      }
+
+      // Fallback using jsPDF encryption
+      if (window.jspdf && window.pdfjsLib) {
+        await ensurePdfJsWorker();
+        const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer.slice(0) });
+        const pdf = await loadingTask.promise;
+        const totalPages = pdf.numPages;
+
+        const { jsPDF } = window.jspdf;
+        const outDoc = new jsPDF({
+          encryption: {
+            userPassword: userPassword,
+            ownerPassword: ownerPassword || userPassword,
+            userPermissions: permissions.copying === false ? ['print'] : ['print', 'copy']
+          }
+        });
+
+        for (let i = 1; i <= totalPages; i++) {
+          if (i > 1) outDoc.addPage();
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: 2.0 });
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+          await page.render({ canvasContext: ctx, viewport }).promise;
+          const imgData = canvas.toDataURL('image/jpeg', 0.95);
+          const pW = outDoc.internal.pageSize.getWidth();
+          const pH = outDoc.internal.pageSize.getHeight();
+          outDoc.addImage(imgData, 'JPEG', 0, 0, pW, pH);
+        }
+
+        return outDoc.output('blob');
+      }
+
+      throw new Error('PDF encryption library not initialized. Please try again.');
+    },
+
+    // 9. PDF Password Remover (Unlock)
+    async removePdfPassword(file, password) {
+      if (!window.pdfjsLib) throw new Error('PDF viewer library not available.');
+      await ensurePdfJsWorker();
+
+      const arrayBuffer = await file.arrayBuffer();
+
+      let pdfDoc;
+      try {
+        const loadingTask = window.pdfjsLib.getDocument({
+          data: arrayBuffer,
+          password: password || ''
+        });
+        pdfDoc = await loadingTask.promise;
+      } catch (err) {
+        if (err && (err.name === 'PasswordException' || (err.message && err.message.toLowerCase().includes('password')))) {
+          throw new Error('Incorrect password. Please verify the password and try again.');
+        }
+        throw new Error(`Failed to unlock PDF: ${err.message || err}`);
+      }
+
+      if (window.PDFLib) {
+        const newDoc = await window.PDFLib.PDFDocument.create();
+        const numPages = pdfDoc.numPages;
+
+        for (let i = 1; i <= numPages; i++) {
+          const page = await pdfDoc.getPage(i);
+          const viewport = page.getViewport({ scale: 2.0 });
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+          await page.render({ canvasContext: ctx, viewport }).promise;
+
+          const imgBlob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', 0.95));
+          const imgBytes = await imgBlob.arrayBuffer();
+          const embeddedImg = await newDoc.embedJpg(imgBytes);
+
+          const origViewport = page.getViewport({ scale: 1.0 });
+          const newPage = newDoc.addPage([origViewport.width, origViewport.height]);
+          newPage.drawImage(embeddedImg, {
+            x: 0,
+            y: 0,
+            width: origViewport.width,
+            height: origViewport.height
+          });
+        }
+
+        const unencryptedBytes = await newDoc.save();
+        return new Blob([unencryptedBytes], { type: 'application/pdf' });
+      }
+
+      throw new Error('PDF reconstruction engine not available.');
+    },
+
+    // 10. PDF Image Extractor
+    async extractPdfImages(file) {
+      if (!window.pdfjsLib) throw new Error('PDF viewer library not ready.');
+      await ensurePdfJsWorker();
+
+      const arrayBuffer = await file.arrayBuffer();
+      const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
+      const pdf = await loadingTask.promise;
+      const numPages = pdf.numPages;
+      const extractedImages = [];
+
+      for (let p = 1; p <= numPages; p++) {
+        const page = await pdf.getPage(p);
+        const ops = await page.getOperatorList();
+        const fns = ops.fnArray;
+        const args = ops.argsArray;
+
+        for (let i = 0; i < fns.length; i++) {
+          if (fns[i] === window.pdfjsLib.OPS.paintImageXObject || fns[i] === window.pdfjsLib.OPS.paintInlineImageXObject) {
+            const imgName = args[i][0];
+            try {
+              let imgObj = page.objs.get(imgName);
+              if (!imgObj && page.commonObjs) {
+                imgObj = page.commonObjs.get(imgName);
+              }
+
+              if (imgObj && (imgObj.data || imgObj.bitmap)) {
+                let canvas = document.createElement('canvas');
+                let ctx = canvas.getContext('2d');
+                let w = imgObj.width;
+                let h = imgObj.height;
+
+                if (imgObj.bitmap) {
+                  canvas.width = imgObj.bitmap.width;
+                  canvas.height = imgObj.bitmap.height;
+                  ctx.drawImage(imgObj.bitmap, 0, 0);
+                } else if (imgObj.data) {
+                  canvas.width = w;
+                  canvas.height = h;
+                  const imgData = ctx.createImageData(w, h);
+                  const dataLen = imgObj.data.length;
+                  if (dataLen === w * h * 4) {
+                    imgData.data.set(imgObj.data);
+                  } else if (dataLen === w * h * 3) {
+                    let j = 0;
+                    for (let k = 0; k < dataLen; k += 3) {
+                      imgData.data[j] = imgObj.data[k];
+                      imgData.data[j + 1] = imgObj.data[k + 1];
+                      imgData.data[j + 2] = imgObj.data[k + 2];
+                      imgData.data[j + 3] = 255;
+                      j += 4;
+                    }
+                  } else {
+                    let j = 0;
+                    for (let k = 0; k < dataLen && j < imgData.data.length; k++) {
+                      const v = imgObj.data[k];
+                      imgData.data[j] = v;
+                      imgData.data[j + 1] = v;
+                      imgData.data[j + 2] = v;
+                      imgData.data[j + 3] = 255;
+                      j += 4;
+                    }
+                  }
+                  ctx.putImageData(imgData, 0, 0);
+                }
+
+                if (canvas.width > 20 && canvas.height > 20) {
+                  const blob = await new Promise((res) => canvas.toBlob(res, 'image/png'));
+                  extractedImages.push({
+                    name: `page-${p}-image-${extractedImages.length + 1}.png`,
+                    pageNum: p,
+                    width: canvas.width,
+                    height: canvas.height,
+                    blob: blob,
+                    dataUrl: canvas.toDataURL('image/png')
+                  });
+                }
+              }
+            } catch (err) {
+              console.warn('Could not extract image object:', err);
+            }
+          }
+        }
+      }
+
+      if (extractedImages.length === 0) {
+        for (let p = 1; p <= Math.min(numPages, 10); p++) {
+          const page = await pdf.getPage(p);
+          const viewport = page.getViewport({ scale: 1.5 });
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+          await page.render({ canvasContext: ctx, viewport }).promise;
+          const blob = await new Promise((res) => canvas.toBlob(res, 'image/png'));
+          extractedImages.push({
+            name: `page-${p}-snapshot.png`,
+            pageNum: p,
+            width: canvas.width,
+            height: canvas.height,
+            blob: blob,
+            dataUrl: canvas.toDataURL('image/png')
+          });
+        }
+      }
+
+      let zipBlob = null;
+      if (window.JSZip && extractedImages.length > 0) {
+        const zip = new window.JSZip();
+        for (const item of extractedImages) {
+          zip.file(item.name, item.blob);
+        }
+        zipBlob = await zip.generateAsync({ type: 'blob' });
+      }
+
+      return {
+        images: extractedImages,
+        zipBlob: zipBlob || (extractedImages[0] ? extractedImages[0].blob : null),
+        count: extractedImages.length
+      };
+    },
+
+    // 11. PDF Page Reorganizer
+    async reorganizePdfPages(file, newOrderIndices) {
+      if (!window.PDFLib) throw new Error('PDF library is initializing.');
+      const bytes = await file.arrayBuffer();
+      const srcDoc = await window.PDFLib.PDFDocument.load(bytes);
+      const newDoc = await window.PDFLib.PDFDocument.create();
+
+      const totalPages = srcDoc.getPageCount();
+      const validIndices = newOrderIndices.filter((idx) => idx >= 0 && idx < totalPages);
+      if (validIndices.length === 0) {
+        throw new Error('Invalid page order selection.');
+      }
+
+      const copiedPages = await newDoc.copyPages(srcDoc, validIndices);
+      copiedPages.forEach((p) => newDoc.addPage(p));
+
+      const pdfBytes = await newDoc.save();
+      return new Blob([pdfBytes], { type: 'application/pdf' });
+    },
+
+    // 12. PDF to Text Extractor
+    async extractPdfText(file, options = { includeDividers: true, normalizeSpaces: true }) {
+      if (!window.pdfjsLib) throw new Error('PDF text parser not ready.');
+      await ensurePdfJsWorker();
+
+      const arrayBuffer = await file.arrayBuffer();
+      const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
+      const pdf = await loadingTask.promise;
+      const numPages = pdf.numPages;
+      const pageTexts = [];
+
+      for (let p = 1; p <= numPages; p++) {
+        const page = await pdf.getPage(p);
+        const textContent = await page.getTextContent();
+        let lastY = null;
+        let line = '';
+        const lines = [];
+
+        for (const item of textContent.items) {
+          if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
+            lines.push(line.trim());
+            line = '';
+          }
+          line += (line && !line.endsWith(' ') ? ' ' : '') + item.str;
+          lastY = item.transform[5];
+        }
+        if (line) lines.push(line.trim());
+
+        let pageStr = lines.join('\n');
+        if (options.normalizeSpaces) {
+          pageStr = pageStr.replace(/[ \t]+/g, ' ');
+        }
+        pageTexts.push(pageStr);
+      }
+
+      let combinedText = '';
+      if (options.includeDividers) {
+        combinedText = pageTexts
+          .map((txt, idx) => `--- Page ${idx + 1} of ${numPages} ---\n\n${txt}\n`)
+          .join('\n');
+      } else {
+        combinedText = pageTexts.join('\n\n');
+      }
+
+      const words = combinedText.trim().split(/\s+/).filter(Boolean).length;
+      const chars = combinedText.length;
+      const blob = new Blob([combinedText], { type: 'text/plain;charset=utf-8' });
+
+      return {
+        text: combinedText,
+        pageCount: numPages,
+        wordCount: words,
+        charCount: chars,
+        blob: blob
+      };
+    },
+
+    // 13. Images to PDF Converter
+    async convertImagesToPdf(fileList, options = { pageSize: 'fit', orientation: 'auto', margin: 0 }) {
+      if (!window.PDFLib) throw new Error('PDF engine initializing.');
+      const doc = await window.PDFLib.PDFDocument.create();
+
+      const files = Array.from(fileList);
+      if (files.length === 0) throw new Error('Please provide at least one image.');
+
+      const margin = parseInt(options.margin, 10) || 0;
+
+      for (const file of files) {
+        const img = await loadImageFromFile(file);
+        const origW = img.naturalWidth || img.width;
+        const origH = img.naturalHeight || img.height;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = origW;
+        canvas.height = origH;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, origW, origH);
+        ctx.drawImage(img, 0, 0);
+
+        const imgBlob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', 0.92));
+        const imgBytes = await imgBlob.arrayBuffer();
+        const embedded = await doc.embedJpg(imgBytes);
+
+        let pageW = origW + margin * 2;
+        let pageH = origH + margin * 2;
+        let drawW = origW;
+        let drawH = origH;
+        let drawX = margin;
+        let drawY = margin;
+
+        if (options.pageSize === 'a4') {
+          const isLandscape = options.orientation === 'landscape' || (options.orientation === 'auto' && origW > origH);
+          pageW = isLandscape ? 841.89 : 595.28;
+          pageH = isLandscape ? 595.28 : 841.89;
+
+          const availW = pageW - margin * 2;
+          const availH = pageH - margin * 2;
+          const scale = Math.min(availW / origW, availH / origH);
+
+          drawW = origW * scale;
+          drawH = origH * scale;
+          drawX = margin + (availW - drawW) / 2;
+          drawY = margin + (availH - drawH) / 2;
+        } else if (options.pageSize === 'letter') {
+          const isLandscape = options.orientation === 'landscape' || (options.orientation === 'auto' && origW > origH);
+          pageW = isLandscape ? 792 : 612;
+          pageH = isLandscape ? 612 : 792;
+
+          const availW = pageW - margin * 2;
+          const availH = pageH - margin * 2;
+          const scale = Math.min(availW / origW, availH / origH);
+
+          drawW = origW * scale;
+          drawH = origH * scale;
+          drawX = margin + (availW - drawW) / 2;
+          drawY = margin + (availH - drawH) / 2;
+        }
+
+        const page = doc.addPage([pageW, pageH]);
+        page.drawImage(embedded, {
+          x: drawX,
+          y: drawY,
+          width: drawW,
+          height: drawH
+        });
+      }
+
+      const pdfBytes = await doc.save();
+      return new Blob([pdfBytes], { type: 'application/pdf' });
     }
 
   };
