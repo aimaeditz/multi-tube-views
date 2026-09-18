@@ -17,7 +17,7 @@ export function getLiveWebsiteTotalTools() {
     ? Object.keys(CREATOR_TOOLS_DATA).length
     : 20;
 
-  let buToolsCount = 89;
+  let buToolsCount = 111;
   if (Array.isArray(BU_CATEGORIES) && BU_CATEGORIES.length > 0) {
     buToolsCount = BU_CATEGORIES.reduce((acc, cat) => acc + (cat.tools ? cat.tools.length : (cat.toolCount || 0)), 0);
   }

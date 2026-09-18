@@ -1203,7 +1203,12 @@ input, select, textarea, button {
   }
 }
 
-/* Instantaneous, Uniform Theme Switch Guard */
+/* Instantaneous, Uniform Theme Switch & Initial Paint Guard */
+html:not(.theme-ready),
+html:not(.theme-ready) body,
+html:not(.theme-ready) *,
+html:not(.theme-ready) *::before,
+html:not(.theme-ready) *::after,
 html.theme-switching,
 html.theme-switching body,
 html.theme-switching *,

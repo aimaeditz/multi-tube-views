@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        var eff = 'light';
+        if (t === 'dark') {
+          eff = 'dark';
+        } else if (t === 'light') {
+          eff = 'light';
+        } else if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        var doc = document.documentElement;
+        doc.setAttribute('data-theme', eff);
+        doc.style.colorScheme = eff;
+        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+      } catch(e){}
+    })();
+  </script>
   <!-- Resource Hints & Preconnects for Performance Optimization -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
@@ -28,7 +48,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/about.html">
 
-                                                                                                                <!-- Open Graph -->
+                                                                                                                  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/about.html">
   <meta property="og:title" content="About Multi Tube Views — Privacy-First Media Architecture & Mission">
@@ -101,27 +121,7 @@
 
   <script type="module" src="assets/js/storage.js"></script>
   <script type="module" src="assets/js/theme.js"></script>
-  <!-- Instant Theme Boot Script to prevent flash or lag -->
-  <script>
-    (function(){
-      try {
-        var t = localStorage.getItem('mtv_theme');
-        var eff = 'light';
-        if (t === 'dark') {
-          eff = 'dark';
-        } else if (t === 'light') {
-          eff = 'light';
-        } else if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        var doc = document.documentElement;
-        doc.setAttribute('data-theme', eff);
-        doc.style.colorScheme = eff;
-        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
-      } catch(e){}
-    })();
-  </script>
-</head>
+  </head>
 <body>
 
   <!-- Desktop Ambient Canvas Glows & Grid (Desktop Only - Subtle Inner Variant) -->
@@ -246,7 +246,7 @@
 
       <h3>10. AI Tools, Creator Suite, Media Converters &amp; Browser Utilities</h3>
       <p>
-        Alongside multi-player grids, Multi Tube Views offers an expanded suite of 210 dedicated AI Tools for content generation, image workflows, code assistance, and marketing automation, 70 Creator Tools to generate optimized video titles, SEO keywords, hashtags, metadata descriptions, video hooks, script outlines, and thumbnail concepts, paired with 73 client-side Media Converter Tools (video-to-audio converter, video trimmer, audio trimmer, audio slow+reverb, speed controls, PDF tools, image editors, etc.) and 89 client-side Browser Utilities, all operating with 100% browser privacy and zero cloud file uploads.
+        Alongside multi-player grids, Multi Tube Views offers an expanded suite of 210 dedicated AI Tools for content generation, image workflows, code assistance, and marketing automation, 70 Creator Tools to generate optimized video titles, SEO keywords, hashtags, metadata descriptions, video hooks, script outlines, and thumbnail concepts, paired with 73 client-side Media Converter Tools (video-to-audio converter, video trimmer, audio trimmer, audio slow+reverb, speed controls, PDF tools, image editors, etc.) and 111 client-side Browser Utilities, all operating with 100% browser privacy and zero cloud file uploads.
       </p>
 
       <h2>Commitment to Authentic Viewing</h2>

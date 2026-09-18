@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        var eff = 'light';
+        if (t === 'dark') {
+          eff = 'dark';
+        } else if (t === 'light') {
+          eff = 'light';
+        } else if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        var doc = document.documentElement;
+        doc.setAttribute('data-theme', eff);
+        doc.style.colorScheme = eff;
+        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+      } catch(e){}
+    })();
+  </script>
   <!-- Resource Hints & Preconnects for Performance Optimization -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
@@ -39,9 +59,9 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/index.html">
 
-                                                                                                                                                                                        <!-- Open Graph -->
+                                                                                                                                                                                          <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://multitubeviews.com/index.html">
+  <meta property="og:url" content="https://multitubeviews.com/public/index.html">
   <meta property="og:title" content="Multi Tube Views — Multi-Stream Video Player & Grid Viewer">
   <meta property="og:description" content="Watch, compare, and organize video and audio streams side-by-side across 40+ platforms in customizable player grids. Free client-side workspace with MTV tools.">
   <meta property="og:site_name" content="Multi Tube Views">
@@ -198,27 +218,7 @@
   <!-- Instant Theme Script to avoid flash -->
   <script type="module" src="assets/js/storage.js"></script>
   <script type="module" src="assets/js/theme.js"></script>
-  <!-- Instant Theme Boot Script to prevent flash or lag -->
-  <script>
-    (function(){
-      try {
-        var t = localStorage.getItem('mtv_theme');
-        var eff = 'light';
-        if (t === 'dark') {
-          eff = 'dark';
-        } else if (t === 'light') {
-          eff = 'light';
-        } else if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        var doc = document.documentElement;
-        doc.setAttribute('data-theme', eff);
-        doc.style.colorScheme = eff;
-        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
-      } catch(e){}
-    })();
-  </script>
-</head>
+  </head>
 <body class="desktop-ref-body">
 
   <!-- Desktop Ambient Canvas Glows & Grid (Desktop Only) -->
@@ -278,7 +278,7 @@
         <div class="marquee-item"><span class="dot"></span><span>210 AI Tools</span></div>
         <div class="marquee-item"><span class="dot"></span><span>70 Creator Tools</span></div>
         <div class="marquee-item"><span class="dot"></span><span>73 Media Converters</span></div>
-        <div class="marquee-item"><span class="dot"></span><span>89 Browser Utilities</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>111 Browser Utilities</span></div>
         <div class="marquee-item"><span class="dot"></span><span>Client-Side In-Browser</span></div>
       </div>
       <div class="marquee-set" aria-hidden="true">
@@ -290,7 +290,7 @@
         <div class="marquee-item"><span class="dot"></span><span>210 AI Tools</span></div>
         <div class="marquee-item"><span class="dot"></span><span>70 Creator Tools</span></div>
         <div class="marquee-item"><span class="dot"></span><span>73 Media Converters</span></div>
-        <div class="marquee-item"><span class="dot"></span><span>89 Browser Utilities</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>111 Browser Utilities</span></div>
         <div class="marquee-item"><span class="dot"></span><span>Client-Side In-Browser</span></div>
       </div>
       <div class="marquee-set" aria-hidden="true">
@@ -302,7 +302,7 @@
         <div class="marquee-item"><span class="dot"></span><span>210 AI Tools</span></div>
         <div class="marquee-item"><span class="dot"></span><span>70 Creator Tools</span></div>
         <div class="marquee-item"><span class="dot"></span><span>73 Media Converters</span></div>
-        <div class="marquee-item"><span class="dot"></span><span>89 Browser Utilities</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>111 Browser Utilities</span></div>
         <div class="marquee-item"><span class="dot"></span><span>Client-Side In-Browser</span></div>
       </div>
       <div class="marquee-set" aria-hidden="true">
@@ -314,7 +314,7 @@
         <div class="marquee-item"><span class="dot"></span><span>210 AI Tools</span></div>
         <div class="marquee-item"><span class="dot"></span><span>70 Creator Tools</span></div>
         <div class="marquee-item"><span class="dot"></span><span>73 Media Converters</span></div>
-        <div class="marquee-item"><span class="dot"></span><span>89 Browser Utilities</span></div>
+        <div class="marquee-item"><span class="dot"></span><span>111 Browser Utilities</span></div>
         <div class="marquee-item"><span class="dot"></span><span>Client-Side In-Browser</span></div>
       </div>
     </div>
@@ -1200,7 +1200,7 @@
               <span class="story-tag-pill">100% Client-Side</span>
               <span class="story-tag-pill">Zero Server Upload</span>
               <span class="story-tag-pill">Offline Ready</span>
-              <span class="story-tag-pill">89 Browser Utilities</span>
+              <span class="story-tag-pill">111 Browser Utilities</span>
             </div>
             <a href="browser-utilities.html" class="story-cta-link">
               <span>Explore Browser Utilities</span>
@@ -1221,13 +1221,13 @@
           </div>
         </div>
 
-        <!-- 89 Browser Utilities Cloud -->
+        <!-- 111 Browser Utilities Cloud -->
         <div class="tool-cloud-header">
           <div class="tool-cloud-title">
             <span>🛠️</span>
-            <span>89 In-Browser Utilities Across 6 Categories</span>
+            <span>111 In-Browser Utilities Across 15 Categories</span>
           </div>
-          <a href="browser-utilities.html" class="story-cta-link">View All 89 Utilities →</a>
+          <a href="browser-utilities.html" class="story-cta-link">View All 111 Utilities →</a>
         </div>
 
         <div class="tool-cloud-grid">
@@ -1411,13 +1411,13 @@
             <div class="feature-strip-item"><span>⚡</span><span>40+ Media Platforms</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>70 Creator SEO Tools</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>60 In-Browser Converters</span></div>
-            <div class="feature-strip-item"><span>⚡</span><span>89 Browser Utilities</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>111 Browser Utilities</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>AI-Powered Prompt Suite</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>100% Client-Side Privacy</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>40+ Media Platforms</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>70 Creator SEO Tools</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>60 In-Browser Converters</span></div>
-            <div class="feature-strip-item"><span>⚡</span><span>89 Browser Utilities</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>111 Browser Utilities</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>AI-Powered Prompt Suite</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>100% Client-Side Privacy</span></div>
           </div>
@@ -1425,14 +1425,14 @@
             <div class="feature-strip-item"><span>⚡</span><span>40+ Media Platforms</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>70 Creator SEO Tools</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>60 In-Browser Converters</span></div>
-            <div class="feature-strip-item"><span>⚡</span><span>89 Browser Utilities</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>111 Browser Utilities</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>AI-Powered Prompt Suite</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>100% Client-Side Privacy</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>40+ Media Platforms</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>210 AI Generative Tools</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>70 Creator SEO Tools</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>60 In-Browser Converters</span></div>
-            <div class="feature-strip-item"><span>⚡</span><span>89 Browser Utilities</span></div>
+            <div class="feature-strip-item"><span>⚡</span><span>111 Browser Utilities</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>AI-Powered Prompt Suite</span></div>
             <div class="feature-strip-item"><span>⚡</span><span>100% Client-Side Privacy</span></div>
           </div>
@@ -1466,7 +1466,7 @@
         </div>
 
         <div class="stat-card-desk tilt-card" id="stat-card-browser-utilities">
-          <div class="stat-num-desk" data-count="89" data-suffix="+">89<span class="stat-plus">+</span></div>
+          <div class="stat-num-desk" data-count="111" data-suffix="+">111<span class="stat-plus">+</span></div>
           <div class="stat-label-desk">Browser Utilities</div>
           <p class="stat-desc-desk">Zero-upload client-side tools</p>
         </div>
@@ -1520,7 +1520,7 @@
               <svg class="faq-icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </summary>
             <div class="faq-body-desk">
-              <p>No account or sign-up is required. All 40+ platform workspaces, 210 AI tools, 70 creator tools, 60 media converters, and 89 browser utilities are completely open and accessible instantly with zero friction. You never need to enter an email address, password, or payment information.</p>
+              <p>No account or sign-up is required. All 40+ platform workspaces, 210 AI tools, 70 creator tools, 60 media converters, and 111 browser utilities are completely open and accessible instantly with zero friction. You never need to enter an email address, password, or payment information.</p>
             </div>
           </details>
 
@@ -1541,7 +1541,7 @@
         <div class="cta-card-desk">
           <div class="cta-glow-ring" aria-hidden="true"></div>
           <h2 class="cta-title-desk">Start Using MTV — No Sign-Up Needed</h2>
-          <p class="cta-desc-desk">Experience 40+ media platform workspaces, 210 AI Tools, 70 Creator Tools, 60 Media Converter Tools, and 89 Browser Utilities in one seamless dashboard.</p>
+          <p class="cta-desc-desk">Experience 40+ media platform workspaces, 210 AI Tools, 70 Creator Tools, 60 Media Converter Tools, and 111 Browser Utilities in one seamless dashboard.</p>
           <a href="platforms.html" class="btn-ref-primary" style="margin: 0 auto;">
             <span>Explore All Platforms &amp; Tools</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -2060,7 +2060,7 @@
         </div>
 
         <div class="glass-card live-stat-card" id="stat-browser-utilities">
-          <div class="live-stat-number" data-target="89" data-suffix="">0</div>
+          <div class="live-stat-number" data-target="111" data-suffix="">0</div>
           <div class="live-stat-label">Browser Utilities</div>
           <p class="live-stat-desc">Zero-upload client-side tools</p>
         </div>
@@ -2115,7 +2115,7 @@
           </button>
           <div class="glass-faq-content" id="faq-ans-account" role="region" aria-labelledby="faq-btn-account">
             <div class="glass-faq-inner">
-              <p>No account or sign-up is required. All 40+ platform workspaces, 210 AI tools, 70 creator tools, 73 media converters, and 89 browser utilities are completely open and accessible instantly with zero friction. You never need to enter an email address, password, or payment information.</p>
+              <p>No account or sign-up is required. All 40+ platform workspaces, 210 AI tools, 70 creator tools, 73 media converters, and 111 browser utilities are completely open and accessible instantly with zero friction. You never need to enter an email address, password, or payment information.</p>
             </div>
           </div>
         </div>
@@ -2139,7 +2139,7 @@
       <div class="glass-card glass-cta-card">
         <div class="glass-cta-glow" aria-hidden="true"></div>
         <h2 class="glass-cta-title">Start Using MTV — No Sign-Up Needed</h2>
-        <p class="glass-cta-desc">Experience 40+ media platform workspaces, 210 AI Tools, 70 Creator Tools, 73 Media Converter Tools, and 89 Browser Utilities in one seamless dashboard.</p>
+        <p class="glass-cta-desc">Experience 40+ media platform workspaces, 210 AI Tools, 70 Creator Tools, 73 Media Converter Tools, and 111 Browser Utilities in one seamless dashboard.</p>
         <a href="platforms.html" class="glass-cta-btn" id="btn-closing-cta">
           <span>Explore All Platforms &amp; Tools</span>
           <svg class="btn-explore-arrow arrow-nudge" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -2177,7 +2177,7 @@
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 73 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 73 browser media converters, 111 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">

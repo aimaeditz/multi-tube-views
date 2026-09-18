@@ -61,10 +61,13 @@ export default defineConfig(() => {
         transformIndexHtml(html) {
           const apiBaseUrl = process.env.VITE_API_BASE_URL || '';
           
-          // Inject defensive webview script and instant theme script as the absolute first children of <head> to prevent errors and eliminate flash of unstyled theme
-          let transformed = html.replace(
-            '<head>',
-            `<head>\n  <script>
+          let transformed = html;
+          
+          // If the HTML does not already include the instant theme script at head, inject it
+          if (!transformed.includes('mtv_theme')) {
+            transformed = transformed.replace(
+              '<head>',
+              `<head>\n  <script>
     (function() {
       try {
         var saved = localStorage.getItem('mtv_theme');
@@ -82,7 +85,15 @@ export default defineConfig(() => {
         docEl.style.backgroundColor = (theme === 'dark' ? '#0A0A0C' : '#FDFDFD');
       } catch(e) {}
     })();
-  </script>\n  <script>
+  </script>`
+            );
+          }
+
+          // Inject defensive webview mock script if not already present
+          if (!transformed.includes('webviewProxy')) {
+            transformed = transformed.replace(
+              '<head>',
+              `<head>\n  <script>
     try {
       if (typeof window !== 'undefined') {
         let webviewProxy = (typeof window.Proxy !== 'undefined') ? new Proxy({}, {
@@ -152,7 +163,8 @@ export default defineConfig(() => {
       console.warn('Defensive webview mocking failed:', err);
     }
   </script>`
-          );
+            );
+          }
 
           transformed = transformed.replace(
             '</head>',

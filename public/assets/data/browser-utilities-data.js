@@ -1,247 +1,284 @@
 /**
  * Multi Tube Views (MTV) — Browser Utilities Categories & Tools Registry
- * 89 In-Browser Client-Side Tools across 15 Specialized Categories.
+ * 111 In-Browser Client-Side Tools across 15 Specialized Categories.
  */
 
 export const BU_CATEGORIES = [
   {
-    id: 'text-writing-extras',
-    name: 'Text & Writing Extras',
-    icon: '📝',
-    toolCount: 8,
-    desc: 'Find and replace text, generate lorem ipsum, inspect diffs, create slugs, reverse strings, generate unicode fonts, and convert binary/ASCII.',
-    filename: 'text-writing-extras.html',
-    tools: [
-      'find-replace',
-      'lorem-ipsum-generator',
-      'text-diff-checker',
-      'slug-url-generator',
-      'text-reverser',
-      'fancy-text-generator',
-      'reading-time-calculator',
-      'text-binary-ascii-converter'
-    ]
+    "id": "text-writing-extras",
+    "name": "Text & Writing Extras",
+    "icon": "📝",
+    "toolCount": 8,
+    "desc": "Find and replace text, generate lorem ipsum, inspect diffs, create slugs, reverse strings, generate unicode fonts, and convert binary/ASCII.",
+    "filename": "text-writing-extras.html",
+    "tools": [
+      "find-replace",
+      "lorem-ipsum-generator",
+      "text-diff-checker",
+      "slug-url-generator",
+      "text-reverser",
+      "fancy-text-generator",
+      "reading-time-calculator",
+      "text-binary-ascii-converter"
+    ],
+    "description": "Find and replace text, generate lorem ipsum, inspect diffs, create slugs, reverse strings, generate unicode fonts, and convert binary/ASCII."
   },
   {
-    id: 'unit-format-converters',
-    name: 'Unit & Format Converters',
-    icon: '🔄',
-    toolCount: 6,
-    desc: 'Convert measurement units, format multi-country currencies, compare global time zones, convert Markdown to HTML, transform date formats, and calculate exact age.',
-    filename: 'unit-format-converters.html',
-    tools: [
-      'unit-converter',
-      'currency-formatter',
-      'time-zone-converter',
-      'markdown-to-html',
-      'date-format-converter',
-      'age-calculator'
-    ]
+    "id": "unit-format-converters",
+    "name": "Unit & Format Converters",
+    "icon": "🔄",
+    "toolCount": 16,
+    "desc": "Convert measurement units across length, weight, area, volume, speed, pressure, energy, power, angle, fuel economy, digital storage, data transfer rate, currencies, time zones, Markdown, and dates.",
+    "filename": "unit-format-converters.html",
+    "tools": [
+      "unit-converter",
+      "currency-formatter",
+      "time-zone-converter",
+      "markdown-to-html",
+      "date-format-converter",
+      "age-calculator",
+      "area-unit-converter",
+      "volume-unit-converter",
+      "speed-unit-converter",
+      "pressure-unit-converter",
+      "energy-unit-converter",
+      "power-unit-converter",
+      "angle-unit-converter",
+      "fuel-economy-converter",
+      "digital-storage-converter",
+      "data-transfer-rate-converter"
+    ],
+    "description": "Convert measurement units across length, weight, area, volume, speed, pressure, energy, power, angle, fuel economy, digital storage, data transfer rate, currencies, time zones, Markdown, and dates."
   },
   {
-    id: 'generators-creators',
-    name: 'Generators & Creators',
-    icon: '✨',
-    toolCount: 9,
-    desc: 'Generate barcodes, high-entropy passwords, usernames, business names, dice/random numbers, fake test data, digital signatures, WiFi QR codes, and countdown timers.',
-    filename: 'generators-creators.html',
-    tools: [
-      'barcode-generator',
-      'strong-password-generator',
-      'random-name-username-generator',
-      'business-name-generator',
-      'random-number-dice-generator',
-      'fake-data-generator',
-      'signature-generator',
-      'wifi-qr-code-generator',
-      'countdown-timer-creator'
-    ]
+    "id": "generators-creators",
+    "name": "Generators & Creators",
+    "icon": "✨",
+    "toolCount": 9,
+    "desc": "Generate barcodes, high-entropy passwords, usernames, business names, dice/random numbers, fake test data, digital signatures, WiFi QR codes, and countdown timers.",
+    "filename": "generators-creators.html",
+    "tools": [
+      "barcode-generator",
+      "strong-password-generator",
+      "random-name-username-generator",
+      "business-name-generator",
+      "random-number-dice-generator",
+      "fake-data-generator",
+      "signature-generator",
+      "wifi-qr-code-generator",
+      "countdown-timer-creator"
+    ],
+    "description": "Generate barcodes, high-entropy passwords, usernames, business names, dice/random numbers, fake test data, digital signatures, WiFi QR codes, and countdown timers."
   },
   {
-    id: 'color-design-extras',
-    name: 'Color & Design Extras',
-    icon: '🎨',
-    toolCount: 5,
-    desc: 'Create multi-stop CSS gradients, verify WCAG color contrast ratios, build box-shadow layers, design organic border radii, and preview app icon mockups.',
-    filename: 'color-design-extras.html',
-    tools: [
-      'gradient-generator',
-      'color-contrast-checker',
-      'css-box-shadow-generator',
-      'border-radius-generator',
-      'favicon-app-icon-mockup'
-    ]
+    "id": "color-design-extras",
+    "name": "Color & Design Extras",
+    "icon": "🎨",
+    "toolCount": 6,
+    "desc": "Create multi-stop CSS gradients, verify WCAG color contrast ratios, build box-shadow layers, design organic border radii, preview app icon mockups, and convert HEX/RGB/HSL/HSV/CMYK codes.",
+    "filename": "color-design-extras.html",
+    "tools": [
+      "gradient-generator",
+      "color-contrast-checker",
+      "css-box-shadow-generator",
+      "border-radius-generator",
+      "favicon-app-icon-mockup",
+      "hex-rgb-hsl-color-converter"
+    ],
+    "description": "Create multi-stop CSS gradients, verify WCAG color contrast ratios, build box-shadow layers, design organic border radii, preview app icon mockups, and convert HEX/RGB/HSL/HSV/CMYK codes."
   },
   {
-    id: 'developer-web-extras',
-    name: 'Developer/Web Extras',
-    icon: '💻',
-    toolCount: 4,
-    desc: 'Encode HTML entities, minify CSS and JavaScript code, inspect display resolutions, and run complete client-side browser diagnostics.',
-    filename: 'developer-web-extras.html',
-    tools: [
-      'html-entity-encoder',
-      'code-minifier',
-      'screen-resolution-checker',
-      'browser-info-checker'
-    ]
+    "id": "developer-web-extras",
+    "name": "Developer/Web Extras",
+    "icon": "💻",
+    "toolCount": 4,
+    "desc": "Encode HTML entities, minify CSS and JavaScript code, inspect display resolutions, and run complete client-side browser diagnostics.",
+    "filename": "developer-web-extras.html",
+    "tools": [
+      "html-entity-encoder",
+      "code-minifier",
+      "screen-resolution-checker",
+      "browser-info-checker"
+    ],
+    "description": "Encode HTML entities, minify CSS and JavaScript code, inspect display resolutions, and run complete client-side browser diagnostics."
   },
   {
-    id: 'calculators-productivity',
-    name: 'Calculators & Productivity',
-    icon: '🧮',
-    toolCount: 8,
-    desc: 'Calculate loan EMI payments, compute BMI, split tips, calculate GST/sales tax, simulate compound interest, run Pomodoro focus cycles, manage to-dos, and organize sticky notes.',
-    filename: 'calculators-productivity.html',
-    tools: [
-      'emi-loan-calculator',
-      'bmi-calculator',
-      'tip-calculator',
-      'gst-tax-calculator',
-      'interest-calculator',
-      'pomodoro-timer',
-      'todo-list-local',
-      'sticky-notes-board'
-    ]
+    "id": "calculators-productivity",
+    "name": "Calculators & Productivity",
+    "icon": "🧮",
+    "toolCount": 8,
+    "desc": "Calculate loan EMI payments, compute BMI, split tips, calculate GST/sales tax, simulate compound interest, run Pomodoro focus cycles, manage to-dos, and organize sticky notes.",
+    "filename": "calculators-productivity.html",
+    "tools": [
+      "emi-loan-calculator",
+      "bmi-calculator",
+      "tip-calculator",
+      "gst-tax-calculator",
+      "interest-calculator",
+      "pomodoro-timer",
+      "todo-list-local",
+      "sticky-notes-board"
+    ],
+    "description": "Calculate loan EMI payments, compute BMI, split tips, calculate GST/sales tax, simulate compound interest, run Pomodoro focus cycles, manage to-dos, and organize sticky notes."
   },
   {
-    id: 'social-media-utilities',
-    name: 'Social Media Utilities',
-    icon: '📱',
-    toolCount: 5,
-    desc: 'Count hashtag limits, format Instagram bios with line breaks, preview social image crops and safe zones, calculate aspect ratios, and generate creator handles.',
-    filename: 'social-media-utilities.html',
-    tools: [
-      'hashtag-character-counter',
-      'instagram-bio-formatter',
-      'post-size-preview',
-      'aspect-ratio-calculator',
-      'username-idea-generator'
-    ]
+    "id": "social-media-utilities",
+    "name": "Social Media Utilities",
+    "icon": "📱",
+    "toolCount": 5,
+    "desc": "Count hashtag limits, format Instagram bios with line breaks, preview social image crops and safe zones, calculate aspect ratios, and generate creator handles.",
+    "filename": "social-media-utilities.html",
+    "tools": [
+      "hashtag-character-counter",
+      "instagram-bio-formatter",
+      "post-size-preview",
+      "aspect-ratio-calculator",
+      "username-idea-generator"
+    ],
+    "description": "Count hashtag limits, format Instagram bios with line breaks, preview social image crops and safe zones, calculate aspect ratios, and generate creator handles."
   },
   {
-    id: 'privacy-security-extras',
-    name: 'Privacy & Security Extras',
-    icon: '🛡️',
-    toolCount: 2,
-    desc: 'Create client-side encrypted self-destructing notes and generate disposable dummy profiles for test signups.',
-    filename: 'privacy-security-extras.html',
-    tools: [
-      'temporary-self-destruct-note',
-      'fake-info-generator'
-    ]
+    "id": "privacy-security-extras",
+    "name": "Privacy & Security Extras",
+    "icon": "🛡️",
+    "toolCount": 2,
+    "desc": "Create client-side encrypted self-destructing notes and generate disposable dummy profiles for test signups.",
+    "filename": "privacy-security-extras.html",
+    "tools": [
+      "temporary-self-destruct-note",
+      "fake-info-generator"
+    ],
+    "description": "Create client-side encrypted self-destructing notes and generate disposable dummy profiles for test signups."
   },
   {
-    id: 'fun-miscellaneous',
-    name: 'Fun & Miscellaneous',
-    icon: '🎲',
-    toolCount: 6,
-    desc: 'Discover inspiring quotes, pick aesthetic emoji combinations, spin the decision wheel, test name compatibility, take a 60s typing speed test, and look up zodiac traits.',
-    filename: 'fun-miscellaneous.html',
-    tools: [
-      'random-quote-generator',
-      'emoji-combo-picker',
-      'spin-the-wheel',
-      'name-compatibility-test',
-      'typing-speed-test',
-      'zodiac-sign-finder'
-    ]
+    "id": "fun-miscellaneous",
+    "name": "Fun & Miscellaneous",
+    "icon": "🎲",
+    "toolCount": 6,
+    "desc": "Discover inspiring quotes, pick aesthetic emoji combinations, spin the decision wheel, test name compatibility, take a 60s typing speed test, and look up zodiac traits.",
+    "filename": "fun-miscellaneous.html",
+    "tools": [
+      "random-quote-generator",
+      "emoji-combo-picker",
+      "spin-the-wheel",
+      "name-compatibility-test",
+      "typing-speed-test",
+      "zodiac-sign-finder"
+    ],
+    "description": "Discover inspiring quotes, pick aesthetic emoji combinations, spin the decision wheel, test name compatibility, take a 60s typing speed test, and look up zodiac traits."
   },
   {
-    id: 'text-utilities',
-    name: 'Text Utilities',
-    icon: '✍️',
-    toolCount: 6,
-    desc: 'Clean, format, sort, analyze, and convert text case, lines, and characters directly in your browser.',
-    filename: 'text-utilities.html',
-    tools: [
-      'text-case-converter',
-      'word-counter',
-      'character-counter',
-      'duplicate-line-remover',
-      'text-sorter',
-      'text-cleaner'
-    ]
+    "id": "text-utilities",
+    "name": "Text Utilities",
+    "icon": "✍️",
+    "toolCount": 6,
+    "desc": "Clean, format, sort, analyze, and convert text case, lines, and characters directly in your browser.",
+    "filename": "text-utilities.html",
+    "tools": [
+      "text-case-converter",
+      "word-counter",
+      "character-counter",
+      "duplicate-line-remover",
+      "text-sorter",
+      "text-cleaner"
+    ],
+    "description": "Clean, format, sort, analyze, and convert text case, lines, and characters directly in your browser."
   },
   {
-    id: 'image-utilities',
-    name: 'Image & Graphics Utilities',
-    icon: '🎨',
-    toolCount: 6,
-    desc: 'Pick and inspect colors, generate palettes, convert HEX/RGB/HSL, extract dominant colors, and sanitize SVG graphics.',
-    filename: 'image-utilities.html',
-    tools: [
-      'color-picker',
-      'color-palette-generator',
-      'hex-rgb-hsl-converter',
-      'image-color-extractor',
-      'svg-viewer',
-      'image-metadata-viewer'
-    ]
+    "id": "image-utilities",
+    "name": "Image & Graphics Utilities",
+    "icon": "🎨",
+    "toolCount": 6,
+    "desc": "Pick and inspect colors, generate palettes, convert HEX/RGB/HSL, extract dominant colors, and sanitize SVG graphics.",
+    "filename": "image-utilities.html",
+    "tools": [
+      "color-picker",
+      "color-palette-generator",
+      "hex-rgb-hsl-converter",
+      "image-color-extractor",
+      "svg-viewer",
+      "image-metadata-viewer"
+    ],
+    "description": "Pick and inspect colors, generate palettes, convert HEX/RGB/HSL, extract dominant colors, and sanitize SVG graphics."
   },
   {
-    id: 'web-seo-utilities',
-    name: 'Web & SEO Utilities',
-    icon: '🌐',
-    toolCount: 6,
-    desc: 'Generate HTML meta tags, inspect Open Graph social cards, parse URLs, build UTM links, and create robots & sitemaps.',
-    filename: 'web-seo-utilities.html',
-    tools: [
-      'meta-tag-generator',
-      'open-graph-preview',
-      'url-parser',
-      'utm-builder',
-      'robots-txt-generator',
-      'sitemap-xml-generator'
-    ]
+    "id": "web-seo-utilities",
+    "name": "Web & SEO Utilities",
+    "icon": "🌐",
+    "toolCount": 6,
+    "desc": "Generate HTML meta tags, inspect Open Graph social cards, parse URLs, build UTM links, and create robots & sitemaps.",
+    "filename": "web-seo-utilities.html",
+    "tools": [
+      "meta-tag-generator",
+      "open-graph-preview",
+      "url-parser",
+      "utm-builder",
+      "robots-txt-generator",
+      "sitemap-xml-generator"
+    ],
+    "description": "Generate HTML meta tags, inspect Open Graph social cards, parse URLs, build UTM links, and create robots & sitemaps."
   },
   {
-    id: 'file-data-utilities',
-    name: 'File & Data Utilities',
-    icon: '📁',
-    toolCount: 6,
-    desc: 'View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, and merge text files.',
-    filename: 'file-data-utilities.html',
-    tools: [
-      'csv-viewer',
-      'csv-to-json-converter',
-      'json-to-csv-converter',
-      'file-information-viewer',
-      'file-hash-generator',
-      'text-file-merger'
-    ]
+    "id": "file-data-utilities",
+    "name": "File & Data Utilities",
+    "icon": "📁",
+    "toolCount": 8,
+    "desc": "View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, merge text files, and decode Base64 to Image or PDF.",
+    "filename": "file-data-utilities.html",
+    "tools": [
+      "csv-viewer",
+      "csv-to-json-converter",
+      "json-to-csv-converter",
+      "file-information-viewer",
+      "file-hash-generator",
+      "text-file-merger",
+      "base64-to-image-converter",
+      "base64-to-pdf-converter"
+    ],
+    "description": "View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, merge text files, and decode Base64 to Image or PDF."
   },
   {
-    id: 'everyday-utilities',
-    name: 'Everyday Utilities',
-    icon: '⏱️',
-    toolCount: 6,
-    desc: 'Audit password strength locally, convert Unix timestamps, compute date differences, calculate percentages, and convert bases.',
-    filename: 'everyday-utilities.html',
-    tools: [
-      'password-strength-checker',
-      'timestamp-converter',
-      'date-difference-calculator',
-      'percentage-calculator',
-      'number-base-converter',
-      'random-data-generator'
-    ]
+    "id": "everyday-utilities",
+    "name": "Everyday Utilities",
+    "icon": "⏱️",
+    "toolCount": 6,
+    "desc": "Audit password strength locally, convert Unix timestamps, compute date differences, calculate percentages, and convert bases.",
+    "filename": "everyday-utilities.html",
+    "tools": [
+      "password-strength-checker",
+      "timestamp-converter",
+      "date-difference-calculator",
+      "percentage-calculator",
+      "number-base-converter",
+      "random-data-generator"
+    ],
+    "description": "Audit password strength locally, convert Unix timestamps, compute date differences, calculate percentages, and convert bases."
   },
   {
-    id: 'developer-utilities',
-    name: 'Developer Utilities',
-    icon: '⚡',
-    toolCount: 6,
-    desc: 'Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, and generate v4 UUIDs.',
-    filename: 'developer-utilities.html',
-    tools: [
-      'json-formatter',
-      'json-validator',
-      'base64-encoder-decoder',
-      'url-encoder-decoder',
-      'regex-tester',
-      'uuid-generator'
-    ]
+    "id": "developer-utilities",
+    "name": "Developer Utilities",
+    "icon": "⚡",
+    "toolCount": 15,
+    "desc": "Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, generate v4 UUIDs, convert JSON/CSV/YAML/XML, convert Hex/Text, and decode JWT tokens.",
+    "filename": "developer-utilities.html",
+    "tools": [
+      "json-formatter",
+      "json-validator",
+      "base64-encoder-decoder",
+      "url-encoder-decoder",
+      "regex-tester",
+      "uuid-generator",
+      "csv-json-converter",
+      "json-csv-converter",
+      "json-to-yaml-converter",
+      "yaml-to-json-converter",
+      "json-to-xml-converter",
+      "xml-to-json-converter",
+      "hex-to-text-converter",
+      "text-to-hex-converter",
+      "jwt-decoder"
+    ],
+    "description": "Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, generate v4 UUIDs, convert JSON/CSV/YAML/XML, convert Hex/Text, and decode JWT tokens."
   }
 ];
 
@@ -252,7 +289,6 @@ if (typeof window !== 'undefined') {
   window.MTV_BU_ALL_TOOLS_LIST = BU_ALL_TOOLS_LIST;
 }
 
-
 export const BU_TOOLS_CATALOG = [
   {
     "id": "find-replace",
@@ -261,9 +297,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-writing-extras",
     "categoryName": "Text & Writing Extras",
     "description": "Quickly find and replace strings or regular expression patterns across text passages with live match counters and highlighted previews. 100% in-browser.",
-    "keywords": "find and replace text, replace string online, regex replace tool, batch text replacer, text search and replace"
-  ,
-    "dateAdded": "2026-08-10"
+    "keywords": "find and replace text, replace string online, regex replace tool, batch text replacer, text search and replace",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "lorem-ipsum-generator",
@@ -272,9 +307,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-writing-extras",
     "categoryName": "Text & Writing Extras",
     "description": "Generate customizable, authentic Latin dummy placeholder text for website mockups, graphic designs, and editorial layouts. 100% client-side.",
-    "keywords": "lorem ipsum generator, dummy text generator, placeholder text, fake latin text online, lorem ipsum paragraphs"
-  ,
-    "dateAdded": "2026-08-05"
+    "keywords": "lorem ipsum generator, dummy text generator, placeholder text, fake latin text online, lorem ipsum paragraphs",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "text-diff-checker",
@@ -283,9 +317,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-writing-extras",
     "categoryName": "Text & Writing Extras",
     "description": "Compare two text snippets side-by-side or inline to highlight additions, deletions, and modifications line-by-line in real time.",
-    "keywords": "text diff checker, compare text online, string difference finder, file diff tool, online diff viewer"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "text diff checker, compare text online, string difference finder, file diff tool, online diff viewer",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "slug-url-generator",
@@ -294,9 +327,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-writing-extras",
     "categoryName": "Text & Writing Extras",
     "description": "Convert article headlines, video titles, and product names into clean, URL-safe, SEO-optimized slugs with customizable separators.",
-    "keywords": "slug generator, url slug maker, seo friendly url generator, convert title to slug, string to slug"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "slug generator, url slug maker, seo friendly url generator, convert title to slug, string to slug",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "text-reverser",
@@ -305,9 +337,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-writing-extras",
     "categoryName": "Text & Writing Extras",
     "description": "Reverse text characters, flip word order, invert capitalization, and create upside-down mirrored typography for puzzles, cryptography, or fun social posts.",
-    "keywords": "text reverser, reverse string online, backward text generator, flip words order, upside down text"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "text reverser, reverse string online, backward text generator, flip words order, upside down text",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "fancy-text-generator",
@@ -316,9 +347,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-writing-extras",
     "categoryName": "Text & Writing Extras",
     "description": "Transform regular text into fancy cursive, gothic, bold, circled, bubble, medieval, aesthetic vaporwave, and decorated unicode typography styles for Instagram bios, TikTok, Discord, and gaming nicknames.",
-    "keywords": "fancy text generator, aesthetic fonts, cursive text generator, unicode text converter, instagram bio fonts, copy paste fonts"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "fancy text generator, aesthetic fonts, cursive text generator, unicode text converter, instagram bio fonts, copy paste fonts",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "reading-time-calculator",
@@ -327,9 +357,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-writing-extras",
     "categoryName": "Text & Writing Extras",
     "description": "Calculate silent reading duration, public speaking speech time, word counts, and estimated grade-level readability scores for articles, scripts, and presentations.",
-    "keywords": "reading time calculator, speech duration calculator, words to minutes, reading speed estimator, flesch kincaid readability"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "reading time calculator, speech duration calculator, words to minutes, reading speed estimator, flesch kincaid readability",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "text-binary-ascii-converter",
@@ -338,9 +367,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-writing-extras",
     "categoryName": "Text & Writing Extras",
     "description": "Convert plain text into binary machine code (0s and 1s), hexadecimal, decimal ASCII codes, or octal representations and decode them back to text.",
-    "keywords": "text to binary, binary to text converter, ascii converter, text to hex online, binary code decoder"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "text to binary, binary to text converter, ascii converter, text to hex online, binary code decoder",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "unit-converter",
@@ -349,9 +377,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "unit-format-converters",
     "categoryName": "Unit & Format Converters",
     "description": "Convert between metric and imperial units for length (meters, feet, inches), mass (kg, pounds, ounces), temperature (°C, °F, Kelvin), speed, and area with instant calculation.",
-    "keywords": "unit converter online, length converter, weight converter kg to lbs, temperature converter celsius to fahrenheit, metric imperial converter"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "unit converter online, length converter, weight converter kg to lbs, temperature converter celsius to fahrenheit, metric imperial converter",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "currency-formatter",
@@ -360,9 +387,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "unit-format-converters",
     "categoryName": "Unit & Format Converters",
     "description": "Format financial numbers into global international currency styles (USD, EUR, GBP, JPY, INR Lakhs/Crores) and generate formal written number words.",
-    "keywords": "currency formatter online, format money javascript, number to currency, inr lakhs crores format, number to words money"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "currency formatter online, format money javascript, number to currency, inr lakhs crores format, number to words money",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "time-zone-converter",
@@ -371,9 +397,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "unit-format-converters",
     "categoryName": "Unit & Format Converters",
     "description": "Convert dates and times across international time zones (UTC, New York EST, London GMT, Tokyo JST, Mumbai IST, San Francisco PST) with daylight saving accuracy.",
-    "keywords": "time zone converter, world clock comparison, meeting time planner, pst to est, utc time converter"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "time zone converter, world clock comparison, meeting time planner, pst to est, utc time converter",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "markdown-to-html",
@@ -382,9 +407,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "unit-format-converters",
     "categoryName": "Unit & Format Converters",
     "description": "Convert Markdown formatted documents into clean HTML code with live split-pane visual rendering. Supports headers, tables, code blocks, task lists, and quotes.",
-    "keywords": "markdown to html converter, md to html online, markdown live editor, convert markdown text, html preview"
-  ,
-    "dateAdded": "2026-09-13"
+    "keywords": "markdown to html converter, md to html online, markdown live editor, convert markdown text, html preview",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "date-format-converter",
@@ -393,9 +417,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "unit-format-converters",
     "categoryName": "Unit & Format Converters",
     "description": "Convert dates and timestamps across 15+ standard formats including ISO 8601, Unix Milliseconds, RFC 2822, SQL DATETIME, and custom localized layouts.",
-    "keywords": "date format converter, iso 8601 converter, convert date string online, epoch timestamp to date, sql datetime formatter"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "date format converter, iso 8601 converter, convert date string online, epoch timestamp to date, sql datetime formatter",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "age-calculator",
@@ -404,9 +427,108 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "unit-format-converters",
     "categoryName": "Unit & Format Converters",
     "description": "Calculate your exact age in years, months, days, total hours, minutes, seconds, next birthday countdown, and birth day of the week.",
-    "keywords": "age calculator, calculate exact age online, age in days hours seconds, birthday countdown, how old am i"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "age calculator, calculate exact age online, age in days hours seconds, birthday countdown, how old am i",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "area-unit-converter",
+    "name": "Area Unit Converter",
+    "icon": "📐",
+    "categoryId": "unit-format-converters",
+    "categoryName": "Unit & Format Converters",
+    "description": "Convert surface area and land measurements instantly across Square Meters (m²), Square Kilometers (km²), Square Feet (ft²), Square Inches (in²), Square Yards (yd²), Acres, Hectares (ha), and Square Miles (mi²).",
+    "keywords": "area unit converter, square feet to square meters, acres to hectares, square yards converter, land area calculator, m2 to ft2",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "volume-unit-converter",
+    "name": "Volume Unit Converter",
+    "icon": "🧪",
+    "categoryId": "unit-format-converters",
+    "categoryName": "Unit & Format Converters",
+    "description": "Convert liquid and dry volume measurements across Liters (L), Milliliters (mL), Cubic Meters (m³), US Gallons (gal), US Quarts (qt), US Pints (pt), US Cups, US Fluid Ounces (fl oz), Tablespoons, Teaspoons, Cubic Feet (ft³), and Imperial Gallons.",
+    "keywords": "volume converter, liters to gallons, ml to oz converter, gallons to liters, cubic meters to liters, fluid ounces calculator",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "speed-unit-converter",
+    "name": "Speed Unit Converter",
+    "icon": "⚡",
+    "categoryId": "unit-format-converters",
+    "categoryName": "Unit & Format Converters",
+    "description": "Convert velocity and speed measurements across Kilometers per Hour (km/h), Miles per Hour (mph), Meters per Second (m/s), Knots (kn), Feet per Second (ft/s), and Mach (speed of sound).",
+    "keywords": "speed converter, mph to kmh, km/h to mph, knots to mph, m/s to km/h, mach calculator, velocity converter",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "pressure-unit-converter",
+    "name": "Pressure Unit Converter",
+    "icon": "🌪️",
+    "categoryId": "unit-format-converters",
+    "categoryName": "Unit & Format Converters",
+    "description": "Convert industrial and scientific pressure measurements between Pascals (Pa), Kilopascals (kPa), Megapascals (MPa), Bar, Millibar (mbar), PSI (Pounds per Square Inch), Standard Atmospheres (atm), Torr, and Millimeters of Mercury (mmHg).",
+    "keywords": "pressure unit converter, psi to bar, bar to psi, kpa to psi, atm to bar, pascal converter, mmhg to torr",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "energy-unit-converter",
+    "name": "Energy Unit Converter",
+    "icon": "🔋",
+    "categoryId": "unit-format-converters",
+    "categoryName": "Unit & Format Converters",
+    "description": "Convert energy and work measurements across Joules (J), Kilojoules (kJ), Kilowatt-Hours (kWh), Watt-Hours (Wh), Calories (cal), Kilocalories / Food Calories (kcal), British Thermal Units (BTU), Electron-Volts (eV), and Foot-Pounds (ft-lb).",
+    "keywords": "energy converter, joules to kwh, calories to joules, kwh to btu, kcal to kj converter, electron volts to joules",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "power-unit-converter",
+    "name": "Power Unit Converter",
+    "icon": "💡",
+    "categoryId": "unit-format-converters",
+    "categoryName": "Unit & Format Converters",
+    "description": "Convert power, electricity flow, and mechanical engine output across Watts (W), Kilowatts (kW), Megawatts (MW), Mechanical Horsepower (hp), Metric Horsepower (PS), BTU per Hour (BTU/h), and Foot-Pounds per minute.",
+    "keywords": "power unit converter, watts to horsepower, kw to hp converter, hp to kw, btu per hour to watts, megawatts converter",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "angle-unit-converter",
+    "name": "Angle Unit Converter",
+    "icon": "🔄",
+    "categoryId": "unit-format-converters",
+    "categoryName": "Unit & Format Converters",
+    "description": "Convert angle and angular rotation units across Degrees (°), Radians (rad), Gradians (grad), Milliradians (mrad), Arcminutes (′), Arcseconds (″), and Revolutions / Turns with an interactive live visual protractor canvas and trigonometry calculation (sin, cos, tan).",
+    "keywords": "angle converter, degrees to radians, radians to degrees, gradian converter, arcminutes to degrees, angle calculator, sin cos tan",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "fuel-economy-converter",
+    "name": "Fuel Economy Converter",
+    "icon": "⛽",
+    "categoryId": "unit-format-converters",
+    "categoryName": "Unit & Format Converters",
+    "description": "Convert automobile fuel consumption and efficiency ratings between US Miles per Gallon (US MPG), Imperial UK MPG, Liters per 100 Kilometers (L/100km), and Kilometers per Liter (km/L) with an integrated trip fuel cost and distance calculator.",
+    "keywords": "fuel economy converter, mpg to l/100km, l/100km to mpg converter, km/l to mpg, gas mileage calculator, fuel consumption converter",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "digital-storage-converter",
+    "name": "Digital Storage Converter",
+    "icon": "💾",
+    "categoryId": "unit-format-converters",
+    "categoryName": "Unit & Format Converters",
+    "description": "Convert data capacity and storage size across Bits (b), Bytes (B), Kilobytes (KB), Megabytes (MB), Gigabytes (GB), Terabytes (TB), Petabytes (PB), as well as binary standards (KiB, MiB, GiB, TiB) with Decimal (1000) and Binary (1024) calculation modes.",
+    "keywords": "digital storage converter, gb to mb, bytes to gigabytes, tb to gb converter, gib to gb binary converter, file size calculator",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "data-transfer-rate-converter",
+    "name": "Data Transfer Rate Converter",
+    "icon": "🚀",
+    "categoryId": "unit-format-converters",
+    "categoryName": "Unit & Format Converters",
+    "description": "Convert internet bandwidth and network throughput speeds across Bits per second (bps), Kbps, Mbps, Gbps, Tbps, Bytes per second (B/s), KB/s, MB/s, and GB/s with an integrated file download time calculator.",
+    "keywords": "data transfer rate converter, mbps to mb/s, gbps to mbps, internet speed converter, bandwidth calculator, download time calculator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "barcode-generator",
@@ -415,9 +537,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "generators-creators",
     "categoryName": "Generators & Creators",
     "description": "Generate customizable, high-resolution 1D linear barcodes (Code 128, Code 39, EAN-13) with custom dimensions, text labels, and instant PNG download.",
-    "keywords": "barcode generator, code 128 generator, online barcode maker, create barcode png, ean 13 generator"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "barcode generator, code 128 generator, online barcode maker, create barcode png, ean 13 generator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "strong-password-generator",
@@ -426,9 +547,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "generators-creators",
     "categoryName": "Generators & Creators",
     "description": "Generate cryptographically strong random passwords and passphrases using hardware-backed Web Crypto API with custom character sets and entropy scoring.",
-    "keywords": "password generator, strong random password generator, secure password maker, web crypto password, generate password online"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "password generator, strong random password generator, secure password maker, web crypto password, generate password online",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "random-name-username-generator",
@@ -437,9 +557,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "generators-creators",
     "categoryName": "Generators & Creators",
     "description": "Generate realistic personal full names, modern gamer handles, aesthetic creator usernames, and role-playing nicknames with one click.",
-    "keywords": "random name generator, username generator, gamertag generator, cool usernames, random character names"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "random name generator, username generator, gamertag generator, cool usernames, random character names",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "business-name-generator",
@@ -448,9 +567,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "generators-creators",
     "categoryName": "Generators & Creators",
     "description": "Brainstorm creative, modern brand names and startup company ideas based on your core industry keywords, niche sector, and naming styles with instant 1-click clipboard copy.",
-    "keywords": "business name generator, startup name generator, brand name maker, company name ideas, saas name creator"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "business name generator, startup name generator, brand name maker, company name ideas, saas name creator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "random-number-dice-generator",
@@ -459,9 +577,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "generators-creators",
     "categoryName": "Generators & Creators",
     "description": "Roll tabletop RPG dice (d4, d6, d8, d10, d12, d20, d100), generate non-repeating random number ranges, and flip virtual coins with Web Crypto precision.",
-    "keywords": "random number generator, dice roller online, d20 dice roller, coin flipper, rng picker"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "random number generator, dice roller online, d20 dice roller, coin flipper, rng picker",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "fake-data-generator",
@@ -470,9 +587,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "generators-creators",
     "categoryName": "Generators & Creators",
     "description": "Generate realistic developer mockup test datasets containing names, emails, phone numbers, addresses, UUIDs, and job titles in JSON, CSV, or Table formats.",
-    "keywords": "fake data generator, mock data generator, test data online, dummy json data, mock user profiles"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "fake data generator, mock data generator, test data online, dummy json data, mock user profiles",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "signature-generator",
@@ -481,9 +597,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "generators-creators",
     "categoryName": "Generators & Creators",
     "description": "Create elegant digital handwritten signatures by typing your name with calligraphic typography styles or drawing smoothly on the interactive touch canvas. Download transparent high-res PNGs.",
-    "keywords": "signature generator, digital signature online, draw signature png, handwritten signature maker, signature creator"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "signature generator, digital signature online, draw signature png, handwritten signature maker, signature creator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "wifi-qr-code-generator",
@@ -492,9 +607,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "generators-creators",
     "categoryName": "Generators & Creators",
     "description": "Generate high-resolution printable WiFi QR codes for instant smartphone network connection with WPA/WPA2/WPA3 security and printable guest cards.",
-    "keywords": "wifi qr code generator, qr code for wifi password, connect to wifi with qr, guest wifi qr code, printable wifi sign"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "wifi qr code generator, qr code for wifi password, connect to wifi with qr, guest wifi qr code, printable wifi sign",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "countdown-timer-creator",
@@ -503,9 +617,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "generators-creators",
     "categoryName": "Generators & Creators",
     "description": "Create customizable live ticking countdown timers for product launches, livestreams, holidays, and milestones with fullscreen presentation and confetti triggers.",
-    "keywords": "countdown timer creator, event countdown clock, launch countdown online, days until timer, animated countdown"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "countdown timer creator, event countdown clock, launch countdown online, days until timer, animated countdown",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "gradient-generator",
@@ -514,9 +627,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "color-design-extras",
     "categoryName": "Color & Design Extras",
     "description": "Design beautiful multi-stop linear and radial CSS gradients with live angle controls, curated presets, and 1-click ready-to-paste CSS code generation.",
-    "keywords": "gradient generator, css gradient maker, linear gradient online, radial gradient css, web design color gradient"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "gradient generator, css gradient maker, linear gradient online, radial gradient css, web design color gradient",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "color-contrast-checker",
@@ -525,9 +637,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "color-design-extras",
     "categoryName": "Color & Design Extras",
     "description": "Verify color contrast ratios between text and backgrounds against official WCAG 2.1 AA and AAA accessibility compliance standards in real time.",
-    "keywords": "color contrast checker, wcag accessibility contrast, text background contrast ratio, aa aaa compliance, contrast calculator"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "color contrast checker, wcag accessibility contrast, text background contrast ratio, aa aaa compliance, contrast calculator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "css-box-shadow-generator",
@@ -536,9 +647,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "color-design-extras",
     "categoryName": "Color & Design Extras",
     "description": "Create modern smooth CSS box-shadows with live controls for X/Y offsets, blur radius, spread, opacity, and inset shadow styling with instant CSS code.",
-    "keywords": "css box shadow generator, box shadow maker, smooth shadow generator, css depth tool, drop shadow generator"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "css box shadow generator, box shadow maker, smooth shadow generator, css depth tool, drop shadow generator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "border-radius-generator",
@@ -547,9 +657,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "color-design-extras",
     "categoryName": "Color & Design Extras",
     "description": "Design custom organic organic blob shapes and rounded corner configurations with full 8-value CSS border-radius slider controls and instant snippet generation.",
-    "keywords": "border radius generator, 8 point border radius, css blob generator, organic shape maker css, rounded corners tool"
-  ,
-    "dateAdded": "2026-09-16"
+    "keywords": "border radius generator, 8 point border radius, css blob generator, organic shape maker css, rounded corners tool",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "favicon-app-icon-mockup",
@@ -558,9 +667,18 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "color-design-extras",
     "categoryName": "Color & Design Extras",
     "description": "Preview how your brand icon, logo, or favicon will look in real browser tabs, iOS squircle home screens, macOS dock, and Google mobile search results.",
-    "keywords": "favicon mockup generator, app icon preview, ios home screen mockup, browser tab favicon preview, icon generator"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "favicon mockup generator, app icon preview, ios home screen mockup, browser tab favicon preview, icon generator",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "hex-rgb-hsl-color-converter",
+    "name": "HEX/RGB/HSL Color Converter",
+    "icon": "🎨",
+    "categoryId": "color-design-extras",
+    "categoryName": "Color & Design Extras",
+    "description": "Convert color codes seamlessly between HEX (#RRGGBB, #RRGGBBAA), RGB (rgb / rgba), HSL (hsl / hsla), HSV / HSB, and CMYK with a live interactive color picker, alpha transparency slider, tints & shades generator, and color harmony palettes.",
+    "keywords": "hex to rgb converter, rgb to hex, hex to hsl, color code converter, cmyk to rgb, hsv converter, hex color picker, css color converter",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "html-entity-encoder",
@@ -569,9 +687,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "developer-web-extras",
     "categoryName": "Developer/Web Extras",
     "description": "Encode special characters, quotes, ampersands, and HTML tags into safe named HTML entities (&amp;, &lt;, &gt;) or decode HTML entities back to characters.",
-    "keywords": "html entity encoder, decode html entities online, escape html tags, html character codes, named entities encoder"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "html entity encoder, decode html entities online, escape html tags, html character codes, named entities encoder",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "code-minifier",
@@ -580,9 +697,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "developer-web-extras",
     "categoryName": "Developer/Web Extras",
     "description": "Compress and minify CSS stylesheets and JavaScript scripts by stripping comments, spaces, newlines, and unnecessary tokens with live file size savings analytics.",
-    "keywords": "code minifier, css minifier online, javascript minifier, js compressor, reduce code size"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "code minifier, css minifier online, javascript minifier, js compressor, reduce code size",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "screen-resolution-checker",
@@ -591,9 +707,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "developer-web-extras",
     "categoryName": "Developer/Web Extras",
     "description": "Inspect live display resolution (Width x Height), available desktop screen workspace, browser viewport dimensions, Device Pixel Ratio (DPR), and orientation.",
-    "keywords": "screen resolution checker, my screen resolution, display viewport size, retina display dpr, screen aspect ratio checker"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "screen resolution checker, my screen resolution, display viewport size, retina display dpr, screen aspect ratio checker",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "browser-info-checker",
@@ -602,9 +717,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "developer-web-extras",
     "categoryName": "Developer/Web Extras",
     "description": "Inspect complete client-side browser diagnostics including User-Agent parsing, browser engine, operating system, WebGL GPU rendering info, and storage support.",
-    "keywords": "browser info checker, my user agent, browser diagnostics online, detect os browser javascript, client capabilities checker"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "browser info checker, my user agent, browser diagnostics online, detect os browser javascript, client capabilities checker",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "emi-loan-calculator",
@@ -613,9 +727,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "calculators-productivity",
     "categoryName": "Calculators & Productivity",
     "description": "Calculate monthly loan EMI payments, total interest payable, overall repayment breakdown, and visual principal-to-interest ratios for home, car, and personal loans.",
-    "keywords": "emi calculator, loan calculator online, home loan emi, monthly installment calculator, loan interest schedule"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "emi calculator, loan calculator online, home loan emi, monthly installment calculator, loan interest schedule",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "bmi-calculator",
@@ -624,9 +737,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "calculators-productivity",
     "categoryName": "Calculators & Productivity",
     "description": "Calculate Body Mass Index (BMI), identify weight classification categories (Underweight, Normal, Overweight, Obese), and view healthy target weight ranges.",
-    "keywords": "bmi calculator, body mass index online, ideal weight calculator, metric imperial bmi, calculate bmi score"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "bmi calculator, body mass index online, ideal weight calculator, metric imperial bmi, calculate bmi score",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "tip-calculator",
@@ -635,9 +747,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "calculators-productivity",
     "categoryName": "Calculators & Productivity",
     "description": "Calculate restaurant gratuity tips, total bill with tip, and split payments evenly across any number of friends or dining parties with 1-click percentage presets.",
-    "keywords": "tip calculator, bill split calculator, restaurant gratuity calculator, split bill online, tip percentage calculator"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "tip calculator, bill split calculator, restaurant gratuity calculator, split bill online, tip percentage calculator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "gst-tax-calculator",
@@ -646,9 +757,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "calculators-productivity",
     "categoryName": "Calculators & Productivity",
     "description": "Calculate Goods & Services Tax (GST), VAT, and sales tax. Add tax to net amounts or extract pre-tax base prices from gross totals.",
-    "keywords": "gst calculator, sales tax calculator, vat calculator online, add tax remove tax, gst inclusive exclusive"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "gst calculator, sales tax calculator, vat calculator online, add tax remove tax, gst inclusive exclusive",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "interest-calculator",
@@ -657,9 +767,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "calculators-productivity",
     "categoryName": "Calculators & Productivity",
     "description": "Simulate financial investments and savings growth with compounding frequencies (Daily, Monthly, Quarterly, Annually) and detailed year-by-year projections.",
-    "keywords": "compound interest calculator, simple interest calculator, investment growth simulator, savings calculator online, compound future value"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "compound interest calculator, simple interest calculator, investment growth simulator, savings calculator online, compound future value",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "pomodoro-timer",
@@ -668,9 +777,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "calculators-productivity",
     "categoryName": "Calculators & Productivity",
     "description": "Boost work focus and study sessions with customizable 25-minute Pomodoro focus intervals, short/long breaks, visual countdown rings, and audio chimes.",
-    "keywords": "pomodoro timer, focus timer online, 25 minute study timer, pomodoro technique app, productivity timer"
-  ,
-    "dateAdded": "2026-09-14"
+    "keywords": "pomodoro timer, focus timer online, 25 minute study timer, pomodoro technique app, productivity timer",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "todo-list-local",
@@ -679,9 +787,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "calculators-productivity",
     "categoryName": "Calculators & Productivity",
     "description": "Organize tasks, set priority flags (High, Medium, Low), check off completed goals, and filter tasks with instant, private browser storage persistence.",
-    "keywords": "todo list local storage, offline task manager, browser todo list, daily checklist online, private to do list"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "todo list local storage, offline task manager, browser todo list, daily checklist online, private to do list",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "sticky-notes-board",
@@ -690,9 +797,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "calculators-productivity",
     "categoryName": "Calculators & Productivity",
     "description": "Pin colorful quick digital sticky notes to a visual pinboard with customized pastel card hues (Yellow, Green, Blue, Pink) and automatic localStorage saving.",
-    "keywords": "sticky notes online, virtual pinboard, quick notes scratchpad, digital memo board, sticky note board"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "sticky notes online, virtual pinboard, quick notes scratchpad, digital memo board, sticky note board",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "hashtag-generator",
@@ -701,9 +807,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "social-media-utilities",
     "categoryName": "Social Media Utilities",
     "description": "Convert topic keywords, titles, or sentences into optimized hashtag clusters (#tag1 #tag2 #tag3) with spacing, punctuation cleaning, and 1-click clipboard copying.",
-    "keywords": "hashtag generator, instagram hashtag maker, youtube tags generator, tiktok hashtags, social media hashtag tool"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "hashtag generator, instagram hashtag maker, youtube tags generator, tiktok hashtags, social media hashtag tool",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "bio-link-page-builder",
@@ -712,9 +817,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "social-media-utilities",
     "categoryName": "Social Media Utilities",
     "description": "Design and export standalone, single-file HTML/CSS link-in-bio hub pages for Instagram, TikTok, and Twitter with social links, custom themes, and zero external hosting dependencies.",
-    "keywords": "bio link builder, link in bio html generator, instagram link tree maker, mobile bio page, linktree alternative html"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "bio link builder, link in bio html generator, instagram link tree maker, mobile bio page, linktree alternative html",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "social-character-counter",
@@ -723,9 +827,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "social-media-utilities",
     "categoryName": "Social Media Utilities",
     "description": "Track post lengths against official character limit constraints across Twitter/X (280), Instagram Captions (2,200), LinkedIn Posts (3,000), TikTok (2,200), and YouTube Titles (100).",
-    "keywords": "social media character counter, twitter character limit, instagram caption length, linkedin character counter, social media post length"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "social media character counter, twitter character limit, instagram caption length, linkedin character counter, social media post length",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "tweet-thread-formatter",
@@ -734,9 +837,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "social-media-utilities",
     "categoryName": "Social Media Utilities",
     "description": "Split long-form articles, essays, and announcements into numbered 280-character Twitter/X thread posts (1/n, 2/n) with smart word boundary splitting.",
-    "keywords": "tweet thread maker, split text for twitter, thread formatter 280 chars, x thread creator, twitter thread generator"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "tweet thread maker, split text for twitter, thread formatter 280 chars, x thread creator, twitter thread generator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "youtube-timestamp-link-generator",
@@ -745,9 +847,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "social-media-utilities",
     "categoryName": "Social Media Utilities",
     "description": "Create deep-linking timestamped YouTube video URLs (e.g. ?t=2m45s or ?t=165) and clean chapter timestamps for video descriptions and show notes.",
-    "keywords": "youtube timestamp link generator, youtube deep link maker, timestamp youtube video, youtube chapter generator, start youtube video at time"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "youtube timestamp link generator, youtube deep link maker, timestamp youtube video, youtube chapter generator, start youtube video at time",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "metadata-exif-stripper",
@@ -756,9 +857,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "privacy-security-extras",
     "categoryName": "Privacy & Security Extras",
     "description": "Protect your digital privacy by stripping hidden GPS geolocation coordinates, camera model tags, shutter details, and timestamp metadata from JPEG, PNG, and WebP images before sharing.",
-    "keywords": "exif stripper, remove image metadata online, clean photo gps data, privacy image scrubber, strip photo camera details"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "exif stripper, remove image metadata online, clean photo gps data, privacy image scrubber, strip photo camera details",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "local-file-encryptor",
@@ -767,9 +867,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "privacy-security-extras",
     "categoryName": "Privacy & Security Extras",
     "description": "Encrypt any sensitive file or text using military-grade AES-256-GCM encryption with password-derived PBKDF2 keys directly in your browser without uploading to any server.",
-    "keywords": "file encryptor online, aes 256 gcm file encryptor, client side encryption, encrypt decrypt files browser, web crypto encryptor"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "file encryptor online, aes 256 gcm file encryptor, client side encryption, encrypt decrypt files browser, web crypto encryptor",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "coin-flipper",
@@ -778,9 +877,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "fun-miscellaneous",
     "categoryName": "Fun & Miscellaneous",
     "description": "Flip a digital 3D coin with realistic CSS flip animations, cryptographic Web Crypto randomness, flip streak counters, and multiple coin batch flips.",
-    "keywords": "coin flipper, heads or tails online, flip a coin 3d, random coin toss, decision maker coin"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "coin flipper, heads or tails online, flip a coin 3d, random coin toss, decision maker coin",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "dice-roller",
@@ -789,9 +887,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "fun-miscellaneous",
     "categoryName": "Fun & Miscellaneous",
     "description": "Roll tabletop roleplaying game dice (D4, D6, D8, D10, D12, D20, D100) with dice quantity multipliers, modifier bonuses (+/-), roll histories, and total sums.",
-    "keywords": "dice roller online, d20 dice roller, rpg tabletop dice, dnd dice simulator, roll multiple dice"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "dice roller online, d20 dice roller, rpg tabletop dice, dnd dice simulator, roll multiple dice",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "spin-the-wheel",
@@ -800,9 +897,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "fun-miscellaneous",
     "categoryName": "Fun & Miscellaneous",
     "description": "Create custom spinning decision wheels with custom segment names, vibrant colors, realistic deceleration physics, and cryptographic slice winner selection.",
-    "keywords": "spin the wheel, random name picker, decision wheel online, wheel of fortune spinner, random choice picker"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "spin the wheel, random name picker, decision wheel online, wheel of fortune spinner, random choice picker",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "typing-speed-test",
@@ -811,9 +907,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "fun-miscellaneous",
     "categoryName": "Fun & Miscellaneous",
     "description": "Test your keyboard typing speed (WPM), Characters Per Minute (CPM), and typing accuracy percentage with live character highlighting, preset durations (15s, 30s, 60s, 120s), and difficulty categories.",
-    "keywords": "typing speed test, wpm test online, words per minute typing test, keyboard accuracy test, typing test 60 seconds"
-  ,
-    "dateAdded": "2026-09-11"
+    "keywords": "typing speed test, wpm test online, words per minute typing test, keyboard accuracy test, typing test 60 seconds",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "sound-effects-generator",
@@ -822,9 +917,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "fun-miscellaneous",
     "categoryName": "Fun & Miscellaneous",
     "description": "Synthesize custom 8-bit retro gaming sound effects, notification chimes, sci-fi laser zaps, powerups, and UI clicks with live Web Audio oscillators and client-side .WAV audio export.",
-    "keywords": "sound effects generator, web audio synthesizer, 8 bit sound maker, bleeps and chimes generator, download sound effects wav"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "sound effects generator, web audio synthesizer, 8 bit sound maker, bleeps and chimes generator, download sound effects wav",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "ascii-art-generator",
@@ -833,9 +927,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "fun-miscellaneous",
     "categoryName": "Fun & Miscellaneous",
     "description": "Transform regular text words and titles into large ASCII art typography banners and code comments for developer READMEs, CLI terminals, and Discord messages.",
-    "keywords": "ascii art generator, ascii text banner maker, terminal banner generator, figlet online, code comment banner"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "ascii art generator, ascii text banner maker, terminal banner generator, figlet online, code comment banner",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "text-case-converter",
@@ -844,9 +937,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-utilities",
     "categoryName": "Text Utilities",
     "description": "Transform text case online: UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, kebab-case, CONSTANT_CASE, and dot.case.",
-    "keywords": "text case converter, uppercase converter, lowercase converter, title case generator, camelcase online, snake case converter, kebab case converter"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "text case converter, uppercase converter, lowercase converter, title case generator, camelcase online, snake case converter, kebab case converter",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "word-counter",
@@ -855,9 +947,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-utilities",
     "categoryName": "Text Utilities",
     "description": "Accurately count words, characters, sentences, paragraphs, and calculate estimated reading and speaking times instantly in your browser.",
-    "keywords": "word counter, character counter, text statistics, word count tool, reading time calculator, speaking time estimator"
-  ,
-    "dateAdded": "2026-09-06"
+    "keywords": "word counter, character counter, text statistics, word count tool, reading time calculator, speaking time estimator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "character-counter",
@@ -866,9 +957,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-utilities",
     "categoryName": "Text Utilities",
     "description": "Count characters, letters, digits, and whitespace with pre-set limit indicators for Twitter, Meta Title, Description, and SMS.",
-    "keywords": "character counter, letter counter, tweet length checker, meta description length checker, sms character counter"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "character counter, letter counter, tweet length checker, meta description length checker, sms character counter",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "duplicate-line-remover",
@@ -877,9 +967,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-utilities",
     "categoryName": "Text Utilities",
     "description": "Remove repeated lines, email lists, keywords, and URLs with configurable case sensitivity, whitespace trimming, and duplicate counters.",
-    "keywords": "duplicate line remover, deduplicate list, remove repeated lines, clean duplicate words, list deduplicator"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "duplicate line remover, deduplicate list, remove repeated lines, clean duplicate words, list deduplicator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "text-sorter",
@@ -888,9 +977,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-utilities",
     "categoryName": "Text Utilities",
     "description": "Sort lines of text alphabetically (A-Z, Z-A), numerically, by line length, reverse, or randomize order completely in your browser.",
-    "keywords": "text sorter, alphabetical sorter, sort lines online, sort text a-z, sort numbers online, random list shuffle"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "text sorter, alphabetical sorter, sort lines online, sort text a-z, sort numbers online, random list shuffle",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "text-cleaner",
@@ -899,9 +987,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "text-utilities",
     "categoryName": "Text Utilities",
     "description": "Clean up dirty text: remove excess spaces, strip HTML tags, remove blank lines, convert tabs to spaces, and normalize line endings.",
-    "keywords": "text cleaner, strip html, remove blank lines, remove extra spaces, text sanitizer, normalize line endings"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "text cleaner, strip html, remove blank lines, remove extra spaces, text sanitizer, normalize line endings",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "json-formatter",
@@ -910,9 +997,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "developer-utilities",
     "categoryName": "Developer Utilities",
     "description": "Format, pretty-print, validate, and minify JSON strings with instant syntax error detection, line indicators, and custom indentation.",
-    "keywords": "json formatter, pretty print json, format json online, minify json, json beautifier, json validator"
-  ,
-    "dateAdded": "2026-09-03"
+    "keywords": "json formatter, pretty print json, format json online, minify json, json beautifier, json validator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "json-validator",
@@ -921,9 +1007,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "developer-utilities",
     "categoryName": "Developer Utilities",
     "description": "Validate JSON strings with detailed line and column error indicators, key counters, data type inspection, and payload sizing.",
-    "keywords": "json validator, test json valid, json linter, json syntax error checker, validate json string"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "json validator, test json valid, json linter, json syntax error checker, validate json string",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "base64-encoder-decoder",
@@ -932,9 +1017,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "developer-utilities",
     "categoryName": "Developer Utilities",
     "description": "Encode and decode Base64 strings with full Unicode (UTF-8) character and emoji support, plus optional URL-safe Base64 formatting.",
-    "keywords": "base64 encoder, base64 decoder, text to base64, base64 to text, utf8 base64 converter, url safe base64"
-  ,
-    "dateAdded": "2026-09-15"
+    "keywords": "base64 encoder, base64 decoder, text to base64, base64 to text, utf8 base64 converter, url safe base64",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "url-encoder-decoder",
@@ -943,9 +1027,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "developer-utilities",
     "categoryName": "Developer Utilities",
     "description": "Safely encode text and query parameters into standard percent-encoded URI strings or decode encoded URLs into human-readable text.",
-    "keywords": "url encoder, url decoder, percent encoding, uri component encoder, url escape, url unescape"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "url encoder, url decoder, percent encoding, uri component encoder, url escape, url unescape",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "regex-tester",
@@ -954,9 +1037,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "developer-utilities",
     "categoryName": "Developer Utilities",
     "description": "Test JavaScript regular expressions with real-time match highlighting, group capturing, error debugging, and common preset patterns.",
-    "keywords": "regex tester, test regular expression, regex debugger, regex match highlighter, regex tester online javascript"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "regex tester, test regular expression, regex debugger, regex match highlighter, regex tester online javascript",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "uuid-generator",
@@ -965,9 +1047,98 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "developer-utilities",
     "categoryName": "Developer Utilities",
     "description": "Generate cryptographically secure Version-4 UUIDs in bulk using the native Web Crypto API with custom casing, hyphens, and wrapper quotes.",
-    "keywords": "uuid generator, guid generator, uuid v4 generator, bulk uuid generator, cryptographically secure uuid, online uuid tool"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "uuid generator, guid generator, uuid v4 generator, bulk uuid generator, cryptographically secure uuid, online uuid tool",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "csv-json-converter",
+    "name": "CSV to JSON Converter",
+    "icon": "📊",
+    "categoryId": "developer-utilities",
+    "categoryName": "Developer Utilities",
+    "description": "Convert CSV (comma-separated), TSV (tab-separated), or custom delimited spreadsheet data into structured JSON objects or 2D arrays with automatic number/boolean type parsing, custom delimiters, and minify options.",
+    "keywords": "csv to json converter, convert csv to json online, tsv to json, spreadsheet to json, csv parser, csv to json array",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "json-csv-converter",
+    "name": "JSON to CSV Converter",
+    "icon": "📑",
+    "categoryId": "developer-utilities",
+    "categoryName": "Developer Utilities",
+    "description": "Transform structured JSON objects or nested arrays into standard CSV or TSV spreadsheet format with custom delimiters, automatic quote escaping, and nested key flattening.",
+    "keywords": "json to csv converter, json to excel, convert json to tsv, json to spreadsheet, json flatten to csv, export json to csv",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "json-to-yaml-converter",
+    "name": "JSON to YAML Converter",
+    "icon": "📜",
+    "categoryId": "developer-utilities",
+    "categoryName": "Developer Utilities",
+    "description": "Convert JSON configurations, Swagger API specs, and package manifests into clean, human-readable YAML with proper indentation, arrays, nested maps, and scalar type formatting.",
+    "keywords": "json to yaml converter, convert json to yaml online, json to yml, yaml formatter, swagger json to yaml, docker compose converter",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "yaml-to-json-converter",
+    "name": "YAML to JSON Converter",
+    "icon": "⚙️",
+    "categoryId": "developer-utilities",
+    "categoryName": "Developer Utilities",
+    "description": "Parse YAML specifications, Kubernetes manifests, GitHub Actions workflows, and CI/CD configs into clean, valid, formatted JSON with customizable indentation and minification.",
+    "keywords": "yaml to json converter, convert yaml to json online, yml to json, parse kubernetes yaml to json, yaml parser online",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "json-to-xml-converter",
+    "name": "JSON to XML Converter",
+    "icon": "🌐",
+    "categoryId": "developer-utilities",
+    "categoryName": "Developer Utilities",
+    "description": "Convert JSON documents, API payloads, and objects into valid, well-formed XML with customizable root tags, array item tags, XML declarations, and indentation formatting.",
+    "keywords": "json to xml converter, convert json to xml online, json to xml tree, json2xml, rest to soap converter, format xml",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "xml-to-json-converter",
+    "name": "XML to JSON Converter",
+    "icon": "📦",
+    "categoryId": "developer-utilities",
+    "categoryName": "Developer Utilities",
+    "description": "Parse XML documents, RSS news feeds, SVG structures, and SOAP payloads into clean JSON objects with automatic type conversion and attribute preservation.",
+    "keywords": "xml to json converter, convert xml to json online, xml parser to json, parse rss to json, soap to json, xml2json",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "hex-to-text-converter",
+    "name": "Hex to Text Converter",
+    "icon": "🔤",
+    "categoryId": "developer-utilities",
+    "categoryName": "Developer Utilities",
+    "description": "Decode hexadecimal byte strings into readable UTF-8, ASCII, or Unicode plain text with automatic delimiter detection (spaces, colons, 0x prefixes, and \\x escape codes).",
+    "keywords": "hex to text converter, decode hex to string, hexadecimal to ascii, hex decoder online, 0x to text, hex string translator",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "text-to-hex-converter",
+    "name": "Text to Hex Converter",
+    "icon": "🔢",
+    "categoryId": "developer-utilities",
+    "categoryName": "Developer Utilities",
+    "description": "Encode plain text, strings, symbols, and emojis into hexadecimal byte sequences with customizable delimiters (space, comma, 0x prefix, \\x escape, or continuous hex).",
+    "keywords": "text to hex converter, string to hex, ascii to hexadecimal, encode text to hex, hex generator online, text to 0x",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "jwt-decoder",
+    "name": "JWT Decoder",
+    "icon": "🔑",
+    "categoryId": "developer-utilities",
+    "categoryName": "Developer Utilities",
+    "description": "Decode and inspect JSON Web Tokens (JWT) safely in your browser. View header algorithms, payload claims, expiration timestamps, issued-at dates, and signature components with zero server transmission.",
+    "keywords": "jwt decoder, jwt io decoder online, decode json web token, jwt inspector, jwt token parser, decode jwt client side",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "meta-tag-generator",
@@ -976,9 +1147,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "web-seo-utilities",
     "categoryName": "Web & SEO Utilities",
     "description": "Generate complete, search-engine-friendly HTML meta tags, Open Graph tags, and Twitter card tags with live character counters.",
-    "keywords": "meta tag generator, html meta tags, seo meta generator, open graph generator, twitter cards generator, html head tags"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "meta tag generator, html meta tags, seo meta generator, open graph generator, twitter cards generator, html head tags",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "open-graph-preview",
@@ -987,9 +1157,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "web-seo-utilities",
     "categoryName": "Web & SEO Utilities",
     "description": "Preview how your web page and social metadata look when shared on Facebook, Twitter/X, and Google search results.",
-    "keywords": "open graph preview, social card debugger, twitter card preview, facebook link preview, google serp snippet preview"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "open graph preview, social card debugger, twitter card preview, facebook link preview, google serp snippet preview",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "url-parser",
@@ -998,9 +1167,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "web-seo-utilities",
     "categoryName": "Web & SEO Utilities",
     "description": "Decompose any web URL into its standard protocol, hostname, port, pathname, hash, and structured query parameter key-value pairs.",
-    "keywords": "url parser, parse url online, query string inspector, url query parameters, breakdown url, query param extractor"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "url parser, parse url online, query string inspector, url query parameters, breakdown url, query param extractor",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "utm-builder",
@@ -1009,9 +1177,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "web-seo-utilities",
     "categoryName": "Web & SEO Utilities",
     "description": "Create Google Analytics tracking URLs with standard utm_source, utm_medium, utm_campaign, utm_term, and utm_content parameters.",
-    "keywords": "utm builder, utm link generator, google analytics campaign url, campaign tracking link, marketing url builder"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "utm builder, utm link generator, google analytics campaign url, campaign tracking link, marketing url builder",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "robots-txt-generator",
@@ -1020,9 +1187,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "web-seo-utilities",
     "categoryName": "Web & SEO Utilities",
     "description": "Generate search-engine-compliant robots.txt files with custom user-agents, allow/disallow paths, crawl delays, and XML sitemaps.",
-    "keywords": "robots.txt generator, create robots.txt, robots txt builder, crawler directives, googlebot allow disallow, sitemap robots.txt"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "robots.txt generator, create robots.txt, robots txt builder, crawler directives, googlebot allow disallow, sitemap robots.txt",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "sitemap-xml-generator",
@@ -1031,9 +1197,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "web-seo-utilities",
     "categoryName": "Web & SEO Utilities",
     "description": "Create valid XML sitemaps for search engines from a list of URLs with configurable priority, change frequency, and last-modified timestamps.",
-    "keywords": "sitemap xml generator, create sitemap online, xml sitemap maker, google sitemap builder, generate sitemap.xml"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "sitemap xml generator, create sitemap online, xml sitemap maker, google sitemap builder, generate sitemap.xml",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "color-picker",
@@ -1042,9 +1207,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "image-utilities",
     "categoryName": "Image & Graphics Utilities",
     "description": "Pick colors visually, inspect HEX, RGB, and HSL values, and check WCAG AA/AAA contrast ratios against light and dark backgrounds.",
-    "keywords": "color picker, online color picker, hex to rgb, wcag contrast checker, color contrast ratio, hex color code"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "color picker, online color picker, hex to rgb, wcag contrast checker, color contrast ratio, hex color code",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "color-palette-generator",
@@ -1053,9 +1217,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "image-utilities",
     "categoryName": "Image & Graphics Utilities",
     "description": "Generate beautiful harmonious color palettes, tints, shades, and complementary schemes from any base color with one-click hex copying.",
-    "keywords": "color palette generator, color scheme maker, complementary colors, analogous colors, triadic color palette, monochromatic palette"
-  ,
-    "dateAdded": "2026-09-01"
+    "keywords": "color palette generator, color scheme maker, complementary colors, analogous colors, triadic color palette, monochromatic palette",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "hex-rgb-hsl-converter",
@@ -1064,9 +1227,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "image-utilities",
     "categoryName": "Image & Graphics Utilities",
     "description": "Bidirectional, synchronized three-way color converter for web designers with live visual feedback and ready-to-use CSS snippets.",
-    "keywords": "hex to rgb converter, rgb to hex, hex to hsl, hsl to rgb, color format converter, css color converter"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "hex to rgb converter, rgb to hex, hex to hsl, hsl to rgb, color format converter, css color converter",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "image-color-extractor",
@@ -1075,9 +1237,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "image-utilities",
     "categoryName": "Image & Graphics Utilities",
     "description": "Extract dominant color palettes and prominent hues from local images using HTML5 Canvas pixel quantization with zero uploads.",
-    "keywords": "image color extractor, extract palette from image, dominant image color, picture color picker, canvas color extractor"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "image color extractor, extract palette from image, dominant image color, picture color picker, canvas color extractor",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "svg-viewer",
@@ -1086,9 +1247,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "image-utilities",
     "categoryName": "Image & Graphics Utilities",
     "description": "Render, inspect, scale, and sanitize SVG markup in-browser with automatic stripping of dangerous script tags and event handlers.",
-    "keywords": "svg viewer, svg sanitizer, clean svg online, render svg code, safe svg viewer, inspect svg dimensions"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "svg viewer, svg sanitizer, clean svg online, render svg code, safe svg viewer, inspect svg dimensions",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "image-metadata-viewer",
@@ -1097,9 +1257,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "image-utilities",
     "categoryName": "Image & Graphics Utilities",
     "description": "Inspect natural pixel dimensions, aspect ratio, file size, MIME type, and local image attributes completely offline with zero server transmission.",
-    "keywords": "image metadata viewer, image dimensions checker, photo aspect ratio calculator, inspect image resolution, client side image inspector"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "image metadata viewer, image dimensions checker, photo aspect ratio calculator, inspect image resolution, client side image inspector",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "csv-viewer",
@@ -1108,9 +1267,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "file-data-utilities",
     "categoryName": "File & Data Utilities",
     "description": "Upload or paste CSV spreadsheet data to view, search, and inspect records in a clean, responsive data table with zero server uploads.",
-    "keywords": "csv viewer online, inspect csv file, open csv in browser, search csv table, csv table preview, client side csv viewer"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "csv viewer online, inspect csv file, open csv in browser, search csv table, csv table preview, client side csv viewer",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "csv-to-json-converter",
@@ -1119,9 +1277,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "file-data-utilities",
     "categoryName": "File & Data Utilities",
     "description": "Convert CSV spreadsheet tables into structured JSON arrays of objects with automatic header mapping and data type detection.",
-    "keywords": "csv to json converter, convert csv to json, csv to json online, csv parser json, excel to json converter"
-  ,
-    "dateAdded": "2026-09-09"
+    "keywords": "csv to json converter, convert csv to json, csv to json online, csv parser json, excel to json converter",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "json-to-csv-converter",
@@ -1130,9 +1287,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "file-data-utilities",
     "categoryName": "File & Data Utilities",
     "description": "Convert JSON arrays of objects into RFC 4180 compliant CSV files with automatic key union and quotation escaping in your browser.",
-    "keywords": "json to csv converter, convert json to csv, json to excel, json to spreadsheet, online json to csv"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "json to csv converter, convert json to csv, json to excel, json to spreadsheet, online json to csv",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "file-information-viewer",
@@ -1141,9 +1297,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "file-data-utilities",
     "categoryName": "File & Data Utilities",
     "description": "Analyze any local file byte size, MIME type, extension, and calculate estimated transfer speeds on 4G, 5G, and broadband networks.",
-    "keywords": "file info viewer, inspect file size bytes, check file mime type, file download time calculator, local file inspector"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "file info viewer, inspect file size bytes, check file mime type, file download time calculator, local file inspector",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "file-hash-generator",
@@ -1152,9 +1307,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "file-data-utilities",
     "categoryName": "File & Data Utilities",
     "description": "Calculate cryptographic SHA hashes for any local file using the native Web Crypto API with zero file uploads and complete verification integrity.",
-    "keywords": "file hash generator, calculate sha256 online, sha1 file checksum, sha512 generator, verify file integrity, checksum calculator"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "file hash generator, calculate sha256 online, sha1 file checksum, sha512 generator, verify file integrity, checksum calculator",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "text-file-merger",
@@ -1163,9 +1317,28 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "file-data-utilities",
     "categoryName": "File & Data Utilities",
     "description": "Merge multiple text, markdown, CSV, or code files into a single consolidated document with customizable separators and file headers.",
-    "keywords": "text file merger, merge text files online, combine files, join text files, merge txt files, combine logs online"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "text file merger, merge text files online, combine files, join text files, merge txt files, combine logs online",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "base64-to-image-converter",
+    "name": "Base64 to Image Converter",
+    "icon": "🖼️",
+    "categoryId": "file-data-utilities",
+    "categoryName": "File & Data Utilities",
+    "description": "Decode Base64 strings (with or without Data URI prefix) into high-resolution PNG, JPEG, SVG, WebP, and GIF images with instant visual preview, dimensions analysis, file size inspector, and one-click image download.",
+    "keywords": "base64 to image converter, decode base64 to png, base64 to jpg online, base64 image preview, convert base64 to image file",
+    "dateAdded": "2026-09-18"
+  },
+  {
+    "id": "base64-to-pdf-converter",
+    "name": "Base64 to PDF Converter",
+    "icon": "📕",
+    "categoryId": "file-data-utilities",
+    "categoryName": "File & Data Utilities",
+    "description": "Convert Base64-encoded PDF documents into viewable and downloadable PDF files with real-time browser preview, page size calculation, and instant PDF export.",
+    "keywords": "base64 to pdf converter, decode base64 to pdf, base64 pdf preview, convert base64 to pdf online, base64 pdf download",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "password-strength-checker",
@@ -1174,9 +1347,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "everyday-utilities",
     "categoryName": "Everyday Utilities",
     "description": "Test password strength, cryptographic entropy bits, and estimated brute-force crack times locally in your browser. Zero data leaves your device.",
-    "keywords": "password strength checker, test password strength, password entropy calculator, check password online secure, offline password audit"
-  ,
-    "dateAdded": "2026-09-12"
+    "keywords": "password strength checker, test password strength, password entropy calculator, check password online secure, offline password audit",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "timestamp-converter",
@@ -1185,9 +1357,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "everyday-utilities",
     "categoryName": "Everyday Utilities",
     "description": "Convert Unix epoch timestamps (seconds and milliseconds) to human-readable dates, and convert calendar dates back to Unix timestamps.",
-    "keywords": "unix timestamp converter, epoch converter, timestamp to date, date to timestamp, epoch time calculator, unix time now"
-  ,
-    "dateAdded": "2026-09-10"
+    "keywords": "unix timestamp converter, epoch converter, timestamp to date, date to timestamp, epoch time calculator, unix time now",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "date-difference-calculator",
@@ -1196,9 +1367,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "everyday-utilities",
     "categoryName": "Everyday Utilities",
     "description": "Calculate the exact duration between two dates in years, months, days, total hours, minutes, seconds, and working business days.",
-    "keywords": "date difference calculator, days between dates, calculate days, business days calculator, date duration calculator, working days between dates"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "date difference calculator, days between dates, calculate days, business days calculator, date duration calculator, working days between dates",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "percentage-calculator",
@@ -1207,9 +1377,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "everyday-utilities",
     "categoryName": "Everyday Utilities",
     "description": "Solve percentage questions: What is X% of Y, X is what % of Y, percentage increase/decrease, and add/subtract percentages with step-by-step math.",
-    "keywords": "percentage calculator, calculate percentage, percent increase calculator, percentage change, percent of number, online percentage tool"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "percentage calculator, calculate percentage, percent increase calculator, percentage change, percent of number, online percentage tool",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "number-base-converter",
@@ -1218,9 +1387,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "everyday-utilities",
     "categoryName": "Everyday Utilities",
     "description": "Synchronized bidirectional base converter for decimal (base 10), binary (base 2), hex (base 16), and octal (base 8) numbers.",
-    "keywords": "number base converter, decimal to binary, binary to hex, hex to decimal, octal converter, base 2 base 10 base 16"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "number base converter, decimal to binary, binary to hex, hex to decimal, octal converter, base 2 base 10 base 16",
+    "dateAdded": "2026-09-18"
   },
   {
     "id": "random-data-generator",
@@ -1229,9 +1397,8 @@ export const BU_TOOLS_CATALOG = [
     "categoryId": "everyday-utilities",
     "categoryName": "Everyday Utilities",
     "description": "Generate mock numbers, alphanumeric strings, test names, sample emails, and IP addresses for testing, QA, and UI prototyping.",
-    "keywords": "random data generator, mock data generator, test names generator, random string generator, mock emails, fake test data online"
-  ,
-    "dateAdded": "2026-07-01"
+    "keywords": "random data generator, mock data generator, test names generator, random string generator, mock emails, fake test data online",
+    "dateAdded": "2026-09-18"
   }
 ];
 

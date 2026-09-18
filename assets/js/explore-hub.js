@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const totalPlatformsStatEl = document.getElementById('stat-total-platforms');
 
   // 1. Calculate live counts directly from existing platform registries
-  const buToolsCount = Object.keys(BU_TOOLS_CATALOG || {}).length || 89;
+  const buToolsCount = Object.keys(BU_TOOLS_CATALOG || {}).length || 111;
   const aiToolsCount = Object.keys(AI_TOOLS_DATA || {}).length || 210;
   const mediaToolsCount = Object.keys(ALL_TOOL_CONFIGS || {}).length || 73;
   const creatorToolsCount = Object.keys(CREATOR_TOOLS_DATA || {}).length || 70;
