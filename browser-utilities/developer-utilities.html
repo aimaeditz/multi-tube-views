@@ -36,25 +36,26 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="../manifest.json">
   <title>Developer Utilities — Free In-Browser Tools | MTV</title>
-  <meta name="description" content="Explore 6 free client-side web tools in Developer Utilities. Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, and generate v4 UUIDs. 100% private in-browser utilities by Multi Tube Views.">
-  <meta name="keywords" content="developer utilities, client side tools, online developer utilities, json formatter, json validator, base64 encoder / decoder, url encoder / decoder, regex tester, uuid generator">
+  <meta name="description" content="Explore 15 free client-side web tools in Developer Utilities. Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, generate v4 UUIDs, convert JSON/CSV/YAML/XML, convert Hex/Text, and decode JWT tokens. 100% private in-browser utilities by Multi Tube Views.">
+  <meta name="keywords" content="developer utilities, client side tools, online developer utilities, json formatter, json validator, base64 encoder / decoder, url encoder / decoder, regex tester, uuid generator, csv to json converter, json to csv converter, json to yaml converter, yaml to json converter, json to xml converter, xml to json converter, hex to text converter, text to hex converter, jwt decoder">
   <meta name="author" content="AiMAEditz">
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities/developer-utilities.html">
 
-    <!-- Open Graph -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/developer-utilities.html">
   <meta property="og:title" content="Developer Utilities — Free In-Browser Tools | MTV">
-  <meta property="og:description" content="Explore 6 free client-side web tools in Developer Utilities. Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, and generate v4 UUIDs. 100% private in-browser utilities by Multi Tube Views.">
+  <meta property="og:description" content="Explore 15 free client-side web tools in Developer Utilities. Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, generate v4 UUIDs, convert JSON/CSV/YAML/XML, convert Hex/Text, and decode JWT tokens. 100% private in-browser utilities by Multi Tube Views.">
   <meta property="og:site_name" content="Multi Tube Views">
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Developer Utilities — Free In-Browser Tools | MTV">
-  <meta name="twitter:description" content="Explore 6 free client-side web tools in Developer Utilities. Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, and generate v4 UUIDs. 100% private in-browser utilities by Multi Tube Views.">
+  <meta name="twitter:description" content="Explore 15 free client-side web tools in Developer Utilities. Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, generate v4 UUIDs, convert JSON/CSV/YAML/XML, convert Hex/Text, and decode JWT tokens. 100% private in-browser utilities by Multi Tube Views.">
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   <script type="application/ld+json">
@@ -66,7 +67,7 @@
       "@id": "https://multitubeviews.com/browser-utilities/developer-utilities.html#collection",
       "name": "Developer Utilities — MTV Browser Utilities",
       "url": "https://multitubeviews.com/browser-utilities/developer-utilities.html",
-      "description": "Explore 6 free client-side web tools in Developer Utilities. Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, and generate v4 UUIDs. 100% private in-browser utilities by Multi Tube Views.",
+      "description": "Explore 15 free client-side web tools in Developer Utilities. Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, generate v4 UUIDs, convert JSON/CSV/YAML/XML, convert Hex/Text, and decode JWT tokens. 100% private in-browser utilities by Multi Tube Views.",
       "hasPart": [
         {
           "@type": "WebApplication",
@@ -97,6 +98,51 @@
           "@type": "WebApplication",
           "name": "UUID Generator",
           "url": "https://multitubeviews.com/browser-utilities/uuid-generator.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "CSV to JSON Converter",
+          "url": "https://multitubeviews.com/browser-utilities/csv-json-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "JSON to CSV Converter",
+          "url": "https://multitubeviews.com/browser-utilities/json-csv-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "JSON to YAML Converter",
+          "url": "https://multitubeviews.com/browser-utilities/json-to-yaml-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "YAML to JSON Converter",
+          "url": "https://multitubeviews.com/browser-utilities/yaml-to-json-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "JSON to XML Converter",
+          "url": "https://multitubeviews.com/browser-utilities/json-to-xml-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "XML to JSON Converter",
+          "url": "https://multitubeviews.com/browser-utilities/xml-to-json-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Hex to Text Converter",
+          "url": "https://multitubeviews.com/browser-utilities/hex-to-text-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Text to Hex Converter",
+          "url": "https://multitubeviews.com/browser-utilities/text-to-hex-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "JWT Decoder",
+          "url": "https://multitubeviews.com/browser-utilities/jwt-decoder.html"
         }
       ]
     },
@@ -230,10 +276,10 @@
         <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 0.5rem;">
           <span style="font-size: 2.2rem;">⚡</span>
           <h1 class="bu-title" style="font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; margin: 0;">Developer Utilities</h1>
-          <span class="bu-badge">6 Utilities</span>
+          <span class="bu-badge">15 Utilities</span>
         </div>
         <p class="bu-subtitle" style="font-size: 1.05rem; color: var(--text-muted); max-width: 750px; line-height: 1.6; margin: 0.5rem 0 1.5rem 0;">
-          Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, and generate v4 UUIDs. All tools run 100% client-side with zero data transmitted to any external server.
+          Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, generate v4 UUIDs, convert JSON/CSV/YAML/XML, convert Hex/Text, and decode JWT tokens. All tools run 100% client-side with zero data transmitted to any external server.
         </p>
       </div>
 
@@ -336,6 +382,150 @@
             </div>
           </a>
         
+          <a href="csv-json-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">📊</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">CSV to JSON Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert CSV (comma-separated), TSV (tab-separated), or custom delimited spreadsheet data into structured JSON objects or 2D arrays with automatic number/boolean type parsing, custom delimiters, and minify options.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="json-csv-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">📑</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">JSON to CSV Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Transform structured JSON objects or nested arrays into standard CSV or TSV spreadsheet format with custom delimiters, automatic quote escaping, and nested key flattening.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="json-to-yaml-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">📜</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">JSON to YAML Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert JSON configurations, Swagger API specs, and package manifests into clean, human-readable YAML with proper indentation, arrays, nested maps, and scalar type formatting.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="yaml-to-json-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">⚙️</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">YAML to JSON Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Parse YAML specifications, Kubernetes manifests, GitHub Actions workflows, and CI/CD configs into clean, valid, formatted JSON with customizable indentation and minification.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="json-to-xml-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">🌐</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">JSON to XML Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert JSON documents, API payloads, and objects into valid, well-formed XML with customizable root tags, array item tags, XML declarations, and indentation formatting.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="xml-to-json-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">📦</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">XML to JSON Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Parse XML documents, RSS news feeds, SVG structures, and SOAP payloads into clean JSON objects with automatic type conversion and attribute preservation.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="hex-to-text-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">🔤</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Hex to Text Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Decode hexadecimal byte strings into readable UTF-8, ASCII, or Unicode plain text with automatic delimiter detection (spaces, colons, 0x prefixes, and \x escape codes).</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="text-to-hex-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">🔢</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Text to Hex Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Encode plain text, strings, symbols, and emojis into hexadecimal byte sequences with customizable delimiters (space, comma, 0x prefix, \x escape, or continuous hex).</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="jwt-decoder.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">🔑</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">JWT Decoder</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Decode and inspect JSON Web Tokens (JWT) safely in your browser. View header algorithms, payload claims, expiration timestamps, issued-at dates, and signature components with zero server transmission.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
       </div>
 
       <!-- Other Categories -->
@@ -416,7 +606,7 @@
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 73 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 60 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">

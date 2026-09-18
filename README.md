@@ -25,7 +25,7 @@ workspace for creators, researchers, and everyday users.
 - **60 in-browser Media Converter Tools** — video/audio conversion,
   trimming, speed change, voice-to-text, text-to-speech, QR generation,
   PDF manipulation, image editing, and more — 100% client-side, no uploads
-- **89 browser utilities across 15 categories** — text, developer,
+- **111 browser utilities across 15 categories** — text, developer,
   web/SEO, image/graphics, file/data, and everyday utilities — 100%
   client-side, zero uploads
 - **210 AI Tools across 6 categories** — Video & Scripting, Social & Growth,

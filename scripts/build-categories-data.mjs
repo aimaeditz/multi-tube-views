@@ -36,8 +36,8 @@ const CATEGORIES = [
     id: 'unit-format-converters',
     name: 'Unit & Format Converters',
     icon: '🔄',
-    toolCount: 6,
-    desc: 'Convert measurement units, format multi-country currencies, compare global time zones, convert Markdown to HTML, transform date formats, and calculate exact age.',
+    toolCount: 16,
+    desc: 'Convert measurement units across length, weight, area, volume, speed, pressure, energy, power, angle, fuel economy, digital storage, data transfer rate, currencies, time zones, Markdown, and dates.',
     filename: 'unit-format-converters.html',
     tools: [
       'unit-converter',
@@ -45,7 +45,17 @@ const CATEGORIES = [
       'time-zone-converter',
       'markdown-to-html',
       'date-format-converter',
-      'age-calculator'
+      'age-calculator',
+      'area-unit-converter',
+      'volume-unit-converter',
+      'speed-unit-converter',
+      'pressure-unit-converter',
+      'energy-unit-converter',
+      'power-unit-converter',
+      'angle-unit-converter',
+      'fuel-economy-converter',
+      'digital-storage-converter',
+      'data-transfer-rate-converter'
     ]
   },
   {
@@ -71,15 +81,16 @@ const CATEGORIES = [
     id: 'color-design-extras',
     name: 'Color & Design Extras',
     icon: '🎨',
-    toolCount: 5,
-    desc: 'Create multi-stop CSS gradients, verify WCAG color contrast ratios, build box-shadow layers, design organic border radii, and preview app icon mockups.',
+    toolCount: 6,
+    desc: 'Create multi-stop CSS gradients, verify WCAG color contrast ratios, build box-shadow layers, design organic border radii, preview app icon mockups, and convert HEX/RGB/HSL/HSV/CMYK codes.',
     filename: 'color-design-extras.html',
     tools: [
       'gradient-generator',
       'color-contrast-checker',
       'css-box-shadow-generator',
       'border-radius-generator',
-      'favicon-app-icon-mockup'
+      'favicon-app-icon-mockup',
+      'hex-rgb-hsl-color-converter'
     ]
   },
   {
@@ -211,8 +222,8 @@ const CATEGORIES = [
     id: 'file-data-utilities',
     name: 'File & Data Utilities',
     icon: '📁',
-    toolCount: 6,
-    desc: 'View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, and merge text files.',
+    toolCount: 8,
+    desc: 'View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, merge text files, and decode Base64 to Image or PDF.',
     filename: 'file-data-utilities.html',
     tools: [
       'csv-viewer',
@@ -220,7 +231,9 @@ const CATEGORIES = [
       'json-to-csv-converter',
       'file-information-viewer',
       'file-hash-generator',
-      'text-file-merger'
+      'text-file-merger',
+      'base64-to-image-converter',
+      'base64-to-pdf-converter'
     ]
   },
   {
@@ -243,8 +256,8 @@ const CATEGORIES = [
     id: 'developer-utilities',
     name: 'Developer Utilities',
     icon: '⚡',
-    toolCount: 6,
-    desc: 'Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, and generate v4 UUIDs.',
+    toolCount: 15,
+    desc: 'Format and validate JSON, test regex patterns, encode/decode Base64 and URLs, generate v4 UUIDs, convert JSON/CSV/YAML/XML, convert Hex/Text, and decode JWT tokens.',
     filename: 'developer-utilities.html',
     tools: [
       'json-formatter',
@@ -252,7 +265,16 @@ const CATEGORIES = [
       'base64-encoder-decoder',
       'url-encoder-decoder',
       'regex-tester',
-      'uuid-generator'
+      'uuid-generator',
+      'csv-json-converter',
+      'json-csv-converter',
+      'json-to-yaml-converter',
+      'yaml-to-json-converter',
+      'json-to-xml-converter',
+      'xml-to-json-converter',
+      'hex-to-text-converter',
+      'text-to-hex-converter',
+      'jwt-decoder'
     ]
   }
 ];

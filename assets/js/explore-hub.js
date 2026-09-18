@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 4. Browser Utilities (89)
+    // 4. Browser Utilities (111)
     if (typeof BU_TOOLS_CATALOG !== 'undefined' && Array.isArray(BU_TOOLS_CATALOG)) {
       BU_TOOLS_CATALOG.forEach(t => {
         let shortCat = 'Utilities';

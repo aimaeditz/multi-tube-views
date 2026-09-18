@@ -21,6 +21,12 @@ import { SOCIAL_EXTRAS_TOOLS } from './build-tools-data-social-extras.mjs';
 import { PRIVACY_EXTRAS_TOOLS } from './build-tools-data-privacy-extras.mjs';
 import { FUN_EXTRAS_TOOLS } from './build-tools-data-fun-extras.mjs';
 
+// 22 New Tools (Units, Dev, File, Color)
+import { BATCH_UNIT_TOOLS } from './build-tools-data-batch-units.mjs';
+import { BATCH_DEV_TOOLS } from './build-tools-data-batch-dev.mjs';
+import { BATCH_FILE_TOOLS } from './build-tools-data-batch-file.mjs';
+import { BATCH_COLOR_TOOLS } from './build-tools-data-batch-color.mjs';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
@@ -29,8 +35,10 @@ export const ALL_TOOLS = [
   // 9 New Suites First (ordered matching categories)
   ...TEXT_EXTRAS_TOOLS,
   ...UNIT_FORMAT_TOOLS,
+  ...BATCH_UNIT_TOOLS,
   ...GENERATORS_TOOLS,
   ...COLOR_EXTRAS_TOOLS,
+  ...BATCH_COLOR_TOOLS,
   ...DEV_EXTRAS_TOOLS,
   ...CALC_PROD_TOOLS,
   ...SOCIAL_EXTRAS_TOOLS,
@@ -39,9 +47,11 @@ export const ALL_TOOLS = [
   // 6 Original Suites
   ...TEXT_TOOLS,
   ...DEV_TOOLS,
+  ...BATCH_DEV_TOOLS,
   ...SEO_TOOLS,
   ...IMG_TOOLS,
   ...FILE_TOOLS,
+  ...BATCH_FILE_TOOLS,
   ...EVERYDAY_TOOLS
 ];
 

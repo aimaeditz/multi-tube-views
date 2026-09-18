@@ -36,25 +36,26 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="../manifest.json">
   <title>File & Data Utilities — Free In-Browser Tools | MTV</title>
-  <meta name="description" content="Explore 6 free client-side web tools in File &amp; Data Utilities. View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, and merge text files. 100% private in-browser utilities by Multi Tube Views.">
-  <meta name="keywords" content="file & data utilities, client side tools, online file & data utilities, csv viewer & filter, csv to json converter, json to csv converter, file information & size inspector, file hash generator, text file merger">
+  <meta name="description" content="Explore 8 free client-side web tools in File &amp; Data Utilities. View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, merge text files, and decode Base64 to Image or PDF. 100% private in-browser utilities by Multi Tube Views.">
+  <meta name="keywords" content="file & data utilities, client side tools, online file & data utilities, csv viewer & filter, csv to json converter, json to csv converter, file information & size inspector, file hash generator, text file merger, base64 to image converter, base64 to pdf converter">
   <meta name="author" content="AiMAEditz">
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities/file-data-utilities.html">
 
-    <!-- Open Graph -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/file-data-utilities.html">
   <meta property="og:title" content="File & Data Utilities — Free In-Browser Tools | MTV">
-  <meta property="og:description" content="Explore 6 free client-side web tools in File &amp; Data Utilities. View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, and merge text files. 100% private in-browser utilities by Multi Tube Views.">
+  <meta property="og:description" content="Explore 8 free client-side web tools in File &amp; Data Utilities. View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, merge text files, and decode Base64 to Image or PDF. 100% private in-browser utilities by Multi Tube Views.">
   <meta property="og:site_name" content="Multi Tube Views">
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="File & Data Utilities — Free In-Browser Tools | MTV">
-  <meta name="twitter:description" content="Explore 6 free client-side web tools in File &amp; Data Utilities. View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, and merge text files. 100% private in-browser utilities by Multi Tube Views.">
+  <meta name="twitter:description" content="Explore 8 free client-side web tools in File &amp; Data Utilities. View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, merge text files, and decode Base64 to Image or PDF. 100% private in-browser utilities by Multi Tube Views.">
   <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
 
   <script type="application/ld+json">
@@ -66,7 +67,7 @@
       "@id": "https://multitubeviews.com/browser-utilities/file-data-utilities.html#collection",
       "name": "File & Data Utilities — MTV Browser Utilities",
       "url": "https://multitubeviews.com/browser-utilities/file-data-utilities.html",
-      "description": "Explore 6 free client-side web tools in File & Data Utilities. View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, and merge text files. 100% private in-browser utilities by Multi Tube Views.",
+      "description": "Explore 8 free client-side web tools in File & Data Utilities. View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, merge text files, and decode Base64 to Image or PDF. 100% private in-browser utilities by Multi Tube Views.",
       "hasPart": [
         {
           "@type": "WebApplication",
@@ -97,6 +98,16 @@
           "@type": "WebApplication",
           "name": "Text File Merger",
           "url": "https://multitubeviews.com/browser-utilities/text-file-merger.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Base64 to Image Converter",
+          "url": "https://multitubeviews.com/browser-utilities/base64-to-image-converter.html"
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Base64 to PDF Converter",
+          "url": "https://multitubeviews.com/browser-utilities/base64-to-pdf-converter.html"
         }
       ]
     },
@@ -230,10 +241,10 @@
         <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 0.5rem;">
           <span style="font-size: 2.2rem;">📁</span>
           <h1 class="bu-title" style="font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; margin: 0;">File & Data Utilities</h1>
-          <span class="bu-badge">6 Utilities</span>
+          <span class="bu-badge">8 Utilities</span>
         </div>
         <p class="bu-subtitle" style="font-size: 1.05rem; color: var(--text-muted); max-width: 750px; line-height: 1.6; margin: 0.5rem 0 1.5rem 0;">
-          View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, and merge text files. All tools run 100% client-side with zero data transmitted to any external server.
+          View CSV data, convert between CSV and JSON, inspect file headers, calculate cryptographic hashes, merge text files, and decode Base64 to Image or PDF. All tools run 100% client-side with zero data transmitted to any external server.
         </p>
       </div>
 
@@ -336,6 +347,38 @@
             </div>
           </a>
         
+          <a href="base64-to-image-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">🖼️</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Base64 to Image Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Decode Base64 strings (with or without Data URI prefix) into high-resolution PNG, JPEG, SVG, WebP, and GIF images with instant visual preview, dimensions analysis, file size inspector, and one-click image download.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
+          <a href="base64-to-pdf-converter.html" class="bu-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.65rem;">
+                <span class="bu-card-icon" style="font-size: 1.6rem;">📕</span>
+                <h2 class="bu-card-title" style="font-size: 1.05rem; font-weight: 700; margin: 0;">Base64 to PDF Converter</h2>
+              </div>
+              <p class="bu-card-desc" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted); margin: 0 0 1rem 0;">Convert Base64-encoded PDF documents into viewable and downloadable PDF files with real-time browser preview, page size calculation, and instant PDF export.</p>
+            </div>
+            <div class="bu-card-actions" style="margin-top: auto; padding-top: 0.85rem; border-top: 1px solid var(--border-subtle); width: 100%;">
+              <span class="btn btn-primary btn-open-utility" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+                <span>Open Utility</span>
+                <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </span>
+            </div>
+          </a>
+        
       </div>
 
       <!-- Other Categories -->
@@ -416,7 +459,7 @@
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 73 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 60 browser media converters, 89 client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">

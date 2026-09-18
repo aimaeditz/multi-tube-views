@@ -112,7 +112,7 @@
       });
     }
 
-    // 4. Browser Utilities (89 tools)
+    // 4. Browser Utilities (111 tools)
     if (Array.isArray(BU_TOOLS_CATALOG) && BU_TOOLS_CATALOG.length > 0) {
       BU_TOOLS_CATALOG.forEach(tool => {
         searchIndex.push({
@@ -209,7 +209,7 @@
       {
         id: 'page-browser-utilities-hub',
         title: 'Browser Utilities Hub',
-        desc: '89 zero-server, offline-capable browser utilities for text, data, dev, and everyday tasks.',
+        desc: '111 zero-server, offline-capable browser utilities for text, data, dev, and everyday tasks.',
         icon: '🧰',
         category: 'Explore · Utilities',
         categoryId: 'pages-core',

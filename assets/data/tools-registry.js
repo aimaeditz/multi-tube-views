@@ -29,7 +29,7 @@ export function getWebsiteToolMetrics() {
   }
 
   // 3. Browser Utilities Tools Count
-  let browserUtilitiesCount = 89;
+  let browserUtilitiesCount = 111;
   if (Array.isArray(BU_ALL_TOOLS_LIST) && BU_ALL_TOOLS_LIST.length > 0) {
     browserUtilitiesCount = BU_ALL_TOOLS_LIST.length;
   } else if (Array.isArray(BU_CATEGORIES) && BU_CATEGORIES.length > 0) {
