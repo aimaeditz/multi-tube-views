@@ -3,11 +3,11 @@ import path from 'path';
 
 const VERIFIED_COUNTS = {
   platforms: 40,
-  aiTools: 211,
+  aiTools: 210,
   creatorTools: 70,
   mediaTools: 60,
   browserUtilities: 89,
-  totalTools: 430 // 211 + 60 + 89 + 70
+  totalTools: 429 // 210 + 60 + 89 + 70
 };
 
 console.log('Verified Counts to enforce across entire site:', VERIFIED_COUNTS);

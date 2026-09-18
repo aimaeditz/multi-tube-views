@@ -1,5 +1,5 @@
 /**
- * Multi Tube Views (MTV) — 211 AI Generative Tools Engine
+ * Multi Tube Views (MTV) — 210 AI Generative Tools Engine
  * Handles rendering, category filtering, search, routing, and MTVAI tool binding.
  */
 
@@ -355,7 +355,7 @@ function bootAITools() {
       if (breadcrumbSubPage) breadcrumbSubPage.style.display = 'none';
       if (breadcrumbSubSeparator) breadcrumbSubSeparator.style.display = 'none';
 
-      document.title = 'AI Tools Suite — 211 Free Generative AI Writing Tools | Multi Tube Views';
+      document.title = 'AI Tools Suite — 210 Free Generative AI Writing Tools | Multi Tube Views';
 
       const catParam = params.get('category');
       if (catParam && AI_CATEGORIES.some(c => c.id === catParam)) {
