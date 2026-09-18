@@ -1,5 +1,5 @@
 /**
- * Multi Tube Views (MTV) — 60 AI Generative Tools Engine
+ * Multi Tube Views (MTV) — 211 AI Generative Tools Engine
  * Handles rendering, category filtering, search, routing, and MTVAI tool binding.
  */
 
@@ -128,15 +128,19 @@ function bootAITools() {
   function setupToolCards() {
     if (!toolsGrid) return;
     const existingCards = toolsGrid.querySelectorAll('.creator-tool-card');
+    const existingIds = new Set();
 
-    if (existingCards.length > 0) {
-      existingCards.forEach(card => {
-        const id = card.getAttribute('data-tool-id');
+    existingCards.forEach(card => {
+      const id = card.getAttribute('data-tool-id');
+      if (id) {
+        existingIds.add(id);
         bindCardEvents(card, id);
-      });
-    } else {
-      toolsGrid.innerHTML = '';
-      Object.entries(AI_TOOLS_DATA).forEach(([id, tool]) => {
+      }
+    });
+
+    // Ensure any tools in AI_TOOLS_DATA not yet in DOM are created
+    Object.entries(AI_TOOLS_DATA).forEach(([id, tool]) => {
+      if (!existingIds.has(id)) {
         const card = document.createElement('div');
         card.className = 'creator-tool-card tilt-card';
         card.setAttribute('data-tool-id', id);
@@ -161,8 +165,8 @@ function bootAITools() {
 
         bindCardEvents(card, id);
         toolsGrid.appendChild(card);
-      });
-    }
+      }
+    });
   }
 
   // 3D Tilt on Hover disabled for UI stability (matching Browser Utilities standard)
@@ -351,7 +355,7 @@ function bootAITools() {
       if (breadcrumbSubPage) breadcrumbSubPage.style.display = 'none';
       if (breadcrumbSubSeparator) breadcrumbSubSeparator.style.display = 'none';
 
-      document.title = 'AI Tools Suite — 60 Free Generative Tools | Multi Tube Views';
+      document.title = 'AI Tools Suite — 211 Free Generative AI Writing Tools | Multi Tube Views';
 
       const catParam = params.get('category');
       if (catParam && AI_CATEGORIES.some(c => c.id === catParam)) {
