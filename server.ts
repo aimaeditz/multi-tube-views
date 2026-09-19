@@ -3135,7 +3135,7 @@ app.all('/admin-ajax.php', (req: Request, res: Response) => {
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: { middlewareMode: true, allowedHosts: true },
       appType: 'mpa',
     });
     app.use(vite.middlewares);
