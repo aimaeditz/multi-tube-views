@@ -273,7 +273,6 @@
     -webkit-backdrop-filter: blur(14px);
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 
   [data-theme="dark"] .marquee-shell {
@@ -517,7 +516,7 @@
     font-weight: 700;
     text-decoration: none;
     box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
-    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
     border: 1px solid transparent !important;
     cursor: pointer;
   }
@@ -533,7 +532,7 @@
 
   .btn-ref-primary svg,
   .btn-ref-secondary svg {
-    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
   .btn-ref-primary:hover svg,
@@ -555,7 +554,7 @@
     text-decoration: none;
     border: 1px solid var(--ref-line-strong) !important;
     backdrop-filter: blur(16px);
-    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
   .btn-ref-secondary:hover,
@@ -603,7 +602,7 @@
     box-shadow: var(--ref-shadow);
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s var(--ref-soft), border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s var(--ref-soft);
   }
 
   .story-panel.reverse {
@@ -664,7 +663,7 @@
     background: var(--ref-surface2);
     border: 1px solid var(--ref-line);
     color: var(--ref-text);
-    transition: transform 0.2s var(--ref-soft), border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s var(--ref-soft);
   }
 
   .story-tag-pill:hover {
@@ -681,7 +680,7 @@
     font-weight: 700;
     color: var(--ref-blue);
     text-decoration: none;
-    transition: gap 0.2s ease, color 0.2s ease;
+    transition: gap 0.2s ease;
   }
 
   .story-cta-link:hover {
@@ -788,7 +787,7 @@
     border-radius: 16px;
     text-decoration: none;
     color: var(--ref-text);
-    transition: all 0.25s var(--ref-soft);
+    transition: transform 0.25s var(--ref-soft);
     position: relative;
     overflow: hidden;
   }
@@ -921,7 +920,7 @@
     font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease;
   }
 
   .platform-ticker-chip:hover {
@@ -946,7 +945,7 @@
     border-radius: 16px;
     text-decoration: none;
     color: var(--ref-text);
-    transition: all 0.25s var(--ref-soft);
+    transition: transform 0.25s var(--ref-soft);
   }
 
   .platform-featured-card:hover {
@@ -1012,7 +1011,6 @@
     border-right: none;
     box-shadow: none;
     border-radius: 0;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 
   [data-theme="dark"] .features-strip {
@@ -1084,7 +1082,7 @@
     padding: 2.3rem 1.15rem 2.1rem 1.15rem;
     text-align: center;
     box-shadow: 0 14px 34px -6px rgba(124, 45, 235, 0.48), 0 6px 14px -4px rgba(124, 45, 235, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
-    transition: transform 0.28s var(--ref-soft), border-color 0.28s ease, box-shadow 0.28s ease;
+    transition: transform 0.28s var(--ref-soft);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1175,7 +1173,7 @@
     box-shadow: var(--ref-shadow);
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s var(--ref-soft), border-color 0.3s ease;
+    transition: transform 0.3s var(--ref-soft);
   }
 
   .step-card-desk:hover {
@@ -1258,7 +1256,6 @@
     border: 1px solid var(--ref-line-strong);
     border-radius: 18px;
     overflow: hidden;
-    transition: all 0.25s ease;
   }
 
   .faq-item-desk[open] {
@@ -1696,7 +1693,6 @@
     border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
     border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
-    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   [data-theme="dark"] .marquee-shell,
@@ -2359,7 +2355,7 @@
     background: var(--ref-surface, rgba(255, 255, 255, 0.04)) !important;
     box-shadow: 0 6px 20px rgba(25, 35, 55, 0.05) !important;
     overflow: hidden !important;
-    transition: transform 0.3s, box-shadow 0.3s !important;
+    transition: transform 0.3s !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
@@ -2446,7 +2442,7 @@
     background: var(--ref-surface, rgba(255, 255, 255, 0.04)) !important;
     box-shadow: 0 6px 20px rgba(25, 35, 55, 0.05) !important;
     overflow: hidden !important;
-    transition: transform 0.3s, box-shadow 0.3s !important;
+    transition: transform 0.3s !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
@@ -3392,7 +3388,7 @@
   font-weight: 750 !important;
   text-decoration: none !important;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease !important;
+  transition: transform 0.2s ease !important;
 }
 
 .desktop-ref-body .story-panel .story-cta-link span {
@@ -3506,7 +3502,7 @@
 /* Strictly scoped to desktop with hover pointer so mobile layout remains 100% unaffected */
 @media (hover: hover) and (min-width: 1024px) {
   .desktop-ref-body .story-panel {
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease !important;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
   .desktop-ref-body #prompts .story-panel:hover,

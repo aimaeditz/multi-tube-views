@@ -169,7 +169,6 @@ body {
     radial-gradient(ellipse 900px 520px at 50% 2300px, rgba(0, 102, 204, 0.015) 0%, rgba(6, 182, 212, 0.012) 50%, transparent 80%);
   background-repeat: no-repeat;
   color: var(--text-primary);
-  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
   overflow-x: hidden;
   width: 100%;
 }
@@ -213,7 +212,7 @@ p:last-child {
 a {
   color: var(--accent-blue);
   text-decoration: none;
-  transition: color var(--transition-speed) ease, opacity var(--transition-speed) ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), box-shadow var(--transition-speed) ease;
+  transition: opacity var(--transition-speed) ease, transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
   touch-action: manipulation;
 }
 
@@ -286,7 +285,6 @@ input, select, textarea, button {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
-  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
 
 [data-theme="dark"] .site-header {
@@ -349,7 +347,7 @@ input, select, textarea, button {
   letter-spacing: -0.03em;
   box-shadow: var(--shadow-icon);
   animation: brandLogoEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) ease-out forwards;
-  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1), background-color 260ms ease;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-theme="dark"] .brand-icon {
@@ -440,7 +438,7 @@ input, select, textarea, button {
   color: var(--text-secondary);
   padding: 0.4rem 0.15rem;
   position: relative;
-  transition: color var(--transition-speed) ease, opacity var(--transition-speed) ease, transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity var(--transition-speed) ease, transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
   user-select: none;
   -webkit-user-drag: none;
@@ -520,7 +518,7 @@ input, select, textarea, button {
   border: 1px solid transparent;
   cursor: pointer;
   white-space: nowrap;
-  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
 }
 
@@ -583,7 +581,7 @@ input, select, textarea, button {
   color: var(--text-primary);
   background-color: var(--bg-subtle);
   border: 1px solid var(--border-strong);
-  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-icon-only:hover {
@@ -613,7 +611,7 @@ input, select, textarea, button {
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
 }
 
 @media (min-width: 993px) {
@@ -635,7 +633,6 @@ input, select, textarea, button {
   background-color: var(--bg-surface);
   border-top: 1px solid var(--border-subtle);
   padding: 3.5rem 0 2rem 0;
-  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
   opacity: 1 !important;
   visibility: visible !important;
 }
@@ -849,7 +846,7 @@ input, select, textarea, button {
   position: relative !important;
   overflow: hidden !important;
   z-index: 1 !important;
-  transition: color 350ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms cubic-bezier(0.4, 0, 0.2, 1), border-radius 350ms cubic-bezier(0.4, 0, 0.2, 1), background-color 350ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1), border-radius 350ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .footer-social-link::before {
@@ -874,7 +871,6 @@ input, select, textarea, button {
   display: block;
   position: relative !important;
   z-index: 2 !important;
-  transition: fill 350ms cubic-bezier(0.4, 0, 0.2, 1), color 350ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -924,11 +920,7 @@ input, select, textarea, button {
   padding: 0.25rem 0.6rem;
   margin: -0.25rem -0.6rem;
   border-radius: var(--radius-sm, 8px);
-  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1),
-              color 200ms ease,
-              background-color 200ms ease,
-              border-color 200ms ease;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, box-shadow;
 }
 

@@ -27,7 +27,7 @@
   color: var(--text-primary);
   cursor: pointer;
   touch-action: manipulation;
-  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
   flex-shrink: 0;
   padding: 0;
   -webkit-user-select: none;
@@ -94,7 +94,6 @@
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   touch-action: manipulation;
-  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;
   min-height: 34px;
   text-decoration: none;
 }
@@ -148,7 +147,6 @@
   color: var(--text-primary);
   cursor: pointer;
   touch-action: manipulation;
-  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;
 }
 
 [data-theme="dark"] .mobile-nav-dropdown-toggle-btn {
@@ -221,7 +219,6 @@
   border-radius: var(--radius-sm);
   text-decoration: none;
   min-height: 28px;
-  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;
 }
 
 [data-theme="dark"] .mobile-submenu-link {
@@ -642,7 +639,6 @@
     border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
     border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
-    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   [data-theme="dark"] .marquee-shell,
@@ -810,7 +806,7 @@
     min-height: 38px !important;
     box-sizing: border-box !important;
     -webkit-tap-highlight-color: transparent !important;
-    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
   [data-theme="dark"] .btn-ref-primary {
@@ -852,7 +848,7 @@
     min-height: 38px !important;
     box-sizing: border-box !important;
     -webkit-tap-highlight-color: transparent !important;
-    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
   [data-theme="dark"] .btn-ref-secondary {

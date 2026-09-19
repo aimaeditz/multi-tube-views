@@ -182,7 +182,7 @@
   box-shadow: var(--shadow-sm);
   will-change: transform, translate;
   animation: trustBadgeBob 2.2s ease-in-out infinite;
-  transition: translate 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease;
+  transition: translate 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .trust-badge:nth-child(1) {
@@ -278,10 +278,7 @@
 .admin-card,
 .tool-cloud-card,
 .story-panel {
-  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 180ms ease, 
-              background-color 180ms ease;
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, box-shadow;
 }
 
@@ -526,7 +523,7 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
 .player-badge-num,
 .info-callout-icon {
   box-shadow: var(--shadow-icon);
-  transition: box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1), transform 240ms cubic-bezier(0.16, 1, 0.3, 1), border-color 240ms ease;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-theme="dark"] .brand-icon,
@@ -669,7 +666,6 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   border: 1px solid var(--border-strong);
   background-color: var(--bg-surface);
   color: var(--text-primary);
-  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
 }
 
 .search-input:focus {
@@ -734,7 +730,7 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   text-decoration: none;
   color: inherit;
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
   height: 100%;
   box-sizing: border-box;
   position: relative;
@@ -775,7 +771,7 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1), border-color 240ms ease;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
   text-align: center;
   font-weight: 700;
 }
@@ -863,7 +859,7 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   min-height: 36px !important;
   height: 36px !important;
 
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), letter-spacing 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 [data-theme="dark"] .btn-open-tool,
@@ -903,7 +899,7 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   flex-shrink: 0 !important;
   width: 12px !important;
   height: 12px !important;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.35s ease !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 /* Hover State: Vibrant purple background (#6d28d9 / hsl(261, 80%, 48%)), white text, matching purple glow shadow, slightly expanded letter spacing, smooth transition */
@@ -994,7 +990,7 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   letter-spacing: 2.2px !important;
   transform: translateY(3px) !important;
   box-shadow: 0px 2px 8px 0px rgba(93, 24, 220, 0.4) !important;
-  transition: all 0.1s ease !important;
+  transition: transform 0.1s ease, letter-spacing 0.1s ease !important;
 }
 
 .platform-card-footer {
@@ -1264,7 +1260,6 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   border: 1px solid var(--border-strong);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
 }
 
 .url-input-field:focus {
@@ -1311,7 +1306,6 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   color: var(--text-primary);
   cursor: pointer;
   outline: none;
-  transition: border-color var(--transition-speed) ease;
 }
 
 .setting-select:focus {
@@ -1413,7 +1407,7 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
 }
 
 .player-card-bar {
@@ -1504,7 +1498,7 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
   text-decoration: none;
 }
 
@@ -1900,7 +1894,6 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: border-color var(--transition-speed) ease;
 }
 
 .faq-item:hover {
@@ -1989,7 +1982,7 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   padding: 1.75rem;
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
 }
 
 .article-card:hover {
@@ -2094,7 +2087,6 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   border-radius: var(--radius-lg);
   padding: clamp(1.25rem, 3.5vw, 2rem);
   box-shadow: var(--shadow-sm);
-  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .contact-form {
@@ -2140,7 +2132,6 @@ main.site-main section.card:not(.bu-card):not(.creator-tool-card):not(.media-too
   border: 1px solid var(--border-strong);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
   line-height: 1.45;
   min-height: 42px;
   box-sizing: border-box;
@@ -2198,7 +2189,7 @@ textarea.form-control {
   justify-content: center;
   gap: 0.5rem;
   cursor: pointer;
-  transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
   border: none;
   background-color: var(--accent-primary);
   color: var(--text-inverse);
@@ -2356,7 +2347,6 @@ textarea.form-control {
   align-items: center;
   gap: 1.5rem;
   flex-wrap: wrap;
-  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
   box-shadow: var(--shadow-sm);
 }
 
@@ -2454,7 +2444,7 @@ textarea.form-control {
   font-size: 0.88rem;
   font-weight: 600;
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-speed) ease, border-color var(--transition-speed) ease, background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
 }
 
 .platform-preview-item:hover {
@@ -2478,7 +2468,7 @@ textarea.form-control {
   font-size: 0.95rem;
   font-weight: 700;
   flex-shrink: 0;
-  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1), border-color 240ms ease;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .platform-preview-item:hover .platform-preview-icon {
@@ -2511,7 +2501,7 @@ textarea.form-control {
   justify-content: center;
   color: var(--accent-blue);
   flex-shrink: 0;
-  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1), border-color 240ms ease;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ai-prompt-entry-card:hover .ai-prompt-entry-icon {
@@ -2582,7 +2572,6 @@ textarea.form-control {
   background-color: var(--bg-surface);
   color: var(--text-primary);
   outline: none;
-  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
   box-shadow: var(--shadow-sm);
 }
 
@@ -2642,7 +2631,7 @@ textarea.form-control {
   background-color: var(--bg-surface);
   color: var(--text-secondary);
   cursor: pointer;
-  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, background-color var(--transition-speed) ease;
+  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
   white-space: nowrap;
 }
@@ -2728,7 +2717,7 @@ textarea.form-control {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
   box-shadow: var(--shadow-sm);
 }
 
@@ -3059,7 +3048,6 @@ textarea.form-control {
   background-color: var(--bg-surface);
   color: var(--text-primary);
   outline: none;
-  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .creator-tools-input:focus {
@@ -3105,7 +3093,7 @@ textarea.form-control {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
   box-shadow: var(--shadow-sm);
   height: 100%;
 }
@@ -3162,7 +3150,7 @@ textarea.form-control {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1), border-color 240ms ease;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-theme="dark"] .creator-tool-icon {
@@ -3215,7 +3203,6 @@ textarea.form-control {
   color: var(--text-primary);
   cursor: pointer;
   text-decoration: none;
-  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
   white-space: nowrap;
 }
 
@@ -3326,7 +3313,7 @@ textarea.form-control {
   padding: 1.15rem 1.25rem;
   text-decoration: none;
   color: var(--text-primary);
-  transition: transform var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background-color var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
   box-shadow: var(--shadow-sm);
   position: relative;
   height: 100%;
@@ -3360,7 +3347,7 @@ textarea.form-control {
   justify-content: center;
   flex-shrink: 0;
   box-shadow: var(--shadow-icon);
-  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1), background-color 240ms ease;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-theme="dark"] .ai-image-tool-icon {
@@ -3403,7 +3390,7 @@ textarea.form-control {
   color: var(--text-muted);
   opacity: 0.55;
   flex-shrink: 0;
-  transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease, color var(--transition-speed) ease;
+  transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
 }
 
 .ai-image-tool-card:hover .ai-image-tool-external {
@@ -3600,7 +3587,6 @@ textarea.form-control {
   border-color: #ef4444 !important;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
   animation: mtv-shake 300ms ease-in-out !important;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
 .mtvai-btn-inactive {
@@ -3979,10 +3965,7 @@ textarea.form-control {
   border: 1px solid rgba(229, 229, 231, 0.85);
   border-radius: 18px;
   box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 0 16px -2px rgba(0, 102, 204, 0.03);
-  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 220ms ease,
-              background-color 220ms ease;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
 }
@@ -4025,7 +4008,7 @@ textarea.form-control {
   justify-content: center;
   color: var(--text-primary);
   transform: perspective(400px) rotateX(5deg) rotateY(-5deg);
-  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1), border-color 260ms ease, color 260ms ease;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-theme="dark"] .glass-icon-tile {
@@ -4075,7 +4058,7 @@ textarea.form-control {
 .feature-showcase-arrow {
   color: var(--text-secondary);
   opacity: 0.6;
-  transition: opacity 180ms ease, transform 180ms ease, color 180ms ease;
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
 .feature-showcase-card:hover .feature-showcase-arrow {
@@ -4126,10 +4109,7 @@ section#live-stats-section.glass-section {
   
   /* Remove resting shadow entirely so cards sit completely flush and clean directly on background */
   box-shadow: none;
-  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 260ms ease,
-              background-color 260ms ease;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-theme="dark"] .live-stat-card {
@@ -4214,7 +4194,6 @@ section#live-stats-section.glass-section {
   text-align: left;
   cursor: pointer;
   touch-action: manipulation;
-  transition: color 180ms ease;
 }
 
 .glass-faq-trigger:hover {
@@ -4224,7 +4203,7 @@ section#live-stats-section.glass-section {
 .glass-faq-chevron {
   flex-shrink: 0;
   color: var(--text-secondary);
-  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), color 180ms ease;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-faq-item.open .glass-faq-chevron,
@@ -4315,7 +4294,7 @@ section#live-stats-section.glass-section {
   background: var(--accent-primary);
   color: var(--text-inverse);
   text-decoration: none;
-  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease;
+  transition: transform 180ms ease;
   position: relative;
   z-index: 1;
   box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.15);
@@ -4560,7 +4539,7 @@ section#live-stats-section.glass-section {
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
-  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
   text-decoration: none;
   color: inherit;
   position: relative;
@@ -4695,7 +4674,7 @@ section#live-stats-section.glass-section {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
   box-shadow: var(--shadow-sm);
   text-decoration: none;
   color: inherit;
@@ -4726,7 +4705,7 @@ section#live-stats-section.glass-section {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1), border-color 240ms ease;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-theme="dark"] .bu-card-icon,
@@ -4778,7 +4757,6 @@ section#live-stats-section.glass-section {
   color: var(--accent-blue);
   padding-top: 0.75rem;
   border-top: 1px solid var(--border-subtle);
-  transition: color var(--transition-speed) ease;
 }
 
 .bu-card:hover .bu-card-action,
@@ -4846,7 +4824,7 @@ section#live-stats-section.glass-section {
   text-decoration: none;
   border: 1px solid var(--accent-blue);
   box-shadow: 0 4px 14px rgba(0, 102, 204, 0.25);
-  transition: all 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
   letter-spacing: 0.01em;
   white-space: nowrap;
   cursor: pointer;
@@ -4889,7 +4867,6 @@ section#live-stats-section.glass-section {
 .bu-breadcrumbs a {
   color: var(--text-muted);
   text-decoration: none;
-  transition: color var(--transition-speed) ease;
 }
 
 .bu-breadcrumbs a:hover {
@@ -4913,7 +4890,6 @@ section#live-stats-section.glass-section {
   text-align: center;
   background-color: var(--bg-subtle);
   cursor: pointer;
-  transition: border-color var(--transition-speed) ease, background-color var(--transition-speed) ease;
 }
 
 .bu-dropzone:hover,
@@ -5063,7 +5039,6 @@ section#live-stats-section.glass-section {
   line-height: 1.5;
   resize: vertical;
   min-height: 150px;
-  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .bu-textarea:focus,
@@ -5090,7 +5065,6 @@ section#live-stats-section.glass-section {
   font-family: var(--font-sans);
   font-size: 0.88rem;
   color: var(--text-primary);
-  transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .bu-select {
@@ -5128,7 +5102,7 @@ section#live-stats-section.glass-section {
   background-color: var(--bg-surface);
   color: var(--text-primary);
   cursor: pointer;
-  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1), box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
   text-decoration: none;
 }
@@ -5192,7 +5166,7 @@ section#live-stats-section.glass-section {
   border-radius: var(--radius-sm);
   cursor: pointer;
   user-select: none;
-  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  transition: transform var(--transition-speed) ease;
 }
 
 .bu-checkbox-label:hover {
@@ -5376,7 +5350,6 @@ section#live-stats-section.glass-section {
   border: 1px solid var(--border-strong);
   color: var(--text-primary);
   text-decoration: none;
-  transition: all var(--transition-speed) ease;
 }
 
 .bu-related-pill:hover {
@@ -5465,7 +5438,7 @@ section#live-stats-section.glass-section {
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
   cursor: pointer;
   user-select: none;
-  transition: box-shadow 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-theme="dark"] .hero-search-bar {
@@ -5527,7 +5500,7 @@ section#live-stats-section.glass-section {
   outline: none !important;
   color: var(--ref-blue, #2563eb);
   flex-shrink: 0;
-  transition: transform 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
 [data-theme="dark"] .hero-search-icon-wrap {
@@ -5634,7 +5607,6 @@ body.mtv-search-open {
   box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
   position: relative;
   z-index: 2;
-  transition: box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 [data-theme="dark"] .mtv-search-pill-bar {
@@ -5721,7 +5693,7 @@ body.mtv-search-open {
   border-radius: 9999px;
   cursor: pointer;
   color: #64748b;
-  transition: all 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 [data-theme="dark"] .mtv-search-clear-btn {
@@ -5773,7 +5745,6 @@ body.mtv-search-open {
   color: #475569;
   font-size: 0.78rem;
   font-weight: 600;
-  transition: all 0.15s ease;
 }
 
 [data-theme="dark"] .mtv-search-close-btn {
@@ -5896,7 +5867,7 @@ body.mtv-search-open {
   color: var(--ref-blue, #2563eb);
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-  transition: all 0.16s ease;
+  transition: transform 0.16s ease;
   font-family: inherit;
 }
 
@@ -5985,7 +5956,7 @@ body.mtv-search-open {
   text-decoration: none;
   color: inherit;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   outline: none;
   position: relative;
 }
