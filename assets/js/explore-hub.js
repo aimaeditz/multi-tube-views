@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 1. Calculate live counts directly from existing platform registries
   const buToolsCount = Object.keys(BU_TOOLS_CATALOG || {}).length || 111;
-  const aiToolsCount = Object.keys(AI_TOOLS_DATA || {}).length || 210;
+  const aiToolsCount = Object.keys(AI_TOOLS_DATA || {}).length || 211;
   const mediaToolsCount = Object.keys(ALL_TOOL_CONFIGS || {}).length || 73;
   const creatorToolsCount = Object.keys(CREATOR_TOOLS_DATA || {}).length || 70;
   const platformsCount = Object.keys(PLATFORM_CONFIG || {}).length || 40;
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const unified = [];
     const todayStr = new Date().toISOString().slice(0, 10);
 
-    // 1. AI Tools (210)
+    // 1. AI Tools (211)
     if (typeof AI_TOOLS_DATA !== 'undefined' && AI_TOOLS_DATA) {
       Object.entries(AI_TOOLS_DATA).forEach(([id, t]) => {
         unified.push({
