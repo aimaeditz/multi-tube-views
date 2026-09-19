@@ -97,7 +97,73 @@
     return null;
   }
 
+  function cleanOutput(text, task) {
+    if (!text || typeof text !== 'string') return text || '';
+    let cleaned = text;
+    const taskId = (task || '').toLowerCase().trim();
+
+    const isHashtagTool = taskId === 'hashtags' || 
+                          taskId === 'hashtag-research-assistant' || 
+                          taskId === 'ai-auto' || 
+                          taskId === 'ai-auto-hashtags' ||
+                          taskId === 'youtube-seo-pack' || 
+                          taskId === 'ai-auto-youtube-pack' ||
+                          taskId === 'instagram-caption-writer' || 
+                          taskId === 'meme-caption-writer' ||
+                          taskId === 'tiktok-caption' ||
+                          taskId === 'pin-description' ||
+                          taskId === 'pinterest-pin-description' ||
+                          taskId.includes('hashtag');
+
+    const isKeywordTool = taskId === 'keywords' || 
+                          taskId === 'ai-auto-keywords' ||
+                          taskId === 'long-tail-keyword-finder' || 
+                          taskId === 'lsi-keyword-expander' || 
+                          taskId === 'anchor-text-optimizer' || 
+                          taskId === 'related-searches-expander' || 
+                          taskId === 'question-based-keyword-finder' || 
+                          taskId === 'url-slug-seo-optimizer' || 
+                          taskId === 'meta-keywords-suggestion' || 
+                          taskId === 'site-search-query-suggester' || 
+                          taskId === 'youtube-seo-pack' || 
+                          taskId === 'ai-auto-youtube-pack' ||
+                          taskId === 'ai-auto' || 
+                          taskId === 'description-seo-booster' ||
+                          taskId === 'search-intent-classifier' ||
+                          taskId === 'search-intent-map' ||
+                          taskId === 'pillar-cluster-planner' ||
+                          taskId === 'gmb-bio-crafter' ||
+                          taskId === 'google-business-profile-writer' ||
+                          taskId === 'product-description-writer' ||
+                          taskId === 'category-page-seo-description' ||
+                          taskId === 'product-page-seo-description' ||
+                          taskId === 'package-json-desc-generator' ||
+                          taskId.includes('keyword');
+
+    cleaned = cleaned.replace(/^(?:Sure|Here is|Here's|Certainly|Below is|I've generated|I have generated|As an AI)[^\n]*:\s*\n+/i, '');
+    cleaned = cleaned.replace(/\n+\s*(?:Hope this helps!|Let me know if you need[^\n]*|If you have any questions[^\n]*|Feel free to ask[^\n]*)\s*$/i, '');
+
+    if (!isHashtagTool) {
+      cleaned = cleaned.replace(/\n+\s*(?:###?\s*(?:Hashtags|Tags|Related Hashtags):?\s*)?(?:#[a-zA-Z0-9_\u0600-\u06FF\u0900-\u097F\-]+\s*){1,}\s*$/g, '');
+      cleaned = cleaned.replace(/\n+\s*(?:Hashtags|Tags|Relevant Hashtags|Related Hashtags):\s*#[^\n]+/gi, '');
+    }
+
+    if (!isKeywordTool) {
+      cleaned = cleaned.replace(/\n+\s*(?:###?\s*)?(?:Keywords|SEO Keywords|Target Keywords|Tags|Suggested Tags):\s*[\w\s,-]+\s*$/gi, '');
+    }
+
+    cleaned = cleaned.replace(/^[★☆✨🌟✦❖●⁃■▪️▫️]+\s*/gm, '');
+    cleaned = cleaned.replace(/\s*[★☆✨🌟✦❖●⁃■▪️▫️]+$/gm, '');
+    cleaned = cleaned.replace(/(?:★\s*){2,}|(?:✨\s*){2,}|(?:🌟\s*){2,}/g, '');
+
+    cleaned = cleaned.replace(/^(?:\*{3,}|-{3,}|={3,})\s*\n/g, '');
+    cleaned = cleaned.replace(/\n\s*(?:\*{3,}|-{3,}|={3,})\s*$/g, '');
+
+    return cleaned.trim();
+  }
+
   const MTVAI = {
+    cleanOutput,
     triggerFieldFeedback,
     isInputFilled,
     isDropdownSelected,
@@ -149,7 +215,7 @@
         }
 
         if (data.result !== undefined) {
-          return { result: data.result };
+          return { result: cleanOutput(data.result, task) };
         } else if (data.error) {
           return { error: data.error };
         } else {
@@ -322,9 +388,10 @@
             outputEl.textContent = `Error: ${res.error}`;
           } else {
             // Display result as plain text preserving line breaks
-            outputEl.textContent = res.result || '';
+            const cleanedResult = MTVAI.cleanOutput(res.result || '', activeTask);
+            outputEl.textContent = cleanedResult;
             try {
-              sessionStorage.setItem(`mtv_output_${activeTask}`, res.result || '');
+              sessionStorage.setItem(`mtv_output_${activeTask}`, cleanedResult);
             } catch (err) {}
           }
 

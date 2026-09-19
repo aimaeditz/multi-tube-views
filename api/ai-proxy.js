@@ -6,6 +6,81 @@ import { GoogleGenAI } from '@google/genai';
 const responseCache = new Map();
 const CACHE_TTL_MS = 60 * 60 * 1000;
 
+export function cleanToolOutput(text, task = '') {
+  if (!text || typeof text !== 'string') return text || '';
+  let cleaned = text;
+
+  const taskId = (task || '').toLowerCase().trim();
+
+  // Determine if this tool legitimately generates hashtags
+  const isHashtagTool = taskId === 'hashtags' || 
+                        taskId === 'hashtag-research-assistant' || 
+                        taskId === 'ai-auto' || 
+                        taskId === 'ai-auto-hashtags' ||
+                        taskId === 'youtube-seo-pack' || 
+                        taskId === 'ai-auto-youtube-pack' ||
+                        taskId === 'instagram-caption-writer' || 
+                        taskId === 'meme-caption-writer' ||
+                        taskId === 'tiktok-caption' ||
+                        taskId === 'pin-description' ||
+                        taskId === 'pinterest-pin-description' ||
+                        taskId.includes('hashtag');
+
+  // Determine if this tool legitimately generates keywords/tags
+  const isKeywordTool = taskId === 'keywords' || 
+                        taskId === 'ai-auto-keywords' ||
+                        taskId === 'long-tail-keyword-finder' || 
+                        taskId === 'lsi-keyword-expander' || 
+                        taskId === 'anchor-text-optimizer' || 
+                        taskId === 'related-searches-expander' || 
+                        taskId === 'question-based-keyword-finder' || 
+                        taskId === 'url-slug-seo-optimizer' || 
+                        taskId === 'meta-keywords-suggestion' || 
+                        taskId === 'site-search-query-suggester' || 
+                        taskId === 'youtube-seo-pack' || 
+                        taskId === 'ai-auto-youtube-pack' ||
+                        taskId === 'ai-auto' || 
+                        taskId === 'description-seo-booster' ||
+                        taskId === 'search-intent-classifier' ||
+                        taskId === 'search-intent-map' ||
+                        taskId === 'pillar-cluster-planner' ||
+                        taskId === 'gmb-bio-crafter' ||
+                        taskId === 'google-business-profile-writer' ||
+                        taskId === 'product-description-writer' ||
+                        taskId === 'category-page-seo-description' ||
+                        taskId === 'product-page-seo-description' ||
+                        taskId === 'package-json-desc-generator' ||
+                        taskId.includes('keyword');
+
+  // 1. Remove introductory conversational preambles
+  cleaned = cleaned.replace(/^(?:Sure|Here is|Here's|Certainly|Below is|I've generated|I have generated|As an AI)[^\n]*:\s*\n+/i, '');
+
+  // 2. Remove concluding conversational outros
+  cleaned = cleaned.replace(/\n+\s*(?:Hope this helps!|Let me know if you need[^\n]*|If you have any questions[^\n]*|Feel free to ask[^\n]*)\s*$/i, '');
+
+  // 3. For non-hashtag tools, remove trailing/appended blocks of hashtags
+  if (!isHashtagTool) {
+    cleaned = cleaned.replace(/\n+\s*(?:###?\s*(?:Hashtags|Tags|Related Hashtags):?\s*)?(?:#[a-zA-Z0-9_\u0600-\u06FF\u0900-\u097F\-]+\s*){1,}\s*$/g, '');
+    cleaned = cleaned.replace(/\n+\s*(?:Hashtags|Tags|Relevant Hashtags|Related Hashtags):\s*#[^\n]+/gi, '');
+  }
+
+  // 4. For non-keyword tools, remove trailing/appended keyword/tag lists
+  if (!isKeywordTool) {
+    cleaned = cleaned.replace(/\n+\s*(?:###?\s*)?(?:Keywords|SEO Keywords|Target Keywords|Tags|Suggested Tags):\s*[\w\s,-]+\s*$/gi, '');
+  }
+
+  // 5. Remove decorative star/symbol headers and decorations
+  cleaned = cleaned.replace(/^[★☆✨🌟✦❖●⁃■▪️▫️]+\s*/gm, '');
+  cleaned = cleaned.replace(/\s*[★☆✨🌟✦❖●⁃■▪️▫️]+$/gm, '');
+  cleaned = cleaned.replace(/(?:★\s*){2,}|(?:✨\s*){2,}|(?:🌟\s*){2,}/g, '');
+
+  // 6. Clean up stray markdown horizontal rules at top/bottom
+  cleaned = cleaned.replace(/^(?:\*{3,}|-{3,}|={3,})\s*\n/g, '');
+  cleaned = cleaned.replace(/\n\s*(?:\*{3,}|-{3,}|={3,})\s*$/g, '');
+
+  return cleaned.trim();
+}
+
 function getCacheKey(task, prompt, platform, language, tone) {
   return `${task || 'default'}|${platform || ''}|${language || ''}|${tone || ''}|${(prompt || '').trim().toLowerCase()}`;
 }
@@ -161,7 +236,7 @@ export default async function handler(req, res) {
     const cerebrasModel = 'llama-3.3-70b';
     const mistralModel = 'mistral-small-latest';
 
-    const robustRule = 'IMPORTANT: The user input may be short, long, messy, informal, in any language or mix of languages, or phrased as a casual sentence rather than a clean topic. Regardless of how it is written, identify the real subject/intent behind it and produce a complete, high-quality, correctly-formatted answer that fully matches this tool\'s specific job. Never respond with a generic, vague, or off-topic answer, and never ask the user to clarify — always do your best to understand and deliver the expected output. OUTPUT FORMATTING IS MANDATORY: Always structure your response clearly and cleanly. Never mix different types of items together in a jumbled way. Hashtags must be listed together, separated only by single spaces or one per line — never mixed with keywords, titles, or other content types. Keywords, titles, and list items must each appear on their own line, in a clean, consistent, properly ordered list (numbered or bulleted as instructed per tool). Use clear line breaks between distinct sections. Give complete, fully-developed answers — never cut short, never vague, never sparse. Never merge unrelated pieces of the requested output into a single messy line or block. ';
+    const robustRule = 'IMPORTANT INSTRUCTIONS: Identify the user\'s real intent and produce a complete, high-quality, long-form, professional answer written in full length and full detail that fully matches this specific tool\'s job. OUTPUT CLEANLINESS & FORMATTING RULES: 1) Output ONLY what this tool is explicitly designed to generate. Do NOT append hashtags, keyword lists, or tag clouds at the end or anywhere in the response UNLESS this specific tool\'s stated purpose is generating hashtags (e.g. Hashtag Generator) or keywords. 2) Do NOT use stray asterisks, decorative star/symbol banners (★, ✨), horizontal dividers, or conversational filler (no "Here is your...", no "Hope this helps!"). 3) Provide comprehensive, fully-developed, structured responses without cutting short or leaving vague gaps. ';
 
     const systemInstructions = {
       'ai-auto': robustRule + 'You are an expert SEO content strategist. Given a topic, generate a complete, ready-to-use creator content package: 1) A high-CTR title, 2) A full SEO-optimized description, 3) A list of 15-20 relevant tags, 4) Strategic hashtags. Label each section clearly. Output ONLY the package content, no conversational preamble or postamble.',
@@ -542,8 +617,9 @@ export default async function handler(req, res) {
     if (attempts.length > 0) {
       try {
         const resultText = await raceSuccess(attempts);
-        responseCache.set(cacheKey, { result: resultText, time: Date.now() });
-        res.status(200).json({ result: resultText, task: task || 'default' });
+        const cleanedResult = cleanToolOutput(resultText, task || 'default');
+        responseCache.set(cacheKey, { result: cleanedResult, time: Date.now() });
+        res.status(200).json({ result: cleanedResult, task: task || 'default' });
         return;
       } catch (e) {
         // AI calls failed - fall through to formatted generator fallback
@@ -554,7 +630,8 @@ export default async function handler(req, res) {
     const topic = (prompt || 'Content Creator Strategy').trim().replace(/['"]/g, '');
     const cleanTopic = topic.split('\n')[0] || 'Content Strategy';
     const fallbackResult = generateProxyFallback(task || 'default', cleanTopic, platform, language, tone);
-    res.status(200).json({ result: fallbackResult, task: task || 'default' });
+    const cleanedFallback = cleanToolOutput(fallbackResult, task || 'default');
+    res.status(200).json({ result: cleanedFallback, task: task || 'default' });
 
   } catch (err) {
     res.status(500).json({ error: 'Service temporarily unavailable. Please try again.' });

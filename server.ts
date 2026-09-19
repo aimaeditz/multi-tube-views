@@ -2757,6 +2757,81 @@ app.post('/api/ai-voice', async (req: Request, res: Response) => {
   }
 });
 
+function cleanToolOutput(text: string, task: string = ''): string {
+  if (!text || typeof text !== 'string') return text || '';
+  let cleaned = text;
+
+  const taskId = (task || '').toLowerCase().trim();
+
+  // Determine if this tool legitimately generates hashtags
+  const isHashtagTool = taskId === 'hashtags' || 
+                        taskId === 'hashtag-research-assistant' || 
+                        taskId === 'ai-auto' || 
+                        taskId === 'ai-auto-hashtags' ||
+                        taskId === 'youtube-seo-pack' || 
+                        taskId === 'ai-auto-youtube-pack' ||
+                        taskId === 'instagram-caption-writer' || 
+                        taskId === 'meme-caption-writer' ||
+                        taskId === 'tiktok-caption' ||
+                        taskId === 'pin-description' ||
+                        taskId === 'pinterest-pin-description' ||
+                        taskId.includes('hashtag');
+
+  // Determine if this tool legitimately generates keywords/tags
+  const isKeywordTool = taskId === 'keywords' || 
+                        taskId === 'ai-auto-keywords' ||
+                        taskId === 'long-tail-keyword-finder' || 
+                        taskId === 'lsi-keyword-expander' || 
+                        taskId === 'anchor-text-optimizer' || 
+                        taskId === 'related-searches-expander' || 
+                        taskId === 'question-based-keyword-finder' || 
+                        taskId === 'url-slug-seo-optimizer' || 
+                        taskId === 'meta-keywords-suggestion' || 
+                        taskId === 'site-search-query-suggester' || 
+                        taskId === 'youtube-seo-pack' || 
+                        taskId === 'ai-auto-youtube-pack' ||
+                        taskId === 'ai-auto' || 
+                        taskId === 'description-seo-booster' ||
+                        taskId === 'search-intent-classifier' ||
+                        taskId === 'search-intent-map' ||
+                        taskId === 'pillar-cluster-planner' ||
+                        taskId === 'gmb-bio-crafter' ||
+                        taskId === 'google-business-profile-writer' ||
+                        taskId === 'product-description-writer' ||
+                        taskId === 'category-page-seo-description' ||
+                        taskId === 'product-page-seo-description' ||
+                        taskId === 'package-json-desc-generator' ||
+                        taskId.includes('keyword');
+
+  // 1. Remove introductory conversational preambles
+  cleaned = cleaned.replace(/^(?:Sure|Here is|Here's|Certainly|Below is|I've generated|I have generated|As an AI)[^\n]*:\s*\n+/i, '');
+
+  // 2. Remove concluding conversational outros
+  cleaned = cleaned.replace(/\n+\s*(?:Hope this helps!|Let me know if you need[^\n]*|If you have any questions[^\n]*|Feel free to ask[^\n]*)\s*$/i, '');
+
+  // 3. For non-hashtag tools, remove trailing/appended blocks of hashtags
+  if (!isHashtagTool) {
+    cleaned = cleaned.replace(/\n+\s*(?:###?\s*(?:Hashtags|Tags|Related Hashtags):?\s*)?(?:#[a-zA-Z0-9_\u0600-\u06FF\u0900-\u097F\-]+\s*){1,}\s*$/g, '');
+    cleaned = cleaned.replace(/\n+\s*(?:Hashtags|Tags|Relevant Hashtags|Related Hashtags):\s*#[^\n]+/gi, '');
+  }
+
+  // 4. For non-keyword tools, remove trailing/appended keyword/tag lists
+  if (!isKeywordTool) {
+    cleaned = cleaned.replace(/\n+\s*(?:###?\s*)?(?:Keywords|SEO Keywords|Target Keywords|Tags|Suggested Tags):\s*[\w\s,-]+\s*$/gi, '');
+  }
+
+  // 5. Remove decorative star/symbol headers and decorations
+  cleaned = cleaned.replace(/^[★☆✨🌟✦❖●⁃■▪️▫️]+\s*/gm, '');
+  cleaned = cleaned.replace(/\s*[★☆✨🌟✦❖●⁃■▪️▫️]+$/gm, '');
+  cleaned = cleaned.replace(/(?:★\s*){2,}|(?:✨\s*){2,}|(?:🌟\s*){2,}/g, '');
+
+  // 6. Clean up stray markdown horizontal rules at top/bottom
+  cleaned = cleaned.replace(/^(?:\*{3,}|-{3,}|={3,})\s*\n/g, '');
+  cleaned = cleaned.replace(/\n\s*(?:\*{3,}|-{3,}|={3,})\s*$/g, '');
+
+  return cleaned.trim();
+}
+
 // 3. Multi-Provider AI Chat Endpoint
 app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
   try {
@@ -2851,9 +2926,10 @@ app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
 
           const responseText = aiResponse.text || '';
           if (responseText) {
+            const cleanedResponse = cleanToolOutput(responseText, detectedToolId);
             const resultObj = {
               success: true,
-              response: responseText,
+              response: cleanedResponse,
               provider: 'gemini',
               model: m,
             };
@@ -2895,9 +2971,10 @@ app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
           const data = await fetchRes.json();
           const responseText = data.choices?.[0]?.message?.content || '';
           if (responseText) {
+            const cleanedResponse = cleanToolOutput(responseText, detectedToolId);
             const resultObj = {
               success: true,
-              response: responseText,
+              response: cleanedResponse,
               provider: 'openrouter',
               model: model || 'google/gemini-2.5-flash',
             };
@@ -2932,9 +3009,10 @@ app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
           const data = await fetchRes.json();
           const responseText = data.choices?.[0]?.message?.content || '';
           if (responseText) {
+            const cleanedResponse = cleanToolOutput(responseText, detectedToolId);
             const resultObj = {
               success: true,
-              response: responseText,
+              response: cleanedResponse,
               provider: 'openai',
               model: model || 'gpt-4o-mini',
             };
@@ -2949,9 +3027,10 @@ app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
 
     // Dynamic creator fallback engine (guarantees seamless response at all times)
     const fallbackResponse = generateDynamicCreatorResponse(trimmedPrompt, topic, detectedToolId);
+    const cleanedFallback = cleanToolOutput(fallbackResponse, detectedToolId);
     const resultObj = {
       success: true,
-      response: fallbackResponse,
+      response: cleanedFallback,
       provider: 'mtv_creator_engine',
       model: 'gemini-3.7-flash',
     };
