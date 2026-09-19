@@ -153,15 +153,25 @@ function updateAiToolsHtml() {
   }
 
   // Insert cards before </section> of #ai-tools-grid
-  const gridEndTag = '        </section>';
-  const lastIndex = html.lastIndexOf(gridEndTag);
-  if (lastIndex === -1) {
+  const gridStartTag = '<section class="creator-tools-grid" id="ai-tools-grid"';
+  const gridStartIndex = html.indexOf(gridStartTag);
+  if (gridStartIndex === -1) {
+    throw new Error('Could not find #ai-tools-grid in ai-tools.html');
+  }
+  const gridEndTag = '</section>';
+  const gridEndIndex = html.indexOf(gridEndTag, gridStartIndex);
+  if (gridEndIndex === -1) {
     throw new Error('Could not find </section> for #ai-tools-grid in ai-tools.html');
   }
 
-  html = html.slice(0, lastIndex) + newCards.join('\n') + '\n' + html.slice(lastIndex);
-  fs.writeFileSync('ai-tools.html', html, 'utf8');
-  console.log('Updated ai-tools.html');
+  // Only insert if not already present
+  if (!html.includes('data-tool-id="vlog-script"')) {
+    html = html.slice(0, gridEndIndex) + newCards.join('\n') + '\n' + html.slice(gridEndIndex);
+    fs.writeFileSync('ai-tools.html', html, 'utf8');
+    console.log('Updated ai-tools.html');
+  } else {
+    console.log('Cards already present in ai-tools.html');
+  }
 }
 
 updateAiToolsHtml();
