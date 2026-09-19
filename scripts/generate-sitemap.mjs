@@ -76,6 +76,15 @@ export function generateSitemap() {
     } else if (['privacy.html', 'terms.html', 'disclaimer.html', 'credits.html', 'settings.html'].includes(cleanPath)) {
       priority = '0.50';
       changefreq = 'monthly';
+    } else if (cleanPath.startsWith('ai-tools/')) {
+      priority = '0.85';
+      changefreq = 'weekly';
+    } else if (cleanPath.startsWith('creator-tools/')) {
+      priority = '0.85';
+      changefreq = 'weekly';
+    } else if (cleanPath.startsWith('media-converter-tools/')) {
+      priority = '0.85';
+      changefreq = 'weekly';
     } else if (cleanPath.startsWith('platforms/')) {
       const platformName = cleanPath.replace('platforms/', '').replace('.html', '');
       if (['youtube', 'twitch', 'spotify', 'tiktok'].includes(platformName)) {
@@ -111,26 +120,41 @@ export function generateSitemap() {
     addUrl(`browser-utilities/${tool.id}.html`);
   });
 
-  // 2. Validate Tool System Data Sources (AI Tools, Creator Tools, Media Converter Tools)
-  const aiToolsCount = Object.keys(AI_TOOLS_DATA || {}).length;
-  const creatorToolsCount = Object.keys(CREATOR_TOOLS_DATA || {}).length;
-  const mediaToolsKeys = getMediaToolsKeys();
+  // 2. Pull URLs from AI Tools Data Sources
+  Object.keys(AI_TOOLS_DATA || {}).forEach(toolId => {
+    addUrl(`ai-tools/${toolId}.html`);
+  });
 
-  if (aiToolsCount > 0) {
-    addUrl('ai-tools.html');
-    addUrl('ai-prompt.html');
-    addUrl('ai-auto.html');
-  }
+  // 3. Pull URLs from Creator Tools Data Sources
+  Object.keys(CREATOR_TOOLS_DATA || {}).forEach(toolId => {
+    addUrl(`creator-tools/${toolId}.html`);
+  });
 
-  if (creatorToolsCount > 0) {
-    addUrl('creator-tools.html');
-  }
+  // 4. Pull URLs from Media Tools Data Sources
+  getMediaToolsKeys().forEach(toolId => {
+    addUrl(`media-converter-tools/${toolId}.html`);
+  });
 
-  if (mediaToolsKeys.length > 0) {
-    addUrl('media-converter-tools.html');
-  }
+  // 5. Hub Pages
+  addUrl('ai-tools.html');
+  addUrl('ai-prompt.html');
+  addUrl('ai-auto.html');
+  addUrl('creator-tools.html');
+  addUrl('media-converter-tools.html');
+  addUrl('browser-utilities.html');
+  addUrl('explore-hub.html');
+  addUrl('index.html');
+  addUrl('platforms.html');
+  addUrl('articles.html');
+  addUrl('about.html');
+  addUrl('contact.html');
+  addUrl('credits.html');
+  addUrl('disclaimer.html');
+  addUrl('privacy.html');
+  addUrl('terms.html');
+  addUrl('settings.html');
 
-  // 3. Pull URLs from Platforms Data / Filesystem
+  // 6. Pull URLs from Platforms Data / Filesystem
   const platformsDir = path.join(ROOT_DIR, 'platforms');
   if (fs.existsSync(platformsDir)) {
     addUrl('platforms.html');

@@ -47,6 +47,39 @@ function getHtmlInputs() {
     });
   }
 
+  // Add all AI tools pages (211 tools)
+  const aiDir = path.resolve(__dirname, 'ai-tools');
+  if (fs.existsSync(aiDir)) {
+    fs.readdirSync(aiDir).forEach(file => {
+      if (file.endsWith('.html')) {
+        const name = 'ai_' + file.replace('.html', '').replace(/[^a-zA-Z0-9_]/g, '_');
+        inputs[name] = path.resolve(aiDir, file);
+      }
+    });
+  }
+
+  // Add all Creator tools pages (70 tools)
+  const creatorDir = path.resolve(__dirname, 'creator-tools');
+  if (fs.existsSync(creatorDir)) {
+    fs.readdirSync(creatorDir).forEach(file => {
+      if (file.endsWith('.html')) {
+        const name = 'cr_' + file.replace('.html', '').replace(/[^a-zA-Z0-9_]/g, '_');
+        inputs[name] = path.resolve(creatorDir, file);
+      }
+    });
+  }
+
+  // Add all Media Converter tools pages (73 tools)
+  const mediaDir = path.resolve(__dirname, 'media-converter-tools');
+  if (fs.existsSync(mediaDir)) {
+    fs.readdirSync(mediaDir).forEach(file => {
+      if (file.endsWith('.html')) {
+        const name = 'media_' + file.replace('.html', '').replace(/[^a-zA-Z0-9_]/g, '_');
+        inputs[name] = path.resolve(mediaDir, file);
+      }
+    });
+  }
+
   return inputs;
 }
 
