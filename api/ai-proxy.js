@@ -25,7 +25,12 @@ async function tryGenAISDK(key, model, systemInstruction, prompt) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
   try {
-    const ai = new GoogleGenAI({ apiKey: key });
+    const ai = new GoogleGenAI({
+      apiKey: key,
+      httpOptions: {
+        headers: { 'User-Agent': 'aistudio-build' }
+      }
+    });
     const response = await ai.models.generateContent({
       model: model,
       contents: prompt,
@@ -50,7 +55,10 @@ async function tryGemini(key, model, systemInstruction, prompt) {
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': 'aistudio-build'
+        },
         signal: controller.signal,
         body: JSON.stringify({
           system_instruction: { parts: [{ text: systemInstruction }] },
@@ -59,7 +67,7 @@ async function tryGemini(key, model, systemInstruction, prompt) {
       }
     );
     const data = await response.json();
-    if (!response.ok) throw new Error('failed');
+    if (!response.ok) throw new Error(data?.error?.message || 'failed');
     const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
     if (!resultText.trim()) throw new Error('empty');
     return resultText;
@@ -491,12 +499,26 @@ export default async function handler(req, res) {
     const finalPrompt = contextPrefix ? `${contextPrefix}${prompt}` : prompt;
 
     const attempts = [];
-    geminiKeys.forEach((key) => {
-      geminiModels.forEach((model) => {
-        attempts.push(tryGenAISDK(key, model, systemInstruction, finalPrompt));
-        attempts.push(tryGemini(key, model, systemInstruction, finalPrompt));
-      });
-    });
+    if (geminiKeys.length > 0) {
+      attempts.push((async () => {
+        for (const key of geminiKeys) {
+          for (const model of geminiModels) {
+            try {
+              const text = await tryGenAISDK(key, model, systemInstruction, finalPrompt);
+              if (text && text.trim()) return text;
+            } catch (sdkErr) {
+              try {
+                const restText = await tryGemini(key, model, systemInstruction, finalPrompt);
+                if (restText && restText.trim()) return restText;
+              } catch (restErr) {
+                // Continue to next model in cascade
+              }
+            }
+          }
+        }
+        throw new Error('All Gemini models exhausted');
+      })());
+    }
     groqKeys.forEach((key) => {
       attempts.push(tryOpenAICompatible('https://api.groq.com/openai/v1/chat/completions', key, groqModel, systemInstruction, finalPrompt));
     });
@@ -719,13 +741,10 @@ async function execute${primaryWord.replace(/[^a-zA-Z]/g, '')}(params: Record<st
 
     // Default Fallback
     default:
-      return `### 🚀 Custom Output for: "${topic}"
+      return `### Overview & Recommendations: "${topic}"
 
-**Key Highlights & Recommendations:**
-1. **Strategic Focus:** Prioritize clear objectives and core principles for ${topic}.
-2. **Actionable Steps:** Implement high-leverage techniques to maximize output and efficiency.
-3. **Continuous Optimization:** Test results, refine your strategy, and build consistent momentum.
-
-${tagList}`;
+1. **Core Objective:** Establish clear requirements and key outcomes for ${topic}.
+2. **Implementation:** Apply standard best practices and structured workflows to ensure accurate results.
+3. **Review & Refinement:** Evaluate the generated output, adjust parameters as needed, and iterate for optimal quality.`;
   }
 }
