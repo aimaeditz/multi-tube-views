@@ -113,6 +113,16 @@ export const AI_TOOLS_DATA = {
     promptTemplate: 'Write a high-retention 45-second script for YouTube Shorts / Instagram Reels about: {topic}. Format into Hook (0-3s), Core Value / Twist (3-35s), Climax (35-40s), and Looping Outro (40-45s).',
     dateAdded: '2026-05-10'
   },
+  'youtube-shorts-hook-rewriter': {
+    title: 'YouTube Shorts Hook Rewriter',
+    desc: 'High-retention 3-second visual and spoken hook variations for vertical short-form video',
+    icon: '⚡',
+    category: 'video',
+    placeholder: 'Enter your Shorts topic or premise (e.g. 3 Hidden iPhone Features Nobody Uses)',
+    label: 'Shorts Topic / Core Idea',
+    promptTemplate: 'Generate 10 high-retention 3-second visual and spoken hook variations for YouTube Shorts / Reels on topic: {topic}. Include text overlay and visual action cues.',
+    dateAdded: '2026-09-19'
+  },
   'interview-question-creator': {
     title: 'Interview Question Creator',
     desc: 'Deep, non-cliché interview questions that elicit golden soundbites',
@@ -2172,3 +2182,9 @@ export const AI_TOOLS_DATA = {
     "dateAdded": "2026-09-18"
   }
 };
+
+if (typeof window !== 'undefined') {
+  window.AI_CATEGORIES = AI_CATEGORIES;
+  window.AI_TOOLS_DATA = AI_TOOLS_DATA;
+}
+
