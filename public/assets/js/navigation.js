@@ -535,15 +535,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const match = urlStr.match(/[?&]tool=([^&#]+)/);
         if (match && match[1]) return decodeURIComponent(match[1]);
       }
-      if (urlStr.includes('browser-utilities/') && urlStr.endsWith('.html')) {
-        const parts = urlStr.split('/');
-        const filename = parts[parts.length - 1];
-        const toolId = filename.replace('.html', '');
-        if (toolId && toolId !== 'index' && toolId !== 'browser-utilities') {
-          return toolId;
+      const cleanUrl = urlStr.split(/[?#]/)[0];
+      const segments = cleanUrl.split('/').filter(Boolean);
+      const lastSegment = segments[segments.length - 1] || '';
+      const filename = lastSegment.replace(/\.html$/, '');
+
+      if (cleanUrl.includes('/browser-utilities/') || cleanUrl.includes('/ai-tools/') || cleanUrl.includes('/creator-tools/') || cleanUrl.includes('/media-converter-tools/')) {
+        if (filename && filename !== 'index' && !filename.includes('browser-utilities') && !filename.includes('creator-tools') && !filename.includes('media-converter-tools') && !filename.includes('ai-tools')) {
+          return filename;
         }
       }
-      if (urlStr.includes('ai-auto.html')) return 'ai-auto';
+      if (filename === 'ai-auto' || cleanUrl.includes('ai-auto.html')) return 'ai-auto';
     } catch (e) {}
     return null;
   }

@@ -380,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const featured = allTools.slice(0, 8);
 
     featuredGridEl.innerHTML = featured.map((t) => `
-      <a href="${t.url}" class="explore-tool-card" id="tool-${t.id}" aria-label="${escapeHtml(t.title)}">
+      <a href="${t.url}" class="explore-tool-card" id="tool-${t.id}" data-tool-id="${t.id}" aria-label="${escapeHtml(t.title)}">
         <div class="explore-tool-card-top">
           <div class="explore-tool-icon-box" aria-hidden="true">${t.icon}</div>
           <span class="explore-tool-category-badge">${escapeHtml(t.category)}</span>
@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const latest = allTools.slice(0, 8);
 
     latestGridEl.innerHTML = latest.map((t) => `
-      <a href="${t.url}" class="explore-tool-card" id="tool-${t.id}" aria-label="${escapeHtml(t.title)}">
+      <a href="${t.url}" class="explore-tool-card" id="tool-latest-${t.id}" data-tool-id="${t.id}" aria-label="${escapeHtml(t.title)}">
         <div class="explore-tool-card-top">
           <div class="explore-tool-icon-box" aria-hidden="true">${t.icon}</div>
           <span class="explore-tool-category-badge">${escapeHtml(t.category)}</span>
@@ -492,18 +492,21 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // --- Section 3: Creator Tools (All categories) ---
+    // --- Section 3: Creator Tools (All 7 categories) ---
     const creatorCategoriesMeta = [
-      { id: 'seo', title: 'SEO & Metadata', desc: 'Keyword research, platform hashtag sets, video tags, and search description builders.', icon: '🔑', accent: '#EA580C', bg: 'rgba(234, 88, 12, 0.08)', border: 'rgba(234, 88, 12, 0.2)', count: 5 },
-      { id: 'titles', title: 'Titles & CTR', desc: 'High-converting video titles, clickable headlines, thumbnail copy, and emotional scoring.', icon: '📝', accent: '#F97316', bg: 'rgba(249, 115, 22, 0.08)', border: 'rgba(249, 115, 22, 0.2)', count: 4 },
-      { id: 'writing', title: 'Writing & Scripting', desc: 'Video hook generators, retention outlines, description builders, and content repurposing.', icon: '📜', accent: '#E11D48', bg: 'rgba(225, 29, 72, 0.08)', border: 'rgba(225, 29, 72, 0.2)', count: 5 },
-      { id: 'strategy', title: 'Ideation & Strategy', desc: 'AI Auto workflow generator, viral video ideas, content calendar planner, and title A/B testing.', icon: '⚡', accent: '#D97706', bg: 'rgba(217, 119, 6, 0.08)', border: 'rgba(217, 119, 6, 0.2)', count: 6 }
+      { id: 'strategy', match: ['strategy', 'ideation-planning'], title: 'Analytics & Strategy', desc: 'AI Auto workflow generator, viral video ideas, content calendar planner, and title A/B testing.', icon: '⚡', accent: '#D97706', bg: 'rgba(217, 119, 6, 0.08)', border: 'rgba(217, 119, 6, 0.2)', fallbackCount: 17 },
+      { id: 'seo', match: ['seo', 'seo-metadata'], title: 'SEO & Metadata', desc: 'Keyword research, platform hashtag sets, video tags, and search description builders.', icon: '🔑', accent: '#EA580C', bg: 'rgba(234, 88, 12, 0.08)', border: 'rgba(234, 88, 12, 0.2)', fallbackCount: 12 },
+      { id: 'visuals', match: ['visuals', 'thumbnails-visuals'], title: 'Thumbnails & Visuals', desc: 'Thumbnail text generators, visual layout concepts, image prompts, and design assets.', icon: '🖼️', accent: '#0284C7', bg: 'rgba(2, 132, 199, 0.08)', border: 'rgba(2, 132, 199, 0.2)', fallbackCount: 10 },
+      { id: 'engagement', match: ['engagement', 'engagement-community'], title: 'Engagement & Community', desc: 'Community post ideas, audience poll questions, comment reply scripts, and subscriber hooks.', icon: '💬', accent: '#10B981', bg: 'rgba(16, 185, 129, 0.08)', border: 'rgba(16, 185, 129, 0.2)', fallbackCount: 10 },
+      { id: 'repurposing', match: ['repurposing', 'multi-platform-repurposing'], title: 'Multi-Platform Repurposing', desc: 'Convert long-form scripts into Shorts, Reels, tweets, newsletters, and blog summaries.', icon: '🔄', accent: '#8B5CF6', bg: 'rgba(139, 92, 246, 0.08)', border: 'rgba(139, 92, 246, 0.2)', fallbackCount: 10 },
+      { id: 'writing', match: ['writing', 'scripting-hooks', 'writing-polish'], title: 'Writing & Scripting', desc: 'Video hook generators, retention outlines, description builders, and content polish tools.', icon: '📜', accent: '#E11D48', bg: 'rgba(225, 29, 72, 0.08)', border: 'rgba(225, 29, 72, 0.2)', fallbackCount: 6 },
+      { id: 'titles', match: ['titles', 'titles-ctr'], title: 'Titles & CTR', desc: 'High-converting video titles, clickable headlines, thumbnail copy, and emotional scoring.', icon: '📝', accent: '#F97316', bg: 'rgba(249, 115, 22, 0.08)', border: 'rgba(249, 115, 22, 0.2)', fallbackCount: 5 }
     ];
 
     creatorCategoriesMeta.forEach(cat => {
-      let count = cat.count;
+      let count = cat.fallbackCount;
       if (CREATOR_TOOLS_DATA && typeof CREATOR_TOOLS_DATA === 'object') {
-        const matching = Object.values(CREATOR_TOOLS_DATA).filter(t => t && (t.category === cat.id || (cat.id === 'strategy' && t.category === 'ideation-planning') || (cat.id === 'seo' && t.category === 'seo-metadata') || (cat.id === 'titles' && t.category === 'titles-ctr') || (cat.id === 'writing' && (t.category === 'scripting-hooks' || t.category === 'writing-polish'))));
+        const matching = Object.values(CREATOR_TOOLS_DATA).filter(t => t && cat.match.includes(t.category));
         if (matching.length > 0) count = matching.length;
       }
       list.push({
@@ -605,7 +608,7 @@ document.addEventListener('DOMContentLoaded', () => {
         count: `${count} Platforms`,
         desc: cat.desc,
         icon: cat.icon,
-        url: `platforms.html?category=${encodeURIComponent(cat.id)}`,
+        url: `platforms.html?category=${encodeURIComponent(cat.filter)}`,
         accent: cat.accent,
         bg: cat.bg,
         border: cat.border
