@@ -51,7 +51,7 @@ const countReplacements = [
   { search: '210 Free AI Generative Tools', replace: '210 Free AI Generative Tools' },
   { search: '210 specialized generative AI tools', replace: '210 specialized generative AI tools' },
   { search: '210 free AI tools', replace: '210 free AI tools' },
-  { search: 'AI Tools Suite (210)', replace: 'AI Tools Suite (210)' },
+  { search: 'AI Tools Suite', replace: 'AI Tools Suite' },
   { search: 'AI Tools (210 tools)', replace: 'AI Tools (210 tools)' },
   { search: '210 AI tools', replace: '210 AI tools' },
   { search: '210 AI Tools', replace: '210 AI Tools' },

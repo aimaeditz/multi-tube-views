@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
-console.log('--- AUDITING 60 MEDIA CONVERTER TOOLS & 89 BROWSER UTILITIES ---');
+console.log('--- AUDITING 73 MEDIA CONVERTER TOOLS & 111 BROWSER UTILITIES ---');
 
 // 1. Check Media Converter Tools
 const mediaDataContent = fs.readFileSync(path.join(ROOT, 'assets/js/media-tools-data.js'), 'utf8');
@@ -21,7 +21,7 @@ const mediaToolIds = toolKeysMatch ? toolKeysMatch.map(k => k.replace(/[':\s{]/g
 
 console.log(`Found ${mediaToolIds.length} Media Converter tool definitions in media-tools-data.js`);
 
-// 2. Check 89 Browser Utilities
+// 2. Check 111 Browser Utilities
 import { ALL_TOOLS } from './generate-all-pages.mjs';
 console.log(`Found ${ALL_TOOLS.length} Browser Utilities defined in scripts`);
 

@@ -100,7 +100,7 @@ function updateAiToolsHtml() {
   html = html.replace(/160 specialized generative AI tools/g, '210 specialized generative AI tools');
   html = html.replace(/← Back to All 160 Tools/g, '← Back to All 210 Tools');
   html = html.replace(/1210 AI tools,/g, '210 AI tools,');
-  html = html.replace(/AI Tools Suite \(160\)/g, 'AI Tools Suite (210)');
+  html = html.replace(/AI Tools Suite \(160\)/g, 'AI Tools Suite');
 
   // Update Category Filter counts
   html = html.replace(
@@ -266,8 +266,8 @@ function updateSitewideHtml() {
       html = html.replace(/1210 AI tools/g, '210 AI tools');
       changed = true;
     }
-    if (html.includes('AI Tools Suite (210)')) {
-      html = html.replace(/AI Tools Suite \(160\)/g, 'AI Tools Suite (210)');
+    if (html.includes('AI Tools Suite')) {
+      html = html.replace(/AI Tools Suite \(160\)/g, 'AI Tools Suite');
       changed = true;
     }
     if (html.includes('210 AI Generative Tools')) {

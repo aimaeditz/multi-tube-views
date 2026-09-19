@@ -1,6 +1,6 @@
 /**
  * Multi Tube Views (MTV) — Ultimate Premium Site-Wide Search Engine
- * 100% Client-Side Fuzzy Search across 420+ Tools, Converters & Platforms.
+ * 100% Client-Side Fuzzy Search across 504+ Tools, Converters & Platforms.
  * Powered by Fuse.js with category-aware related suggestions.
  * Non-blocking, deferred initialization prevents render delay on page load.
  */
