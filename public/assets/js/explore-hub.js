@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 2. Creator Tools (20)
+    // 2. Creator Tools (70)
     if (typeof CREATOR_TOOLS_DATA !== 'undefined' && CREATOR_TOOLS_DATA) {
       Object.entries(CREATOR_TOOLS_DATA).forEach(([id, t]) => {
         unified.push({

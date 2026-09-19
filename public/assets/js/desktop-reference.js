@@ -11,18 +11,18 @@ import { ALL_TOOL_CONFIGS } from './media-tools-data.js';
 export function getLiveWebsiteTotalTools() {
   const aiToolsCount = (typeof AI_TOOLS_DATA === 'object' && AI_TOOLS_DATA !== null)
     ? Object.keys(AI_TOOLS_DATA).length
-    : 60;
+    : 210;
 
   const creatorToolsCount = (typeof CREATOR_TOOLS_DATA === 'object' && CREATOR_TOOLS_DATA !== null)
     ? Object.keys(CREATOR_TOOLS_DATA).length
-    : 20;
+    : 70;
 
   let buToolsCount = 111;
   if (Array.isArray(BU_CATEGORIES) && BU_CATEGORIES.length > 0) {
     buToolsCount = BU_CATEGORIES.reduce((acc, cat) => acc + (cat.tools ? cat.tools.length : (cat.toolCount || 0)), 0);
   }
 
-  let mediaToolsCount = 60;
+  let mediaToolsCount = 73;
   if (typeof ALL_TOOL_CONFIGS === 'object' && ALL_TOOL_CONFIGS !== null) {
     mediaToolsCount = Object.keys(ALL_TOOL_CONFIGS).length;
   } else if (typeof window !== 'undefined' && window.MTV_ALL_TOOL_CONFIGS) {

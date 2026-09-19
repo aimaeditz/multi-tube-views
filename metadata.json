@@ -1,6 +1,6 @@
 {
   "name": "Multi Tube Views",
-  "description": "Multi-Platform Public Media Workspace with dedicated media player adapters for 40+ platforms, curated AI prompts and image tools directory, 210 AI tools suite, 70-tool creator optimization suite, 60 client-side media converters, and 111 zero-upload browser utilities.",
+  "description": "Multi-Platform Public Media Workspace with dedicated media player adapters for 40+ platforms, curated AI prompts and image tools directory, 210 AI tools suite, 70-tool creator optimization suite, 73 client-side media converters, and 111 zero-upload browser utilities.",
   "requestFramePermissions": [
     "microphone"
   ],

@@ -35,7 +35,7 @@
   function buildSearchIndex(CREATOR_TOOLS_DATA, AI_TOOLS_DATA, ALL_TOOL_CONFIGS, BU_CATEGORIES, BU_TOOLS_CATALOG, PLATFORM_CONFIG) {
     if (searchIndex.length > 0) return searchIndex;
 
-    // 1. Creator Tools (20 tools)
+    // 1. Creator Tools (70 tools)
     if (CREATOR_TOOLS_DATA && typeof CREATOR_TOOLS_DATA === 'object') {
       Object.entries(CREATOR_TOOLS_DATA).forEach(([id, tool]) => {
         searchIndex.push({

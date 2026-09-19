@@ -1,26 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
-  <script>
-    (function(){
-      try {
-        var t = localStorage.getItem('mtv_theme');
-        var eff = 'light';
-        if (t === 'dark') {
-          eff = 'dark';
-        } else if (t === 'light') {
-          eff = 'light';
-        } else if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        var doc = document.documentElement;
-        doc.setAttribute('data-theme', eff);
-        doc.style.colorScheme = eff;
-        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
-      } catch(e){}
-    })();
-  </script>
   <!-- Resource Hints & Preconnects for Performance Optimization -->
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
@@ -36,9 +16,9 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279550123869703" crossorigin="anonymous"></script>
   <link rel="canonical" href="https://multitubeviews.com/explore-hub.html">
 
-                                                                                                                      <!-- Open Graph -->
+                                                                                                                        <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://multitubeviews.com/public/explore-hub.html">
+  <meta property="og:url" content="https://multitubeviews.com/explore-hub.html">
   <meta property="og:title" content="Explore Hub — All Tools, Categories &amp; Platforms | Multi Tube Views">
   <meta property="og:description" content="Discover all 380+ free in-browser tools, utilities, AI generators, media converters, and 40+ supported media platforms across Multi Tube Views in one unified directory.">
   <meta property="og:site_name" content="Multi Tube Views">
@@ -87,7 +67,27 @@
     }
   }
   </script>
-  </head>
+  <!-- Instant Theme Boot Script to prevent flash or lag -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        var eff = 'light';
+        if (t === 'dark') {
+          eff = 'dark';
+        } else if (t === 'light') {
+          eff = 'light';
+        } else if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        var doc = document.documentElement;
+        doc.setAttribute('data-theme', eff);
+        doc.style.colorScheme = eff;
+        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+      } catch(e){}
+    })();
+  </script>
+</head>
 <body class="desktop-ref-body">
 
   <!-- Desktop Ambient Canvas Glows & Grid (Desktop Only) -->
@@ -173,7 +173,7 @@
         <div class="explore-search-wrap">
           <div class="hero-search-wrapper" id="hero-search-container">
             <div class="hero-search-bar" id="hero-search-trigger" role="button" tabindex="0" aria-label="Search all tools and platforms" aria-haspopup="dialog" aria-expanded="false">
-              <span class="hero-search-placeholder">Search 429+ tools, media converters, utilities &amp; platforms...</span>
+              <span class="hero-search-placeholder">Search 464+ tools, media converters, utilities &amp; platforms...</span>
               <div class="hero-search-icon-wrap" aria-hidden="true">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="11" cy="11" r="8"></circle>
@@ -829,7 +829,7 @@
           type="text" 
           id="mtv-search-input" 
           class="mtv-search-input" 
-          placeholder="Search 429+ tools, converters, utilities &amp; platforms..." 
+          placeholder="Search 464+ tools, converters, utilities &amp; platforms..." 
           autocomplete="off" 
           spellcheck="false" 
           aria-autocomplete="list"

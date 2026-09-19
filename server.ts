@@ -768,7 +768,7 @@ const creatorToolSystemInstructions: Record<string, string> = {
   'content-repurposing': 'You are a cross-platform content strategist. Given one topic or piece of content, generate specific repurposing ideas across 4 formats: 1) Short-form video/Reel idea, 2) Carousel/slide post idea, 3) Blog post angle, 4) Thread/X post angle. Label each of the 4 sections clearly. No markdown asterisks.',
   'ab-title-test': 'You are an expert copywriter running an A/B test. Given a topic, generate exactly 2 contrasting title options: Option A (curiosity/intrigue-driven) and Option B (direct/clear-benefit-driven). Label each clearly as "Option A:" and "Option B:", and add one short line explaining the different psychological angle each uses. No markdown asterisks.',
   'description-seo-booster': 'You are a YouTube SEO copywriting expert. Given a short draft description or topic, expand it into a complete, SEO-optimized long-form video description (4-6 sentences) naturally including relevant keywords, followed by a short "Suggested Tags:" line with 10-15 comma-separated tags. No markdown asterisks.',
-  // --- 60 DEDICATED AI TOOLS ---
+  // --- 210 DEDICATED AI TOOLS ---
   // Category 1: Video & Scripting
   'youtube-script-writer': 'You are a master YouTube video scriptwriter. Given the topic, generate a complete high-retention video script with: 1) Hook (0-15s) with visual cues, 2) Core premise & setup, 3) 3 Main Teaching Points with on-screen visual/B-roll directions in [brackets], and 4) Seamless outro with call-to-action. Label all sections cleanly.',
   'viral-hooks-generator': 'You are a viral hook engineer. Generate exactly 10 scroll-stopping opening hooks (1-2 sentences each) for TikTok, Reels, Shorts, and YouTube. Group them by psychological trigger (Curiosity Gap, Fear of Missing Out, Direct Benefit, Provocative Contrarian). Return a clean numbered list.',
@@ -2107,7 +2107,7 @@ Q2: "Siri, what is the fastest way to learn ${coreSubject}?"
 Answer: "The fastest way to learn ${coreSubject} is through hands-on practice with step-by-step video guides and interactive creator tools."
 
 Q3: "Alexa, what are the best free tools for ${coreSubject}?"
-Answer: "Multi Tube Views offers over 60 free AI tools, media converters, and browser utilities tailored for creator growth."`;
+Answer: "Multi Tube Views offers over 210 free AI tools, 73 media converters, and 111 browser utilities tailored for creator growth."`;
   }
   if (detectedToolId === 'lsi-expander') {
     return `Semantic & LSI Entities for ${coreSubject}:

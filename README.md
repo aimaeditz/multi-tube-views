@@ -20,9 +20,9 @@ workspace for creators, researchers, and everyday users.
 
 - **40 platform workspaces** — dedicated multi-player tools for major
   video, live, short-form, social, and audio platforms
-- **20 free Creator Tools** — SEO titles, hashtags, keywords, meta
+- **70 free Creator Tools** — SEO titles, hashtags, keywords, meta
   descriptions, scripts, bios, content calendars, translation, and more
-- **60 in-browser Media Converter Tools** — video/audio conversion,
+- **73 in-browser Media Converter Tools** — video/audio conversion,
   trimming, speed change, voice-to-text, text-to-speech, QR generation,
   PDF manipulation, image editing, and more — 100% client-side, no uploads
 - **111 browser utilities across 15 categories** — text, developer,
@@ -48,23 +48,23 @@ official gateway button, column and aspect-ratio controls, and
 muted-by-default multi-player behavior (per browser autoplay rules).
 
 ### Creator Tools
-20 free tools covering the full content-creation workflow: titles,
+70 free tools covering the full content-creation workflow: titles,
 keywords, hashtags, descriptions, scripts, hooks, bios, calendars,
 translation, grammar polish, and more — powered by **MTV AI**, the
 site's own in-house AI system.
 
 ### AI Tools
-A separate directory of 61 dedicated generative tools spanning voice
+A separate directory of 210 dedicated generative tools spanning voice
 synthesis, video scripting, social growth, copywriting, creative
 writing, SEO, and technical/code use cases — also powered by **MTV AI**.
 
 ### Media Converter Tools
-60 tools for converting, trimming, and editing video, audio, images, and
+73 tools for converting, trimming, and editing video, audio, images, and
 PDF documents directly in the browser — no file ever leaves the user's
 device.
 
 ### Browser Utilities
-89 zero-upload utilities (text, developer, SEO, image/color, file/data,
+111 zero-upload utilities (text, developer, SEO, image/color, file/data,
 and everyday tools), each with its own dedicated page — pure browser
 APIs, no server involved.
 
@@ -91,8 +91,8 @@ Main entry points:
 - **AI Prompt** — prompt library + AI image tool directory
 - **AI Tools** — 210 AI-powered generative tools
 - **Creator Tools** — 70 AI-powered creator utilities
-- **Converter Tools** — 60 in-browser media converters
-- **Browser Utilities** — 89 in-browser developer/text/SEO/image/file
+- **Converter Tools** — 73 in-browser media converters
+- **Browser Utilities** — 111 in-browser developer/text/SEO/image/file
   utilities
 - **Platforms** — full directory of 40 platform workspaces
 - About / Settings / Legal pages
@@ -147,9 +147,9 @@ multi-tube-views/
 ├── ai-tools.html                  # 210 AI Tools Suite
 ├── ai-voice-generator.html        # AI Voice Generator (TTS)
 ├── creator-tools.html             # 70 Creator Tools
-├── media-converter-tools.html     # 60 client-side media converters
+├── media-converter-tools.html     # 73 client-side media converters
 ├── browser-utilities.html         # Browser Utilities landing page
-├── browser-utilities/             # 89 individual utility tool pages
+├── browser-utilities/             # 111 individual utility tool pages
 ├── platforms.html                 # Platform directory
 ├── platforms/                     # 40 platform workspace pages
 ├── about.html, settings.html, credits.html,

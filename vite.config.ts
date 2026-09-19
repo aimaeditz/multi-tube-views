@@ -36,7 +36,7 @@ function getHtmlInputs() {
     });
   }
 
-  // Add all browser utilities pages (categories and 89 tools)
+  // Add all browser utilities pages (categories and 111 tools)
   const buDir = path.resolve(__dirname, 'browser-utilities');
   if (fs.existsSync(buDir)) {
     fs.readdirSync(buDir).forEach(file => {

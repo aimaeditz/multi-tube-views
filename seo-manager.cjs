@@ -89,7 +89,7 @@ const CORE_PAGES_SEO = {
             'Dedicated player adapters for 40+ video, audio, and live streaming platforms',
             'Batch public URL loader with instant grid auto-configuration',
             '100% client-side privacy with zero tracking and zero account registration',
-            'Integrated creator SEO optimization suite and 15 in-browser media converters'
+            'Integrated creator SEO optimization suite and 73 in-browser media converters'
           ]
         },
         {
@@ -136,11 +136,11 @@ const CORE_PAGES_SEO = {
 
   'creator-tools.html': {
     title: 'Creator Tools Suite — Free Video SEO & Title Generator | MTV',
-    description: 'Optimize video SEO with 20 free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and timestamped descriptions in your browser.',
+    description: 'Optimize video SEO with 70 free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and timestamped descriptions in your browser.',
     keywords: 'creator tools, video seo generator, youtube seo pack, youtube tag generator free, youtube title maker, high ctr youtube title generator, video hook ideas, youtube description generator with timestamps, video retention hooks, video script outline generator, youtube hashtag finder, video keyword research tool, youtube metadata optimizer, thumbnail text copy generator, title ab testing tool, mtv creator tools, multitube views creator suite, aimaeditz mtv tools, free video seo tools',
     canonical: `${BASE_URL}/creator-tools.html`,
     ogTitle: 'Creator Tools Suite — Free Video SEO & Title Generator | MTV',
-    ogDescription: 'Optimize video SEO with 20 free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and timestamped descriptions in your browser.',
+    ogDescription: 'Optimize video SEO with 70 free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and timestamped descriptions in your browser.',
     getSchema: () => ({
       '@context': 'https://schema.org',
       '@graph': [
@@ -168,7 +168,7 @@ const CORE_PAGES_SEO = {
             'priceCurrency': 'USD'
           },
           'featureList': [
-            '20 specialized video SEO, copywriting, and retention tools',
+            '70 specialized video SEO, copywriting, and retention tools',
             'High-CTR video title generator with emotional trigger scoring',
             'Timestamp chapter description builder with call-to-action blocks',
             'Hierarchical keyword and tag cluster generator',
@@ -203,7 +203,7 @@ const CORE_PAGES_SEO = {
               'name': 'What tools are included in the MTV Creator Tools Suite?',
               'acceptedAnswer': {
                 '@type': 'Answer',
-                'text': 'The suite includes 20 tools including Title Generator, Tag & Keyword Extractor, Description Maker with Timestamps, Retention Hook Generator, Script Outline Builder, Thumbnail Copy Generator, Hashtag Finder, and Video SEO Checklist.'
+                'text': 'The suite includes 70 tools including Title Generator, Tag & Keyword Extractor, Description Maker with Timestamps, Retention Hook Generator, Script Outline Builder, Thumbnail Copy Generator, Hashtag Finder, and Video SEO Checklist.'
               }
             },
             {
@@ -244,7 +244,7 @@ const CORE_PAGES_SEO = {
           'name': 'MTV In-Browser Media Converters',
           'alternateName': ['MTV Media Converters', 'Multi Tube Views In-Browser Media Tools', 'AiMAEditz MTV Media Converter', 'MTV Audio & Video Converters'],
           'url': `${BASE_URL}/media-converter-tools.html`,
-          'description': 'Suite of 15 high-performance client-side media converters. Process video to MP3, audio trimming, slowed & reverb audio effects, GIF generation, and speech transcription with zero server uploads.',
+          'description': 'Suite of 73 high-performance client-side media converters. Process video to MP3, audio trimming, slowed & reverb audio effects, GIF generation, and speech transcription with zero server uploads.',
           'applicationCategory': 'MultimediaApplication',
           'applicationSubCategory': 'Audio & Video Processing',
           'operatingSystem': 'All',
@@ -261,7 +261,7 @@ const CORE_PAGES_SEO = {
             'priceCurrency': 'USD'
           },
           'featureList': [
-            '15 fast in-browser media converters and utilities',
+            '73 fast in-browser media converters and utilities',
             'High-speed video to MP3 / WAV audio extraction',
             'Lossless video cutter and audio trimmer with visual timeline',
             'Slowed & Reverb audio effect synthesizer with real-time preview',
@@ -322,12 +322,12 @@ const CORE_PAGES_SEO = {
   },
 
   'ai-tools.html': {
-    title: 'AI Tools Suite — 60 Free Generative AI Writing Tools | MTV',
-    description: 'Supercharge creative workflows with 60 free AI tools for video scripts, social media, copywriting, creative writing, and code. Powered by MTV AI in your browser.',
+    title: 'AI Tools Suite — 210 Free Generative AI Writing Tools | MTV',
+    description: 'Supercharge creative workflows with 210 free AI tools for video scripts, social media, copywriting, creative writing, and code. Powered by MTV AI in your browser.',
     keywords: 'ai tools, ai generative tools, youtube script generator, viral hooks generator, linkedin post generator, cold email writer, podcast planner, code explainer, seo meta pro, story plot generator, mtv ai tools, multitube views ai tools, free ai tools, aimaeditz mtv',
     canonical: `${BASE_URL}/ai-tools.html`,
-    ogTitle: 'AI Tools Suite — 60 Free Generative AI Writing Tools | MTV',
-    ogDescription: 'Supercharge creative workflows with 60 free AI tools for video scripts, social media, copywriting, creative writing, and code. Powered by MTV AI in your browser.',
+    ogTitle: 'AI Tools Suite — 210 Free Generative AI Writing Tools | MTV',
+    ogDescription: 'Supercharge creative workflows with 210 free AI tools for video scripts, social media, copywriting, creative writing, and code. Powered by MTV AI in your browser.',
     getSchema: () => ({
       '@context': 'https://schema.org',
       '@graph': [
@@ -337,7 +337,7 @@ const CORE_PAGES_SEO = {
           'name': 'MTV AI Tools Suite',
           'alternateName': ['MTV Generative AI Suite', 'Multi Tube Views AI Tools', 'AiMAEditz MTV AI Suite', 'MTV AI Writing Tools'],
           'url': `${BASE_URL}/ai-tools.html`,
-          'description': 'Comprehensive directory of 60 free AI generative tools across Video, Social Media, Copywriting, Creative Writing, SEO Discovery, and Code.',
+          'description': 'Comprehensive directory of 210 free AI generative tools across Video, Social Media, Copywriting, Creative Writing, SEO Discovery, and Code.',
           'applicationCategory': 'BusinessApplication',
           'applicationSubCategory': 'AIContentGeneration',
           'operatingSystem': 'All',
@@ -354,7 +354,7 @@ const CORE_PAGES_SEO = {
             'priceCurrency': 'USD'
           },
           'featureList': [
-            '60 dedicated generative AI tools',
+            '210 dedicated generative AI tools',
             'Video & Scripting, Social & Growth, Copywriting & Sales categories',
             'Creative & Narrative, SEO & Discovery, Technical & Code tools',
             '100% free client-side workspace powered by MTV AI'
@@ -383,12 +383,12 @@ const CORE_PAGES_SEO = {
   },
 
   'browser-utilities.html': {
-    title: 'Browser Utilities — 89 Free Client-Side Web Tools | MTV',
-    description: 'Suite of 89 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.',
+    title: 'Browser Utilities — 111 Free Client-Side Web Tools | MTV',
+    description: 'Suite of 111 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.',
     keywords: 'browser utilities online, client side tools, dev tools online, json formatter, regex tester, word counter, password strength checker, color palette generator, csv to json, free web tools, mtv browser utilities, multitube views tools',
     canonical: `${BASE_URL}/browser-utilities.html`,
-    ogTitle: 'Browser Utilities — 89 Free Client-Side Web Tools | MTV',
-    ogDescription: 'Suite of 89 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.',
+    ogTitle: 'Browser Utilities — 111 Free Client-Side Web Tools | MTV',
+    ogDescription: 'Suite of 111 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.',
     getSchema: () => ({
       '@context': 'https://schema.org',
       '@graph': [
@@ -396,9 +396,9 @@ const CORE_PAGES_SEO = {
           '@type': 'WebApplication',
           '@id': `${BASE_URL}/browser-utilities.html#webapp`,
           'name': 'MTV Browser Utilities Suite',
-          'alternateName': ['MTV Client-Side Tools', 'Multi Tube Views Browser Utilities', '89 In-Browser Utilities by AiMAEditz'],
+          'alternateName': ['MTV Client-Side Tools', 'Multi Tube Views Browser Utilities', '111 In-Browser Utilities by AiMAEditz'],
           'url': `${BASE_URL}/browser-utilities.html`,
-          'description': 'Suite of 89 fast, 100% private in-browser utilities across 15 categories.',
+          'description': 'Suite of 111 fast, 100% private in-browser utilities across 15 categories.',
           'applicationCategory': 'DeveloperApplication',
           'operatingSystem': 'All',
           'browserRequirements': 'Requires JavaScript and HTML5 APIs',

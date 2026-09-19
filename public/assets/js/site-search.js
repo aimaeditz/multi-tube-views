@@ -35,7 +35,7 @@
   function buildSearchIndex(CREATOR_TOOLS_DATA, AI_TOOLS_DATA, ALL_TOOL_CONFIGS, BU_CATEGORIES, BU_TOOLS_CATALOG, PLATFORM_CONFIG) {
     if (searchIndex.length > 0) return searchIndex;
 
-    // 1. Creator Tools (20 tools)
+    // 1. Creator Tools (70 tools)
     if (CREATOR_TOOLS_DATA && typeof CREATOR_TOOLS_DATA === 'object') {
       Object.entries(CREATOR_TOOLS_DATA).forEach(([id, tool]) => {
         searchIndex.push({
@@ -112,7 +112,7 @@
       });
     }
 
-    // 4. Browser Utilities (89 tools)
+    // 4. Browser Utilities (111 tools)
     if (Array.isArray(BU_TOOLS_CATALOG) && BU_TOOLS_CATALOG.length > 0) {
       BU_TOOLS_CATALOG.forEach(tool => {
         searchIndex.push({
@@ -209,7 +209,7 @@
       {
         id: 'page-browser-utilities-hub',
         title: 'Browser Utilities Hub',
-        desc: '89 zero-server, offline-capable browser utilities for text, data, dev, and everyday tasks.',
+        desc: '111 zero-server, offline-capable browser utilities for text, data, dev, and everyday tasks.',
         icon: '🧰',
         category: 'Explore · Utilities',
         categoryId: 'pages-core',
