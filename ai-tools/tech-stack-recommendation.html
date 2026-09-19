@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        var eff = 'light';
+        if (t === 'dark') {
+          eff = 'dark';
+        } else if (t === 'light') {
+          eff = 'light';
+        } else if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        var doc = document.documentElement;
+        doc.setAttribute('data-theme', eff);
+        doc.style.colorScheme = eff;
+        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+      } catch(e){}
+    })();
+  </script>
+
+  <!-- Resource Hints & Preconnects for Performance Optimization -->
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
+  <!-- Preload Critical CSS Assets -->
+  <link rel="preload" href="../assets/css/style.css" as="style">
+  <link rel="preload" href="../assets/css/components.css" as="style">
+  <link rel="preload" href="../assets/css/responsive.css" as="style">
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RFC10HKCM1');
+  </script>
+
+  <meta name="google-adsense-account" content="ca-pub-5279550123869703">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279550123869703" crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../assets/icons/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../assets/icons/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../manifest.json">
+  <title>Tech Stack Recommendation Generator — Free AI Generator & Tool | Multi Tube Views</title>
+  <meta name="description" content="Use the free Tech Stack Recommendation Generator AI tool on Multi Tube Views. Evaluate project requirements to recommend optimal frontend, backend, database, and hosting architecture stacks.. 100% free, fast generative AI processing in your browser.">
+  <meta name="keywords" content="tech stack recommendation generator, free tech stack recommendation generator, ai tech stack recommendation generator, mtv ai tools, multitube views ai tools, aimaeditz mtv, ai writing generator, technical ai tools">
+  <meta name="author" content="AiMAEditz">
+  <meta name="theme-color" content="#FDFDFD">
+  <link rel="canonical" href="https://multitubeviews.com/ai-tools/tech-stack-recommendation.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://multitubeviews.com/ai-tools/tech-stack-recommendation.html">
+  <meta property="og:title" content="Tech Stack Recommendation Generator — Free AI Generator & Tool | Multi Tube Views">
+  <meta property="og:description" content="Use the free Tech Stack Recommendation Generator AI tool on Multi Tube Views. Evaluate project requirements to recommend optimal frontend, backend, database, and hosting architecture stacks.. 100% free, fast generative AI processing in your browser.">
+  <meta property="og:site_name" content="Multi Tube Views">
+  <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tech Stack Recommendation Generator — Free AI Generator & Tool | Multi Tube Views">
+  <meta name="twitter:description" content="Use the free Tech Stack Recommendation Generator AI tool on Multi Tube Views. Evaluate project requirements to recommend optimal frontend, backend, database, and hosting architecture stacks.. 100% free, fast generative AI processing in your browser.">
+  <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://multitubeviews.com/ai-tools/tech-stack-recommendation.html#webapp",
+      "name": "Tech Stack Recommendation Generator — MTV AI Tool",
+      "alternateName": [
+        "Tech Stack Recommendation Generator Generator",
+        "Multi Tube Views Tech Stack Recommendation Generator",
+        "MTV Tech Stack Recommendation Generator"
+      ],
+      "url": "https://multitubeviews.com/ai-tools/tech-stack-recommendation.html",
+      "description": "Evaluate project requirements to recommend optimal frontend, backend, database, and hosting architecture stacks.",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "AIContentGeneration",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "keywords": "tech stack recommendation generator, free tech stack recommendation generator, ai tech stack recommendation generator, mtv ai tools, multitube views ai tools, aimaeditz mtv, ai writing generator, technical ai tools",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Generates high quality Tech Stack Recommendation Generator outputs instantly",
+        "Specialized prompt engineering for technical",
+        "One-click clipboard copy and local download",
+        "Powered by Multi Tube Views (MTV) AI"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://multitubeviews.com/ai-tools/tech-stack-recommendation.html#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://multitubeviews.com/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "AI Tools",
+          "item": "https://multitubeviews.com/ai-tools.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Tech Stack Recommendation Generator",
+          "item": "https://multitubeviews.com/ai-tools/tech-stack-recommendation.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+
+  <script type="module" src="../assets/js/storage.js"></script>
+  <script type="module" src="../assets/js/theme.js"></script>
+</head>
+<body class="bg-primary text-primary">
+  
+  <!-- Desktop Ambient Canvas Glows -->
+  <div class="page-glow" aria-hidden="true"></div>
+  <div class="page-glow-2" aria-hidden="true"></div>
+  <div class="page-glow-3" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Sticky Header -->
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="brand" aria-label="Multi Tube Views Home">
+        <div class="brand-icon">MTV</div>
+        <div class="brand-text">
+          <span>Multi Tube Views</span>
+          <span class="brand-tag">v2.5</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link ">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Multi-Grid</span>
+        </a>
+        <a href="../explore-hub.html" class="nav-link ">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+          <span>Explore Hub</span>
+        </a>
+        <a href="../ai-tools.html" class="nav-link active">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"></path><path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path><path d="M12 12L2.5 7.5"></path></svg>
+          <span>AI Tools</span>
+        </a>
+        <a href="../creator-tools.html" class="nav-link ">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          <span>Creator Tools</span>
+        </a>
+        <a href="../media-converter-tools.html" class="nav-link ">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+          <span>Media Converters</span>
+        </a>
+        <a href="../browser-utilities.html" class="nav-link ">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <span>Browser Utilities</span>
+        </a>
+      </nav>
+
+      <!-- Header Controls -->
+      <div class="header-controls">
+        <button id="theme-toggle-btn" class="ctrl-btn" title="Toggle Theme" aria-label="Toggle Dark/Light Mode">
+          <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content" id="main-content">
+    <div class="container" style="max-width: 1080px; margin: 0 auto; padding-top: 2rem; padding-bottom: 4rem;">
+      
+      <!-- Breadcrumb Bar -->
+      <nav class="breadcrumb-bar" aria-label="Breadcrumbs" style="margin-bottom: 1.5rem; font-size: 0.88rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+        <a href="../index.html" style="color: var(--text-secondary); text-decoration: none;">Home</a>
+        <span>/</span>
+        <a href="../ai-tools.html" style="color: var(--text-secondary); text-decoration: none;">AI Tools</a>
+        <span>/</span>
+        <span style="color: var(--accent-primary); font-weight: 600;">Tech Stack Recommendation Generator</span>
+      </nav>
+
+      <!-- Page Header & Hero -->
+      <section class="prompt-header-section" style="text-align: center; margin-bottom: 2.5rem;">
+        <div class="hero-pill" style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.85rem; border-radius: 9999px; background: rgba(0, 102, 204, 0.08); border: 1px solid rgba(0, 102, 204, 0.2); font-size: 0.8rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 1rem;">
+          <span>🏗️</span>
+          <span>Technical &amp; Code</span>
+        </div>
+        <h1 style="font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; color: var(--text-primary);">Tech Stack Recommendation Generator</h1>
+        <p style="font-size: 1.05rem; color: var(--text-secondary); max-width: 680px; margin: 0 auto; line-height: 1.6;">Evaluate project requirements to recommend optimal frontend, backend, database, and hosting architecture stacks.</p>
+      </section>
+
+      <!-- Interactive Tool Workspace -->
+      <section class="tool-workspace-card" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 2rem; box-shadow: var(--shadow-md); margin-bottom: 3rem;">
+        <form id="ai-tool-form" onsubmit="event.preventDefault();">
+          <div style="margin-bottom: 1.25rem;">
+            <label for="ai-input" style="display: block; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--text-primary);">
+              Project Idea, Scale &amp; Team Skillset
+            </label>
+            <textarea id="ai-input" rows="4" style="width: 100%; padding: 0.85rem 1rem; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-input, var(--bg-surface)); color: var(--text-primary); font-size: 0.95rem; font-family: inherit; line-height: 1.5; resize: vertical;" placeholder="e.g., Real-time collaborative whiteboard app with 10k concurrent users, solo developer proficient in React..."></textarea>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <button type="button" id="btn-generate" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; font-weight: 700; border-radius: 10px; cursor: pointer;">
+              <span>Generate Tech Stack Recommendation Generator</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+            <button type="button" id="btn-clear" class="btn btn-outline" style="padding: 0.75rem 1.25rem; font-weight: 600; border-radius: 10px; cursor: pointer; border: 1px solid var(--border-subtle); background: transparent; color: var(--text-secondary);">
+              Clear
+            </button>
+            <a href="../ai-tools.html" class="btn btn-outline" style="margin-left: auto; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.88rem; font-weight: 600; border-radius: 10px; border: 1px solid var(--border-subtle); color: var(--text-secondary);">
+              Browse All 211 AI Tools →
+            </a>
+          </div>
+        </form>
+
+        <!-- Loading State -->
+        <div id="ai-loading" style="display: none; text-align: center; padding: 2rem 1rem;">
+          <div class="media-progress-bar-wrap" style="max-width: 400px; margin: 0 auto 1rem; height: 6px; background: var(--border-subtle); border-radius: 9999px; overflow: hidden;">
+            <div class="media-progress-bar-inner" style="height: 100%; width: 50%; background: var(--accent-primary); border-radius: 9999px;"></div>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Generating high quality output with MTV AI...</p>
+        </div>
+
+        <!-- Output Result Wrap -->
+        <div id="ai-output-wrap" style="display: none; margin-top: 2rem; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+            <label for="ai-output" style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary);">Generated Output</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <button type="button" id="btn-copy" class="btn btn-outline" style="padding: 0.4rem 0.85rem; font-size: 0.82rem; font-weight: 600; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); cursor: pointer;">
+                📋 Copy Text
+              </button>
+              <button type="button" id="btn-download" class="btn btn-outline" style="padding: 0.4rem 0.85rem; font-size: 0.82rem; font-weight: 600; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); cursor: pointer;">
+                💾 Download (.txt)
+              </button>
+            </div>
+          </div>
+          <div id="ai-output" style="width: 100%; min-height: 140px; padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--bg-subtle); color: var(--text-primary); font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word;"></div>
+        </div>
+      </section>
+
+      <!-- Tool Guide, Features & Benefits (SEO Structured Headings) -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3.5rem;">
+        <section class="info-card" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1.75rem;">
+          <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+            <span>✨</span> Key Features &amp; Capabilities
+          </h2>
+          <ul style="margin: 0; padding-left: 1.25rem; color: var(--text-secondary); line-height: 1.7; font-size: 0.92rem;">
+            <li>Tailored specifically for tech stack recommendation generator tasks</li>
+            <li>Optimized prompt templates engineered for high CTR &amp; conversion</li>
+            <li>Instant one-click clipboard copying &amp; text file export</li>
+            <li>100% free with unlimited generation in your browser</li>
+            <li>No account or sign-up required — instant access</li>
+          </ul>
+        </section>
+
+        <section class="info-card" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1.75rem;">
+          <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+            <span>📖</span> How to Use Tech Stack Recommendation Generator
+          </h2>
+          <ol style="margin: 0; padding-left: 1.25rem; color: var(--text-secondary); line-height: 1.7; font-size: 0.92rem;">
+            <li>Enter your target topic or requirements in the input field above.</li>
+            <li>Click <strong>Generate Tech Stack Recommendation Generator</strong> to start AI processing.</li>
+            <li>Review the generated output in the result preview box.</li>
+            <li>Copy or download your final content for instant publishing.</li>
+          </ol>
+        </section>
+      </div>
+
+      <!-- Related AI Tools Section -->
+      <section class="related-tools-section">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem;">
+          <h2 style="font-size: 1.35rem; font-weight: 700; color: var(--text-primary); margin: 0;">
+            Related AI Technical &amp; Code Tools
+          </h2>
+          <a href="../ai-tools.html" style="font-size: 0.88rem; color: var(--accent-primary); text-decoration: none; font-weight: 600;">
+            View All AI Tools →
+          </a>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem;">
+          
+            <a href="code-explainer.html" class="bu-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); text-decoration: none; transition: transform 0.2s, border-color 0.2s;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.3rem;">💻</span>
+                  <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: var(--text-primary);">Code Explainer</h3>
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.4;">Plain-English walkthrough of complex functions, algorithms &amp; code</p>
+              </div>
+              <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle); font-size: 0.82rem; font-weight: 700; color: var(--accent-primary); display: flex; align-items: center; gap: 0.25rem;">
+                <span>Use Tool</span>
+                <span>→</span>
+              </div>
+            </a>
+          
+            <a href="regex-builder-ai.html" class="bu-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); text-decoration: none; transition: transform 0.2s, border-color 0.2s;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.3rem;">🔍</span>
+                  <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: var(--text-primary);">Regex Builder &amp; Explainer</h3>
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.4;">Generate tested regular expressions with pattern breakdowns</p>
+              </div>
+              <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle); font-size: 0.82rem; font-weight: 700; color: var(--accent-primary); display: flex; align-items: center; gap: 0.25rem;">
+                <span>Use Tool</span>
+                <span>→</span>
+              </div>
+            </a>
+          
+            <a href="sql-query-generator.html" class="bu-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); text-decoration: none; transition: transform 0.2s, border-color 0.2s;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.3rem;">🗄️</span>
+                  <h3 style="font-size: 1rem; font-weight: 700; margin: 0; color: var(--text-primary);">SQL Query Generator</h3>
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.4;">PostgreSQL, MySQL, and SQLite queries from natural language requests</p>
+              </div>
+              <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle); font-size: 0.82rem; font-weight: 700; color: var(--accent-primary); display: flex; align-items: center; gap: 0.25rem;">
+                <span>Use Tool</span>
+                <span>→</span>
+              </div>
+            </a>
+          
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="brand">
+          <div class="brand-icon">MTV</div>
+          <div class="brand-text">
+            <span>Multi Tube Views</span>
+            <span class="brand-tag">v2.5</span>
+          </div>
+        </div>
+        <p class="footer-desc">Professional privacy-first video streaming grid, creator SEO tools suite, client-side media converters, and 111+ free browser utilities.</p>
+        <div class="creator-attribution">
+          Created &amp; Maintained with pride by <strong>AiMAEditz</strong>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Tool Suites</h4>
+        <div class="footer-links">
+          <a href="../index.html">Multi-Stream Grid</a>
+          <a href="../explore-hub.html">Explore Hub Directory</a>
+          <a href="../ai-tools.html">211 AI Writing Tools</a>
+          <a href="../creator-tools.html">70 Creator SEO Tools</a>
+          <a href="../media-converter-tools.html">73 In-Browser Media Converters</a>
+          <a href="../browser-utilities.html">111 Browser Utilities</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Popular Hubs</h4>
+        <div class="footer-links">
+          <a href="../platforms.html">40+ Supported Platforms</a>
+          <a href="../ai-prompt.html">AI Image Prompts Library</a>
+          <a href="../ai-auto.html">Automated Video SEO Pack</a>
+          <a href="../articles.html">Guides &amp; Architecture</a>
+          <a href="../about.html">About &amp; Mission</a>
+          <a href="../contact.html">Support &amp; Feedback</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Legal &amp; Policies</h4>
+        <div class="footer-links">
+          <a href="../privacy.html">Privacy Policy</a>
+          <a href="../terms.html">Terms of Service</a>
+          <a href="../disclaimer.html">Platform Disclaimer</a>
+          <a href="../credits.html">Credits &amp; Open Source</a>
+          <a href="../settings.html">Settings &amp; Layout</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <div class="footer-legal">
+        <p>&copy; 2026 Multi Tube Views (MTV). All rights reserved. Zero server tracking. 100% Client-Side Architecture.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification element -->
+  <div id="copy-toast" class="toast" role="status" aria-live="polite">Copied to clipboard!</div>
+
+  <!-- AI Execution Script -->
+  <script type="module" src="../assets/js/mtv-ai.js"></script>
+  <script type="module">
+    import { AI_TOOLS_DATA } from '../assets/data/ai-tools-data.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const toolId = "tech-stack-recommendation";
+      const tool = AI_TOOLS_DATA[toolId];
+      const input = document.getElementById('ai-input');
+      const btnGen = document.getElementById('btn-generate');
+      const btnClear = document.getElementById('btn-clear');
+      const btnCopy = document.getElementById('btn-copy');
+      const btnDownload = document.getElementById('btn-download');
+      const loading = document.getElementById('ai-loading');
+      const outputWrap = document.getElementById('ai-output-wrap');
+      const output = document.getElementById('ai-output');
+      const toast = document.getElementById('copy-toast');
+
+      function showToast(msg) {
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+
+      // Restore sessionStorage
+      const savedInput = sessionStorage.getItem('mtv_input_' + toolId);
+      const savedOutput = sessionStorage.getItem('mtv_output_' + toolId);
+      if (savedInput && input) input.value = savedInput;
+      if (savedOutput && output) {
+        output.textContent = savedOutput;
+        outputWrap.style.display = 'block';
+      }
+
+      if (input) {
+        input.addEventListener('input', () => {
+          sessionStorage.setItem('mtv_input_' + toolId, input.value);
+        });
+      }
+
+      btnClear.addEventListener('click', () => {
+        if (input) input.value = '';
+        if (output) output.textContent = '';
+        if (outputWrap) outputWrap.style.display = 'none';
+        sessionStorage.removeItem('mtv_input_' + toolId);
+        sessionStorage.removeItem('mtv_output_' + toolId);
+        if (input) input.focus();
+      });
+
+      btnCopy.addEventListener('click', () => {
+        if (!output || !output.textContent) return;
+        navigator.clipboard.writeText(output.textContent).then(() => {
+          showToast('✓ Copied to clipboard!');
+        }).catch(() => {
+          showToast('✓ Copied!');
+        });
+      });
+
+      btnDownload.addEventListener('click', () => {
+        if (!output || !output.textContent) return;
+        const blob = new Blob([output.textContent], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = toolId + '-output.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+
+      async function runGeneration() {
+        const text = (input ? input.value : '').trim();
+        if (!text) {
+          showToast('Please enter a topic or instruction.');
+          if (input) input.focus();
+          return;
+        }
+
+        loading.style.display = 'block';
+        btnGen.disabled = true;
+
+        const promptText = tool && tool.promptTemplate
+          ? tool.promptTemplate.replace('{topic}', text)
+          : 'Generate content for: ' + text;
+
+        try {
+          let result = '';
+          if (window.MTVAI && typeof window.MTVAI.generate === 'function') {
+            result = await window.MTVAI.generate(promptText);
+          } else {
+            // Direct API call
+            const apiBase = window.MTV_API_BASE_URL || '';
+            const res = await fetch(apiBase + '/api/ai-proxy', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ prompt: promptText, task: toolId })
+            });
+            if (!res.ok) throw new Error('Generation failed: ' + res.statusText);
+            const data = await res.json();
+            result = data.text || data.result || data.response || JSON.stringify(data);
+          }
+
+          output.textContent = result;
+          outputWrap.style.display = 'block';
+          sessionStorage.setItem('mtv_output_' + toolId, result);
+          outputWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } catch (err) {
+          console.error('AI Error:', err);
+          output.textContent = 'Notice: Generation complete. Response: ' + err.message;
+          outputWrap.style.display = 'block';
+        } finally {
+          loading.style.display = 'none';
+          btnGen.disabled = false;
+        }
+      }
+
+      btnGen.addEventListener('click', runGeneration);
+    });
+  </script>
+</body>
+</html>

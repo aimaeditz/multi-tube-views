@@ -7,12 +7,12 @@ export const AI_CATEGORIES = [
   {
     "id": "all",
     "name": "All Tools",
-    "count": 210
+    "count": 211
   },
   {
     "id": "video",
     "name": "Video & Scripting",
-    "count": 33
+    "count": 34
   },
   {
     "id": "social",
