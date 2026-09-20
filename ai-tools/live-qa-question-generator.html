@@ -1,31 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" style="background-color: #FDFDFD; color-scheme: light;">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
   <script>
     (function(){
       try {
         var t = localStorage.getItem('mtv_theme');
-        var eff = 'light';
-        if (t === 'dark') {
-          eff = 'dark';
-        } else if (t === 'light') {
-          eff = 'light';
-        } else if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
+        var eff = (t === 'dark') ? 'dark' : (t === 'light' ? 'light' : ((t === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'));
+        var bg = eff === 'dark' ? '#0A0A0C' : '#FDFDFD';
+        var color = eff === 'dark' ? '#F5F5F7' : '#1D1D1F';
         var doc = document.documentElement;
         doc.setAttribute('data-theme', eff);
         doc.style.colorScheme = eff;
-        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+        doc.style.backgroundColor = bg;
+        document.write('<style id="mtv-instant-bg">html,html body{background-color:' + bg + ' !important;background:' + bg + ' !important;color:' + color + ' !important;}</style>');
       } catch(e){}
     })();
   </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/assets/icons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
+  
 
   <!-- Resource Hints & Preconnects for Performance Optimization -->
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -54,15 +62,6 @@
   <meta name="google-adsense-account" content="ca-pub-5279550123869703">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279550123869703" crossorigin="anonymous"></script>
 
-  <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
-  <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
-  <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="48x48" href="../assets/icons/favicon-48.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/favicon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="../assets/icons/favicon-512.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
-  <link rel="manifest" href="../manifest.json">
   <title>Live Q&A Question Generator — Free AI Generator & Tool | Multi Tube Views</title>
   <meta name="description" content="Use the free Live Q&amp;A Question Generator AI tool on Multi Tube Views. Thought-provoking seed questions and audience prompts to keep live streams and webinars engaging. 100% free, fast generative AI processing in your browser.">
   <meta name="keywords" content="live q&a question generator, free live q&a question generator, ai live q&a question generator, mtv ai tools, multitube views ai tools, aimaeditz mtv, ai writing generator, social ai tools">
@@ -70,7 +69,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/ai-tools/live-qa-question-generator.html">
 
-  <!-- Open Graph -->
+                          <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/ai-tools/live-qa-question-generator.html">
   <meta property="og:title" content="Live Q&A Question Generator — Free AI Generator & Tool | Multi Tube Views">
@@ -79,7 +78,6 @@
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Live Q&A Question Generator — Free AI Generator & Tool | Multi Tube Views">
@@ -170,30 +168,34 @@
 
       <!-- Desktop Nav -->
       <nav class="nav-desktop" aria-label="Main Navigation">
-        <a href="../index.html" class="nav-link ">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-          <span>Multi-Grid</span>
-        </a>
-        <a href="../explore-hub.html" class="nav-link ">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
-          <span>Explore Hub</span>
-        </a>
-        <a href="../ai-tools.html" class="nav-link active">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"></path><path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path><path d="M12 12L2.5 7.5"></path></svg>
-          <span>AI Tools</span>
-        </a>
-        <a href="../creator-tools.html" class="nav-link ">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-          <span>Creator Tools</span>
-        </a>
-        <a href="../media-converter-tools.html" class="nav-link ">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-          <span>Media Converters</span>
-        </a>
-        <a href="../browser-utilities.html" class="nav-link ">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-          <span>Browser Utilities</span>
-        </a>
+        <a href="../index.html" class="nav-link nav-link-home ">Home</a>
+        <a href="../explore-hub.html" class="nav-link ">Explore</a>
+        <a href="../ai-prompt.html" class="nav-link ">Prompt</a>
+        <a href="../ai-tools.html" class="nav-link active">Tools</a>
+        <a href="../creator-tools.html" class="nav-link ">Creator</a>
+        <a href="../media-converter-tools.html" class="nav-link ">Converter</a>
+        <a href="../browser-utilities.html" class="nav-link ">Browser</a>
+        <a href="../platforms.html" class="nav-link ">Platforms</a>
+        <div class="nav-dropdown" id="nav-info-dropdown">
+          <button type="button" class="nav-link nav-dropdown-btn " id="nav-info-btn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-info-menu">
+            <span>Info</span>
+            <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="nav-dropdown-menu" id="nav-info-menu" role="menu" aria-label="Info Menu">
+            <a href="../contact.html" class="nav-dropdown-item " role="menuitem" style="--item-index: 0;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <span>Contact</span>
+            </a>
+            <a href="../about.html" class="nav-dropdown-item " role="menuitem" style="--item-index: 1;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>About</span>
+            </a>
+            <a href="../settings.html" class="nav-dropdown-item " role="menuitem" style="--item-index: 2;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Settings</span>
+            </a>
+          </div>
+        </div>
       </nav>
 
       <!-- Header Controls -->

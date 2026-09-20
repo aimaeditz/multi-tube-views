@@ -73,31 +73,25 @@ function escapeHtml(str) {
 function renderHead({ title, description, keywords, canonical, jsonLd, depth = 0 }) {
   const assetPrefix = depth === 0 ? '' : '../';
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" style="background-color: #FDFDFD; color-scheme: light;">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
   <script>
     (function(){
       try {
         var t = localStorage.getItem('mtv_theme');
-        var eff = 'light';
-        if (t === 'dark') {
-          eff = 'dark';
-        } else if (t === 'light') {
-          eff = 'light';
-        } else if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
+        var eff = (t === 'dark') ? 'dark' : (t === 'light' ? 'light' : ((t === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'));
+        var bg = eff === 'dark' ? '#0A0A0C' : '#FDFDFD';
+        var color = eff === 'dark' ? '#F5F5F7' : '#1D1D1F';
         var doc = document.documentElement;
         doc.setAttribute('data-theme', eff);
         doc.style.colorScheme = eff;
-        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+        doc.style.backgroundColor = bg;
+        document.write('<style id="mtv-instant-bg">html,html body{background-color:' + bg + ' !important;background:' + bg + ' !important;color:' + color + ' !important;}</style>');
       } catch(e){}
     })();
   </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Resource Hints & Preconnects for Performance Optimization -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
@@ -188,13 +182,33 @@ function renderHeader({ activeNav = 'browser-utilities', depth = 0 }) {
       <!-- Desktop Navigation -->
       <nav class="nav-desktop" aria-label="Main Navigation">
         <a href="${p}index.html" class="nav-link nav-link-home ${activeNav === 'home' ? 'active' : ''}">Home</a>
-        <a href="${p}explore-hub.html" class="nav-link ${activeNav === 'explore-hub' ? 'active' : ''}">Explore Hub</a>
-        <a href="${p}ai-prompt.html" class="nav-link ${activeNav === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
-        <a href="${p}ai-tools.html" class="nav-link ${activeNav === 'ai-tools' ? 'active' : ''}">AI Tools</a>
-        <a href="${p}creator-tools.html" class="nav-link ${activeNav === 'creator-tools' ? 'active' : ''}">Creator Tools</a>
-        <a href="${p}media-converter-tools.html" class="nav-link ${activeNav === 'media-converter-tools' ? 'active' : ''}">Converter Tools</a>
-        <a href="${p}browser-utilities.html" class="nav-link ${activeNav === 'browser-utilities' ? 'active' : ''}">Browser Utilities</a>
+        <a href="${p}explore-hub.html" class="nav-link ${activeNav === 'explore-hub' ? 'active' : ''}">Explore</a>
+        <a href="${p}ai-prompt.html" class="nav-link ${activeNav === 'ai-prompt' ? 'active' : ''}">Prompt</a>
+        <a href="${p}ai-tools.html" class="nav-link ${activeNav === 'ai-tools' ? 'active' : ''}">Tools</a>
+        <a href="${p}creator-tools.html" class="nav-link ${activeNav === 'creator-tools' ? 'active' : ''}">Creator</a>
+        <a href="${p}media-converter-tools.html" class="nav-link ${activeNav === 'media-converter-tools' ? 'active' : ''}">Converter</a>
+        <a href="${p}browser-utilities.html" class="nav-link ${activeNav === 'browser-utilities' ? 'active' : ''}">Browser</a>
         <a href="${p}platforms.html" class="nav-link ${activeNav === 'platforms' ? 'active' : ''}">Platforms</a>
+        <div class="nav-dropdown" id="nav-info-dropdown">
+          <button type="button" class="nav-link nav-dropdown-btn ${['about', 'contact', 'settings'].includes(activeNav) ? 'active' : ''}" id="nav-info-btn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-info-menu">
+            <span>Info</span>
+            <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="nav-dropdown-menu" id="nav-info-menu" role="menu" aria-label="Info Menu">
+            <a href="${p}contact.html" class="nav-dropdown-item ${activeNav === 'contact' ? 'active' : ''}" role="menuitem" style="--item-index: 0;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <span>Contact</span>
+            </a>
+            <a href="${p}about.html" class="nav-dropdown-item ${activeNav === 'about' ? 'active' : ''}" role="menuitem" style="--item-index: 1;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>About</span>
+            </a>
+            <a href="${p}settings.html" class="nav-dropdown-item ${activeNav === 'settings' ? 'active' : ''}" role="menuitem" style="--item-index: 2;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Settings</span>
+            </a>
+          </div>
+        </div>
       </nav>
 
       <!-- Header Actions -->

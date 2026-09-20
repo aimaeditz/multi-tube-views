@@ -97,25 +97,21 @@ export default defineConfig(() => {
           let transformed = html;
           
           // If the HTML does not already include the instant theme script at head, inject it
-          if (!transformed.includes('mtv_theme')) {
+          if (!transformed.includes('mtv-instant-bg')) {
             transformed = transformed.replace(
               '<head>',
               `<head>\n  <script>
     (function() {
       try {
         var saved = localStorage.getItem('mtv_theme');
-        var theme = 'light';
-        if (saved === 'dark') {
-          theme = 'dark';
-        } else if (saved === 'light') {
-          theme = 'light';
-        } else if (saved === 'system') {
-          theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
+        var theme = (saved === 'dark') ? 'dark' : (saved === 'light' ? 'light' : ((saved === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'));
+        var bg = (theme === 'dark' ? '#0A0A0C' : '#FDFDFD');
+        var color = (theme === 'dark' ? '#F5F5F7' : '#1D1D1F');
         var docEl = document.documentElement;
         docEl.setAttribute('data-theme', theme);
         docEl.style.colorScheme = theme;
-        docEl.style.backgroundColor = (theme === 'dark' ? '#0A0A0C' : '#FDFDFD');
+        docEl.style.backgroundColor = bg;
+        document.write('<style id="mtv-instant-bg">html,html body{background-color:' + bg + ' !important;background:' + bg + ' !important;color:' + color + ' !important;}</style>');
       } catch(e) {}
     })();
   </script>`

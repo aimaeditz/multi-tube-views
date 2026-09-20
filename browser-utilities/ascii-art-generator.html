@@ -1,30 +1,24 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" style="background-color: #FDFDFD; color-scheme: light;">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
   <script>
     (function(){
       try {
         var t = localStorage.getItem('mtv_theme');
-        var eff = 'light';
-        if (t === 'dark') {
-          eff = 'dark';
-        } else if (t === 'light') {
-          eff = 'light';
-        } else if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
+        var eff = (t === 'dark') ? 'dark' : (t === 'light' ? 'light' : ((t === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'));
+        var bg = eff === 'dark' ? '#0A0A0C' : '#FDFDFD';
+        var color = eff === 'dark' ? '#F5F5F7' : '#1D1D1F';
         var doc = document.documentElement;
         doc.setAttribute('data-theme', eff);
         doc.style.colorScheme = eff;
-        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+        doc.style.backgroundColor = bg;
+        document.write('<style id="mtv-instant-bg">html,html body{background-color:' + bg + ' !important;background:' + bg + ' !important;color:' + color + ' !important;}</style>');
       } catch(e){}
     })();
   </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Resource Hints & Preconnects for Performance Optimization -->
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
@@ -69,7 +63,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities/ascii-art-generator.html">
 
-  <!-- Open Graph -->
+    <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/ascii-art-generator.html">
   <meta property="og:title" content="ASCII Art & Text Banner Generator — Free Online Tool | MTV">
@@ -78,7 +72,6 @@
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ASCII Art & Text Banner Generator — Free Online Tool | MTV">
@@ -172,13 +165,33 @@
       <!-- Desktop Navigation -->
       <nav class="nav-desktop" aria-label="Main Navigation">
         <a href="../index.html" class="nav-link nav-link-home ">Home</a>
-        <a href="../explore-hub.html" class="nav-link ">Explore Hub</a>
-        <a href="../ai-prompt.html" class="nav-link ">AI Prompt</a>
-        <a href="../ai-tools.html" class="nav-link ">AI Tools</a>
-        <a href="../creator-tools.html" class="nav-link ">Creator Tools</a>
-        <a href="../media-converter-tools.html" class="nav-link ">Converter Tools</a>
-        <a href="../browser-utilities.html" class="nav-link active">Browser Utilities</a>
+        <a href="../explore-hub.html" class="nav-link ">Explore</a>
+        <a href="../ai-prompt.html" class="nav-link ">Prompt</a>
+        <a href="../ai-tools.html" class="nav-link ">Tools</a>
+        <a href="../creator-tools.html" class="nav-link ">Creator</a>
+        <a href="../media-converter-tools.html" class="nav-link ">Converter</a>
+        <a href="../browser-utilities.html" class="nav-link active">Browser</a>
         <a href="../platforms.html" class="nav-link ">Platforms</a>
+        <div class="nav-dropdown" id="nav-info-dropdown">
+          <button type="button" class="nav-link nav-dropdown-btn " id="nav-info-btn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-info-menu">
+            <span>Info</span>
+            <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="nav-dropdown-menu" id="nav-info-menu" role="menu" aria-label="Info Menu">
+            <a href="../contact.html" class="nav-dropdown-item " role="menuitem" style="--item-index: 0;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <span>Contact</span>
+            </a>
+            <a href="../about.html" class="nav-dropdown-item " role="menuitem" style="--item-index: 1;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>About</span>
+            </a>
+            <a href="../settings.html" class="nav-dropdown-item " role="menuitem" style="--item-index: 2;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Settings</span>
+            </a>
+          </div>
+        </div>
       </nav>
 
       <!-- Header Actions -->
@@ -424,7 +437,7 @@
             <li><a href="../platforms/twitch.html">Twitch</a></li>
             <li><a href="../platforms/vimeo.html">Vimeo</a></li>
             <li><a href="../platforms/spotify.html">Spotify</a></li>
-            <li><a href="../platforms.html">All Platforms</a></li>
+            <li><a href="../platforms.html">All 40 Platforms</a></li>
           </ul>
         </div>
 

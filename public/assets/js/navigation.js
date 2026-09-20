@@ -2,62 +2,132 @@
  * Multi Tube Views (MTV) — Navigation, Mobile Drawer & Directory Search
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Shared Navigation Component Synchronization
+const initNavigation = () => {
+  // Shared Navigation Component Synchronization (Non-destructive, Zero Flicker)
   const ensureSharedNavbar = () => {
     const navDesktop = document.querySelector('.nav-desktop');
     const mobileDrawer = document.querySelector('.mobile-drawer');
     if (!navDesktop && !mobileDrawer) return;
 
     const path = window.location.pathname;
-    const isSubfolder = path.includes('/platforms/') || path.includes('/browser-utilities/');
+    const isSubfolder = path.includes('/platforms/') || path.includes('/browser-utilities/') || path.includes('/ai-tools/') || path.includes('/creator-tools/') || path.includes('/media-converter-tools/');
     const p = isSubfolder ? '../' : '';
 
     let activeKey = '';
-    if (path.endsWith('/') || path.endsWith('/index.html') || path.includes('/index.html')) {
+    if (path.endsWith('/') || path.endsWith('/index.html') || path.includes('/index.html') || (!path.includes('.html') && (path.endsWith('multitubeviews.com') || path.endsWith('multitubeviews.com/')))) {
       activeKey = 'home';
-    } else if (path.includes('explore-hub.html')) {
+    } else if (path.includes('explore-hub.html') || path.includes('explore-hub')) {
       activeKey = 'explore-hub';
-    } else if (path.includes('ai-tools.html')) {
+    } else if (path.includes('ai-tools.html') || (path.includes('/ai-tools/') && !path.includes('ai-prompt'))) {
       activeKey = 'ai-tools';
-    } else if (path.includes('ai-prompt.html') || path.includes('ai-auto.html')) {
+    } else if (path.includes('ai-prompt.html') || path.includes('ai-auto.html') || path.includes('ai-prompt')) {
       activeKey = 'ai-prompt';
-    } else if (path.includes('creator-tools.html')) {
+    } else if (path.includes('creator-tools.html') || path.includes('/creator-tools/')) {
       activeKey = 'creator-tools';
-    } else if (path.includes('media-converter-tools.html')) {
+    } else if (path.includes('media-converter-tools.html') || path.includes('/media-converter-tools/')) {
       activeKey = 'media-converter-tools';
     } else if (path.includes('browser-utilities')) {
       activeKey = 'browser-utilities';
     } else if (path.includes('platforms')) {
       activeKey = 'platforms';
-    } else if (path.includes('about.html')) {
+    } else if (path.includes('about.html') || path.includes('/about')) {
       activeKey = 'about';
-    } else if (path.includes('settings.html')) {
+    } else if (path.includes('settings.html') || path.includes('/settings')) {
       activeKey = 'settings';
-    } else if (path.includes('privacy.html')) {
+    } else if (path.includes('privacy.html') || path.includes('/privacy')) {
       activeKey = 'privacy';
-    } else if (path.includes('disclaimer.html')) {
+    } else if (path.includes('disclaimer.html') || path.includes('/disclaimer')) {
       activeKey = 'disclaimer';
-    } else if (path.includes('terms.html')) {
+    } else if (path.includes('terms.html') || path.includes('/terms')) {
       activeKey = 'terms';
-    } else if (path.includes('contact.html')) {
+    } else if (path.includes('contact.html') || path.includes('/contact')) {
       activeKey = 'contact';
     }
 
     if (navDesktop) {
-      navDesktop.innerHTML = `
-        <a href="${p}index.html" class="nav-link nav-link-home ${activeKey === 'home' ? 'active' : ''}">Home</a>
-        <a href="${p}explore-hub.html" class="nav-link ${activeKey === 'explore-hub' ? 'active' : ''}">Explore Hub</a>
-        <a href="${p}ai-prompt.html" class="nav-link ${activeKey === 'ai-prompt' ? 'active' : ''}">AI Prompt</a>
-        <a href="${p}ai-tools.html" class="nav-link ${activeKey === 'ai-tools' ? 'active' : ''}">AI Tools</a>
-        <a href="${p}creator-tools.html" class="nav-link ${activeKey === 'creator-tools' ? 'active' : ''}">Creator Tools</a>
-        <a href="${p}media-converter-tools.html" class="nav-link ${activeKey === 'media-converter-tools' ? 'active' : ''}">Converter Tools</a>
-        <a href="${p}browser-utilities.html" class="nav-link ${activeKey === 'browser-utilities' ? 'active' : ''}">Browser Utilities</a>
-        <a href="${p}platforms.html" class="nav-link ${activeKey === 'platforms' ? 'active' : ''}">Platforms</a>
-      `;
+      // If navDesktop is completely empty (dynamic render), populate it
+      if (!navDesktop.firstElementChild) {
+        navDesktop.innerHTML = `
+          <a href="${p}index.html" class="nav-link nav-link-home ${activeKey === 'home' ? 'active' : ''}">Home</a>
+          <a href="${p}explore-hub.html" class="nav-link ${activeKey === 'explore-hub' ? 'active' : ''}">Explore</a>
+          <a href="${p}ai-prompt.html" class="nav-link ${activeKey === 'ai-prompt' ? 'active' : ''}">Prompt</a>
+          <a href="${p}ai-tools.html" class="nav-link ${activeKey === 'ai-tools' ? 'active' : ''}">Tools</a>
+          <a href="${p}creator-tools.html" class="nav-link ${activeKey === 'creator-tools' ? 'active' : ''}">Creator</a>
+          <a href="${p}media-converter-tools.html" class="nav-link ${activeKey === 'media-converter-tools' ? 'active' : ''}">Converter</a>
+          <a href="${p}browser-utilities.html" class="nav-link ${activeKey === 'browser-utilities' ? 'active' : ''}">Browser</a>
+          <a href="${p}platforms.html" class="nav-link ${activeKey === 'platforms' ? 'active' : ''}">Platforms</a>
+          <div class="nav-dropdown" id="nav-info-dropdown">
+            <button type="button" class="nav-link nav-dropdown-btn ${['about', 'contact', 'settings'].includes(activeKey) ? 'active' : ''}" id="nav-info-btn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-info-menu">
+              <span>Info</span>
+              <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="nav-dropdown-menu" id="nav-info-menu" role="menu" aria-label="Info Menu">
+              <a href="${p}contact.html" class="nav-dropdown-item ${activeKey === 'contact' ? 'active' : ''}" role="menuitem" style="--item-index: 0;">
+                <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <span>Contact</span>
+              </a>
+              <a href="${p}about.html" class="nav-dropdown-item ${activeKey === 'about' ? 'active' : ''}" role="menuitem" style="--item-index: 1;">
+                <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                <span>About</span>
+              </a>
+              <a href="${p}settings.html" class="nav-dropdown-item ${activeKey === 'settings' ? 'active' : ''}" role="menuitem" style="--item-index: 2;">
+                <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>Settings</span>
+              </a>
+            </div>
+          </div>
+        `;
+      } else {
+        // Non-destructive: update active classes smoothly without resetting DOM
+        navDesktop.querySelectorAll('.nav-link').forEach(link => {
+          if (link.id === 'nav-info-btn') {
+            link.classList.toggle('active', ['about', 'contact', 'settings'].includes(activeKey));
+            return;
+          }
+          const href = link.getAttribute('href') || '';
+          const isHome = href.endsWith('index.html') || href === './' || href === 'index.html';
+          const isExplore = href.includes('explore-hub');
+          const isAiPrompt = href.includes('ai-prompt');
+          const isAiTools = href.includes('ai-tools');
+          const isCreator = href.includes('creator-tools');
+          const isConverter = href.includes('media-converter-tools');
+          const isBU = href.includes('browser-utilities');
+          const isPlatforms = href.includes('platforms');
+
+          let shouldBeActive = false;
+          if (activeKey === 'home' && isHome) shouldBeActive = true;
+          else if (activeKey === 'explore-hub' && isExplore) shouldBeActive = true;
+          else if (activeKey === 'ai-prompt' && isAiPrompt) shouldBeActive = true;
+          else if (activeKey === 'ai-tools' && isAiTools) shouldBeActive = true;
+          else if (activeKey === 'creator-tools' && isCreator) shouldBeActive = true;
+          else if (activeKey === 'media-converter-tools' && isConverter) shouldBeActive = true;
+          else if (activeKey === 'browser-utilities' && isBU) shouldBeActive = true;
+          else if (activeKey === 'platforms' && isPlatforms) shouldBeActive = true;
+
+          link.classList.toggle('active', shouldBeActive);
+        });
+
+        // Update active class on dropdown items
+        const infoMenu = document.querySelector('#nav-info-menu');
+        if (infoMenu) {
+          infoMenu.querySelectorAll('.nav-dropdown-item').forEach(item => {
+            const href = item.getAttribute('href') || '';
+            const isContact = href.includes('contact');
+            const isAbout = href.includes('about');
+            const isSettings = href.includes('settings');
+
+            let shouldBeActive = false;
+            if (activeKey === 'contact' && isContact) shouldBeActive = true;
+            else if (activeKey === 'about' && isAbout) shouldBeActive = true;
+            else if (activeKey === 'settings' && isSettings) shouldBeActive = true;
+
+            item.classList.toggle('active', shouldBeActive);
+          });
+        }
+      }
     }
 
-    if (mobileDrawer) {
+    if (mobileDrawer && !mobileDrawer.firstElementChild) {
       mobileDrawer.innerHTML = `
         <a href="${p}index.html" class="mobile-nav-link nav-link-home ${activeKey === 'home' ? 'active' : ''}">Home</a>
         <a href="${p}explore-hub.html" class="mobile-nav-link ${activeKey === 'explore-hub' ? 'active' : ''}">Explore Hub</a>
@@ -78,6 +148,79 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   ensureSharedNavbar();
+
+  // Desktop Info Dropdown Interactive Controller
+  const initInfoDropdown = () => {
+    const dropdown = document.querySelector('#nav-info-dropdown');
+    const dropdownBtn = document.querySelector('#nav-info-btn');
+    const dropdownMenu = document.querySelector('#nav-info-menu');
+
+    if (!dropdown || !dropdownBtn) return;
+
+    // Move dropdown outside of .nav-desktop to prevent clipping from overflow-x: auto
+    const navDesktop = document.querySelector('.nav-desktop');
+    const headerActions = document.querySelector('.header-actions');
+    if (navDesktop && headerActions && navDesktop.contains(dropdown)) {
+      navDesktop.parentNode.insertBefore(dropdown, headerActions);
+    }
+
+    // Programmatically update links to point to exact requested URLs
+    if (dropdownMenu) {
+      dropdownMenu.querySelectorAll('.nav-dropdown-item').forEach(item => {
+        const span = item.querySelector('span');
+        if (span) {
+          const text = span.textContent.trim().toLowerCase();
+          if (text === 'contact') {
+            item.setAttribute('href', 'https://www.multitubeviews.com/contact');
+          } else if (text === 'about') {
+            item.setAttribute('href', 'https://www.multitubeviews.com/about');
+          } else if (text === 'settings') {
+            item.setAttribute('href', 'https://www.multitubeviews.com/settings');
+          }
+        }
+      });
+    }
+
+    const setDropdownOpen = (open) => {
+      const isOpen = typeof open === 'boolean' ? open : !dropdown.classList.contains('open');
+      dropdown.classList.toggle('open', isOpen);
+      dropdownBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+
+    dropdownBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDropdownOpen();
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && dropdown.classList.contains('open')) {
+        setDropdownOpen(false);
+        dropdownBtn.focus();
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (dropdown.classList.contains('open')) {
+        if (!dropdown.contains(e.target)) {
+          setDropdownOpen(false);
+        }
+      }
+    });
+
+    // Close on item click
+    if (dropdownMenu) {
+      dropdownMenu.querySelectorAll('.nav-dropdown-item').forEach(item => {
+        item.addEventListener('click', () => {
+          setDropdownOpen(false);
+        });
+      });
+    }
+  };
+
+  initInfoDropdown();
 
   // Update copyright year
   const yearSpans = document.querySelectorAll('.dynamic-year');
@@ -524,7 +667,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
   initFooterSocialTouch();
-});
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initNavigation);
+} else {
+  initNavigation();
+}
 
 // Universal Site-Wide Click Tracking for Explore Hub "Featured Tools"
 (function initToolClickTracking() {

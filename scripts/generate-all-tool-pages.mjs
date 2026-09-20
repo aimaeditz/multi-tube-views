@@ -145,30 +145,34 @@ function renderHeader({ activeNav = '', depth = 1 }) {
 
       <!-- Desktop Nav -->
       <nav class="nav-desktop" aria-label="Main Navigation">
-        <a href="${p}index.html" class="nav-link ${activeNav === 'grid' ? 'active' : ''}">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-          <span>Multi-Grid</span>
-        </a>
-        <a href="${p}explore-hub.html" class="nav-link ${activeNav === 'explore' ? 'active' : ''}">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
-          <span>Explore Hub</span>
-        </a>
-        <a href="${p}ai-tools.html" class="nav-link ${activeNav === 'ai-tools' ? 'active' : ''}">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"></path><path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path><path d="M12 12L2.5 7.5"></path></svg>
-          <span>AI Tools</span>
-        </a>
-        <a href="${p}creator-tools.html" class="nav-link ${activeNav === 'creator-tools' ? 'active' : ''}">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-          <span>Creator Tools</span>
-        </a>
-        <a href="${p}media-converter-tools.html" class="nav-link ${activeNav === 'media-converter' ? 'active' : ''}">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-          <span>Media Converters</span>
-        </a>
-        <a href="${p}browser-utilities.html" class="nav-link ${activeNav === 'browser-utilities' ? 'active' : ''}">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-          <span>Browser Utilities</span>
-        </a>
+        <a href="${p}index.html" class="nav-link nav-link-home ${activeNav === 'home' || activeNav === 'grid' ? 'active' : ''}">Home</a>
+        <a href="${p}explore-hub.html" class="nav-link ${activeNav === 'explore' || activeNav === 'explore-hub' ? 'active' : ''}">Explore</a>
+        <a href="${p}ai-prompt.html" class="nav-link ${activeNav === 'ai-prompt' ? 'active' : ''}">Prompt</a>
+        <a href="${p}ai-tools.html" class="nav-link ${activeNav === 'ai-tools' ? 'active' : ''}">Tools</a>
+        <a href="${p}creator-tools.html" class="nav-link ${activeNav === 'creator-tools' ? 'active' : ''}">Creator</a>
+        <a href="${p}media-converter-tools.html" class="nav-link ${activeNav === 'media-converter' || activeNav === 'media-converter-tools' ? 'active' : ''}">Converter</a>
+        <a href="${p}browser-utilities.html" class="nav-link ${activeNav === 'browser-utilities' ? 'active' : ''}">Browser</a>
+        <a href="${p}platforms.html" class="nav-link ${activeNav === 'platforms' ? 'active' : ''}">Platforms</a>
+        <div class="nav-dropdown" id="nav-info-dropdown">
+          <button type="button" class="nav-link nav-dropdown-btn ${['about', 'contact', 'settings'].includes(activeNav) ? 'active' : ''}" id="nav-info-btn" aria-haspopup="true" aria-expanded="false" aria-controls="nav-info-menu">
+            <span>Info</span>
+            <svg class="dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="nav-dropdown-menu" id="nav-info-menu" role="menu" aria-label="Info Menu">
+            <a href="${p}contact.html" class="nav-dropdown-item ${activeNav === 'contact' ? 'active' : ''}" role="menuitem" style="--item-index: 0;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <span>Contact</span>
+            </a>
+            <a href="${p}about.html" class="nav-dropdown-item ${activeNav === 'about' ? 'active' : ''}" role="menuitem" style="--item-index: 1;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span>About</span>
+            </a>
+            <a href="${p}settings.html" class="nav-dropdown-item ${activeNav === 'settings' ? 'active' : ''}" role="menuitem" style="--item-index: 2;">
+              <svg class="nav-dropdown-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              <span>Settings</span>
+            </a>
+          </div>
+        </div>
       </nav>
 
       <!-- Header Controls -->

@@ -346,7 +346,7 @@ input, select, textarea, button {
   font-weight: 700;
   letter-spacing: -0.03em;
   box-shadow: var(--shadow-icon);
-  animation: brandLogoEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) ease-out forwards;
+  opacity: 1;
   transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -376,7 +376,7 @@ input, select, textarea, button {
 .nav-desktop {
   display: flex;
   align-items: center;
-  gap: clamp(0.5rem, 1.1vw, 1.2rem);
+  gap: 0.25rem;
   flex-wrap: nowrap;
   overflow-x: auto;
   scrollbar-width: none;
@@ -389,9 +389,9 @@ input, select, textarea, button {
   
   /* Balanced desktop positioning */
   margin-left: auto;
-  margin-right: 1.5rem;
-  padding-left: 12px;
-  padding-right: 12px;
+  margin-right: 0.25rem;
+  padding-left: 4px;
+  padding-right: 4px;
   
   /* Grab/grabbing cursor indicators for drag-scroll */
   cursor: grab;
@@ -404,7 +404,10 @@ input, select, textarea, button {
 
 @media (min-width: 1400px) {
   .nav-desktop {
-    margin-right: 2.5rem;
+    margin-right: 0.25rem;
+  }
+  .nav-dropdown {
+    margin-right: 0.25rem;
   }
 }
 
@@ -434,14 +437,18 @@ input, select, textarea, button {
 
 .nav-link {
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 550;
   color: var(--text-secondary);
-  padding: 0.4rem 0.15rem;
+  padding: 0.35rem 0.38rem;
   position: relative;
-  transition: opacity var(--transition-speed) ease, transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color var(--transition-speed) ease, opacity var(--transition-speed) ease, transform var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
   user-select: none;
   -webkit-user-drag: none;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
 }
 
 .nav-link:hover {
@@ -450,7 +457,7 @@ input, select, textarea, button {
 
 .nav-link.active {
   color: var(--text-primary);
-  font-weight: 600;
+  font-weight: 650;
 }
 
 /* Home label prominent styling */
@@ -460,7 +467,7 @@ input, select, textarea, button {
 }
 
 .nav-link-home:not(.active) {
-  opacity: 0.85;
+  opacity: 0.88;
 }
 
 .nav-link-home.active {
@@ -468,14 +475,173 @@ input, select, textarea, button {
   opacity: 1;
 }
 
+/* Info Dropdown Container (Desktop) */
+.nav-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  margin-right: 0.25rem;
+  padding: 0;
+}
+
+.nav-dropdown-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 550;
+  color: var(--text-secondary);
+  padding: 0.35rem 0.38rem;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-speed) ease, opacity var(--transition-speed) ease;
+  line-height: 1;
+}
+
+.nav-dropdown-btn:hover {
+  color: var(--text-primary);
+}
+
+.nav-dropdown-btn.active,
+.nav-dropdown.active .nav-dropdown-btn,
+.nav-dropdown.open .nav-dropdown-btn {
+  color: var(--text-primary);
+  font-weight: 650;
+}
+
+.nav-dropdown-btn .dropdown-chevron {
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  opacity: 0.75;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.nav-dropdown.open .dropdown-chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* Glassy / Frosted-Blur Dropdown Menu Panel */
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 175px;
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+  z-index: 1050;
+  
+  /* Animated visibility */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: top right;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.2s;
+}
+
+[data-theme="dark"] .nav-dropdown-menu {
+  background: rgba(18, 20, 26, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.55), 0 4px 14px -2px rgba(0, 0, 0, 0.35);
+}
+
+.nav-dropdown.open .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+/* Dropdown Items with Staggered Entrance Animation */
+.nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 8px;
+  white-space: nowrap;
+  user-select: none;
+  background: transparent;
+  
+  /* Staggered animation properties */
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.15s ease,
+              color 0.15s ease;
+  transition-delay: 0ms;
+}
+
+.nav-dropdown.open .nav-dropdown-item {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: calc(var(--item-index, 0) * 45ms);
+}
+
+.nav-dropdown-item:hover,
+.nav-dropdown-item:focus-visible {
+  color: var(--text-primary);
+  background: var(--bg-subtle);
+}
+
+[data-theme="dark"] .nav-dropdown-item:hover,
+[data-theme="dark"] .nav-dropdown-item:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+.nav-dropdown-item.active {
+  color: var(--accent-blue, #2563EB);
+  font-weight: 600;
+  background: var(--accent-subtle, rgba(37, 99, 235, 0.08));
+}
+
+.nav-dropdown-icon {
+  flex-shrink: 0;
+  opacity: 0.75;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.nav-dropdown-item:hover .nav-dropdown-icon {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
 /* Responsive navigation scaling for narrow desktop / medium screen widths */
 @media (max-width: 1200px) and (min-width: 1025px) {
   .nav-desktop {
-    gap: 0.5rem !important;
-    margin-right: 1rem !important;
+    gap: 0.2rem !important;
+    margin-right: 0.2rem !important;
   }
-  .nav-link {
-    font-size: 0.84rem !important;
+  .nav-dropdown {
+    margin-right: 0.2rem !important;
+  }
+  .nav-link,
+  .nav-dropdown-btn {
+    font-size: 0.86rem !important;
+    padding: 0.35rem 0.35rem !important;
   }
 }
 
@@ -487,14 +653,19 @@ input, select, textarea, button {
     display: none !important;
   }
   .nav-desktop {
-    gap: 0.3rem !important;
-    margin-right: 0.4rem !important;
+    gap: 0.15rem !important;
+    margin-right: 0.15rem !important;
     padding-left: 2px !important;
     padding-right: 2px !important;
   }
-  .nav-link {
-    font-size: 0.74rem !important;
+  .nav-dropdown {
+    margin-right: 0.15rem !important;
+  }
+  .nav-link,
+  .nav-dropdown-btn {
+    font-size: 0.76rem !important;
     letter-spacing: -0.02em !important;
+    padding: 0.3rem 0.25rem !important;
   }
 }
 

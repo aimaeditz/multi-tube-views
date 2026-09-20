@@ -44,6 +44,12 @@
     const effective = getEffectiveTheme(themeName);
     const currentTheme = root.getAttribute('data-theme');
 
+    // Remove the instant bg style block if it exists, to prevent overriding the main theme styles with !important
+    const instantBg = document.getElementById('mtv-instant-bg');
+    if (instantBg) {
+      instantBg.remove();
+    }
+
     if (currentTheme !== effective) {
       if (!isInteractive) {
         root.classList.add('theme-switching');

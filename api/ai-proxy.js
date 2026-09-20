@@ -97,15 +97,13 @@ function collectKeys(baseName) {
 }
 
 async function tryGenAISDK(key, model, systemInstruction, prompt) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15000);
-  try {
-    const ai = new GoogleGenAI({
-      apiKey: key,
-      httpOptions: {
-        headers: { 'User-Agent': 'aistudio-build' }
-      }
-    });
+  const ai = new GoogleGenAI({
+    apiKey: key,
+    httpOptions: {
+      headers: { 'User-Agent': 'aistudio-build' }
+    }
+  });
+  const callPromise = (async () => {
     const response = await ai.models.generateContent({
       model: model,
       contents: prompt,
@@ -117,14 +115,18 @@ async function tryGenAISDK(key, model, systemInstruction, prompt) {
     const resultText = response.text || '';
     if (!resultText.trim()) throw new Error('empty SDK response');
     return resultText;
-  } finally {
-    clearTimeout(timeout);
-  }
+  })();
+
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error(`GenAI SDK call timed out for ${model}`)), 8000)
+  );
+
+  return await Promise.race([callPromise, timeoutPromise]);
 }
 
 async function tryGemini(key, model, systemInstruction, prompt) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15000);
+  const timeout = setTimeout(() => controller.abort(), 8000);
   try {
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
@@ -193,10 +195,11 @@ function raceSuccess(promises) {
 }
 
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Request-ID');
+
   if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).end();
     return;
   }
@@ -204,10 +207,13 @@ export default async function handler(req, res) {
     res.status(405).json({ error: 'Only POST requests allowed' });
     return;
   }
-  res.setHeader('Access-Control-Allow-Origin', '*');
 
   try {
-    const { prompt, task, platform, language, tone } = req.body || {};
+    let body = req.body;
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch(e) {}
+    }
+    const { prompt, task, platform, language, tone } = body || {};
     if (!prompt) {
       res.status(400).json({ error: 'Prompt is required' });
       return;
@@ -228,7 +234,7 @@ export default async function handler(req, res) {
     const cerebrasKeys = collectKeys('CEREBRAS_API_KEY');
     const mistralKeys = collectKeys('MISTRAL_API_KEY');
 
-    const geminiModels = ['gemini-3.6-flash', 'gemini-3.7-flash', 'gemini-3.1-flash-lite', 'gemini-flash-latest'];
+    const geminiModels = ['gemini-3.1-flash-lite', 'gemini-3.8-flash', 'gemini-flash-latest', 'gemini-3.6-flash'];
     const groqModel = 'openai/gpt-oss-120b';
     const openrouterModel = 'meta-llama/llama-3.3-70b-instruct:free';
     const deepseekModel = 'deepseek-chat';
