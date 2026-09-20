@@ -766,6 +766,10 @@ export const CALC_PROD_TOOLS = [
       </div>
     `,
     renderScript: () => `
+      function safeEscape(str) {
+        if (typeof str !== 'string') str = String(str || '');
+        return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+      }
       let todos = JSON.parse(localStorage.getItem('mtv_bu_todos') || '[]');
       if (todos.length === 0) {
         todos = [
@@ -807,7 +811,7 @@ export const CALC_PROD_TOOLS = [
             <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md, 8px); padding: 0.85rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
               <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; flex: 1;">
                 <input type="checkbox" data-todo-toggle="\${t.id}" \${t.done ? 'checked' : ''} style="width: 18px; height: 18px;">
-                <span style="\${t.done ? 'text-decoration: line-through; color: var(--text-muted);' : 'font-weight: 600; color: var(--text-primary);'} font-size: 0.95rem;">\${window.MTV_BU.escapeHtml(t.text)}</span>
+                <span style="\${t.done ? 'text-decoration: line-through; color: var(--text-muted);' : 'font-weight: 600; color: var(--text-primary);'} font-size: 0.95rem;">\${safeEscape(t.text)}</span>
               </label>
               <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; \${prioColors[t.priority] || ''}">\${t.priority}</span>

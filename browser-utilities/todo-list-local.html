@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light" style="background-color: #FDFDFD; color-scheme: light;">
 <head>
-  <meta charset="UTF-8">
   <script>
     (function(){
       try {
@@ -18,6 +17,8 @@
       } catch(e){}
     })();
   </script>
+  <meta charset="UTF-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Resource Hints & Preconnects for Performance Optimization -->
@@ -269,13 +270,17 @@
         </div>
       </div>
 
-      <div class="bu-actions-bar" style="justify-content: space-between; margin-bottom: 1rem;">
-        <div style="display: flex; gap: 0.5rem;">
+      <div class="bu-actions-bar" style="justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
           <button type="button" class="bu-btn bu-btn-primary" data-todo-filter="all">All</button>
           <button type="button" class="bu-btn" data-todo-filter="active">Active</button>
           <button type="button" class="bu-btn" data-todo-filter="completed">Completed</button>
         </div>
-        <button type="button" id="btn-todo-clear-completed" class="bu-btn bu-btn-subtle" style="font-size: 0.8rem;">Clear Completed</button>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button type="button" id="btn-todo-export-json" class="bu-btn bu-btn-subtle" style="font-size: 0.8rem;" title="Export tasks as JSON file">Export JSON</button>
+          <button type="button" id="btn-todo-export-txt" class="bu-btn bu-btn-subtle" style="font-size: 0.8rem;" title="Export tasks as plain text">Export TXT</button>
+          <button type="button" id="btn-todo-clear-completed" class="bu-btn bu-btn-subtle" style="font-size: 0.8rem;">Clear Completed</button>
+        </div>
       </div>
 
       <div id="todo-list" style="display: flex; flex-direction: column; gap: 0.65rem; min-height: 180px;">
@@ -507,9 +512,24 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      
-      let todos = JSON.parse(localStorage.getItem('mtv_bu_todos') || '[]');
-      if (todos.length === 0) {
+      function safeEscape(str) {
+        if (typeof str !== 'string') str = String(str || '');
+        return str.replace(/[&<>"']/g, m => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        }[m]));
+      }
+
+      let todos = [];
+      try {
+        todos = JSON.parse(localStorage.getItem('mtv_bu_todos') || '[]');
+      } catch (e) {
+        todos = [];
+      }
+      if (!Array.isArray(todos) || todos.length === 0) {
         todos = [
           { id: '1', text: 'Review new Browser Utilities tools', priority: 'high', done: false },
           { id: '2', text: 'Export project assets for deployment', priority: 'medium', done: true }
@@ -522,7 +542,11 @@
       const list = document.getElementById('todo-list');
 
       function save() {
-        localStorage.setItem('mtv_bu_todos', JSON.stringify(todos));
+        try {
+          localStorage.setItem('mtv_bu_todos', JSON.stringify(todos));
+        } catch (e) {
+          console.warn('LocalStorage save error:', e);
+        }
         render();
       }
 
@@ -549,11 +573,11 @@
             <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md, 8px); padding: 0.85rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
               <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; flex: 1;">
                 <input type="checkbox" data-todo-toggle="${t.id}" ${t.done ? 'checked' : ''} style="width: 18px; height: 18px;">
-                <span style="${t.done ? 'text-decoration: line-through; color: var(--text-muted);' : 'font-weight: 600; color: var(--text-primary);'} font-size: 0.95rem;">${window.MTV_BU.escapeHtml(t.text)}</span>
+                <span style="${t.done ? 'text-decoration: line-through; color: var(--text-muted);' : 'font-weight: 600; color: var(--text-primary);'} font-size: 0.95rem;">${safeEscape(t.text)}</span>
               </label>
               <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; ${prioColors[t.priority] || ''}">${t.priority}</span>
-                <button type="button" data-todo-del="${t.id}" style="background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 1rem; padding: 4px 8px;">✕</button>
+                <button type="button" data-todo-del="${t.id}" aria-label="Delete task" style="background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 1rem; padding: 4px 8px;">✕</button>
               </div>
             </div>
           `;
@@ -577,24 +601,30 @@
         });
       }
 
-      document.getElementById('btn-todo-add').addEventListener('click', () => {
-        const text = input.value.trim();
-        if (!text) return;
-        todos.unshift({
-          id: Date.now().toString(),
-          text,
-          priority: prioSelect.value,
-          done: false
+      const addBtn = document.getElementById('btn-todo-add');
+      if (addBtn) {
+        addBtn.addEventListener('click', () => {
+          const text = input.value.trim();
+          if (!text) return;
+          todos.unshift({
+            id: Date.now().toString(),
+            text,
+            priority: prioSelect.value,
+            done: false
+          });
+          input.value = '';
+          save();
         });
-        input.value = '';
-        save();
-      });
+      }
 
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          document.getElementById('btn-todo-add').click();
-        }
-      });
+      if (input) {
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            const btn = document.getElementById('btn-todo-add');
+            if (btn) btn.click();
+          }
+        });
+      }
 
       document.querySelectorAll('[data-todo-filter]').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -605,13 +635,42 @@
         });
       });
 
-      document.getElementById('btn-todo-clear-completed').addEventListener('click', () => {
-        todos = todos.filter(t => !t.done);
-        save();
-      });
+      const clearBtn = document.getElementById('btn-todo-clear-completed');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          todos = todos.filter(t => !t.done);
+          save();
+        });
+      }
+
+      const exportJsonBtn = document.getElementById('btn-todo-export-json');
+      if (exportJsonBtn) {
+        exportJsonBtn.addEventListener('click', () => {
+          const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(todos, null, 2));
+          const dlAnchor = document.createElement('a');
+          dlAnchor.setAttribute("href", dataStr);
+          dlAnchor.setAttribute("download", "mtv-todos.json");
+          document.body.appendChild(dlAnchor);
+          dlAnchor.click();
+          dlAnchor.remove();
+        });
+      }
+
+      const exportTxtBtn = document.getElementById('btn-todo-export-txt');
+      if (exportTxtBtn) {
+        exportTxtBtn.addEventListener('click', () => {
+          const lines = todos.map(t => `[${t.done ? 'X' : ' '}] (${t.priority.toUpperCase()}) ${t.text}`).join('\n');
+          const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(lines);
+          const dlAnchor = document.createElement('a');
+          dlAnchor.setAttribute("href", dataStr);
+          dlAnchor.setAttribute("download", "mtv-todos.txt");
+          document.body.appendChild(dlAnchor);
+          dlAnchor.click();
+          dlAnchor.remove();
+        });
+      }
 
       render();
-    
     });
   </script>
 </body>

@@ -2930,8 +2930,8 @@ app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
             const resultObj = {
               success: true,
               response: cleanedResponse,
-              provider: 'gemini',
-              model: m,
+              provider: 'mtv-ai',
+              model: 'MTV AI Standard',
             };
 
             setCache(cacheKey, resultObj, 120);
@@ -3031,8 +3031,8 @@ app.post(['/api/chat', '/api/ai-auto'], async (req: Request, res: Response) => {
     const resultObj = {
       success: true,
       response: cleanedFallback,
-      provider: 'mtv_creator_engine',
-      model: 'gemini-3.7-flash',
+      provider: 'mtv-ai',
+      model: 'MTV AI Standard',
     };
 
     setCache(cacheKey, resultObj, 60);

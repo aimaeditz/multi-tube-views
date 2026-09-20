@@ -29,7 +29,7 @@
   }
 
   function updateToggleButtons(effective) {
-    const toggleBtns = document.querySelectorAll('.theme-toggle-btn');
+    const toggleBtns = document.querySelectorAll('.theme-toggle-btn, #theme-toggle-btn, [data-action="toggle-theme"]');
     for (let i = 0; i < toggleBtns.length; i++) {
       const btn = toggleBtns[i];
       btn.setAttribute('data-current-theme', effective);
@@ -137,12 +137,21 @@
   document.addEventListener('DOMContentLoaded', () => {
     window.ThemeEngine.refresh();
     
-    // Bind all theme toggles
-    document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+    // Bind all theme toggles directly
+    document.querySelectorAll('.theme-toggle-btn, #theme-toggle-btn, [data-action="toggle-theme"]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         window.ThemeEngine.toggle();
       });
     });
+  });
+
+  // Delegated click listener ensures instant response even for dynamically rendered buttons
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest && e.target.closest('.theme-toggle-btn, #theme-toggle-btn, [data-action="toggle-theme"]');
+    if (btn) {
+      e.preventDefault();
+      window.ThemeEngine.toggle();
+    }
   });
 })();

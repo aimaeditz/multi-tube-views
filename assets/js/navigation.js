@@ -532,18 +532,18 @@ const initNavigation = () => {
       hasDragged = false;
       startX = e.pageX;
       scrollLeft = navDesktop.scrollLeft;
-      navDesktop.style.cursor = 'grabbing';
       navDesktop.style.scrollBehavior = 'auto'; // Smooth scroll breaks instant drag feedback
     });
 
     document.addEventListener('mousemove', (e) => {
       if (!isDown) return;
       const x = e.pageX;
-      const walk = (x - startX) * 1.5; // Scroll speed multiplier
-      if (Math.abs(walk) > 4) {
+      const walk = (x - startX);
+      if (Math.abs(walk) > 12) {
         hasDragged = true;
+        navDesktop.style.cursor = 'grabbing';
+        navDesktop.scrollLeft = scrollLeft - (walk * 1.5);
       }
-      navDesktop.scrollLeft = scrollLeft - walk;
     });
 
     document.addEventListener('mouseup', () => {
@@ -553,13 +553,16 @@ const initNavigation = () => {
       navDesktop.style.scrollBehavior = 'smooth'; // Restore smooth scroll on mouseup
       
       if (hasDragged) {
-        // Prevent click navigation on active drag-scroll
+        // Prevent click navigation only on intentional active drag-scroll
         const preventClick = (evt) => {
           evt.preventDefault();
           evt.stopPropagation();
           navDesktop.removeEventListener('click', preventClick, true);
         };
         navDesktop.addEventListener('click', preventClick, true);
+        setTimeout(() => {
+          navDesktop.removeEventListener('click', preventClick, true);
+        }, 100);
       }
     });
 

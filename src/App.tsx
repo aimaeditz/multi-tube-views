@@ -502,7 +502,7 @@ export default function App() {
                 {isGenerating && (
                   <div className="flex items-center space-x-3 text-slate-500 text-xs py-2">
                     <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                    <span>Querying {availableModels.find(m => m.id === selectedModel)?.name || selectedModel} server-side...</span>
+                    <span>Querying {availableModels.find(m => m.id === selectedModel)?.name || 'MTV AI Engine'} server-side...</span>
                   </div>
                 )}
                 <div ref={chatEndRef} />
