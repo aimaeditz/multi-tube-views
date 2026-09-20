@@ -1,40 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" style="background-color: #FDFDFD; color-scheme: light;">
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
   <script>
     (function(){
       try {
         var t = localStorage.getItem('mtv_theme');
-        var eff = (t === 'dark') ? 'dark' : (t === 'light' ? 'light' : ((t === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'));
-        var bg = eff === 'dark' ? '#0A0A0C' : '#FDFDFD';
-        var color = eff === 'dark' ? '#F5F5F7' : '#1D1D1F';
+        var eff = 'light';
+        if (t === 'dark') {
+          eff = 'dark';
+        } else if (t === 'light') {
+          eff = 'light';
+        } else if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
         var doc = document.documentElement;
         doc.setAttribute('data-theme', eff);
         doc.style.colorScheme = eff;
-        doc.style.backgroundColor = bg;
-        document.write('<style id="mtv-instant-bg">html,html body{background-color:' + bg + ' !important;background:' + bg + ' !important;color:' + color + ' !important;}</style>');
+        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
       } catch(e){}
     })();
   </script>
-  
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="/assets/icons/favicon.ico" sizes="any">
-  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="48x48" href="/assets/icons/favicon-48.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/favicon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/favicon-512.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
-  <link rel="manifest" href="/manifest.json">
-
-  <!-- Instant Theme Script to eliminate flash of unstyled theme -->
-  
 
   <!-- Resource Hints & Preconnects for Performance Optimization -->
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -51,6 +42,14 @@
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/responsive.css">
 
+  <!-- Instant Navigation Hub Prefetches -->
+  <link rel="prefetch" href="../explore-hub.html" as="document">
+  <link rel="prefetch" href="../ai-tools.html" as="document">
+  <link rel="prefetch" href="../creator-tools.html" as="document">
+  <link rel="prefetch" href="../media-converter-tools.html" as="document">
+  <link rel="prefetch" href="../browser-utilities.html" as="document">
+  <link rel="prefetch" href="../platforms.html" as="document">
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
   <script>
@@ -63,6 +62,15 @@
   <meta name="google-adsense-account" content="ca-pub-5279550123869703">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279550123869703" crossorigin="anonymous"></script>
 
+  <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../assets/icons/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../assets/icons/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../manifest.json">
   <title>Customer Onboarding Email Sequence — Free AI Generator & Tool | Multi Tube Views</title>
   <meta name="description" content="Use the free Customer Onboarding Email Sequence AI tool on Multi Tube Views. Welcoming, value-driven email drips that activate users and reduce churn. 100% free, fast generative AI processing in your browser.">
   <meta name="keywords" content="customer onboarding email sequence, free customer onboarding email sequence, ai customer onboarding email sequence, mtv ai tools, multitube views ai tools, aimaeditz mtv, ai writing generator, copywriting ai tools">
@@ -70,7 +78,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/ai-tools/customer-onboarding-sequence.html">
 
-                              <!-- Open Graph -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/ai-tools/customer-onboarding-sequence.html">
   <meta property="og:title" content="Customer Onboarding Email Sequence — Free AI Generator & Tool | Multi Tube Views">
@@ -79,6 +87,7 @@
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Customer Onboarding Email Sequence — Free AI Generator & Tool | Multi Tube Views">

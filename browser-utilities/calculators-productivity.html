@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light" style="background-color: #FDFDFD; color-scheme: light;">
 <head>
+  <meta charset="UTF-8">
   <script>
     (function(){
       try {
@@ -17,8 +18,6 @@
       } catch(e){}
     })();
   </script>
-  <meta charset="UTF-8">
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Resource Hints & Preconnects for Performance Optimization -->
@@ -35,6 +34,14 @@
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/responsive.css">
+
+  <!-- Instant Navigation Hub Prefetches -->
+  <link rel="prefetch" href="../explore-hub.html" as="document">
+  <link rel="prefetch" href="../ai-tools.html" as="document">
+  <link rel="prefetch" href="../creator-tools.html" as="document">
+  <link rel="prefetch" href="../media-converter-tools.html" as="document">
+  <link rel="prefetch" href="../browser-utilities.html" as="document">
+  <link rel="prefetch" href="../platforms.html" as="document">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
@@ -64,7 +71,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities/calculators-productivity.html">
 
-    <!-- Open Graph -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/calculators-productivity.html">
   <meta property="og:title" content="Calculators & Productivity — Free In-Browser Tools | MTV">
@@ -73,6 +80,7 @@
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Calculators & Productivity — Free In-Browser Tools | MTV">
@@ -258,7 +266,7 @@
       </nav>
 
       <!-- Category Hero -->
-      <div class="bu-hero" style="margin: 1.5rem 0 2rem 0;">
+      <div class="bu-hero" style="margin: 1.5rem 0 2.5rem 0;">
         <div style="display: flex; align-items: center; gap: 0.85rem; margin-bottom: 0.5rem;">
           <span style="font-size: 2.2rem;">🧮</span>
           <h1 class="bu-title" style="font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; margin: 0;">Calculators & Productivity</h1>
@@ -267,141 +275,6 @@
         <p class="bu-subtitle" style="font-size: 1.05rem; color: var(--text-muted); max-width: 750px; line-height: 1.6; margin: 0.5rem 0 1.5rem 0;">
           Calculate loan EMI payments, compute BMI, split tips, calculate GST/sales tax, simulate compound interest, run Pomodoro focus cycles, manage to-dos, and organize sticky notes. All tools run 100% client-side with zero data transmitted to any external server.
         </p>
-      </div>
-
-      <!-- Interactive Quick Multi-Calculator Suite -->
-      <section class="bu-workspace" id="calc-suite-workspace" aria-label="Interactive Multi-Calculator Suite" style="margin-bottom: 3.5rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg, 12px); padding: 1.5rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
-          <div>
-            <h2 style="font-size: 1.25rem; font-weight: 700; margin: 0; color: var(--text-primary);">⚡ Quick In-Browser Calculator</h2>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">Run live calculations directly right now, or explore deep standalone utilities below.</p>
-          </div>
-          <!-- Tabs -->
-          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <button type="button" class="bu-btn bu-btn-primary" id="tab-btn-emi" data-calc-tab="emi">Loan / EMI</button>
-            <button type="button" class="bu-btn" id="tab-btn-tip" data-calc-tab="tip">Tip & Split</button>
-            <button type="button" class="bu-btn" id="tab-btn-tax" data-calc-tab="tax">GST / Tax</button>
-            <button type="button" class="bu-btn" id="tab-btn-pct" data-calc-tab="pct">Percentage</button>
-          </div>
-        </div>
-
-        <!-- Panel 1: EMI & Loan -->
-        <div id="panel-emi" class="calc-panel">
-          <div class="bu-grid-3col" style="gap: 1rem; margin-bottom: 1.25rem;">
-            <div class="bu-form-group" style="margin: 0;">
-              <label class="bu-form-label" for="qc-emi-amount">Loan Amount ($)</label>
-              <input type="number" id="qc-emi-amount" class="bu-input" value="25000" step="500" min="100">
-            </div>
-            <div class="bu-form-group" style="margin: 0;">
-              <label class="bu-form-label" for="qc-emi-rate">Annual Interest Rate (%)</label>
-              <input type="number" id="qc-emi-rate" class="bu-input" value="7.5" step="0.1" min="0.1" max="100">
-            </div>
-            <div class="bu-form-group" style="margin: 0;">
-              <label class="bu-form-label" for="qc-emi-tenure">Tenure (Years)</label>
-              <input type="number" id="qc-emi-tenure" class="bu-input" value="3" min="1" max="40">
-            </div>
-          </div>
-          <div class="bu-stats-strip" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem;">
-            <div class="bu-stat-item" style="padding: 1rem; background: var(--bg-surface, rgba(0,0,0,0.02)); border: 1px solid var(--border-color); border-radius: 8px;">
-              <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Monthly EMI</span>
-              <strong id="qc-emi-monthly" style="font-size: 1.5rem; color: var(--accent-blue, #2563eb); display: block; margin-top: 0.25rem;">$0.00</strong>
-            </div>
-            <div class="bu-stat-item" style="padding: 1rem; background: var(--bg-surface, rgba(0,0,0,0.02)); border: 1px solid var(--border-color); border-radius: 8px;">
-              <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Interest</span>
-              <strong id="qc-emi-interest" style="font-size: 1.5rem; color: #ef4444; display: block; margin-top: 0.25rem;">$0.00</strong>
-            </div>
-            <div class="bu-stat-item" style="padding: 1rem; background: var(--bg-surface, rgba(0,0,0,0.02)); border: 1px solid var(--border-color); border-radius: 8px;">
-              <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Repayment</span>
-              <strong id="qc-emi-total" style="font-size: 1.5rem; color: #16a34a; display: block; margin-top: 0.25rem;">$0.00</strong>
-            </div>
-          </div>
-        </div>
-
-        <!-- Panel 2: Tip & Split -->
-        <div id="panel-tip" class="calc-panel" style="display: none;">
-          <div class="bu-grid-3col" style="gap: 1rem; margin-bottom: 1.25rem;">
-            <div class="bu-form-group" style="margin: 0;">
-              <label class="bu-form-label" for="qc-tip-bill">Bill Amount ($)</label>
-              <input type="number" id="qc-tip-bill" class="bu-input" value="85.00" step="1" min="0">
-            </div>
-            <div class="bu-form-group" style="margin: 0;">
-              <label class="bu-form-label" for="qc-tip-pct">Tip Percentage (%)</label>
-              <input type="number" id="qc-tip-pct" class="bu-input" value="18" step="1" min="0" max="100">
-            </div>
-            <div class="bu-form-group" style="margin: 0;">
-              <label class="bu-form-label" for="qc-tip-people">Number of People</label>
-              <input type="number" id="qc-tip-people" class="bu-input" value="3" min="1" max="100">
-            </div>
-          </div>
-          <div class="bu-stats-strip" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem;">
-            <div class="bu-stat-item" style="padding: 1rem; background: var(--bg-surface, rgba(0,0,0,0.02)); border: 1px solid var(--border-color); border-radius: 8px;">
-              <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Tip</span>
-              <strong id="qc-tip-amount" style="font-size: 1.5rem; color: var(--accent-blue, #2563eb); display: block; margin-top: 0.25rem;">$15.30</strong>
-            </div>
-            <div class="bu-stat-item" style="padding: 1rem; background: var(--bg-surface, rgba(0,0,0,0.02)); border: 1px solid var(--border-color); border-radius: 8px;">
-              <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Bill + Tip</span>
-              <strong id="qc-tip-total" style="font-size: 1.5rem; color: #16a34a; display: block; margin-top: 0.25rem;">$100.30</strong>
-            </div>
-            <div class="bu-stat-item" style="padding: 1rem; background: var(--bg-surface, rgba(0,0,0,0.02)); border: 1px solid var(--border-color); border-radius: 8px;">
-              <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Per Person Share</span>
-              <strong id="qc-tip-per-person" style="font-size: 1.5rem; color: #8b5cf6; display: block; margin-top: 0.25rem;">$33.43</strong>
-            </div>
-          </div>
-        </div>
-
-        <!-- Panel 3: GST / Sales Tax -->
-        <div id="panel-tax" class="calc-panel" style="display: none;">
-          <div class="bu-grid-2col" style="gap: 1rem; margin-bottom: 1.25rem;">
-            <div class="bu-form-group" style="margin: 0;">
-              <label class="bu-form-label" for="qc-tax-amount">Net Amount ($)</label>
-              <input type="number" id="qc-tax-amount" class="bu-input" value="150.00" step="1" min="0">
-            </div>
-            <div class="bu-form-group" style="margin: 0;">
-              <label class="bu-form-label" for="qc-tax-rate">Tax Rate (%)</label>
-              <input type="number" id="qc-tax-rate" class="bu-input" value="10" step="0.5" min="0" max="100">
-            </div>
-          </div>
-          <div class="bu-stats-strip" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem;">
-            <div class="bu-stat-item" style="padding: 1rem; background: var(--bg-surface, rgba(0,0,0,0.02)); border: 1px solid var(--border-color); border-radius: 8px;">
-              <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Tax Value</span>
-              <strong id="qc-tax-val" style="font-size: 1.5rem; color: #ef4444; display: block; margin-top: 0.25rem;">$15.00</strong>
-            </div>
-            <div class="bu-stat-item" style="padding: 1rem; background: var(--bg-surface, rgba(0,0,0,0.02)); border: 1px solid var(--border-color); border-radius: 8px;">
-              <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total (Including Tax)</span>
-              <strong id="qc-tax-gross" style="font-size: 1.5rem; color: #16a34a; display: block; margin-top: 0.25rem;">$165.00</strong>
-            </div>
-          </div>
-        </div>
-
-        <!-- Panel 4: Percentage & Discount -->
-        <div id="panel-pct" class="calc-panel" style="display: none;">
-          <div class="bu-grid-2col" style="gap: 1rem; margin-bottom: 1.25rem;">
-            <div class="bu-form-group" style="margin: 0;">
-              <label class="bu-form-label" for="qc-pct-price">Original Price ($)</label>
-              <input type="number" id="qc-pct-price" class="bu-input" value="120.00" step="1" min="0">
-            </div>
-            <div class="bu-form-group" style="margin: 0;">
-              <label class="bu-form-label" for="qc-pct-disc">Discount (%)</label>
-              <input type="number" id="qc-pct-disc" class="bu-input" value="25" step="1" min="0" max="100">
-            </div>
-          </div>
-          <div class="bu-stats-strip" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem;">
-            <div class="bu-stat-item" style="padding: 1rem; background: var(--bg-surface, rgba(0,0,0,0.02)); border: 1px solid var(--border-color); border-radius: 8px;">
-              <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">You Save</span>
-              <strong id="qc-pct-savings" style="font-size: 1.5rem; color: #16a34a; display: block; margin-top: 0.25rem;">$30.00</strong>
-            </div>
-            <div class="bu-stat-item" style="padding: 1rem; background: var(--bg-surface, rgba(0,0,0,0.02)); border: 1px solid var(--border-color); border-radius: 8px;">
-              <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Final Price</span>
-              <strong id="qc-pct-final" style="font-size: 1.5rem; color: var(--accent-blue, #2563eb); display: block; margin-top: 0.25rem;">$90.00</strong>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section Title for Subtools -->
-      <div style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-        <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0;">Dedicated In-Depth Tools (8)</h2>
-        <span style="font-size: 0.85rem; color: var(--text-muted);">Explore full-screen specialized workspaces</span>
       </div>
 
       <!-- Tools Grid -->
@@ -692,130 +565,6 @@
 
   <script type="module" src="../assets/js/navigation.js"></script>
   <script type="module" src="../assets/js/browser-utilities.js"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Tab switching
-      const tabBtns = document.querySelectorAll('[data-calc-tab]');
-      const panels = {
-        emi: document.getElementById('panel-emi'),
-        tip: document.getElementById('panel-tip'),
-        tax: document.getElementById('panel-tax'),
-        pct: document.getElementById('panel-pct')
-      };
-
-      tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const tab = btn.getAttribute('data-calc-tab');
-          tabBtns.forEach(b => b.classList.remove('bu-btn-primary'));
-          btn.classList.add('bu-btn-primary');
-
-          Object.keys(panels).forEach(k => {
-            if (panels[k]) {
-              panels[k].style.display = (k === tab) ? 'block' : 'none';
-            }
-          });
-        });
-      });
-
-      // 2. EMI Calculator
-      const emiAmt = document.getElementById('qc-emi-amount');
-      const emiRate = document.getElementById('qc-emi-rate');
-      const emiTenure = document.getElementById('qc-emi-tenure');
-      const emiMonthly = document.getElementById('qc-emi-monthly');
-      const emiInterest = document.getElementById('qc-emi-interest');
-      const emiTotal = document.getElementById('qc-emi-total');
-
-      function calcEmi() {
-        const p = parseFloat(emiAmt.value) || 0;
-        const r = (parseFloat(emiRate.value) || 0) / 12 / 100;
-        const n = (parseFloat(emiTenure.value) || 0) * 12;
-
-        if (p <= 0 || r <= 0 || n <= 0) {
-          emiMonthly.textContent = '$0.00';
-          emiInterest.textContent = '$0.00';
-          emiTotal.textContent = '$0.00';
-          return;
-        }
-
-        const emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-        const total = emi * n;
-        const interest = total - p;
-
-        emiMonthly.textContent = '$' + emi.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        emiInterest.textContent = '$' + interest.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        emiTotal.textContent = '$' + total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      }
-
-      [emiAmt, emiRate, emiTenure].forEach(el => el && el.addEventListener('input', calcEmi));
-      calcEmi();
-
-      // 3. Tip Calculator
-      const tipBill = document.getElementById('qc-tip-bill');
-      const tipPct = document.getElementById('qc-tip-pct');
-      const tipPeople = document.getElementById('qc-tip-people');
-      const tipAmount = document.getElementById('qc-tip-amount');
-      const tipTotal = document.getElementById('qc-tip-total');
-      const tipPerPerson = document.getElementById('qc-tip-per-person');
-
-      function calcTip() {
-        const bill = parseFloat(tipBill.value) || 0;
-        const pct = parseFloat(tipPct.value) || 0;
-        const people = Math.max(1, parseInt(tipPeople.value) || 1);
-
-        const tip = (bill * pct) / 100;
-        const total = bill + tip;
-        const perPerson = total / people;
-
-        tipAmount.textContent = '$' + tip.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        tipTotal.textContent = '$' + total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        tipPerPerson.textContent = '$' + perPerson.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      }
-
-      [tipBill, tipPct, tipPeople].forEach(el => el && el.addEventListener('input', calcTip));
-      calcTip();
-
-      // 4. Tax / GST Calculator
-      const taxAmount = document.getElementById('qc-tax-amount');
-      const taxRate = document.getElementById('qc-tax-rate');
-      const taxVal = document.getElementById('qc-tax-val');
-      const taxGross = document.getElementById('qc-tax-gross');
-
-      function calcTax() {
-        const amt = parseFloat(taxAmount.value) || 0;
-        const rate = parseFloat(taxRate.value) || 0;
-
-        const tax = (amt * rate) / 100;
-        const gross = amt + tax;
-
-        taxVal.textContent = '$' + tax.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        taxGross.textContent = '$' + gross.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      }
-
-      [taxAmount, taxRate].forEach(el => el && el.addEventListener('input', calcTax));
-      calcTax();
-
-      // 5. Percentage & Discount
-      const pctPrice = document.getElementById('qc-pct-price');
-      const pctDisc = document.getElementById('qc-pct-disc');
-      const pctSavings = document.getElementById('qc-pct-savings');
-      const pctFinal = document.getElementById('qc-pct-final');
-
-      function calcDiscount() {
-        const price = parseFloat(pctPrice.value) || 0;
-        const disc = parseFloat(pctDisc.value) || 0;
-
-        const savings = (price * disc) / 100;
-        const finalPrice = Math.max(0, price - savings);
-
-        pctSavings.textContent = '$' + savings.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        pctFinal.textContent = '$' + finalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      }
-
-      [pctPrice, pctDisc].forEach(el => el && el.addEventListener('input', calcDiscount));
-      calcDiscount();
-    });
-  </script>
 </body>
 </html>
     

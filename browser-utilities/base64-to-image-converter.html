@@ -35,6 +35,14 @@
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/responsive.css">
 
+  <!-- Instant Navigation Hub Prefetches -->
+  <link rel="prefetch" href="../explore-hub.html" as="document">
+  <link rel="prefetch" href="../ai-tools.html" as="document">
+  <link rel="prefetch" href="../creator-tools.html" as="document">
+  <link rel="prefetch" href="../media-converter-tools.html" as="document">
+  <link rel="prefetch" href="../browser-utilities.html" as="document">
+  <link rel="prefetch" href="../platforms.html" as="document">
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
   <script>
@@ -63,7 +71,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities/base64-to-image-converter.html">
 
-    <!-- Open Graph -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/base64-to-image-converter.html">
   <meta property="og:title" content="Base64 to Image Converter — Free Online Tool | MTV">
@@ -72,6 +80,7 @@
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Base64 to Image Converter — Free Online Tool | MTV">
@@ -273,7 +282,7 @@
             <span id="b2i-meta" style="font-size: 0.8rem; font-weight: 600; color: var(--accent-primary);">No Image</span>
           </div>
           <div id="b2i-preview-box" style="height: 250px; border: 1px dashed var(--border-color); border-radius: var(--radius-lg, 12px); display: flex; align-items: center; justify-content: center; background: repeating-conic-gradient(#f1f5f9 0% 25%, #ffffff 0% 50%) 50% / 20px 20px; overflow: hidden; position: relative;">
-            <img id="b2i-img" src="" alt="Decoded Base64 Preview" style="max-height: 90%; max-width: 90%; object-fit: contain; display: none;" decoding="async" loading="lazy" />
+            <img id="b2i-img" src="" alt="Decoded Base64 Preview" style="max-height: 90%; max-width: 90%; object-fit: contain; display: none;">
             <span id="b2i-empty-msg" style="color: var(--text-muted); font-size: 0.85rem;">Image preview will render here</span>
           </div>
           <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap;">
@@ -635,7 +644,7 @@
 
       copyTagBtn.addEventListener('click', () => {
         if (!currentDataUri) return;
-        const tag = `<img src="${currentDataUri}" alt="Decoded image" decoding="async" loading="lazy" />`;
+        const tag = `<img src="${currentDataUri}" alt="Decoded image" />`;
         navigator.clipboard.writeText(tag);
         copyTagBtn.textContent = '✅ Copied Tag!';
         setTimeout(() => copyTagBtn.textContent = '📋 Copy <img> Tag', 2000);

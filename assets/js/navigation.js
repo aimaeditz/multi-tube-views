@@ -768,3 +768,61 @@ if (document.readyState === 'loading') {
   }
 })();
 
+// Instant Link Prefetcher & Network Warmup Engine (Speed & Instant Navigation)
+(function initInstantLinkPrefetcher() {
+  const prefetchedUrls = new Set();
+
+  function prefetchUrl(url) {
+    if (!url || typeof url !== 'string') return;
+    // Only prefetch relative internal links
+    if (url.startsWith('#') || url.startsWith('mailto:') || url.startsWith('tel:') || url.startsWith('javascript:')) return;
+    if (url.startsWith('http') && !url.includes(window.location.hostname)) return;
+
+    // Resolve full path
+    try {
+      const resolved = new URL(url, window.location.href).href;
+      if (prefetchedUrls.has(resolved) || resolved === window.location.href) return;
+      prefetchedUrls.add(resolved);
+
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = resolved;
+      link.as = 'document';
+      document.head.appendChild(link);
+    } catch (e) {}
+  }
+
+  // Prefetch on hover (desktop) or touchstart (mobile)
+  const onPointerEnter = (e) => {
+    const a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (a && a.href) {
+      prefetchUrl(a.getAttribute('href'));
+    }
+  };
+
+  document.addEventListener('pointerenter', onPointerEnter, { capture: true, passive: true });
+  document.addEventListener('touchstart', onPointerEnter, { capture: true, passive: true });
+
+  // Prefetch primary hub pages on idle
+  if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+    window.requestIdleCallback(() => {
+      const isSub = window.location.pathname.includes('/ai-tools/') || 
+                    window.location.pathname.includes('/creator-tools/') || 
+                    window.location.pathname.includes('/media-converter-tools/') || 
+                    window.location.pathname.includes('/browser-utilities/') || 
+                    window.location.pathname.includes('/platforms/');
+      const p = isSub ? '../' : '';
+      const hubs = [
+        `${p}explore-hub.html`,
+        `${p}ai-tools.html`,
+        `${p}creator-tools.html`,
+        `${p}media-converter-tools.html`,
+        `${p}browser-utilities.html`,
+        `${p}platforms.html`,
+        `${p}ai-prompt.html`
+      ];
+      hubs.forEach(h => prefetchUrl(h));
+    }, { timeout: 2000 });
+  }
+})();
+

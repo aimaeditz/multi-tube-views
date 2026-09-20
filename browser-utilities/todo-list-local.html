@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light" style="background-color: #FDFDFD; color-scheme: light;">
 <head>
+  <meta charset="UTF-8">
   <script>
     (function(){
       try {
@@ -17,8 +18,6 @@
       } catch(e){}
     })();
   </script>
-  <meta charset="UTF-8">
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Resource Hints & Preconnects for Performance Optimization -->
@@ -35,6 +34,14 @@
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/responsive.css">
+
+  <!-- Instant Navigation Hub Prefetches -->
+  <link rel="prefetch" href="../explore-hub.html" as="document">
+  <link rel="prefetch" href="../ai-tools.html" as="document">
+  <link rel="prefetch" href="../creator-tools.html" as="document">
+  <link rel="prefetch" href="../media-converter-tools.html" as="document">
+  <link rel="prefetch" href="../browser-utilities.html" as="document">
+  <link rel="prefetch" href="../platforms.html" as="document">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
@@ -64,7 +71,7 @@
   <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities/todo-list-local.html">
 
-    <!-- Open Graph -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://multitubeviews.com/browser-utilities/todo-list-local.html">
   <meta property="og:title" content="To-Do List (Local Persistence) — Free In-Browser Tool | MTV">
@@ -73,6 +80,7 @@
   <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="To-Do List (Local Persistence) — Free In-Browser Tool | MTV">
@@ -270,17 +278,13 @@
         </div>
       </div>
 
-      <div class="bu-actions-bar" style="justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <div class="bu-actions-bar" style="justify-content: space-between; margin-bottom: 1rem;">
+        <div style="display: flex; gap: 0.5rem;">
           <button type="button" class="bu-btn bu-btn-primary" data-todo-filter="all">All</button>
           <button type="button" class="bu-btn" data-todo-filter="active">Active</button>
           <button type="button" class="bu-btn" data-todo-filter="completed">Completed</button>
         </div>
-        <div style="display: flex; gap: 0.5rem; align-items: center;">
-          <button type="button" id="btn-todo-export-json" class="bu-btn bu-btn-subtle" style="font-size: 0.8rem;" title="Export tasks as JSON file">Export JSON</button>
-          <button type="button" id="btn-todo-export-txt" class="bu-btn bu-btn-subtle" style="font-size: 0.8rem;" title="Export tasks as plain text">Export TXT</button>
-          <button type="button" id="btn-todo-clear-completed" class="bu-btn bu-btn-subtle" style="font-size: 0.8rem;">Clear Completed</button>
-        </div>
+        <button type="button" id="btn-todo-clear-completed" class="bu-btn bu-btn-subtle" style="font-size: 0.8rem;">Clear Completed</button>
       </div>
 
       <div id="todo-list" style="display: flex; flex-direction: column; gap: 0.65rem; min-height: 180px;">
@@ -512,24 +516,13 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      
       function safeEscape(str) {
         if (typeof str !== 'string') str = String(str || '');
-        return str.replace(/[&<>"']/g, m => ({
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          '"': '&quot;',
-          "'": '&#39;'
-        }[m]));
+        return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
       }
-
-      let todos = [];
-      try {
-        todos = JSON.parse(localStorage.getItem('mtv_bu_todos') || '[]');
-      } catch (e) {
-        todos = [];
-      }
-      if (!Array.isArray(todos) || todos.length === 0) {
+      let todos = JSON.parse(localStorage.getItem('mtv_bu_todos') || '[]');
+      if (todos.length === 0) {
         todos = [
           { id: '1', text: 'Review new Browser Utilities tools', priority: 'high', done: false },
           { id: '2', text: 'Export project assets for deployment', priority: 'medium', done: true }
@@ -542,11 +535,7 @@
       const list = document.getElementById('todo-list');
 
       function save() {
-        try {
-          localStorage.setItem('mtv_bu_todos', JSON.stringify(todos));
-        } catch (e) {
-          console.warn('LocalStorage save error:', e);
-        }
+        localStorage.setItem('mtv_bu_todos', JSON.stringify(todos));
         render();
       }
 
@@ -577,7 +566,7 @@
               </label>
               <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; ${prioColors[t.priority] || ''}">${t.priority}</span>
-                <button type="button" data-todo-del="${t.id}" aria-label="Delete task" style="background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 1rem; padding: 4px 8px;">✕</button>
+                <button type="button" data-todo-del="${t.id}" style="background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 1rem; padding: 4px 8px;">✕</button>
               </div>
             </div>
           `;
@@ -601,30 +590,24 @@
         });
       }
 
-      const addBtn = document.getElementById('btn-todo-add');
-      if (addBtn) {
-        addBtn.addEventListener('click', () => {
-          const text = input.value.trim();
-          if (!text) return;
-          todos.unshift({
-            id: Date.now().toString(),
-            text,
-            priority: prioSelect.value,
-            done: false
-          });
-          input.value = '';
-          save();
+      document.getElementById('btn-todo-add').addEventListener('click', () => {
+        const text = input.value.trim();
+        if (!text) return;
+        todos.unshift({
+          id: Date.now().toString(),
+          text,
+          priority: prioSelect.value,
+          done: false
         });
-      }
+        input.value = '';
+        save();
+      });
 
-      if (input) {
-        input.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-            const btn = document.getElementById('btn-todo-add');
-            if (btn) btn.click();
-          }
-        });
-      }
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          document.getElementById('btn-todo-add').click();
+        }
+      });
 
       document.querySelectorAll('[data-todo-filter]').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -635,42 +618,13 @@
         });
       });
 
-      const clearBtn = document.getElementById('btn-todo-clear-completed');
-      if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-          todos = todos.filter(t => !t.done);
-          save();
-        });
-      }
-
-      const exportJsonBtn = document.getElementById('btn-todo-export-json');
-      if (exportJsonBtn) {
-        exportJsonBtn.addEventListener('click', () => {
-          const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(todos, null, 2));
-          const dlAnchor = document.createElement('a');
-          dlAnchor.setAttribute("href", dataStr);
-          dlAnchor.setAttribute("download", "mtv-todos.json");
-          document.body.appendChild(dlAnchor);
-          dlAnchor.click();
-          dlAnchor.remove();
-        });
-      }
-
-      const exportTxtBtn = document.getElementById('btn-todo-export-txt');
-      if (exportTxtBtn) {
-        exportTxtBtn.addEventListener('click', () => {
-          const lines = todos.map(t => `[${t.done ? 'X' : ' '}] (${t.priority.toUpperCase()}) ${t.text}`).join('\n');
-          const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(lines);
-          const dlAnchor = document.createElement('a');
-          dlAnchor.setAttribute("href", dataStr);
-          dlAnchor.setAttribute("download", "mtv-todos.txt");
-          document.body.appendChild(dlAnchor);
-          dlAnchor.click();
-          dlAnchor.remove();
-        });
-      }
+      document.getElementById('btn-todo-clear-completed').addEventListener('click', () => {
+        todos = todos.filter(t => !t.done);
+        save();
+      });
 
       render();
+    
     });
   </script>
 </body>

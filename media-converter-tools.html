@@ -173,9 +173,17 @@
   <link rel="preload" href="assets/css/components.css" as="style">
   <link rel="preload" href="assets/css/responsive.css" as="style">
 
-<link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/responsive.css">
+
+  <!-- Instant Navigation Hub Prefetches -->
+  <link rel="prefetch" href="explore-hub.html" as="document">
+  <link rel="prefetch" href="ai-tools.html" as="document">
+  <link rel="prefetch" href="creator-tools.html" as="document">
+  <link rel="prefetch" href="browser-utilities.html" as="document">
+  <link rel="prefetch" href="platforms.html" as="document">
+  <link rel="prefetch" href="ai-prompt.html" as="document">
 
   <style>
     /* Dedicated Media Tool Workspace Custom Styles */
@@ -2553,23 +2561,9 @@
     }
   </style>
 
-  <!-- External Client-Side Libraries for 73 Tools -->
-  <script src="assets/js/qrcode.min.js" defer></script>
-  <script>if (!window.QRCode) document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer><\/script>');</script>
-  <script src="assets/js/pdf.min.js" defer></script>
-  <script>if (!window.pdfjsLib) document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer><\/script>');</script>
-  <script>
-    if (window.pdfjsLib) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/js/pdf.worker.min.js';
-    }
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js" defer></script>
-  <script src="assets/js/lame.min.js" defer></script>
-  <script>if (!window.lamejs) document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js" defer><\/script>');</script>
+  <!-- Modular Media Converter Engine (Heavy libraries load asynchronously on demand) -->
+  <script type="module" src="assets/js/storage.js"></script>
+  <script type="module" src="assets/js/theme.js"></script>
   <script type="module" src="assets/js/media-tools-data.js"></script>
   <script type="module" src="assets/js/media-tools-handlers.js"></script>
   <script type="module" src="assets/js/media-tools-ui.js"></script>

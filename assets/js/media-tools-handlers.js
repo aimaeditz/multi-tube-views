@@ -146,6 +146,46 @@
     });
   }
 
+  // Dynamic Library Loader Cache
+  const loadedScripts = new Map();
+  function loadScriptAsync(src, checkFn, fallbackSrc) {
+    if (checkFn && checkFn()) return Promise.resolve();
+    if (loadedScripts.has(src)) return loadedScripts.get(src);
+    const p = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.onload = () => resolve();
+      s.onerror = () => {
+        if (fallbackSrc) {
+          const s2 = document.createElement('script');
+          s2.src = fallbackSrc;
+          s2.async = true;
+          s2.onload = () => resolve();
+          s2.onerror = () => reject(new Error('Failed to load library: ' + src));
+          document.head.appendChild(s2);
+        } else {
+          reject(new Error('Failed to load library: ' + src));
+        }
+      };
+      document.head.appendChild(s);
+    });
+    loadedScripts.set(src, p);
+    return p;
+  }
+
+  const ensureQrCode = () => loadScriptAsync('/assets/js/qrcode.min.js', () => window.QRCode, 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js');
+  const ensurePdfJs = async () => {
+    await loadScriptAsync('/assets/js/pdf.min.js', () => window.pdfjsLib, 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+    ensurePdfJsWorker();
+  };
+  const ensurePdfLib = () => loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js', () => window.PDFLib);
+  const ensureJsPdf = () => loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', () => window.jspdf);
+  const ensureJsZip = () => loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js', () => window.JSZip);
+  const ensureHeic2Any = () => loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js', () => window.heic2any);
+  const ensureGifshot = () => loadScriptAsync('https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js', () => window.gifshot);
+  const ensureLameJs = () => loadScriptAsync('/assets/js/lame.min.js', () => window.lamejs, 'https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js');
+
   // Helper: Guarantee PDF.js workerSrc points to the local same-origin worker
   function ensurePdfJsWorker() {
     if (window.pdfjsLib && (!window.pdfjsLib.GlobalWorkerOptions || !window.pdfjsLib.GlobalWorkerOptions.workerSrc)) {
@@ -246,6 +286,15 @@
     loadImageFromFile,
     loadVideoFromFile,
     seekVideo,
+    loadScriptAsync,
+    ensureQrCode,
+    ensurePdfJs,
+    ensurePdfLib,
+    ensureJsPdf,
+    ensureJsZip,
+    ensureHeic2Any,
+    ensureGifshot,
+    ensureLameJs,
 
     // ==========================================
     // 15 IMAGE TOOLS IMPLEMENTATIONS

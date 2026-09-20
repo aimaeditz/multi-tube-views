@@ -72,6 +72,14 @@ function renderHead({ title, description, keywords, canonical, jsonLd, depth = 1
   <link rel="stylesheet" href="${assetPrefix}assets/css/components.css">
   <link rel="stylesheet" href="${assetPrefix}assets/css/responsive.css">
 
+  <!-- Instant Navigation Hub Prefetches -->
+  <link rel="prefetch" href="${assetPrefix}explore-hub.html" as="document">
+  <link rel="prefetch" href="${assetPrefix}ai-tools.html" as="document">
+  <link rel="prefetch" href="${assetPrefix}creator-tools.html" as="document">
+  <link rel="prefetch" href="${assetPrefix}media-converter-tools.html" as="document">
+  <link rel="prefetch" href="${assetPrefix}browser-utilities.html" as="document">
+  <link rel="prefetch" href="${assetPrefix}platforms.html" as="document">
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
   <script>
@@ -1199,9 +1207,8 @@ export function generateAllMediaConverterPages() {
   ${renderFooter(1)}
 
   <!-- Media Converter Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-  <script src="../assets/js/media-tools-handlers.js"></script>
-  <script src="../assets/js/media-tools-ui.js"></script>
+  <script src="../assets/js/media-tools-handlers.js" defer></script>
+  <script src="../assets/js/media-tools-ui.js" defer></script>
   <script type="module">
     import { ALL_TOOL_CONFIGS } from '../assets/js/media-tools-data.js';
 
