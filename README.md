@@ -54,7 +54,7 @@ translation, grammar polish, and more — powered by **MTV AI**, the
 site's own in-house AI system.
 
 ### AI Tools
-A separate directory of 210 dedicated generative tools spanning voice
+A separate directory of 211 dedicated generative tools spanning voice
 synthesis, video scripting, social growth, copywriting, creative
 writing, SEO, and technical/code use cases — also powered by **MTV AI**.
 
@@ -89,7 +89,7 @@ Open: [https://multitubeviews.com](https://multitubeviews.com)
 Main entry points:
 - **Home** — overview of all sections
 - **AI Prompt** — prompt library + AI image tool directory
-- **AI Tools** — 210 AI-powered generative tools
+- **AI Tools** — 211 AI-powered generative tools
 - **Creator Tools** — 70 AI-powered creator utilities
 - **Converter Tools** — 73 in-browser media converters
 - **Browser Utilities** — 111 in-browser developer/text/SEO/image/file
