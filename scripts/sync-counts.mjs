@@ -111,7 +111,7 @@ export function syncAllCounts() {
   const metadataUpdated = updateFile('metadata.json', content => {
     try {
       const json = JSON.parse(content);
-      const desc = `Multi-Platform Public Media Workspace with dedicated media player adapters for ${platformCount}+ platforms, curated AI prompts and image tools directory, ${aiCount} AI tools suite, ${creatorCount}-tool creator optimization suite, ${mediaCount} client-side media converters, and ${buCount} zero-upload browser utilities.`;
+      const desc = `Free public workspace platform with ${totalTools}+ tools across AI, video SEO, media conversion, and browser utilities, plus multi-platform stream viewing.`;
       if (json.description !== desc) {
         json.description = desc;
         return JSON.stringify(json, null, 2) + '\n';

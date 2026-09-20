@@ -73,8 +73,15 @@ const { aiCount, creatorCount, mediaCount, buCount, platformCount, totalTools, g
 const GLOBAL_BRAND_NAMES = [
   'Multi Tube Views',
   'MTV',
+  'Multitube',
+  'Multi Tube',
+  'Tube Views',
   'MultiTube Views',
   'MTV Tools',
+  'MTV Workspace',
+  'Multi Tube Workspace',
+  'Multitube Workspace',
+  'MTV Platform',
   'AiMAEditz MTV',
   'Multi-Tube Views',
   'Ai MA Editz MTV',
@@ -85,12 +92,12 @@ const GLOBAL_BRAND_NAMES = [
 // 1. Core Site Pages SEO Definitions
 const CORE_PAGES_SEO = {
   'index.html': {
-    title: 'Multi Tube Views — Multi-Stream Video Player & Grid Viewer',
-    description: `Watch, compare, and organize video and audio streams side-by-side across ${platformCount}+ platforms in customizable player grids. Free client-side workspace with MTV tools.`,
-    keywords: 'multi tube views, multitube views, mtv, mtv tools, aimaeditz mtv, multi stream player, multi video player, watch multiple videos at once, watch multiple streams, split screen video player, side by side video player, stream grid viewer, multi screen video player, multi window video player, dual video player, quad video viewer, multi tube video player, multiviewer online, sync video player, multi platform stream viewer, compare videos side by side, watch multiple youtube videos, watch twitch and youtube at the same time, mtv workspace, ai ma editz mtv',
+    title: 'Multi Tube Views — Free 505+ Tools Workspace & Media Player',
+    description: 'Multi Tube Views is a free public workspace with 505+ AI, creator, converter & browser tools, plus multi-platform media viewing. Fast, private, zero install.',
+    keywords: 'multi tube views, multitube views, mtv, multitube, multi tube, tube views, mtv tools, mtv workspace, multitube workspace, multi tube workspace, free public workspace, 505 tools, ai tools, creator tools, media converters, browser utilities, multi stream player, multi video player, watch multiple videos at once, split screen video player, side by side video player, stream grid viewer, mtv platform, aimaeditz mtv',
     canonical: `${BASE_URL}/index.html`,
-    ogTitle: 'Multi Tube Views — Multi-Stream Video Player & Grid Viewer',
-    ogDescription: `Watch, compare, and organize video and audio streams side-by-side across ${platformCount}+ platforms in customizable player grids. Free client-side workspace with MTV tools.`,
+    ogTitle: 'Multi Tube Views — Free 505+ Tools Workspace & Media Player',
+    ogDescription: 'Multi Tube Views is a free public workspace with 505+ AI, creator, converter & browser tools, plus multi-platform media viewing. Fast, private, zero install.',
     getSchema: () => ({
       '@context': 'https://schema.org',
       '@graph': [
@@ -113,8 +120,8 @@ const CORE_PAGES_SEO = {
           '@id': `${BASE_URL}/#website`,
           'url': `${BASE_URL}/`,
           'name': 'Multi Tube Views',
-          'alternateName': ['MTV Workspace', 'Multi Tube Views Online', 'AiMAEditz MTV Media Tools', 'MultiTube Views'],
-          'description': 'Multi-platform public media viewing workspace with dedicated adapters for 40+ platforms and built-in creator optimization utilities.',
+          'alternateName': ['MTV', 'Multitube', 'Multi Tube', 'Tube Views', 'MTV Workspace', 'Multi Tube Views Online', 'MultiTube Views', 'Multi Tube Workspace', 'Multitube Workspace', 'AiMAEditz MTV Media Tools'],
+          'description': 'Free public workspace platform featuring 505+ tools across AI generation, creator video SEO, media conversion, and browser utilities, plus multi-platform stream viewing.',
           'publisher': {
             '@id': `${BASE_URL}/#organization`
           },
@@ -131,24 +138,25 @@ const CORE_PAGES_SEO = {
           '@type': 'WebApplication',
           '@id': `${BASE_URL}/#webapp`,
           'name': 'Multi Tube Views Workspace',
-          'alternateName': ['MTV Multi-Stream Player', 'MultiTube Video Grid', 'AiMAEditz MTV Player', 'Multi Tube Views Pro'],
+          'alternateName': ['MTV', 'Multitube', 'Multi Tube', 'Tube Views', 'MTV Workspace', 'MultiTube Workspace', 'Multi Tube Workspace', 'Multi Tube Views Pro', 'MTV Multi-Stream Player', 'MultiTube Video Grid', 'AiMAEditz MTV Player'],
           'url': `${BASE_URL}/`,
           'applicationCategory': 'MultimediaApplication',
-          'applicationSubCategory': 'Video & Audio Multi-Player',
+          'applicationSubCategory': 'Public Tools Workspace & Media Player',
           'operatingSystem': 'All',
           'browserRequirements': 'Requires JavaScript. Requires HTML5.',
-          'keywords': 'multi stream player, watch multiple videos at once, split screen video player, stream grid viewer, side by side video player, multitube views, mtv tools, aimaeditz mtv',
+          'keywords': 'mtv, multitube, multi tube, tube views, multitube views, mtv workspace, free public workspace, 505 tools, ai tools, creator tools, media converters, browser utilities, multi stream player, watch multiple videos at once, split screen video player, stream grid viewer, side by side video player, aimaeditz mtv',
           'offers': {
             '@type': 'Offer',
             'price': '0',
             'priceCurrency': 'USD'
           },
           'featureList': [
-            'Side-by-side multi-player video & audio grids (2x2, 3x3, 4x4, custom layout)',
+            'Free public workspace with 505+ client-side tools and utilities',
+            '211 AI generative tools and 70 video SEO creator tools',
+            '73 in-browser media converters and 111 zero-upload browser utilities',
             `Dedicated player adapters for ${platformCount}+ video, audio, and live streaming platforms`,
-            'Batch public URL loader with instant grid auto-configuration',
-            '100% client-side privacy with zero tracking and zero account registration',
-            `Integrated creator SEO optimization suite and ${mediaCount} in-browser media converters`
+            'Side-by-side multi-player video & audio grids (2x2, 3x3, 4x4, custom layout)',
+            '100% client-side privacy with zero tracking and zero account registration'
           ]
         },
         {
@@ -791,12 +799,12 @@ const CORE_PAGES_SEO = {
   },
 
   'about.html': {
-    title: 'About Multi Tube Views — Privacy-First Media Architecture & Mission',
-    description: 'Learn about Multi Tube Views (MTV), our zero-tracking client-side architecture, open media viewing philosophy, and free creator optimization suite.',
-    keywords: 'about multi tube views, public media workspace, media architecture, video player tools, mtv mission, multitube views, client side privacy, aimaeditz mtv about',
+    title: 'About Multi Tube Views — Free 505+ Tools Workspace & Mission',
+    description: 'Discover the mission behind Multi Tube Views (MTV): a free public workspace with 505+ AI, creator, converter & utility tools, plus multi-platform media viewing.',
+    keywords: 'about multi tube views, mtv, multitube, multi tube, tube views, multitube views, mtv workspace, free public workspace, 505 tools, mtv mission, creator tools, media converters, browser utilities, client side privacy, aimaeditz mtv',
     canonical: `${BASE_URL}/about.html`,
-    ogTitle: 'About Multi Tube Views — Privacy-First Media Architecture & Mission',
-    ogDescription: 'Learn about Multi Tube Views (MTV), our zero-tracking client-side architecture, open media viewing philosophy, and free creator optimization suite.',
+    ogTitle: 'About Multi Tube Views — Free 505+ Tools Workspace & Mission',
+    ogDescription: 'Discover the mission behind Multi Tube Views (MTV): a free public workspace with 505+ AI, creator, converter & utility tools, plus multi-platform media viewing.',
     getSchema: () => ({
       '@context': 'https://schema.org',
       '@graph': [
@@ -804,9 +812,9 @@ const CORE_PAGES_SEO = {
           '@type': 'AboutPage',
           '@id': `${BASE_URL}/about.html#about`,
           'name': 'About Multi Tube Views',
-          'alternateName': ['About MTV', 'MultiTube Views Mission', 'AiMAEditz MTV Overview'],
+          'alternateName': ['About MTV', 'MTV', 'Multitube', 'Multi Tube', 'Tube Views', 'About MultiTube', 'About Multi Tube', 'MTV Workspace Overview', 'MultiTube Views Mission', 'AiMAEditz MTV Overview'],
           'url': `${BASE_URL}/about.html`,
-          'description': 'Information about Multi Tube Views architecture, public media embedding standards, and creator utilities.',
+          'description': 'Information about Multi Tube Views (MTV) architecture, mission, free public workspace with 505+ tools, and client-side privacy standards.',
           'isPartOf': {
             '@type': 'WebSite',
             'name': 'Multi Tube Views',
