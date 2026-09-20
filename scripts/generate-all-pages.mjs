@@ -26,6 +26,9 @@ import { BATCH_UNIT_TOOLS } from './build-tools-data-batch-units.mjs';
 import { BATCH_DEV_TOOLS } from './build-tools-data-batch-dev.mjs';
 import { BATCH_FILE_TOOLS } from './build-tools-data-batch-file.mjs';
 import { BATCH_COLOR_TOOLS } from './build-tools-data-batch-color.mjs';
+import { getCounts } from './sync-counts.mjs';
+
+const { aiCount, creatorCount, mediaCount, buCount, platformCount } = getCounts();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -239,7 +242,7 @@ function renderFooter({ depth = 0 }) {
               <span>Multi Tube Views</span>
             </h3>
           </a>
-          <p>A clean, responsive, multi-platform public media workspace featuring 40+ platform adapters, 210 AI tools, 70 creator optimization tools, 73 browser media converters, 111 client-side browser utilities, and an AI prompts directory.</p>
+          <p>A clean, responsive, multi-platform public media workspace featuring ${platformCount}+ platform adapters, ${aiCount} AI tools, ${creatorCount} creator optimization tools, ${mediaCount} browser media converters, ${buCount} client-side browser utilities, and an AI prompts directory.</p>
         </div>
 
         <div class="footer-col">
@@ -249,7 +252,7 @@ function renderFooter({ depth = 0 }) {
             <li><a href="${p}platforms/twitch.html">Twitch</a></li>
             <li><a href="${p}platforms/vimeo.html">Vimeo</a></li>
             <li><a href="${p}platforms/spotify.html">Spotify</a></li>
-            <li><a href="${p}platforms.html">All Platforms</a></li>
+            <li><a href="${p}platforms.html">All ${platformCount} Platforms</a></li>
           </ul>
         </div>
 
@@ -398,8 +401,9 @@ export function generateCategorySeoMetadata(cat, catToolsCount) {
 
 // 1. Generate Main Hub Page: browser-utilities.html
 function generateHubPage() {
-  const title = "Browser Utilities — 111 Free Client-Side Web Tools | MTV";
-  const description = "Suite of 111 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.";
+  const buTotal = ALL_TOOLS.length || buCount;
+  const title = `Browser Utilities — ${buTotal} Free Client-Side Web Tools | MTV`;
+  const description = `Suite of ${buTotal} fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.`;
   const keywords = "browser utilities online, client side tools, dev tools online, json formatter, regex tester, word counter, password strength checker, color palette generator, csv to json, free web tools, mtv browser utilities, multitube views tools";
   const canonical = "https://multitubeviews.com/browser-utilities.html";
 
@@ -413,7 +417,7 @@ function generateHubPage() {
         "alternateName": [
           "Multi Tube Views Browser Utilities",
           "MTV Client-Side Tools",
-          "111 In-Browser Utilities by AiMAEditz"
+          `${buTotal} In-Browser Utilities by AiMAEditz`
         ],
         "url": "https://multitubeviews.com/browser-utilities.html",
         "description": description,
@@ -422,7 +426,7 @@ function generateHubPage() {
         "browserRequirements": "Requires JavaScript and HTML5 APIs",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "featureList": [
-          "111 high-speed client-side tools across 15 specialized categories",
+          `${buTotal} high-speed client-side tools across 15 specialized categories`,
           "100% in-browser processing via Web Crypto, Canvas, and native DOM",
           "Zero server uploads: sensitive text, code, and photos never leave your device",
           "One-click copying, file downloading, and responsive mobile-first UI"
@@ -445,7 +449,7 @@ function generateHubPage() {
             "name": "Are my files or passwords uploaded to your servers?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. All 111 browser utilities run entirely client-side using JavaScript, Web Crypto, and Canvas. Nothing is ever sent to any backend server."
+              "text": `No. All ${buTotal} browser utilities run entirely client-side using JavaScript, Web Crypto, and Canvas. Nothing is ever sent to any backend server.`
             }
           },
           {
@@ -526,7 +530,7 @@ ${renderHeader({ activeNav: 'browser-utilities', depth: 0 })}
       <!-- Hero Header -->
       <div class="bu-hero" style="text-align: center; max-width: 860px; margin: 1.5rem auto 2.5rem auto;">
         <span class="bu-badge" style="margin-bottom: 0.75rem; font-size: 0.82rem; padding: 0.35rem 0.85rem; background: var(--accent-blue-10, rgba(0,102,204,0.1)); color: var(--accent-blue);">
-          ⚡ 111 CLIENT-SIDE UTILITIES • 100% PRIVATE • ZERO UPLOADS
+          ⚡ ${buTotal} CLIENT-SIDE UTILITIES • 100% PRIVATE • ZERO UPLOADS
         </span>
         <h1 class="bu-title" style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; line-height: 1.2; margin: 0.5rem 0 1rem 0;">
           Instant In-Browser <span class="accent">Utilities &amp; Tools</span>
@@ -537,8 +541,8 @@ ${renderHeader({ activeNav: 'browser-utilities', depth: 0 })}
 
         <!-- Search Bar -->
         <div style="position: relative; max-width: 580px; margin: 0 auto;">
-          <input type="text" id="bu-search-input" class="bu-input" placeholder="Search 111 utilities (e.g. JSON, Regex, Password, Slug, Base64)..." style="padding: 0.85rem 1.2rem; font-size: 1rem; border-radius: 999px; box-shadow: var(--shadow-sm);">
-          <span id="bu-search-count" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; color: var(--text-muted); pointer-events: none;">111 Tools</span>
+          <input type="text" id="bu-search-input" class="bu-input" placeholder="Search ${buTotal} utilities (e.g. JSON, Regex, Password, Slug, Base64)..." style="padding: 0.85rem 1.2rem; font-size: 1rem; border-radius: 999px; box-shadow: var(--shadow-sm);">
+          <span id="bu-search-count" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 0.8rem; color: var(--text-muted); pointer-events: none;">${buTotal} Tools</span>
         </div>
       </div>
 
@@ -652,7 +656,7 @@ ${renderFooter({ depth: 0 })}
           } else if (activeCategory !== 'all') {
             countEl.textContent = \`\${totalMatches} in category\`;
           } else {
-            countEl.textContent = '111 Tools';
+            countEl.textContent = '${buTotal} Tools';
           }
         }
 

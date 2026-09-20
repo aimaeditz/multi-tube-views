@@ -10,6 +10,65 @@ const BASE_URL = 'https://multitubeviews.com';
 const OG_IMAGE = 'https://multitubeviews.com/assets/images/og-image-16x9.jpg';
 const TODAY = '2026-09-10';
 
+// Compute exact tool counts dynamically from source files
+function getToolCountsSync() {
+  let aiCount = 211;
+  let creatorCount = 70;
+  let mediaCount = 73;
+  let buCount = 111;
+  let platformCount = 40;
+
+  try {
+    const aiFile = fs.readFileSync(path.join(__dirname, 'assets/data/ai-tools-data.js'), 'utf8');
+    const aiMatch = aiFile.match(/export const AI_TOOLS_DATA\s*=\s*\{([\s\S]*?)\n\};/);
+    if (aiMatch) {
+      const keys = [...aiMatch[1].matchAll(/^\s*'([a-z0-9-]+)':\s*\{/gm)];
+      if (keys.length > 0) aiCount = keys.length;
+    }
+
+    const crFile = fs.readFileSync(path.join(__dirname, 'assets/data/creator-tools-data.js'), 'utf8');
+    const crMatch = crFile.match(/export const CREATOR_TOOLS_DATA\s*=\s*\{([\s\S]*?)\n\};/);
+    if (crMatch) {
+      const keys = [...crMatch[1].matchAll(/^\s*'([a-z0-9-]+)':\s*\{/gm)];
+      if (keys.length > 0) creatorCount = keys.length;
+    }
+
+    const mediaFile = fs.readFileSync(path.join(__dirname, 'assets/js/media-tools-data.js'), 'utf8');
+    const mediaMatch = mediaFile.match(/const ALL_TOOL_CONFIGS\s*=\s*\{([\s\S]*?)\n\s*\};/);
+    if (mediaMatch) {
+      const keys = [...mediaMatch[1].matchAll(/^\s*'([a-z0-9-]+)':\s*\{/gm)];
+      if (keys.length > 0) mediaCount = keys.length;
+    }
+
+    const buFile = fs.readFileSync(path.join(__dirname, 'assets/data/browser-utilities-data.js'), 'utf8');
+    const buMatch = buFile.match(/export const BU_ALL_TOOLS_LIST\s*=\s*\[([\s\S]*?)\];/);
+    if (buMatch) {
+      const items = buMatch[1].split(',').map(s => s.trim()).filter(Boolean);
+      if (items.length > 0) buCount = items.length;
+    }
+
+    const platformsDir = path.join(__dirname, 'platforms');
+    if (fs.existsSync(platformsDir)) {
+      const pFiles = fs.readdirSync(platformsDir).filter(f => f.endsWith('.html') && f !== 'index.html');
+      platformCount = pFiles.length;
+    }
+  } catch (err) {
+    console.error('Error computing counts in seo-manager.cjs:', err);
+  }
+
+  return {
+    aiCount,
+    creatorCount,
+    mediaCount,
+    buCount,
+    platformCount,
+    totalTools: aiCount + creatorCount + mediaCount + buCount,
+    grandTotal: aiCount + creatorCount + mediaCount + buCount + platformCount
+  };
+}
+
+const { aiCount, creatorCount, mediaCount, buCount, platformCount, totalTools, grandTotal } = getToolCountsSync();
+
 // Global legitimate brand variations
 const GLOBAL_BRAND_NAMES = [
   'Multi Tube Views',
@@ -27,11 +86,11 @@ const GLOBAL_BRAND_NAMES = [
 const CORE_PAGES_SEO = {
   'index.html': {
     title: 'Multi Tube Views — Multi-Stream Video Player & Grid Viewer',
-    description: 'Watch, compare, and organize video and audio streams side-by-side across 40+ platforms in customizable player grids. Free client-side workspace with MTV tools.',
+    description: `Watch, compare, and organize video and audio streams side-by-side across ${platformCount}+ platforms in customizable player grids. Free client-side workspace with MTV tools.`,
     keywords: 'multi tube views, multitube views, mtv, mtv tools, aimaeditz mtv, multi stream player, multi video player, watch multiple videos at once, watch multiple streams, split screen video player, side by side video player, stream grid viewer, multi screen video player, multi window video player, dual video player, quad video viewer, multi tube video player, multiviewer online, sync video player, multi platform stream viewer, compare videos side by side, watch multiple youtube videos, watch twitch and youtube at the same time, mtv workspace, ai ma editz mtv',
     canonical: `${BASE_URL}/index.html`,
     ogTitle: 'Multi Tube Views — Multi-Stream Video Player & Grid Viewer',
-    ogDescription: 'Watch, compare, and organize video and audio streams side-by-side across 40+ platforms in customizable player grids. Free client-side workspace with MTV tools.',
+    ogDescription: `Watch, compare, and organize video and audio streams side-by-side across ${platformCount}+ platforms in customizable player grids. Free client-side workspace with MTV tools.`,
     getSchema: () => ({
       '@context': 'https://schema.org',
       '@graph': [
@@ -86,10 +145,10 @@ const CORE_PAGES_SEO = {
           },
           'featureList': [
             'Side-by-side multi-player video & audio grids (2x2, 3x3, 4x4, custom layout)',
-            'Dedicated player adapters for 40+ video, audio, and live streaming platforms',
+            `Dedicated player adapters for ${platformCount}+ video, audio, and live streaming platforms`,
             'Batch public URL loader with instant grid auto-configuration',
             '100% client-side privacy with zero tracking and zero account registration',
-            'Integrated creator SEO optimization suite and 73 in-browser media converters'
+            `Integrated creator SEO optimization suite and ${mediaCount} in-browser media converters`
           ]
         },
         {
@@ -136,11 +195,11 @@ const CORE_PAGES_SEO = {
 
   'creator-tools.html': {
     title: 'Creator Tools Suite — Free Video SEO & Title Generator | MTV',
-    description: 'Optimize video SEO with 70 free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and timestamped descriptions in your browser.',
+    description: `Optimize video SEO with ${creatorCount} free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and timestamped descriptions in your browser.`,
     keywords: 'creator tools, video seo generator, youtube seo pack, youtube tag generator free, youtube title maker, high ctr youtube title generator, video hook ideas, youtube description generator with timestamps, video retention hooks, video script outline generator, youtube hashtag finder, video keyword research tool, youtube metadata optimizer, thumbnail text copy generator, title ab testing tool, mtv creator tools, multitube views creator suite, aimaeditz mtv tools, free video seo tools',
     canonical: `${BASE_URL}/creator-tools.html`,
     ogTitle: 'Creator Tools Suite — Free Video SEO & Title Generator | MTV',
-    ogDescription: 'Optimize video SEO with 70 free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and timestamped descriptions in your browser.',
+    ogDescription: `Optimize video SEO with ${creatorCount} free creator tools. Generate high-CTR titles, tag clusters, hashtags, script outlines, and timestamped descriptions in your browser.`,
     getSchema: () => ({
       '@context': 'https://schema.org',
       '@graph': [
@@ -150,7 +209,7 @@ const CORE_PAGES_SEO = {
           'name': 'MTV Creator Optimization Suite',
           'alternateName': ['MTV Creator Tools', 'Multi Tube Views Creator Suite', 'AiMAEditz MTV Creator Tools', 'MTV Video SEO Pack'],
           'url': `${BASE_URL}/creator-tools.html`,
-          'description': 'Comprehensive 70-tool video SEO suite for content creators, featuring automated title scoring, tag clusters, hook generators, and timestamped descriptions.',
+          'description': `Comprehensive ${creatorCount}-tool video SEO suite for content creators, featuring automated title scoring, tag clusters, hook generators, and timestamped descriptions.`,
           'applicationCategory': 'BusinessApplication',
           'applicationSubCategory': 'SearchEngineOptimization',
           'operatingSystem': 'All',
@@ -168,7 +227,7 @@ const CORE_PAGES_SEO = {
             'priceCurrency': 'USD'
           },
           'featureList': [
-            '70 specialized video SEO, copywriting, and retention tools',
+            `${creatorCount} specialized video SEO, copywriting, and retention tools`,
             'High-CTR video title generator with emotional trigger scoring',
             'Timestamp chapter description builder with call-to-action blocks',
             'Hierarchical keyword and tag cluster generator',
@@ -203,7 +262,7 @@ const CORE_PAGES_SEO = {
               'name': 'What tools are included in the MTV Creator Tools Suite?',
               'acceptedAnswer': {
                 '@type': 'Answer',
-                'text': 'The suite includes 70 tools including Title Generator, Tag & Keyword Extractor, Description Maker with Timestamps, Retention Hook Generator, Script Outline Builder, Thumbnail Copy Generator, Hashtag Finder, and Video SEO Checklist.'
+                'text': `The suite includes ${creatorCount} tools including Title Generator, Tag & Keyword Extractor, Description Maker with Timestamps, Retention Hook Generator, Script Outline Builder, Thumbnail Copy Generator, Hashtag Finder, and Video SEO Checklist.`
               }
             },
             {
@@ -244,7 +303,7 @@ const CORE_PAGES_SEO = {
           'name': 'MTV In-Browser Media Converters',
           'alternateName': ['MTV Media Converters', 'Multi Tube Views In-Browser Media Tools', 'AiMAEditz MTV Media Converter', 'MTV Audio & Video Converters'],
           'url': `${BASE_URL}/media-converter-tools.html`,
-          'description': 'Suite of 73 high-performance client-side media converters. Process video to MP3, audio trimming, slowed & reverb audio effects, GIF generation, and speech transcription with zero server uploads.',
+          'description': `Suite of ${mediaCount} high-performance client-side media converters. Process video to MP3, audio trimming, slowed & reverb audio effects, GIF generation, and speech transcription with zero server uploads.`,
           'applicationCategory': 'MultimediaApplication',
           'applicationSubCategory': 'Audio & Video Processing',
           'operatingSystem': 'All',
@@ -261,7 +320,7 @@ const CORE_PAGES_SEO = {
             'priceCurrency': 'USD'
           },
           'featureList': [
-            '73 fast in-browser media converters and utilities',
+            `${mediaCount} fast in-browser media converters and utilities`,
             'High-speed video to MP3 / WAV audio extraction',
             'Lossless video cutter and audio trimmer with visual timeline',
             'Slowed & Reverb audio effect synthesizer with real-time preview',
@@ -322,12 +381,12 @@ const CORE_PAGES_SEO = {
   },
 
   'ai-tools.html': {
-    title: 'AI Tools Suite — 210 Free Generative AI Writing Tools | MTV',
-    description: 'Supercharge creative workflows with 210 free AI tools for video scripts, social media, copywriting, creative writing, and code. Powered by MTV AI in your browser.',
+    title: `AI Tools Suite — ${aiCount} Free Generative AI Writing Tools | MTV`,
+    description: `Supercharge creative workflows with ${aiCount} free AI tools for video scripts, social media, copywriting, creative writing, and code. Powered by MTV AI in your browser.`,
     keywords: 'ai tools, ai generative tools, youtube script generator, viral hooks generator, linkedin post generator, cold email writer, podcast planner, code explainer, seo meta pro, story plot generator, mtv ai tools, multitube views ai tools, free ai tools, aimaeditz mtv',
     canonical: `${BASE_URL}/ai-tools.html`,
-    ogTitle: 'AI Tools Suite — 210 Free Generative AI Writing Tools | MTV',
-    ogDescription: 'Supercharge creative workflows with 210 free AI tools for video scripts, social media, copywriting, creative writing, and code. Powered by MTV AI in your browser.',
+    ogTitle: `AI Tools Suite — ${aiCount} Free Generative AI Writing Tools | MTV`,
+    ogDescription: `Supercharge creative workflows with ${aiCount} free AI tools for video scripts, social media, copywriting, creative writing, and code. Powered by MTV AI in your browser.`,
     getSchema: () => ({
       '@context': 'https://schema.org',
       '@graph': [
@@ -337,7 +396,7 @@ const CORE_PAGES_SEO = {
           'name': 'MTV AI Tools Suite',
           'alternateName': ['MTV Generative AI Suite', 'Multi Tube Views AI Tools', 'AiMAEditz MTV AI Suite', 'MTV AI Writing Tools'],
           'url': `${BASE_URL}/ai-tools.html`,
-          'description': 'Comprehensive directory of 210 free AI generative tools across Video, Social Media, Copywriting, Creative Writing, SEO Discovery, and Code.',
+          'description': `Comprehensive directory of ${aiCount} free AI generative tools across Video, Social Media, Copywriting, Creative Writing, SEO Discovery, and Code.`,
           'applicationCategory': 'BusinessApplication',
           'applicationSubCategory': 'AIContentGeneration',
           'operatingSystem': 'All',
@@ -354,7 +413,7 @@ const CORE_PAGES_SEO = {
             'priceCurrency': 'USD'
           },
           'featureList': [
-            '210 dedicated generative AI tools',
+            `${aiCount} dedicated generative AI tools`,
             'Video & Scripting, Social & Growth, Copywriting & Sales categories',
             'Creative & Narrative, SEO & Discovery, Technical & Code tools',
             '100% free client-side workspace powered by MTV AI'
@@ -383,12 +442,12 @@ const CORE_PAGES_SEO = {
   },
 
   'browser-utilities.html': {
-    title: 'Browser Utilities — 111 Free Client-Side Web Tools | MTV',
-    description: 'Suite of 111 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.',
+    title: `Browser Utilities — ${buCount} Free Client-Side Web Tools | MTV`,
+    description: `Suite of ${buCount} fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.`,
     keywords: 'browser utilities online, client side tools, dev tools online, json formatter, regex tester, word counter, password strength checker, color palette generator, csv to json, free web tools, mtv browser utilities, multitube views tools',
     canonical: `${BASE_URL}/browser-utilities.html`,
-    ogTitle: 'Browser Utilities — 111 Free Client-Side Web Tools | MTV',
-    ogDescription: 'Suite of 111 fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.',
+    ogTitle: `Browser Utilities — ${buCount} Free Client-Side Web Tools | MTV`,
+    ogDescription: `Suite of ${buCount} fast, 100% private in-browser utilities for developers & creators. Text tools, unit converters, CSS generators, and code encoders by Multi Tube Views.`,
     getSchema: () => ({
       '@context': 'https://schema.org',
       '@graph': [
@@ -396,9 +455,9 @@ const CORE_PAGES_SEO = {
           '@type': 'WebApplication',
           '@id': `${BASE_URL}/browser-utilities.html#webapp`,
           'name': 'MTV Browser Utilities Suite',
-          'alternateName': ['MTV Client-Side Tools', 'Multi Tube Views Browser Utilities', '111 In-Browser Utilities by AiMAEditz'],
+          'alternateName': ['MTV Client-Side Tools', 'Multi Tube Views Browser Utilities', `${buCount} In-Browser Utilities by AiMAEditz`],
           'url': `${BASE_URL}/browser-utilities.html`,
-          'description': 'Suite of 111 fast, 100% private in-browser utilities across 15 categories.',
+          'description': `Suite of ${buCount} fast, 100% private in-browser utilities across 15 categories.`,
           'applicationCategory': 'DeveloperApplication',
           'operatingSystem': 'All',
           'browserRequirements': 'Requires JavaScript and HTML5 APIs',
@@ -581,12 +640,12 @@ const CORE_PAGES_SEO = {
   },
 
   'platforms.html': {
-    title: 'Supported Media Platforms — Multi Tube Views Directory (40+ Sites)',
-    description: 'Explore 40+ supported video, audio, and live streaming platforms in Multi Tube Views. Launch dedicated player adapters for YouTube, Twitch, Kick, and more.',
+    title: `Supported Media Platforms — Multi Tube Views Directory (${platformCount}+ Sites)`,
+    description: `Explore ${platformCount}+ supported video, audio, and live streaming platforms in Multi Tube Views. Launch dedicated player adapters for YouTube, Twitch, Kick, and more.`,
     keywords: 'media player directory, multi stream player platforms, multi video viewer directory, watch multiple streaming sites, stream grid platforms, multi-platform media viewer, mtv platforms, multitube views directory, aimaeditz mtv platforms, 40 video platforms, twitch kick youtube multiviewer',
     canonical: `${BASE_URL}/platforms.html`,
-    ogTitle: 'Supported Media Platforms — Multi Tube Views Directory (40+ Sites)',
-    ogDescription: 'Explore 40+ supported video, audio, and live streaming platforms in Multi Tube Views. Launch dedicated player adapters for YouTube, Twitch, Kick, and more.',
+    ogTitle: `Supported Media Platforms — Multi Tube Views Directory (${platformCount}+ Sites)`,
+    ogDescription: `Explore ${platformCount}+ supported video, audio, and live streaming platforms in Multi Tube Views. Launch dedicated player adapters for YouTube, Twitch, Kick, and more.`,
     getSchema: () => ({
       '@context': 'https://schema.org',
       '@graph': [
@@ -596,7 +655,7 @@ const CORE_PAGES_SEO = {
           'name': 'Supported Media Platforms Directory',
           'alternateName': ['MTV Supported Platforms', 'Multi Tube Views Directory', 'AiMAEditz MTV Platforms'],
           'url': `${BASE_URL}/platforms.html`,
-          'description': 'Directory of 40 video, audio, and social media platforms supported by Multi Tube Views multi-stream workspaces.',
+          'description': `Directory of ${platformCount} video, audio, and social media platforms supported by Multi Tube Views multi-stream workspaces.`,
           'isPartOf': {
             '@type': 'WebSite',
             'name': 'Multi Tube Views',
@@ -635,7 +694,7 @@ const CORE_PAGES_SEO = {
               'name': 'How many platforms does Multi Tube Views support?',
               'acceptedAnswer': {
                 '@type': 'Answer',
-                'text': 'Multi Tube Views supports 40 video, audio, live streaming, and social media platforms, including YouTube, Twitch, Vimeo, Spotify, Kick, TikTok, Rumble, Bilibili, and SoundCloud.'
+                'text': `Multi Tube Views supports ${platformCount} video, audio, live streaming, and social media platforms, including YouTube, Twitch, Vimeo, Spotify, Kick, TikTok, Rumble, Bilibili, and SoundCloud.`
               }
             },
             {

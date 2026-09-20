@@ -7,6 +7,9 @@ import { CREATOR_CATEGORIES, CREATOR_TOOLS_DATA } from '../assets/data/creator-t
 import { ALL_TOOL_CONFIGS } from '../assets/js/media-tools-data.js';
 import { BU_CATEGORIES } from './build-categories-data.mjs';
 import { ALL_TOOLS } from './generate-all-pages.mjs';
+import { getCounts } from './sync-counts.mjs';
+
+const { aiCount, creatorCount, mediaCount, buCount, platformCount } = getCounts();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -193,7 +196,7 @@ function renderFooter(depth = 1) {
             <span class="brand-tag">v2.5</span>
           </div>
         </div>
-        <p class="footer-desc">Professional privacy-first video streaming grid, creator SEO tools suite, client-side media converters, and 111+ free browser utilities.</p>
+        <p class="footer-desc">Professional privacy-first video streaming grid, creator SEO tools suite, client-side media converters, and ${buCount}+ free browser utilities.</p>
         <div class="creator-attribution">
           Created &amp; Maintained with pride by <strong>AiMAEditz</strong>
         </div>
@@ -204,17 +207,17 @@ function renderFooter(depth = 1) {
         <div class="footer-links">
           <a href="${p}index.html">Multi-Stream Grid</a>
           <a href="${p}explore-hub.html">Explore Hub Directory</a>
-          <a href="${p}ai-tools.html">210 AI Writing Tools</a>
-          <a href="${p}creator-tools.html">70 Creator SEO Tools</a>
-          <a href="${p}media-converter-tools.html">73 In-Browser Media Converters</a>
-          <a href="${p}browser-utilities.html">111 Browser Utilities</a>
+          <a href="${p}ai-tools.html">${aiCount} AI Writing Tools</a>
+          <a href="${p}creator-tools.html">${creatorCount} Creator SEO Tools</a>
+          <a href="${p}media-converter-tools.html">${mediaCount} In-Browser Media Converters</a>
+          <a href="${p}browser-utilities.html">${buCount} Browser Utilities</a>
         </div>
       </div>
 
       <div class="footer-col">
         <h4 class="footer-heading">Popular Hubs</h4>
         <div class="footer-links">
-          <a href="${p}platforms.html">40+ Supported Platforms</a>
+          <a href="${p}platforms.html">${platformCount}+ Supported Platforms</a>
           <a href="${p}ai-prompt.html">AI Image Prompts Library</a>
           <a href="${p}ai-auto.html">Automated Video SEO Pack</a>
           <a href="${p}articles.html">Guides &amp; Architecture</a>
@@ -381,7 +384,7 @@ export function generateAllAIToolPages() {
               Clear
             </button>
             <a href="../ai-tools.html" class="btn btn-outline" style="margin-left: auto; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.88rem; font-weight: 600; border-radius: 10px; border: 1px solid var(--border-subtle); color: var(--text-secondary);">
-              Browse All 210 AI Tools →
+              Browse All ${aiCount} AI Tools →
             </a>
           </div>
         </form>
@@ -737,7 +740,7 @@ export function generateAllCreatorToolPages() {
               Clear
             </button>
             <a href="../creator-tools.html" class="btn btn-outline" style="margin-left: auto; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.88rem; font-weight: 600; border-radius: 10px; border: 1px solid var(--border-subtle); color: var(--text-secondary);">
-              Browse All 70 Creator Tools →
+              Browse All ${creatorCount} Creator Tools →
             </a>
           </div>
         </form>
@@ -1103,7 +1106,7 @@ export function generateAllMediaConverterPages() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
           </button>
           <a href="../media-converter-tools.html" class="btn btn-outline" style="margin-left: auto; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.88rem; font-weight: 600; border-radius: 10px; border: 1px solid var(--border-subtle); color: var(--text-secondary);">
-            Browse All 73 Converters →
+            Browse All ${mediaCount} Converters →
           </a>
         </div>
 
