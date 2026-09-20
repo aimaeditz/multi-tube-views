@@ -7,7 +7,19 @@
 (function(window) {
   'use strict';
 
+  function escapeHtml(str) {
+    if (typeof str !== 'string') str = String(str || '');
+    return str.replace(/[&<>"']/g, function(m) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+    });
+  }
+
+  // Pre-attach to window immediately to avoid any deferred initialization race conditions
+  window.MTV_BU = window.MTV_BU || {};
+  window.MTV_BU.escapeHtml = escapeHtml;
+
   const MTV_BU = {
+    escapeHtml: escapeHtml,
     // UI & Persistence Helpers
     runWorkerTask: function(workerFn, payload) {
       return new Promise((resolve, reject) => {

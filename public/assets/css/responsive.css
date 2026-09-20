@@ -572,6 +572,10 @@
     display: none !important;
   }
 
+  #nav-info-dropdown {
+    display: none !important;
+  }
+
   .btn-mobile-menu {
     display: flex !important;
     width: 32px !important;

@@ -164,18 +164,22 @@ const initNavigation = () => {
       navDesktop.parentNode.insertBefore(dropdown, headerActions);
     }
 
-    // Programmatically update links to point to exact requested URLs
+    // Programmatically update links to point to exact local relative URLs
+    const pathName = window.location.pathname;
+    const isSubfolder = pathName.includes('/platforms/') || pathName.includes('/browser-utilities/') || pathName.includes('/ai-tools/') || pathName.includes('/creator-tools/') || pathName.includes('/media-converter-tools/');
+    const p = isSubfolder ? '../' : '';
+
     if (dropdownMenu) {
       dropdownMenu.querySelectorAll('.nav-dropdown-item').forEach(item => {
         const span = item.querySelector('span');
         if (span) {
           const text = span.textContent.trim().toLowerCase();
           if (text === 'contact') {
-            item.setAttribute('href', 'https://www.multitubeviews.com/contact');
+            item.setAttribute('href', `${p}contact.html`);
           } else if (text === 'about') {
-            item.setAttribute('href', 'https://www.multitubeviews.com/about');
+            item.setAttribute('href', `${p}about.html`);
           } else if (text === 'settings') {
-            item.setAttribute('href', 'https://www.multitubeviews.com/settings');
+            item.setAttribute('href', `${p}settings.html`);
           }
         }
       });
@@ -528,18 +532,18 @@ const initNavigation = () => {
       hasDragged = false;
       startX = e.pageX;
       scrollLeft = navDesktop.scrollLeft;
-      navDesktop.style.cursor = 'grabbing';
       navDesktop.style.scrollBehavior = 'auto'; // Smooth scroll breaks instant drag feedback
     });
 
     document.addEventListener('mousemove', (e) => {
       if (!isDown) return;
       const x = e.pageX;
-      const walk = (x - startX) * 1.5; // Scroll speed multiplier
-      if (Math.abs(walk) > 4) {
+      const walk = (x - startX);
+      if (Math.abs(walk) > 12) {
         hasDragged = true;
+        navDesktop.style.cursor = 'grabbing';
+        navDesktop.scrollLeft = scrollLeft - (walk * 1.5);
       }
-      navDesktop.scrollLeft = scrollLeft - walk;
     });
 
     document.addEventListener('mouseup', () => {
@@ -549,13 +553,16 @@ const initNavigation = () => {
       navDesktop.style.scrollBehavior = 'smooth'; // Restore smooth scroll on mouseup
       
       if (hasDragged) {
-        // Prevent click navigation on active drag-scroll
+        // Prevent click navigation only on intentional active drag-scroll
         const preventClick = (evt) => {
           evt.preventDefault();
           evt.stopPropagation();
           navDesktop.removeEventListener('click', preventClick, true);
         };
         navDesktop.addEventListener('click', preventClick, true);
+        setTimeout(() => {
+          navDesktop.removeEventListener('click', preventClick, true);
+        }, 100);
       }
     });
 
@@ -758,6 +765,64 @@ if (document.readyState === 'loading') {
     if (pageToolId) {
       recordToolClick(pageToolId);
     }
+  }
+})();
+
+// Instant Link Prefetcher & Network Warmup Engine (Speed & Instant Navigation)
+(function initInstantLinkPrefetcher() {
+  const prefetchedUrls = new Set();
+
+  function prefetchUrl(url) {
+    if (!url || typeof url !== 'string') return;
+    // Only prefetch relative internal links
+    if (url.startsWith('#') || url.startsWith('mailto:') || url.startsWith('tel:') || url.startsWith('javascript:')) return;
+    if (url.startsWith('http') && !url.includes(window.location.hostname)) return;
+
+    // Resolve full path
+    try {
+      const resolved = new URL(url, window.location.href).href;
+      if (prefetchedUrls.has(resolved) || resolved === window.location.href) return;
+      prefetchedUrls.add(resolved);
+
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = resolved;
+      link.as = 'document';
+      document.head.appendChild(link);
+    } catch (e) {}
+  }
+
+  // Prefetch on hover (desktop) or touchstart (mobile)
+  const onPointerEnter = (e) => {
+    const a = e.target && e.target.closest ? e.target.closest('a') : null;
+    if (a && a.href) {
+      prefetchUrl(a.getAttribute('href'));
+    }
+  };
+
+  document.addEventListener('pointerenter', onPointerEnter, { capture: true, passive: true });
+  document.addEventListener('touchstart', onPointerEnter, { capture: true, passive: true });
+
+  // Prefetch primary hub pages on idle
+  if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+    window.requestIdleCallback(() => {
+      const isSub = window.location.pathname.includes('/ai-tools/') || 
+                    window.location.pathname.includes('/creator-tools/') || 
+                    window.location.pathname.includes('/media-converter-tools/') || 
+                    window.location.pathname.includes('/browser-utilities/') || 
+                    window.location.pathname.includes('/platforms/');
+      const p = isSub ? '../' : '';
+      const hubs = [
+        `${p}explore-hub.html`,
+        `${p}ai-tools.html`,
+        `${p}creator-tools.html`,
+        `${p}media-converter-tools.html`,
+        `${p}browser-utilities.html`,
+        `${p}platforms.html`,
+        `${p}ai-prompt.html`
+      ];
+      hubs.forEach(h => prefetchUrl(h));
+    }, { timeout: 2000 });
   }
 })();
 

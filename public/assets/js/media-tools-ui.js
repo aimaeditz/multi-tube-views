@@ -1638,7 +1638,7 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
       }
     },
 
-    // Main execution router for the 60 tools
+    // Main execution router for the 73 tools
     async execute(toolId, file, engine) {
       const panel = document.getElementById(`panel-${toolId}`);
       const handlers = window.MTVMediaHandlers || {};

@@ -1,18 +1,18 @@
 /**
- * Multi Tube Views (MTV) — 210 AI Tools Data Directory
- * Structured metadata for 210 dedicated AI generative tools across 6 core categories.
+ * Multi Tube Views (MTV) — 211 AI Tools Data Directory
+ * Structured metadata for 211 dedicated AI generative tools across 6 core categories.
  */
 
 export const AI_CATEGORIES = [
   {
     "id": "all",
     "name": "All Tools",
-    "count": 210
+    "count": 211
   },
   {
     "id": "video",
     "name": "Video & Scripting",
-    "count": 33
+    "count": 34
   },
   {
     "id": "social",

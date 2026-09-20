@@ -272,14 +272,19 @@ function bootAITools() {
       }
 
       // Wire tool to MTVAI
-      if (window.MTVAI && typeof window.MTVAI.bindTool === 'function') {
-        window.MTVAI.bindTool({
-          task: toolId,
-          inputId: 'dedicated-tool-input',
-          buttonId: 'btn-generate-dedicated',
-          outputId: 'dedicated-tool-output'
-        });
-      }
+      const bindToolToEngine = () => {
+        if (window.MTVAI && typeof window.MTVAI.bindTool === 'function') {
+          window.MTVAI.bindTool({
+            task: toolId,
+            inputId: 'dedicated-tool-input',
+            buttonId: 'btn-generate-dedicated',
+            outputId: 'dedicated-tool-output'
+          });
+        } else {
+          setTimeout(bindToolToEngine, 100);
+        }
+      };
+      bindToolToEngine();
 
       // Watch for output updates to save in sessionStorage
       if (dedicatedToolOutput) {
