@@ -303,41 +303,48 @@ input, select, textarea, button {
 
 @media (min-width: 781px) {
   .header-inner {
-    display: grid !important;
-    grid-template-columns: 1fr auto 1fr !important;
+    position: relative !important;
+    display: flex !important;
     align-items: center !important;
-    justify-content: stretch !important;
+    justify-content: space-between !important;
     height: 100% !important;
     min-height: 60px !important;
-    gap: 0.5rem !important;
     box-sizing: border-box !important;
   }
 
   .brand {
-    justify-self: start !important;
+    position: relative !important;
+    z-index: 2 !important;
+    display: inline-flex !important;
+    align-items: center !important;
     flex-shrink: 0 !important;
-    min-width: 0 !important;
   }
 
   .nav-desktop {
-    justify-self: center !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 1 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: calc(100% - 280px) !important;
+    white-space: nowrap !important;
     overflow: visible !important;
+    pointer-events: auto !important;
   }
 
   .header-actions {
-    justify-self: end !important;
-    display: flex !important;
+    position: relative !important;
+    z-index: 2 !important;
+    display: inline-flex !important;
     align-items: center !important;
     justify-content: flex-end !important;
     flex-shrink: 0 !important;
-    min-width: 0 !important;
+    margin-left: auto !important;
   }
 }
 
@@ -660,21 +667,22 @@ input, select, textarea, button {
 }
 
 /* Responsive navigation scaling for narrow desktop / medium screen widths */
-@media (max-width: 1200px) and (min-width: 1025px) {
+@media (max-width: 1280px) and (min-width: 1025px) {
   .nav-desktop {
     gap: 0.2rem !important;
     margin: 0 !important;
+    max-width: calc(100% - 260px) !important;
   }
   .nav-link,
   .nav-dropdown-btn {
-    font-size: 0.86rem !important;
-    padding: 0.35rem 0.35rem !important;
+    font-size: 0.84rem !important;
+    padding: 0.32rem 0.38rem !important;
   }
 }
 
-@media (max-width: 1024px) and (min-width: 781px) {
+@media (max-width: 1024px) and (min-width: 881px) {
   .brand-text span:first-child {
-    font-size: 0.82rem !important;
+    font-size: 0.84rem !important;
   }
   .brand-badge {
     display: none !important;
@@ -682,14 +690,38 @@ input, select, textarea, button {
   .nav-desktop {
     gap: 0.15rem !important;
     margin: 0 !important;
-    padding-left: 2px !important;
-    padding-right: 2px !important;
+    max-width: calc(100% - 200px) !important;
   }
   .nav-link,
   .nav-dropdown-btn {
     font-size: 0.76rem !important;
     letter-spacing: -0.02em !important;
-    padding: 0.3rem 0.25rem !important;
+    padding: 0.26rem 0.3rem !important;
+  }
+}
+
+@media (max-width: 880px) and (min-width: 781px) {
+  .brand-icon {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 0.72rem !important;
+  }
+  .brand-text span:first-child {
+    font-size: 0.78rem !important;
+  }
+  .brand-badge {
+    display: none !important;
+  }
+  .nav-desktop {
+    gap: 0.1rem !important;
+    margin: 0 !important;
+    max-width: calc(100% - 170px) !important;
+  }
+  .nav-link,
+  .nav-dropdown-btn {
+    font-size: 0.71rem !important;
+    letter-spacing: -0.025em !important;
+    padding: 0.22rem 0.24rem !important;
   }
 }
 
