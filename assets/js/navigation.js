@@ -157,12 +157,9 @@ const initNavigation = () => {
 
     if (!dropdown || !dropdownBtn) return;
 
-    // Move dropdown outside of .nav-desktop to prevent clipping from overflow-x: auto
+    // Ensure dropdown stays cleanly within .nav-desktop as part of the centered navigation
     const navDesktop = document.querySelector('.nav-desktop');
     const headerActions = document.querySelector('.header-actions');
-    if (navDesktop && headerActions && navDesktop.contains(dropdown)) {
-      navDesktop.parentNode.insertBefore(dropdown, headerActions);
-    }
 
     // Programmatically update links to point to exact local relative URLs
     const pathName = window.location.pathname;

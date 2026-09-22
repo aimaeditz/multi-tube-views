@@ -285,6 +285,7 @@ input, select, textarea, button {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
+  transform: translateZ(0);
 }
 
 [data-theme="dark"] .site-header {
@@ -298,6 +299,46 @@ input, select, textarea, button {
   height: 100% !important;
   min-height: 60px !important;
   box-sizing: border-box !important;
+}
+
+@media (min-width: 781px) {
+  .header-inner {
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    align-items: center !important;
+    justify-content: stretch !important;
+    height: 100% !important;
+    min-height: 60px !important;
+    gap: 0.5rem !important;
+    box-sizing: border-box !important;
+  }
+
+  .brand {
+    justify-self: start !important;
+    flex-shrink: 0 !important;
+    min-width: 0 !important;
+  }
+
+  .nav-desktop {
+    justify-self: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+  }
+
+  .header-actions {
+    justify-self: end !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex-shrink: 0 !important;
+    min-width: 0 !important;
+  }
 }
 
 @keyframes brandLogoEntrance {
@@ -378,25 +419,17 @@ input, select, textarea, button {
   align-items: center;
   gap: 0.25rem;
   flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
   
-  /* Flexbox space allocation and shrinkage */
+  /* Flexbox / Grid space allocation */
   flex: 0 1 auto;
   min-width: 0;
   
-  /* Balanced desktop positioning */
-  margin-left: auto;
-  margin-right: 0.25rem;
+  /* Centered positioning */
+  margin: 0 !important;
   padding-left: 4px;
   padding-right: 4px;
   
-  /* Grab/grabbing cursor indicators for drag-scroll */
-  cursor: grab;
-  
-  /* Non-blocking dynamic fade mask for edges - controlled by JS classes */
+  /* Non-blocking dynamic fade mask for edges */
   mask-image: none;
   -webkit-mask-image: none;
   transition: mask-image 0.2s ease, -webkit-mask-image 0.2s ease;
@@ -404,10 +437,7 @@ input, select, textarea, button {
 
 @media (min-width: 1400px) {
   .nav-desktop {
-    margin-right: 0.25rem;
-  }
-  .nav-dropdown {
-    margin-right: 0.25rem;
+    margin: 0 !important;
   }
 }
 
@@ -633,10 +663,7 @@ input, select, textarea, button {
 @media (max-width: 1200px) and (min-width: 1025px) {
   .nav-desktop {
     gap: 0.2rem !important;
-    margin-right: 0.2rem !important;
-  }
-  .nav-dropdown {
-    margin-right: 0.2rem !important;
+    margin: 0 !important;
   }
   .nav-link,
   .nav-dropdown-btn {
@@ -654,12 +681,9 @@ input, select, textarea, button {
   }
   .nav-desktop {
     gap: 0.15rem !important;
-    margin-right: 0.15rem !important;
+    margin: 0 !important;
     padding-left: 2px !important;
     padding-right: 2px !important;
-  }
-  .nav-dropdown {
-    margin-right: 0.15rem !important;
   }
   .nav-link,
   .nav-dropdown-btn {

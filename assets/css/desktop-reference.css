@@ -261,26 +261,31 @@
     z-index: 1;
   }
 
-  /* Top Ticker Marquee */
+  /* Top Ticker Marquee — Slim, Refined, Centered Pill Strip (Desktop Only) */
   .marquee-shell {
-    width: 100%;
-    overflow: hidden;
-    padding: 0.65rem 0;
+    width: min(calc(100% - 48px), var(--max-width, 1760px));
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 10px;
-    margin-bottom: 2.5rem;
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    margin-bottom: 2rem;
+    padding: 0.32rem 1.25rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: var(--radius-full, 9999px);
+    border: 1px solid var(--border-strong, #E5E5E7);
+    box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.04);
+    mask-image: linear-gradient(to right, transparent, black 36px, black calc(100% - 36px), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 36px, black calc(100% - 36px), transparent);
   }
 
   [data-theme="dark"] .marquee-shell {
-    background: rgba(20, 22, 28, 0.55);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(20, 22, 28, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.35);
   }
 
   .marquee-track {
@@ -288,6 +293,7 @@
     width: max-content;
     animation: marqueeScroll 45s linear infinite;
     will-change: transform;
+    align-items: center;
   }
 
   .marquee-track:hover {
@@ -297,33 +303,34 @@
   .marquee-set {
     display: flex;
     align-items: center;
-    gap: 3rem;
-    padding-right: 3rem;
+    gap: 2.25rem;
+    padding-right: 2.25rem;
     flex-shrink: 0;
   }
 
   .marquee-item {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: #475569;
+    color: var(--text-secondary, #64748b);
     white-space: nowrap;
   }
 
   [data-theme="dark"] .marquee-item {
-    color: #94a3b8;
+    color: var(--text-secondary, #94a3b8);
   }
 
   .marquee-item .dot {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
-    background: var(--ref-cyan);
-    box-shadow: 0 0 8px var(--ref-cyan);
+    background: var(--ref-cyan, #06b6d4);
+    box-shadow: 0 0 6px var(--ref-cyan, #06b6d4);
+    flex-shrink: 0;
   }
 
   @keyframes marqueeScroll {
