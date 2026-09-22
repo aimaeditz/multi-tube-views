@@ -17,7 +17,7 @@ export const BATCH_FILE_TOOLS = [
     features: [
       { title: 'Auto Format Detection', desc: 'Recognizes PNG, JPEG, GIF, WebP, and SVG headers automatically from data or magic bytes.' },
       { title: 'Transparency Checkerboard', desc: 'Renders alpha transparent images with a high-contrast pattern for clear inspection.' },
-      { title: 'Instant Download & Copy', desc: 'Save image directly or copy formatted HTML <img> tag.' }
+      { title: 'Instant Download & Copy', desc: 'Save image directly or copy formatted HTML &lt;img&gt; tag.' }
     ],
     sampleText: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMjAwIDIwMCI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiMzYjgyZjYiIHJ4PSI0MCIvPjxwb2x5Z29uIHBvaW50cz0iMTAwLDQwIDE1MCwxNTAgNTAsMTUwIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+',
     renderControls: () => `

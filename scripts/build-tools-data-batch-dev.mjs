@@ -4,9 +4,9 @@ export const BATCH_DEV_TOOLS = [
   {
     id: 'csv-json-converter',
     categoryId: 'developer-utilities',
-    name: 'CSV to JSON Converter',
+    name: 'CSV & TSV to JSON Converter',
     icon: '📊',
-    title: 'CSV to JSON Converter — Convert CSV & TSV to Structured JSON Objects',
+    title: 'CSV & TSV to JSON Converter — Convert Delimited Data to JSON Objects | MTV',
     description: 'Convert CSV (comma-separated), TSV (tab-separated), or custom delimited spreadsheet data into structured JSON objects or 2D arrays with automatic number/boolean type parsing, custom delimiters, and minify options.',
     keywords: 'csv to json converter, convert csv to json online, tsv to json, spreadsheet to json, csv parser, csv to json array',
     howToUse: [
@@ -257,9 +257,9 @@ export const BATCH_DEV_TOOLS = [
   {
     id: 'json-csv-converter',
     categoryId: 'developer-utilities',
-    name: 'JSON to CSV Converter',
+    name: 'JSON to CSV & TSV Formatter',
     icon: '📑',
-    title: 'JSON to CSV Converter — Transform JSON Arrays into Clean CSV/TSV Tables',
+    title: 'JSON to CSV & TSV Formatter — Transform JSON Arrays to Delimited Tables | MTV',
     description: 'Transform structured JSON objects or nested arrays into standard CSV or TSV spreadsheet format with custom delimiters, automatic quote escaping, and nested key flattening.',
     keywords: 'json to csv converter, json to excel, convert json to tsv, json to spreadsheet, json flatten to csv, export json to csv',
     howToUse: [

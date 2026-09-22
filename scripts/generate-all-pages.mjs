@@ -347,28 +347,33 @@ function renderFooter({ depth = 0 }) {
 export function generateToolSeoMetadata(tool, cat) {
   const toolName = tool.name.trim();
 
-  // Title target length: 50-60 chars
-  let brand = toolName.length > 25 ? 'MTV' : 'Multi Tube Views';
-  let title = `${toolName} — Free In-Browser Tool | ${brand}`;
+  let title = '';
+  if (tool.title && tool.title.length >= 40 && tool.title.length <= 75) {
+    title = tool.title;
+  } else {
+    // Title target length: 50-60 chars
+    let brand = toolName.length > 25 ? 'MTV' : 'Multi Tube Views';
+    title = `${toolName} — Free In-Browser Tool | ${brand}`;
 
-  if (toolName.toLowerCase().includes('generator')) {
-    title = `${toolName} — Free Online Generator | ${brand}`;
-  } else if (toolName.toLowerCase().includes('converter')) {
-    title = `${toolName} — Free Online Converter | ${brand}`;
-  } else if (toolName.toLowerCase().includes('calculator')) {
-    title = `${toolName} — Free Online Calculator | ${brand}`;
-  } else if (toolName.toLowerCase().includes('checker') || toolName.toLowerCase().includes('validator') || toolName.toLowerCase().includes('tester')) {
-    title = `${toolName} — Free Online Testing Tool | ${brand}`;
-  }
+    if (toolName.toLowerCase().includes('generator')) {
+      title = `${toolName} — Free Online Generator | ${brand}`;
+    } else if (toolName.toLowerCase().includes('converter')) {
+      title = `${toolName} — Free Online Converter | ${brand}`;
+    } else if (toolName.toLowerCase().includes('calculator')) {
+      title = `${toolName} — Free Online Calculator | ${brand}`;
+    } else if (toolName.toLowerCase().includes('checker') || toolName.toLowerCase().includes('validator') || toolName.toLowerCase().includes('tester')) {
+      title = `${toolName} — Free Online Testing Tool | ${brand}`;
+    }
 
-  if (title.length < 50) {
-    title = `${toolName} — Free Online Tool & Utility | ${brand}`;
-  }
-  if (title.length > 60) {
-    title = `${toolName} — Free Online Tool | MTV`;
-  }
-  if (title.length > 60) {
-    title = `${toolName} — Free In-Browser Tool`;
+    if (title.length < 50) {
+      title = `${toolName} — Free Online Tool & Utility | ${brand}`;
+    }
+    if (title.length > 60) {
+      title = `${toolName} — Free Online Tool | MTV`;
+    }
+    if (title.length > 60) {
+      title = `${toolName} — Free In-Browser Tool`;
+    }
   }
 
   // Meta description target length: 150-160 chars
@@ -1014,12 +1019,77 @@ ${renderFooter({ depth: 1 })}
   console.log(`✓ Generated ${ALL_TOOLS.length} individual tool pages in browser-utilities/`);
 }
 
+// 4. Generate Valid Directory Fallbacks
+export function generateRedirectPages() {
+  const buHtml = `${renderHead({
+    title: 'Browser Utilities Directory — Multi Tube Views',
+    description: 'Explore 111+ fast, private client-side browser utilities for developers and creators. Format JSON, convert colors, test regex, and more with zero server uploads.',
+    keywords: 'browser utilities, web tools, developer tools, client side tools, multi tube views, mtv tools',
+    canonical: 'https://multitubeviews.com/browser-utilities.html',
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://multitubeviews.com/browser-utilities/index.html#webpage",
+      "url": "https://multitubeviews.com/browser-utilities.html",
+      "name": "Browser Utilities Directory",
+      "description": "Explore 111+ fast, private client-side browser utilities for developers and creators.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Multi Tube Views",
+        "url": "https://multitubeviews.com/"
+      }
+    },
+    depth: 1
+  })}
+<body style="font-family: system-ui, sans-serif; text-align: center; padding: 3rem; background: var(--bg-primary, #07090e); color: var(--text-primary, #f0f3fa);">
+  <h1 style="font-size: 1.5rem; margin-bottom: 1rem;">Browser Utilities Directory</h1>
+  <p>Redirecting to <a href="../browser-utilities.html" style="color: var(--accent-primary, #6366f1); font-weight: 700;">Browser Utilities Hub</a>...</p>
+  <script>
+    window.location.replace('../browser-utilities.html');
+  </script>
+</body>
+</html>`;
+  fs.writeFileSync(path.join(ROOT, 'browser-utilities', 'index.html'), buHtml, 'utf8');
+
+  const platformsHtml = `${renderHead({
+    title: 'Supported Media Platforms — Multi Tube Views Directory',
+    description: 'Explore 40+ supported video, live streaming, and audio platforms in Multi Tube Views. Watch and listen side-by-side in custom multi-player grids.',
+    keywords: 'media platforms, video streaming platforms, live stream players, multi tube views, mtv directory',
+    canonical: 'https://multitubeviews.com/platforms.html',
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://multitubeviews.com/platforms/index.html#webpage",
+      "url": "https://multitubeviews.com/platforms.html",
+      "name": "Supported Media Platforms Directory",
+      "description": "Explore 40+ supported video, live streaming, and audio platforms in Multi Tube Views.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Multi Tube Views",
+        "url": "https://multitubeviews.com/"
+      }
+    },
+    depth: 1
+  })}
+<body style="font-family: system-ui, sans-serif; text-align: center; padding: 3rem; background: var(--bg-primary, #07090e); color: var(--text-primary, #f0f3fa);">
+  <h1 style="font-size: 1.5rem; margin-bottom: 1rem;">Supported Media Platforms Directory</h1>
+  <p>Redirecting to <a href="../platforms.html" style="color: var(--accent-primary, #6366f1); font-weight: 700;">Platforms Directory</a>...</p>
+  <script>
+    window.location.replace('../platforms.html');
+  </script>
+</body>
+</html>`;
+  fs.writeFileSync(path.join(ROOT, 'platforms', 'index.html'), platformsHtml, 'utf8');
+  console.log('✓ Generated redirect directory pages in browser-utilities/ and platforms/');
+}
+
 // Run Generators if called directly
 if (process.argv[1] && process.argv[1].endsWith('generate-all-pages.mjs')) {
   console.log('Starting Browser Utilities static page generation...');
   generateHubPage();
   generateCategoryPages();
   generateToolPages();
+  generateRedirectPages();
   console.log('✓ Finished all page generation successfully.');
 }
 

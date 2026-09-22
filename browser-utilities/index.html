@@ -1,15 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" style="background-color: #FDFDFD; color-scheme: light;">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=../browser-utilities.html">
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        var eff = (t === 'dark') ? 'dark' : (t === 'light' ? 'light' : ((t === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'));
+        var bg = eff === 'dark' ? '#0A0A0C' : '#FDFDFD';
+        var color = eff === 'dark' ? '#F5F5F7' : '#1D1D1F';
+        var doc = document.documentElement;
+        doc.setAttribute('data-theme', eff);
+        doc.style.colorScheme = eff;
+        doc.style.backgroundColor = bg;
+        document.write('<style id="mtv-instant-bg">html,html body{background-color:' + bg + ' !important;background:' + bg + ' !important;color:' + color + ' !important;}</style>');
+      } catch(e){}
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Resource Hints & Preconnects for Performance Optimization -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
+  <!-- Preload Critical CSS Assets -->
+  <link rel="preload" href="../assets/css/style.css" as="style">
+  <link rel="preload" href="../assets/css/components.css" as="style">
+  <link rel="preload" href="../assets/css/responsive.css" as="style">
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+
+  <!-- Instant Navigation Hub Prefetches -->
+  <link rel="prefetch" href="../explore-hub.html" as="document">
+  <link rel="prefetch" href="../ai-tools.html" as="document">
+  <link rel="prefetch" href="../creator-tools.html" as="document">
+  <link rel="prefetch" href="../media-converter-tools.html" as="document">
+  <link rel="prefetch" href="../browser-utilities.html" as="document">
+  <link rel="prefetch" href="../platforms.html" as="document">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFC10HKCM1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RFC10HKCM1');
+  </script>
+
+  <meta name="google-adsense-account" content="ca-pub-5279550123869703">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5279550123869703" crossorigin="anonymous"></script>
+
+  <link rel="icon" href="../assets/icons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../assets/icons/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../assets/icons/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="../manifest.json">
+  <title>Browser Utilities Directory — Multi Tube Views</title>
+  <meta name="description" content="Explore 111+ fast, private client-side browser utilities for developers and creators. Format JSON, convert colors, test regex, and more with zero server uploads.">
+  <meta name="keywords" content="browser utilities, web tools, developer tools, client side tools, multi tube views, mtv tools">
+  <meta name="author" content="AiMAEditz">
+  <meta name="theme-color" content="#FDFDFD">
   <link rel="canonical" href="https://multitubeviews.com/browser-utilities.html">
-  <title>Browser Utilities — Multi Tube Views</title>
+
+    <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://multitubeviews.com/browser-utilities/index.html">
+  <meta property="og:title" content="Browser Utilities Directory — Multi Tube Views">
+  <meta property="og:description" content="Explore 111+ fast, private client-side browser utilities for developers and creators. Format JSON, convert colors, test regex, and more with zero server uploads.">
+  <meta property="og:site_name" content="Multi Tube Views">
+  <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Browser Utilities Directory — Multi Tube Views">
+  <meta name="twitter:description" content="Explore 111+ fast, private client-side browser utilities for developers and creators. Format JSON, convert colors, test regex, and more with zero server uploads.">
+  <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://multitubeviews.com/browser-utilities/index.html#webpage",
+  "url": "https://multitubeviews.com/browser-utilities.html",
+  "name": "Browser Utilities Directory",
+  "description": "Explore 111+ fast, private client-side browser utilities for developers and creators.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Multi Tube Views",
+    "url": "https://multitubeviews.com/"
+  }
+}
+  </script>
+
+  <script type="module" src="../assets/js/storage.js"></script>
+  <script type="module" src="../assets/js/theme.js"></script>
+</head>
+<body style="font-family: system-ui, sans-serif; text-align: center; padding: 3rem; background: var(--bg-primary, #07090e); color: var(--text-primary, #f0f3fa);">
+  <h1 style="font-size: 1.5rem; margin-bottom: 1rem;">Browser Utilities Directory</h1>
+  <p>Redirecting to <a href="../browser-utilities.html" style="color: var(--accent-primary, #6366f1); font-weight: 700;">Browser Utilities Hub</a>...</p>
   <script>
     window.location.replace('../browser-utilities.html');
   </script>
-</head>
-<body style="font-family: system-ui, sans-serif; text-align: center; padding: 3rem; background: #07090e; color: #f0f3fa;">
-  <p>Redirecting to <a href="../browser-utilities.html" style="color: #6366f1;">Browser Utilities Hub</a>...</p>
 </body>
 </html>
