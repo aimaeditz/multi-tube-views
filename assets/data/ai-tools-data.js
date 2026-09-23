@@ -603,7 +603,7 @@ export const AI_TOOLS_DATA = {
     promptTemplate: 'Provide the exact step-by-step Git commands to solve this scenario: {topic}. Explain what each command does safely and provide a fallback if things go wrong.',
     dateAdded: '2026-05-10'
   },
-  'error-log-troubleshooter': {
+  'bug-log-troubleshooter': {
     title: 'Error Log Troubleshooter',
     desc: 'Diagnose stack traces, runtime exceptions, and build errors',
     icon: '🛠️',
