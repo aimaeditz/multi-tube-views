@@ -1244,6 +1244,17 @@ export function generateAllMediaConverterPages() {
       if (window.MTVMediaUI && typeof window.MTVMediaUI.ensurePanel === 'function') {
         window.MTVMediaUI.ensurePanel(toolId, null);
         const panel = document.getElementById('panel-' + toolId);
+        if (panel) {
+          panel.style.display = 'block';
+          if (typeof window.MTVMediaUI.bindPanelEvents === 'function') {
+            window.MTVMediaUI.bindPanelEvents(toolId, panel, null);
+          }
+        }
+      }
+
+      if (tool && tool.hideMainDropzone) {
+        if (dropzone) dropzone.style.display = 'none';
+        const panel = document.getElementById('panel-' + toolId);
         if (panel) panel.style.display = 'block';
       }
 
@@ -1279,8 +1290,13 @@ export function generateAllMediaConverterPages() {
         dropzone.style.display = 'none';
       }
 
+      function escapeHtml(str) {
+        return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
       btnProcess.addEventListener('click', async () => {
-        if (!currentFile && !toolId.includes('noise-generator') && !toolId.includes('qr-code')) {
+        const requiresFile = !(tool && tool.hideMainDropzone) && !['text-to-pdf', 'markdown-to-pdf', 'audio-noise-generator', 'qr-generator', 'voice-to-text', 'text-to-speech'].includes(toolId);
+        if (requiresFile && !currentFile) {
           showToast('Please select a file to process.');
           fileInput.click();
           return;
@@ -1288,40 +1304,61 @@ export function generateAllMediaConverterPages() {
 
         progressWrap.style.display = 'block';
         btnProcess.disabled = true;
-        progressPct.textContent = '20%';
-        progressBarFill.style.width = '20%';
+        progressPct.textContent = '25%';
+        progressBarFill.style.width = '25%';
+        progressStatus.textContent = 'Processing media locally in your browser...';
 
         try {
-          // If custom handler exists in MTVMediaHandlers
-          if (window.MTVMediaHandlers && typeof window.MTVMediaHandlers[toolId] === 'function') {
-            const res = await window.MTVMediaHandlers[toolId](currentFile, {
-              onProgress: (p) => {
-                progressPct.textContent = Math.round(p) + '%';
-                progressBarFill.style.width = Math.round(p) + '%';
-              }
-            });
-
-            if (res && res.blob) {
-              const url = URL.createObjectURL(res.blob);
-              btnDownload.href = url;
-              btnDownload.download = res.filename || ('processed-' + (currentFile ? currentFile.name : 'media.bin'));
-              previewBox.innerHTML = '<div style=\"padding: 1rem; background: var(--bg-subtle); border-radius: 8px;\">✓ File ready for download: <strong>' + (res.filename || 'converted-file') + '</strong></div>';
-              outputWrap.style.display = 'block';
+          const engine = {
+            updateProgress: (pct, msg) => {
+              progressPct.textContent = Math.round(pct) + '%';
+              progressBarFill.style.width = Math.round(pct) + '%';
+              if (msg) progressStatus.textContent = msg;
             }
-          } else {
-            // Simulated Client-side completion / Audio extraction fallback
-            progressBarFill.style.width = '100%';
-            progressPct.textContent = '100%';
-            const blob = currentFile ? currentFile : new Blob(['Processed media content'], { type: 'application/octet-stream' });
-            const url = URL.createObjectURL(blob);
+          };
+
+          let res = null;
+          if (window.MTVMediaUI && window.MTVMediaUI.hasHandler(toolId)) {
+            res = await window.MTVMediaUI.execute(toolId, currentFile, engine);
+          } else if (window.MTVMediaHandlers && typeof window.MTVMediaHandlers[toolId] === 'function') {
+            res = await window.MTVMediaHandlers[toolId](currentFile, {
+              onProgress: (p) => engine.updateProgress(p)
+            });
+          }
+
+          if (res && res.blob) {
+            const url = URL.createObjectURL(res.blob);
+            const ext = res.extension || 'bin';
+            const baseName = currentFile ? currentFile.name.replace(/\\.[^/.]+$/, '') : toolId;
+            const outFilename = res.filename || (baseName + '-converted.' + ext);
             btnDownload.href = url;
-            btnDownload.download = 'converted-' + (currentFile ? currentFile.name : 'output.bin');
-            previewBox.innerHTML = '<div style=\"padding: 1rem; background: var(--bg-subtle); border-radius: 8px;\">✓ Processing complete. Ready for download.</div>';
+            btnDownload.download = outFilename;
+
+            const mime = res.mimeType || res.blob.type || '';
+            if (mime.startsWith('image/') || ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'].includes(ext)) {
+              previewBox.innerHTML = '<div style=\"text-align:center;\"><img src=\"' + url + '\" style=\"max-width:100%; max-height:360px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin-bottom:0.75rem;\" alt=\"Converted Preview\"><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(res.meta || 'Image ready') + '</div></div>';
+            } else if (mime.startsWith('audio/') || ['mp3', 'wav', 'aac', 'ogg'].includes(ext)) {
+              previewBox.innerHTML = '<div><audio controls src=\"' + url + '\" style=\"width:100%; margin-bottom:0.75rem;\"></audio><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(res.meta || 'Audio ready') + '</div></div>';
+            } else if (mime.startsWith('video/') || ['mp4', 'webm', 'mkv'].includes(ext)) {
+              previewBox.innerHTML = '<div style=\"text-align:center;\"><video controls src=\"' + url + '\" style=\"max-width:100%; max-height:360px; border-radius:8px; margin-bottom:0.75rem;\"></video><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(res.meta || 'Video ready') + '</div></div>';
+            } else if (mime === 'application/pdf' || ext === 'pdf') {
+              previewBox.innerHTML = '<div><iframe src=\"' + url + '\" style=\"width:100%; height:450px; border:1px solid var(--border-subtle); border-radius:8px; margin-bottom:0.75rem;\"></iframe><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(res.meta || 'PDF document ready') + '</div></div>';
+            } else {
+              previewBox.innerHTML = '<div style=\"padding:1rem; background:var(--bg-subtle); border-radius:8px; border:1px solid var(--border-subtle); font-size:0.9rem;\"><strong>✓ Complete:</strong> ' + escapeHtml(res.meta || 'File processed successfully.') + '</div>';
+            }
+
+            progressPct.textContent = '100%';
+            progressBarFill.style.width = '100%';
+            progressStatus.textContent = 'Conversion complete!';
             outputWrap.style.display = 'block';
+            showToast('✓ Processed successfully!');
+          } else {
+            throw new Error('Conversion failed to return a file');
           }
         } catch (err) {
           console.error('Media processing error:', err);
-          showToast('Processing complete with note: ' + err.message);
+          showToast('Error: ' + err.message);
+          progressStatus.textContent = 'Failed: ' + err.message;
         } finally {
           btnProcess.disabled = false;
         }
