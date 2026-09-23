@@ -1173,6 +1173,96 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
     },
 
     bindPanelEvents(toolId, panel, engine) {
+      // Fallback safe engine adapter if engine is not provided or incomplete
+      const safeEngine = {
+        updateProgress: (pct, msg) => {
+          if (engine && typeof engine.updateProgress === 'function') {
+            engine.updateProgress(pct, msg);
+          } else {
+            const bar = document.getElementById('progress-bar-fill') || document.querySelector('.progress-bar-fill');
+            const txt = document.getElementById('progress-pct');
+            const stat = document.getElementById('progress-status') || document.getElementById('progress-status-msg');
+            const wrap = document.getElementById('media-progress-wrap') || document.getElementById('progress-wrap');
+            if (wrap) wrap.style.display = 'block';
+            if (bar) bar.style.width = Math.round(pct) + '%';
+            if (txt) txt.textContent = Math.round(pct) + '%';
+            if (stat && msg) stat.textContent = msg;
+          }
+        },
+        setProcessingUi: (processing, msg) => {
+          if (engine && typeof engine.setProcessingUi === 'function') {
+            engine.setProcessingUi(processing, msg);
+          } else {
+            const wrap = document.getElementById('media-progress-wrap') || document.getElementById('progress-wrap');
+            const btn = document.getElementById('btn-process-media') || panel.querySelector('.btn-primary');
+            if (wrap) wrap.style.display = processing ? 'block' : 'none';
+            if (btn) btn.disabled = processing;
+            if (msg) safeEngine.updateProgress(25, msg);
+          }
+        },
+        showToast: (msg, type) => {
+          if (engine && typeof engine.showToast === 'function') {
+            engine.showToast(msg, type);
+          } else if (typeof window.showToast === 'function') {
+            window.showToast(msg);
+          } else {
+            const toast = document.getElementById('copy-toast');
+            if (toast) {
+              toast.textContent = msg;
+              toast.classList.add('show');
+              setTimeout(() => toast.classList.remove('show'), 2500);
+            }
+          }
+        },
+        renderOutputResult: async (rawBlob, extension, mimeType, metaText) => {
+          if (engine && typeof engine.renderOutputResult === 'function') {
+            return await engine.renderOutputResult(rawBlob, extension, mimeType, metaText);
+          }
+          let blob = rawBlob;
+          if (blob && typeof blob.then === 'function') {
+            try { blob = await blob; } catch (e) {
+              safeEngine.showToast('Generation failed: ' + e.message, 'error');
+              return;
+            }
+          }
+          if (blob && typeof blob === 'object' && !(blob instanceof Blob)) {
+            if (blob.blob instanceof Blob) {
+              blob = blob.blob;
+            } else if (blob.blob && typeof blob.blob.then === 'function') {
+              try { blob = await blob.blob; } catch (_) {}
+            }
+          }
+          if (blob instanceof ArrayBuffer || (blob && ArrayBuffer.isView(blob))) {
+            blob = new Blob([blob], { type: mimeType || (extension === 'pdf' ? 'application/pdf' : 'application/octet-stream') });
+          } else if (typeof blob === 'string') {
+            blob = new Blob([blob], { type: mimeType || 'text/plain;charset=utf-8' });
+          }
+          if (!(blob instanceof Blob)) {
+            safeEngine.showToast('Output generation failed: result is not a valid Blob', 'error');
+            return;
+          }
+          const url = URL.createObjectURL(blob);
+          const outWrap = document.getElementById('media-output-wrap') || document.getElementById('output-wrap');
+          const previewBox = document.getElementById('media-preview-box') || document.getElementById('preview-box');
+          const btnDownload = document.getElementById('btn-media-download') || document.getElementById('btn-download');
+          if (btnDownload) {
+            btnDownload.href = url;
+            btnDownload.download = `output-${Date.now()}.${extension || 'bin'}`;
+            btnDownload.style.display = 'inline-flex';
+          }
+          if (previewBox) {
+            if ((mimeType && mimeType.includes('pdf')) || extension === 'pdf') {
+              previewBox.innerHTML = `<div><iframe src="${url}" style="width:100%; height:450px; border:1px solid var(--border-subtle); border-radius:8px; margin-bottom:0.75rem;"></iframe><div style="font-size:0.85rem; color:var(--text-muted);">${metaText || 'PDF Document Ready'}</div></div>`;
+            } else {
+              previewBox.innerHTML = `<div style="padding:1rem; background:var(--bg-subtle); border-radius:8px; border:1px solid var(--border-subtle); font-size:0.9rem;">✓ <strong>${metaText || 'File processed successfully'}</strong></div>`;
+            }
+          }
+          if (outWrap) outWrap.style.display = 'block';
+          safeEngine.updateProgress(100, 'Complete!');
+          safeEngine.showToast('✓ Processing completed successfully!');
+        }
+      };
+
       // Sliders label updates
       panel.querySelectorAll('input[type="range"]').forEach(range => {
         const valSpan = panel.querySelector(`#val-${range.id.replace('opt-', '')}`);
@@ -1266,19 +1356,20 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
         panel.querySelector('#btn-do-audio-join')?.addEventListener('click', async () => {
           const input = panel.querySelector('#opt-ajoin-files');
           if (!input || !input.files || input.files.length < 2) {
-            engine.showToast('Please select at least 2 audio tracks to merge', 'warning');
+            safeEngine.showToast('Please select at least 2 audio tracks to merge', 'warning');
             return;
           }
           try {
-            engine.setProcessingUi(true, 'Merging audio tracks client-side...');
-            engine.updateProgress(30, `Combining ${input.files.length} audio files...`);
-            const blob = await window.MTVMediaHandlers.joinAudioFiles(Array.from(input.files));
-            engine.renderOutputResult(blob, 'wav', 'audio/wav', `Joined Audio (${input.files.length} Tracks)`);
-            engine.showToast('✓ Audio tracks joined successfully!');
+            safeEngine.setProcessingUi(true, 'Merging audio tracks client-side...');
+            safeEngine.updateProgress(30, `Combining ${input.files.length} audio files...`);
+            const raw = await window.MTVMediaHandlers.joinAudioFiles(Array.from(input.files));
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'audio/wav' });
+            await safeEngine.renderOutputResult(blob, 'wav', 'audio/wav', `Joined Audio (${input.files.length} Tracks)`);
+            safeEngine.showToast('✓ Audio tracks joined successfully!');
           } catch (e) {
-            engine.showToast(`Merge failed: ${e.message}`, 'error');
+            safeEngine.showToast(`Merge failed: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1355,9 +1446,9 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
 
             playBtn.style.display = 'none';
             if (stopBtn) stopBtn.style.display = 'inline-flex';
-            engine.showToast(`▶ Playing continuous ${noiseType} noise`);
+            safeEngine.showToast(`▶ Playing continuous ${noiseType} noise`);
           } catch (e) {
-            engine.showToast(`Audio playback error: ${e.message}`, 'error');
+            safeEngine.showToast(`Audio playback error: ${e.message}`, 'error');
           }
         });
 
@@ -1368,49 +1459,66 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           }
           if (stopBtn) stopBtn.style.display = 'none';
           if (playBtn) playBtn.style.display = 'inline-flex';
-          engine.showToast('⏹ Noise playback stopped');
+          safeEngine.showToast('⏹ Noise playback stopped');
         });
 
-        exportBtn?.addEventListener('click', () => {
+        exportBtn?.addEventListener('click', async () => {
           const type = panel.querySelector('#opt-noise-type')?.value || 'white';
           const dur = parseInt(panel.querySelector('#opt-noise-dur')?.value || '30', 10);
-          engine.updateProgress(30, `Synthesizing ${dur}s of pure ${type} noise...`);
+          safeEngine.updateProgress(30, `Synthesizing ${dur}s of pure ${type} noise...`);
           try {
-            const blob = window.MTVMediaHandlers.generateAmbientNoise(type, dur);
-            engine.renderOutputResult(blob, 'wav', 'audio/wav', `Ambient ${type.toUpperCase()} Noise (${dur}s)`);
-            engine.showToast('✓ Generated noise track successfully!');
+            const raw = await window.MTVMediaHandlers.generateAmbientNoise(type, dur);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'audio/wav' });
+            await safeEngine.renderOutputResult(blob, 'wav', 'audio/wav', `Ambient ${type.toUpperCase()} Noise (${dur}s)`);
+            safeEngine.showToast('✓ Generated noise track successfully!');
           } catch (err) {
-            engine.showToast(`Error: ${err.message}`, 'error');
+            safeEngine.showToast(`Error: ${err.message}`, 'error');
           }
         });
       }
 
       // Standalone PDF tool actions
       if (toolId === 'text-to-pdf') {
-        panel.querySelector('#btn-do-text-to-pdf')?.addEventListener('click', () => {
+        panel.querySelector('#btn-do-text-to-pdf')?.addEventListener('click', async () => {
           const title = panel.querySelector('#opt-t2p-title')?.value || 'Document';
           const text = panel.querySelector('#opt-t2p-text')?.value || '';
+          if (!text.trim()) {
+            safeEngine.showToast('Please enter text to generate PDF', 'warning');
+            return;
+          }
           try {
-            engine.updateProgress(40, 'Rendering text to PDF pages...');
-            const blob = window.MTVMediaHandlers.generateTextToPdf(text, title);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Generated PDF Document (${title})`);
-            engine.showToast('✓ PDF generated successfully!');
+            safeEngine.setProcessingUi(true, 'Rendering text to PDF pages...');
+            safeEngine.updateProgress(40, 'Rendering text to PDF pages...');
+            const raw = await window.MTVMediaHandlers.generateTextToPdf(text, title);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Generated PDF Document (${title})`);
+            safeEngine.showToast('✓ PDF generated successfully!');
           } catch (e) {
-            engine.showToast(`PDF Error: ${e.message}`, 'error');
+            safeEngine.showToast(`PDF Error: ${e.message}`, 'error');
+          } finally {
+            safeEngine.setProcessingUi(false);
           }
         });
       }
 
       if (toolId === 'markdown-to-pdf') {
-        panel.querySelector('#btn-do-md-to-pdf')?.addEventListener('click', () => {
+        panel.querySelector('#btn-do-md-to-pdf')?.addEventListener('click', async () => {
           const md = panel.querySelector('#opt-md-content')?.value || '';
+          if (!md.trim()) {
+            safeEngine.showToast('Please enter Markdown content', 'warning');
+            return;
+          }
           try {
-            engine.updateProgress(40, 'Parsing Markdown syntax & compiling PDF...');
-            const blob = window.MTVMediaHandlers.generateMarkdownToPdf(md);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', 'Markdown Compiled PDF Document');
-            engine.showToast('✓ Markdown PDF exported successfully!');
+            safeEngine.setProcessingUi(true, 'Parsing Markdown syntax & compiling PDF...');
+            safeEngine.updateProgress(40, 'Parsing Markdown syntax & compiling PDF...');
+            const raw = await window.MTVMediaHandlers.generateMarkdownToPdf(md);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', 'Markdown Compiled PDF Document');
+            safeEngine.showToast('✓ Markdown PDF exported successfully!');
           } catch (e) {
-            engine.showToast(`PDF Error: ${e.message}`, 'error');
+            safeEngine.showToast(`PDF Error: ${e.message}`, 'error');
+          } finally {
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1419,19 +1527,20 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
         panel.querySelector('#btn-do-pdf-merge')?.addEventListener('click', async () => {
           const input = panel.querySelector('#opt-pdf-merge-files');
           if (!input || !input.files || input.files.length < 2) {
-            engine.showToast('Please select at least 2 PDF files to merge', 'warning');
+            safeEngine.showToast('Please select at least 2 PDF files to merge', 'warning');
             return;
           }
           try {
-            engine.setProcessingUi(true, 'Merging PDF documents client-side...');
-            engine.updateProgress(30, `Combining ${input.files.length} PDF documents...`);
-            const blob = await window.MTVMediaHandlers.mergePdfFiles(input.files);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Combined PDF (${input.files.length} Documents)`);
-            engine.showToast('✓ All PDF files merged successfully!');
+            safeEngine.setProcessingUi(true, 'Merging PDF documents client-side...');
+            safeEngine.updateProgress(30, `Combining ${input.files.length} PDF documents...`);
+            const raw = await window.MTVMediaHandlers.mergePdfFiles(input.files);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Combined PDF (${input.files.length} Documents)`);
+            safeEngine.showToast('✓ All PDF files merged successfully!');
           } catch (e) {
-            engine.showToast(`Merge failed: ${e.message}`, 'error');
+            safeEngine.showToast(`Merge failed: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1441,19 +1550,20 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-split-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
           const ranges = panel.querySelector('#opt-pdf-split-ranges')?.value || '1';
           try {
-            engine.setProcessingUi(true, 'Extracting selected PDF pages...');
-            const blob = await window.MTVMediaHandlers.splitPdfPages(file, ranges);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Extracted Pages (${ranges})`);
-            engine.showToast('✓ Pages extracted successfully!');
+            safeEngine.setProcessingUi(true, 'Extracting selected PDF pages...');
+            const raw = await window.MTVMediaHandlers.splitPdfPages(file, ranges);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Extracted Pages (${ranges})`);
+            safeEngine.showToast('✓ Pages extracted successfully!');
           } catch (e) {
-            engine.showToast(`Split error: ${e.message}`, 'error');
+            safeEngine.showToast(`Split error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1463,19 +1573,20 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-rot-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
           const deg = parseInt(panel.querySelector('#opt-pdf-rot-deg')?.value || '90', 10);
           try {
-            engine.setProcessingUi(true, 'Rotating PDF pages...');
-            const blob = await window.MTVMediaHandlers.rotatePdfPages(file, deg);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Rotated PDF (${deg}°)`);
-            engine.showToast('✓ PDF pages rotated successfully!');
+            safeEngine.setProcessingUi(true, 'Rotating PDF pages...');
+            const raw = await window.MTVMediaHandlers.rotatePdfPages(file, deg);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Rotated PDF (${deg}°)`);
+            safeEngine.showToast('✓ PDF pages rotated successfully!');
           } catch (e) {
-            engine.showToast(`Rotate error: ${e.message}`, 'error');
+            safeEngine.showToast(`Rotate error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1485,20 +1596,21 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-wm-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
           const text = panel.querySelector('#opt-pdf-wm-text')?.value || 'CONFIDENTIAL';
           const opacity = parseFloat(panel.querySelector('#opt-pdf-wm-opacity')?.value || '0.35');
           try {
-            engine.setProcessingUi(true, 'Stamping text watermark on PDF pages...');
-            const blob = await window.MTVMediaHandlers.addPdfWatermark(file, text, opacity);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Watermarked PDF ("${text}")`);
-            engine.showToast('✓ Watermark added to PDF successfully!');
+            safeEngine.setProcessingUi(true, 'Stamping text watermark on PDF pages...');
+            const raw = await window.MTVMediaHandlers.addPdfWatermark(file, text, opacity);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Watermarked PDF ("${text}")`);
+            safeEngine.showToast('✓ Watermark added to PDF successfully!');
           } catch (e) {
-            engine.showToast(`Watermark error: ${e.message}`, 'error');
+            safeEngine.showToast(`Watermark error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1508,20 +1620,21 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-num-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
           const fmt = panel.querySelector('#opt-pdf-num-fmt')?.value || 'Page {n} of {total}';
           const pos = panel.querySelector('#opt-pdf-num-pos')?.value || 'bottom-center';
           try {
-            engine.setProcessingUi(true, 'Numbering PDF pages...');
-            const blob = await window.MTVMediaHandlers.numberPdfPages(file, fmt, pos);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', 'Numbered PDF Document');
-            engine.showToast('✓ Page numbers stamped successfully!');
+            safeEngine.setProcessingUi(true, 'Numbering PDF pages...');
+            const raw = await window.MTVMediaHandlers.numberPdfPages(file, fmt, pos);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', 'Numbered PDF Document');
+            safeEngine.showToast('✓ Page numbers stamped successfully!');
           } catch (e) {
-            engine.showToast(`Numbering error: ${e.message}`, 'error');
+            safeEngine.showToast(`Numbering error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1531,21 +1644,22 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-comp-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
           const quality = parseInt(panel.querySelector('#opt-pdf-comp-level')?.value || '75', 10);
           try {
-            engine.setProcessingUi(true, 'Compressing & re-rasterizing PDF pages...');
-            const blob = await window.MTVMediaHandlers.compressPdf(file, quality);
+            safeEngine.setProcessingUi(true, 'Compressing & re-rasterizing PDF pages...');
+            const raw = await window.MTVMediaHandlers.compressPdf(file, quality);
             const origKB = (file.size / 1024).toFixed(1);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
             const newKB = (blob.size / 1024).toFixed(1);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Compressed PDF • ${origKB} KB → ${newKB} KB`);
-            engine.showToast('✓ PDF compressed successfully!');
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Compressed PDF • ${origKB} KB → ${newKB} KB`);
+            safeEngine.showToast('✓ PDF compressed successfully!');
           } catch (e) {
-            engine.showToast(`Compression error: ${e.message}`, 'error');
+            safeEngine.showToast(`Compression error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1575,7 +1689,7 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
                 <div><strong>Client Privacy:</strong> 100% Safe (Inspected locally in your browser memory)</div>
               `;
             }
-            engine.showToast('✓ PDF security inspected');
+            safeEngine.showToast('✓ PDF security inspected');
           } catch (e) {
             if (reportBox) reportBox.innerHTML = `<span style="color: #ef4444;">Audit error: ${e.message}</span>`;
           }
@@ -1587,20 +1701,21 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-del-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
-          const raw = panel.querySelector('#opt-pdf-del-pages')?.value || '1';
-          const toDelete = raw.split(',').map(s => parseInt(s.trim(), 10) - 1).filter(n => !isNaN(n));
+          const rawPages = panel.querySelector('#opt-pdf-del-pages')?.value || '1';
+          const toDelete = rawPages.split(',').map(s => parseInt(s.trim(), 10) - 1).filter(n => !isNaN(n));
           try {
-            engine.setProcessingUi(true, 'Removing specified PDF pages...');
-            const blob = await window.MTVMediaHandlers.deletePdfPages(file, toDelete);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Cleaned PDF (Removed pages: ${raw})`);
-            engine.showToast('✓ Pages deleted successfully!');
+            safeEngine.setProcessingUi(true, 'Removing specified PDF pages...');
+            const raw = await window.MTVMediaHandlers.deletePdfPages(file, toDelete);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Cleaned PDF (Removed pages: ${rawPages})`);
+            safeEngine.showToast('✓ Pages deleted successfully!');
           } catch (e) {
-            engine.showToast(`Delete error: ${e.message}`, 'error');
+            safeEngine.showToast(`Delete error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1644,6 +1759,39 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
 
     // Main execution router for the 73 tools
     async execute(toolId, file, engine) {
+      const rawRes = await this._executeInternal(toolId, file, engine);
+      if (!rawRes) return rawRes;
+
+      let res = rawRes;
+      if (res instanceof Blob) {
+        return { blob: res, extension: 'bin', mimeType: res.type || 'application/octet-stream', meta: '' };
+      }
+
+      if (res && res.blob !== undefined) {
+        let b = res.blob;
+        if (b && typeof b.then === 'function') {
+          b = await b;
+        }
+        if (b && typeof b === 'object' && !(b instanceof Blob)) {
+          if (b.blob instanceof Blob) b = b.blob;
+          else if (b.blob && typeof b.blob.then === 'function') {
+            try { b = await b.blob; } catch (_) {}
+          }
+        }
+        if (b instanceof ArrayBuffer || (b && ArrayBuffer.isView(b))) {
+          b = new Blob([b], { type: res.mimeType || (res.extension === 'pdf' ? 'application/pdf' : 'application/octet-stream') });
+        } else if (typeof b === 'string') {
+          b = new Blob([b], { type: res.mimeType || 'text/plain;charset=utf-8' });
+        }
+        if (!(b instanceof Blob)) {
+          throw new Error(`Tool execution for ${toolId} failed to produce a valid Blob output.`);
+        }
+        res.blob = b;
+      }
+      return res;
+    },
+
+    async _executeInternal(toolId, file, engine) {
       const panel = document.getElementById(`panel-${toolId}`);
       const handlers = window.MTVMediaHandlers || {};
 

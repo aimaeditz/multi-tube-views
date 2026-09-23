@@ -1240,14 +1240,87 @@ export function generateAllMediaConverterPages() {
         setTimeout(() => toast.classList.remove('show'), 2500);
       }
 
+      let currentDownloadUrl = null;
+
+      const pageEngine = {
+        updateProgress: (pct, msg) => {
+          progressWrap.style.display = 'block';
+          progressPct.textContent = Math.round(pct) + '%';
+          progressBarFill.style.width = Math.round(pct) + '%';
+          if (msg) progressStatus.textContent = msg;
+        },
+        setProcessingUi: (processing, msg) => {
+          progressWrap.style.display = processing ? 'block' : 'none';
+          btnProcess.disabled = processing;
+          if (msg) pageEngine.updateProgress(25, msg);
+        },
+        showToast: showToast,
+        renderOutputResult: async (rawBlob, extension, mimeType, metaText) => {
+          let blob = rawBlob;
+          if (blob && typeof blob.then === 'function') {
+            try { blob = await blob; } catch (e) {
+              showToast('Processing failed: ' + e.message);
+              return;
+            }
+          }
+          if (blob && typeof blob === 'object' && !(blob instanceof Blob)) {
+            if (blob.blob instanceof Blob) blob = blob.blob;
+            else if (blob.blob && typeof blob.blob.then === 'function') {
+              try { blob = await blob.blob; } catch (_) {}
+            }
+          }
+          if (blob instanceof ArrayBuffer || (blob && ArrayBuffer.isView(blob))) {
+            blob = new Blob([blob], { type: mimeType || (extension === 'pdf' ? 'application/pdf' : 'application/octet-stream') });
+          } else if (typeof blob === 'string') {
+            blob = new Blob([blob], { type: mimeType || 'text/plain;charset=utf-8' });
+          }
+          if (!(blob instanceof Blob)) {
+            showToast('Output generation failed: result is not a valid Blob');
+            return;
+          }
+
+          if (currentDownloadUrl) {
+            try { URL.revokeObjectURL(currentDownloadUrl); } catch (_) {}
+          }
+          const url = URL.createObjectURL(blob);
+          currentDownloadUrl = url;
+
+          const ext = extension || 'bin';
+          const baseName = currentFile ? currentFile.name.replace(/\\.[^/.]+$/, '') : toolId;
+          const outFilename = baseName + '-processed.' + ext;
+          btnDownload.href = url;
+          btnDownload.download = outFilename;
+
+          const mime = mimeType || blob.type || '';
+          if (mime.startsWith('image/') || ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'].includes(ext)) {
+            previewBox.innerHTML = '<div style=\"text-align:center;\"><img src=\"' + url + '\" style=\"max-width:100%; max-height:360px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin-bottom:0.75rem;\" alt=\"Converted Preview\"><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(metaText || 'Image ready') + '</div></div>';
+          } else if (mime.startsWith('audio/') || ['mp3', 'wav', 'aac', 'ogg'].includes(ext)) {
+            previewBox.innerHTML = '<div><audio controls src=\"' + url + '\" style=\"width:100%; margin-bottom:0.75rem;\"></audio><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(metaText || 'Audio ready') + '</div></div>';
+          } else if (mime.startsWith('video/') || ['mp4', 'webm', 'mkv'].includes(ext)) {
+            previewBox.innerHTML = '<div style=\"text-align:center;\"><video controls src=\"' + url + '\" style=\"max-width:100%; max-height:360px; border-radius:8px; margin-bottom:0.75rem;\"></video><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(metaText || 'Video ready') + '</div></div>';
+          } else if (mime.includes('pdf') || ext === 'pdf') {
+            previewBox.innerHTML = '<div><iframe src=\"' + url + '\" style=\"width:100%; height:450px; border:1px solid var(--border-subtle); border-radius:8px; margin-bottom:0.75rem;\"></iframe><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(metaText || 'PDF document ready') + '</div></div>';
+          } else {
+            previewBox.innerHTML = '<div style=\"padding:1rem; background:var(--bg-subtle); border-radius:8px; border:1px solid var(--border-subtle); font-size:0.9rem;\"><strong>✓ Complete:</strong> ' + escapeHtml(metaText || 'File processed successfully.') + '</div>';
+          }
+
+          progressPct.textContent = '100%';
+          progressBarFill.style.width = '100%';
+          progressStatus.textContent = 'Conversion complete! Your file is ready to download.';
+          outputWrap.style.display = 'block';
+          outputWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          showToast('✓ Processing completed successfully!');
+        }
+      };
+
       // Initialize Options Panel if available
       if (window.MTVMediaUI && typeof window.MTVMediaUI.ensurePanel === 'function') {
-        window.MTVMediaUI.ensurePanel(toolId, null);
+        window.MTVMediaUI.ensurePanel(toolId, pageEngine);
         const panel = document.getElementById('panel-' + toolId);
         if (panel) {
           panel.style.display = 'block';
           if (typeof window.MTVMediaUI.bindPanelEvents === 'function') {
-            window.MTVMediaUI.bindPanelEvents(toolId, panel, null);
+            window.MTVMediaUI.bindPanelEvents(toolId, panel, pageEngine);
           }
         }
       }
@@ -1302,65 +1375,95 @@ export function generateAllMediaConverterPages() {
           return;
         }
 
-        progressWrap.style.display = 'block';
-        btnProcess.disabled = true;
-        progressPct.textContent = '25%';
-        progressBarFill.style.width = '25%';
-        progressStatus.textContent = 'Processing media locally in your browser...';
+        pageEngine.setProcessingUi(true, 'Processing media locally in your browser...');
+        pageEngine.updateProgress(25, 'Processing media locally in your browser...');
 
         try {
-          const engine = {
-            updateProgress: (pct, msg) => {
-              progressPct.textContent = Math.round(pct) + '%';
-              progressBarFill.style.width = Math.round(pct) + '%';
-              if (msg) progressStatus.textContent = msg;
-            }
-          };
-
           let res = null;
           if (window.MTVMediaUI && window.MTVMediaUI.hasHandler(toolId)) {
-            res = await window.MTVMediaUI.execute(toolId, currentFile, engine);
+            res = await window.MTVMediaUI.execute(toolId, currentFile, pageEngine);
           } else if (window.MTVMediaHandlers && typeof window.MTVMediaHandlers[toolId] === 'function') {
             res = await window.MTVMediaHandlers[toolId](currentFile, {
-              onProgress: (p) => engine.updateProgress(p)
+              onProgress: (p) => pageEngine.updateProgress(p)
             });
           }
 
-          if (res && res.blob) {
-            const url = URL.createObjectURL(res.blob);
-            const ext = res.extension || 'bin';
-            const baseName = currentFile ? currentFile.name.replace(/\\.[^/.]+$/, '') : toolId;
-            const outFilename = res.filename || (baseName + '-converted.' + ext);
-            btnDownload.href = url;
-            btnDownload.download = outFilename;
+          if (!res) throw new Error('Tool returned no output.');
 
-            const mime = res.mimeType || res.blob.type || '';
-            if (mime.startsWith('image/') || ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'].includes(ext)) {
-              previewBox.innerHTML = '<div style=\"text-align:center;\"><img src=\"' + url + '\" style=\"max-width:100%; max-height:360px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin-bottom:0.75rem;\" alt=\"Converted Preview\"><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(res.meta || 'Image ready') + '</div></div>';
-            } else if (mime.startsWith('audio/') || ['mp3', 'wav', 'aac', 'ogg'].includes(ext)) {
-              previewBox.innerHTML = '<div><audio controls src=\"' + url + '\" style=\"width:100%; margin-bottom:0.75rem;\"></audio><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(res.meta || 'Audio ready') + '</div></div>';
-            } else if (mime.startsWith('video/') || ['mp4', 'webm', 'mkv'].includes(ext)) {
-              previewBox.innerHTML = '<div style=\"text-align:center;\"><video controls src=\"' + url + '\" style=\"max-width:100%; max-height:360px; border-radius:8px; margin-bottom:0.75rem;\"></video><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(res.meta || 'Video ready') + '</div></div>';
-            } else if (mime === 'application/pdf' || ext === 'pdf') {
-              previewBox.innerHTML = '<div><iframe src=\"' + url + '\" style=\"width:100%; height:450px; border:1px solid var(--border-subtle); border-radius:8px; margin-bottom:0.75rem;\"></iframe><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(res.meta || 'PDF document ready') + '</div></div>';
-            } else {
-              previewBox.innerHTML = '<div style=\"padding:1rem; background:var(--bg-subtle); border-radius:8px; border:1px solid var(--border-subtle); font-size:0.9rem;\"><strong>✓ Complete:</strong> ' + escapeHtml(res.meta || 'File processed successfully.') + '</div>';
-            }
+          let outBlob = null;
+          let ext = tool.outputFormat || 'bin';
+          let mime = 'application/octet-stream';
+          let meta = '';
+          let outFilename = null;
 
-            progressPct.textContent = '100%';
-            progressBarFill.style.width = '100%';
-            progressStatus.textContent = 'Conversion complete!';
-            outputWrap.style.display = 'block';
-            showToast('✓ Processed successfully!');
-          } else {
-            throw new Error('Conversion failed to return a file');
+          if (res instanceof Blob) {
+            outBlob = res;
+          } else if (res && typeof res === 'object') {
+            outBlob = res.blob !== undefined ? res.blob : res;
+            ext = res.extension || tool.outputFormat || 'bin';
+            mime = res.mimeType || (outBlob && outBlob.type) || mime;
+            meta = res.meta || '';
+            outFilename = res.filename || null;
           }
+
+          if (outBlob && typeof outBlob.then === 'function') {
+            outBlob = await outBlob;
+          }
+
+          if (outBlob && typeof outBlob === 'object' && !(outBlob instanceof Blob)) {
+            if (outBlob.blob instanceof Blob) {
+              outBlob = outBlob.blob;
+            } else if (outBlob.blob && typeof outBlob.blob.then === 'function') {
+              try { outBlob = await outBlob.blob; } catch (_) {}
+            }
+          }
+
+          if (outBlob instanceof ArrayBuffer || (outBlob && ArrayBuffer.isView(outBlob))) {
+            outBlob = new Blob([outBlob], { type: mime || (ext === 'pdf' ? 'application/pdf' : 'application/octet-stream') });
+          } else if (typeof outBlob === 'string') {
+            outBlob = new Blob([outBlob], { type: mime || 'text/plain;charset=utf-8' });
+          }
+
+          if (!(outBlob instanceof Blob)) {
+            throw new Error('Tool execution failed: invalid output file data (expected Blob).');
+          }
+
+          if (currentDownloadUrl) {
+            try { URL.revokeObjectURL(currentDownloadUrl); } catch (_) {}
+          }
+
+          const url = URL.createObjectURL(outBlob);
+          currentDownloadUrl = url;
+
+          const baseName = currentFile ? currentFile.name.replace(/\\.[^/.]+$/, '') : toolId;
+          const finalDownloadName = outFilename || (baseName + '-converted.' + ext);
+          btnDownload.href = url;
+          btnDownload.download = finalDownloadName;
+
+          if (mime.startsWith('image/') || ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'].includes(ext)) {
+            previewBox.innerHTML = '<div style=\"text-align:center;\"><img src=\"' + url + '\" style=\"max-width:100%; max-height:360px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin-bottom:0.75rem;\" alt=\"Converted Preview\"><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(meta || 'Image ready') + '</div></div>';
+          } else if (mime.startsWith('audio/') || ['mp3', 'wav', 'aac', 'ogg'].includes(ext)) {
+            previewBox.innerHTML = '<div><audio controls src=\"' + url + '\" style=\"width:100%; margin-bottom:0.75rem;\"></audio><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(meta || 'Audio ready') + '</div></div>';
+          } else if (mime.startsWith('video/') || ['mp4', 'webm', 'mkv'].includes(ext)) {
+            previewBox.innerHTML = '<div style=\"text-align:center;\"><video controls src=\"' + url + '\" style=\"max-width:100%; max-height:360px; border-radius:8px; margin-bottom:0.75rem;\"></video><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(meta || 'Video ready') + '</div></div>';
+          } else if (mime.includes('pdf') || ext === 'pdf') {
+            previewBox.innerHTML = '<div><iframe src=\"' + url + '\" style=\"width:100%; height:450px; border:1px solid var(--border-subtle); border-radius:8px; margin-bottom:0.75rem;\"></iframe><div style=\"font-size:0.85rem; color:var(--text-muted);\">' + escapeHtml(meta || 'PDF document ready') + '</div></div>';
+          } else {
+            previewBox.innerHTML = '<div style=\"padding:1rem; background:var(--bg-subtle); border-radius:8px; border:1px solid var(--border-subtle); font-size:0.9rem;\"><strong>✓ Complete:</strong> ' + escapeHtml(meta || 'File processed successfully.') + '</div>';
+          }
+
+          progressPct.textContent = '100%';
+          progressBarFill.style.width = '100%';
+          progressStatus.textContent = 'Conversion complete!';
+          outputWrap.style.display = 'block';
+          outputWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          showToast('✓ Processed successfully!');
         } catch (err) {
           console.error('Media processing error:', err);
           showToast('Error: ' + err.message);
           progressStatus.textContent = 'Failed: ' + err.message;
         } finally {
-          btnProcess.disabled = false;
+          pageEngine.setProcessingUi(false);
         }
       });
     });

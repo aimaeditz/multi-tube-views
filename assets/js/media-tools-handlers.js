@@ -139,10 +139,19 @@
   // Helper: Read Image element from File
   function loadImageFromFile(file) {
     return new Promise((resolve, reject) => {
+      if (!file) return reject(new Error('No file provided to loadImageFromFile'));
+      const blob = file instanceof Blob ? file : (file && file.blob instanceof Blob ? file.blob : new Blob([file]));
+      const objectUrl = URL.createObjectURL(blob);
       const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = (err) => reject(new Error('Failed to load image file: ' + err));
-      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        try { URL.revokeObjectURL(objectUrl); } catch (_) {}
+        resolve(img);
+      };
+      img.onerror = (err) => {
+        try { URL.revokeObjectURL(objectUrl); } catch (_) {}
+        reject(new Error('Failed to load image file: ' + err));
+      };
+      img.src = objectUrl;
     });
   }
 
@@ -1972,7 +1981,8 @@
         outDoc.addImage(imgData, 'JPEG', 0, 0, viewport.width, viewport.height);
       }
 
-      return outDoc.output('blob');
+      const rawOut = outDoc.output('blob');
+      return rawOut instanceof Blob ? rawOut : new Blob([rawOut], { type: 'application/pdf' });
     },
 
     // 42. Text to PDF Generator
@@ -2006,7 +2016,8 @@
           y += lineHeight;
         }
 
-        return doc.output('blob');
+        const rawOut = doc.output('blob');
+        return rawOut instanceof Blob ? rawOut : new Blob([rawOut], { type: 'application/pdf' });
       }
       throw new Error('PDF generator library not loaded');
     },
@@ -2165,7 +2176,8 @@
           }
         }
 
-        return doc.output('blob');
+        const rawOut = doc.output('blob');
+        return rawOut instanceof Blob ? rawOut : new Blob([rawOut], { type: 'application/pdf' });
       }
       throw new Error('PDF generator not ready');
     },
@@ -2424,7 +2436,8 @@
           outDoc.addImage(imgData, 'JPEG', 0, 0, pW, pH);
         }
 
-        return outDoc.output('blob');
+        const rawOut = outDoc.output('blob');
+        return rawOut instanceof Blob ? rawOut : new Blob([rawOut], { type: 'application/pdf' });
       }
 
       throw new Error('PDF encryption library not initialized. Please try again.');
