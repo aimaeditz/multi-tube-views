@@ -280,6 +280,9 @@ input, select, textarea, button {
   z-index: 1000 !important;
   height: 60px !important;
   min-height: 60px !important;
+  max-height: 60px !important;
+  margin: 0 !important;
+  padding: 0 !important;
   box-sizing: border-box !important;
   background-color: rgba(253, 253, 253, 0.85);
   backdrop-filter: blur(16px);
@@ -298,6 +301,10 @@ input, select, textarea, button {
   justify-content: space-between !important;
   height: 100% !important;
   min-height: 60px !important;
+  max-height: 60px !important;
+  margin: 0 auto !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   box-sizing: border-box !important;
 }
 
@@ -309,6 +316,10 @@ input, select, textarea, button {
     justify-content: space-between !important;
     height: 100% !important;
     min-height: 60px !important;
+    max-height: 60px !important;
+    margin: 0 auto !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
     box-sizing: border-box !important;
   }
 
