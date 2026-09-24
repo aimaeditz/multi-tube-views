@@ -139,58 +139,91 @@
   // Helper: Read Image element from File
   function loadImageFromFile(file) {
     return new Promise((resolve, reject) => {
+      if (!file) return reject(new Error('No file provided to loadImageFromFile'));
+      const blob = file instanceof Blob ? file : (file && file.blob instanceof Blob ? file.blob : new Blob([file]));
+      const objectUrl = URL.createObjectURL(blob);
       const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = (err) => reject(new Error('Failed to load image file: ' + err));
-      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        try { URL.revokeObjectURL(objectUrl); } catch (_) {}
+        resolve(img);
+      };
+      img.onerror = (err) => {
+        try { URL.revokeObjectURL(objectUrl); } catch (_) {}
+        reject(new Error('Failed to load image file: ' + err));
+      };
+      img.src = objectUrl;
     });
   }
 
   // Dynamic Library Loader Cache
+  const getAssetBase = () => {
+    if (typeof window === 'undefined') return '/assets/js/';
+    const path = window.location.pathname || '';
+    if (path.includes('/media-converter-tools/') || path.includes('/browser-utilities/') || path.includes('/ai-tools/')) {
+      return '../assets/js/';
+    }
+    return '/assets/js/';
+  };
+
   const loadedScripts = new Map();
   function loadScriptAsync(src, checkFn, fallbackSrc) {
     if (checkFn && checkFn()) return Promise.resolve();
     if (loadedScripts.has(src)) return loadedScripts.get(src);
     const p = new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = src;
-      s.async = true;
-      s.onload = () => resolve();
-      s.onerror = () => {
-        if (fallbackSrc) {
-          const s2 = document.createElement('script');
-          s2.src = fallbackSrc;
-          s2.async = true;
-          s2.onload = () => resolve();
-          s2.onerror = () => reject(new Error('Failed to load library: ' + src));
-          document.head.appendChild(s2);
-        } else {
-          reject(new Error('Failed to load library: ' + src));
-        }
+      const tryLoad = (targetSrc, nextFallback) => {
+        const s = document.createElement('script');
+        s.src = targetSrc;
+        s.async = true;
+        s.onload = () => {
+          setTimeout(() => {
+            if (checkFn && !checkFn()) {
+              if (nextFallback) {
+                tryLoad(nextFallback, null);
+              } else {
+                reject(new Error('Failed to initialize: ' + targetSrc));
+              }
+            } else {
+              resolve();
+            }
+          }, 15);
+        };
+        s.onerror = () => {
+          if (nextFallback) {
+            tryLoad(nextFallback, null);
+          } else {
+            reject(new Error('Failed to load library: ' + targetSrc));
+          }
+        };
+        document.head.appendChild(s);
       };
-      document.head.appendChild(s);
+      tryLoad(src, fallbackSrc);
     });
     loadedScripts.set(src, p);
     return p;
   }
 
-  const ensureQrCode = () => loadScriptAsync('/assets/js/qrcode.min.js', () => window.QRCode, 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js');
+  const ensureQrCode = () => loadScriptAsync(getAssetBase() + 'qrcode.min.js', () => window.QRCode, 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js');
   const ensurePdfJs = async () => {
-    await loadScriptAsync('/assets/js/pdf.min.js', () => window.pdfjsLib, 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+    await loadScriptAsync(getAssetBase() + 'pdf.min.js', () => window.pdfjsLib, 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
     ensurePdfJsWorker();
   };
-  const ensurePdfLib = () => loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js', () => window.PDFLib);
-  const ensureJsPdf = () => loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', () => window.jspdf);
-  const ensureJsZip = () => loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js', () => window.JSZip);
-  const ensureHeic2Any = () => loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js', () => window.heic2any);
+  const ensurePdfLib = () => loadScriptAsync(getAssetBase() + 'pdf-lib.min.js', () => window.PDFLib && window.PDFLib.PDFDocument, 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js');
+  const ensureJsPdf = async () => {
+    await loadScriptAsync(getAssetBase() + 'jspdf.umd.min.js', () => (window.jspdf && window.jspdf.jsPDF) || window.jsPDF, 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    if (window.jspdf && window.jspdf.jsPDF && !window.jsPDF) {
+      window.jsPDF = window.jspdf.jsPDF;
+    }
+  };
+  const ensureJsZip = () => loadScriptAsync(getAssetBase() + 'jszip.min.js', () => window.JSZip, 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
+  const ensureHeic2Any = () => loadScriptAsync('https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js', () => typeof window.heic2any === 'function');
   const ensureGifshot = () => loadScriptAsync('https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js', () => window.gifshot);
-  const ensureLameJs = () => loadScriptAsync('/assets/js/lame.min.js', () => window.lamejs, 'https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js');
+  const ensureLameJs = () => loadScriptAsync(getAssetBase() + 'lame.min.js', () => window.lamejs && window.lamejs.Mp3Encoder, 'https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js');
 
   // Helper: Guarantee PDF.js workerSrc points to the local same-origin worker
   function ensurePdfJsWorker() {
     if (window.pdfjsLib && (!window.pdfjsLib.GlobalWorkerOptions || !window.pdfjsLib.GlobalWorkerOptions.workerSrc)) {
       if (!window.pdfjsLib.GlobalWorkerOptions) window.pdfjsLib.GlobalWorkerOptions = {};
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/js/pdf.worker.min.js';
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = getAssetBase() + 'pdf.worker.min.js';
     }
   }
 
@@ -1780,6 +1813,7 @@
 
     // 36. PDF Merger
     async mergePdfFiles(fileList) {
+      await ensurePdfLib();
       if (window.PDFLib) {
         const mergedPdf = await window.PDFLib.PDFDocument.create();
         for (const file of fileList) {
@@ -1796,6 +1830,7 @@
 
     // 37. PDF Splitter
     async splitPdfPages(file, pageRangesStr) {
+      await ensurePdfLib();
       if (window.PDFLib) {
         const bytes = await file.arrayBuffer();
         const doc = await window.PDFLib.PDFDocument.load(bytes);
@@ -1835,6 +1870,7 @@
 
     // 38. PDF Page Rotator
     async rotatePdfPages(file, degrees) {
+      await ensurePdfLib();
       if (window.PDFLib) {
         const bytes = await file.arrayBuffer();
         const doc = await window.PDFLib.PDFDocument.load(bytes);
@@ -1851,6 +1887,7 @@
 
     // 39. PDF Watermark Adder
     async addPdfWatermark(file, watermarkText, opacity = 0.3) {
+      await ensurePdfLib();
       if (window.PDFLib) {
         const bytes = await file.arrayBuffer();
         const doc = await window.PDFLib.PDFDocument.load(bytes);
@@ -1879,6 +1916,7 @@
 
     // 40. PDF Page Numberer
     async numberPdfPages(file, formatStr = 'Page {n} of {total}', position = 'bottom-center') {
+      await ensurePdfLib();
       if (window.PDFLib) {
         const bytes = await file.arrayBuffer();
         const doc = await window.PDFLib.PDFDocument.load(bytes);
@@ -1912,7 +1950,9 @@
 
     // 41. PDF Compressor (Re-render at optimized DPI)
     async compressPdf(file, qualityPct = 70) {
-      if (!window.pdfjsLib || !window.jspdf) {
+      await ensurePdfJs();
+      await ensureJsPdf();
+      if (!window.pdfjsLib || (!window.jspdf && !window.jsPDF)) {
         throw new Error('PDF rendering engines initializing');
       }
       ensurePdfJsWorker();
@@ -1920,8 +1960,8 @@
       const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       const numPages = pdf.numPages;
 
-      const { jsPDF } = window.jspdf;
-      const outDoc = new jsPDF({ unit: 'pt', compress: true });
+      const jsPdfConstructor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+      const outDoc = new jsPdfConstructor({ unit: 'pt', compress: true });
 
       for (let i = 1; i <= numPages; i++) {
         const page = await pdf.getPage(i);
@@ -1941,14 +1981,16 @@
         outDoc.addImage(imgData, 'JPEG', 0, 0, viewport.width, viewport.height);
       }
 
-      return outDoc.output('blob');
+      const rawOut = outDoc.output('blob');
+      return rawOut instanceof Blob ? rawOut : new Blob([rawOut], { type: 'application/pdf' });
     },
 
     // 42. Text to PDF Generator
-    generateTextToPdf(text, title = 'Document') {
-      if (window.jspdf) {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    async generateTextToPdf(text, title = 'Document') {
+      await ensureJsPdf();
+      const jsPdfConstructor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+      if (jsPdfConstructor) {
+        const doc = new jsPdfConstructor({ unit: 'pt', format: 'a4' });
         const margin = 40;
         const pageWidth = doc.internal.pageSize.getWidth();
         const maxTextWidth = pageWidth - margin * 2;
@@ -1974,13 +2016,15 @@
           y += lineHeight;
         }
 
-        return doc.output('blob');
+        const rawOut = doc.output('blob');
+        return rawOut instanceof Blob ? rawOut : new Blob([rawOut], { type: 'application/pdf' });
       }
       throw new Error('PDF generator library not loaded');
     },
 
     // 43. PDF Security & Metadata Inspector
     async inspectPdfSecurity(file) {
+      await ensurePdfJs();
       const arrayBuffer = await file.arrayBuffer();
       let metaInfo = {};
 
@@ -2044,6 +2088,7 @@
 
     // 44. PDF Page Remover
     async deletePdfPages(file, pagesToDeleteIndices) {
+      await ensurePdfLib();
       if (window.PDFLib) {
         const bytes = await file.arrayBuffer();
         const doc = await window.PDFLib.PDFDocument.load(bytes);
@@ -2070,10 +2115,11 @@
     },
 
     // 45. Markdown to PDF Exporter
-    generateMarkdownToPdf(markdownText) {
-      if (window.jspdf) {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    async generateMarkdownToPdf(markdownText) {
+      await ensureJsPdf();
+      const jsPdfConstructor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+      if (jsPdfConstructor) {
+        const doc = new jsPdfConstructor({ unit: 'pt', format: 'a4' });
         const margin = 40;
         const pageWidth = doc.internal.pageSize.getWidth();
         const maxTextWidth = pageWidth - margin * 2;
@@ -2130,7 +2176,8 @@
           }
         }
 
-        return doc.output('blob');
+        const rawOut = doc.output('blob');
+        return rawOut instanceof Blob ? rawOut : new Blob([rawOut], { type: 'application/pdf' });
       }
       throw new Error('PDF generator not ready');
     },
@@ -2141,6 +2188,7 @@
 
     // 1. HEIC to JPG Converter
     async convertHeicToJpg(file, quality = 0.92, bgColor = '#FFFFFF') {
+      await ensureHeic2Any();
       if (typeof window.heic2any === 'function') {
         try {
           const res = await window.heic2any({
@@ -2174,6 +2222,7 @@
 
     // 2. HEIC to PNG Converter
     async convertHeicToPng(file, scale = 1.0) {
+      await ensureHeic2Any();
       if (typeof window.heic2any === 'function') {
         try {
           const res = await window.heic2any({
@@ -2330,6 +2379,10 @@
         throw new Error('Please enter a user password to lock the PDF.');
       }
 
+      await ensurePdfJs();
+      await ensureJsPdf();
+      await ensurePdfLib();
+
       const arrayBuffer = await file.arrayBuffer();
 
       // If PDFEncrypt (from @pdfsmaller/pdf-encrypt) is available:
@@ -2353,14 +2406,14 @@
       }
 
       // Fallback using jsPDF encryption
-      if (window.jspdf && window.pdfjsLib) {
-        await ensurePdfJsWorker();
+      const jsPdfConstructor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+      if (jsPdfConstructor && window.pdfjsLib) {
+        ensurePdfJsWorker();
         const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer.slice(0) });
         const pdf = await loadingTask.promise;
         const totalPages = pdf.numPages;
 
-        const { jsPDF } = window.jspdf;
-        const outDoc = new jsPDF({
+        const outDoc = new jsPdfConstructor({
           encryption: {
             userPassword: userPassword,
             ownerPassword: ownerPassword || userPassword,
@@ -2383,7 +2436,8 @@
           outDoc.addImage(imgData, 'JPEG', 0, 0, pW, pH);
         }
 
-        return outDoc.output('blob');
+        const rawOut = outDoc.output('blob');
+        return rawOut instanceof Blob ? rawOut : new Blob([rawOut], { type: 'application/pdf' });
       }
 
       throw new Error('PDF encryption library not initialized. Please try again.');
@@ -2391,8 +2445,10 @@
 
     // 9. PDF Password Remover (Unlock)
     async removePdfPassword(file, password) {
+      await ensurePdfJs();
+      await ensurePdfLib();
       if (!window.pdfjsLib) throw new Error('PDF viewer library not available.');
-      await ensurePdfJsWorker();
+      ensurePdfJsWorker();
 
       const arrayBuffer = await file.arrayBuffer();
 
@@ -2446,8 +2502,10 @@
 
     // 10. PDF Image Extractor
     async extractPdfImages(file) {
+      await ensurePdfJs();
+      await ensureJsZip();
       if (!window.pdfjsLib) throw new Error('PDF viewer library not ready.');
-      await ensurePdfJsWorker();
+      ensurePdfJsWorker();
 
       const arrayBuffer = await file.arrayBuffer();
       const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
@@ -2568,6 +2626,7 @@
 
     // 11. PDF Page Reorganizer
     async reorganizePdfPages(file, newOrderIndices) {
+      await ensurePdfLib();
       if (!window.PDFLib) throw new Error('PDF library is initializing.');
       const bytes = await file.arrayBuffer();
       const srcDoc = await window.PDFLib.PDFDocument.load(bytes);
@@ -2588,8 +2647,9 @@
 
     // 12. PDF to Text Extractor
     async extractPdfText(file, options = { includeDividers: true, normalizeSpaces: true }) {
+      await ensurePdfJs();
       if (!window.pdfjsLib) throw new Error('PDF text parser not ready.');
-      await ensurePdfJsWorker();
+      ensurePdfJsWorker();
 
       const arrayBuffer = await file.arrayBuffer();
       const loadingTask = window.pdfjsLib.getDocument({ data: arrayBuffer });
@@ -2645,6 +2705,7 @@
 
     // 13. Images to PDF Converter
     async convertImagesToPdf(fileList, options = { pageSize: 'fit', orientation: 'auto', margin: 0 }) {
+      await ensurePdfLib();
       if (!window.PDFLib) throw new Error('PDF engine initializing.');
       const doc = await window.PDFLib.PDFDocument.create();
 

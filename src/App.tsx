@@ -1,66 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { 
-  Sparkles, 
-  Send, 
-  Video, 
-  BookOpen, 
-  Activity, 
-  Copy, 
-  Check, 
-  RefreshCw, 
-  Sliders, 
-  Zap, 
-  Search, 
-  Layers,
-  ArrowRight,
-  ShieldCheck,
-  AlertCircle
-} from 'lucide-react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import { Sparkles, Video, BookOpen, Activity, Sliders } from 'lucide-react';
+import type { ChatMessage, AIModelItem } from './components/ChatTab';
+import type { VideoAnalysisResult } from './components/VideoAuditTab';
+import type { AIPromptItem } from './components/PromptsTab';
 
-interface ChatMessage {
-  id: string;
-  sender: 'user' | 'assistant';
-  text: string;
-  model?: string;
-  timestamp: string;
-}
-
-interface AIModelItem {
-  id: string;
-  name: string;
-  provider: string;
-  description: string;
-  badge?: string;
-  isDefault?: boolean;
-}
-
-interface VideoAnalysisResult {
-  overallScore: number;
-  tierSummary: string;
-  problemsFound: string[];
-  exactImprovements: string[];
-  improvedTitleSuggestion: string;
-  relevantKeywords: string[];
-  relevantHashtags: string[];
-  tagsOrSeoTerms: string[];
-  optimizedDescription: string;
-  whyThisMatters: string;
-  verifiedMetadata?: {
-    platform: string;
-    title: string;
-    category: string;
-    isPublicDataVerified: boolean;
-  };
-}
-
-interface AIPromptItem {
-  id: string;
-  title: string;
-  category: string;
-  promptText: string;
-  imageUrl?: string;
-}
+const ChatTab = lazy(() => import('./components/ChatTab'));
+const VideoAuditTab = lazy(() => import('./components/VideoAuditTab'));
+const PromptsTab = lazy(() => import('./components/PromptsTab'));
+const StatusTab = lazy(() => import('./components/StatusTab'));
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'chat' | 'video' | 'prompts' | 'status'>('chat');
@@ -262,12 +209,6 @@ export default function App() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const filteredPrompts = prompts.filter(p => 
-    p.title.toLowerCase().includes(promptSearch.toLowerCase()) ||
-    p.category.toLowerCase().includes(promptSearch.toLowerCase()) ||
-    p.promptText.toLowerCase().includes(promptSearch.toLowerCase())
-  );
-
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
       {/* Header */}
@@ -412,445 +353,65 @@ export default function App() {
           )}
         </aside>
 
-        {/* Main Content Area */}
+        {/* Main Content Area with Suspense for Lazy Components */}
         <main className="flex-1 flex flex-col min-w-0">
-          
-          {/* TAB 1: MTV AI Chat */}
-          {activeTab === 'chat' && (
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[75vh] overflow-hidden">
-              <div className="px-6 py-3.5 border-b border-slate-100 bg-slate-50/50 flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center space-x-3">
-                  <div>
-                    <h2 className="text-base font-bold text-slate-900 flex items-center space-x-2">
-                      <span className="md:text-[34.6px]">AI Assistant Chat</span>
-                      <span className="px-2 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-700 rounded-md">MTV AI</span>
-                    </h2>
-                    <p className="text-xs text-slate-500">Real-time response powered by MTV AI</p>
-                  </div>
-                </div>
-
-                {/* Model Switcher Dropdown in Chat Header */}
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center space-x-2 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs">
-                    <Sparkles className="w-4 h-4 text-blue-600" />
-                    <label htmlFor="header-model-select" className="sr-only">Select Model</label>
-                    <select
-                      id="header-model-select"
-                      value={selectedModel}
-                      onChange={(e) => setSelectedModel(e.target.value)}
-                      className="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer pr-1"
-                    >
-                      {availableModels.map((m) => (
-                        <option key={m.id} value={m.id}>
-                          {m.name} {m.badge ? `(${m.badge})` : ''}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <button 
-                    onClick={() => setMessages([messages[0]])}
-                    className="text-xs text-slate-500 hover:text-slate-800 flex items-center space-x-1 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 transition"
-                  >
-                    <RefreshCw className="w-3.5 h-3.5" />
-                    <span>Clear</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Chat Messages */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                {messages.map((msg) => (
-                  <div 
-                    key={msg.id}
-                    className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
-                  >
-                    <div className="flex items-center space-x-2 mb-1 text-[11px] font-semibold text-slate-400">
-                      <span>{msg.sender === 'user' ? 'You' : `MTV AI`}</span>
-                      <span>•</span>
-                      <span>{msg.timestamp}</span>
-                    </div>
-
-                    <div 
-                      className={`relative max-w-2xl p-4 rounded-2xl text-sm leading-relaxed ${
-                        msg.sender === 'user'
-                          ? 'bg-blue-600 text-white rounded-tr-none shadow-sm'
-                          : 'bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200/60'
-                      }`}
-                    >
-                      {msg.sender === 'user' ? (
-                        <div className="whitespace-pre-wrap">{msg.text}</div>
-                      ) : (
-                        <div className="markdown-body text-slate-800">
-                          <ReactMarkdown>{msg.text}</ReactMarkdown>
-                        </div>
-                      )}
-
-                      {msg.sender === 'assistant' && (
-                        <button
-                          onClick={() => copyToClipboard(msg.text, msg.id)}
-                          className="mt-3 flex items-center space-x-1 text-xs text-slate-500 hover:text-slate-800 bg-white px-2.5 py-1 rounded-md border border-slate-200 shadow-2xs transition"
-                        >
-                          {copiedId === msg.id ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
-                          <span>{copiedId === msg.id ? 'Copied' : 'Copy Response'}</span>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-
-                {isGenerating && (
-                  <div className="flex items-center space-x-3 text-slate-500 text-xs py-2">
-                    <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                    <span>Querying {availableModels.find(m => m.id === selectedModel)?.name || 'MTV AI Engine'} server-side...</span>
-                  </div>
-                )}
-                <div ref={chatEndRef} />
-              </div>
-
-              {/* Input Form */}
-              <form onSubmit={handleSendMessage} className="p-4 border-t border-slate-200 bg-slate-50/50 flex gap-3">
-                <input
-                  type="text"
-                  value={inputPrompt}
-                  onChange={(e) => setInputPrompt(e.target.value)}
-                  placeholder="Ask MTV AI... (e.g. Generate 5 YouTube video title ideas for Tech Review)"
-                  className="flex-1 px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
-                />
-                <button
-                  type="submit"
-                  disabled={!inputPrompt.trim() || isGenerating}
-                  className="px-5 py-3 bg-blue-600 text-white rounded-xl font-medium text-sm hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 transition shadow-sm"
-                >
-                  <span>Send</span>
-                  <Send className="w-4 h-4" />
-                </button>
-              </form>
+          <Suspense fallback={
+            <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-500 text-sm flex items-center justify-center space-x-2">
+              <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+              <span>Loading workspace component...</span>
             </div>
-          )}
+          }>
+            {activeTab === 'chat' && (
+              <ChatTab
+                availableModels={availableModels}
+                selectedModel={selectedModel}
+                setSelectedModel={setSelectedModel}
+                messages={messages}
+                setMessages={setMessages}
+                inputPrompt={inputPrompt}
+                setInputPrompt={setInputPrompt}
+                isGenerating={isGenerating}
+                copiedId={copiedId}
+                copyToClipboard={copyToClipboard}
+                handleSendMessage={handleSendMessage}
+                chatEndRef={chatEndRef}
+              />
+            )}
 
-          {/* TAB 2: Video SEO Audit */}
-          {activeTab === 'video' && (
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
-              <div>
-                <h2 className="text-lg font-bold text-slate-900">Video SEO & Packaging Audit</h2>
-                <p className="text-sm text-slate-500">Analyze video discoverability, title length, keywords, and description quality using MTV AI.</p>
-              </div>
+            {activeTab === 'video' && (
+              <VideoAuditTab
+                videoUrl={videoUrl}
+                setVideoUrl={setVideoUrl}
+                videoTitle={videoTitle}
+                setVideoTitle={setVideoTitle}
+                videoCategory={videoCategory}
+                setVideoCategory={setVideoCategory}
+                isAuditing={isAuditing}
+                auditResult={auditResult}
+                handleRunAudit={handleRunAudit}
+              />
+            )}
 
-              <form onSubmit={handleRunAudit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Public Video URL (Optional)</label>
-                    <input 
-                      type="url"
-                      value={videoUrl}
-                      onChange={e => setVideoUrl(e.target.value)}
-                      placeholder="https://www.youtube.com/watch?v=..."
-                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Working Video Title</label>
-                    <input 
-                      type="text"
-                      value={videoTitle}
-                      onChange={e => setVideoTitle(e.target.value)}
-                      placeholder="e.g., How to Master React & TypeScript in 2026"
-                      className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                </div>
+            {activeTab === 'prompts' && (
+              <PromptsTab
+                prompts={prompts}
+                promptSearch={promptSearch}
+                setPromptSearch={setPromptSearch}
+                isLoadingPrompts={isLoadingPrompts}
+                copiedId={copiedId}
+                copyToClipboard={copyToClipboard}
+                setInputPrompt={setInputPrompt}
+                setActiveTab={setActiveTab}
+              />
+            )}
 
-                <div className="flex items-center justify-between">
-                  <select
-                    value={videoCategory}
-                    onChange={e => setVideoCategory(e.target.value)}
-                    className="px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:outline-none"
-                  >
-                    <option value="Education & Tech">Education & Tech</option>
-                    <option value="Gaming & Esports">Gaming & Esports</option>
-                    <option value="Vlog & Lifestyle">Vlog & Lifestyle</option>
-                    <option value="Music & Audio">Music & Audio</option>
-                    <option value="News & Commentary">News & Commentary</option>
-                  </select>
-
-                  <button
-                    type="submit"
-                    disabled={isAuditing || (!videoUrl && !videoTitle)}
-                    className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 disabled:opacity-50 flex items-center space-x-2 transition"
-                  >
-                    {isAuditing ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Auditing with MTV AI...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Zap className="w-4 h-4" />
-                        <span>Audit Video Growth</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
-
-              {/* Audit Results */}
-              {auditResult && (
-                <div className="border-t border-slate-200 pt-6 space-y-6">
-                  {/* Score Card */}
-                  <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center font-black text-2xl shadow-md">
-                        {auditResult.overallScore}
-                      </div>
-                      <div>
-                        <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Discoverability Score</span>
-                        <h3 className="text-base font-bold text-slate-900">{auditResult.verifiedMetadata?.title || videoTitle || 'Video Audit'}</h3>
-                        <p className="text-xs text-slate-500">{auditResult.tierSummary}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Improved Title Suggestion */}
-                  {auditResult.improvedTitleSuggestion && (
-                    <div className="bg-blue-50/60 p-4 rounded-xl border border-blue-200">
-                      <span className="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Recommended High-CTR Title</span>
-                      <p className="text-sm font-semibold text-slate-900">{auditResult.improvedTitleSuggestion}</p>
-                    </div>
-                  )}
-
-                  {/* Problems & Improvements Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 bg-amber-50/50 rounded-xl border border-amber-200/70">
-                      <h4 className="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2 flex items-center space-x-1">
-                        <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
-                        <span>Packaging Issues Identified</span>
-                      </h4>
-                      <ul className="space-y-1.5 text-xs text-slate-700">
-                        {auditResult.problemsFound.map((p, idx) => (
-                          <li key={idx} className="flex items-start space-x-2">
-                            <span className="text-amber-500">•</span>
-                            <span>{p}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-200/70">
-                      <h4 className="text-xs font-bold text-emerald-800 uppercase tracking-wider mb-2 flex items-center space-x-1">
-                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                        <span>Actionable Optimizations</span>
-                      </h4>
-                      <ul className="space-y-1.5 text-xs text-slate-700">
-                        {auditResult.exactImprovements.map((imp, idx) => (
-                          <li key={idx} className="flex items-start space-x-2">
-                            <span className="text-emerald-500">•</span>
-                            <span>{imp}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* Keywords & Hashtags */}
-                  <div className="space-y-2">
-                    <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Suggested Search Terms & Hashtags</h4>
-                    <div className="flex flex-wrap gap-1.5">
-                      {auditResult.relevantKeywords.map((kw, i) => (
-                        <span key={i} className="px-2.5 py-1 bg-slate-100 text-slate-700 text-xs rounded-lg border border-slate-200">
-                          {kw}
-                        </span>
-                      ))}
-                      {auditResult.relevantHashtags.map((ht, i) => (
-                        <span key={i} className="px-2.5 py-1 bg-blue-50 text-blue-700 font-medium text-xs rounded-lg border border-blue-200">
-                          {ht}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* TAB 3: AI Prompts & Tools */}
-          {activeTab === 'prompts' && (
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <h2 className="text-lg font-bold text-slate-900">AI Prompts & Tools</h2>
-                  <p className="text-sm text-slate-500">Curated image prompts and free image generation tools in one place.</p>
-                </div>
-                <div className="relative w-full sm:w-64">
-                  <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
-                  <input
-                    type="text"
-                    value={promptSearch}
-                    onChange={e => setPromptSearch(e.target.value)}
-                    placeholder="Search prompts..."
-                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-              </div>
-
-              {isLoadingPrompts ? (
-                <div className="text-center py-12 text-xs text-slate-400">Loading prompt dataset...</div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredPrompts.map((item) => (
-                    <div key={item.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-slate-100/80 transition flex flex-col justify-between space-y-3">
-                      <div>
-                        <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">
-                          {item.category}
-                        </span>
-                        <h3 className="text-sm font-bold text-slate-900 mt-2 line-clamp-1">{item.title}</h3>
-                        <p className="text-xs text-slate-600 mt-1 line-clamp-3 font-mono bg-white p-2 rounded-lg border border-slate-200/60">
-                          {item.promptText}
-                        </p>
-                      </div>
-
-                      <div className="flex items-center gap-2 pt-2 border-t border-slate-200/60">
-                        <button
-                          onClick={() => copyToClipboard(item.promptText, item.id)}
-                          className="flex-1 py-1.5 text-xs font-semibold bg-white border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 flex items-center justify-center space-x-1"
-                        >
-                          {copiedId === item.id ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                          <span>{copiedId === item.id ? 'Copied' : 'Copy'}</span>
-                        </button>
-                        <button
-                          onClick={() => {
-                            setInputPrompt(item.promptText);
-                            setActiveTab('chat');
-                          }}
-                          className="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center space-x-1"
-                        >
-                          <span>Run</span>
-                          <ArrowRight className="w-3 h-3 arrow-nudge" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* TAB 4: System Health & Status */}
-          {activeTab === 'status' && (
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
-              <div>
-                <h2 className="text-lg font-bold text-slate-900">System Diagnostics & Status</h2>
-                <p className="text-sm text-slate-500">Live operational status, performance metrics, and service availability of MTV AI Studio.</p>
-              </div>
-
-              {/* Status Overview Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <span className="text-xs font-medium text-slate-500">Express Server</span>
-                  <div className="text-base font-bold text-slate-900 mt-1">{backendHealth?.status || 'Active'}</div>
-                  <span className="text-[11px] text-emerald-600 font-semibold mt-1 block">Port 3000 Ingress OK</span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <span className="text-xs font-medium text-slate-500">Active AI Engine</span>
-                  <div className="text-base font-bold text-blue-600 mt-1">MTV AI</div>
-                  <span className="text-[11px] text-emerald-600 font-semibold mt-1 block">Operational</span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <span className="text-xs font-medium text-slate-500">Selected Engine</span>
-                  <div className="text-base font-bold text-slate-900 mt-1">Standard (Fast)</div>
-                  <span className="text-[11px] text-slate-500 mt-1 block">Sub-Second Response</span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <span className="text-xs font-medium text-slate-500">In-Memory Cache</span>
-                  <div className="text-base font-bold text-indigo-600 mt-1">{backendHealth?.cacheEntries ?? 0} Items</div>
-                  <span className="text-[11px] text-slate-500 mt-1 block">300s TTL Optimization</span>
-                </div>
-              </div>
-
-              {/* Architectural Layers Breakdown */}
-              {architectureInfo && (
-                <div className="space-y-4">
-                  <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">System Architecture & Capabilities</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="p-4 bg-blue-50/50 rounded-xl border border-blue-200">
-                      <span className="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">1. Frontend Layer</span>
-                      <p className="text-xs font-semibold text-slate-900">{architectureInfo.layers?.frontend?.framework || 'Modern SPA'}</p>
-                      <p className="text-[11px] text-slate-600 mt-1">{architectureInfo.layers?.frontend?.container || 'Client Runtime'}</p>
-                      <span className="inline-block mt-2 px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-bold rounded">
-                        Secure Client
-                      </span>
-                    </div>
-
-                    <div className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-200">
-                      <span className="text-xs font-bold text-indigo-700 uppercase tracking-wider block mb-1">2. Service Layer</span>
-                      <p className="text-xs font-semibold text-slate-900">MTV Application Server</p>
-                      <p className="text-[11px] text-slate-600 mt-1">High Speed Ingress</p>
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-800 text-[10px] font-semibold rounded">
-                          Rate Limiting
-                        </span>
-                        <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-800 text-[10px] font-semibold rounded">
-                          Security Headers
-                        </span>
-                        <span className="px-1.5 py-0.5 bg-indigo-100 text-indigo-800 text-[10px] font-semibold rounded">
-                          TTL Cache
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-200">
-                      <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">3. MTV AI Engine</span>
-                      <p className="text-xs font-semibold text-slate-900">MTV AI Core</p>
-                      <p className="text-[11px] text-slate-600 mt-1">High Availability &amp; Reliability</p>
-                      <span className="inline-block mt-2 px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded">
-                        Active &amp; Healthy
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Security & Bottlenecks Mitigations */}
-              {architectureInfo?.bottlenecksAndMitigations && (
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                  <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center space-x-1">
-                    <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                    <span>Bottleneck Mitigations & Performance Optimization</span>
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                    {architectureInfo.bottlenecksAndMitigations.map((item: any, idx: number) => (
-                      <div key={idx} className="p-3 bg-white rounded-lg border border-slate-200/80">
-                        <span className="font-semibold text-amber-700 block mb-0.5">⚠️ {item.issue}</span>
-                        <span className="text-slate-600">✅ <strong>Mitigation:</strong> {item.mitigation}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Provider Keys Grid */}
-              <div className="border border-slate-200 rounded-xl overflow-hidden">
-                <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 font-semibold text-xs text-slate-700 flex items-center space-x-2">
-                  <Layers className="w-4 h-4 text-slate-500" />
-                  <span>Configured AI Provider API Keys</span>
-                </div>
-                <div className="p-4 space-y-2 text-xs">
-                  {backendHealth?.providers && Object.entries(backendHealth.providers).map(([p, available]) => (
-                    <div key={p} className="flex items-center justify-between py-1 border-b border-slate-100 last:border-none">
-                      <span className="capitalize font-medium text-slate-700">{p}</span>
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${available ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-400'}`}>
-                        {available ? 'CONFIGURED' : 'NOT SET'}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
+            {activeTab === 'status' && (
+              <StatusTab
+                backendHealth={backendHealth}
+                architectureInfo={architectureInfo}
+              />
+            )}
+          </Suspense>
         </main>
       </div>
     </div>

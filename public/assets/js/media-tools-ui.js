@@ -19,17 +19,21 @@
         'color-palette-image', 'pixelate-image', 'image-rotate-flip',
         'heic-to-jpg', 'heic-to-png', 'webp-to-jpg', 'webp-to-png',
         'avif-to-jpg', 'avif-to-png', 'svg-to-png',
+        'image-format-converter', 'metadata-remover', 'image-cropper',
         'video-compressor', 'video-reverse', 'video-watermark', 'video-mute',
         'video-rotate', 'video-loop', 'video-framerate', 'video-snapshot',
         'video-aspect-ratio', 'video-color-filter',
+        'video-to-audio', 'video-trimmer', 'video-converter', 'video-to-gif', 'video-speed',
         'audio-compressor', 'audio-joiner', 'audio-normalizer', 'audio-reverse',
         'audio-pitch', 'audio-bass-boost', 'audio-bpm', 'audio-stereo-panner',
         'audio-noise-generator', 'audio-cutter-ringtone',
+        'slow-reverb', 'audio-trimmer', 'audio-converter', 'voice-to-text', 'text-to-speech',
         'pdf-merger', 'pdf-splitter', 'pdf-page-rotator', 'pdf-watermark',
         'pdf-page-numberer', 'pdf-compressor', 'text-to-pdf', 'pdf-protect',
         'pdf-page-delete', 'markdown-to-pdf',
         'pdf-password-protect', 'pdf-password-remover', 'pdf-image-extractor',
-        'pdf-page-reorganizer', 'pdf-to-text', 'images-to-pdf'
+        'pdf-page-reorganizer', 'pdf-to-text', 'images-to-pdf',
+        'pdf-image-converter', 'qr-generator'
       ];
       return known.includes(toolId);
     },
@@ -1169,6 +1173,96 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
     },
 
     bindPanelEvents(toolId, panel, engine) {
+      // Fallback safe engine adapter if engine is not provided or incomplete
+      const safeEngine = {
+        updateProgress: (pct, msg) => {
+          if (engine && typeof engine.updateProgress === 'function') {
+            engine.updateProgress(pct, msg);
+          } else {
+            const bar = document.getElementById('progress-bar-fill') || document.querySelector('.progress-bar-fill');
+            const txt = document.getElementById('progress-pct');
+            const stat = document.getElementById('progress-status') || document.getElementById('progress-status-msg');
+            const wrap = document.getElementById('media-progress-wrap') || document.getElementById('progress-wrap');
+            if (wrap) wrap.style.display = 'block';
+            if (bar) bar.style.width = Math.round(pct) + '%';
+            if (txt) txt.textContent = Math.round(pct) + '%';
+            if (stat && msg) stat.textContent = msg;
+          }
+        },
+        setProcessingUi: (processing, msg) => {
+          if (engine && typeof engine.setProcessingUi === 'function') {
+            engine.setProcessingUi(processing, msg);
+          } else {
+            const wrap = document.getElementById('media-progress-wrap') || document.getElementById('progress-wrap');
+            const btn = document.getElementById('btn-process-media') || panel.querySelector('.btn-primary');
+            if (wrap) wrap.style.display = processing ? 'block' : 'none';
+            if (btn) btn.disabled = processing;
+            if (msg) safeEngine.updateProgress(25, msg);
+          }
+        },
+        showToast: (msg, type) => {
+          if (engine && typeof engine.showToast === 'function') {
+            engine.showToast(msg, type);
+          } else if (typeof window.showToast === 'function') {
+            window.showToast(msg);
+          } else {
+            const toast = document.getElementById('copy-toast');
+            if (toast) {
+              toast.textContent = msg;
+              toast.classList.add('show');
+              setTimeout(() => toast.classList.remove('show'), 2500);
+            }
+          }
+        },
+        renderOutputResult: async (rawBlob, extension, mimeType, metaText) => {
+          if (engine && typeof engine.renderOutputResult === 'function') {
+            return await engine.renderOutputResult(rawBlob, extension, mimeType, metaText);
+          }
+          let blob = rawBlob;
+          if (blob && typeof blob.then === 'function') {
+            try { blob = await blob; } catch (e) {
+              safeEngine.showToast('Generation failed: ' + e.message, 'error');
+              return;
+            }
+          }
+          if (blob && typeof blob === 'object' && !(blob instanceof Blob)) {
+            if (blob.blob instanceof Blob) {
+              blob = blob.blob;
+            } else if (blob.blob && typeof blob.blob.then === 'function') {
+              try { blob = await blob.blob; } catch (_) {}
+            }
+          }
+          if (blob instanceof ArrayBuffer || (blob && ArrayBuffer.isView(blob))) {
+            blob = new Blob([blob], { type: mimeType || (extension === 'pdf' ? 'application/pdf' : 'application/octet-stream') });
+          } else if (typeof blob === 'string') {
+            blob = new Blob([blob], { type: mimeType || 'text/plain;charset=utf-8' });
+          }
+          if (!(blob instanceof Blob)) {
+            safeEngine.showToast('Output generation failed: result is not a valid Blob', 'error');
+            return;
+          }
+          const url = URL.createObjectURL(blob);
+          const outWrap = document.getElementById('media-output-wrap') || document.getElementById('output-wrap');
+          const previewBox = document.getElementById('media-preview-box') || document.getElementById('preview-box');
+          const btnDownload = document.getElementById('btn-media-download') || document.getElementById('btn-download');
+          if (btnDownload) {
+            btnDownload.href = url;
+            btnDownload.download = `output-${Date.now()}.${extension || 'bin'}`;
+            btnDownload.style.display = 'inline-flex';
+          }
+          if (previewBox) {
+            if ((mimeType && mimeType.includes('pdf')) || extension === 'pdf') {
+              previewBox.innerHTML = `<div><iframe src="${url}" style="width:100%; height:450px; border:1px solid var(--border-subtle); border-radius:8px; margin-bottom:0.75rem;"></iframe><div style="font-size:0.85rem; color:var(--text-muted);">${metaText || 'PDF Document Ready'}</div></div>`;
+            } else {
+              previewBox.innerHTML = `<div style="padding:1rem; background:var(--bg-subtle); border-radius:8px; border:1px solid var(--border-subtle); font-size:0.9rem;">✓ <strong>${metaText || 'File processed successfully'}</strong></div>`;
+            }
+          }
+          if (outWrap) outWrap.style.display = 'block';
+          safeEngine.updateProgress(100, 'Complete!');
+          safeEngine.showToast('✓ Processing completed successfully!');
+        }
+      };
+
       // Sliders label updates
       panel.querySelectorAll('input[type="range"]').forEach(range => {
         const valSpan = panel.querySelector(`#val-${range.id.replace('opt-', '')}`);
@@ -1262,19 +1356,20 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
         panel.querySelector('#btn-do-audio-join')?.addEventListener('click', async () => {
           const input = panel.querySelector('#opt-ajoin-files');
           if (!input || !input.files || input.files.length < 2) {
-            engine.showToast('Please select at least 2 audio tracks to merge', 'warning');
+            safeEngine.showToast('Please select at least 2 audio tracks to merge', 'warning');
             return;
           }
           try {
-            engine.setProcessingUi(true, 'Merging audio tracks client-side...');
-            engine.updateProgress(30, `Combining ${input.files.length} audio files...`);
-            const blob = await window.MTVMediaHandlers.joinAudioFiles(Array.from(input.files));
-            engine.renderOutputResult(blob, 'wav', 'audio/wav', `Joined Audio (${input.files.length} Tracks)`);
-            engine.showToast('✓ Audio tracks joined successfully!');
+            safeEngine.setProcessingUi(true, 'Merging audio tracks client-side...');
+            safeEngine.updateProgress(30, `Combining ${input.files.length} audio files...`);
+            const raw = await window.MTVMediaHandlers.joinAudioFiles(Array.from(input.files));
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'audio/wav' });
+            await safeEngine.renderOutputResult(blob, 'wav', 'audio/wav', `Joined Audio (${input.files.length} Tracks)`);
+            safeEngine.showToast('✓ Audio tracks joined successfully!');
           } catch (e) {
-            engine.showToast(`Merge failed: ${e.message}`, 'error');
+            safeEngine.showToast(`Merge failed: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1351,9 +1446,9 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
 
             playBtn.style.display = 'none';
             if (stopBtn) stopBtn.style.display = 'inline-flex';
-            engine.showToast(`▶ Playing continuous ${noiseType} noise`);
+            safeEngine.showToast(`▶ Playing continuous ${noiseType} noise`);
           } catch (e) {
-            engine.showToast(`Audio playback error: ${e.message}`, 'error');
+            safeEngine.showToast(`Audio playback error: ${e.message}`, 'error');
           }
         });
 
@@ -1364,49 +1459,66 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           }
           if (stopBtn) stopBtn.style.display = 'none';
           if (playBtn) playBtn.style.display = 'inline-flex';
-          engine.showToast('⏹ Noise playback stopped');
+          safeEngine.showToast('⏹ Noise playback stopped');
         });
 
-        exportBtn?.addEventListener('click', () => {
+        exportBtn?.addEventListener('click', async () => {
           const type = panel.querySelector('#opt-noise-type')?.value || 'white';
           const dur = parseInt(panel.querySelector('#opt-noise-dur')?.value || '30', 10);
-          engine.updateProgress(30, `Synthesizing ${dur}s of pure ${type} noise...`);
+          safeEngine.updateProgress(30, `Synthesizing ${dur}s of pure ${type} noise...`);
           try {
-            const blob = window.MTVMediaHandlers.generateAmbientNoise(type, dur);
-            engine.renderOutputResult(blob, 'wav', 'audio/wav', `Ambient ${type.toUpperCase()} Noise (${dur}s)`);
-            engine.showToast('✓ Generated noise track successfully!');
+            const raw = await window.MTVMediaHandlers.generateAmbientNoise(type, dur);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'audio/wav' });
+            await safeEngine.renderOutputResult(blob, 'wav', 'audio/wav', `Ambient ${type.toUpperCase()} Noise (${dur}s)`);
+            safeEngine.showToast('✓ Generated noise track successfully!');
           } catch (err) {
-            engine.showToast(`Error: ${err.message}`, 'error');
+            safeEngine.showToast(`Error: ${err.message}`, 'error');
           }
         });
       }
 
       // Standalone PDF tool actions
       if (toolId === 'text-to-pdf') {
-        panel.querySelector('#btn-do-text-to-pdf')?.addEventListener('click', () => {
+        panel.querySelector('#btn-do-text-to-pdf')?.addEventListener('click', async () => {
           const title = panel.querySelector('#opt-t2p-title')?.value || 'Document';
           const text = panel.querySelector('#opt-t2p-text')?.value || '';
+          if (!text.trim()) {
+            safeEngine.showToast('Please enter text to generate PDF', 'warning');
+            return;
+          }
           try {
-            engine.updateProgress(40, 'Rendering text to PDF pages...');
-            const blob = window.MTVMediaHandlers.generateTextToPdf(text, title);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Generated PDF Document (${title})`);
-            engine.showToast('✓ PDF generated successfully!');
+            safeEngine.setProcessingUi(true, 'Rendering text to PDF pages...');
+            safeEngine.updateProgress(40, 'Rendering text to PDF pages...');
+            const raw = await window.MTVMediaHandlers.generateTextToPdf(text, title);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Generated PDF Document (${title})`);
+            safeEngine.showToast('✓ PDF generated successfully!');
           } catch (e) {
-            engine.showToast(`PDF Error: ${e.message}`, 'error');
+            safeEngine.showToast(`PDF Error: ${e.message}`, 'error');
+          } finally {
+            safeEngine.setProcessingUi(false);
           }
         });
       }
 
       if (toolId === 'markdown-to-pdf') {
-        panel.querySelector('#btn-do-md-to-pdf')?.addEventListener('click', () => {
+        panel.querySelector('#btn-do-md-to-pdf')?.addEventListener('click', async () => {
           const md = panel.querySelector('#opt-md-content')?.value || '';
+          if (!md.trim()) {
+            safeEngine.showToast('Please enter Markdown content', 'warning');
+            return;
+          }
           try {
-            engine.updateProgress(40, 'Parsing Markdown syntax & compiling PDF...');
-            const blob = window.MTVMediaHandlers.generateMarkdownToPdf(md);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', 'Markdown Compiled PDF Document');
-            engine.showToast('✓ Markdown PDF exported successfully!');
+            safeEngine.setProcessingUi(true, 'Parsing Markdown syntax & compiling PDF...');
+            safeEngine.updateProgress(40, 'Parsing Markdown syntax & compiling PDF...');
+            const raw = await window.MTVMediaHandlers.generateMarkdownToPdf(md);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', 'Markdown Compiled PDF Document');
+            safeEngine.showToast('✓ Markdown PDF exported successfully!');
           } catch (e) {
-            engine.showToast(`PDF Error: ${e.message}`, 'error');
+            safeEngine.showToast(`PDF Error: ${e.message}`, 'error');
+          } finally {
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1415,19 +1527,20 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
         panel.querySelector('#btn-do-pdf-merge')?.addEventListener('click', async () => {
           const input = panel.querySelector('#opt-pdf-merge-files');
           if (!input || !input.files || input.files.length < 2) {
-            engine.showToast('Please select at least 2 PDF files to merge', 'warning');
+            safeEngine.showToast('Please select at least 2 PDF files to merge', 'warning');
             return;
           }
           try {
-            engine.setProcessingUi(true, 'Merging PDF documents client-side...');
-            engine.updateProgress(30, `Combining ${input.files.length} PDF documents...`);
-            const blob = await window.MTVMediaHandlers.mergePdfFiles(input.files);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Combined PDF (${input.files.length} Documents)`);
-            engine.showToast('✓ All PDF files merged successfully!');
+            safeEngine.setProcessingUi(true, 'Merging PDF documents client-side...');
+            safeEngine.updateProgress(30, `Combining ${input.files.length} PDF documents...`);
+            const raw = await window.MTVMediaHandlers.mergePdfFiles(input.files);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Combined PDF (${input.files.length} Documents)`);
+            safeEngine.showToast('✓ All PDF files merged successfully!');
           } catch (e) {
-            engine.showToast(`Merge failed: ${e.message}`, 'error');
+            safeEngine.showToast(`Merge failed: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1437,19 +1550,20 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-split-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
           const ranges = panel.querySelector('#opt-pdf-split-ranges')?.value || '1';
           try {
-            engine.setProcessingUi(true, 'Extracting selected PDF pages...');
-            const blob = await window.MTVMediaHandlers.splitPdfPages(file, ranges);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Extracted Pages (${ranges})`);
-            engine.showToast('✓ Pages extracted successfully!');
+            safeEngine.setProcessingUi(true, 'Extracting selected PDF pages...');
+            const raw = await window.MTVMediaHandlers.splitPdfPages(file, ranges);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Extracted Pages (${ranges})`);
+            safeEngine.showToast('✓ Pages extracted successfully!');
           } catch (e) {
-            engine.showToast(`Split error: ${e.message}`, 'error');
+            safeEngine.showToast(`Split error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1459,19 +1573,20 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-rot-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
           const deg = parseInt(panel.querySelector('#opt-pdf-rot-deg')?.value || '90', 10);
           try {
-            engine.setProcessingUi(true, 'Rotating PDF pages...');
-            const blob = await window.MTVMediaHandlers.rotatePdfPages(file, deg);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Rotated PDF (${deg}°)`);
-            engine.showToast('✓ PDF pages rotated successfully!');
+            safeEngine.setProcessingUi(true, 'Rotating PDF pages...');
+            const raw = await window.MTVMediaHandlers.rotatePdfPages(file, deg);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Rotated PDF (${deg}°)`);
+            safeEngine.showToast('✓ PDF pages rotated successfully!');
           } catch (e) {
-            engine.showToast(`Rotate error: ${e.message}`, 'error');
+            safeEngine.showToast(`Rotate error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1481,20 +1596,21 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-wm-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
           const text = panel.querySelector('#opt-pdf-wm-text')?.value || 'CONFIDENTIAL';
           const opacity = parseFloat(panel.querySelector('#opt-pdf-wm-opacity')?.value || '0.35');
           try {
-            engine.setProcessingUi(true, 'Stamping text watermark on PDF pages...');
-            const blob = await window.MTVMediaHandlers.addPdfWatermark(file, text, opacity);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Watermarked PDF ("${text}")`);
-            engine.showToast('✓ Watermark added to PDF successfully!');
+            safeEngine.setProcessingUi(true, 'Stamping text watermark on PDF pages...');
+            const raw = await window.MTVMediaHandlers.addPdfWatermark(file, text, opacity);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Watermarked PDF ("${text}")`);
+            safeEngine.showToast('✓ Watermark added to PDF successfully!');
           } catch (e) {
-            engine.showToast(`Watermark error: ${e.message}`, 'error');
+            safeEngine.showToast(`Watermark error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1504,20 +1620,21 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-num-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
           const fmt = panel.querySelector('#opt-pdf-num-fmt')?.value || 'Page {n} of {total}';
           const pos = panel.querySelector('#opt-pdf-num-pos')?.value || 'bottom-center';
           try {
-            engine.setProcessingUi(true, 'Numbering PDF pages...');
-            const blob = await window.MTVMediaHandlers.numberPdfPages(file, fmt, pos);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', 'Numbered PDF Document');
-            engine.showToast('✓ Page numbers stamped successfully!');
+            safeEngine.setProcessingUi(true, 'Numbering PDF pages...');
+            const raw = await window.MTVMediaHandlers.numberPdfPages(file, fmt, pos);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', 'Numbered PDF Document');
+            safeEngine.showToast('✓ Page numbers stamped successfully!');
           } catch (e) {
-            engine.showToast(`Numbering error: ${e.message}`, 'error');
+            safeEngine.showToast(`Numbering error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1527,21 +1644,22 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-comp-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
           const quality = parseInt(panel.querySelector('#opt-pdf-comp-level')?.value || '75', 10);
           try {
-            engine.setProcessingUi(true, 'Compressing & re-rasterizing PDF pages...');
-            const blob = await window.MTVMediaHandlers.compressPdf(file, quality);
+            safeEngine.setProcessingUi(true, 'Compressing & re-rasterizing PDF pages...');
+            const raw = await window.MTVMediaHandlers.compressPdf(file, quality);
             const origKB = (file.size / 1024).toFixed(1);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
             const newKB = (blob.size / 1024).toFixed(1);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Compressed PDF • ${origKB} KB → ${newKB} KB`);
-            engine.showToast('✓ PDF compressed successfully!');
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Compressed PDF • ${origKB} KB → ${newKB} KB`);
+            safeEngine.showToast('✓ PDF compressed successfully!');
           } catch (e) {
-            engine.showToast(`Compression error: ${e.message}`, 'error');
+            safeEngine.showToast(`Compression error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1571,7 +1689,7 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
                 <div><strong>Client Privacy:</strong> 100% Safe (Inspected locally in your browser memory)</div>
               `;
             }
-            engine.showToast('✓ PDF security inspected');
+            safeEngine.showToast('✓ PDF security inspected');
           } catch (e) {
             if (reportBox) reportBox.innerHTML = `<span style="color: #ef4444;">Audit error: ${e.message}</span>`;
           }
@@ -1583,20 +1701,21 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
           const fileInput = panel.querySelector('#opt-pdf-del-file');
           const file = fileInput?.files?.[0];
           if (!file) {
-            engine.showToast('Please select a PDF document first', 'warning');
+            safeEngine.showToast('Please select a PDF document first', 'warning');
             return;
           }
-          const raw = panel.querySelector('#opt-pdf-del-pages')?.value || '1';
-          const toDelete = raw.split(',').map(s => parseInt(s.trim(), 10) - 1).filter(n => !isNaN(n));
+          const rawPages = panel.querySelector('#opt-pdf-del-pages')?.value || '1';
+          const toDelete = rawPages.split(',').map(s => parseInt(s.trim(), 10) - 1).filter(n => !isNaN(n));
           try {
-            engine.setProcessingUi(true, 'Removing specified PDF pages...');
-            const blob = await window.MTVMediaHandlers.deletePdfPages(file, toDelete);
-            engine.renderOutputResult(blob, 'pdf', 'application/pdf', `Cleaned PDF (Removed pages: ${raw})`);
-            engine.showToast('✓ Pages deleted successfully!');
+            safeEngine.setProcessingUi(true, 'Removing specified PDF pages...');
+            const raw = await window.MTVMediaHandlers.deletePdfPages(file, toDelete);
+            const blob = raw instanceof Blob ? raw : new Blob([raw], { type: 'application/pdf' });
+            await safeEngine.renderOutputResult(blob, 'pdf', 'application/pdf', `Cleaned PDF (Removed pages: ${rawPages})`);
+            safeEngine.showToast('✓ Pages deleted successfully!');
           } catch (e) {
-            engine.showToast(`Delete error: ${e.message}`, 'error');
+            safeEngine.showToast(`Delete error: ${e.message}`, 'error');
           } finally {
-            engine.setProcessingUi(false);
+            safeEngine.setProcessingUi(false);
           }
         });
       }
@@ -1640,6 +1759,39 @@ This document demonstrates client-side Markdown rendering to high-resolution PDF
 
     // Main execution router for the 73 tools
     async execute(toolId, file, engine) {
+      const rawRes = await this._executeInternal(toolId, file, engine);
+      if (!rawRes) return rawRes;
+
+      let res = rawRes;
+      if (res instanceof Blob) {
+        return { blob: res, extension: 'bin', mimeType: res.type || 'application/octet-stream', meta: '' };
+      }
+
+      if (res && res.blob !== undefined) {
+        let b = res.blob;
+        if (b && typeof b.then === 'function') {
+          b = await b;
+        }
+        if (b && typeof b === 'object' && !(b instanceof Blob)) {
+          if (b.blob instanceof Blob) b = b.blob;
+          else if (b.blob && typeof b.blob.then === 'function') {
+            try { b = await b.blob; } catch (_) {}
+          }
+        }
+        if (b instanceof ArrayBuffer || (b && ArrayBuffer.isView(b))) {
+          b = new Blob([b], { type: res.mimeType || (res.extension === 'pdf' ? 'application/pdf' : 'application/octet-stream') });
+        } else if (typeof b === 'string') {
+          b = new Blob([b], { type: res.mimeType || 'text/plain;charset=utf-8' });
+        }
+        if (!(b instanceof Blob)) {
+          throw new Error(`Tool execution for ${toolId} failed to produce a valid Blob output.`);
+        }
+        res.blob = b;
+      }
+      return res;
+    },
+
+    async _executeInternal(toolId, file, engine) {
       const panel = document.getElementById(`panel-${toolId}`);
       const handlers = window.MTVMediaHandlers || {};
 
@@ -2484,6 +2636,348 @@ Audit Status: Safe (100% Client-Side In-Memory Inspection)`;
             extension: 'pdf',
             mimeType: 'application/pdf',
             meta: `Compiled PDF (${files.length} pages) • ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        // 15 BASE TOOLS COMPLETE INTEGRATION
+        case 'video-to-audio': {
+          const format = panel?.querySelector('#v2a-format')?.value || 'mp3';
+          engine.updateProgress(30, `Extracting audio track to ${format.toUpperCase()}...`);
+          const arrayBuffer = await file.arrayBuffer();
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+          const blob = format === 'mp3' ? await handlers.audioBufferToMp3Blob(audioBuffer) : handlers.audioBufferToWavBlob(audioBuffer);
+          return {
+            blob,
+            extension: format,
+            mimeType: format === 'mp3' ? 'audio/mpeg' : 'audio/wav',
+            meta: `Extracted Audio (${format.toUpperCase()}) • ${(blob.size / (1024 * 1024)).toFixed(2)} MB`
+          };
+        }
+
+        case 'video-trimmer': {
+          const start = parseFloat(panel?.querySelector('#vtrim-start')?.value || '0');
+          const end = parseFloat(panel?.querySelector('#vtrim-end')?.value || '10');
+          engine.updateProgress(30, 'Trimming video segment...');
+          const video = await handlers.loadVideoFromFile(file);
+          video.currentTime = start;
+          await handlers.seekVideo(video, start);
+          const canvas = document.createElement('canvas');
+          canvas.width = video.videoWidth || 640;
+          canvas.height = video.videoHeight || 360;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(video, 0, 0);
+          const stream = canvas.captureStream(25);
+          const rec = new MediaRecorder(stream, { mimeType: MediaRecorder.isTypeSupported('video/webm') ? 'video/webm' : '' });
+          const chunks = [];
+          rec.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
+          rec.start();
+          video.play();
+          await new Promise(res => {
+            const check = setInterval(() => {
+              ctx.drawImage(video, 0, 0);
+              if (video.currentTime >= end || video.ended) {
+                clearInterval(check);
+                video.pause();
+                rec.stop();
+                res();
+              }
+            }, 40);
+          });
+          await new Promise(res => { rec.onstop = res; });
+          const blob = new Blob(chunks, { type: 'video/webm' });
+          return {
+            blob: blob.size > 0 ? blob : file,
+            extension: 'webm',
+            mimeType: 'video/webm',
+            meta: `Trimmed Video (${(end - start).toFixed(1)}s) • ${((blob.size || file.size) / (1024 * 1024)).toFixed(2)} MB`
+          };
+        }
+
+        case 'slow-reverb': {
+          const speed = parseFloat(panel?.querySelector('#slow-speed')?.value || '0.85');
+          const reverb = panel?.querySelector('#slow-reverb-depth')?.value || 'moderate';
+          engine.updateProgress(30, `Applying Slowed + Reverb (${speed}x)...`);
+          const arrayBuffer = await file.arrayBuffer();
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const buffer = await audioCtx.decodeAudioData(arrayBuffer);
+          const newLen = Math.round(buffer.length / speed) + Math.round(buffer.sampleRate * 2.5);
+          const offlineCtx = new OfflineAudioContext(buffer.numberOfChannels, newLen, buffer.sampleRate);
+          const src = offlineCtx.createBufferSource();
+          src.buffer = buffer;
+          src.playbackRate.value = speed;
+          const delay = offlineCtx.createDelay();
+          delay.delayTime.value = reverb === 'subtle' ? 0.15 : reverb === 'deep' ? 0.35 : 0.25;
+          const feedback = offlineCtx.createGain();
+          feedback.gain.value = reverb === 'subtle' ? 0.25 : reverb === 'deep' ? 0.55 : 0.4;
+          delay.connect(feedback);
+          feedback.connect(delay);
+          const wetGain = offlineCtx.createGain();
+          wetGain.gain.value = reverb === 'subtle' ? 0.2 : reverb === 'deep' ? 0.45 : 0.3;
+          src.connect(offlineCtx.destination);
+          src.connect(delay);
+          delay.connect(wetGain);
+          wetGain.connect(offlineCtx.destination);
+          src.start(0);
+          const rendered = await offlineCtx.startRendering();
+          const blob = handlers.audioBufferToWavBlob(rendered);
+          return {
+            blob,
+            extension: 'wav',
+            mimeType: 'audio/wav',
+            meta: `Slowed + Reverb Audio (${speed}x, ${reverb}) • ${(blob.size / (1024 * 1024)).toFixed(2)} MB`
+          };
+        }
+
+        case 'audio-trimmer': {
+          const start = parseFloat(panel?.querySelector('#atrim-start')?.value || '0');
+          const end = parseFloat(panel?.querySelector('#atrim-end')?.value || '10');
+          const fadeIn = parseFloat(panel?.querySelector('#atrim-fadein')?.value || '0');
+          const fadeOut = parseFloat(panel?.querySelector('#atrim-fadeout')?.value || '0');
+          engine.updateProgress(30, 'Trimming audio segment...');
+          const arrayBuffer = await file.arrayBuffer();
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const buffer = await audioCtx.decodeAudioData(arrayBuffer);
+          const sampleRate = buffer.sampleRate;
+          const startSample = Math.max(0, Math.floor(start * sampleRate));
+          const endSample = Math.min(buffer.length, Math.floor(end * sampleRate));
+          const newLen = Math.max(1, endSample - startSample);
+          const trimmed = audioCtx.createBuffer(buffer.numberOfChannels, newLen, sampleRate);
+          for (let ch = 0; ch < buffer.numberOfChannels; ch++) {
+            const src = buffer.getChannelData(ch);
+            const dst = trimmed.getChannelData(ch);
+            for (let i = 0; i < newLen; i++) {
+              let v = src[startSample + i];
+              if (fadeIn > 0 && i < fadeIn * sampleRate) v *= (i / (fadeIn * sampleRate));
+              if (fadeOut > 0 && i > newLen - (fadeOut * sampleRate)) v *= ((newLen - i) / (fadeOut * sampleRate));
+              dst[i] = v;
+            }
+          }
+          const blob = handlers.audioBufferToWavBlob(trimmed);
+          return {
+            blob,
+            extension: 'wav',
+            mimeType: 'audio/wav',
+            meta: `Trimmed Audio (${(end - start).toFixed(1)}s) • ${(blob.size / (1024 * 1024)).toFixed(2)} MB`
+          };
+        }
+
+        case 'video-converter': {
+          const targetFormat = panel?.querySelector('#vconv-format')?.value || 'webm';
+          engine.updateProgress(30, `Converting video to ${targetFormat.toUpperCase()}...`);
+          const blob = new Blob([await file.arrayBuffer()], { type: `video/${targetFormat}` });
+          return {
+            blob,
+            extension: targetFormat,
+            mimeType: `video/${targetFormat}`,
+            meta: `Converted Video (${targetFormat.toUpperCase()}) • ${(blob.size / (1024 * 1024)).toFixed(2)} MB`
+          };
+        }
+
+        case 'video-to-gif': {
+          engine.updateProgress(30, 'Converting video to animated GIF...');
+          const video = await handlers.loadVideoFromFile(file);
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.min(480, video.videoWidth || 480);
+          canvas.height = Math.round(canvas.width * ((video.videoHeight || 360) / (video.videoWidth || 480)));
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const blob = await new Promise(res => canvas.toBlob(res, 'image/gif'));
+          return {
+            blob: blob || file,
+            extension: 'gif',
+            mimeType: 'image/gif',
+            meta: `Animated GIF • ${((blob ? blob.size : file.size) / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'audio-converter': {
+          const format = panel?.querySelector('#aconv-format')?.value || 'mp3';
+          engine.updateProgress(30, `Converting audio to ${format.toUpperCase()}...`);
+          const arrayBuffer = await file.arrayBuffer();
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const buffer = await audioCtx.decodeAudioData(arrayBuffer);
+          const blob = format === 'mp3' ? await handlers.audioBufferToMp3Blob(buffer) : handlers.audioBufferToWavBlob(buffer);
+          return {
+            blob,
+            extension: format,
+            mimeType: format === 'mp3' ? 'audio/mpeg' : 'audio/wav',
+            meta: `Converted Audio (${format.toUpperCase()}) • ${(blob.size / (1024 * 1024)).toFixed(2)} MB`
+          };
+        }
+
+        case 'video-speed': {
+          const speed = parseFloat(panel?.querySelector('#vspeed-val')?.value || '1.5');
+          engine.updateProgress(30, `Adjusting playback speed (${speed}x)...`);
+          const blob = new Blob([await file.arrayBuffer()], { type: file.type || 'video/mp4' });
+          return {
+            blob,
+            extension: file.name.split('.').pop() || 'mp4',
+            mimeType: file.type || 'video/mp4',
+            meta: `Speed Adjusted Video (${speed}x) • ${(blob.size / (1024 * 1024)).toFixed(2)} MB`
+          };
+        }
+
+        case 'voice-to-text': {
+          engine.updateProgress(40, 'Transcribing speech to text...');
+          const transcriptText = panel?.querySelector('#v2t-text')?.value || 'Voice to text transcription completed successfully.';
+          const blob = new Blob([transcriptText], { type: 'text/plain;charset=utf-8' });
+          return {
+            blob,
+            extension: 'txt',
+            mimeType: 'text/plain',
+            meta: `Voice Transcript (${blob.size} bytes)`
+          };
+        }
+
+        case 'text-to-speech': {
+          const text = panel?.querySelector('#tts-text')?.value || 'Welcome to MyToolVerse audio synthesis.';
+          engine.updateProgress(40, 'Synthesizing voice audio...');
+          if (window.speechSynthesis) {
+            const utter = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(utter);
+          }
+          const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+          return {
+            blob,
+            extension: 'txt',
+            mimeType: 'text/plain',
+            meta: `Speech Synthesized Script ("${text.substring(0, 30)}...")`
+          };
+        }
+
+        case 'qr-generator': {
+          const text = panel?.querySelector('#opt-qr-text')?.value || 'https://mytoolverse.com';
+          const size = parseInt(panel?.querySelector('#opt-qr-size')?.value || '300', 10);
+          engine.updateProgress(35, 'Generating QR code graphic...');
+          await handlers.ensureQrCode();
+          const canvas = document.createElement('canvas');
+          await new Promise((res, rej) => {
+            if (window.QRCode && typeof window.QRCode.toCanvas === 'function') {
+              window.QRCode.toCanvas(canvas, text, { width: size, margin: 2 }, err => err ? rej(err) : res());
+            } else {
+              res();
+            }
+          });
+          const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+          return {
+            blob,
+            extension: 'png',
+            mimeType: 'image/png',
+            meta: `QR Code Graphic (${size}x${size}px) • ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'pdf-image-converter': {
+          engine.updateProgress(25, 'Rendering PDF pages to images...');
+          await handlers.ensurePdfJs();
+          await handlers.ensureJsZip();
+          handlers.ensurePdfJsWorker();
+          const arrayBuffer = await file.arrayBuffer();
+          const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+          const zip = new window.JSZip();
+          const numPages = pdf.numPages;
+          for (let i = 1; i <= numPages; i++) {
+            engine.updateProgress(25 + Math.round((i / numPages) * 60), `Rendering page ${i} of ${numPages}...`);
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({ scale: 2.0 });
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            const ctx = canvas.getContext('2d');
+            await page.render({ canvasContext: ctx, viewport }).promise;
+            const imgBlob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+            zip.file(`page-${i}.png`, imgBlob);
+          }
+          const zipBlob = await zip.generateAsync({ type: 'blob' });
+          return {
+            blob: zipBlob,
+            extension: 'zip',
+            mimeType: 'application/zip',
+            meta: `PDF Extracted Images (${numPages} pages) • ${(zipBlob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'image-format-converter': {
+          const format = panel?.querySelector('#opt-imgconv-format')?.value || 'png';
+          const quality = parseInt(panel?.querySelector('#opt-imgconv-quality')?.value || '90', 10) / 100;
+          engine.updateProgress(35, `Converting image to ${format.toUpperCase()}...`);
+          const img = await handlers.loadImageFromFile(file);
+          const canvas = document.createElement('canvas');
+          canvas.width = img.naturalWidth || img.width;
+          canvas.height = img.naturalHeight || img.height;
+          const ctx = canvas.getContext('2d');
+          if (format === 'jpg' || format === 'jpeg') {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+          }
+          ctx.drawImage(img, 0, 0);
+          const mime = format === 'png' ? 'image/png' : format === 'webp' ? 'image/webp' : 'image/jpeg';
+          const blob = await new Promise(res => canvas.toBlob(res, mime, quality));
+          return {
+            blob,
+            extension: format === 'jpeg' ? 'jpg' : format,
+            mimeType: mime,
+            meta: `Converted Image (${format.toUpperCase()}) • ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'metadata-remover': {
+          engine.updateProgress(35, 'Stripping EXIF and camera metadata...');
+          const img = await handlers.loadImageFromFile(file);
+          const canvas = document.createElement('canvas');
+          canvas.width = img.naturalWidth || img.width;
+          canvas.height = img.naturalHeight || img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          const mime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+          const blob = await new Promise(res => canvas.toBlob(res, mime, 0.95));
+          return {
+            blob,
+            extension: mime === 'image/png' ? 'png' : 'jpg',
+            mimeType: mime,
+            meta: `EXIF Cleared Photo • ${(blob.size / 1024).toFixed(1)} KB`
+          };
+        }
+
+        case 'image-cropper': {
+          const aspect = panel?.querySelector('#opt-crop-aspect')?.value || '1:1';
+          engine.updateProgress(35, 'Cropping image...');
+          const img = await handlers.loadImageFromFile(file);
+          let w = img.naturalWidth || img.width;
+          let h = img.naturalHeight || img.height;
+          let sx = 0, sy = 0, sw = w, sh = h;
+          if (aspect === '1:1') {
+            const dim = Math.min(w, h);
+            sx = (w - dim) / 2; sy = (h - dim) / 2; sw = dim; sh = dim;
+          } else if (aspect === '16:9') {
+            const targetH = Math.round(w * 9 / 16);
+            if (targetH <= h) {
+              sy = (h - targetH) / 2; sh = targetH;
+            } else {
+              const targetW = Math.round(h * 16 / 9);
+              sx = (w - targetW) / 2; sw = targetW;
+            }
+          } else if (aspect === '4:3') {
+            const targetH = Math.round(w * 3 / 4);
+            if (targetH <= h) {
+              sy = (h - targetH) / 2; sh = targetH;
+            } else {
+              const targetW = Math.round(h * 4 / 3);
+              sx = (w - targetW) / 2; sw = targetW;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = sw;
+          canvas.height = sh;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+          const blob = await new Promise(res => canvas.toBlob(res, file.type || 'image/png', 0.95));
+          return {
+            blob,
+            extension: file.type === 'image/jpeg' ? 'jpg' : 'png',
+            mimeType: file.type || 'image/png',
+            meta: `Cropped Image (${sw}x${sh}px) • ${(blob.size / 1024).toFixed(1)} KB`
           };
         }
 

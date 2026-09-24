@@ -150,6 +150,16 @@ function optimizeHtmlFile(filePath) {
     return match;
   });
 
+  // 5. Cumulative Layout Shift Fix: Ensure font-display: swap on all Google Fonts links if present
+  content = content.replace(/href=["'](https:\/\/fonts\.googleapis\.com\/css2?[^"']+)["']/gi, (match, url) => {
+    if (!url.includes('display=swap')) {
+      modified = true;
+      const joiner = url.includes('?') ? '&' : '?';
+      return `href="${url}${joiner}display=swap"`;
+    }
+    return match;
+  });
+
   // Final cleanup of img tags for duplicate attributes
   content = content.replace(/<img\s+([^>]*)\/?>/gi, (match, attrs) => {
     let clean = attrs

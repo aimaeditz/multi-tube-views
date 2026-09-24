@@ -844,21 +844,67 @@
       if (this.dom.loadingStatus && statusMsg) this.dom.loadingStatus.textContent = statusMsg;
     }
 
-    renderOutputResult(blob, extension, mimeType, metaText) {
-      if (!blob) return;
+    async renderOutputResult(rawBlob, extension, mimeType, metaText) {
+      if (!rawBlob) return;
+
+      let blob = rawBlob;
+      // 1. If it is a Promise, resolve it first
+      if (blob && typeof blob.then === 'function') {
+        try {
+          blob = await blob;
+        } catch (e) {
+          console.error('Failed to resolve output blob promise:', e);
+          this.showToast(`Output generation failed: ${e.message}`, 'error');
+          return;
+        }
+      }
+
+      // 2. If it is an object containing a .blob property
+      if (blob && typeof blob === 'object' && !(blob instanceof Blob)) {
+        if (blob.blob instanceof Blob) {
+          blob = blob.blob;
+        } else if (blob.blob && typeof blob.blob.then === 'function') {
+          try {
+            blob = await blob.blob;
+          } catch (_) {}
+        }
+      }
+
+      // 3. If raw bytes (ArrayBuffer or TypedArray/Uint8Array) or string, wrap explicitly
+      if (blob instanceof ArrayBuffer || (blob && ArrayBuffer.isView(blob))) {
+        blob = new Blob([blob], { type: mimeType || (extension === 'pdf' ? 'application/pdf' : 'application/octet-stream') });
+      } else if (typeof blob === 'string') {
+        blob = new Blob([blob], { type: mimeType || 'text/plain;charset=utf-8' });
+      }
+
+      // 4. Verify it is a genuine Blob
+      if (!(blob instanceof Blob)) {
+        console.error('renderOutputResult received invalid non-Blob object:', blob);
+        this.showToast('Error: Result could not be converted to a downloadable file', 'error');
+        return;
+      }
+
+      // Revoke previous URL to prevent memory leaks
+      if (this.currentOutputUrl) {
+        try {
+          URL.revokeObjectURL(this.currentOutputUrl);
+        } catch (_) {}
+      }
 
       const outputUrl = URL.createObjectURL(blob);
+      this.currentOutputUrl = outputUrl;
+      this.currentBlob = blob;
 
       if (this.dom.outputWrap) this.dom.outputWrap.style.display = 'block';
       if (this.dom.outputMetaText) this.dom.outputMetaText.textContent = metaText;
 
-      const isVideo = mimeType.startsWith('video/');
+      const isVideo = mimeType && mimeType.startsWith('video/');
       const isGif = mimeType === 'image/gif';
-      const isImage = mimeType.startsWith('image/') && !isGif;
-      const isAudio = mimeType.startsWith('audio/');
-      const isPdf = mimeType === 'application/pdf' || extension === 'pdf';
-      const isZip = mimeType === 'application/zip' || extension === 'zip';
-      const isText = mimeType.startsWith('text/') || extension === 'txt' || extension === 'svg';
+      const isImage = mimeType && mimeType.startsWith('image/') && !isGif;
+      const isAudio = mimeType && mimeType.startsWith('audio/');
+      const isPdf = (mimeType && mimeType.includes('pdf')) || extension === 'pdf';
+      const isZip = (mimeType && mimeType.includes('zip')) || extension === 'zip';
+      const isText = (mimeType && mimeType.startsWith('text/')) || extension === 'txt' || extension === 'svg';
 
       // Hide all by default
       if (this.dom.outputGifPreview) this.dom.outputGifPreview.style.display = 'none';
@@ -2420,7 +2466,8 @@
               const base64Data = dataUrl.split(',')[1];
               zip.file(`page_${pageNum}.png`, base64Data, { base64: true });
             });
-            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            const rawZip = await zip.generateAsync({ type: 'blob' });
+            const zipBlob = rawZip instanceof Blob ? rawZip : new Blob([rawZip], { type: 'application/zip' });
             const url = URL.createObjectURL(zipBlob);
             const a = document.createElement('a');
             a.href = url;

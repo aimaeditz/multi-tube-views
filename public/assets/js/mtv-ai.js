@@ -556,7 +556,59 @@
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
     }
+
+    bindTool(config) {
+      if (window.MTVAI && window.MTVAI !== this && typeof window.MTVAI.bindTool === 'function') {
+        return window.MTVAI.bindTool(config);
+      }
+      const { task, inputId, buttonId, outputId } = config || {};
+      const inputEl = document.getElementById(inputId);
+      const buttonEl = document.getElementById(buttonId);
+      const outputEl = document.getElementById(outputId);
+      if (!buttonEl || !inputEl || !outputEl) return;
+
+      buttonEl.onclick = async (e) => {
+        if (e) e.preventDefault();
+        const prompt = inputEl.value ? inputEl.value.trim() : '';
+        if (!prompt) {
+          alert('Please enter a topic or text first.');
+          return;
+        }
+        buttonEl.disabled = true;
+        const origText = buttonEl.innerHTML;
+        buttonEl.innerHTML = '<span>Generating...</span>';
+        const outputWrap = document.getElementById('dedicated-tool-output-wrap');
+        const loadingEl = document.getElementById('dedicated-tool-loading');
+        if (loadingEl) loadingEl.style.display = 'block';
+        if (outputWrap) outputWrap.style.display = 'none';
+
+        try {
+          const res = await fetch(`${this.apiBase}/api/ai-proxy`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, task: task || 'default' })
+          });
+          const data = await res.json();
+          if (res.ok && (data.result || data.response)) {
+            outputEl.textContent = data.result || data.response;
+            if (outputWrap) outputWrap.style.display = 'block';
+          } else {
+            outputEl.textContent = 'Error: ' + (data.error || 'Generation failed');
+            if (outputWrap) outputWrap.style.display = 'block';
+          }
+        } catch (err) {
+          outputEl.textContent = 'Error: ' + (err.message || 'Connection failed');
+          if (outputWrap) outputWrap.style.display = 'block';
+        } finally {
+          buttonEl.disabled = false;
+          buttonEl.innerHTML = origText;
+          if (loadingEl) loadingEl.style.display = 'none';
+        }
+      };
+    }
   }
 
-  window.mtvAI = new MtvAIEngine();
+  const engineInstance = new MtvAIEngine();
+  window.mtvAI = engineInstance;
+  window.MTVAI = window.MTVAI || engineInstance;
 })();

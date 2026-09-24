@@ -268,6 +268,53 @@ app.get('/api/health', (req: Request, res: Response) => {
   });
 });
 
+// 1a. IndexNow Submission Endpoint
+app.all('/api/indexnow-submit', async (req: Request, res: Response) => {
+  const INDEXNOW_KEY = 'a827f311c9d64b28e50b1aef421d03bc';
+  const HOST = 'multitubeviews.com';
+  const KEY_LOCATION = `https://${HOST}/${INDEXNOW_KEY}.txt`;
+
+  try {
+    const sitemapPath = path.resolve(process.cwd(), 'sitemap.xml');
+    let urls: string[] = [];
+
+    if (fs.existsSync(sitemapPath)) {
+      const sitemapContent = fs.readFileSync(sitemapPath, 'utf-8');
+      const urlMatches = sitemapContent.match(/<loc>(https?:\/\/[^<]+)<\/loc>/g) || [];
+      urls = urlMatches.map(m => m.replace(/<\/?loc>/g, '').trim());
+    }
+
+    if (urls.length === 0) {
+      return res.status(200).json({ success: false, message: 'No URLs found in sitemap.xml' });
+    }
+
+    const payload = {
+      host: HOST,
+      key: INDEXNOW_KEY,
+      keyLocation: KEY_LOCATION,
+      urlList: urls.slice(0, 10000)
+    };
+
+    const apiRes = await fetch('https://api.indexnow.org/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+
+    return res.status(200).json({
+      success: apiRes.ok || apiRes.status === 200 || apiRes.status === 202,
+      status: apiRes.status,
+      submittedCount: payload.urlList.length,
+      keyLocation: KEY_LOCATION
+    });
+  } catch (err: any) {
+    return res.status(200).json({
+      success: false,
+      error: err.message || 'Non-blocking IndexNow endpoint error'
+    });
+  }
+});
+
 // 1b. Models API Endpoint (Available AI models including environment configuration)
 app.get('/api/models', (req: Request, res: Response) => {
   const envDefaultModel = process.env.DEFAULT_AI_MODEL || process.env.GEMINI_MODEL;

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx server.ts",
     "sync:counts": "node scripts/sync-counts.mjs",
-    "build": "node scripts/sync-counts.mjs && node scripts/generate-all-pages.mjs && node scripts/generate-all-tool-pages.mjs && node scripts/ensure-adsense-tags.mjs && node scripts/optimize-core-web-vitals.mjs && node scripts/update-og-tags.mjs && node scripts/generate-sitemap.mjs && node generate-favicons.cjs && vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "indexnow:submit": "node scripts/indexnow-submit.mjs",
+    "build": "node scripts/sync-counts.mjs && node scripts/generate-all-pages.mjs && node scripts/generate-all-tool-pages.mjs && node scripts/ensure-adsense-tags.mjs && node scripts/optimize-core-web-vitals.mjs && node scripts/update-og-tags.mjs && node scripts/generate-sitemap.mjs && node scripts/indexnow-submit.mjs && node generate-favicons.cjs && vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
     "lint": "tsc --noEmit"
   },

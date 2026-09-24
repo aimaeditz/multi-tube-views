@@ -6,6 +6,7 @@ import { BU_CATEGORIES } from './build-categories-data.mjs';
 import { ALL_TOOLS } from './generate-all-pages.mjs';
 import { AI_TOOLS_DATA } from '../assets/data/ai-tools-data.js';
 import { CREATOR_TOOLS_DATA } from '../assets/data/creator-tools-data.js';
+import { submitIndexNow } from './indexnow-submit.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -213,10 +214,16 @@ ${urlEntries.map(entry => `  <url>
     console.log(`Updated dist/sitemap.xml.`);
   }
 
+  // Non-blocking auto-trigger for IndexNow
+  try {
+    submitIndexNow();
+  } catch (e) {
+    console.warn('[IndexNow] Non-blocking call error:', e.message || e);
+  }
+
   return urlEntries.length;
 }
 
 if (process.argv[1] && process.argv[1].endsWith('generate-sitemap.mjs')) {
   generateSitemap();
 }
-
