@@ -1,17 +1,5 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.multitubeviews.com"
-        }
-      ],
-      "destination": "https://multitubeviews.com/:path*",
-      "permanent": true
-    }
-  ]
+  "trailingSlash": false
 }
+
