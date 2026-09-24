@@ -17,7 +17,9 @@ export default async function handler(req, res) {
     if (fs.existsSync(sitemapPath)) {
       const sitemapContent = fs.readFileSync(sitemapPath, 'utf-8');
       const urlMatches = sitemapContent.match(/<loc>(https?:\/\/[^<]+)<\/loc>/g) || [];
-      urls = urlMatches.map(m => m.replace(/<\/?loc>/g, '').trim());
+      urls = urlMatches
+        .map(m => m.replace(/<\/?loc>/g, '').trim())
+        .map(url => url.replace('https://www.multitubeviews.com', 'https://multitubeviews.com'));
     }
 
     if (urls.length === 0) {
@@ -37,11 +39,14 @@ export default async function handler(req, res) {
       body: JSON.stringify(payload)
     });
 
+    const responseText = await apiRes.text();
+
     return res.status(200).json({
       success: apiRes.ok || apiRes.status === 200 || apiRes.status === 202,
       status: apiRes.status,
       submittedCount: payload.urlList.length,
-      keyLocation: KEY_LOCATION
+      keyLocation: KEY_LOCATION,
+      apiResponseBody: responseText
     });
   } catch (err) {
     return res.status(200).json({

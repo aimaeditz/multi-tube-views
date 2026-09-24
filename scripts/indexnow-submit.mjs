@@ -21,16 +21,19 @@ export async function submitIndexNow() {
 
     const sitemapContent = fs.readFileSync(sitemapPath, 'utf-8');
     const urlMatches = sitemapContent.match(/<loc>(https?:\/\/[^<]+)<\/loc>/g) || [];
-    const urls = urlMatches.map(m => m.replace(/<\/?loc>/g, '').trim());
+    // Ensure all URLs match the canonical host strictly (no www)
+    const urls = urlMatches
+      .map(m => m.replace(/<\/?loc>/g, '').trim())
+      .map(url => url.replace('https://www.multitubeviews.com', 'https://multitubeviews.com'));
 
     if (urls.length === 0) {
       console.warn('[IndexNow] No URLs found in sitemap.xml.');
       return;
     }
 
-    console.log(`[IndexNow] Found ${urls.length} URLs from sitemap.xml.`);
+    console.log(`[IndexNow] Found ${urls.length} canonical URLs from sitemap.xml.`);
+    console.log(`[IndexNow] Host: "${HOST}", Key: "${INDEXNOW_KEY}", KeyLocation: "${KEY_LOCATION}"`);
 
-    // IndexNow allows up to 10,000 URLs per batch
     const BATCH_SIZE = 10000;
     for (let i = 0; i < urls.length; i += BATCH_SIZE) {
       const batch = urls.slice(i, i + BATCH_SIZE);
@@ -50,10 +53,12 @@ export async function submitIndexNow() {
           body: JSON.stringify(payload)
         });
 
+        const respText = await response.text();
+
         if (response.ok || response.status === 200 || response.status === 202) {
           console.log(`[IndexNow] Successfully submitted batch of ${batch.length} URLs to IndexNow (Status ${response.status}).`);
         } else {
-          console.warn(`[IndexNow] IndexNow API returned status ${response.status}: ${response.statusText}`);
+          console.warn(`[IndexNow] IndexNow API returned status ${response.status}: ${response.statusText}. Response body: ${respText}`);
         }
       } catch (postErr) {
         console.warn('[IndexNow] Request error during IndexNow POST:', postErr.message || postErr);
