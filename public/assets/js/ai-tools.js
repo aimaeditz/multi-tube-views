@@ -156,7 +156,7 @@ function bootAITools() {
             <p class="creator-tool-desc">${tool.desc}</p>
           </div>
           <div class="creator-tool-actions" style="margin-top: auto; padding-top: 1rem;">
-            <a href="?tool=${id}" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+            <a href="ai-tools/${id}.html" class="btn btn-primary btn-open-tool" style="width: 100%; text-align: center; justify-content: center; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
               <span>Open Tool</span>
               <svg class="arrow-nudge" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </a>

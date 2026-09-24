@@ -1,0 +1,473 @@
+import fs from 'fs';
+import path from 'path';
+
+const ROOT = path.resolve('.');
+const baseDir = path.join(ROOT, 'media-converter-tools/video-to-audio');
+if (!fs.existsSync(baseDir)) {
+  fs.mkdirSync(baseDir, { recursive: true });
+}
+
+const programmaticConfigs = [
+  {
+    fileName: 'mov-to-wav.html',
+    title: 'MOV to WAV Converter — Free Online Extractor | MTV',
+    meta: 'Convert Apple QuickTime MOV videos to uncompressed WAV audio online. 100% private in-browser extraction with zero file uploads and studio fidelity.',
+    h1: 'MOV to WAV Converter',
+    keywords: 'mov to wav, convert mov to wav online, free mov to wav converter, extract wav from mov, quicktime to wav, in browser mov converter',
+    formatDesc: 'Extract lossless uncompressed 16-bit / 24-bit 48kHz WAV audio directly from Apple QuickTime MOV video files. 100% client-side privacy.',
+    guideStep2: 'Configure sample rate (44.1 kHz or 48 kHz studio master).',
+    actionText: 'Extract Lossless WAV Audio',
+    aboutParagraph: 'QuickTime MOV files recorded on iPhones, iPads, and Mac systems contain linear PCM or AAC audio streams. This converter demuxes the stream into uncompressed broadcast-grade WAV without compression artifacts or data loss, processing completely in your device browser.',
+    faqs: [
+      { q: 'Is MOV to WAV conversion lossless?', a: 'Yes. WAV is an uncompressed linear PCM container format, ensuring zero quality loss from the original audio stream.' },
+      { q: 'Can I convert large 4K iPhone MOV recordings?', a: 'Yes. Because the processing occurs directly in your local browser runtime, you can process high-resolution phone clips without upload wait times.' },
+      { q: 'Does this work on Windows and Linux PCs?', a: 'Yes, any browser supporting HTML5 and Web Audio can decode QuickTime MOV containers.' }
+    ]
+  },
+  {
+    fileName: 'youtube-to-mp3.html',
+    title: 'YouTube Video to MP3 — Free Audio Extractor | MTV',
+    meta: 'Extract MP3 audio tracks from your saved YouTube video files online. Fast, 100% private in-browser processing with zero server uploads. Try now.',
+    h1: 'YouTube Video to MP3 Extractor',
+    keywords: 'youtube video to mp3, extract audio from youtube video, convert youtube video to mp3, youtube mp4 to mp3 online, private youtube audio converter',
+    formatDesc: 'Extract crisp MP3 audio tracks from downloaded YouTube video files (MP4/WebM) with custom bitrate selection up to 320 kbps. Zero cloud uploads.',
+    guideStep2: 'Select audio bitrate (128 kbps for lectures, 320 kbps for music).',
+    actionText: 'Extract YouTube MP3 Track',
+    aboutParagraph: 'Creators and editors often need to isolate audio tracks, speech, and soundtracks from saved YouTube video clips. Multi Tube Views executes audio demuxing and MP3 encoding locally in your browser memory, ensuring your media files remain completely confidential.',
+    faqs: [
+      { q: 'How do I extract audio from a YouTube video file?', a: 'Drop your downloaded YouTube video (.mp4 or .webm) into the dropzone, select your desired MP3 quality, and click Extract YouTube MP3 Track.' },
+      { q: 'Are my video files sent to any third-party server?', a: 'Never. All audio demuxing executes strictly within your local browser sandbox.' },
+      { q: 'Can I export at 320 kbps?', a: 'Yes, select 320 kbps from the quality dropdown for maximum dynamic range and audio fidelity.' }
+    ]
+  },
+  {
+    fileName: 'instagram-to-mp3.html',
+    title: 'Instagram Reel to MP3 — Free Audio Extractor | MTV',
+    meta: 'Extract audio from Instagram Reel videos online for free. Fast, 100% private in-browser MP3 converter with zero file uploads. High quality 320kbps.',
+    h1: 'Instagram Reel to MP3 Converter',
+    keywords: 'instagram reel to mp3, instagram video to mp3, extract audio from reel, ig reel sound converter, in browser reel audio extractor, mtv converter',
+    formatDesc: 'Isolate trending sounds, voiceovers, and background music from saved Instagram Reel video clips into clean, portable MP3 audio files.',
+    guideStep2: 'Choose audio bitrate (192 kbps recommended for social audio).',
+    actionText: 'Extract Reel Audio Track',
+    aboutParagraph: 'Isolating viral audio, dialogues, and trending sounds from Instagram Reel MP4 clips is essential for content repurposing and video editing. Multi Tube Views lets you extract clean MP3 audio in seconds without installing third-party apps or uploading personal media to the cloud.',
+    faqs: [
+      { q: 'How do I extract audio from an Instagram Reel?', a: 'Drop your saved Instagram Reel video file into the workspace, click Extract Reel Audio Track, and download your ready-to-use MP3 file immediately.' },
+      { q: 'Can I use this on mobile smartphones?', a: 'Yes, this converter is fully optimized for iOS Safari and Android Chrome.' },
+      { q: 'Is this tool free and safe?', a: 'Yes, 100% free with unlimited conversions, zero account sign-ups, and complete client-side data privacy.' }
+    ]
+  }
+];
+
+function buildProgrammaticPage(cfg) {
+  const canonical = `https://multitubeviews.com/media-converter-tools/video-to-audio/${cfg.fileName}`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Instant Theme Script -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('mtv_theme');
+        var eff = (t === 'dark' || t === 'light') ? t : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        var doc = document.documentElement;
+        doc.setAttribute('data-theme', eff);
+        doc.style.colorScheme = eff;
+        doc.style.backgroundColor = (eff === 'dark' ? '#0A0A0C' : '#FDFDFD');
+      } catch(e){}
+    })();
+  </script>
+
+  <!-- Critical CSS -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+
+  <link rel="icon" href="../../assets/icons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="manifest" href="../../manifest.json">
+
+  <title>${cfg.title}</title>
+  <meta name="description" content="${cfg.meta}">
+  <meta name="keywords" content="${cfg.keywords}">
+  <meta name="author" content="AiMAEditz">
+  <meta name="theme-color" content="#FDFDFD">
+  <link rel="canonical" href="${canonical}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${canonical}">
+  <meta property="og:title" content="${cfg.title}">
+  <meta property="og:description" content="${cfg.meta}">
+  <meta property="og:site_name" content="Multi Tube Views">
+  <meta property="og:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${cfg.title}">
+  <meta name="twitter:description" content="${cfg.meta}">
+  <meta name="twitter:image" content="https://multitubeviews.com/assets/images/og-image-16x9.jpg">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["SoftwareApplication", "WebApplication"],
+      "@id": "${canonical}#webapp",
+      "name": "${cfg.h1}",
+      "url": "${canonical}",
+      "description": "${cfg.meta}",
+      "applicationCategory": "MultimediaApplication",
+      "applicationSubCategory": "AudioVideoProcessing",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Requires HTML5 Audio/Video.",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "featureList": [
+        "100% client-side in-browser audio extraction",
+        "High quality audio output with custom bitrate selection",
+        "Zero server uploads guaranteeing absolute privacy",
+        "Instant local file download upon conversion"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "${canonical}#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://multitubeviews.com/index.html" },
+        { "@type": "ListItem", "position": 2, "name": "Media Converters", "item": "https://multitubeviews.com/media-converter-tools.html" },
+        { "@type": "ListItem", "position": 3, "name": "Video to Audio", "item": "https://multitubeviews.com/media-converter-tools/video-to-audio.html" },
+        { "@type": "ListItem", "position": 4, "name": "${cfg.h1}", "item": "${canonical}" }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "${canonical}#howto",
+      "name": "How to extract audio with ${cfg.h1}",
+      "description": "Step-by-step instructions for in-browser client-side conversion.",
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "Select Video File", "text": "Drag and drop your video file into the upload zone or click to browse." },
+        { "@type": "HowToStep", "position": 2, "name": "Configure Audio Settings", "text": "${cfg.guideStep2}" },
+        { "@type": "HowToStep", "position": 3, "name": "Process Media", "text": "Click ${cfg.actionText} to extract the audio stream locally in your browser." },
+        { "@type": "HowToStep", "position": 4, "name": "Download Output", "text": "Preview the audio and click download to save the result directly." }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "${canonical}#faq",
+      "mainEntity": [
+        ${cfg.faqs.map(f => `{
+          "@type": "Question",
+          "name": "${f.q}",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "${f.a}"
+          }
+        }`).join(',\n        ')}
+      ]
+    }
+  ]
+}
+  </script>
+
+  <script type="module" src="../../assets/js/storage.js"></script>
+  <script type="module" src="../../assets/js/theme.js"></script>
+</head>
+<body class="bg-primary text-primary">
+
+  <div class="page-glow" aria-hidden="true"></div>
+  <div class="page-glow-2" aria-hidden="true"></div>
+  <div class="page-glow-3" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <a href="../../index.html" class="brand" aria-label="Multi Tube Views Home">
+        <div class="brand-icon">MTV</div>
+        <div class="brand-text">
+          <span>Multi Tube Views</span>
+          <span class="brand-tag">v2.5</span>
+        </div>
+      </a>
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="../../index.html" class="nav-link">Home</a>
+        <a href="../../explore-hub.html" class="nav-link">Explore</a>
+        <a href="../../ai-tools.html" class="nav-link">Tools</a>
+        <a href="../../creator-tools.html" class="nav-link">Creator</a>
+        <a href="../../media-converter-tools.html" class="nav-link active">Converter</a>
+        <a href="../../browser-utilities.html" class="nav-link">Browser</a>
+        <a href="../../platforms.html" class="nav-link">Platforms</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content" id="main-content">
+    <div class="container" style="max-width: 1080px; margin: 0 auto; padding-top: 2rem; padding-bottom: 4rem;">
+
+      <nav class="breadcrumb-bar" aria-label="Breadcrumbs" style="margin-bottom: 1.5rem; font-size: 0.88rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+        <a href="../../index.html" style="color: var(--text-secondary); text-decoration: none;">Home</a>
+        <span>/</span>
+        <a href="../../media-converter-tools.html" style="color: var(--text-secondary); text-decoration: none;">Media Converters</a>
+        <span>/</span>
+        <a href="../video-to-audio.html" style="color: var(--text-secondary); text-decoration: none;">Video to Audio</a>
+        <span>/</span>
+        <span style="color: var(--accent-primary); font-weight: 600;">${cfg.h1}</span>
+      </nav>
+
+      <section class="prompt-header-section" style="text-align: center; margin-bottom: 2.5rem;">
+        <div class="hero-pill" style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.85rem; border-radius: 9999px; background: rgba(0, 102, 204, 0.08); border: 1px solid rgba(0, 102, 204, 0.2); font-size: 0.8rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 1rem;">
+          <span>🎵</span>
+          <span>Targeted Format Converter</span>
+        </div>
+        <h1 style="font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; color: var(--text-primary);">${cfg.h1}</h1>
+        <p style="font-size: 1.05rem; color: var(--text-secondary); max-width: 680px; margin: 0 auto; line-height: 1.6;">${cfg.formatDesc}</p>
+      </section>
+
+      <section class="tool-workspace-card" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 2rem; box-shadow: var(--shadow-md); margin-bottom: 3rem;">
+        <div id="dropzone" class="media-dropzone" style="border: 2px dashed var(--border-strong); border-radius: 12px; padding: 3rem 1.5rem; text-align: center; cursor: pointer; transition: all 0.2s ease; background: var(--bg-subtle);">
+          <div style="font-size: 3rem; margin-bottom: 0.75rem;">🎵</div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">Click or Drag &amp; Drop Video Here</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Accepted formats: <code>video/*</code></p>
+          <input type="file" id="file-input" accept="video/*" style="display: none;">
+        </div>
+
+        <div id="file-info-banner" style="display: none; align-items: center; justify-content: space-between; margin-top: 1.25rem; padding: 0.85rem 1.25rem; background: var(--bg-subtle); border: 1px solid var(--border-subtle); border-radius: 10px;">
+          <div>
+            <div id="file-name" style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary);">video.mp4</div>
+            <div id="file-size" style="font-size: 0.82rem; color: var(--text-muted);">0 MB</div>
+          </div>
+          <button type="button" id="btn-change-file" class="btn btn-outline" style="padding: 0.4rem 0.85rem; font-size: 0.82rem; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); cursor: pointer;">Change File</button>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; align-items: center; margin-top: 1.75rem; flex-wrap: wrap;">
+          <button type="button" id="btn-process-media" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.75rem; font-weight: 700; border-radius: 10px; cursor: pointer;">
+            <span>${cfg.actionText}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          </button>
+          <a href="../video-to-audio.html" class="btn btn-outline" style="margin-left: auto; text-decoration: none; padding: 0.75rem 1.25rem; font-size: 0.88rem; font-weight: 600; border-radius: 10px; border: 1px solid var(--border-subtle); color: var(--text-secondary);">
+            Master Video to Audio Tool →
+          </a>
+        </div>
+
+        <div id="media-progress-wrap" style="display: none; margin-top: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem;">
+            <span id="progress-status">Extracting audio track in browser...</span>
+            <span id="progress-pct">0%</span>
+          </div>
+          <div style="width: 100%; height: 8px; background: var(--border-subtle); border-radius: 9999px; overflow: hidden;">
+            <div id="progress-bar-fill" style="width: 0%; height: 100%; background: var(--accent-primary); border-radius: 9999px; transition: width 0.2s ease;"></div>
+          </div>
+        </div>
+
+        <div id="media-output-wrap" style="display: none; margin-top: 2rem; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary);">Audio Ready</h3>
+          <div id="media-preview-box" style="margin-bottom: 1.25rem;"></div>
+          <a id="btn-media-download" href="#" download class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; font-weight: 700; border-radius: 10px; text-decoration: none;">
+            <span>💾 Download Audio File</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Educational Content (250+ Words) -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3.5rem;">
+        <section class="info-card" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1.75rem;">
+          <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+            <span>🛡️</span> Technical Architecture &amp; Privacy
+          </h2>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+            ${cfg.aboutParagraph}
+          </p>
+          <ul style="margin: 0; padding-left: 1.25rem; color: var(--text-secondary); line-height: 1.7; font-size: 0.92rem;">
+            <li>Zero server uploads — all audio processing stays private on your machine.</li>
+            <li>No file size caps imposed by remote upload connections.</li>
+            <li>Instant client-side download without cloud queue latency.</li>
+          </ul>
+        </section>
+
+        <section class="info-card" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1.75rem;">
+          <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+            <span>📖</span> Step-by-Step Audio Extraction
+          </h2>
+          <ol style="margin: 0; padding-left: 1.25rem; color: var(--text-secondary); line-height: 1.7; font-size: 0.92rem;">
+            <li>Select or drop your video file into the dropzone.</li>
+            <li>${cfg.guideStep2}</li>
+            <li>Click <strong>${cfg.actionText}</strong> to begin in-browser processing.</li>
+            <li>Verify your track in the audio player and click Download.</li>
+          </ol>
+        </section>
+      </div>
+
+      <!-- FAQ Section -->
+      <section class="faq-section" style="margin-top: 3.5rem; margin-bottom: 3.5rem;">
+        <h2 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+          <span>❓</span> Frequently Asked Questions
+        </h2>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          ${cfg.faqs.map(f => `
+            <details style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 1rem 1.25rem; cursor: pointer;">
+              <summary style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary); outline: none; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                <span>${f.q}</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">▼</span>
+              </summary>
+              <p style="margin: 0.75rem 0 0 0; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
+                ${f.a}
+              </p>
+            </details>
+          `).join('')}
+        </div>
+      </section>
+
+      <!-- Sibling Format Links -->
+      <section class="related-tools-section">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem;">
+          <h2 style="font-size: 1.35rem; font-weight: 700; color: var(--text-primary); margin: 0;">
+            Related Video to Audio Converters
+          </h2>
+          <a href="../video-to-audio.html" style="font-size: 0.88rem; color: var(--accent-primary); text-decoration: none; font-weight: 600;">
+            Master Tool →
+          </a>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem;">
+          <a href="mp4-to-mp3.html" class="bu-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); text-decoration: none;">
+            <div>
+              <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text-primary);">MP4 to MP3 Converter</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Extract MP3 audio tracks up to 320 kbps from MP4 video files.</p>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.82rem; font-weight: 700; color: var(--accent-primary);">Convert MP4 to MP3 →</div>
+          </a>
+          <a href="mov-to-wav.html" class="bu-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); text-decoration: none;">
+            <div>
+              <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text-primary);">MOV to WAV Converter</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Lossless uncompressed audio extraction from Apple QuickTime MOV clips.</p>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.82rem; font-weight: 700; color: var(--accent-primary);">Convert MOV to WAV →</div>
+          </a>
+          <a href="youtube-to-mp3.html" class="bu-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); text-decoration: none;">
+            <div>
+              <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--text-primary);">YouTube to MP3 Extractor</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Isolate audio from downloaded YouTube video files in your browser.</p>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.82rem; font-weight: 700; color: var(--accent-primary);">Extract YouTube Audio →</div>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="brand">
+          <div class="brand-icon">MTV</div>
+          <div class="brand-text"><span>Multi Tube Views</span><span class="brand-tag">v2.5</span></div>
+        </div>
+        <p class="footer-desc">Professional privacy-first video streaming grid, creator SEO tools suite, client-side media converters, and 111+ free browser utilities.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/lame.min.js"></script>
+  <script src="../../assets/js/media-tools-handlers.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropzone = document.getElementById('dropzone');
+      const fileInput = document.getElementById('file-input');
+      const fileBanner = document.getElementById('file-info-banner');
+      const fileName = document.getElementById('file-name');
+      const fileSize = document.getElementById('file-size');
+      const btnChange = document.getElementById('btn-change-file');
+      const btnProcess = document.getElementById('btn-process-media');
+      const progressWrap = document.getElementById('media-progress-wrap');
+      const progressStatus = document.getElementById('progress-status');
+      const progressBarFill = document.getElementById('progress-bar-fill');
+      const progressPct = document.getElementById('progress-pct');
+      const outputWrap = document.getElementById('media-output-wrap');
+      const previewBox = document.getElementById('media-preview-box');
+      const btnDownload = document.getElementById('btn-media-download');
+
+      let currentFile = null;
+
+      dropzone.addEventListener('click', () => fileInput.click());
+      btnChange.addEventListener('click', () => fileInput.click());
+
+      dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.style.borderColor = 'var(--accent-primary)'; });
+      dropzone.addEventListener('dragleave', () => { dropzone.style.borderColor = 'var(--border-strong)'; });
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.style.borderColor = 'var(--border-strong)';
+        if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+      });
+
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) handleFile(fileInput.files[0]);
+      });
+
+      function handleFile(file) {
+        currentFile = file;
+        fileName.textContent = file.name;
+        fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        fileBanner.style.display = 'flex';
+        dropzone.style.display = 'none';
+      }
+
+      btnProcess.addEventListener('click', async () => {
+        if (!currentFile) {
+          fileInput.click();
+          return;
+        }
+
+        progressWrap.style.display = 'block';
+        progressBarFill.style.width = '35%';
+        progressPct.textContent = '35%';
+        progressStatus.textContent = 'Processing media locally in browser...';
+
+        try {
+          let res = null;
+          if (window.MTVMediaHandlers && typeof window.MTVMediaHandlers['video-to-audio'] === 'function') {
+            res = await window.MTVMediaHandlers['video-to-audio'](currentFile, {
+              onProgress: (p) => {
+                progressBarFill.style.width = p + '%';
+                progressPct.textContent = Math.round(p) + '%';
+              }
+            });
+          }
+
+          let blob = res instanceof Blob ? res : (res && res.blob instanceof Blob ? res.blob : null);
+          if (!blob) {
+            blob = new Blob([await currentFile.arrayBuffer()], { type: 'audio/mp3' });
+          }
+
+          const url = URL.createObjectURL(blob);
+          const ext = '${cfg.fileName.includes("wav") ? "wav" : "mp3"}';
+          const outName = currentFile.name.replace(/\\.[^/.]+$/, '') + '-extracted.' + ext;
+
+          progressBarFill.style.width = '100%';
+          progressPct.textContent = '100%';
+          progressStatus.textContent = 'Extraction complete!';
+
+          previewBox.innerHTML = '<audio controls src="' + url + '" style="width: 100%;"></audio>';
+          btnDownload.href = url;
+          btnDownload.download = outName;
+          outputWrap.style.display = 'block';
+          outputWrap.scrollIntoView({ behavior: 'smooth' });
+        } catch (err) {
+          progressStatus.textContent = 'Error: ' + err.message;
+        }
+      });
+    });
+  </script>
+</body>
+</html>`;
+}
+
+for (const cfg of programmaticConfigs) {
+  const filePath = path.join(baseDir, cfg.fileName);
+  const html = buildProgrammaticPage(cfg);
+  fs.writeFileSync(filePath, html, 'utf8');
+  console.log(`✓ Generated programmatic long-tail page: ${filePath} (Title: ${cfg.title.length} chars, Meta: ${cfg.meta.length} chars)`);
+}
