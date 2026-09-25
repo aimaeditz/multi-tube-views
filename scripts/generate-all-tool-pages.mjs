@@ -245,6 +245,7 @@ function renderFooter(depth = 1) {
           <a href="${p}terms.html">Terms of Service</a>
           <a href="${p}disclaimer.html">Platform Disclaimer</a>
           <a href="${p}credits.html">Credits &amp; Open Source</a>
+          <a href="https://publicmediatool.com/" target="_blank" rel="noopener">Public Media Tool ↗</a>
           <a href="${p}settings.html">Settings &amp; Layout</a>
         </div>
       </div>

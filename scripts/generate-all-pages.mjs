@@ -289,6 +289,7 @@ function renderFooter({ depth = 0 }) {
             <li><a href="${p}browser-utilities.html">Browser Utilities</a></li>
             <li><a href="${p}about.html">About MTV</a></li>
             <li><a href="${p}credits.html">Credits & Attributions</a></li>
+            <li><a href="https://publicmediatool.com/" target="_blank" rel="noopener">Public Media Tool ↗</a></li>
           </ul>
         </div>
 
