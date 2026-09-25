@@ -41,6 +41,14 @@ class GrowthEngine {
       if (history.length > 50) history.pop();
       localStorage.setItem(this.storageKey, JSON.stringify(history));
       this.renderAnalyticsSummary();
+
+      // Forward event to Google Analytics 4
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', eventType, {
+          ...metadata,
+          source: 'growth_engine'
+        });
+      }
     } catch (e) {
       console.warn('Could not record growth analytics event:', e);
     }

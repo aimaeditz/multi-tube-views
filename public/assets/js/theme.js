@@ -154,4 +154,16 @@
       window.ThemeEngine.toggle();
     }
   });
+
+  // Multi Tube Views (MTV) — Analytics & Growth Layer Initialization
+  if (!window.mtvAnalyticsLoaded) {
+    window.mtvAnalyticsLoaded = true;
+    try {
+      const analyticsScript = document.createElement('script');
+      analyticsScript.src = '/assets/js/mtv-analytics.js';
+      analyticsScript.defer = true;
+      document.head.appendChild(analyticsScript);
+    } catch (e) {}
+  }
 })();
+
