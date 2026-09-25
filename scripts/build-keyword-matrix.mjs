@@ -9,117 +9,154 @@ import { BU_CATEGORIES, BU_ALL_TOOLS_LIST } from '../assets/data/browser-utiliti
 
 const ROOT = path.resolve('.');
 
-// Helper to derive keywords
+// Comprehensive keyword generator for 50-100 keyword variations
 function generateToolKeywords(toolId, title, desc, category, section) {
   const normTitle = title.toLowerCase().trim();
   const cleanId = toolId.toLowerCase().replace(/-/g, ' ');
-  const words = normTitle.split(/\s+/);
+  const words = normTitle.split(/\s+/).filter(w => w.length > 2);
   const baseKeyword = normTitle;
 
-  // Primary
+  // 1. Primary (exact tool name & variations)
   const primary = [
     baseKeyword,
-    `free ${baseKeyword}`,
-    `${baseKeyword} online`,
     `${baseKeyword} tool`,
-    `in browser ${baseKeyword}`
+    `${baseKeyword} online`,
+    `free ${baseKeyword}`,
+    `${baseKeyword} free online`,
+    `best ${baseKeyword}`,
+    `in browser ${baseKeyword}`,
+    `${cleanId} web tool`,
+    `open source ${cleanId}`,
+    `free online ${cleanId}`
   ];
 
-  // Secondary
+  // 2. Secondary (synonyms, close variants)
   const secondary = [
     `${cleanId} generator`,
+    `${cleanId} creator`,
     `${cleanId} maker`,
     `${cleanId} utility`,
-    `best ${baseKeyword} 2026`,
-    `fast ${baseKeyword}`
+    `${cleanId} software`,
+    `${cleanId} app`,
+    `${cleanId} builder`,
+    `fast ${cleanId}`,
+    `simple ${cleanId}`,
+    `automated ${cleanId}`,
+    `${baseKeyword} pro`,
+    `smart ${cleanId}`
   ];
 
-  // Format-specific variations
+  // 3. Format-specific
   let formats = [];
   if (section === 'Media Converters' || toolId.includes('convert') || toolId.includes('pdf') || toolId.includes('image') || toolId.includes('video') || toolId.includes('audio')) {
     formats = [
-      `${baseKeyword} mp4 to mp3`,
-      `${baseKeyword} mov to wav`,
-      `${baseKeyword} webp to png`,
-      `${baseKeyword} heic to jpg`,
-      `${baseKeyword} pdf to text`,
-      `${baseKeyword} markdown to pdf`,
-      `${baseKeyword} csv to json`,
-      `${baseKeyword} high quality 320kbps`
+      `${cleanId} mp4`,
+      `${cleanId} mp3`,
+      `${cleanId} mov to wav`,
+      `${cleanId} webp to png`,
+      `${cleanId} heic to jpg`,
+      `${cleanId} png to jpg`,
+      `${cleanId} pdf text`,
+      `${cleanId} high bitrate 320kbps`,
+      `${cleanId} lossless quality`,
+      `${cleanId} 4k 1080p hd`
     ];
   } else if (section === 'Browser Utilities') {
     formats = [
-      `${baseKeyword} json format`,
-      `${baseKeyword} hex rgb hsl`,
-      `${baseKeyword} utf 8 unicode`,
-      `${baseKeyword} base64 string`,
-      `${baseKeyword} raw text`
+      `${cleanId} json format`,
+      `${cleanId} csv format`,
+      `${cleanId} xml format`,
+      `${cleanId} yaml format`,
+      `${cleanId} base64 string`,
+      `${cleanId} hex rgb hsl`,
+      `${cleanId} utf 8 text`,
+      `${cleanId} raw markdown`,
+      `${cleanId} clipboard string`,
+      `${cleanId} instant export`
     ];
   } else {
     formats = [
-      `${baseKeyword} markdown format`,
-      `${baseKeyword} plain text output`,
-      `${baseKeyword} copy to clipboard`,
-      `${baseKeyword} bullet points`
+      `${cleanId} markdown format`,
+      `${cleanId} plain text copy`,
+      `${cleanId} rich text format`,
+      `${cleanId} bullet list output`,
+      `${cleanId} structured prompt`,
+      `${cleanId} social card snippet`,
+      `${cleanId} table format`
     ];
   }
 
-  // Long-tail
+  // 4. Long-tail (4-6 word phrases)
   const longTail = [
-    `free ${baseKeyword} without software download`,
-    `how to use ${baseKeyword} in browser`,
-    `best free ${baseKeyword} no subscription`,
-    `safe and private ${baseKeyword} tool`,
-    `instant ${baseKeyword} with export option`,
-    `100 percent client side ${baseKeyword}`
+    `free online ${cleanId} without software download`,
+    `how to use ${cleanId} in your browser`,
+    `best free ${cleanId} tool no subscription`,
+    `safe and private ${cleanId} web utility`,
+    `instant ${cleanId} with instant copy export`,
+    `100 percent client side ${cleanId} tool`,
+    `high quality ${cleanId} for daily workflow`,
+    `fastest browser based ${cleanId} online`,
+    `unlimited usage ${cleanId} with zero lag`
   ];
 
-  // Problem-based
+  // 5. Problem-based ("how to...", "fix...", "without...")
   const problemBased = [
-    `how to ${cleanId} online`,
+    `how to ${cleanId} online for free`,
     `easiest way to ${cleanId} on desktop`,
-    `how to ${cleanId} on mobile phone`,
-    `fix ${cleanId} issues quickly`,
-    `${cleanId} without installing apps`,
-    `quick solution for ${cleanId}`
+    `how to ${cleanId} on mobile phone without app`,
+    `fix ${cleanId} formatting issues instantly`,
+    `${cleanId} without installing external software`,
+    `quick solution for ${cleanId} in browser`,
+    `how to automate ${cleanId} tasks`,
+    `troubleshoot ${cleanId} errors quickly`,
+    `how to optimize ${cleanId} efficiency`
   ];
 
-  // Platform-specific
+  // 6. Platform-specific (youtube, instagram, tiktok, etc.)
   const platformSpecific = [
-    `${baseKeyword} for youtube`,
-    `${baseKeyword} for instagram reels`,
-    `${baseKeyword} for tiktok clips`,
-    `${baseKeyword} for linkedin posts`,
-    `${baseKeyword} for twitter threads`,
-    `${baseKeyword} for podcasts`
+    `${cleanId} for youtube videos`,
+    `${cleanId} for instagram reels and posts`,
+    `${cleanId} for tiktok creators and viral clips`,
+    `${cleanId} for linkedin articles and carousels`,
+    `${cleanId} for twitter threads and x posts`,
+    `${cleanId} for podcast episodes and audiobooks`,
+    `${cleanId} for twitch streamers and bilibili`,
+    `${cleanId} for pinterest pins and facebook`
   ];
 
-  // Device-specific
+  // 7. Device-specific (iphone, android, mac, windows)
   const deviceSpecific = [
-    `${baseKeyword} for iphone`,
-    `${baseKeyword} for android`,
-    `${baseKeyword} for macbook chrome`,
-    `${baseKeyword} for windows 11`,
-    `${baseKeyword} for ipad safari`
+    `${cleanId} for iphone safari`,
+    `${cleanId} for android chrome`,
+    `${cleanId} for macbook air and pro`,
+    `${cleanId} for windows 11 and 10`,
+    `${cleanId} for ipad and tablet`,
+    `${cleanId} for linux chromium browsers`,
+    `${cleanId} for mobile browsers responsive`
   ];
 
-  // Commercial / Value-based
+  // 8. Commercial-intent (free, no signup, no watermark, unlimited)
   const commercial = [
-    `free ${baseKeyword} no watermark`,
-    `${baseKeyword} no signup`,
-    `${baseKeyword} no login required`,
-    `unlimited ${baseKeyword} free forever`,
-    `${baseKeyword} zero server upload`,
-    `privacy friendly ${baseKeyword}`
+    `free ${cleanId} no watermark`,
+    `${cleanId} no signup required`,
+    `${cleanId} no login no registration`,
+    `unlimited ${cleanId} free forever`,
+    `${cleanId} zero server upload private`,
+    `secure client side ${cleanId}`,
+    `ad free experience ${cleanId}`,
+    `completely free ${cleanId} online tool`
   ];
 
-  // Use-case
+  // 9. Use-case (podcast, reels, gaming, education, business)
   const useCase = [
-    `${baseKeyword} for content creators`,
-    `${baseKeyword} for digital marketers`,
-    `${baseKeyword} for software developers`,
-    `${baseKeyword} for students and teachers`,
-    `${baseKeyword} for video editors`
+    `${cleanId} for content creators and youtubers`,
+    `${cleanId} for digital marketers and agencies`,
+    `${cleanId} for software engineers and web developers`,
+    `${cleanId} for students teachers and researchers`,
+    `${cleanId} for video editors and podcasters`,
+    `${cleanId} for small business owners and freelancers`,
+    `${cleanId} for ecommerce product managers`,
+    `${cleanId} for social media managers`
   ];
 
   const allList = Array.from(new Set([
@@ -155,7 +192,7 @@ function generateToolKeywords(toolId, title, desc, category, section) {
   };
 }
 
-console.log('Generating Programmatic Keyword Matrix for all 505 tools across 5 sections...');
+console.log('Generating Comprehensive Programmatic Keyword Matrix for 505 tools...');
 
 const matrix = {
   metadata: {
@@ -189,7 +226,7 @@ platformFiles.forEach(file => {
   matrix.sections.platforms[pId] = generateToolKeywords(
     pId,
     `${pTitle} Multi Stream Player & Viewer`,
-    `Watch multiple ${pTitle} streams and videos side-by-side`,
+    `Watch multiple ${pTitle} streams and videos side-by-side in real-time.`,
     'Platforms',
     'Platform Workspaces'
   );
@@ -241,7 +278,6 @@ buIds = Array.from(new Set(buIds));
 
 buIds.forEach(id => {
   let title = id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-  // Find category
   let catName = 'Utilities';
   for (const c of BU_CATEGORIES) {
     if (c.tools && c.tools.includes(id)) {
@@ -258,7 +294,7 @@ buIds.forEach(id => {
   );
 });
 
-// Save to JSON
+// Write to assets/data/keyword-matrix.json and public/assets/data/keyword-matrix.json
 const outputPath = path.join(ROOT, 'assets/data/keyword-matrix.json');
 const publicOutputPath = path.join(ROOT, 'public/assets/data/keyword-matrix.json');
 
@@ -268,13 +304,16 @@ if (fs.existsSync(path.dirname(publicOutputPath))) {
   fs.writeFileSync(publicOutputPath, matrixJson, 'utf8');
 }
 
-console.log(`Keyword matrix generated successfully! Saved to:`);
-console.log(`- ${outputPath}`);
-console.log(`- ${publicOutputPath}`);
-console.log(`Total tools cataloged: ${
-  Object.keys(matrix.sections.platforms).length +
-  Object.keys(matrix.sections.creatorTools).length +
-  Object.keys(matrix.sections.aiTools).length +
-  Object.keys(matrix.sections.mediaConverters).length +
-  Object.keys(matrix.sections.browserUtilities).length
-}`);
+let totalKeywords = 0;
+['platforms', 'creatorTools', 'aiTools', 'mediaConverters', 'browserUtilities'].forEach(sec => {
+  const tools = matrix.sections[sec];
+  const count = Object.keys(tools).length;
+  let secKw = 0;
+  Object.values(tools).forEach(t => {
+    secKw += t.totalCount;
+  });
+  totalKeywords += secKw;
+  console.log(`- Section "${sec}": ${count} tools -> ${secKw} keywords (avg ${(secKw/count).toFixed(1)}/tool)`);
+});
+
+console.log(`\nTOTAL KEYWORDS GENERATED: ${totalKeywords} keywords across 505 tools.`);
