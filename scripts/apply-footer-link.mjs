@@ -20,8 +20,8 @@ let modifiedCount = 0;
 const modifiedFiles = [];
 const skippedFiles = [];
 
-const TARGET_LINK_LI = '<li><a href="https://publicmediatool.com/" target="_blank" rel="noopener">Public Media Tool ↗</a></li>';
-const TARGET_LINK_A = '<a href="https://publicmediatool.com/" target="_blank" rel="noopener">Public Media Tool ↗</a>';
+const TARGET_LINK_LI = '<li><a href="https://publicmediatool.com/" target="_blank" rel="noopener">PMT Hub ↗</a></li>';
+const TARGET_LINK_A = '<a href="https://publicmediatool.com/" target="_blank" rel="noopener">PMT Hub ↗</a>';
 
 for (const file of htmlFiles) {
   let content = fs.readFileSync(file, 'utf8');
@@ -32,38 +32,43 @@ for (const file of htmlFiles) {
     continue;
   }
 
-  // Already updated?
-  if (content.includes('https://publicmediatool.com/')) {
-    skippedFiles.push({ file, reason: 'Already contains link' });
-    continue;
-  }
-
   let updated = false;
 
-  // Type 1: <li> item with credits in a <ul>
-  const liCreditsRegex = /([ \t]*)<li><a href="[^"]*credits\.html[^"]*">.*?<\/a><\/li>/;
-  if (liCreditsRegex.test(content)) {
-    content = content.replace(liCreditsRegex, (match, indent) => {
-      return `${match}\n${indent}${TARGET_LINK_LI}`;
-    });
-    updated = true;
-  }
-  // Type 2: <a> link with credits in <div class="footer-links">
-  else if (/([ \t]*)<a href="[^"]*credits\.html[^"]*">.*?<\/a>/.test(content)) {
+  // 1. If it already has publicmediatool.com, ensure it uses "PMT Hub ↗" label
+  if (content.includes('https://publicmediatool.com/')) {
+    const oldPmtRegex = /<a[^>]*href="https:\/\/publicmediatool\.com\/?"[^>]*>.*?<\/a>/g;
+    const newContent = content.replace(oldPmtRegex, '<a href="https://publicmediatool.com/" target="_blank" rel="noopener">PMT Hub ↗</a>');
+    if (newContent !== content) {
+      content = newContent;
+      updated = true;
+    }
+  } else {
+    // 2. Insert after credits.html
+    // Pattern A: <li><a href="...credits.html...">...</a></li> in a <ul>
+    const liCreditsRegex = /([ \t]*)<li><a href="[^"]*credits\.html[^"]*">.*?<\/a><\/li>/;
+    // Pattern B: <a href="...credits.html...">...</a> in a <div>
     const aCreditsRegex = /([ \t]*)<a href="[^"]*credits\.html[^"]*">.*?<\/a>/;
-    content = content.replace(aCreditsRegex, (match, indent) => {
-      return `${match}\n${indent}${TARGET_LINK_A}`;
-    });
-    updated = true;
-  }
-  // Type 3: Platform pages missing credits <li> in Legal & Info list
-  else if (file.includes('platforms/') && content.includes('<h4>Legal & Info</h4>')) {
-    const legalListRegex = /(<h4>Legal & Info<\/h4>\s*<ul class="footer-links">[\s\S]*?)(<li><a href="[^"]*contact\.html">.*?<\/a><\/li>)/;
-    if (legalListRegex.test(content)) {
-      content = content.replace(legalListRegex, (match, pre, contactLi) => {
-        return `${pre}<li><a href="../credits.html">Credits & Attributions</a></li>\n            ${TARGET_LINK_LI}\n            ${contactLi}`;
+
+    if (liCreditsRegex.test(content)) {
+      content = content.replace(liCreditsRegex, (match, indent) => {
+        return `${match}\n${indent}${TARGET_LINK_LI}`;
       });
       updated = true;
+    } else if (aCreditsRegex.test(content)) {
+      content = content.replace(aCreditsRegex, (match, indent) => {
+        return `${match}\n${indent}${TARGET_LINK_A}`;
+      });
+      updated = true;
+    } else if (content.includes('<h4>Legal & Info</h4>') || content.includes('<h4>Legal &amp; Info</h4>')) {
+      const legalListRegex = /(<h4>Legal &(?:amp;)? Info<\/h4>\s*<ul class="footer-links">[\s\S]*?)(<li><a href="[^"]*contact\.html">.*?<\/a><\/li>)/;
+      if (legalListRegex.test(content)) {
+        content = content.replace(legalListRegex, (match, pre, contactLi) => {
+          const depth = file.split(path.sep).length - 1;
+          const p = depth === 0 ? '' : '../'.repeat(depth);
+          return `${pre}<li><a href="${p}credits.html">Credits & Attributions</a></li>\n            ${TARGET_LINK_LI}\n            ${contactLi}`;
+        });
+        updated = true;
+      }
     }
   }
 
@@ -71,8 +76,6 @@ for (const file of htmlFiles) {
     fs.writeFileSync(file, content, 'utf8');
     modifiedFiles.push(file);
     modifiedCount++;
-  } else {
-    skippedFiles.push({ file, reason: 'No matching pattern' });
   }
 }
 
