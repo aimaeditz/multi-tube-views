@@ -67,11 +67,11 @@ for (const [file, data] of Object.entries(rootAdjustments)) {
   if (fs.existsSync(filePath)) {
     let content = fs.readFileSync(filePath, 'utf8');
     content = content.replace(/<title>[^<]+<\/title>/i, `<title>${data.title}</title>`);
-    content = content.replace(/<meta\s+(?:name=["']description["']\s+content=["'][^"']+["']|content=["'][^"']+["']\s+name=["']description["'])/i, `<meta name="description" content="${data.meta}">`);
-    content = content.replace(/<meta\s+property=["']og:title["']\s+content=["'][^"']+["']/i, `<meta property="og:title" content="${data.title}">`);
-    content = content.replace(/<meta\s+property=["']og:description["']\s+content=["'][^"']+["']/i, `<meta property="og:description" content="${data.meta}">`);
-    content = content.replace(/<meta\s+name=["']twitter:title["']\s+content=["'][^"']+["']/i, `<meta name="twitter:title" content="${data.title}">`);
-    content = content.replace(/<meta\s+name=["']twitter:description["']\s+content=["'][^"']+["']/i, `<meta name="twitter:description" content="${data.meta}">`);
+    content = content.replace(/<meta\s+(?:name=["']description["']\s+content=["'][^"']+["']|content=["'][^"']+["']\s+name=["']description["'])[^>]*>/i, `<meta name="description" content="${data.meta}">`);
+    content = content.replace(/<meta\s+property=["']og:title["']\s+content=["'][^"']+["'][^>]*>/i, `<meta property="og:title" content="${data.title}">`);
+    content = content.replace(/<meta\s+property=["']og:description["']\s+content=["'][^"']+["'][^>]*>/i, `<meta property="og:description" content="${data.meta}">`);
+    content = content.replace(/<meta\s+name=["']twitter:title["']\s+content=["'][^"']+["'][^>]*>/i, `<meta name="twitter:title" content="${data.title}">`);
+    content = content.replace(/<meta\s+name=["']twitter:description["']\s+content=["'][^"']+["'][^>]*>/i, `<meta name="twitter:description" content="${data.meta}">`);
     fs.writeFileSync(filePath, content, 'utf8');
 
     const publicCopy = path.join(ROOT, 'public', file);

@@ -165,22 +165,27 @@
   }
   </script>
 
-    <!-- Preload Critical CSS Assets -->
-  <link rel="preload" href="assets/css/style.css" as="style">
-  <link rel="preload" href="assets/css/components.css" as="style">
-  <link rel="preload" href="assets/css/responsive.css" as="style">
+  <!-- Preload Critical CSS Assets -->
+  <link rel="preload" href="assets/css/style.css?v=2.1" as="style">
+  <link rel="preload" href="assets/css/components.css?v=2.1" as="style">
+  <link rel="preload" href="assets/css/responsive.css?v=2.1" as="style">
 
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=2.1">
+  <link rel="stylesheet" href="assets/css/components.css?v=2.1">
+  <link rel="stylesheet" href="assets/css/responsive.css?v=2.1">
 
   <!-- Instant Navigation Hub Prefetches -->
+  <link rel="prefetch" href="index.html" as="document">
   <link rel="prefetch" href="explore-hub.html" as="document">
   <link rel="prefetch" href="ai-tools.html" as="document">
   <link rel="prefetch" href="media-converter-tools.html" as="document">
   <link rel="prefetch" href="browser-utilities.html" as="document">
   <link rel="prefetch" href="platforms.html" as="document">
   <link rel="prefetch" href="ai-prompt.html" as="document">
+
+  <!-- Instant Theme Script to avoid flash -->
+  <script type="module" src="assets/js/storage.js"></script>
+  <script type="module" src="assets/js/theme.js"></script>
 
   <style>
     /* Dedicated Creator Tool Workspace Animations & Custom Styling */
@@ -239,10 +244,6 @@
       background: rgba(255, 255, 255, 0.12);
     }
   </style>
-
-  <script type="module" src="assets/js/storage.js"></script>
-  <script type="module" src="assets/js/theme.js"></script>
-  
 </head>
 <body>
 
