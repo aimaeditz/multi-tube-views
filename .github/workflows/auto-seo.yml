@@ -1,0 +1,56 @@
+name: Automatic SEO & Indexing Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  auto-seo:
+    name: Build & Submit SEO Sitemap
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Build
+        run: npm run build
+
+      - name: Generate Sitemap
+        run: |
+          if [ -f "scripts/generate-sitemap.mjs" ]; then
+            echo "Running sitemap generator..."
+            node scripts/generate-sitemap.mjs
+          else
+            echo "Sitemap generator script not found, proceeding with existing sitemap.xml."
+          fi
+
+      - name: Run IndexNow Submission
+        run: npm run auto-seo
+
+      - name: Ping Google Sitemap
+        run: |
+          echo "Pinging Google..."
+          curl -s -o /dev/null -w "Google Ping HTTP Status: %{http_code}\n" "https://www.google.com/ping?sitemap=https://multitubeviews.com/sitemap.xml" || echo "Google ping failed"
+
+      - name: Ping Bing Sitemap
+        run: |
+          echo "Pinging Bing..."
+          curl -s -o /dev/null -w "Bing Ping HTTP Status: %{http_code}\n" "https://www.bing.com/ping?sitemap=https://multitubeviews.com/sitemap.xml" || echo "Bing ping failed"
+
+      - name: Ping Yandex IndexNow
+        run: |
+          echo "Pinging Yandex..."
+          curl -s -o /dev/null -w "Yandex Ping HTTP Status: %{http_code}\n" "https://yandex.com/indexnow?url=https://multitubeviews.com/sitemap.xml" || echo "Yandex ping failed"
